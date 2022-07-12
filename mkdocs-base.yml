@@ -1,0 +1,136 @@
+# MkDocs configuration
+# Used as base - look for .yml files with INHERIT
+site_name: Percona Operator for PostgreSQL
+site_description: Documentation
+site_author: Percona LLC
+site_url: ""
+copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2022
+use_directory_urls: false
+repo_name: percona/k8spg-docs
+repo_url: https://github.com/percona/k8spg-docs
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  logo: assets/images/percona-logo.svg
+  favicon: assets/images/percona-favicon.ico
+  palette:
+    #    - media: "(prefers-color-scheme: light)"
+    scheme: percona-light
+#      toggle:
+#        icon: material/toggle-switch-off-outline
+#        name: Switch to night mode
+#    - media: "(prefers-color-scheme: dark)"
+#      scheme: slate
+#      toggle:
+#        icon: material/toggle-switch
+#        name: Switch to day mode
+
+extra_css:
+  - https://unicons.iconscout.com/release/v3.0.3/css/line.css
+  - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css
+  - css/percona.css
+  - css/lightgallery.min.css
+
+extra_javascript:
+  - js/version-select.js
+  - js/toctree.js
+  - js/lightgallery.min.js
+
+markdown_extensions:
+  attr_list: {}
+  toc:
+    permalink: True
+  admonition: {}
+  def_list: {}
+  meta: {}
+  smarty: { smart_angled_quotes: true }
+  pymdownx.details: {}
+  pymdownx.mark: {}
+  pymdownx.smartsymbols: {}
+  pymdownx.tabbed: {}
+  pymdownx.tilde: {}
+  pymdownx.superfences: {}
+  pymdownx.highlight:
+    linenums: false
+  lightgallery: {}
+
+plugins:
+  search: {}
+  git-revision-date: {}
+  macros:
+    include_yaml:
+      - "variables.yml"
+  # https://pypi.org/project/mkdocs-exclude/
+  exclude:
+    glob:
+      - "setting-up/client/docker.md"
+  # https://github.com/orzih/mkdocs-with-pdf
+  with-pdf:
+    output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
+    cover_title: "Documentation"
+    cover_subtitle: 1.2.0 (April 6, 2022)
+    author: "Percona Technical Documentation Team"
+    cover_logo: docs/assets/images/Kubernetes-PG.png
+    custom_template_path: _resources/templates
+    enabled_if_env: ENABLE_PDF_EXPORT
+  # Check links - but extends build time significantly
+  # https://pypi.org/project/mkdocs-htmlproofer-plugin/
+  #    htmlproofer: {}
+  mike:
+    version_selector: true
+    css_dir: css
+    javascript_dir: js
+    canonical_version: null
+
+extra: # Used in main.html template and can't be externalized
+  edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
+  updated_text: '<i class="uil uil-refresh"></i> Page updated'
+  version:
+    provider: mike
+
+# Common navigation for percona.com, render.com and PDF
+nav:
+
+    - Welcome: index.md
+    - Requirements:
+          - "System Requirements": System-Requirements.md
+          - "Design and architecture": architecture.md
+          
+    - Quickstart guides:
+          - "Install on Minikube": minikube.md
+          - "Install on Google Kubernetes Engine (GKE)": gke.md
+          - "Install with Helm": helm.md
+          
+    - Installation guide:
+          - "Generic Kubernetes installation": kubernetes.md
+          - "Install on OpenShift": openshift.md
+          
+    - Configuration:
+          - "Application and system users": users.md
+          - "Anti-affinity and tolerations": options.md
+          - "Changing PostgreSQL Options": constraints.md
+          - "Transport Encryption (TLS/SSL)": TLS.md
+          
+    - Management:
+          - "Backup and restore": backups.md
+          - "Upgrade Percona Distribution for PostgreSQL and the Operator": update.md
+          - "Horizontal and vertical scaling": scaling.md
+          - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
+          - "Restart or pause the cluster": pause.md
+          
+    - How to:
+          - standby.md
+          - cluster-wide.md
+          - tablespace.md
+          
+    - Reference:
+          - "Custom Resource options": operator.md
+          - "Percona certified images": images.md
+          - "Frequently Asked Questions": faq.md
+          - "Release Notes": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 1.2.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
+          - "Percona Operator for PostgreSQL 1.1.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md
+          - "Percona Operator for PostgreSQL 1.0.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.md
+          - "Percona Operator for PostgreSQL 0.2.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.2.0.md
+          - "Percona Operator for PostgreSQL 0.1.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.1.0.md
