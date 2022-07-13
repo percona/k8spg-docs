@@ -8,25 +8,20 @@ configuration files:
 
 
 * PostgreSQL main configuration, [postgresql.conf](https://www.postgresql.org/docs/current/config-setting.html),
-
-
 * client authentication configuration, [pg_hba.conf](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html),
-
-
 * user name configuration, [pg_ident.conf](https://www.postgresql.org/docs/current/auth-username-maps.html).
 
 Configuration options may be applied in two ways:
 
-
 * globally to all database servers in the cluster via [Patroni Distributed Configuration Store (DCS)](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html),
-
-
 * locally to each database server (Primary and Replica) within the cluster.
 
-**NOTE**: PostgreSQL cluster is managed by the Operator, and so there is no need
-to set custom configuration options in common usage scenarios. Also, changing
-certain options may cause PostgreSQL cluster malfunction. Do not customize
-configuration unless you know what you are doing!
+!!! note
+
+    PostgreSQL cluster is managed by the Operator, and so there is no need
+    to set custom configuration options in common usage scenarios. Also, changing
+    certain options may cause PostgreSQL cluster malfunction. Do not customize
+    configuration unless you know what you are doing!
 
 Use the `kubectl` command to create the ConfigMap from external
 resources, for more information, see [Configure a Pod to use a
@@ -60,8 +55,10 @@ bootstrap:
         max_connections: 30
 ```
 
-**NOTE**: `dsc.postgresql` subsection means that option will be applied
-globally to `postgresql.conf` of all database servers.
+!!! note
+
+    `dsc.postgresql` subsection means that option will be applied
+    globally to `postgresql.conf` of all database servers.
 
 You can create a ConfigMap from this file. The syntax for `kubectl create configmap` command is:
 
@@ -102,17 +99,13 @@ Now you can create the cluster following the [regular installation instructions]
 If you need to update cluster’s configuration settings, you should modify
 settings in the `<clusterName>-pgha-config` ConfigMap.
 
-**NOTE**: This ConfigMap contains `<clusterName>-dcs-config` configuration
-applied globally to `postgresql.conf` of all database servers, and
-local configurations for the PostgreSQL cluster database servers:
-`<clusterName>-local-config` for the current primary,
+!!! note
 
-
-```
-``
-```
-
-<clusterName>-repl1-local-config\`\`for the first replica, and so on.
+    This ConfigMap contains `<clusterName>-dcs-config` configuration
+    applied globally to `postgresql.conf` of all database servers, and
+    local configurations for the PostgreSQL cluster database servers:
+    `<clusterName>-local-config` for the current primary,
+    `<clusterName>-repl1-local-config` for the first replica, and so on.
 
 For example, let’s change the `max_connections` option in a globally applied
 `postgresql.conf` configuration file for the cluster named `cluster1`.

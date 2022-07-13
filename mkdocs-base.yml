@@ -108,8 +108,8 @@ nav:
           
     - Configuration:
           - "Application and system users": users.md
-          - "Anti-affinity and tolerations": options.md
-          - "Changing PostgreSQL Options": constraints.md
+          - "Changing PostgreSQL Options": options.md
+          - "Anti-affinity and tolerations": constraints.md
           - "Transport Encryption (TLS/SSL)": TLS.md
           
     - Management:

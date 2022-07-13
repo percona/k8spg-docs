@@ -21,38 +21,23 @@ Additionally, you can also specify the type of the pgBackRest repository that
 can be used for backups:
 
 
-* `local`: Uses the storage that is provided by the Kubernetes cluster’s
+* `local`: Uses the storage that is provided by the Kubernetes cluster’s 
 Storage Class that you select (for historical reasons this repository type can
 be alternatively named `posix`),
-
-
 * `s3`: Use Amazon S3 or an object storage system that uses the S3 protocol,
-
-
 * `local,s3`: Use both the storage that is provided by the Kubernetes
 cluster’s Storage Class that you select AND Amazon S3 (or equivalent object
 storage system that uses the S3 protocol).
-
-
 * `gcs`: Use Google Cloud Storage,
-
-
 * `local,gcs`: Use both the storage that is provided by the Kubernetes
 cluster’s Storage Class that you select AND Google Cloud Storage.
 
 The pgBackRest repository consists of the following Kubernetes objects:
 
-
 * A Deployment,
-
-
 * A Secret that contains information that is specific to the PostgreSQL cluster
 that it is deployed with (e.g. SSH keys, AWS S3 keys, etc.),
-
-
 * A Pod with a number of supporting scripts,
-
-
 * A Service.
 
 The PostgreSQL primary is automatically configured to use the
@@ -61,27 +46,17 @@ correct repository.
 
 The PostgreSQL Operator supports three types of pgBackRest backups:
 
-
 * Full (`full`): A full backup of all the contents of the PostgreSQL cluster,
-
-
 * Differential (`diff`): A backup of only the files that have changed since
 the last full backup,
-
-
 * Incremental (`incr`): A backup of only the files that have changed since the
 last full or differential backup. Incremental backup is the default choice.
 
 The Operator also supports setting pgBackRest retention policies for backups.
 Backup retention can be controlled by the following pgBackRest options:
 
-
 * `--repo1-retention-full` the number of full backups to retain,
-
-
 * `--repo1-retention-diff` the number of differential backups to retain,
-
-
 * `--repo1-retention-archive` how many sets of write-ahead log archives to
 retain alongside the full and differential backups that are retained.
 
@@ -97,27 +72,16 @@ S3-related information, such as proper S3 bucket name, endpoint, etc. This
 information can be passed to pgBackRest via the following `deploy/cr.yaml`
 options in the `backup.storages` subsection:
 
-
 * `bucket` specifies the AWS S3 bucket that should be utilized,
 for example `my-postgresql-backups-example`,
-
-
 * `endpointUrl` specifies the S3 endpoint that should be utilized,
 for example `s3.amazonaws.com`,
-
-
 * `region` specifies the AWS S3 region that should be utilized,
 for example `us-east-1`,
-
-
 * `uriStyle` specifies whether `host` or `path` style URIs
 should be utilized,
-
-
 * `verifyTLS` should be set to `true` to enable TLS verification
 or set to `false` to disable it,
-
-
 * `type` should be set to `s3`.
 
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
@@ -126,16 +90,16 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
 command). Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
 configuration file: set there proper cluster name, AWS S3 key, and key secret:
 
-> ```yaml
-> apiVersion: v1
-> kind: Secret
-> metadata:
->   name: <cluster-name>-backrest-repo-config
-> type: Opaque
-> data:
->   aws-s3-key: <base64-encoded-AWS-S3-key>
->   aws-s3-key-secret: <base64-encoded-AWS-S3-key-secret>
-> ```
+```yaml
+apiVersion: v1
+kind: Secret
+metadata:
+  name: <cluster-name>-backrest-repo-config
+type: Opaque
+data:
+  aws-s3-key: <base64-encoded-AWS-S3-key>
+  aws-s3-key-secret: <base64-encoded-AWS-S3-key-secret>
+```
 
 When done, create the secret as follows:
 
@@ -159,59 +123,49 @@ GCS-related information, such as a proper GCS bucket name. This
 information can be passed to `pgBackRest` via the following options in the
 `backup.storages` subsection of the `deploy/cr.yaml` configuration file:
 
-
 * `bucket` should contain the proper bucket name,
-
-
 * `type` should be set to `gcs`.
 
 The Operator will also need your service account key to access storage.
 
-
 1. Create your service account key following the [official Google Cloud instructions](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
-
-
 2. Export this key from your Google Cloud account.
 
-You can find your key in the Google Cloud console (select *IAM & Admin*
-→ *Service Accounts* in the left menu panel, then click your account and
-open the *KEYS* tab):
+    You can find your key in the Google Cloud console (select *IAM & Admin*
+    → *Service Accounts* in the left menu panel, then click your account and
+    open the *KEYS* tab):
 
+    ![image](assets/images/gcs-service-account.svg)
 
-
-![image](assets/images/gcs-service-account.svg)
-
-Click the *ADD KEY* button, chose *Create new key* and chose *JSON* as a key
-type. These actions will result in downloading a file in JSON format with
-your new private key and related information.
-
+    Click the *ADD KEY* button, chose *Create new key* and chose *JSON* as a key
+    type. These actions will result in downloading a file in JSON format with
+    your new private key and related information.
 
 3. Now you should use a base64-encoded version of this file and to create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). You can encode
-the file with the `base64 <filename>` command. When done, create the
-following yaml file with your cluster name and base64-encoded file contents:
+    the file with the `base64 <filename>` command. When done, create the
+    following yaml file with your cluster name and base64-encoded file contents:
 
-```yaml
-apiVersion: v1
-kind: Secret
-metadata:
-  name: <cluster-name>-backrest-repo-config
-type: Opaque
-data:
-  gcs-key: <base64-encoded-json-file-contents>
-```
+    ```yaml
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: <cluster-name>-backrest-repo-config
+    type: Opaque
+    data:
+      gcs-key: <base64-encoded-json-file-contents>
+    ```
 
-When done, create the secret as follows:
+    When done, create the secret as follows:
 
-```bash
-$ kubectl apply -f ./my-gcs-account-secret.yaml
-```
-
+    ```bash
+    $ kubectl apply -f ./my-gcs-account-secret.yaml
+    ```
 
 4. Finally, create or update the cluster:
 
-```bash
-$ kubectl apply -f deploy/cr.yaml
-```
+    ```bash
+    $ kubectl apply -f deploy/cr.yaml
+    ```
 
 ## Scheduling backups
 
@@ -222,8 +176,6 @@ file. This section contains following subsections:
 
 * `storages` subsection contains data needed to access the S3-compatible cloud
 to store backups.
-
-
 * `schedule` subsection allows to actually schedule backups (the schedule is
 specified in crontab format).
 
@@ -256,8 +208,6 @@ The following keys are most important in the parameters section of this file:
 * `parameters.backrest-opts` is the string with command line options which
 will be passed to pgBackRest, for example
 `--type=full --repo1-retention-full=5`,
-
-
 * `parameters.pg-cluster` is the name of the PostgreSQL cluster to back up,
 for example `cluster1`.
 
@@ -303,23 +253,17 @@ The Operator supports the ability to perform a full restore on a PostgreSQL
 cluster as well as a point-in-time-recovery. There are two types of ways to
 restore a cluster:
 
-
 * restore to a new cluster using the [pgDataSource.restoreFrom](operator.md#pgdatasource-restorefrom)
 option (and possibly, [pgDataSource.restoreOpts](operator.md#pgdatasource-restoreopts)
 for custom pgBackRest options),
-
-
 * restore in-place, to an existing cluster (note that this is destructive).
 
 Restoring to a new PostgreSQL cluster allows you to take a backup and create a
 new PostgreSQL cluster that can run alongside an existing one. There are several
 scenarios where using this technique is helpful:
 
-
 * Creating a copy of a PostgreSQL cluster that can be used for other purposes.
 Another way of putting this is *creating a clone*.
-
-
 * Restore to a point-in-time and inspect the state of the data without affecting
 the current cluster.
 
@@ -348,18 +292,13 @@ spec:
 
 The following keys are the most important in the parameters section of this file:
 
-
 * `parameters.backrest-restore-cluster` specifies the name of a
 PostgreSQL cluster which will be restored (this option had name
 `parameters.backrest-restore-from-cluster` before the Operator 1.2.0).
 It includes stopping the database and recreating a new primary with the
 restored data (for example, `cluster1`),
-
-
 * `parameters.backrest-restore-opts` passes through additional options for
 pgBackRest,
-
-
 * `parameters.backrest-storage-type` the type of the pgBackRest repository,
 (for example, `local`).
 
@@ -376,71 +315,63 @@ option.
 The following example will create a new cluster named `cluster2` from an
 existing one named\`\`cluster1\`\`.
 
-
 1. First, create the `cluster2-config-secrets.yaml` configuration file with
 the following content:
 
-```yaml
-apiVersion: v1
-data:
-  password: <base64-encoded-password-for-pguser->
-  username: <base64-encoded-pguser-user-name>
-kind: Secret
-metadata:
-  labels:
-    pg-cluster: cluster2
-    vendor: crunchydata
-  name: cluster2-pguser-secret
-type: Opaque
----
-apiVersion: v1
-data:
-  password: <base64-encoded-password-for-primaryuser>
-  username: <base64-encoded-primaryuser-user-name>
-kind: Secret
-metadata:
-  labels:
-    pg-cluster: cluster2
-    vendor: crunchydata
-  name: cluster2-primaryuser-secret
-type: Opaque
----
-apiVersion: v1
-data:
-  password: <base64-encoded-password-for-postgres-user>
-  username: <base64-encoded-pguser-postgres-name>
-kind: Secret
-metadata:
-  labels:
-    pg-cluster: cluster2
-    vendor: crunchydata
-  name: cluster2-postgres-secret
-type: Opaque
-```
-
+    ```yaml
+    apiVersion: v1
+    data:
+      password: <base64-encoded-password-for-pguser->
+      username: <base64-encoded-pguser-user-name>
+    kind: Secret
+    metadata:
+      labels:
+        pg-cluster: cluster2
+        vendor: crunchydata
+      name: cluster2-pguser-secret
+    type: Opaque
+    ---
+    apiVersion: v1
+    data:
+      password: <base64-encoded-password-for-primaryuser>
+      username: <base64-encoded-primaryuser-user-name>
+    kind: Secret
+    metadata:
+      labels:
+        pg-cluster: cluster2
+        vendor: crunchydata
+      name: cluster2-primaryuser-secret
+    type: Opaque
+    ---
+    apiVersion: v1
+    data:
+      password: <base64-encoded-password-for-postgres-user>
+      username: <base64-encoded-pguser-postgres-name>
+    kind: Secret
+    metadata:
+      labels:
+        pg-cluster: cluster2
+        vendor: crunchydata
+      name: cluster2-postgres-secret
+    type: Opaque
+    ```
 
 2. When done, create the secrets as follows:
 
-```bash
-$ kubectl apply -f ./cluster2-config-secrets.yaml
-```
-
+    ```bash
+    $ kubectl apply -f ./cluster2-config-secrets.yaml
+    ```
 
 3. Edit the `deploy/cr.yaml` configuration file:
 
-
     * set a new cluster name (`cluster2`),
-
-
-    * set the option [pgDataSource.restoreFrom](operator.md#pgdatasource-restorefrom) to
-`cluster1`.
-
+    * set the option [pgDataSource.restoreFrom](operator.md#pgdatasource-restorefrom) to `cluster1`.
 
 4. Create the cluster as follows:
 
-```bash
-$ kubectl apply -f deploy/cr.yaml
-```
+    ```bash
+    $ kubectl apply -f deploy/cr.yaml
+    ```
 
 ## Restore the cluster with point-in-time recovery
 
@@ -461,16 +392,11 @@ spec:
     backrest-restore-opts: --type=time --target="2021-04-16 15:13:32+00"
 ```
 
-
 * set `--type` option to `time`,
-
-
 * set `--target` to a specific time you would like to restore to. You can use
 the typical string formatted as `<YYYY-MM-DD HH:MM:DD>`, optionally followed
 by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
 example means just UTC),
-
-
 * optional `--set` argument allows you to choose the backup which will be the
 starting point for point-in-time recovery (look through the available backups
 to find out the proper backup name). This option must be specified if the target is
@@ -479,10 +405,12 @@ one or more backups away from the current moment.
 After setting these options in the *backup restore* configuration file,
 follow the standard restore instructions.
 
-**NOTE**: Make sure you have a backup that is older than your desired point in
-time. You obviously can’t restore from a time where you do not have a backup.
-All relevant write-ahead log files must be successfully pushed before you
-make the restore.
+!!! note
+
+    Make sure you have a backup that is older than your desired point in time.
+    You obviously can’t restore from a time where you do not have a backup.
+    All relevant write-ahead log files must be successfully pushed before you
+    make the restore.
 
 ## Delete a previously saved backup
 

@@ -26,13 +26,10 @@ be put into `pgPrimary`, `pgBouncer`, and `backup` sections of the
 `deploy/cr.yaml` configuration file. This option can be set to one of two
 values:
 
-
 * `preferred` Pod anti-affinity is a sort of a *soft rule*. It makes
 Kubernetes *trying* to schedule Pods matching the anti-affinity rules to
 different Nodes. If it is not possible, then one or more Pods are scheduled
 to the same Node. This variant is used by default.
-
-
 * `required` Pod anti-affinity is a sort of a *hard rule*. It forces
 Kubernetes to schedule each Pod matching the anti-affinity rules to different
 Nodes. If it is not possible, then a Pod will not be scheduled at all.
@@ -64,23 +61,25 @@ affinity:
 You can see the explanation of these affinity options [in Kubernetes
 documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
 
-**NOTE**: Setting `required` anti-affinity type will result in placing all
-Pods on separate nodes, so default configuration **will require 7 Kubernetes nodes**
-to deploy the cluster with separate nodes assigned to one PostgreSQL primary,
-two PostgreSQL replica instances, three pgBouncer and one pgBackrest Pod.
+!!! note
+
+    Setting `required` anti-affinity type will result in placing all Pods on
+    separate nodes, so default configuration **will require 7 Kubernetes nodes**
+    to deploy the cluster with separate nodes assigned to one PostgreSQL
+    primary, two PostgreSQL replica instances, three pgBouncer and one
+    pgBackrest Pod.
 
 ## Tolerations
 
-*Tolerations* allow Pods having them to be able to land onto nodes with
-matching *taints*. Toleration is expressed as a `key` with and
-`operator`, which is either `exists` or `equal` (the latter
-variant also requires a `value` the key is equal to). Moreover,
-toleration should have a specified `effect`, which may be a
-self-explanatory `NoSchedule`, less strict `PreferNoSchedule`, or
-`NoExecute`. The last variant means that if a *taint* with
-`NoExecute` is assigned to node, then any Pod not tolerating this
-*taint* will be removed from the node, immediately or after the
-`tolerationSeconds` interval, like in the following example:
+*Tolerations* allow Pods having them to be able to land onto nodes with matching
+*taints*. Toleration is expressed as a `key` with and `operator`, which is
+either `exists` or `equal` (the latter variant also requires a `value` the key
+is equal to). Moreover, toleration should have a specified `effect`, which may
+be a self-explanatory `NoSchedule`, less strict `PreferNoSchedule`, or
+`NoExecute`. The last variant means that if a *taint* with `NoExecute` is
+assigned to node, then any Pod not tolerating this *taint* will be removed from
+the node, immediately or after the `tolerationSeconds` interval, like in the
+following example.
 
 You can use `pgPrimary.tolerations` key in the `deploy/cr.yaml`
 configuration file as follows:

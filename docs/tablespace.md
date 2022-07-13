@@ -33,18 +33,13 @@ Each tablespace created by Percona Operator for PostgreSQL corresponds to a
 separate Persistent Volume, mounted in a container to the `/tablespaces`
 directory.
 
-
-
 ![image](assets/images/tablespaces.svg)
 
 ## Creating a new tablespace
 
 Providing a new tablespace for your database in Kubernetes involves two parts:
 
-
 1. Configure the new tablespace storage with the Operator,
-
-
 2. Create database objects in this tablespace with PostgreSQL.
 
 The first part is done in the traditional way of Percona Operators, by modifying
@@ -105,10 +100,7 @@ neither by the Operator nor by PostgreSQL.
 Deleting an existing tablespace from your database in Kubernetes also involves
 two parts:
 
-
 * Delete related database objects and tablespace with PostgreSQL,
-
-
 * Delete tablespace storage in Kubernetes.
 
 To make tablespace deletion with PostgreSQL possible, you should make this

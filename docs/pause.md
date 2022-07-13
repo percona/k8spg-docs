@@ -16,13 +16,15 @@ spec:
 To start the cluster after it was paused just revert the `spec.pause`
 key to `false`.
 
-**NOTE**: There is an option also to put the cluster into a [standby](https://www.postgresql.org/docs/12/warm-standby.html)
-(read-only) mode instead of completely shutting it down. This is done by a
-special `spec.standby` key, which should be set to `true` for read-only
-state or should be set to `false` for normal cluster operation:
+!!! note
 
-```yaml
-spec:
-  .......
-  standby: false
-```
+    There is an option also to put the cluster into a [standby](https://www.postgresql.org/docs/12/warm-standby.html)
+    (read-only) mode instead of completely shutting it down. This is done by a
+    special `spec.standby` key, which should be set to `true` for read-only
+    state or should be set to `false` for normal cluster operation:
+
+    ```yaml
+    spec:
+      .......
+      standby: false
+    ```

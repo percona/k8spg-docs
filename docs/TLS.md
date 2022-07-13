@@ -3,10 +3,7 @@
 The Percona Operator for PostgreSQL uses Transport Layer Security
 (TLS) cryptographic protocol for the following types of communication:
 
-
 * Internal - communication between PostgreSQL instances in the cluster
-
-
 * External - communication between the client application and the cluster
 
 The internal certificate is also used as an authorization method for PostgreSQL
@@ -14,10 +11,7 @@ Replica instances.
 
 TLS security can be configured in several ways:
 
-
 * the Operator can generate certificates automatically at cluster creation time,
-
-
 * you can also generate certificates manually.
 
 You can also use pre-generated certificates available in the
@@ -42,11 +36,7 @@ You can install *cert-manager* as follows:
 
 
 * Create a namespace,
-
-
 * Disable resource validations on the cert-manager namespace,
-
-
 * Install the cert-manager.
 
 The following commands perform all the needed actions:
@@ -72,15 +62,15 @@ certificate from it. To make this happend, uncomment `sslCA`, `sslSecretName`,
 and `sslReplicationSecretName` options in the `deploy/cr.yaml` configuration
 file:
 
-> ```yaml
-> ...
-> spec:
-> #  secretsName: cluster1-users
->   sslCA: cluster1-ssl-ca
->   sslSecretName: cluster1-ssl-keypair
->   sslReplicationSecretName: cluster1-ssl-keypair
-> ...
-> ```
+```yaml
+...
+spec:
+#  secretsName: cluster1-users
+  sslCA: cluster1-ssl-ca
+  sslSecretName: cluster1-ssl-keypair
+  sslReplicationSecretName: cluster1-ssl-keypair
+...
+```
 
 When done, deploy your cluster as usual, with the `kubectl apply -f deploy/cr.yaml`
 command. Certificates will be generated if there are no certificate secrets
@@ -90,26 +80,14 @@ available.
 
 To generate certificates manually, follow these steps:
 
-
 1. Provision a  to generate TLS certificates,
-
-
-2. Generate a  key and certificate file with
-the server details,
-
-
-3. Create the server TLS certificates using the
- keys, certs, and server details.
+2. Generate a  key and certificate file with the server details,
+3. Create the server TLS certificates using the keys, certs, and server details.
 
 The set of commands generates certificates with the following attributes:
 
-
 * `Server-pem` - Certificate
-
-
 * `Server-key.pem` - the private key
-
-
 * `ca.pem` - Certificate Authority
 
 You should generate one set of certificates for external communications, and
@@ -190,20 +168,13 @@ $ kubectl create secret tls  ${CLUSTER_NAME}-ssl-replicas --cert=replicas.pem --
 When certificates are generated, set the following keys in the
 `deploy/cr.yaml` configuration file:
 
-
 * `spec.sslCA` key should contain the name of the secret with TLS
  used for both connection encryption
 (external traffic), and replication (internal traffic),
-
-
 * `spec.sslSecretName` key should contain the name of the secret created to
 encrypt **external** communications,
-
-
 * `spec.secrets.sslReplicationSecretName` key should contain the name of the
 secret created to encrypt **internal** communications,
-
-
 * `spec.tlsOnly` is set to `true` by default and enforces encryption
 
 Don’t forget to apply changes as usual:

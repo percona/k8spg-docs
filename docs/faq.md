@@ -48,62 +48,60 @@ You can set additional namespace to be watched by the Operator as follows:
 
 1. First of all clean up the installer artifacts:
 
-```bash
-$ kubectl delete -f deploy/operator.yaml
-```
-
+    ```bash
+    $ kubectl delete -f deploy/operator.yaml
+    ```
 
 2. Make changes in the `deploy/operator.yaml` file:
 
-
     * Find the `pgo-deployer-cm` ConfigMap. It contains the `values.yaml`
-configuration file. Find the `namespace` key in this file (it is set to
-`"pgo"` by default) and append your additional namespace to it in a
-comma-separated list.
+        configuration file. Find the `namespace` key in this file (it is set to
+        `"pgo"` by default) and append your additional namespace to it in a
+        comma-separated list.
 
-```bash
-...
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: pgo-deployer-cm
-data:
-  values.yaml: |-
-    ...
-    namespace: "pgo,myadditionalnamespace"
-    ...
-```
-
+        ```bash
+        ...
+        apiVersion: v1
+        kind: ConfigMap
+        metadata:
+          name: pgo-deployer-cm
+        data:
+          values.yaml: |-
+            ...
+            namespace: "pgo,myadditionalnamespace"
+            ...
+        ```
 
     * Find the `pgo-deploy` container template in the `pgo-deploy` job spec.
-It has `env` element named `DEPLOY_ACTION`, which you should change
-from `install` to `update`:
+        It has `env` element named `DEPLOY_ACTION`, which you should change
+        from `install` to `update`:
 
-```bash
-...
-apiVersion: batch/v1
-kind: Job
-metadata:
-name: pgo-deploy
-...
-    containers:
-      - name: pgo-deploy
-      ...
-      env:
-        - name: DEPLOY_ACTION
-          value: update
-          ...
-```
-
+        ```bash
+        ...
+        apiVersion: batch/v1
+        kind: Job
+        metadata:
+        name: pgo-deploy
+        ...
+            containers:
+              - name: pgo-deploy
+              ...
+              env:
+                - name: DEPLOY_ACTION
+                  value: update
+                  ...
+        ```
 
 3. Now apply your changes as usual:
 
-```bash
-$ kubectl apply -f deploy/operator.yaml
-```
+    ```bash
+    $ kubectl apply -f deploy/operator.yaml
+    ```
 
-**NOTE**: You need to perform cleanup between each `DEPLOY_ACTION`
-activity, which can be either `install`, `update`, or `uninstall`.
+    !!! note
+
+        You need to perform cleanup between each `DEPLOY_ACTION` activity, which can
+        be either `install`, `update`, or `uninstall`.
 
 ## How can I store backups on S3-compatible storage with self-issued certificates?
 
@@ -113,10 +111,7 @@ The  backup.storages. option in the `deploy/cr.yaml` configuration file allows y
 
 *Restoring a backup* without TLS requires you to make two changes in the `parameters` subsection of the `deploy/restore.yaml` file:
 
-
 * set `backrest-s3-verify-tls` option to `false`,
-
-
 * add `--no-repo1-storage-verify-tls` value to `backrest-restore-opts` field.
 
 The following example shows how the resulting `parameters` section may look like:
