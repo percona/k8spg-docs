@@ -86,6 +86,9 @@ plugins:
 extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
+  release: 1.2.0
+  pmm2recommended: 2.24.0
+  postgresrecommended: 14.2
   version:
     provider: mike
 

@@ -27,7 +27,7 @@ Normally this is a recommended approach, as isolation minimizes impact in case o
 Let’s say you have a Namespace in your Kubernetes cluster called `percona-db-1`.
 
 
-1. Edit the following lines in your [deploy/operator.yaml](https://github.com/percona/percona-postgresql-operator/blob/v1.2.0/deploy/operator.yaml):
+1. Edit the following lines in your [deploy/operator.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/operator.yaml):
 
     ```yaml
     apiVersion: v1
@@ -138,7 +138,7 @@ Kubernetes. It does the following:
 * allows Operator to control databases in two Namespaces: `percona-db-1` and `percona-db-2`.
 
 
-1. Edit the following lines in your [deploy/operator.yaml](https://github.com/percona/percona-postgresql-operator/blob/v1.2.0/deploy/operator.yaml):
+1. Edit the following lines in your [deploy/operator.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/operator.yaml):
 
     ```yaml
     apiVersion: v1

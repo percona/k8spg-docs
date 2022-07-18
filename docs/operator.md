@@ -391,7 +391,7 @@ file contains configuration options for Percona Monitoring and Management.
 |                 |   |
 | **Key**         | [pmm.image](operator.html#pmm-image) |
 | **Value**       | string    |
-| **Example**     | `percona/pmm-client:2.24.0` |
+| **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
 | **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image        |
 |                 |   |
 | **Key**         | [pmm.serverHost](operator.html#pmm-serverhost)    |

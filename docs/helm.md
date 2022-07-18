@@ -24,7 +24,7 @@ Install Helm following its [official installation instructions](https://docs.hel
 2. Install the Percona Operator for PostgreSQL:
 
     ```bash
-    $ helm install my-operator percona/pg-operator --version 1.2.0
+    $ helm install my-operator percona/pg-operator --version {{ release }}
     ```
 
     The `my-operator` parameter in the above example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -40,7 +40,7 @@ Install Helm following its [official installation instructions](https://docs.hel
 3. Install PostgreSQL:
 
     ```bash
-    $ helm install my-db percona/pg-db --version 1.2.0 --namespace my-namespace
+    $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace
     ```
 
     The `my-db` parameter in the above example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)

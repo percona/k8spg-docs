@@ -7,7 +7,7 @@ of storage classes, hostPath, and NFS.
 ## Officially supported platforms
 
 The following platforms were tested and are officially supported by the Operator
-1.2.0:
+{{ release }}:
 
 * [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.19 - 1.22
 * [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.19 - 1.21

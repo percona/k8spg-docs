@@ -47,13 +47,13 @@ the following three components:
 3. Deploy the operator with the following command:
 
     ```bash
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v1.2.0/deploy/operator.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml
     ```
 
 4. Deploy Percona Distribution for PostgreSQL:
 
     ```bash
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v1.2.0/deploy/cr-minimal.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr-minimal.yaml
     ```
 
     This deploys PostgreSQL on one node, because `deploy/cr-minimal.yaml` is
@@ -108,14 +108,14 @@ the following three components:
     password obtained from the secret:
 
     ```bash
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:14.2 --restart=Never -- bash -il
+    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U pguser pgdb
     ```
 
     This command will connect you to the  PostgreSQL interactive terminal.
 
     ```text
-    psql (14.2)
+    psql ({{ postgresrecommended }})
     Type "help" for help.
     pgdb=>
     ```

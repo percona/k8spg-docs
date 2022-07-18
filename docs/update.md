@@ -54,7 +54,7 @@ following additional step is needed for the 1.0.0 → 1.1.0 upgrade.
         jobs.batch/pgo-deploy \
         deployment/postgres-operator
 
-    $ kubectl create -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v1.2.0/deploy/operator.yaml
+    $ kubectl create -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml
     $ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
     ```
 
@@ -167,14 +167,14 @@ The following steps will allow you to update the Operator to current version
 2. Now you can switch the cluster to a new version:
 
     ```bash
-    $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:1.2.0-ppg13-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:1.2.0-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:1.2.0-ppg13-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:1.2.0-ppg13-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:1.2.0-ppg13-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v1.2.0"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v1.2.0"},{"op": "replace", "path": "/spec/pause", "value": false}]'
+    $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"},{"op": "replace", "path": "/spec/pause", "value": false}]'
     ```
 
     !!! note
 
-        The above example is composed in asumption of using PostgreSQL 13 as
-        a database management system. For PostgreSQL 12 you should change all
-        occurrences of the `ppg13` substring to `ppg12`.
+        The above example is composed in asumption of using PostgreSQL 14 as
+        a database management system. For PostgreSQL 13 you should change all
+        occurrences of the `ppg14` substring to `ppg13`.
 
     This will carry on the image update, cluster version update and the pause status
     switch.

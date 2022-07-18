@@ -209,7 +209,7 @@ spec:
     spec:
       containers:
         - name: pg-client
-          image: perconalab/percona-distribution-postgresql:14.2
+          image: perconalab/percona-distribution-postgresql:{{ postgresrecommended }}
           imagePullPolicy: Always
           command:
           - sleep
@@ -241,7 +241,7 @@ $ kubectl exec -it deployment/pg-client -- bash -il
 Now you should see the prompt of PostgreSQL interactive terminal:
 
 ```bash
-psql (14.2)
+psql ({{ postgresrecommended }})
 Type "help" for help.
 pgdb=>
 ```

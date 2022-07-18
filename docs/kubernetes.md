@@ -6,7 +6,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 1. First of all, clone the percona-postgresql-operator repository:
 
     ```bash
-    $ git clone -b v1.2.0 https://github.com/percona/percona-postgresql-operator
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
     $ cd percona-postgresql-operator
     ```
 
@@ -72,14 +72,14 @@ can be created at any time with the following command:
 6. Check connectivity to newly created cluster
 
     ```bash
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:14.2 --restart=Never -- bash -il
+    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U pguser pgdb
     ```
 
     This command will connect you to the PostgreSQL interactive terminal.
 
     ```text
-    psql (14.2)
+    psql ({{ postgresrecommended }})
     Type "help" for help.
     pgdb=>
     ```
