@@ -1,4 +1,4 @@
-# Percona Distribution for PostgreSQL Operator 1.2.0 Release Notes
+# Percona Distribution for PostgreSQL Operator Release Notes
 
 
 * [*Percona Operator for PostgreSQL* 1.2.0](Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md)

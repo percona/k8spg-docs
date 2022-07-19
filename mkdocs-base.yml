@@ -48,9 +48,10 @@ markdown_extensions:
   pymdownx.details: {}
   pymdownx.mark: {}
   pymdownx.smartsymbols: {}
-  pymdownx.tabbed: {}
   pymdownx.tilde: {}
   pymdownx.superfences: {}
+  pymdownx.tabbed:
+    alternate_style: true
   pymdownx.highlight:
     linenums: false
 
