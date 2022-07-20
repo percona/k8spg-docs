@@ -25,27 +25,21 @@
 
 ## New Features
 
+* :jirabug:`K8SPG-101`: Add support for Kubernetes horizontal scaling to set the number of Replicas dynamically via the `kubectl scale` command or Horizontal Pod Autoscaler
 
-* [K8SPG-101](https://jira.percona.com/browse/K8SPG-101): Add support for Kubernetes horizontal scaling to set the number of Replicas dynamically via the `kubectl scale` command or Horizontal Pod Autoscaler
+* :jirabug:`K8SPG-77`: Add support for PostgreSQL 14 in the Operator
 
+* :jirabug:`K8SPG-75`: [Manage Operator’s system users](../users.md#users) hrough a single Secret resource even after cluster creation
 
-* [K8SPG-77](https://jira.percona.com/browse/K8SPG-77): Add support for PostgreSQL 14 in the Operator
-
-
-* [K8SPG-75](https://jira.percona.com/browse/K8SPG-75): [Manage Operator’s system users](../users.md#users) hrough a single Secret resource even after cluster creation
-
-
-* [K8SPG-71](https://jira.percona.com/browse/K8SPG-71): Add Smart Upgrade functionality to automate Percona Distribution for PostgreSQL upgrades
+* :jirabug:`K8SPG-71`: Add Smart Upgrade functionality to automate Percona Distribution for PostgreSQL upgrades
 
 ## Improvements
 
-
-* [K8SPG-96](https://jira.percona.com/browse/K8SPG-96): PMM container does not cause the crash of the whole database Pod if pmm-agent is not working properly
+* :jirabug:`K8SPG-96`: PMM container does not cause the crash of the whole database Pod if pmm-agent is not working properly
 
 ## Bugs Fixed
 
-
-* [K8SPG-120](https://jira.percona.com/browse/K8SPG-120): The Operator default behavior is now to keep backups and PVCs when the cluster is deleted
+* :jirabug:`K8SPG-120`: The Operator default behavior is now to keep backups and PVCs when the cluster is deleted
 
 ### Supported platforms
 
