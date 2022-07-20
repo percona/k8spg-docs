@@ -74,19 +74,19 @@ functional tests, which ensure the overall quality and stability
 ## New Features and Improvements
 
 
-* [K8SPG-96](https://jira.percona.com/browse/K8SPG-96): PMM Client container does not cause the crash of the
+* {{ k8spgjira(96) }}: PMM Client container does not cause the crash of the
 whole database Pod if `pmm-agent` is not working properly
 
 
-* [K8SPG-86](https://jira.percona.com/browse/K8SPG-86): The Operator [is now compatible](../openshift.md#install-openshift)
+* {{ k8spgjira(86) }}: The Operator [is now compatible](../openshift.md#install-openshift)
 with the OpenShift platform
 
 
-* [K8SPG-62](https://jira.percona.com/browse/K8SPG-62): Configuring [scheduled backups](../backups.md#backups-scheduled)
+* {{ k8spgjira(62) }}: Configuring [scheduled backups](../backups.md#backups-scheduled)
 through the main Custom Resource is now supported
 
 
-* [K8SPG-99](https://jira.percona.com/browse/K8SPG-99), [K8SPG-131](https://jira.percona.com/browse/K8SPG-131): The Operator documentation was
+* {{ k8spgjira(99) }}, {{ k8spgjira(131) }}: The Operator documentation was
 substantially improved, and now it covers among other things the usage of
 Transport Layer Security (TLS) for internal and external communications, and
 cluster upgrades

@@ -1,6 +1,6 @@
 #!/bin/bash
 # This script is used for building a themed site to preview on render.com
-# Preview URL: https://pmm-doc.onrender.com
+# Preview URL: https://percona-postgresql-operator.onrender.com
 
 #for filename in docs/ReleaseNotes/*.md; do
 #  mv "$filename" "$filename.bak"
@@ -11,10 +11,10 @@
 #  m4 -P "$filename.bak" > "$filename.m4"
 #done
 
-#python -m pip install --upgrade pip
-#pip install wheel
+python -m pip install --upgrade pip
+pip install wheel
 
-#mkdocs build -f ./mkdocs.yml
+mkdocs build -f ./mkdocs.yml
 
 #for filename in docs/ReleaseNotes/*.md; do
 #  mv "$filename.bak" "$filename"
