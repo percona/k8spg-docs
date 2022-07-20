@@ -14,14 +14,15 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | Key | Value type | Default | Description |
 | --- | ---------- | ------- | ----------- |
 | pause | boolean  | `false` | Pause/resume: setting it to `true` gracefully stops the cluster, and setting it to `false` after shut down starts the cluster back. |
-| upgradeOptions   | subdoc | | Percona Distribution for PostgreSQL upgrade options section |
-| pgPrimary | subdoc |         | PostgreSQL Primary instance options section |
-| walStorage | subdoc |        | Write-ahead Log Storage Section |
-| pmm | subdoc |         | Percona Monitoring and Management section |
-| backup | subdoc |      | Section to configure backups and pgBackRest |
-| pgBouncer | subdoc |   | The [pgBouncer](http://pgbouncer.github.io/) connection pooler section |
-| pgReplicas | subdoc |  | Section required to manage the replicas within a PostgreSQL cluster |
-| pgBadger  | subdoc  |  | The [pgBadger](https://github.com/darold/pgbadger) PostgreSQL log analyzer section |
+| upgradeOptions   | [subdoc](#upgrade-options-section) | | Percona Distribution for PostgreSQL upgrade options section |
+| pgPrimary | [subdoc](#pgprimary-section) |         | PostgreSQL Primary instance options section |
+| walStorage | [subdoc](#tablespaces-storage-section) |        | Tablespaces Storage Section |
+| walStorage | [subdoc](#write-ahead-log-storage-section) |        | Write-ahead Log Storage Section |
+| backup | [subdoc](#backup-section) |      | Section to configure backups and pgBackRest |
+| pmm | [subdoc](#pmm-section) |         | Percona Monitoring and Management section |
+| pgBouncer | [subdoc](#pgbouncer-section) |   | The [pgBouncer](http://pgbouncer.github.io/) connection pooler section |
+| pgReplicas | [subdoc](#pgreplicas-section) |  | Section required to manage the replicas within a PostgreSQL cluster |
+| pgBadger  | [subdoc](#pgbadger-section)  |  | The [pgBadger](https://github.com/darold/pgbadger) PostgreSQL log analyzer section |
 
 |                 |   |
 |-----------------|---|
@@ -75,7 +76,7 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `""`     |
 | **Description** | Custom pgBackRest options to [restore backup to a new cluster](backups.md#backups-restore)      |
 
-## [Upgrade Options Section](operator.html#operator-upgradeoptions-section)
+## Upgrade Options Section
 
 The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains various configuration options to control Percona Distribution for PostgreSQL upgrades.
 
@@ -96,7 +97,7 @@ The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/
 | **Example**     | `0 2 \* \* \*` |
 | **Description** | Scheduled time to check for updates, specified in the [crontab format](https://en.wikipedia.org/wiki/Cron)           |
 
-## [pgPrimary Section](operator.html#operator-pgprimary-section)
+## pgPrimary Section
 
 The pgPrimary section controls the PostgreSQL Primary instance.
 
@@ -172,7 +173,7 @@ The pgPrimary section controls the PostgreSQL Primary instance.
 | **Example**     | `""`        |
 | **Description** | Name of the [Custom configuration options ConfigMap](options.md#operator-configmaps) for PostgreSQL cluster |
 
-## [Tablespaces Storage Section](operator.html#operator-walstorage-section)
+## Tablespaces Storage Section
 
 The `tablespaceStorages` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for PostgreSQL [Tablespace](https://www.postgresql.org/docs/current/manage-ag-tablespaces.html).
@@ -204,7 +205,7 @@ file contains configuration options for PostgreSQL [Tablespace](https://www.post
 | **Example**     | `""`        |
 | **Description** | A PostgreSQL Tablespaces storage [label selector](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector) |
 
-## [Write-ahead Log Storage Section](operator.html#operator-walstorage-section)
+## Write-ahead Log Storage Section
 
 The `walStorage` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for PostgreSQL [write-ahead logging](https://www.postgresql.org/docs/current/wal-intro.html).
@@ -236,7 +237,7 @@ file contains configuration options for PostgreSQL [write-ahead logging](https:/
 | **Example**     | `""`        |
 | **Description** | A PostgreSQL Write-ahead Log storage [label selector](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#selector)                |
 
-## [Backup Section](operator.html#operator-backup-section)
+## Backup Section
 
 The `backup` section in the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
@@ -377,7 +378,7 @@ name used for backups     |
 | **Example**     | `Always`    |
 | **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating pgBackRest images | 
 
-## [PMM Section](operator.html#operator-pmm-section)
+## PMM Section
 
 The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for Percona Monitoring and Management.
@@ -434,7 +435,7 @@ file contains configuration options for Percona Monitoring and Management.
 | **Example**     | `Always`    |
 | **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
 
-## [pgBouncer Section](operator.html#operator-pgbouncer-section)
+## pgBouncer Section
 
 The `pgBouncer` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
@@ -496,7 +497,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `Always`    |
 | **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating pgBouncer images |
 
-## [pgReplicas Section](operator.html#operator-pgreplicas-section)
+## pgReplicas Section
 
 The `pgReplicas` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file stores information required to manage the replicas within a PostgreSQL cluster.
@@ -584,7 +585,7 @@ for a PostgreSQL Replica container    |
 | **Example**     | `pg-cluster-label: cluster1`   |
 | **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL Replica Service |
 
-## [pgBadger Section](operator.html#operator-pgbadger-section)
+## pgBadger Section
 
 The `pgBadger` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for the [pgBadger PostgreSQL log analyzer](https://github.com/darold/pgbadger).
