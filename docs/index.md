@@ -18,83 +18,60 @@ environment is key.
 
 # Requirements
 
-
 * [System Requirements](System-Requirements.md)
 
+* [Design and architecture](architecture.md)
 
-* [Design overview](architecture.md)
+# Quickstart guides
 
+* [Install on Minikube](minikube.md)
 
-# Installation guide
+* [Install on Google Kubernetes Engine (GKE)](gke.md)
 
+* [Install with Helm](helm.md)
 
-* [Install Percona Distribution for PostgreSQL on Kubernetes](kubernetes.md)
+# Installation guides
 
+* [Generic Kubernetes installation](kubernetes.md)
 
-* [Install Percona Distribution for PostgreSQL on OpenShift](openshift.md)
+* [Install on OpenShift](openshift.md)
 
+# Configuration
 
-* [Install Percona Distribution for PostgreSQL on Minikube](minikube.md)
-
-
-* [Install Percona Distribution for PostgreSQL on Google Kubernetes Engine (GKE)](gke.md)
-
-
-* [Install Percona Distribution for PostgreSQL using Helm](helm.md)
-
-
-# Configuration and Management
-
-
-* [Users](users.md)
-
-
-* [Providing Backups](backups.md)
-
+* [Application and system users](users.md)
 
 * [Changing PostgreSQL Options](options.md)
 
+* [Anti-affinity and tolerations](constraints.md)
 
-* [Binding Percona Distribution for PostgreSQL components to Specific Kubernetes/OpenShift Nodes](constraints.md)
+* [Transport Encryption (TLS/SSL)](TLS.md)
 
+# Management
 
-* [Pause/resume PostgreSQL Cluster](pause.md)
+* [Backup and restore](backups.md)
 
+* [Upgrade Percona Distribution for PostgreSQL and the Operator](update.md)
 
-* [Update Percona Operator for PostgreSQL](update.md)
+* [Horizontal and vertical scaling](scaling.md)
 
+* [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
-* [Scale Percona Distribution for PostgreSQL on Kubernetes and OpenShift](scaling.md)
-
-
-* [Transport Layer Security (TLS)](TLS.md)
-
-
-* [Monitoring](monitoring.md)
-
+* [Restart or pause the cluster](pause.md)
 
 # HOWTOs
 
-
 * [How to deploy a standby cluster for Disaster Recovery](standby.md)
-
 
 * [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
 
-
 * [Using PostgreSQL tablespaces with Percona Operator for PostgreSQL](tablespace.md)
-
 
 # Reference
 
-
 * [Custom Resource options](operator.md)
-
 
 * [Percona certified images](images.md)
 
-
 * [Frequently Asked Questions](faq.md)
-
 
 * [Release Notes](ReleaseNotes/index.md)
