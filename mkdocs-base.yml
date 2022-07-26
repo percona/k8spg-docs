@@ -105,7 +105,7 @@ nav:
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install with Helm": helm.md
           
-    - Installation guide:
+    - Installation guides:
           - "Generic Kubernetes installation": kubernetes.md
           - "Install on OpenShift": openshift.md
           
@@ -132,6 +132,7 @@ nav:
           - "Percona certified images": images.md
           - "Frequently Asked Questions": faq.md
           - "Release Notes": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 1.3.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.3.0.md
           - "Percona Operator for PostgreSQL 1.2.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
           - "Percona Operator for PostgreSQL 1.1.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md
           - "Percona Operator for PostgreSQL 1.0.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.md
