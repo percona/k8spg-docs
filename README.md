@@ -8,7 +8,7 @@ Percona Operator for PostgreSQL automates and simplifies deploying and managing 
 
 The Percona Operator for PostgreSQL code is [here](https://github.com/percona/percona-postgresql-operator).
 
-This repository contains the source files for [Percona Operator for PostgreSQL documentation](https://www.percona.com/doc/percona-backup-mongodb). The documentation is written in [Markdown markup language](https://en.wikipedia.org/wiki/Markdown) and is converted to HTML using [MkDocs](https://www.mkdocs.org/).
+This repository contains the source files for [Percona Operator for PostgreSQL documentation](https://docs.percona.com/percona-operator-for-postgresql/index.html). The documentation is written in [Markdown markup language](https://en.wikipedia.org/wiki/Markdown) and is converted to HTML using [MkDocs](https://www.mkdocs.org/).
 
 ## Contributing
 
