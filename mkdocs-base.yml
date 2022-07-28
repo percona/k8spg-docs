@@ -131,9 +131,10 @@ nav:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
           - "Frequently Asked Questions": faq.md
-          - "Release Notes": ReleaseNotes/index.md
-          - "Percona Operator for PostgreSQL 1.2.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
-          - "Percona Operator for PostgreSQL 1.1.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md
-          - "Percona Operator for PostgreSQL 1.0.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.md
-          - "Percona Operator for PostgreSQL 0.2.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.2.0.md
-          - "Percona Operator for PostgreSQL 0.1.0": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.1.0.md
+          
+    - Release Notes:
+          - "Percona Operator for PostgreSQL 1.2.0 (2022-04-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
+          - "Percona Operator for PostgreSQL 1.1.0 (2021-12-07)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md
+          - "Percona Operator for PostgreSQL 1.0.0 (2021-10-07)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.md
+          - "Percona Operator for PostgreSQL 0.2.0 (2021-08-12)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.2.0.md
+          - "Percona Operator for PostgreSQL 0.1.0 (2021-05-10)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN0.1.0.md
