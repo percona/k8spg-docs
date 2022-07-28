@@ -123,9 +123,9 @@ nav:
           - "Restart or pause the cluster": pause.md
           
     - How to:
-          - standby.md
-          - cluster-wide.md
-          - tablespace.md
+          - "Deploy a standby cluster for Disaster Recovery": standby.md
+          - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
+          - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespace.md
           
     - Reference:
           - "Custom Resource options": operator.md
