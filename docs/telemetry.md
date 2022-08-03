@@ -4,7 +4,7 @@ The Telemetry function enables the Operator gathering and sending basic anonymou
 
 The following information is gathered:
 
-* Unique ID of the Custom Resource (the `metadata.uid` field)
+* ID of the Custom Resource (the `metadata.uid` field)
 * Kubernetes version
 * Platform (is it Kubernetes or Openshift)
 * PMM Version
