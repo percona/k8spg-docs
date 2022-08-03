@@ -27,7 +27,7 @@ You can disable telemetry with a special option when installing the Operator:
   $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace --set disable_telemetry="true"
   ```
 
-* if you don't use helm for installation, you have edit the `operator.yaml`
+* if you don't use helm for installation, you have to edit the `operator.yaml`
   before applying it with the `kubectl apply -f deploy/operator.yaml` command.
   Open the `operator.yaml` file with your text editor, find the
   `disable_telemetry` key and set it to `true`:
