@@ -71,40 +71,19 @@ For example, setting the PMM Server user’s password to `new_password` in the
 kubectl patch secret/cluster1-users -p '{"data":{"pguser": '$(echo -n new_password | base64)'}}'
 ```
 
-## [Application users](users.html#unprivileged-users)
+## [Application users](users.html#application-users)
 
 By default you can connect to PostgreSQL as non-privileged `pguser` user.
-You can login as `postgres` (the superuser) **to PostgreSQL Pods**, but
-[pgBouncer](http://pgbouncer.github.io/) (the connection pooler for
+Also, you can login as `postgres` (the superuser) to PostgreSQL Pods,
+but [pgBouncer](http://pgbouncer.github.io/) (the connection pooler for
 PostgreSQL) doesn’t allow `postgres` user access by default. That’s done for
 security reasons.
 
 If you still need to provide `postgres` user access to PostgreSQL instances
-from the outside, you can edit the `cluster1-pgbouncer-secret`
-[Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/),
-and add an additional line with the user credential to the ‘users.txt’ option.
-This line should follow the [PgBouncer authentication file format](https://www.pgbouncer.org/config.html#authentication-file-format):
-
-```text
-"username"  "password hash"
-```
-
-The “password hash” string consists of the following parts:
-
-* “md5” string,
-* MD5 hash of concatenated password and username.
-
-You can generate MD5 hashsum for the password with the following command,
-substituting `<password>` and `<login>` fields with the real password and
-login:
-
-```bash
-$ echo "MD5"`echo -n <password><login> | md5sum`
-```
+from the outside, set the `pgBouncer.exposePostgresUser` option in the
+`deploy/cr.yaml` configuration file to `true` and apply changes as usual by the
+`kubectl apply -f deploy/cr.yaml` command.
 
 !!! note
 
-    Allowing `postgres` user access to the cluster is not recommended.
-    Also, the Operator will not track password changes in this case, so you
-    should maintain synchronization between PostgreSQL `postgres` password and
-    its MD5 hash for PgBouncer manually.
+    Allowing superusers to access to the cluster is not recommended.
