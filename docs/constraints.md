@@ -61,7 +61,7 @@ affinity:
             operator: In
             values:
             - cluster1
-        topologyKey: kubernetes.io/hostname
+        antiAffinityTopologyKey: kubernetes.io/hostname
       weight: 1
 ```
 
