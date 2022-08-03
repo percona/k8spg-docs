@@ -69,6 +69,39 @@ documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-po
     primary, two PostgreSQL replica instances, three pgBouncer and one
     pgBackrest Pod.
 
+### Using node affinity
+
+Node affinity can be used to assign PostgreSQL instances to specific
+Kubernetes Nodes (ones with specific hardware, zone, etc.).
+You can set Node affinity using the ``pgPrimary.affinity.advanced.nodeAffinity`` option
+in the ``deploy/cr.yaml`` configuration file and the standard `Kubernetes node
+affinity rules <https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/>`_.
+
+The following example forces Distribution for PostgreSQL Pods occupying specific
+node:
+
+.. code:: yaml
+
+     affinity:
+       antiAffinityType: preferred
+       nodeAffinityType: required
+       nodeLabel:
+         kubernetes.io/region: us-central1
+       antiAffinityTopologyKey: "kubernetes.io/hostname"
+       advanced:
+         nodeAffinity:
+           requiredDuringSchedulingIgnoredDuringExecution:
+             nodeSelectorTerms:
+             - matchExpressions:
+               - key: kubernetes.io/e2e-az-name
+                 operator: In
+                 values:
+                 - e2e-az1
+                 - e2e-az2
+
+See explanation of the advanced affinity options `in Kubernetes
+documentation <https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity>`__.
+
 ## Tolerations
 
 *Tolerations* allow Pods having them to be able to land onto nodes with matching
