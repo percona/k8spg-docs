@@ -19,21 +19,20 @@ Telemetry is enabled by default and is sent to the [Version Service server](upda
 
 The landing page for this service, [check.percona.com](https://check.percona.com/), explains what this service is.
 
-You can use [your own Version Service](update.md#automatic-upgrade) to avoid
-telemetry data leave the space of your cluster, or you can disable sending
-telemetry with a special option when installing the Operator:
+You can disable sending telemetry to [check.percona.com](https://check.percona.com/)
+with a special option when installing the Operator:
 
 * if you [install the Operator with helm](helm.md), use the following installation command:
 
-   ```sh
-   $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace --set disable_telemetry="true"
-   ```
-   
+  ```sh
+  $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace --set disable_telemetry="true"
+  ```
+
 * if you don't use helm for installation, you have edit the `operator.yaml`
   before applying it with the `kubectl apply -f deploy/operator.yaml` command.
   Open the `operator.yaml` file with your text editor, find the
   `disable_telemetry` key and set it to `true`:
-  
+
   ```yaml
   ...
   disable_telemetry: "true"
