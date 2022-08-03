@@ -34,6 +34,12 @@ to the same Node. This variant is used by default.
 Kubernetes to schedule each Pod matching the anti-affinity rules to different
 Nodes. If it is not possible, then a Pod will not be scheduled at all.
 
+The Operator provides two approaches for configuring affinity:
+
+* simple way to set anti-affinity for Pods, built-in into the Operator,
+* more advanced approach based on using standard Kubernetes constraints.
+
+
 The following anti-affinity rules are applied to all Percona Distribution for PostgreSQL
 Pods:
 
