@@ -27,21 +27,22 @@ be put into `pgPrimary`, `pgBouncer`, and `backup` sections of the
 values:
 
 * `preferred` Pod anti-affinity is a sort of a *soft rule*. It makes
-Kubernetes *trying* to schedule Pods matching the anti-affinity rules to
-different Nodes. If it is not possible, then one or more Pods are scheduled
-to the same Node. This variant is used by default.
+  Kubernetes *trying* to schedule Pods matching the anti-affinity rules to
+  different Nodes. If it is not possible, then one or more Pods are scheduled
+  to the same Node. This variant is used by default.
 * `required` Pod anti-affinity is a sort of a *hard rule*. It forces
-Kubernetes to schedule each Pod matching the anti-affinity rules to different
-Nodes. If it is not possible, then a Pod will not be scheduled at all.
+  Kubernetes to schedule each Pod matching the anti-affinity rules to different
+  Nodes. If it is not possible, then a Pod will not be scheduled at all.
 
 The Operator provides two approaches for configuring affinity:
 
 * simple way to set anti-affinity for Pods, built-in into the Operator,
 * more advanced approach based on using standard Kubernetes constraints.
 
+### Default Affinity rules
 
-The following anti-affinity rules are applied to all Percona Distribution for PostgreSQL
-Pods:
+The following anti-affinity rules are applied to all Percona Distribution for
+PostgreSQL Pods:
 
 ```yaml
 affinity:
@@ -75,38 +76,80 @@ documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-po
     primary, two PostgreSQL replica instances, three pgBouncer and one
     pgBackrest Pod.
 
-### Using node affinity
+### Simple approach - use antiAffinityTopologyKey
 
-Node affinity can be used to assign PostgreSQL instances to specific
-Kubernetes Nodes (ones with specific hardware, zone, etc.).
-You can set Node affinity using the ``pgPrimary.affinity.advanced.nodeAffinity`` option
-in the ``deploy/cr.yaml`` configuration file and the standard `Kubernetes node
-affinity rules <https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/>`_.
+The Operator provides an `pgPrimary.affinity.antiAffinityTopologyKey` option,
+which may have one of the following values:
 
-The following example forces Distribution for PostgreSQL Pods occupying specific
-node:
+* `kubernetes.io/hostname` - Pods will avoid residing within the same host,
+* `failure-domain.beta.kubernetes.io/zone` - Pods will avoid residing within the
+  same zone,
+* `failure-domain.beta.kubernetes.io/region` - Pods will avoid residing within
+  the same region,
+* `none` - no constraints are applied.
 
-.. code:: yaml
+The following example forces Percona Distribution for PostgreSQL Pods to avoid
+occupying the same node:
 
-     affinity:
-       antiAffinityType: preferred
-       nodeAffinityType: required
-       nodeLabel:
-         kubernetes.io/region: us-central1
-       antiAffinityTopologyKey: "kubernetes.io/hostname"
-       advanced:
-         nodeAffinity:
-           requiredDuringSchedulingIgnoredDuringExecution:
-             nodeSelectorTerms:
-             - matchExpressions:
-               - key: kubernetes.io/e2e-az-name
-                 operator: In
-                 values:
-                 - e2e-az1
-                 - e2e-az2
+```yaml
+...
+affinity:
+  topologyKey: "kubernetes.io/hostname"
+...
+```
 
-See explanation of the advanced affinity options `in Kubernetes
-documentation <https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#node-affinity>`__.
+### Advanced approach - use standard Kubernetes constraints
+
+Previous way can be used with no special knowledge of the Kubernetes way of
+assigning Pods to specific nodes. Still in some cases more complex tuning may be
+needed. In this case `advanced` option placed in the `deploy/cr.yaml` file turns
+off the effect of the `antiAffinityTopologyKey` and allows to use standard
+Kubernetes affinity constraints of any complexity:
+
+```yaml
+affinity:
+   advanced:
+     podAffinity:
+       requiredDuringSchedulingIgnoredDuringExecution:
+       - labelSelector:
+           matchExpressions:
+           - key: security
+             operator: In
+             values:
+             - S1
+         topologyKey: failure-domain.beta.kubernetes.io/zone
+     podAntiAffinity:
+       preferredDuringSchedulingIgnoredDuringExecution:
+       - weight: 100
+         podAffinityTerm:
+           labelSelector:
+             matchExpressions:
+             - key: security
+               operator: In
+               values:
+               - S2
+           topologyKey: kubernetes.io/hostname
+     nodeAffinity:
+       requiredDuringSchedulingIgnoredDuringExecution:
+         nodeSelectorTerms:
+         - matchExpressions:
+           - key: kubernetes.io/e2e-az-name
+             operator: In
+             values:
+             - e2e-az1
+             - e2e-az2
+       preferredDuringSchedulingIgnoredDuringExecution:
+       - weight: 1
+         preference:
+           matchExpressions:
+           - key: another-node-label-key
+             operator: In
+             values:
+             - another-node-label-value
+```
+
+You can see the explanation of these affinity options [in Kubernetes
+documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
 
 ## Tolerations
 
