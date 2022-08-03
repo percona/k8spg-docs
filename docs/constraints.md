@@ -14,12 +14,15 @@ best for a particular situation.
 
 ## Affinity and anti-affinity
 
-Affinity makes Pod eligible (or not eligible - so called “anti-affinity”) to be
-scheduled on the node which already has Pods with specific labels. Particularly,
-this approach is good to to reduce costs making sure several Pods with intensive
-data exchange will occupy the same availability zone or even the same node - or,
-on the contrary, to make them land on different nodes or even different
-availability zones for the high availability and balancing purposes.
+Affinity makes Pod eligible (or not eligible - so called “anti-affinity”) to
+be scheduled on the node which already has Pods with specific labels, or has
+specific labels itself (so called “Node affinity”).
+Particularly, Pod anti-affinity is good to to reduce costs making sure several Pods
+with intensive data exchange will occupy the same availability zone or even the
+same node - or, on the contrary, to make them land on different nodes or even
+different availability zones for the high availability and balancing purposes.
+Node affinity is useful to assign PostgreSQL instances to specific Kubernetes
+Nodes (ones with specific hardware, zone, etc.).
 
 Pod anti-affinity is controlled by the `antiAffinityType` option, which can
 be put into `pgPrimary`, `pgBouncer`, and `backup` sections of the
@@ -34,77 +37,35 @@ values:
   Kubernetes to schedule each Pod matching the anti-affinity rules to different
   Nodes. If it is not possible, then a Pod will not be scheduled at all.
 
-The Operator provides two approaches for configuring affinity:
+Node affinity can be controlled by the `pgPrimary.affinity.nodeAffinityType`
+option in the `deploy/cr.yaml` configuration file. This option can be set to
+either `preferred` or `required` similarly to the `antiAffinityType` option.
 
-* simple way to set anti-affinity for Pods, built-in into the Operator,
-* more advanced approach based on using standard Kubernetes constraints.
+## Simple approach - configure Node Affinity based on nodeLabel
 
-### Default Affinity rules
+The Operator provides the `pgPrimary.affinity.nodeLabel` option, which should
+contains one or more key-value pairs. If the node is not labeled with each
+key-value pair and `nodeAffinityType` is set to `required`, the Pod will not be
+able to land on it.
 
-The following anti-affinity rules are applied to all Percona Distribution for
-PostgreSQL Pods:
+The following example forces Operator to lend Percona Distribution for
+PostgreSQL instances on the Nodes having the `kubernetes.io/region: us-central1`
+label:
 
 ```yaml
 affinity:
-  podAntiAffinity:
-    preferredDuringSchedulingIgnoredDuringExecution:
-    - podAffinityTerm:
-        labelSelector:
-          matchExpressions:
-          - key: vendor
-            operator: In
-            values:
-            - crunchydata
-          - key: pg-pod-anti-affinity
-            operator: Exists
-          - key: pg-cluster
-            operator: In
-            values:
-            - cluster1
-        antiAffinityTopologyKey: kubernetes.io/hostname
-      weight: 1
-```
-
-You can see the explanation of these affinity options [in Kubernetes
-documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
-
-!!! note
-
-    Setting `required` anti-affinity type will result in placing all Pods on
-    separate nodes, so default configuration **will require 7 Kubernetes nodes**
-    to deploy the cluster with separate nodes assigned to one PostgreSQL
-    primary, two PostgreSQL replica instances, three pgBouncer and one
-    pgBackrest Pod.
-
-### Simple approach - use antiAffinityTopologyKey
-
-The Operator provides an `pgPrimary.affinity.antiAffinityTopologyKey` option,
-which may have one of the following values:
-
-* `kubernetes.io/hostname` - Pods will avoid residing within the same host,
-* `failure-domain.beta.kubernetes.io/zone` - Pods will avoid residing within the
-  same zone,
-* `failure-domain.beta.kubernetes.io/region` - Pods will avoid residing within
-  the same region,
-* `none` - no constraints are applied.
-
-The following example forces Percona Distribution for PostgreSQL Pods to avoid
-occupying the same node:
-
-```yaml
-...
-affinity:
-  topologyKey: "kubernetes.io/hostname"
-...
+  nodeAffinityType: required
+  nodeLabel:
+    kubernetes.io/region: us-central1
 ```
 
 ### Advanced approach - use standard Kubernetes constraints
 
 Previous way can be used with no special knowledge of the Kubernetes way of
-assigning Pods to specific nodes. Still in some cases more complex tuning may be
-needed. In this case `advanced` option placed in the `deploy/cr.yaml` file turns
-off the effect of the `antiAffinityTopologyKey` and allows to use standard
-Kubernetes affinity constraints of any complexity:
+assigning Pods to specific Nodes. Still in some cases more complex tuning may be
+needed. In this case `pgPrimary.affinity.advanced` option placed in the
+`deploy/cr.yaml` file turns off the effect of the `nodeLabel` and allows to use
+standard Kubernetes affinity constraints of any complexity:
 
 ```yaml
 affinity:
@@ -150,6 +111,43 @@ affinity:
 
 You can see the explanation of these affinity options [in Kubernetes
 documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+
+### Default Affinity rules
+
+The following anti-affinity rules are applied to all Percona Distribution for
+PostgreSQL Pods:
+
+```yaml
+affinity:
+  podAntiAffinity:
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - podAffinityTerm:
+        labelSelector:
+          matchExpressions:
+          - key: vendor
+            operator: In
+            values:
+            - crunchydata
+          - key: pg-pod-anti-affinity
+            operator: Exists
+          - key: pg-cluster
+            operator: In
+            values:
+            - cluster1
+        topologyKey: kubernetes.io/hostname
+      weight: 1
+```
+
+You can see the explanation of these affinity options [in Kubernetes
+documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+
+!!! note
+
+    Setting `required` anti-affinity type will result in placing all Pods on
+    separate nodes, so default configuration **will require 7 Kubernetes nodes**
+    to deploy the cluster with separate nodes assigned to one PostgreSQL
+    primary, two PostgreSQL replica instances, three pgBouncer and one
+    pgBackrest Pod.
 
 ## Tolerations
 
