@@ -19,8 +19,7 @@ Telemetry is enabled by default and is sent to the [Version Service server](upda
 
 The landing page for this service, [check.percona.com](https://check.percona.com/), explains what this service is.
 
-You can disable sending telemetry to [check.percona.com](https://check.percona.com/)
-with a special option when installing the Operator:
+You can disable telemetry with a special option when installing the Operator:
 
 * if you [install the Operator with helm](helm.md), use the following installation command:
 
