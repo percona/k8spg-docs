@@ -46,6 +46,8 @@ environment is key.
 
 * [Transport Encryption (TLS/SSL)](TLS.md)
 
+* [Telemetry](telemetry.md)
+
 # Management
 
 * [Backup and restore](backups.md)
