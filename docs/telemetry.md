@@ -19,7 +19,7 @@ Telemetry is enabled by default and is sent to the [Version Service server](upda
 
 The landing page for this service, [check.percona.com](https://check.percona.com/), explains what this service is.
 
-You can use [your own Version Service](update.html#automatic-upgrade) to avoid
+You can use [your own Version Service](update.md#automatic-upgrade) to avoid
 telemetry data leave the space of your cluster, or you can disable sending
 telemetry with a special option when installing the Operator:
 
