@@ -447,6 +447,11 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `perconalab/percona-postgresql-operator:main-ppg13-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
+| **Key**         | {{ optionlink('pgBouncer.exposePostgresUser') }} |
+| **Value**       | boolean |
+| **Example**     | `false` |
+| **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#application-users) |
+|                 | |
 | **Key**         | {{ optionlink('pgBouncer.size') }} |
 | **Value**       | int |
 | **Example**     | `1G` |
