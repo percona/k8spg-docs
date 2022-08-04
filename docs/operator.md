@@ -151,8 +151,7 @@ The pgPrimary section controls the PostgreSQL Primary instance.
 | **Key**         | {{ optionlink('pgPrimary.affinity.advanced') }} |
 | **Value**       | subdoc |
 | **Example**     | |
-| **Description** | 
-[Allows using standard Kubernetes affinity constraints](constraints.md#advanced-approach-use-standard-kubernetes-constraints) for advanced affinity and anti-affinity tuning |
+| **Description** | [Allows using standard Kubernetes affinity constraints](constraints.md#advanced-approach-use-standard-kubernetes-constraints) for advanced affinity and anti-affinity tuning |
 |                 | |
 | **Key**         | {{ optionlink('pgPrimary.volumeSpec.size') }} |
 | **Value**       | int |
