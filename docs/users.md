@@ -6,7 +6,7 @@ User accounts within the Cluster can be divided into two different groups:
 * *system-level users*: the accounts needed to automate the cluster deployment
 and management tasks.
 
-## [System Users](users.html#system-users)
+## System Users
 
 Credentials for system users are stored as a [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) object.
 The Operator requires to be deployed before PostgreSQL Cluster is
@@ -71,7 +71,7 @@ For example, setting the PMM Server user’s password to `new_password` in the
 kubectl patch secret/cluster1-users -p '{"data":{"pguser": '$(echo -n new_password | base64)'}}'
 ```
 
-## [Application users](users.html#application-users)
+## Application users
 
 By default you can connect to PostgreSQL as non-privileged `pguser` user.
 Also, you can login as `postgres` (the superuser) to PostgreSQL Pods,

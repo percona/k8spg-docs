@@ -1,4 +1,4 @@
-# [Custom Resource options](operator.html#operator-custom-resource-options)
+# Custom Resource options
 
 The Cluster is configured via the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file.
