@@ -133,6 +133,31 @@ The pgPrimary section controls the PostgreSQL Primary instance.
 | **Example**     | `256Mi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL Primary container |
 |                 | |
+| **Key**         | {{ optionlink('pgPrimary.affinity.antiAffinityType') }} |
+| **Value**       | string |
+| **Example**     | `preferred` |
+| **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.affinity.nodeAffinityType') }} |
+| **Value**       | string |
+| **Example**     | `preferred` |
+| **Description** | [Node affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.affinity.nodeLabel') }} |
+| **Value**       | label |
+| **Example**     | `kubernetes.io/region: us-central1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for [PostgreSQL instances Node affinity](constraints.md#simple-approach-configure-node-affinity-based-on-nodelabel) |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.affinity.advanced') }} |
+| **Value**       | subdoc |
+| **Example**     | |
+| **Description** | [Allows using standard Kubernetes affinity constraints](constraints.md#advanced-approach-use-standard-kubernetes-constraints) for advanced affinity and anti-affinity tuning |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.volumeSpec.size') }} |
+| **Value**       | int |
+| **Example**     | `1G` |
+| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) size for the PostgreSQL Primary storage |
+|                 | |
 | **Key**         | {{ optionlink('pgPrimary.tolerations') }} |
 | **Value**       | subdoc |
 | **Example**     | `node.alpha.kubernetes.io/unreachable` |
@@ -275,6 +300,11 @@ Percona Distribution for PostgreSQL backups.
 | **Value**       | int |
 | **Example**     | `64Mi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container |
+|                 | |
+| **Key**         | {{ optionlink('backup.affinity.antiAffinityType') }} |
+| **Value**       | string |
+| **Example**     | `preferred` |
+| **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
 |                 | |
 | **Key**         | {{ optionlink('backup.volumeSpec.size') }} |
 | **Value**       | int |
@@ -477,6 +507,11 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `512Mi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
+|                 | |
+| **Key**         | {{ optionlink('pgBouncer.affinity.antiAffinityType') }} |
+| **Value**       | string |
+| **Example**     | `preferred` |
+| **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
 | **Key**         | {{ optionlink('pgBouncer.expose.serviceType') }} |
 | **Value**       | string |
 | **Example**     | `ClusterIP` |
