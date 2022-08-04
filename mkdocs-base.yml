@@ -114,6 +114,7 @@ nav:
           - "Changing PostgreSQL Options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Transport Encryption (TLS/SSL)": TLS.md
+          - "Telemetry": telemetry.md
           
     - Management:
           - "Backup and restore": backups.md

@@ -89,7 +89,7 @@ The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/
 |                 | |
 | **Key**         | {{ optionlink('upgradeOptions.apply') }} |
 | **Value**       | string |
-| **Example**     | `14-recommended` |
+| **Example**     | `disabled` |
 | **Description** | Specifies how [updates are processed](update.md#operator-update-smartupdates) by the Operator. `Never` or `Disabled` will completely disable automatic upgrades, otherwise it can be set to `Latest` or `Recommended` or to a specific version number of Percona Distribution for PostgreSQL to have it version-locked (so that the user can control the version running, but use automatic upgrades to move between them).|
 |                 | |
 | **Key**         | {{ optionlink('upgradeOptions.schedule') }} |
