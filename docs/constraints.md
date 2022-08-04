@@ -17,7 +17,7 @@ best for a particular situation.
 Affinity makes Pod eligible (or not eligible - so called “anti-affinity”) to
 be scheduled on the node which already has Pods with specific labels, or has
 specific labels itself (so called “Node affinity”).
-Particularly, Pod anti-affinity is good to to reduce costs making sure several Pods
+Particularly, Pod anti-affinity is good to reduce costs making sure several Pods
 with intensive data exchange will occupy the same availability zone or even the
 same node - or, on the contrary, to make them land on different nodes or even
 different availability zones for the high availability and balancing purposes.
