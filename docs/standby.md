@@ -24,7 +24,7 @@ remote repository.
 
 Creating such a standby cluster involves the following steps:
 
-*  Copy needed passwords from the *primary cluster* Secrets and adjust them to
+* Copy needed passwords from the *primary cluster* Secrets and adjust them to
 use the *standby cluster* name. 
 
     !!! note inline end

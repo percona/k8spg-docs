@@ -69,7 +69,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Documentation"
-    cover_subtitle: 1.2.0 (April 6, 2022)
+    cover_subtitle: 1.3.0 (August 4, 2022)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/Kubernetes-PG.png
     custom_template_path: _resources/templates
