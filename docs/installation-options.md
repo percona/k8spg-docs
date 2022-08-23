@@ -6,29 +6,29 @@ When installing The Operator, you can customize additional configuration options
 
 These variables affect the general configuration of the PostgreSQL Operator.
 
-| Name                           | Default    | Required | Description |
-|:-------------------------------|:-----------|:--------:|:------------|
+| Name                           | Default    | Required           | Description |
+|:-------------------------------|:-----------|:------------------:|:------------|
 | archive_mode                   | `true`     | :heavy_check_mark: | Set to `true` enable archive logging on all newly created clusters |
 | archive_timeout                | `60`       | :heavy_check_mark: | Set to a value in seconds to configure the timeout threshold for archiving |
-| backrest_aws_s3_bucket         |            | | Set to configure the bucket used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
-| backrest_aws_s3_endpoint       |            | | Set to configure the endpoint used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
-| backrest_aws_s3_key            |            | | Set to configure the key used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
-| backrest_aws_s3_region         |            | | Set to configure the region used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
-| backrest_aws_s3_secret         |            | | Set to configure the secret used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
-| backrest_aws_s3_uri_style      |            | | Set to configure whether “host” or “path” style URIs will be used when connecting to S3 |
-| backrest_aws_s3_verify_tls     | `true`     | | Set this value to `true` to enable TLS verification when making a pgBackRest connection to S3 |
-| backrest_gcs_bucket            |            | | Set to configure the bucket used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration |
-| backrest_gcs_endpoint          |            | | Set to configure the endpoint used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration |
-| backrest_gcs_key_type          |            | | Set to configure the key type used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration. Can be service or token. Defaults to service |
-| backrest_port                  | `2022`     | :heavy_check_mark: | Defines the port where pgBackRest will run |
-| badger                         | `false`    | :heavy_check_mark: | Set to `true` enable pgBadger capabilities on all newly created clusters. This can be disabled by the client |
+| backrest_aws_s3_bucket         | `""`       |                    | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name used for backups |
+| backrest_aws_s3_endpoint       | `""`       |                    | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
+| backrest_aws_s3_key            | `""`       | | Set to configure the key used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
+| backrest_aws_s3_region         | `""`       |                    | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
+| backrest_aws_s3_secret         | `""`       | | Set to configure the secret used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
+| backrest_aws_s3_uri_style      | `""`       |                    | Optional parameter that specifies if pgBackRest should use the “path” or “host” S3 URI style |
+| backrest_aws_s3_verify_tls     | `true`     |                    | Enables or disables TLS verification when making a pgBackRest connection to S3 |
+| backrest_gcs_bucket            | `""`       |                    | The [Google Cloud Storage (GCS) bucket](https://cloud.google.com/storage/docs/key-terms#buckets) name used for backups |
+| backrest_gcs_endpoint          | `""`       |                    | The endpoint URL of the Google Cloud Storage (GCS) to be used for backups |
+| backrest_gcs_key_type          | `""`       |                    | The key type used by pgBackRest with Google Cloud Storage (GCS) for backups: can be either “service” (by default) or “token” |
+| backrest_port                  | `2022`     | :heavy_check_mark: | The port number pgBackRest will run on |
+| badger                         | `false`    | :heavy_check_mark: | Enables or disables pgBadger capabilities on all newly created clusters |
 | ccp_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers from Crunchy Container Suite |
-| ccp_image_pull_secret          |            | | Name of a Secret containing credentials for container image registries |
-| ccp_image_pull_secret_manifest |            | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
+| ccp_image_pull_secret          | `""`       | | Name of a Secret containing credentials for container image registries |
+| ccp_image_pull_secret_manifest | `""`       | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
 | ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers from Crunchy Container Suite |
 | create_rbac                    | `true`     | :heavy_check_mark: | Set to `true` if the installer should create the RBAC resources required to run the PostgreSQL Operator |
 | crunchy_debug                  | `false`    | | Set to configure Operator to use debugging mode. Note: this can cause sensitive data such as passwords to appear in Operator logs |
-| db_name                        |            | | Set to a value to configure the default database name on all newly created clusters. By default, the PostgreSQL Operator will set it to the name of the cluster that is being created |
+| db_name                        | `""`       | | Set to a value to configure the default database name on all newly created clusters. By default, the PostgreSQL Operator will set it to the name of the cluster that is being created |
 | db_password_age_days           | `0`        | | Set to a value in days to configure the expiration age on PostgreSQL role passwords on all newly created clusters. If set to “0”, this is the same as saying the password never expires
 | db_password_length             | `24`       | | Set to configure the size of passwords generated by the operator on all newly created roles |
 | db_port                        | `5432`     | :heavy_check_mark: | Set to configure the default port used on all newly created clusters |
@@ -53,26 +53,22 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | pgo_admin_username             | `admin`    | :heavy_check_mark: | Configures the pgo administrator username |
 | pgo_apiserver_port             | `8443`     | | Set to configure the port used by the Crunchy PostgreSQL Operator apiserver |
 | pgo_apiserver_url              | [https://postgres-operator](https://postgres-operator) | | Sets the pgo_apiserver_url for the pgo-client deployment. Note that the URL should not end in a / |
-| pgo_client_cert_secret         | `pgo.tls`  | | Sets the secret that the pgo-client will use when connecting to the PostgreSQL Operator |
-| pgo_client_container_install   | `false`    | | Run the pgo-client deployment with the PostgreSQL Operator |
-| pgo_client_install             | `false`     | | Enable to download the pgo client binary as part of the Ansible install |
-| pgo_client_version             | `4.7.1`    | :heavy_check_mark: | |
 | pgo_cluster_admin              | `false`    | :heavy_check_mark: | Determines whether or not the cluster-admin role is assigned to the PGO service account. Must be `true` to enable PGO namespace & role creation when installing in OpenShift |
 | pgo_disable_eventing           | `false`    | | Set to configure whether or not eventing should be enabled for the Crunchy PostgreSQL Operator installation |
 | pgo_disable_tls                | `false`    | | Set to configure whether or not TLS should be enabled for the Crunchy PostgreSQL Operator apiserver |
 | pgo_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
 | pgo_image_pull_policy          | `Always`   | | |
-| pgo_image_pull_secret          |            | | Name of a Secret containing credentials for container image registries |
-| pgo_image_pull_secret_manifest |            | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
+| pgo_image_pull_secret          | `""`       | | Name of a Secret containing credentials for container image registries |
+| pgo_image_pull_secret_manifest | `""`       | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
 | pgo_image_tag                  | `main`     | :heavy_check_mark: | Configures the image tag used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
 | pgo_installation_name          | `devtest`  | :heavy_check_mark: | The name of the PGO installation |
-| pgo_noauth_routes              |            | | Configures URL routes with mTLS and HTTP BasicAuth disabled |
+| pgo_noauth_routes              | `""`       | | Configures URL routes with mTLS and HTTP BasicAuth disabled |
 | pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | Set to configure the namespace where Operator will be deployed |
-| pgo_tls_ca_store               |            | | Set to add additional Certificate Authorities for Operator to trust (PEM-encoded file) |
+| pgo_tls_ca_store               | `""`       | | Set to add additional Certificate Authorities for Operator to trust (PEM-encoded file) |
 | pgo_tls_no_verify              | `false`    | | Set to configure Operator to verify TLS certificates |
 | pod_anti_affinity              | `preferred`| | |
-| pod_anti_affinity_pgbackrest   |            | | |
-| pod_anti_affinity_pgbouncer    |            | | |
+| pod_anti_affinity_pgbackrest   | `""`       | | |
+| pod_anti_affinity_pgbouncer    | `""`       | | |
 | reconcile_rbac                 | `true`     | | Determines whether or not the PostgreSQL Operator will granted the permissions needed to reconcile RBAC within targeted namespaces |
 | scheduler_timeout              | `3600`     | :heavy_check_mark: | Set to a value in seconds to configure the pgo-scheduler timeout threshold when waiting for schedules to complete |
 | service_type                   | `ClusterIP`| | Set to configure the type of Kubernetes service provisioned on all newly created clusters |
@@ -122,7 +118,7 @@ You can specify the default storage to use for PostgreSQL, pgBackRest, and other
 | primary_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL primaries on all newly created clusters |
 | replica_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL replicas on all newly created clusters |
 | pgadmin_storage  | default |                    | |
-| wal_storage      |         |          | Set to configure which storage definition to use when creating volumes used for PostgreSQL Write-Ahead Log |
+| wal_storage      | `""`    |          | Set to configure which storage definition to use when creating volumes used for PostgreSQL Write-Ahead Log |
 
 Example Defaults:
 
@@ -243,5 +239,5 @@ The `POD_ANTI_AFFINITY` label sets the Pod anti-affinity for all of the Pods tha
 | Name                         | Default     | Required | Description |
 |:-----------------------------|:------------|:--------:|:------------|
 | pod_anti_affinity            | `preferred` |          | This will set the default pod anti-affinity for the deployed PostgreSQL clusters |
-| pod_anti_affinity_pgbackrest |             |          | This will set the default pod anti-affinity for the pgBackRest pods |
-| pod_anti_affinity_pgbouncer  |             |          | This will set the default pod anti-affinity for the pgBouncer pods |
+| pod_anti_affinity_pgbackrest | `""`        |          | This will set the default pod anti-affinity for the pgBackRest pods |
+| pod_anti_affinity_pgbouncer  | `""`        |          | This will set the default pod anti-affinity for the pgBouncer pods |
