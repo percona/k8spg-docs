@@ -240,5 +240,3 @@ The `POD_ANTI_AFFINITY` label sets the Pod anti-affinity for all of the Pods tha
 | pod_anti_affinity            | `preferred` |          | This will set the default pod anti-affinity for the deployed PostgreSQL clusters |
 | pod_anti_affinity_pgbackrest |             |          | This will set the default pod anti-affinity for the pgBackRest pods |
 | pod_anti_affinity_pgbouncer  |             |          | This will set the default pod anti-affinity for the pgBouncer pods |
-| 
-
