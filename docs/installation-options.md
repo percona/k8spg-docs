@@ -12,9 +12,9 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | archive_timeout                | `60`       | :heavy_check_mark: | Set to a value in seconds to configure the timeout threshold for archiving |
 | backrest_aws_s3_bucket         | `""`       |                    | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name used for backups |
 | backrest_aws_s3_endpoint       | `""`       |                    | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
-| backrest_aws_s3_key            | `""`       | | Set to configure the key used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
+| backrest_aws_s3_key            | `""`       |                    | The key used by pgBackRest with Amazon Web Service S3 for backups |
 | backrest_aws_s3_region         | `""`       |                    | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
-| backrest_aws_s3_secret         | `""`       | | Set to configure the secret used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
+| backrest_aws_s3_secret         | `""`       |                    | The secret used by pgBackRest with Amazon Web Service S3 for backups |
 | backrest_aws_s3_uri_style      | `""`       |                    | Optional parameter that specifies if pgBackRest should use the “path” or “host” S3 URI style |
 | backrest_aws_s3_verify_tls     | `true`     |                    | Enables or disables TLS verification when making a pgBackRest connection to S3 |
 | backrest_gcs_bucket            | `""`       |                    | The [Google Cloud Storage (GCS) bucket](https://cloud.google.com/storage/docs/key-terms#buckets) name used for backups |
@@ -22,10 +22,10 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | backrest_gcs_key_type          | `""`       |                    | The key type used by pgBackRest with Google Cloud Storage (GCS) for backups: can be either “service” (by default) or “token” |
 | backrest_port                  | `2022`     | :heavy_check_mark: | The port number pgBackRest will run on |
 | badger                         | `false`    | :heavy_check_mark: | Enables or disables pgBadger capabilities on all newly created clusters |
-| ccp_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers from Crunchy Container Suite |
-| ccp_image_pull_secret          | `""`       | | Name of a Secret containing credentials for container image registries |
-| ccp_image_pull_secret_manifest | `""`       | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
-| ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers from Crunchy Container Suite |
+| ccp_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the PostgreSQL cluster |
+| ccp_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the container image registries for the PostgreSQL cluster |
+| ccp_image_pull_secret_manifest | `""`       |                    | A path to the Secret manifest to be installed in each namespace (optional) |
+| ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers for the PostgreSQL cluster |
 | create_rbac                    | `true`     | :heavy_check_mark: | Set to `true` if the installer should create the RBAC resources required to run the PostgreSQL Operator |
 | crunchy_debug                  | `false`    | | Set to configure Operator to use debugging mode. Note: this can cause sensitive data such as passwords to appear in Operator logs |
 | db_name                        | `""`       | | Set to a value to configure the default database name on all newly created clusters. By default, the PostgreSQL Operator will set it to the name of the cluster that is being created |
@@ -34,106 +34,84 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | db_port                        | `5432`     | :heavy_check_mark: | Set to configure the default port used on all newly created clusters |
 | db_replicas                    | `0`        | :heavy_check_mark: | Set to configure the amount of replicas provisioned on all newly created clusters |
 | db_user                        | `testuser` | :heavy_check_mark: | Set to configure the username of the dedicated user account on all newly created clusters |
-| default_instance_memory        | `128Mi`    | | Represents the memory request for a PostgreSQL instance |
-| default_pgbackrest_memory      | `48Mi`     | | Represents the memory request for a pgBackRest repository |
-| default_pgbouncer_memory       | `24Mi`     | | Represents the memory request for a pgBouncer instance |
-| delete_operator_namespace      | `false`    | | Set to configure whether or not the PGO operator namespace (defined using variable pgo_operator_namespace) is deleted when uninstalling the PGO |
-| delete_watched_namespaces      | `false`    | | Set to configure whether or not the PGO watched namespaces (defined using variable namespace) are deleted when uninstalling the PGO |
-| disable_auto_failover          | `false`    | | If set, will disable autofail capabilities by default in any newly created cluster |
-| disable_telemetry              | `false`    | | |
-| exporterport                   | `9187`     | :heavy_check_mark: | Set to configure the default port used to connect to postgres exporter |
-| metrics                        | `false`    | :heavy_check_mark: | Set to `true` enable performance metrics on all newly created clusters. This can be disabled by the client |
-| namespace                      | `pgo`      | | Set to a comma delimited string of all the namespaces Operator will manage |
-| namespace_mode                 | `disabled` | | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole. Options: `dynamic`, `readonly`, and `disabled` |
-| pgbadgerport                   | `10000`    | :heavy_check_mark: | Set to configure the default port used to connect to pgbadger |
+| default_instance_memory        | `128Mi`    |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
+| default_pgbackrest_memory      | `48Mi`     |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repository |
+| default_pgbouncer_memory       | `24Mi`     |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer instance |
+| delete_operator_namespace      | `false`    |                    | If `true`, the Operator namespace (one defined using the `pgo_operator_namespace` variable) will be deleted when uninstalling the Operator |
+| delete_watched_namespaces      | `false`    |                    | If `true`, the Operator watched namespaces (ones defined using the `namespace` variable) will be deleted when uninstalling the Operator |
+| disable_auto_failover          | `false`    |                    | If `true`, the autofail capabilities will be disabled by default in any newly created cluster |
+| disable_telemetry              | `false`    |                    | If `true`, [gathering telemetry by the Operator](telemetry.md) will be disabled |
+| exporterport                   | `9187`     | :heavy_check_mark: | The default port used to connect to postgres exporter |
+| metrics                        | `false`    | :heavy_check_mark: | If `true`, performance metrics will be enabled on all newly created clusters |
+| namespace                      | `pgo`      |                    | A comma delimited string of all the namespaces [the Operator should manage](cluster-wide.md#install-the-operator-cluster-wide) |
+| namespace_mode                 | `disabled` |                    | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole; can be `dynamic`, `readonly`, and `disabled` |
+| pgbadgerport                   | `10000`    | :heavy_check_mark: | The default port used to connect to pgBadger |
 | pgo_add_os_ca_store            | `false`    | :heavy_check_mark: | When `true`, includes system default certificate authorities |
 | pgo_admin_password             | examplepassword | | Configures the pgo administrator password. When blank, a random password is generated |
 | pgo_admin_perms                | `*`        | :heavy_check_mark: | Sets the access control rules provided by the PostgreSQL Operator RBAC resources for the PostgreSQL Operator administrative account that is created by this installer. Defaults to allowing all of the permissions, which is represented with the * |
-| pgo_admin_role_name            | `pgoadmin` | :heavy_check_mark: | Sets the name of the PostgreSQL Operator role that is utilized for administrative operations performed by the PostgreSQL Operator |
-| pgo_admin_username             | `admin`    | :heavy_check_mark: | Configures the pgo administrator username |
-| pgo_apiserver_port             | `8443`     | | Set to configure the port used by the Crunchy PostgreSQL Operator apiserver |
-| pgo_apiserver_url              | [https://postgres-operator](https://postgres-operator) | | Sets the pgo_apiserver_url for the pgo-client deployment. Note that the URL should not end in a / |
-| pgo_cluster_admin              | `false`    | :heavy_check_mark: | Determines whether or not the cluster-admin role is assigned to the PGO service account. Must be `true` to enable PGO namespace & role creation when installing in OpenShift |
-| pgo_disable_eventing           | `false`    | | Set to configure whether or not eventing should be enabled for the Crunchy PostgreSQL Operator installation |
-| pgo_disable_tls                | `false`    | | Set to configure whether or not TLS should be enabled for the Crunchy PostgreSQL Operator apiserver |
-| pgo_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
-| pgo_image_pull_policy          | `Always`   | | |
-| pgo_image_pull_secret          | `""`       | | Name of a Secret containing credentials for container image registries |
-| pgo_image_pull_secret_manifest | `""`       | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
-| pgo_image_tag                  | `main`     | :heavy_check_mark: | Configures the image tag used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
-| pgo_installation_name          | `devtest`  | :heavy_check_mark: | The name of the PGO installation |
-| pgo_noauth_routes              | `""`       | | Configures URL routes with mTLS and HTTP BasicAuth disabled |
-| pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | Set to configure the namespace where Operator will be deployed |
-| pgo_tls_ca_store               | `""`       | | Set to add additional Certificate Authorities for Operator to trust (PEM-encoded file) |
-| pgo_tls_no_verify              | `false`    | | Set to configure Operator to verify TLS certificates |
-| pod_anti_affinity              | `preferred`| | |
-| pod_anti_affinity_pgbackrest   | `""`       | | |
-| pod_anti_affinity_pgbouncer    | `""`       | | |
-| reconcile_rbac                 | `true`     | | Determines whether or not the PostgreSQL Operator will granted the permissions needed to reconcile RBAC within targeted namespaces |
-| scheduler_timeout              | `3600`     | :heavy_check_mark: | Set to a value in seconds to configure the pgo-scheduler timeout threshold when waiting for schedules to complete |
-| service_type                   | `ClusterIP`| | Set to configure the type of Kubernetes service provisioned on all newly created clusters |
-| sync_replication               | `false`    | | If set to `true` will automatically enable synchronous replication in new PostgreSQL clusters |
+| pgo_admin_role_name            | `pgoadmin` | :heavy_check_mark: | The name of the role used for administrative operations by the Operator |
+| pgo_admin_username             | `admin`    | :heavy_check_mark: | The name of the Operator's administrative user |
+| pgo_apiserver_port             | `8443`     |                    | The port used by the Operator API server |
+| pgo_cluster_admin              | `false`    | :heavy_check_mark: | If `true`, the cluster-admin role will be assigned to the Operator service account (should be `true` to enable the Operator namespace and role creation when installing on OpenShift) |
+| pgo_disable_eventing           | `false`    |                    | Enables or disables eventing for the Operator installation |
+| pgo_disable_tls                | `false`    |                    | If `true`, TLS will be disabled for the Operator API server |
+| pgo_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the Operator (apiserver, operator, scheduler, etc.) |
+| pgo_image_pull_policy          | `Always`   |                    | The [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating the Operator images |
+| pgo_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the Operator's container image registries |
+| pgo_image_pull_secret_manifest | `""`       |                    | Optionally provides a path to the Secret manifest to be installed in each namespace |
+| pgo_image_tag                  | `main`     | :heavy_check_mark: | Configures the image tag used when creating the Operator's containers (apiserver, operator, scheduler, etc.) |
+| pgo_installation_name          | `devtest`  | :heavy_check_mark: | The name of the Operator installation |
+| pgo_noauth_routes              | `""`       |                    | URL routes with mTLS and HTTP BasicAuth disabled |
+| pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | The namespace where the Operator will be deployed |
+| pgo_tls_ca_store               | `""`       |                    | Additional Certificate Authorities for the Operator to trust (a PEM-encoded file) |
+| pgo_tls_no_verify              | `false`    |                    | If `true`, the Operator will not verify TLS certificates |
+| pod_anti_affinity              | `preferred`|                    | The default [Pod anti-affinity](constraints.md#affinity-and-anti-affinity) for the PostgreSQL clusters, can be `preferred`, `required`, or `disabled` |
+| pod_anti_affinity_pgbackrest   | `""`       |                    | The default [Pod anti-affinity](constraints.md#affinity-and-anti-affinity) for the pgBackRest Pods, can be `preferred`, `required`, or `disabled` |
+| pod_anti_affinity_pgbouncer    | `""`       |                    | The default [Pod anti-affinity](constraints.md#affinity-and-anti-affinity) for the pgBouncer Pods, can be `preferred`, `required`, or `disabled` |
+| reconcile_rbac                 | `true`     |                    | Enables or disables granting the Operator the needed permissions to reconcile RBAC within targeted namespaces |
+| scheduler_timeout              | `3600`     | :heavy_check_mark: | The pgo-scheduler timeout threshold in seconds when waiting for schedules to complete |
+| service_type                   | `ClusterIP`|                    | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for the newly created clusters |
+| sync_replication               | `false`    |                    | Automatically enables or disables synchronous replication in new PostgreSQL clusters |
 
+!!! note
+
+    The  sets The Pod anti-affinity can be set for all of the Pods that are managed by the Operator in a PostgreSQL cluster with the `POD_ANTI_AFFINITY` label. By default, the pgBackRest and pgBouncer Pods inherit the value of `POD_ANTI_AFFINITY`; user can override this behavior by setting the `POD_ANTI_AFFINITY_PGBACKREST` and/or `POD_ANTI_AFFINITY_PGBOUNCER` variables for pgBackRest and pgBouncer respectively.
 
 ## Storage Settings 
 
-The store configuration options defined in this section can be used to specify the storage configurations that are used by the PostgreSQL Operator.
+The store configuration options defined in this section can be used to specify the storage configurations used by the Operator.
 
 ### Storage Configuration Options
 
 Kubernetes and OpenShift offer support for a wide variety of different storage types and we provide suggested configurations for different environments. These storage types can be modified or removed as needed, while additional storage configurations can also be added to meet the specific storage requirements for your PostgreSQL clusters.
-The following storage variables are utilized to add or modify operator storage configurations in the with the installer:
+The following storage variables are used to add or modify operator storage configurations at installation:
 
-| Name                           | Required | Description |
-|:-------------------------------|:--------:|:------------|
-| storage<ID>_name               | :heavy_check_mark: | Set to specify a name for the storage configuration |
-| storage<ID>_access_mode        | :heavy_check_mark: | Set to configure the access mode of the volumes created when using this storage definition |
-| storage<ID>_size               | :heavy_check_mark: | Set to configure the size of the volumes created when using this storage definition |
-| storage<ID>_class              | Required when using the dynamic storage type | Set to configure the storage class name used when creating dynamic volumes |
-| storage<ID>_supplemental_groups | Required when using NFS storage | Set to configure any supplemental groups that should be added to security contexts on newly created clusters |
-| storage<ID>_type               | :heavy_check_mark: | Set to either create or dynamic to configure the operator to create persistent volumes or have them created dynamically by a storage class |
+| Name                           | Required           | Description |
+|:-------------------------------|:------------------:|:------------|
+| storage<ID>_name               | :heavy_check_mark: | The name for the storage configuration |
+| storage<ID>_access_mode        | :heavy_check_mark: | The access mode for volumes created with this storage definition |
+| storage<ID>_size               | :heavy_check_mark: | The size of the volumes created with this storage definition |
+| storage<ID>_class              | Required when using the `dynamic` storage type | The storage class name used when creating dynamic volumes |
+| storage<ID>_supplemental_groups| Required when using NFS storage | Supplemental groups that should be added to security contexts on newly created clusters |
+| storage<ID>_type               | :heavy_check_mark: | Can be either `create` (the operator will create persistent volumes) or `dynamic` (volumes will be created dynamically by a storage class) |
 
-The ID portion of storage prefix for each variable name above should be an integer that is used to group the various storage variables into a single storage configuration.
-
-Example Storage Configuration:
-
-```yaml
-storage3_name: 'nfsstorage'
-storage3_access_mode: 'ReadWriteMany'
-storage3_size: '1G'
-storage3_type: 'create'
-storage3_supplemental_groups: 65534
-```
-
-As this example storage configuration shows, integer 3 is used as the ID for each of the storage variables, which together form a single storage configuration called nfsstorage. This approach allows different storage configurations to be created by defining the proper storage variables with a unique ID for each required storage configuration.
+The ID portion of the storage prefix should be an integer identifier used to group the storage variables into a single configuration.
 
 ### PostgreSQL Cluster Storage Defaults
 
-You can specify the default storage to use for PostgreSQL, pgBackRest, and other elements that require storage that can outlast the lifetime of a Pod. While the PostgreSQL Operator defaults to using default to work with the default storage class available in your environment.
+Default storage can be specified for PostgreSQL, pgBackRest, and other elements requiring storage that can outlast the lifetime of a Pod. While the Operator defaults to using `default` to work with the default storage class available in the user's Kubernetes-based environment.
 
-| Name             | Default | Required | Description |
-|:-----------------|:--------|:--------:|:------------|
-| backrest_storage | default | :heavy_check_mark: | Set the value of the storage configuration to use for the pgBackRest repository |
-| backup_storage   | default | :heavy_check_mark: | required, the value of the storage configuration to use for backups generated by pg_dump |
-| primary_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL primaries on all newly created clusters |
-| replica_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL replicas on all newly created clusters |
-| pgadmin_storage  | default |                    | |
-| wal_storage      | `""`    |          | Set to configure which storage definition to use when creating volumes used for PostgreSQL Write-Ahead Log |
+| Name             | Default | Required           | Description |
+|:-----------------|:--------|:------------------:|:------------|
+| backrest_storage | default | :heavy_check_mark: | The storage configuration used for the pgBackRest repository |
+| backup_storage   | default | :heavy_check_mark: | The storage configuration used for backups generated by pg_dump |
+| primary_storage  | default | :heavy_check_mark: | The storage configuration used when creating volumes for PostgreSQL primaries on all newly created clusters |
+| replica_storage  | default | :heavy_check_mark: | The storage configuration used when creating volumes for PostgreSQL replicas on all newly created clusters |
+| wal_storage      | `""`    |                    | The storage configuration used when creating volumes for PostgreSQL Write-Ahead Log |
 
-Example Defaults:
+!!! note
 
-```yaml
-backrest_storage: default
-backup_storage: default
-primary_storage: default
-replica_storage: default
-```
-
-With the configuration shown above, the default storage class available in the deployment environment is used.
-
-### Considerations for Multi-Zone Cloud Environments
-
-When using the Operator in a Kubernetes cluster consisting of nodes that span multiple zones, special consideration must be taken to ensure all pods and the volumes they require are scheduled and provisioned within the same zone. Specifically, being that a pod is unable mount a volume that is located in another zone, any volumes that are dynamically provisioned must be provisioned in a topology-aware manner according to the specific scheduling requirements for the pod. For instance, this means ensuring that the volume containing the database files for the primary database in a new PostgreSQL cluster is provisioned in the same zone as the node containing the PostgreSQL primary pod that will be using it.
+    When using the Operator in a Kubernetes cluster with Nodes that span multiple zones, it is necessary to ensure that all Pods and the Volumes they require are scheduled and provisioned within the same zone. For example, the Volume containing the database files for the primary database in a new PostgreSQL cluster should be provisioned in the same zone as the Node containing the PostgreSQL primary Pod that will be using it.
 
 ### Default Storage Configuration Types
 
@@ -226,18 +204,3 @@ When using the Operator in a Kubernetes cluster consisting of nodes that span mu
 | storage9_type        | dynamic         |
 | storage9_class       | rook-ceph-block |
 
-### Pod Anti-affinity Settings
-
-This will set the default pod anti-affinity for the deployed PostgreSQL clusters. Pod Anti-Affinity is set to determine where the PostgreSQL Pods are deployed relative to each other There are three levels:
-
-* `required`: Pods must be scheduled to different Nodes. If a Pod cannot be scheduled to a different Node from the other Pods in the anti-affinity group, then it will not be scheduled. 
-* `preferred` (default): Pods should be scheduled to different Nodes. There is a chance that two Pods in the same anti-affinity group could be scheduled to the same node 
-* `disabled`: Pods do not have any anti-affinity rules.
-
-The `POD_ANTI_AFFINITY` label sets the Pod anti-affinity for all of the Pods that are managed by the Operator in a PostgreSQL cluster. In addition to the PostgreSQL Pods, this also includes the pgBackRest repository and any pgBouncer pods. By default, the pgBackRest and pgBouncer pods inherit the value of `POD_ANTI_AFFINITY`, but one can override the default by setting the `POD_ANTI_AFFINITY_PGBACKREST` and `POD_ANTI_AFFINITY_PGBOUNCER` variables for pgBackRest and pgBouncer respectively.
-
-| Name                         | Default     | Required | Description |
-|:-----------------------------|:------------|:--------:|:------------|
-| pod_anti_affinity            | `preferred` |          | This will set the default pod anti-affinity for the deployed PostgreSQL clusters |
-| pod_anti_affinity_pgbackrest | `""`        |          | This will set the default pod anti-affinity for the pgBackRest pods |
-| pod_anti_affinity_pgbouncer  | `""`        |          | This will set the default pod anti-affinity for the pgBouncer pods |
