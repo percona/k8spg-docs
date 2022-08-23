@@ -16,16 +16,16 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | backrest_aws_s3_region         |            | | Set to configure the region used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
 | backrest_aws_s3_secret         |            | | Set to configure the secret used by pgBackRest with Amazon Web Service S3 for backups and restoration in S3 |
 | backrest_aws_s3_uri_style      |            | | Set to configure whether “host” or “path” style URIs will be used when connecting to S3 |
-| backrest_aws_s3_verify_tls     |            | | Set this value to `true` to enable TLS verification when making a pgBackRest connection to S3 |
+| backrest_aws_s3_verify_tls     | `true`     | | Set this value to `true` to enable TLS verification when making a pgBackRest connection to S3 |
 | backrest_gcs_bucket            |            | | Set to configure the bucket used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration |
 | backrest_gcs_endpoint          |            | | Set to configure the endpoint used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration |
 | backrest_gcs_key_type          |            | | Set to configure the key type used by pgBackRest with Google Cloud Storage (GCS) for backups and restoration. Can be service or token. Defaults to service |
-| backrest_port 2022             |            | :heavy_check_mark: | Defines the port where pgBackRest will run |
+| backrest_port                  | `2022`     | :heavy_check_mark: | Defines the port where pgBackRest will run |
 | badger                         | `false`    | :heavy_check_mark: | Set to `true` enable pgBadger capabilities on all newly created clusters. This can be disabled by the client |
 | ccp_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers from Crunchy Container Suite |
 | ccp_image_pull_secret          |            | | Name of a Secret containing credentials for container image registries |
 | ccp_image_pull_secret_manifest |            | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
-| ccp_image_tag                  | `centos8-13.4-4.7.3` | :heavy_check_mark: | Configures the image tag (version) used when creating containers from Crunchy Container Suite |
+| ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers from Crunchy Container Suite |
 | create_rbac                    | `true`     | :heavy_check_mark: | Set to `true` if the installer should create the RBAC resources required to run the PostgreSQL Operator |
 | crunchy_debug                  | `false`    | | Set to configure Operator to use debugging mode. Note: this can cause sensitive data such as passwords to appear in Operator logs |
 | db_name                        |            | | Set to a value to configure the default database name on all newly created clusters. By default, the PostgreSQL Operator will set it to the name of the cluster that is being created |
@@ -40,11 +40,11 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | delete_operator_namespace      | `false`    | | Set to configure whether or not the PGO operator namespace (defined using variable pgo_operator_namespace) is deleted when uninstalling the PGO |
 | delete_watched_namespaces      | `false`    | | Set to configure whether or not the PGO watched namespaces (defined using variable namespace) are deleted when uninstalling the PGO |
 | disable_auto_failover          | `false`    | | If set, will disable autofail capabilities by default in any newly created cluster |
-| disable_fsgroup                |            | | Set to `true` for deployments where you do not want to have the default PostgreSQL fsGroup (26) set. The typical usage is in OpenShift environments that have a restricted Security Context Constraints. If you use the anyuid SCC, you would want to set this to `false`. The Postgres Operator will set this value appropriately by default, except for when using the anyuid SCC |
+| disable_telemetry              | `false`    | | |
 | exporterport                   | `9187`     | :heavy_check_mark: | Set to configure the default port used to connect to postgres exporter |
 | metrics                        | `false`    | :heavy_check_mark: | Set to `true` enable performance metrics on all newly created clusters. This can be disabled by the client |
 | namespace                      | `pgo`      | | Set to a comma delimited string of all the namespaces Operator will manage |
-| namespace_mode                 | `dynamic`  | | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole. Options: dynamic, readonly, and disabled |
+| namespace_mode                 | `disabled` | | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole. Options: `dynamic`, `readonly`, and `disabled` |
 | pgbadgerport                   | `10000`    | :heavy_check_mark: | Set to configure the default port used to connect to pgbadger |
 | pgo_add_os_ca_store            | `false`    | :heavy_check_mark: | When `true`, includes system default certificate authorities |
 | pgo_admin_password             | examplepassword | | Configures the pgo administrator password. When blank, a random password is generated |
@@ -55,20 +55,24 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | pgo_apiserver_url              | [https://postgres-operator](https://postgres-operator) | | Sets the pgo_apiserver_url for the pgo-client deployment. Note that the URL should not end in a / |
 | pgo_client_cert_secret         | `pgo.tls`  | | Sets the secret that the pgo-client will use when connecting to the PostgreSQL Operator |
 | pgo_client_container_install   | `false`    | | Run the pgo-client deployment with the PostgreSQL Operator |
-| pgo_client_install             | `true`     | | Enable to download the pgo client binary as part of the Ansible install |
-| pgo_client_version             | `4.7.3`    | :heavy_check_mark: | |
+| pgo_client_install             | `false`     | | Enable to download the pgo client binary as part of the Ansible install |
+| pgo_client_version             | `4.7.1`    | :heavy_check_mark: | |
 | pgo_cluster_admin              | `false`    | :heavy_check_mark: | Determines whether or not the cluster-admin role is assigned to the PGO service account. Must be `true` to enable PGO namespace & role creation when installing in OpenShift |
 | pgo_disable_eventing           | `false`    | | Set to configure whether or not eventing should be enabled for the Crunchy PostgreSQL Operator installation |
 | pgo_disable_tls                | `false`    | | Set to configure whether or not TLS should be enabled for the Crunchy PostgreSQL Operator apiserver |
 | pgo_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | Configures the image prefix used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
+| pgo_image_pull_policy          | `Always`   | | |
 | pgo_image_pull_secret          |            | | Name of a Secret containing credentials for container image registries |
 | pgo_image_pull_secret_manifest |            | | Provide a path to the Secret manifest to be installed in each namespace. (optional) |
-| pgo_image_tag                  | `centos8-4.7.3` | :heavy_check_mark: | Configures the image tag used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
+| pgo_image_tag                  | `main`     | :heavy_check_mark: | Configures the image tag used when creating containers for the Crunchy PostgreSQL Operator (apiserver, operator, scheduler..etc) |
 | pgo_installation_name          | `devtest`  | :heavy_check_mark: | The name of the PGO installation |
 | pgo_noauth_routes              |            | | Configures URL routes with mTLS and HTTP BasicAuth disabled |
 | pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | Set to configure the namespace where Operator will be deployed |
 | pgo_tls_ca_store               |            | | Set to add additional Certificate Authorities for Operator to trust (PEM-encoded file) |
 | pgo_tls_no_verify              | `false`    | | Set to configure Operator to verify TLS certificates |
+| pod_anti_affinity              | `preferred`| | |
+| pod_anti_affinity_pgbackrest   |            | | |
+| pod_anti_affinity_pgbouncer    |            | | |
 | reconcile_rbac                 | `true`     | | Determines whether or not the PostgreSQL Operator will granted the permissions needed to reconcile RBAC within targeted namespaces |
 | scheduler_timeout              | `3600`     | :heavy_check_mark: | Set to a value in seconds to configure the pgo-scheduler timeout threshold when waiting for schedules to complete |
 | service_type                   | `ClusterIP`| | Set to configure the type of Kubernetes service provisioned on all newly created clusters |
@@ -117,6 +121,7 @@ You can specify the default storage to use for PostgreSQL, pgBackRest, and other
 | backup_storage   | default | :heavy_check_mark: | required, the value of the storage configuration to use for backups generated by pg_dump |
 | primary_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL primaries on all newly created clusters |
 | replica_storage  | default | :heavy_check_mark: | Set to configure which storage definition to use when creating volumes used by PostgreSQL replicas on all newly created clusters |
+| pgadmin_storage  | default |                    | |
 | wal_storage      |         |          | Set to configure which storage definition to use when creating volumes used for PostgreSQL Write-Ahead Log |
 
 Example Defaults:
