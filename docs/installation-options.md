@@ -22,7 +22,7 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | backrest_gcs_key_type          | `""`       |                    | The key type used by pgBackRest with Google Cloud Storage (GCS) for backups: can be either “service” (by default) or “token” |
 | backrest_port                  | `2022`     | :heavy_check_mark: | The port number pgBackRest will run on |
 | badger                         | `false`    | :heavy_check_mark: | Enables or disables pgBadger capabilities on all newly created clusters |
-| ccp_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the PostgreSQL cluster |
+| ccp_image_prefix               | `percona/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the PostgreSQL cluster |
 | ccp_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the container image registries for the PostgreSQL cluster |
 | ccp_image_pull_secret_manifest | `""`       |                    | A path to the Secret manifest to be installed in each namespace (optional) |
 | ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers for the PostgreSQL cluster |
