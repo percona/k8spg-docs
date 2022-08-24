@@ -55,7 +55,7 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | pgo_cluster_admin              | `false`    | :heavy_check_mark: | If `true`, the cluster-admin role will be assigned to the Operator service account (should be `true` to enable the Operator namespace and role creation when installing on OpenShift) |
 | pgo_disable_eventing           | `false`    |                    | Enables or disables eventing for the Operator installation |
 | pgo_disable_tls                | `false`    |                    | If `true`, TLS will be disabled for the Operator API server |
-| pgo_image_prefix               | `perconalab/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the Operator (apiserver, operator, scheduler, etc.) |
+| pgo_image_prefix               | `percona/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the Operator (apiserver, operator, scheduler, etc.) |
 | pgo_image_pull_policy          | `Always`   |                    | The [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating the Operator images |
 | pgo_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the Operator's container image registries |
 | pgo_image_pull_secret_manifest | `""`       |                    | Optionally provides a path to the Secret manifest to be installed in each namespace |
