@@ -8,20 +8,8 @@ These variables affect the general configuration of the PostgreSQL Operator.
 
 | Name                           | Default    | Required           | Description |
 |:-------------------------------|:-----------|:------------------:|:------------|
-| archive_mode                   | `true`     | :heavy_check_mark: | Set to `true` enable archive logging on all newly created clusters |
+| archive_mode                   | `true`     | :heavy_check_mark: | If `true`, enables archive logging on all newly created clusters |
 | archive_timeout                | `60`       | :heavy_check_mark: | Set to a value in seconds to configure the timeout threshold for archiving |
-| backrest_aws_s3_bucket         | `""`       |                    | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name used for backups |
-| backrest_aws_s3_endpoint       | `""`       |                    | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
-| backrest_aws_s3_key            | `""`       |                    | The key used by pgBackRest with Amazon Web Service S3 for backups |
-| backrest_aws_s3_region         | `""`       |                    | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
-| backrest_aws_s3_secret         | `""`       |                    | The secret used by pgBackRest with Amazon Web Service S3 for backups |
-| backrest_aws_s3_uri_style      | `""`       |                    | Optional parameter that specifies if pgBackRest should use the “path” or “host” S3 URI style |
-| backrest_aws_s3_verify_tls     | `true`     |                    | Enables or disables TLS verification when making a pgBackRest connection to S3 |
-| backrest_gcs_bucket            | `""`       |                    | The [Google Cloud Storage (GCS) bucket](https://cloud.google.com/storage/docs/key-terms#buckets) name used for backups |
-| backrest_gcs_endpoint          | `""`       |                    | The endpoint URL of the Google Cloud Storage (GCS) to be used for backups |
-| backrest_gcs_key_type          | `""`       |                    | The key type used by pgBackRest with Google Cloud Storage (GCS) for backups: can be either “service” (by default) or “token” |
-| backrest_port                  | `2022`     | :heavy_check_mark: | The port number pgBackRest will run on |
-| badger                         | `false`    | :heavy_check_mark: | Enables or disables pgBadger capabilities on all newly created clusters |
 | ccp_image_prefix               | `percona/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the PostgreSQL cluster |
 | ccp_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the container image registries for the PostgreSQL cluster |
 | ccp_image_pull_secret_manifest | `""`       |                    | A path to the Secret manifest to be installed in each namespace (optional) |
@@ -34,24 +22,15 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | db_port                        | `5432`     | :heavy_check_mark: | Set to configure the default port used on all newly created clusters |
 | db_replicas                    | `0`        | :heavy_check_mark: | Set to configure the amount of replicas provisioned on all newly created clusters |
 | db_user                        | `testuser` | :heavy_check_mark: | Set to configure the username of the dedicated user account on all newly created clusters |
-| default_instance_memory        | `128Mi`    |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
-| default_pgbackrest_memory      | `48Mi`     |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repository |
-| default_pgbouncer_memory       | `24Mi`     |                    | The [Kubernetes memory request](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer instance |
-| delete_operator_namespace      | `false`    |                    | If `true`, the Operator namespace (one defined using the `pgo_operator_namespace` variable) will be deleted when uninstalling the Operator |
-| delete_watched_namespaces      | `false`    |                    | If `true`, the Operator watched namespaces (ones defined using the `namespace` variable) will be deleted when uninstalling the Operator |
 | disable_auto_failover          | `false`    |                    | If `true`, the autofail capabilities will be disabled by default in any newly created cluster |
 | disable_telemetry              | `false`    |                    | If `true`, [gathering telemetry by the Operator](telemetry.md) will be disabled |
-| exporterport                   | `9187`     | :heavy_check_mark: | The default port used to connect to postgres exporter |
-| metrics                        | `false`    | :heavy_check_mark: | If `true`, performance metrics will be enabled on all newly created clusters |
 | namespace                      | `pgo`      |                    | A comma delimited string of all the namespaces [the Operator should manage](cluster-wide.md#install-the-operator-cluster-wide) |
 | namespace_mode                 | `disabled` |                    | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole; can be `dynamic`, `readonly`, and `disabled` |
-| pgbadgerport                   | `10000`    | :heavy_check_mark: | The default port used to connect to pgBadger |
 | pgo_add_os_ca_store            | `false`    | :heavy_check_mark: | When `true`, includes system default certificate authorities |
 | pgo_admin_password             | examplepassword | | Configures the pgo administrator password. When blank, a random password is generated |
 | pgo_admin_perms                | `*`        | :heavy_check_mark: | Sets the access control rules provided by the PostgreSQL Operator RBAC resources for the PostgreSQL Operator administrative account that is created by this installer. Defaults to allowing all of the permissions, which is represented with the * |
 | pgo_admin_role_name            | `pgoadmin` | :heavy_check_mark: | The name of the role used for administrative operations by the Operator |
 | pgo_admin_username             | `admin`    | :heavy_check_mark: | The name of the Operator's administrative user |
-| pgo_apiserver_port             | `8443`     |                    | The port used by the Operator API server |
 | pgo_cluster_admin              | `false`    | :heavy_check_mark: | If `true`, the cluster-admin role will be assigned to the Operator service account (should be `true` to enable the Operator namespace and role creation when installing on OpenShift) |
 | pgo_disable_eventing           | `false`    |                    | Enables or disables eventing for the Operator installation |
 | pgo_disable_tls                | `false`    |                    | If `true`, TLS will be disabled for the Operator API server |
@@ -71,15 +50,14 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | reconcile_rbac                 | `true`     |                    | Enables or disables granting the Operator the needed permissions to reconcile RBAC within targeted namespaces |
 | scheduler_timeout              | `3600`     | :heavy_check_mark: | The pgo-scheduler timeout threshold in seconds when waiting for schedules to complete |
 | service_type                   | `ClusterIP`|                    | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for the newly created clusters |
-| sync_replication               | `false`    |                    | Automatically enables or disables synchronous replication in new PostgreSQL clusters |
 
 !!! note
 
     The  sets The Pod anti-affinity can be set for all of the Pods that are managed by the Operator in a PostgreSQL cluster with the `POD_ANTI_AFFINITY` label. By default, the pgBackRest and pgBouncer Pods inherit the value of `POD_ANTI_AFFINITY`; user can override this behavior by setting the `POD_ANTI_AFFINITY_PGBACKREST` and/or `POD_ANTI_AFFINITY_PGBOUNCER` variables for pgBackRest and pgBouncer respectively.
 
-## Storage Settings 
+## Storage Settings
 
-The store configuration options defined in this section can be used to specify the storage configurations used by the Operator.
+Options defined in this section can be used to specify the storage configurations used by the Operator.
 
 ### Storage Configuration Options
 
@@ -113,8 +91,6 @@ Default storage can be specified for PostgreSQL, pgBackRest, and other elements 
 
     When using the Operator in a Kubernetes cluster with Nodes that span multiple zones, it is necessary to ensure that all Pods and the Volumes they require are scheduled and provisioned within the same zone. For example, the Volume containing the database files for the primary database in a new PostgreSQL cluster should be provisioned in the same zone as the Node containing the PostgreSQL primary Pod that will be using it.
 
-### Default Storage Configuration Types
-
 #### Default StorageClass
 
 | Name                 | Value         |
@@ -123,84 +99,4 @@ Default storage can be specified for PostgreSQL, pgBackRest, and other elements 
 | storage1_access_mode | ReadWriteOnce |
 | storage1_size        | 1G            |
 | storage1_type        | dynamic       |
-
-#### Host Path Storage
-
-| Name                 | Value           |
-|:---------------------|:----------------|
-| storage2_name        | hostpathstorage |
-| storage2_access_mode | ReadWriteMany   |
-| storage2_size        | 1G              |
-| storage2_type        | create          |
-
-#### NFS Storage
-
-| Name                         | Value         |
-|:-----------------------------|:--------------|
-| storage3_name                | nfsstorage    |
-| storage3_access_mode         | ReadWriteMany |
-| storage3_size                | 1G            |
-| storage3_type                | create        |
-| storage3_supplemental_groups | 65534         |
-
-#### NFS Storage Red
-
-| Name                         | Value          |
-|:-----------------------------|:---------------|
-| storage4_name                | nfsstoragered  |
-| storage4_access_mode         | ReadWriteMany  |
-| storage4_size                | 1G             |
-| storage4_match_labels        | crunchyzone=red|
-| storage4_type                | create         |
-| storage4_supplemental_groups | 65534          |
-
-#### StorageOS
-
-| Name                 | Value         |
-|:---------------------|:--------------|
-| storage5_name        | storageos     |
-| storage5_access_mode | ReadWriteOnce |
-| storage5_size        | 5Gi           |
-| storage5_type        | dynamic       |
-| storage5_class       | fast          |
-
-#### Primary Site
-
-| Name                 | Value         |
-|:---------------------|:--------------|
-| storage6_name        | primarysite   |
-| storage6_access_mode | ReadWriteOnce |
-| storage6_size        | 4G            |
-| storage6_type        | dynamic       |
-| storage6_class       | primarysite   |
-
-#### Alternate Site
-
-| Name                 | Value         |
-|:---------------------|:--------------|
-| storage7_name        | alternatesite |
-| storage7_access_mode | ReadWriteOnce |
-| storage7_size        | 4G            |
-| storage7_type        | dynamic       |
-| storage7_class       | alternatesite |
-
-#### GCE
-
-| Name                 | Value         |
-|:---------------------|:--------------|
-| storage8_name        | gce           |
-| storage8_access_mode | ReadWriteOnce |
-| storage8_size        | 300M          |
-| storage8_type        | dynamic       |
-| storage8_class       | standard      |
-
-#### Rook
-
-| Name                 | Value           |
-|:---------------------|:----------------|
-| storage9_name        | rook            |
-| storage9_access_mode | ReadWriteOnce   |
-| storage9_size        | 1Gi             |
-| storage9_type        | dynamic         |
-| storage9_class       | rook-ceph-block |
 
