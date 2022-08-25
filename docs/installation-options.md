@@ -13,7 +13,7 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | ccp_image_prefix               | `percona/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the PostgreSQL cluster |
 | ccp_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the container image registries for the PostgreSQL cluster |
 | ccp_image_pull_secret_manifest | `""`       |                    | A path to the Secret manifest to be installed in each namespace (optional) |
-| ccp_image_tag                  | `main-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers for the PostgreSQL cluster |
+| ccp_image_tag                  | `{{ release }}-ppg14-postgres-ha` | :heavy_check_mark: | Configures the image tag (version) used when creating containers for the PostgreSQL cluster |
 | create_rbac                    | `true`     | :heavy_check_mark: | Set to `true` if the installer should create the RBAC resources required to run the PostgreSQL Operator |
 | crunchy_debug                  | `false`    | | Set to configure Operator to use debugging mode. Note: this can cause sensitive data such as passwords to appear in Operator logs |
 | db_name                        | `""`       | | Set to a value to configure the default database name on all newly created clusters. By default, the PostgreSQL Operator will set it to the name of the cluster that is being created |
@@ -38,7 +38,7 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | pgo_image_pull_policy          | `Always`   |                    | The [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating the Operator images |
 | pgo_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the Operator's container image registries |
 | pgo_image_pull_secret_manifest | `""`       |                    | Optionally provides a path to the Secret manifest to be installed in each namespace |
-| pgo_image_tag                  | `main`     | :heavy_check_mark: | Configures the image tag used when creating the Operator's containers (apiserver, operator, scheduler, etc.) |
+| pgo_image_tag                  | `{{ release }}` | :heavy_check_mark: | Configures the image tag used when creating the Operator's containers (apiserver, operator, scheduler, etc.) |
 | pgo_installation_name          | `devtest`  | :heavy_check_mark: | The name of the Operator installation |
 | pgo_noauth_routes              | `""`       |                    | URL routes with mTLS and HTTP BasicAuth disabled |
 | pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | The namespace where the Operator will be deployed |
