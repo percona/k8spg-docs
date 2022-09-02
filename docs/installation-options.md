@@ -18,7 +18,9 @@ These variables affect the general configuration of the PostgreSQL Operator.
 | disable_telemetry              | `false`    |                    | If `true`, [gathering telemetry by the Operator](telemetry.md) will be disabled |
 | namespace                      | `pgo`      |                    | A comma delimited string of all the namespaces [the Operator should manage](cluster-wide.md#install-the-operator-cluster-wide) |
 | namespace_mode                 | `disabled` |                    | Determines which namespace permissions are assigned to the PostgreSQL Operator using a ClusterRole; can be `dynamic`, `readonly`, and `disabled` |
+| pgo_image_prefix               | `percona/percona-postgresql-operator` | :heavy_check_mark: | The image prefix used when creating containers for the Operator (apiserver, operator, scheduler, etc.) |
 | pgo_image_pull_secret          | `""`       |                    | Name of a Secret with credentials for the Operator's container image registries |
 | pgo_image_pull_secret_manifest | `""`       |                    | Optionally provides a path to the Secret manifest to be installed in each namespace |
+| pgo_image_tag                  | `{{ release }}` | :heavy_check_mark: | Configures the image tag used when creating the Operator's containers (apiserver, operator, scheduler, etc.) |
 | pgo_operator_namespace         | `pgo`      | :heavy_check_mark: | The namespace where the Operator will be deployed |
 
