@@ -54,6 +54,9 @@ markdown_extensions:
     alternate_style: true
   pymdownx.highlight:
     linenums: false
+  pymdownx.emoji:
+    emoji_index: !!python/name:materialx.emoji.twemoji
+    emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
   search: {}
@@ -130,6 +133,7 @@ nav:
           
     - Reference:
           - "Custom Resource options": operator.md
+          - "Operator installation options": installation-options.md
           - "Percona certified images": images.md
           - "Frequently Asked Questions": faq.md
           

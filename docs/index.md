@@ -72,6 +72,8 @@ environment is key.
 
 * [Custom Resource options](operator.md)
 
+* [Operator installation options](installation-options.md)
+
 * [Percona certified images](images.md)
 
 * [Frequently Asked Questions](faq.md)
