@@ -59,7 +59,7 @@ in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](
 and 20 Gi storage for a Primary PostgreSQL node:
 
 ```bash
-$ helm install my-db percona/pg-db --namespace pgdb \
+$ helm install my-db percona/pg-db --version {{ release }} --namespace pgdb \
   --set pgPrimary.volumeSpec.size=20Gi \
   --set pmm.enabled=true
 ```
