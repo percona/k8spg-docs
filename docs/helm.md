@@ -40,7 +40,7 @@ Install Helm following its [official installation instructions](https://docs.hel
 3. Install PostgreSQL:
 
     ```bash
-    $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace
+    $ helm install my-db percona/pg-db --version {{ release }}
     ```
 
     The `my-db` parameter in the above example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
