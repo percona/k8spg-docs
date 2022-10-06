@@ -1,6 +1,6 @@
-# Compare various solutions to deploy MongoDB in Kubernetes
+# Compare various solutions to deploy PostgreSQL in Kubernetes
 
-There are multiple ways to deploy and manage MongoDB in Kubernetes. Here we will focus on comparing the following open source solutions:
+There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we will focus on comparing the following open source solutions:
 
 * [Crunchy Data PostgreSQL Operator (PGO)](https://github.com/CrunchyData/postgres-operator)
 * [CloudNative PG](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
