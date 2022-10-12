@@ -20,7 +20,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 | Feature/Product  |   Percona Operator for PostgreSQL   |        Stackgres        |       CrunchyData       |   CloudNativePG (EDB)   |            Zalando            |
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
-| Operator upgrade |         :check:         |         :check:         |         :check:         |         :check:         |            :check:            |
+| Operator upgrade |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |            :white_check_mark:            |
 | Database upgrade |    Automated and safe   |          Manual         |          Manual         |          Manual         |             Manual            |
 | Compute scaling  | Horizontal and vertical | Horizontal and vertical | Horizontal and vertical | Horizontal and vertical |    Horizontal and vertical    |
 | Storage scaling  |          Manual         |          Manual         |          Manual         |          Manual         | Manual, automated for AWS EBS |
@@ -29,22 +29,22 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 | Feature/Product    | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG (EDB) | Zalando |
 |--------------------|:-------------------:|:---------:|:-----------:|:-------------------:|:-------:|
-| Warm standby       |       :check:       |  :check:  |   :check:   |       :check:       | :check: |
-| Hot standby        |       :check:       |  :check:  |   :check:   |       :check:       | :check: |
-| Connection pooling |       :check:       |  :check:  |   :check:   |       :check:       | :check: |
-| Delayed replica    |        :no:         |   :no:    |    :no:     |        :no:         |  :no:   |
-| Tablespaces        |       :check:       |   :no:    |   :check:   |        :no:         |  :no:   |
+| Warm standby       |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| Hot standby        |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| Connection pooling |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| Delayed replica    |        :no_entry_sign:         |   :no_entry_sign:    |    :no_entry_sign:     |        :no_entry_sign:         |  :no_entry_sign:   |
+| Tablespaces        |       :white_check_mark:       |   :no_entry_sign:    |   :white_check_mark:   |        :no_entry_sign:         |  :no_entry_sign:   |
 
 ## Backups
 
 | Feature/Product   | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG (EDB) | Zalando |
 |-------------------|:-------------------------------:|:---------:|:-----------:|:-------------------:|:-------:|
-| Scheduled backups |             :check:             |  :check:  |   :check:   |       :check:       | :check: |
-| WAL archiving     |             :check:             |  :check:  |   :check:   |       :check:       | :check: |
-| PITR              |             :check:             |  :check:  |   :check:   |       :check:       | :check: |
-| GCS               |             :check:             |  :check:  |   :check:   |       :check:       | :check: |
-| S3                |             :check:             |  :check:  |   :check:   |       :check:       | :check: |
-| Azure             |              :no:               |  :check:  |   :check:   |       :check:       | :check: |
+| Scheduled backups |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| WAL archiving     |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| PITR              |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| GCS               |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| S3                |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| Azure             |              :no_entry_sign:               |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 
 ## Monitoring
 
@@ -56,8 +56,8 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 | Feature/Product                    | Percona Operator for PostgreSQL |       Stackgres       |      CrunchyData      |  CloudNativePG (EDB)  |        Zalando        |
 |------------------------------------|:-------------------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
-| Customize PostgreSQL configuration |             :check:             |        :check:        |        :check:        |        :check:        |        :check:        |
-| Helm                               |             :check:             |        :check:        |        :check:        |        :check:        |        :check:        |
-| Transport encryption               |             :check:             |        :check:        |        :check:        |        :check:        |                       |
+| Customize PostgreSQL configuration |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
+| Helm                               |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
+| Transport encryption               |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |                       |
 | Data-at-rest encryption            |      Through storage class      | Through storage class | Through storage class | Through storage class | Through storage class |
-| Create users/roles                 |           :check:, limited          |        :check:        |        :check:        |        :check:        |      :check:, limited     |
+| Create users/roles                 |           :white_check_mark:, limited          |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |      :white_check_mark:, limited     |
