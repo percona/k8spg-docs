@@ -102,6 +102,7 @@ nav:
     - Requirements:
           - "System Requirements": System-Requirements.md
           - "Design and architecture": architecture.md
+          - "Comparison with other solutions": compare.md
           
     - Quickstart guides:
           - "Install on Minikube": minikube.md
