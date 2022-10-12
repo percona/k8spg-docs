@@ -58,6 +58,6 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 |------------------------------------|:-------------------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
 | Customize PostgreSQL configuration |             :heavy_check_mark:             |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |
 | Helm                               |             :heavy_check_mark:             |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |
-| Transport encryption               |             :heavy_check_mark:             |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |                       |
+| Transport encryption               |             :heavy_check_mark:             |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |
 | Data-at-rest encryption            |      Through storage class      | Through storage class | Through storage class | Through storage class | Through storage class |
 | Create users/roles                 |           limited          |        :heavy_check_mark:        |        :heavy_check_mark:        |        :heavy_check_mark:        |       limited     |
