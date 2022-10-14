@@ -104,8 +104,9 @@ the following three components:
 
     Run new Pod to use it as a client and connect its console output to your
     terminal (running it may require some time to deploy). When you see the
-    command line prompt of the newly created Pod, run run `psql` tool using the
-    password obtained from the secret:
+    command line prompt of the newly created Pod, run `psql` tool using the
+    password obtained from the secret. The following command will do this,
+    naming the new Pod `pg-client`:
 
     ```bash
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
