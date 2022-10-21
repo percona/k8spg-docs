@@ -26,7 +26,7 @@ following additional step is needed for the 1.0.0 → 1.1.0 upgrade.
 
     ```bash
     $ export CLUSTER=<cluster-name>
-    $ for user in postgres primaryuser $(kubectl get perconapgcluster/${CLUSTER} -o yaml | yq r - 'spec.user'); do args+="--from-literal=$user=$(kubectl get secret/${CLUSTER}-${user}-o yaml | yq r - 'data.password' | base64 -d) "; done; eval kubectl create secret generic ${CLUSTER}-users "${args}"
+    $ for user in postgres primaryuser $(kubectl get perconapgcluster/${CLUSTER} -o yaml | yq r - 'spec.user'); do args+="--from-literal=$user=$(kubectl get secret/${CLUSTER}-${user}-o yaml | yq r - 'data.password' | base64 --decode) "; done; eval kubectl create secret generic ${CLUSTER}-users "${args}"
     ```
 
     This command creates users’ secrets with existing passwords. Otherwise, new

@@ -85,9 +85,22 @@ or set to `false` to disable it,
 * `type` should be set to `s3`.
 
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
-secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-(e.g. encoding needed data with the `echo "string-to-encode" | base64`
-command). Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
+secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
+e.g. encoding needed data with the following command:
+
+=== "in Linux"
+
+    ```bash
+    $ echo -n 'plain-text-string' | base64 --wrap=0
+    ```
+
+=== "in macOS"
+
+    ```bash
+    $ echo -n 'plain-text-string' | base64
+    ```
+
+Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
 configuration file: set there proper cluster name, AWS S3 key, and key secret:
 
 ```yaml
@@ -321,7 +334,7 @@ the following content:
     ```yaml
     apiVersion: v1
     data:
-      password: <base64-encoded-password-for-pguser->
+      password: <base64-encoded-password-for-pguser>
       username: <base64-encoded-pguser-user-name>
     kind: Secret
     metadata:
