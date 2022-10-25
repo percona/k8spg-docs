@@ -21,7 +21,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Feature/Product  |   Percona Operator for PostgreSQL   |        Stackgres        |       CrunchyData       |   CloudNativePG (EDB)   |            Zalando            |
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
 | Operator upgrade |         :heavy_check_mark:         |         :heavy_check_mark:         |         :heavy_check_mark:         |         :heavy_check_mark:         |            :heavy_check_mark:            |
-| Database upgrade |    Automated and safe   |          Manual         |          Manual         |          Manual         |             Manual            |
+| Database upgrade |    Automated and safe   |          Automated and safe         |          Manual         |          Manual         |             Manual            |
 | Compute scaling  | Horizontal and vertical | Horizontal and vertical | Horizontal and vertical | Horizontal and vertical |    Horizontal and vertical    |
 | Storage scaling  |          Manual         |          Manual         |          Manual         |          Manual         | Manual, automated for AWS EBS |
 
