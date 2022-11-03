@@ -50,14 +50,23 @@ Kubernetes-based environment:
         plain text format. But the resulting Secrets contain passwords stored
         as base64-encoded strings. If you want to *update* password field,
         you’ll need to encode the value into base64 format. To do this, you can
-        run `echo -n "password" | base64` in your local shell to get valid
-        values. For example, setting the PMM Server user’s password to
-        `new_password` in the `cluster1-pmm-secret` object can be done
-        with the following command:
+        run `echo -n "password" | base64 --wrap=0` (or just
+        `echo -n "password" | base64` in case of Apple macOS) in your local
+        shell to get valid values. For example, setting the PMM Server user’s
+        password to `new_password` in the `cluster1-pmm-secret` object can be
+        done with the following command:
 
-        ```bash
-        kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
-        ```
+        === "in Linux"
+
+            ```bash
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64 --wrap=0)'}}'
+            ```
+
+        === "in macOS"
+
+            ```bash
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
+            ```
 
     When done, apply the edited `deploy/cr.yaml` file:
 
