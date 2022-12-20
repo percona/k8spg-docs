@@ -35,7 +35,7 @@ use the *standby cluster* name.
     files from `cluster1` under `/tmp/copied-secrets` directory and prepare
     them to be used in `cluster2`:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ mkdir -p /tmp/copied-secrets/
     $ export primary_cluster_name=cluster1
     $ export standby_cluster_name=cluster2
@@ -55,13 +55,13 @@ use the *standby cluster* name.
 * Create the Operator in the Kubernetes environment for the *standby cluster*,
     if not done:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml
     ```
 
 * Apply the Adjusted Kubernetes Secrets:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ export standby_cluster_name=cluster2
     $ kubectl create -f /tmp/copied-secrets/${standby_cluster_name}-users
     ```

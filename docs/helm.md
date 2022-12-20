@@ -16,14 +16,14 @@ Install Helm following its [official installation instructions](https://docs.hel
 1. Add the Percona’s Helm charts repository and make your Helm client up to
     date with it:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ helm repo add percona https://percona.github.io/percona-helm-charts/
     $ helm repo update
     ```
 
 2. Install the Percona Operator for PostgreSQL:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ helm install my-operator percona/pg-operator --version {{ release }}
     ```
 
@@ -39,7 +39,7 @@ Install Helm following its [official installation instructions](https://docs.hel
 
 3. Install PostgreSQL:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace
     ```
 
@@ -58,7 +58,7 @@ The following example will deploy a Percona Distribution for PostgreSQL Cluster
 in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html)
 and 20 Gi storage for a Primary PostgreSQL node:
 
-```bash
+``` {.bash data-prompt="$" }
 $ helm install my-db percona/pg-db --version {{ release }} --namespace pgdb \
   --set pgPrimary.volumeSpec.size=20Gi \
   --set pmm.enabled=true

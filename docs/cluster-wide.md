@@ -54,13 +54,13 @@ Let’s say you have a Namespace in your Kubernetes cluster called `percona-db-1
 
 2. Deploy the Operator:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml -n percona-db-1
     ```
 
 3. Once Operator is up and running, deploy the database cluster itself:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
     ```
 
@@ -96,14 +96,14 @@ What if there is a need to deploy clusters in another namespace? The solution fo
 
 2. Deploy the Operator:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml -n percona-db-2
     ```
 
 
 3. Once Operator is up and running deploy the database cluster itself:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-2
     ```
 
@@ -169,14 +169,14 @@ Kubernetes. It does the following:
 
 2. Deploy the Operator:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml -n percona-operator
     ```
 
 
 3. You can now deploy databases into the namespaces listed in the `namespace:` variable.
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
     $ kubectl apply -f deploy/cr.yaml -n percona-db-2
     ```
@@ -202,7 +202,7 @@ Let’s say we want the Operator to manage databases in one more Namespace: `per
 
 2. Delete the Operator deployment and deploy job:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl -n percona-operator delete -f deploy/operator.yaml
     $ kubectl -n percona-operator delete deploy postgres-operator
     ```
@@ -215,13 +215,13 @@ Let’s say we want the Operator to manage databases in one more Namespace: `per
 
 3. Deploy the Operator again with the new Namespace added:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml -n percona-operator
     ```
 
 
 4. You can now deploy databases into the new Namespace:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-3
     ```

@@ -28,7 +28,7 @@ the following three components:
 2. The first thing to do is to add the `pgo` namespace to Kubernetes,
     not forgetting to set the correspondent context for further steps:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl create namespace pgo
     $ kubectl config set-context $(kubectl config current-context) --namespace=pgo
     ```
@@ -46,13 +46,13 @@ the following three components:
 
 3. Deploy the operator with the following command:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml
     ```
 
 4. Deploy Percona Distribution for PostgreSQL:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr-minimal.yaml
     ```
 
@@ -63,16 +63,21 @@ the following three components:
     Creation process will take some time. The process is over when both
     operator and replica set pod have reached their Running status:
 
-    ```text
+    ``` {.bash data-prompt="$" }
     $ kubectl get pods
-    NAME                                                    READY   STATUS      RESTARTS   AGE
-    backrest-backup-minimal-cluster-dcvkw                   0/1     Completed   0          68s
-    minimal-cluster-6dfd645d94-42xsr                        1/1     Running     0          2m5s
-    minimal-cluster-backrest-shared-repo-77bd498dfd-9msvp   1/1     Running     0          2m23s
-    minimal-cluster-pgbouncer-594bf56d-kjwrp                1/1     Running     0          84s
-    pgo-deploy-lnbv7                                        0/1     Completed   0          4m14s
-    postgres-operator-6c4c558c5-dkk8v                       4/4     Running     0          3m37s
     ```
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        
+        NAME                                                    READY   STATUS      RESTARTS   AGE
+        backrest-backup-minimal-cluster-dcvkw                   0/1     Completed   0          68s
+        minimal-cluster-6dfd645d94-42xsr                        1/1     Running     0          2m5s
+        minimal-cluster-backrest-shared-repo-77bd498dfd-9msvp   1/1     Running     0          2m23s
+        minimal-cluster-pgbouncer-594bf56d-kjwrp                1/1     Running     0          84s
+        pgo-deploy-lnbv7                                        0/1     Completed   0          4m14s
+        postgres-operator-6c4c558c5-dkk8v                       4/4     Running     0          3m37s
+        ```
 
     You can also track the progress via the Kubernetes dashboard:
 
@@ -108,15 +113,15 @@ the following three components:
     password obtained from the secret. The following command will do this,
     naming the new Pod `pg-client`:
 
-    ```bash
+    ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U pguser pgdb
     ```
 
     This command will connect you to the  PostgreSQL interactive terminal.
 
-    ```text
-    psql ({{ postgresrecommended }})
+    ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
+    $ psql ({{ postgresrecommended }})
     Type "help" for help.
     pgdb=>
     ```
