@@ -71,13 +71,13 @@ command:
 
 === "in Linux"
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch secret/cluster1-users -p '{"data":{"pguser": "'$(echo -n new_password | base64 --wrap=0)'"}}'
     ```
 
 === "in macOS"
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch secret/cluster1-users -p '{"data":{"pguser": "'$(echo -n new_password | base64)'"}}'
     ```
 
