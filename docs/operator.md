@@ -13,16 +13,115 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 
 | Key            | Value type                                 | Default | Description |
 | -------------- | ------------------------------------------ | ------- | ----------- |
-| pause          | boolean                                    | `false` | Pause/resume: setting it to `true` gracefully stops the cluster, and setting it to `false` after shut down starts the cluster back. |
-| upgradeOptions | [subdoc](#upgrade-options-section)         |         | Percona Distribution for PostgreSQL upgrade options section |
 | pgPrimary      | [subdoc](#pgprimary-section)               |         | PostgreSQL Primary instance options section |
 | walStorage     | [subdoc](#tablespaces-storage-section)     |         | Tablespaces Storage Section |
-| walStorage     | [subdoc](#write-ahead-log-storage-section) |         | Write-ahead Log Storage Section |
 | backup         | [subdoc](#backup-section)                  |         | Section to configure backups and pgBackRest |
 | pmm            | [subdoc](#pmm-section)                     |         | Percona Monitoring and Management section |
-| pgBouncer      | [subdoc](#pgbouncer-section)               |         | The [pgBouncer](http://pgbouncer.github.io/) connection pooler section |
+| proxy      | [subdoc](#pgbouncer-section)               |         | The [pgBouncer](http://pgbouncer.github.io/) connection pooler section |
 | pgReplicas     | [subdoc](#pgreplicas-section)              |         | Section required to manage the replicas within a PostgreSQL cluster |
 | pgBadger       | [subdoc](#pgbadger-section)                |         | The [pgBadger](https://github.com/darold/pgbadger) PostgreSQL log analyzer section |
+
+  secrets:
+    customTLSSecretName:
+    customReplicationTLSSecret:
+
+  standby:
+    enabled: true
+    host: "<primary-ip>"
+    port: "<primary-port>"
+
+  openshift: true
+
+  users:
+    - name: rhino
+      databases:
+        - zoo
+      options: "SUPERUSER"
+
+  databaseInitSQL:
+    key: init.sql
+    name: cluster1-init-sql
+
+  shutdown: true
+#  paused: true
+
+  dataSource:
+    postgresCluster:
+      clusterName: cluster1
+      repoName: repo1
+      options:
+      - --type=time
+      - --target="2021-06-09 14:15:11-04"
+    pgbackrest:
+      stanza: db
+      configuration:
+      - secret:
+          name: pgo-s3-creds
+      global:
+        repo1-path: /pgbackrest/postgres-operator/hippo/repo1
+      repo:
+        name: repo1
+        s3:
+          bucket: "my-bucket"
+          endpoint: "s3.ca-central-1.amazonaws.com"
+          region: "ca-central-1"
+
+  image: perconalab/percona-postgresql-operator:main-ppg14-postgres
+  imagePullPolicy: Always
+  postgresVersion: 14
+  port: 5432
+
+  expose:
+    annotations:
+      my-annotation: value1
+    labels:
+      my-label: value2
+    type: LoadBalancer
+
+  instances:
+  - name: instance1
+    replicas: 1
+    resources:
+      limits:
+        cpu: 2.0
+        memory: 4Gi
+
+    sidecars:
+    - name: testcontainer
+      image: mycontainer1:latest
+    - name: testcontainer2
+      image: mycontainer1:latest
+
+    topologySpreadConstraints:
+      - maxSkew: 1
+        topologyKey: my-node-label
+        whenUnsatisfiable: DoNotSchedule
+        labelSelector:
+          matchLabels:
+            postgres-operator.crunchydata.com/instance-set: instance1
+
+    tolerations:
+    - effect: NoSchedule
+      key: role
+      operator: Equal
+      value: connection-poolers
+
+    priorityClassName: high-priority
+
+#    walVolumeClaimSpec:
+#       accessModes:
+#       - "ReadWriteOnce"
+#       resources:
+#         requests:
+#           storage: 1Gi
+#
+    dataVolumeClaimSpec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 1Gi
+
 
 |                 | |
 |-----------------|-|
@@ -76,26 +175,22 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `""` |
 | **Description** | Custom pgBackRest options to [restore backup to a new cluster](backups.md#backups-restore) |
 
-## Upgrade Options Section
-
-The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains various configuration options to control Percona Distribution for PostgreSQL upgrades.
 
 |                 | |
-|-----------------|-|
-| **Key**         | {{ optionlink('upgradeOptions.versionServiceEndpoint') }} |
+| **Key**         | {{ optionlink('paused') }} |
 | **Value**       | string |
-| **Example**     | `https://check.percona.com` |
-| **Description** | The Version Service URL used to check versions compatibility for upgrade |
+| **Example**     | `false` |
+| **Description** | Pause/resume: setting it to `true` gracefully stops the cluster, and setting it to `false` after shut down starts the cluster back |
 |                 | |
-| **Key**         | {{ optionlink('upgradeOptions.apply') }} |
+| **Key**         | {{ optionlink('walVolumeClaimSpec.accessModes') }} |
 | **Value**       | string |
-| **Example**     | `disabled` |
-| **Description** | Specifies how [updates are processed](update.md#operator-update-smartupdates) by the Operator. `Never` or `Disabled` will completely disable automatic upgrades, otherwise it can be set to `Latest` or `Recommended` or to a specific version number of Percona Distribution for PostgreSQL to have it version-locked (so that the user can control the version running, but use automatic upgrades to move between them).|
+| **Example**     | `ReadWriteOnce` |
+| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
 |                 | |
-| **Key**         | {{ optionlink('upgradeOptions.schedule') }} |
+| **Key**         | {{ optionlink('walVolumeClaimSpec.resources.requests.storage') }} |
 | **Value**       | string |
-| **Example**     | `0 2 \* \* \*` |
-| **Description** | Scheduled time to check for updates, specified in the [crontab format](https://en.wikipedia.org/wiki/Cron) |
+| **Example**     | `1Gi` |
+| **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the PostgreSQL Write-ahead Log storage |
 
 ## pgPrimary Section
 
@@ -241,16 +336,8 @@ file contains configuration options for PostgreSQL [write-ahead logging](https:/
 | **Value**       | int |
 | **Example**     | `1G` |
 | **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) size for the PostgreSQL Write-ahead Log storage |
-|                 | |
-| **Key**         | {{ optionlink('walStorage.volumeSpec.accessmode') }} |
-| **Value**       | string |
-| **Example**     | `ReadWriteOnce` |
-| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
-|                 | |
-| **Key**         | {{ optionlink('walStorage.volumeSpec.storagetype') }} |
-| **Value**       | string |
-| **Example**     | `dynamic` |
-| **Description** | Type of the PostgreSQL Write-ahead Log storage provisioning: `create` (the default variant; used if storage is provisioned, e.g. using hostpath) or `dynamic` (for a dynamic storage provisioner, e.g. via a StorageClass) |
+
+
 |                 | |
 | **Key**         | {{ optionlink('walStorage.volumeSpec.storageclass') }} |
 | **Value**       | string |
@@ -425,56 +512,36 @@ file contains configuration options for Percona Monitoring and Management.
 | **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
 | **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
 |                 | |
-| **Key**         | {{ optionlink('pmm.serverHost') }} |
+| **Key**         | {{ optionlink('pmm.imagePullPolicy') }} |
 | **Value**       | string |
-| **Example**     | `monitoring-service` |
-| **Description** | Address of the PMM Server to collect data from the cluster |
-|                 | |
-| **Key**         | {{ optionlink('pmm.serverUser') }} |
-| **Value**       | string |
-| **Example**     | `admin` |
-| **Description** | The [PMM Server User](https://www.percona.com/doc/percona-monitoring-and-management/glossary.option.html). The PMM Server password should be configured using Secrets |
+| **Example**     | `IfNotPresent` |
+| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
 |                 | |
 | **Key**         | {{ optionlink('pmm.pmmSecret') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-pmm-secret` |
 | **Description** | Name of the [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password |
 |                 | |
-| **Key**         | {{ optionlink('pmm.resources.requests.memory') }} |
+| **Key**         | {{ optionlink('pmm.serverHost') }} |
 | **Value**       | string |
-| **Example**     | `200M` |
-| **Description** | The [Kubernetes memory requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.requests.cpu') }} |
-| **Value**       | string |
-| **Example**     | `500m` |
-| **Description** | [Kubernetes CPU requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.limits.cpu') }} |
-| **Value**       | string |
-| **Example**     | `500m` |
-| **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.limits.memory') }} |
-| **Value**       | string |
-| **Example**     | `200M` |
-| **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.imagePullPolicy') }} |
-| **Value**       | string |
-| **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
+| **Example**     | `monitoring-service` |
+| **Description** | Address of the PMM Server to collect data from the cluster |
 
-## pgBouncer Section
+## proxy Section
 
-The `pgBouncer` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `proxy` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
 
 |                 | |
 |-----------------|-|
-| **Key**         | {{ optionlink('pgBouncer.image') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.replicas') }} |
+| **Value**       | int |
+| **Example**     | `3` |
+| **Description** | The number of the pgBouncer Pods to provide connection pooling |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg13-pgbouncer` |
+| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
 | **Key**         | {{ optionlink('pgBouncer.exposePostgresUser') }} |
@@ -482,45 +549,20 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `false` |
 | **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#application-users) |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.size') }} |
-| **Value**       | int |
-| **Example**     | `1G` |
-| **Description** | The number of the pgBouncer Pods to provide connection pooling |
-|                 | |
-| **Key**         | {{ optionlink('pgBouncer.resources.requests.cpu') }} |
-| **Value**       | int |
-| **Example**     | `1` |
-| **Description** | [Kubernetes CPU requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
-|                 | |
-| **Key**         | {{ optionlink('pgBouncer.resources.requests.memory') }} |
-| **Value**       | int |
-| **Example**     | `128Mi` |
-| **Description** | The [Kubernetes memory requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
-|                 | |
 | **Key**         | {{ optionlink('pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |
-| **Example**     | `2` |
+| **Example**     | `200m` |
 | **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
 | **Key**         | {{ optionlink('pgBouncer.resources.limits.memory') }} |
 | **Value**       | int |
-| **Example**     | `512Mi` |
+| **Example**     | `128Mi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
-|                 | |
-| **Key**         | {{ optionlink('pgBouncer.affinity.antiAffinityType') }} |
-| **Value**       | string |
-| **Example**     | `preferred` |
-| **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
-| **Key**         | {{ optionlink('pgBouncer.expose.serviceType') }} |
+| **Key**         | {{ optionlink('pgBouncer.expose.type') }} |
 | **Value**       | string |
 | **Example**     | `ClusterIP` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgBouncer |
-|                 | |
-| **Key**         | {{ optionlink('pgBouncer.expose.loadBalancerSourceRanges') }} |
-| **Value**       | string |
-| **Example**     | `"10.0.0.0/8"` |
-| **Description** | The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations) |
 |                 | |
 | **Key**         | {{ optionlink('pgBouncer.expose.annotations') }} |
 | **Value**       | label |
@@ -532,10 +574,10 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `pg-cluster-label: cluster1` |
 | **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgBouncer Service |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.imagePullPolicy') }} |
+| **Key**         | {{ optionlink('pgBouncer.affinity.antiAffinityType') }} |
 | **Value**       | string |
-| **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating pgBouncer images |
+| **Example**     | `preferred` |
+| **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
 
 ## pgReplicas Section
 
