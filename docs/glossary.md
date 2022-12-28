@@ -1,1 +1,0 @@
-# The Operator options glossary

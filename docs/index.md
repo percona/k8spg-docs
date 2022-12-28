@@ -22,21 +22,15 @@ environment is key.
 
 * [Design and architecture](architecture.md)
 
-* [Comparison with other solutions](compare.md)
-
 # Quickstart guides
-
-* [Install on Minikube](minikube.md)
 
 * [Install on Google Kubernetes Engine (GKE)](gke.md)
 
 * [Install with Helm](helm.md)
 
-# Installation guides
+# Detailed installation guides
 
 * [Generic Kubernetes installation](kubernetes.md)
-
-* [Install on OpenShift](openshift.md)
 
 # Configuration
 
@@ -54,10 +48,6 @@ environment is key.
 
 * [Backup and restore](backups.md)
 
-* [Upgrade Percona Distribution for PostgreSQL and the Operator](update.md)
-
-* [Horizontal and vertical scaling](scaling.md)
-
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
 * [Restart or pause the cluster](pause.md)
@@ -68,13 +58,9 @@ environment is key.
 
 * [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
 
-* [Using PostgreSQL tablespaces with Percona Operator for PostgreSQL](tablespace.md)
-
 # Reference
 
 * [Custom Resource options](operator.md)
-
-* [Operator installation options](installation-options.md)
 
 * [Percona certified images](images.md)
 

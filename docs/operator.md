@@ -10,6 +10,8 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters](https
 
 The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
 
+
+
 |                 | |
 |-----------------|-|
 | **Key**         | {{ optionlink('standby.enabled') }} |
@@ -253,6 +255,95 @@ The `backup` section in the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains the following configuration options for the regular
 Percona Distribution for PostgreSQL backups.
+
+ backups:
+    pgbackrest:
+      metadata:
+        labels:
+      image: perconalab/percona-postgresql-operator:main-ppg14-pgbackrest
+      configuration:
+        - secret:
+            name: cluster1-pgbackrest-secrets
+      jobs:
+        priorityClassName: high-priority
+        resources:
+          limits:
+            cpu: 200m
+            memory: 128Mi
+        tolerations:
+        - effect: NoSchedule
+          key: role
+          operator: Equal
+          value: connection-poolers
+
+      global:
+        repo1-retention-full: "14"
+        repo1-retention-full-type: time
+        repo1-path: /pgbackrest/postgres-operator/cluster1/repo1
+        repo1-cipher-type: aes-256-cbc
+        repo1-s3-uri-style: path
+        repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2
+        repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3
+        repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4
+      repoHost:
+        priorityClassName: high-priority
+
+        topologySpreadConstraints:
+        - maxSkew: 1
+          topologyKey: my-node-label
+          whenUnsatisfiable: ScheduleAnyway
+          labelSelector:
+            matchLabels:
+              postgres-operator.crunchydata.com/pgbackrest: ""
+        affinity:
+          podAntiAffinity:
+            preferredDuringSchedulingIgnoredDuringExecution:
+             - weight: 1
+             podAffinityTerm:
+               labelSelector:
+               matchLabels:
+                 postgres-operator.crunchydata.com/cluster: keycloakdb
+                 postgres-operator.crunchydata.com/role: pgbouncer
+               topologyKey: kubernetes.io/hostname
+
+      manual:
+        repoName: repo1
+        options:
+         - --type=full
+      repos:
+      - name: repo1
+        schedules:
+          full: "0 0 * * 6"
+          differential: "0 1 * * 1-6"
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+      - name: repo2
+        s3:
+          bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+          endpoint: "<YOUR_AWS_S3_ENDPOINT>"
+          region: "<YOUR_AWS_S3_REGION>"
+      - name: repo3
+        gcs:
+          bucket: "<YOUR_GCS_BUCKET_NAME>"
+      - name: repo4
+        azure:
+          container: "<YOUR_AZURE_CONTAINER>"
+
+    restore:
+      enabled: true
+      repoName: repo1
+      options:
+       PITR restore in place
+       - --type=time
+       - --target="2021-06-09 14:15:11-04"
+       restore iindividual databases
+       - --db-include=hippo
+
 
 |                 | |
 |-----------------|-|
