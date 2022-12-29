@@ -377,12 +377,12 @@ Percona Distribution for PostgreSQL backups.
 | **Value**       | string |
 | **Example**     | `"my-bucket"` |
 | **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) 
-name used for scheduled backups |
+name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.endpointURL') }} |
 | **Value**       | string |
 | **Example**     | `"s3.ca-central-1.amazonaws.com"` |
-| **Description** | The endpoint URL of the S3-compatible storage to be used for scheduled backups (not needed for the original Amazon S3 cloud) |
+| **Description** | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.region') }} |
 | **Value**       | boolean |
@@ -393,7 +393,7 @@ name used for scheduled backups |
 | **Value**       | string |
 | **Example**     | `"my-bucket"` |
 | **Description** | The [Google Cloud Storage bucket](https://cloud.google.com/storage/docs/key-terms#buckets)
-name used for scheduled backups |
+name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.azure.container') }} |
 | **Value**       | string |
