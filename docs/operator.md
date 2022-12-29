@@ -432,64 +432,6 @@ file contains configuration options for Percona Monitoring and Management.
 | **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
 | **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
 |                 | |
-| **Key**         | {{ optionlink('pmm.serverHost') }} |
-| **Value**       | string |
-| **Example**     | `monitoring-service` |
-| **Description** | Address of the PMM Server to collect data from the cluster |
-|                 | |
-| **Key**         | {{ optionlink('pmm.serverUser') }} |
-| **Value**       | string |
-| **Example**     | `admin` |
-| **Description** | The [PMM Server User](https://www.percona.com/doc/percona-monitoring-and-management/glossary.option.html). The PMM Server password should be configured using Secrets |
-|                 | |
-| **Key**         | {{ optionlink('pmm.pmmSecret') }} |
-| **Value**       | string |
-| **Example**     | `cluster1-pmm-secret` |
-| **Description** | Name of the [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.requests.memory') }} |
-| **Value**       | string |
-| **Example**     | `200M` |
-| **Description** | The [Kubernetes memory requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.requests.cpu') }} |
-| **Value**       | string |
-| **Example**     | `500m` |
-| **Description** | [Kubernetes CPU requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.limits.cpu') }} |
-| **Value**       | string |
-| **Example**     | `500m` |
-| **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.resources.limits.memory') }} |
-| **Value**       | string |
-| **Example**     | `200M` |
-| **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM container |
-|                 | |
-| **Key**         | {{ optionlink('pmm.imagePullPolicy') }} |
-| **Value**       | string |
-| **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
-
-
-## PMM Section
-
-The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file contains configuration options for Percona Monitoring and Management.
-
-|                 | |
-|-----------------|-|
-| **Key**         | {{ optionlink('pmm.enabled') }} |
-| **Value**       | boolean |
-| **Example**     | `false` |
-| **Description** | Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html) |
-|                 | |
-| **Key**         | {{ optionlink('pmm.image') }} |
-| **Value**       | string |
-| **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
-| **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
-|                 | |
 | **Key**         | {{ optionlink('pmm.imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `IfNotPresent` |
