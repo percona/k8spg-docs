@@ -1,15 +1,8 @@
----
-title: Percona PostgreSQL Operator Custom Resource Options
-draft: false
-weight: 1
-description: Custom Resource Options
----
+# Percona PostgreSQL Operator Custom Resource Options
 
 API Versions:
 
 - [pg.percona.com/v2beta1](#pgperconacomv2beta1)
-
-<h1 id="pgperconacomv2beta1">pg.percona.com/v2beta1</h1>
 
 Kinds:
 
@@ -22,7 +15,7 @@ Kinds:
 
 
 
-<h2 id="perconapgcluster">PerconaPGCluster</h2>
+## PerconaPGCluster
 
 |                 | |
 |-----------------|-|
