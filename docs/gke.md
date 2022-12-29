@@ -149,10 +149,11 @@ can be created at any time with the following commands:
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U cluster1 pgdb
+    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U cluster1 cluster1
     ```
 
-    This command will connect you to the PostgreSQL interactive terminal.
+    This command will connect you as a `cluster1` user to a `cluster1` database
+    via the PostgreSQL interactive terminal.
 
     ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
     $ psql ({{ postgresrecommended }})
