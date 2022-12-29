@@ -5,13 +5,13 @@ weight: 1
 description: Custom Resource Options
 ---
 
-Packages:
+API Versions:
 
 - [pg.percona.com/v2beta1](#pgperconacomv2beta1)
 
 <h1 id="pgperconacomv2beta1">pg.percona.com/v2beta1</h1>
 
-Resource Types:
+Kinds:
 
 - [PerconaPGCluster](#perconapgcluster)
 
