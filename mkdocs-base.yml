@@ -92,7 +92,7 @@ extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 2.0.0
-  pmm2recommended: 2.29.0
+  pmm2recommended: 2.32.0
   postgresrecommended: 14.4
   version:
     provider: mike
