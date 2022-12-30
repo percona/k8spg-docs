@@ -130,4 +130,4 @@ nav:
           - "Percona certified images": images.md
           
     - Release Notes:
-          - "Percona Operator for PostgreSQL 2.0.0 (2022-12-29)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
+          - "Percona Operator for PostgreSQL 2.0.0 (2022-12-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
