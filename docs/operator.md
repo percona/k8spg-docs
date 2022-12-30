@@ -464,37 +464,36 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.exposePostgresUser') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.exposePostgresUser') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
 | **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#application-users) |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.resources.limits.cpu') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |
 | **Example**     | `200m` |
 | **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.resources.limits.memory') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.memory') }} |
 | **Value**       | int |
 | **Example**     | `128Mi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.expose.type') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.expose.type') }} |
 | **Value**       | string |
 | **Example**     | `ClusterIP` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgBouncer |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.expose.annotations') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.expose.annotations') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-annot: cluster1` |
 | **Description** | The [Kubernetes annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for pgBouncer |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.expose.labels') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.expose.labels') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
 | **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgBouncer Service |
 |                 | |
-| **Key**         | {{ optionlink('pgBouncer.affinity.antiAffinityType') }} |
 | **Value**       | string |
 | **Example**     | `preferred` |
 | **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
