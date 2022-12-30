@@ -1,4 +1,4 @@
-# Percona Operator for PostgreSQL 2.0.0
+# Percona Operator for PostgreSQL 2.0.0 (Tech preview)
 
 * **Date**
 
