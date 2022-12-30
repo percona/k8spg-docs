@@ -1,15 +1,12 @@
-# *Percona Distribution for PostgreSQL Operator* 0.1.0
-
+# Percona Operator for PostgreSQL 2.0.0
 
 * **Date**
 
-    May 10, 2021
-
-
+    December 30, 2022
 
 * **Installation**
 
-    [Installing Percona Distribution for PostgreSQL Operator](https://www.percona.com/doc/kubernetes-operator-for-postgresql/index.html#installation-guide)
+    [Installing Percona Operator for PostgreSQL](https://www.percona.com/doc/kubernetes-operator-for-postgresql/2.0/index.html#installation-guide) 
 
 
 The Percona Operator is based on best practices for configuration and setup of
@@ -17,54 +14,46 @@ a [Percona Distribution for PostgreSQL on Kubernetes](https://www.percona.com/do
 The benefits of the Operator are many, but saving time and delivering a
 consistent and vetted environment is key.
 
-Kubernetes provides users with a distributed orchestration system that automates
-the deployment, management, and scaling of containerized applications. The
-Operator extends the Kubernetes API with a new custom resource for deploying,
-configuring, and managing the application through the whole life cycle.
-You can compare the Kubernetes Operator to a System Administrator who deploys
-the application and watches the Kubernetes events related to it, taking
-administrative/operational actions when needed.
+!!! note
 
-**Version 0.1.0 of the Percona Distribution for PostgreSQL Operator is a tech preview release and it is not recommended for production environments.**
+    Version 2.0.0 of the Percona Operator for PostgreSQL is a **tech preview release** and it is **not recommended for production environments.**
+    As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://www.percona.com/https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
-You can install *Percona Distribution for PostgreSQL Operator* on Kubernetes,
-[Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine),
-and [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks)
-clusters. The Operator is based on [Postgres Operator developed by Crunchy Data](https://access.crunchydata.com/documentation/postgres-operator/latest/).
+The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Postgres Operator developed by Crunchy Data](https://access.crunchydata.com/documentation/postgres-operator/latest/). Please see the main changes in this version below.
 
-Here are the main differences between v 0.1.0 and the original Operator:
+## Architecture
 
+[Operator SDK](https://sdk.operatorframework.io/) is now used to build and package the Operator. It simplifies the development and brings  more contribution friendliness to the code, resulting in better potential for growing the community. Users now have full control over Custom Resource Definitions that Operator relies on, which simplifies the deployment and management of the operator.
 
-* Percona Distribution for PostgreSQL is now used as the main container image.
+In version 1.x we relied on Deployment resources to run PostgreSQL clusters, whereas in 2.0 Statefulsets are used, which are the de-facto standard for running stateful workloads in Kubernetes. This change improves stability of the clusters and removes a lot of complexity from the Operator.
 
+## Backups
 
-* It is possible to specify custom images for all components separately. For
-example, users can easily build and use custom images for one or several
-components (e.g. pgBouncer) while all other images will be the official ones.
-Also, users can build and use all custom images.
+One of the biggest challenges in version 1.x is backups and restores. There are two main problems that our user faced:
 
+* Not possible to change backup configuration for the existing cluster
+* Restoration from backup to the newly deployed cluster required workarounds
 
-* All container images are reworked and simplified. They are built on Red Hat
-Universal Base Image (UBI) 8.
+In this version both these issues are fixed.
+In addition to that:
 
+* Run up to 4 pgBackrest repositories
+* [Bootstrap the cluster](https://docs.percona.com/percona-operator-for-postgresql/2.0/backups.html) from the existing backup through Custom Resource
+* [Azure Blob Storage support](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#use-azure-blob-storage-for-backups)
 
-* The Operator has built-in integration with Percona Monitoring and Management
-v2.
+## Operations
 
+Deploying complex topologies in Kubernetes is not possible without affinity and anti-affinity rules. In version 1.x there were various limitations and issues, whereas this version comes with substantial [improvements](https://docs.percona.com/percona-operator-for-postgresql/2.0/constraints.html) that enables users to craft the topology of their choice. 
 
-* A build/test infrastructure was created, and we have started adding e2e tests
-to be sure that all pieces of the cluster work together as expected.
+Within the same cluster users can deploy [multiple instances](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#instances-name). These instances are going to have the same data, but can have different configuration and resources. This can be useful if you plan to migrate to new hardware or need to test the new topology.
 
+Each postgreSQL node can have [sidecar containers](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#instances-sidecars-image) now to provide integration with your existing tools or expand the capabilities of the cluster.
 
-* We have phased out the `pgo` CLI tool, and the Custom Resource UX will be
-completely aligned with other Percona Operators in the following release.
+## Try it out now
 
-Once Percona Operator is promoted to GA, users would be able to get the full
-package of services from Percona teams.
+Excited with what you read above?
 
-While the Operator is in its very first release, instructions on how to install
-and configure it [are already available](https://percona.com/doc/kubernetes-operator-for-postgresql)
-along with the source code hosted [in our Github repository](https://github.com/percona/percona-postgresql-operator).
+* We encourage you to install the Operator following [our documentation](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html#quickstart-guides).
+* Feel free to share feedback with us on the [forum](https://forums.percona.com/c/postgresql/percona-kubernetes-operator-for-postgresql/68) or raise a bug or feature request in [JIRA](https://jira.percona.com/projects/K8SPG/issues).
+* See the source code in our [Github repository](https://github.com/percona/percona-postgresql-operator).
 
-Help us improve our software quality by reporting any bugs you encounter using
-[our bug tracking system](https://jira.percona.com/secure/Dashboard.jspa).
