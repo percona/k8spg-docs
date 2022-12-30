@@ -362,31 +362,29 @@ The schedule is specified in crontab format as explained in
 
 ## Making on-demand backup
 
-To make an on-demand (manual) backup, you can use `backups.pgbackrest.manual`
-subsection of the `deploy/cr.yaml` file, putting there the repository name
-which should be used for this backup, and any needed 
-[pgBackRest command line options](https://pgbackrest.org/configuration.html):
+To make an on-demand backup, the user should use a backup configuration file.
+The example of the backup configuration file is [deploy/backup/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml):
 
 ```yaml
-...
-backups:
-  pgbackrest:
-  ...
-        manual:
-          repoName: repo1
-          options:
-          - --type=full
-          ...
+apiVersion: pg.percona.com/v2beta1
+kind: PerconaPGBackup
+metadata:
+  name: backup1
+spec:
+  pgCluster: cluster1
+  repoName: repo1
+#  options:
+#  - --type=full
 ```
 
-Check [the official pgBackRest documentation](https://pgbackrest.org/configuration.html)
-for the list of command line options.
+Fill it with the proper repository name
+to be used for this backup, and any needed 
+[pgBackRest command line options](https://pgbackrest.org/configuration.html).
 
-When the backup options are configured, execute the actual backup command by
-updating the Custom Resource as usual:
+When the backup options are configured, execute the actual backup command:
 
 ``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/cr.yaml
+$ kubectl apply -f deploy/backup.yaml
 ```
 
 ## Restore the cluster from a previously saved backup
@@ -402,29 +400,34 @@ the [backups.restore](operator.md#backups-restore-enabled) subsection.
 
 ### Restore to an existing PostgreSQL cluster
 
-The following keys are the most important in the
-[backups.restore](operator.md#backups-restore-enabled) subsection.
-
-* `restore.enabled` allows to preapare backup restoration in advance and
-    activate it when needed,
-* `restore.repoName` specifies the name of the 4 pgBackRest repositories,
-    already configured in the `backups.pgbackrest.repos` subsection,
-* `restore.options` passes through any [pgBackRest command line options](https://pgbackrest.org/configuration.html),
-* `parameters.backrest-storage-type` the type of the pgBackRest repository.
-
-The example restore options may look as follows:
+To restore the previously saved backup the user should use a *backup restore*
+configuration file. The example of the backup configuration file is
+[deploy/backup/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
 
 ```yaml
-...
-backups:
-  ...
-  restore:
-    enabled: true
-    repoName: repo1
-    options:
-      - --type=time
-      - --target="2021-06-09 14:15:11-04"
-      - --db-include=hippo
+apiVersion: pg.percona.com/v2beta1
+kind: PerconaPGRestore
+metadata:
+  name: restore1
+spec:
+  pgCluster: cluster1
+  repoName: repo1
+  options:
+  - --type=time
+  - --target="2022-11-30 15:12:11+03"
+```
+
+The following keys are the most important ones:
+
+* `pgCluster` specifies the name of your cluster,
+* `repoName` specifies the name of one of the 4 pgBackRest repositories,
+    already configured in the `backups.pgbackrest.repos` subsection,
+* `options` passes through any [pgBackRest command line options](https://pgbackrest.org/configuration.html).
+
+The actual restoration process can be started as follows:
+
+``` {.bash data-prompt="$" }
+$ kubectl apply -f deploy/restore.yaml
 ```
 
 ### Restore to a new PostgreSQL cluster
