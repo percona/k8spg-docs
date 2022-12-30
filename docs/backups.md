@@ -430,6 +430,34 @@ The actual restoration process can be started as follows:
 $ kubectl apply -f deploy/restore.yaml
 ```
 
+### Restore the cluster with point-in-time recovery
+
+Point-in-time recovery functionality allows users to revert the database back to
+a state before an unwanted change had occurred.
+
+You can set up a point-in-time recovery using the normal restore command of
+pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
+
+* set `--type` option to `time`,
+* set `--target` to a specific time you would like to restore to. You can use
+the typical string formatted as `<YYYY-MM-DD HH:MM:DD>`, optionally followed
+by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
+example means just UTC),
+* optional `--set` argument allows you to choose the backup which will be the
+starting point for point-in-time recovery (look through the available backups
+to find out the proper backup name). This option must be specified if the target is
+one or more backups away from the current moment.
+
+After setting these options in the *backup restore* configuration file,
+follow the standard restore instructions.
+
+!!! note
+
+    Make sure you have a backup that is older than your desired point in time.
+    You obviously can’t restore from a time where you do not have a backup.
+    All relevant write-ahead log files must be successfully pushed before you
+    make the restore.
+
 ### Restore to a new PostgreSQL cluster
 
 Restoring to a new PostgreSQL cluster allows you to take a backup and create a
@@ -454,45 +482,4 @@ the restore:
     repository should be placed into `dataSource.pgbackrest.repo` subsection,
 * `dataSource.pgbackrest.configuration.secret.name` should contain the name of
     a Kubernetes Secret with credentials needed to access cloud storage, if any.
-
-### Restore the cluster with point-in-time recovery
-
-Point-in-time recovery functionality allows users to revert the database back to
-a state before an unwanted change had occurred.
-
-You can set up a point-in-time recovery using the normal restore command of
-pgBackRest with few additional options specified in the
-`backups.restore.options` key:
-
-```yaml
-...
-backups:
-  ...
-  restore:
-    enabled: true
-    repoName: repo1
-    options:
-      - --type=time
-      - --target="2021-06-09 14:15:11-04"
-```
-
-* set `--type` option to `time`,
-* set `--target` to a specific time you would like to restore to. You can use
-the typical string formatted as `<YYYY-MM-DD HH:MM:DD>`, optionally followed
-by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
-example means just UTC),
-* optional `--set` argument allows you to choose the backup which will be the
-starting point for point-in-time recovery (look through the available backups
-to find out the proper backup name). This option must be specified if the target is
-one or more backups away from the current moment.
-
-After setting these options in the *backup restore* configuration file,
-follow the standard restore instructions.
-
-!!! note
-
-    Make sure you have a backup that is older than your desired point in time.
-    You obviously can’t restore from a time where you do not have a backup.
-    All relevant write-ahead log files must be successfully pushed before you
-    make the restore.
 
