@@ -117,9 +117,9 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
         ```
 
 2. Create the Secret configuration file with the resulted base64-encoded string
-    as follows:
+    as the following `cluster1-pgbackrest-secrets.yaml` example:
 
-    ``` yaml title="cluster1-pgbackrest-secrets.yaml"
+    ```yaml
     apiVersion: v1
     kind: Secret
     metadata:
@@ -196,10 +196,11 @@ The Operator will also need your service account key to access storage.
     your new private key and related information.
 
 3. Now you should use a base64-encoded version of this file and create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). You can encode
-    the file with the `base64 <filename>` command. When done, create the
-    following yaml file with your cluster name and base64-encoded file contents:
+    the file with the `base64 <filename>` command. When done, create a yaml file
+    with your cluster name and base64-encoded file contents as the following
+    `cluster1-pgbackrest-secrets.yaml` example:
 
-    ``` yaml title="cluster1-pgbackrest-secrets.yaml"
+    ```yaml
     apiVersion: v1
     kind: Secret
     metadata:
@@ -284,9 +285,9 @@ with your Azure Storage credentials to access the storage.
         ```
 
 2. Create the Secret configuration file with the resulted base64-encoded string
-    as follows:
+    as the following `cluster1-pgbackrest-secrets.yaml` example:
 
-    ``` yaml title="cluster1-pgbackrest-secrets.yaml"
+    ```yaml
     apiVersion: v1
     kind: Secret
     metadata:
