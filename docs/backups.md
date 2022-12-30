@@ -363,7 +363,7 @@ The schedule is specified in crontab format as explained in
 ## Making on-demand backup
 
 To make an on-demand backup, the user should use a backup configuration file.
-The example of the backup configuration file is [deploy/backup/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml):
+The example of the backup configuration file is [deploy/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml):
 
 ```yaml
 apiVersion: pg.percona.com/v2beta1
@@ -402,7 +402,7 @@ the [backups.restore](operator.md#backups-restore-enabled) subsection.
 
 To restore the previously saved backup the user should use a *backup restore*
 configuration file. The example of the backup configuration file is
-[deploy/backup/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
+[deploy/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
 
 ```yaml
 apiVersion: pg.percona.com/v2beta1
