@@ -36,11 +36,7 @@ environment is key.
 
 * [Application and system users](users.md)
 
-* [Changing PostgreSQL Options](options.md)
-
 * [Anti-affinity and tolerations](constraints.md)
-
-* [Transport Encryption (TLS/SSL)](TLS.md)
 
 * [Telemetry](telemetry.md)
 
@@ -52,11 +48,6 @@ environment is key.
 
 * [Restart or pause the cluster](pause.md)
 
-# HOWTOs
-
-* [How to deploy a standby cluster for Disaster Recovery](standby.md)
-
-* [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
 
 # Reference
 

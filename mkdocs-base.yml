@@ -114,9 +114,7 @@ nav:
           
     - Configuration:
           - "Application and system users": users.md
-          - "Changing PostgreSQL Options": options.md
           - "Anti-affinity and tolerations": constraints.md
-          - "Transport Encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
           
     - Management:
@@ -124,9 +122,6 @@ nav:
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Restart or pause the cluster": pause.md
           
-    - How to:
-          - "Deploy a standby cluster for Disaster Recovery": standby.md
-          - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
 
     - Reference:
           - "Custom Resource options": operator.md
