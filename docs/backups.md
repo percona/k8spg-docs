@@ -76,7 +76,7 @@ backups:
 You should configure backup storage for your repositories in the
 `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
-## Configuring the S3-compatible backup storage
+### Configuring the S3-compatible backup storage
 
 In order to use S3-compatible storage for backups you need to provide some
 S3-related information, such as proper S3 bucket name, endpoint, etc. This
@@ -94,27 +94,27 @@ You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
 secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
 1. Put your AWS S3 key and AWS S3 key secret into the base64 encoded pgBackRest
-   configuration as follows:
+    configuration as follows:
 
-=== "in Linux"
+    === "in Linux"
 
-    ``` {.bash data-prompt="$" }
-    $ cat <<EOF | base64 --wrap=0
-    [global]
-    repo1-s3-key=<YOUR_AWS_S3_KEY>
-    repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-    EOF
-    ```
+        ``` {.bash data-prompt="$" }
+        $ cat <<EOF | base64 --wrap=0
+        [global]
+        repo1-s3-key=<YOUR_AWS_S3_KEY>
+        repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+        EOF
+        ```
 
-=== "in macOS"
+    === "in macOS"
 
-    ``` {.bash data-prompt="$" }
-    $ cat <<EOF | base64
-    [global]
-    repo1-s3-key=<YOUR_AWS_S3_KEY>
-    repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-    EOF
-    ```
+        ``` {.bash data-prompt="$" }
+        $ cat <<EOF | base64
+        [global]
+        repo1-s3-key=<YOUR_AWS_S3_KEY>
+        repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+        EOF
+        ```
 
 2. Create the Secret configuration file with the resulted base64-encoded string
     as follows:
@@ -170,7 +170,7 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
     $ kubectl apply -f deploy/cr.yaml
     ```
 
-## Configuring Google Cloud Storage for backups
+### Configuring Google Cloud Storage for backups
 
 You can configure [Google Cloud Storage](https://cloud.google.com/storage) as
 an object store for backups similarly to S3 storage.
@@ -248,7 +248,7 @@ The Operator will also need your service account key to access storage.
     $ kubectl apply -f deploy/cr.yaml
     ```
 
-## Configuring Azure Blob Storage for backups
+### Configuring Azure Blob Storage for backups
 
 You can configure [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
 as an object store for backups similarly to S3 or GCS storage.
@@ -261,27 +261,27 @@ The Operator will also need a [Kubernetes Secret](https://kubernetes.io/docs/con
 with your Azure Storage credentials to access the storage.
 
 1. Put your Azure storage account name and key into the base64 encoded pgBackRest
-   configuration as follows:
+    configuration as follows:
 
-=== "in Linux"
+    === "in Linux"
 
-    ``` {.bash data-prompt="$" }
-    $ cat <<EOF | base64 --wrap=0
-    [global]
-    repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-    repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
-    EOF
-    ```
+        ``` {.bash data-prompt="$" }
+        $ cat <<EOF | base64 --wrap=0
+        [global]
+        repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+        repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+        EOF
+        ```
 
-=== "in macOS"
+    === "in macOS"
 
-    ``` {.bash data-prompt="$" }
-    $ cat <<EOF | base64
-    [global]
-    repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-    repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
-    EOF
-    ```
+        ``` {.bash data-prompt="$" }
+        $ cat <<EOF | base64
+        [global]
+        repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+        repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+        EOF
+        ```
 
 2. Create the Secret configuration file with the resulted base64-encoded string
     as follows:
@@ -400,14 +400,7 @@ subsection,
 * restore in-place, to an existing cluster (note that this is destructive) using
 the [backups.restore](operator.md#backups-restore-enabled) subsection.
 
-Restoring to a new PostgreSQL cluster allows you to take a backup and create a
-new PostgreSQL cluster that can run alongside an existing one. There are several
-scenarios where using this technique is helpful:
-
-* Creating a copy of a PostgreSQL cluster that can be used for other purposes.
-Another way of putting this is *creating a clone*.
-* Restore to a point-in-time and inspect the state of the data without affecting
-the current cluster.
+### Restore to an existing PostgreSQL cluster
 
 The following keys are the most important in the
 [backups.restore](operator.md#backups-restore-enabled) subsection.
@@ -433,6 +426,17 @@ backups:
       - --target="2021-06-09 14:15:11-04"
       - --db-include=hippo
 ```
+
+### Restore to a new PostgreSQL cluster
+
+Restoring to a new PostgreSQL cluster allows you to take a backup and create a
+new PostgreSQL cluster that can run alongside an existing one. There are several
+scenarios where using this technique is helpful:
+
+* Creating a copy of a PostgreSQL cluster that can be used for other purposes.
+Another way of putting this is *creating a clone*.
+* Restore to a point-in-time and inspect the state of the data without affecting
+the current cluster.
 
 To create a new PostgreSQL cluster from either the active one, or a former cluster
 whose pgBackRest repository still exists, use the [dataSource.postgresCluster](operator.md#datasource-postgrescluster-clustername) subsection options. The content of this subsection
