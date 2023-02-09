@@ -15,7 +15,7 @@ theme:
   logo: assets/images/percona-logo.svg
   favicon: assets/images/percona-favicon.ico
   custom_dir: _resource/overrides/
- font:
+  font:
     text: Chivo, Colfax, Franziska
     text: Poppins
   palette:
