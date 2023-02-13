@@ -98,7 +98,7 @@ not forgetting to set the correspondent context for further steps:
 3. Deploy the operator with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/bundle.yaml
+    $ kubectl apply -f deploy/bundle.yaml --server-side
     ```
 
 4. After the operator is started Percona Distribution for PostgreSQL
