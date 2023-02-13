@@ -90,7 +90,7 @@ not forgetting to set the correspondent context for further steps:
 4. Deploy the operator with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml
+    $ kubectl apply -f deploy/operator.yaml --server-side
     ```
 
 5. After the operator is started Percona Distribution for PostgreSQL
