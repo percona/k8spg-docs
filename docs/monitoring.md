@@ -34,9 +34,9 @@ Kubernetes-based environment:
 
     * set `pmm.enabled=true`
     * set the `pmm.serverHost` key to your PMM Server hostname,
-    * check that  the `serverUser` key contains your PMM Server user name
+    * check that  the `pmm.serverUser` key contains your PMM Server user name
         (`admin` by default),
-    * make sure the `pmmserver` key in the
+    * make sure the `password` key in the
         [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/pmm-secret.yaml)
         secrets file contains the password specified for the PMM Server during its
         installation.
@@ -59,13 +59,13 @@ Kubernetes-based environment:
         === "in Linux"
 
             ``` {.bash data-prompt="$" }
-            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64 --wrap=0)'}}'
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"password": '$(echo -n new_password | base64 --wrap=0)'}}'
             ```
 
         === "in macOS"
 
             ``` {.bash data-prompt="$" }
-            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"password": '$(echo -n new_password | base64)'}}'
             ```
 
     When done, apply the edited `deploy/cr.yaml` file:
