@@ -160,6 +160,7 @@ nav:
           
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 1.4.0 (2023-03-23)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.4.0.md
           - "Percona Operator for PostgreSQL 1.3.0 (2022-08-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.3.0.md
           - "Percona Operator for PostgreSQL 1.2.0 (2022-04-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
           - "Percona Operator for PostgreSQL 1.1.0 (2021-12-07)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md

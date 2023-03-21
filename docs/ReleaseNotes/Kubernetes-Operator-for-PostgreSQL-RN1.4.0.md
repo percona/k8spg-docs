@@ -8,12 +8,6 @@
 
     [Percona Operator for PostgreSQL](../index.md#installation-guides)
 
-## Release Highlights
-
-* The [affinity and anti-affinity](../constraints.md#affinity-and-anti-affinity) rules can now be configured for backup Pods in addition to Primary and Replicas
-
-* It is now possible to customize [pgBackRest parameters](https://pgbackrest.org/configuration.html) for scheduled backups in the dedicated Custom Resource option
-
 ## Improvements
 
 * {{ k8spgjira(188) }}: Add Custom Resource options to set static IP-address for the pgPrimary, pgReplicas, and pgBouncer LoadBalancers
@@ -23,8 +17,6 @@
 * {{ k8spgjira(270) }}: The new `schedule.backrestOpts` Custom Resource option allows to customize pgBackRest parameters for scheduled backups
 
 * {{ k8spgjira(292) }}: The Operator now uses units based on the power of 2 (e.g. `GiB` instead of `G`) for the storage size, to make it multiple of the 1024 default kernel block size (thanks to Rodney Karemba for contribution)
-
-* {{ k8spgjira(293) }}: Get rid of ansible-galaxy install inside pgo-deployer entrypoint **NOTHING TO END-USER**
 
 ## Bugs Fixed
 
