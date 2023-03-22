@@ -51,9 +51,8 @@ the following steps:
     and `some-secret-key` with the values used on the previous step).
 
 3. Now edit the backup section of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-    file to set proper values for the `bucket` (the S3 bucket for backups
-    created on the previous step), `region`, `credentialsSecret` and the
-    `endpointUrl` (which should point to the previously created Minio Service).
+    file to set proper values for your newly created  storage as follows (you
+    can find more on these options in [backup and restore documentation](backups.md#configuring-the-s3-compatible-backup-storage)).
 
     ```yaml
     ...
@@ -65,23 +64,28 @@ the following steps:
           bucket: operator-testing
           region: us-east-1
           endpointUrl: http://minio-service:9000
+          uriStyle: "path"
+          verifyTLS: false
     ```
 
-    You also need to supply pgBackRest with base64-encoded access and 
+    You will also need to supply pgBackRest with base64-encoded access and 
     secret keys stored in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
-    You can encode needed data to base64 with the following command:
+    
+    !!! note
 
-    === "in Linux"
+        You can encode needed data to base64 with the following command:
 
-        ``` {.bash data-prompt="$" }
-        $ echo -n 'plain-text-string' | base64 --wrap=0
-        ```
+        === "in Linux"
 
-    === "in macOS"
+            ``` {.bash data-prompt="$" }
+            $ echo -n 'plain-text-string' | base64 --wrap=0
+           ```
 
-        ``` {.bash data-prompt="$" }
-        $ echo -n 'plain-text-string' | base64
-        ```
+        === "in macOS"
+
+            ``` {.bash data-prompt="$" }
+            $ echo -n 'plain-text-string' | base64
+            ```
 
     Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
     configuration file: set `name`, `aws-s3-key`, and `aws-s3-key-secret` with
