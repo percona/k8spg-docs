@@ -84,6 +84,20 @@ should be utilized,
 or set to `false` to disable it,
 * `type` should be set to `s3`.
 
+        Here is an example which configures Amazon S3 storage for backups:
+
+        ```yaml
+        ...
+        backup:
+          ...
+          storages:
+            s3-us-west:
+              type: s3
+              bucket: S3-BACKUP-BUCKET-NAME-HERE
+              region: us-west-2
+          ...
+        ```
+
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
 secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
 e.g. encoding needed data with the following command:

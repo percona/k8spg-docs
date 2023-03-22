@@ -70,6 +70,8 @@ environment is key.
 
 * [Using PostgreSQL tablespaces with Percona Operator for PostgreSQL](tablespace.md)
 
+* [Creating a private S3-compatible cloud for backups](private.md)
+
 # Reference
 
 * [Custom Resource options](operator.md)
