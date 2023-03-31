@@ -2,7 +2,7 @@
 
 * **Date**
 
-    March 23, 2023
+    March 31, 2023
 
 * **Installation**
 
@@ -10,11 +10,11 @@
 
 ## Improvements
 
-* {{ k8spgjira(188) }}: Add Custom Resource options to set static IP-address for the pgPrimary, pgReplicas, and pgBouncer LoadBalancers
+* {{ k8spgjira(188) }}: Add Custom Resource options to set static IP address for the pgPrimary, pgReplicas, and pgBouncer LoadBalancers
 
 * {{ k8spgjira(269) }}: It is now possible to define affinity and anti-affinity rules for backup Pods
 
-* {{ k8spgjira(270) }}: The new `schedule.backrestOpts` Custom Resource option allows to customize pgBackRest parameters for scheduled backups
+* {{ k8spgjira(270) }}: The new `schedule.backrestOpts` Custom Resource option allows customizing pgBackRest parameters for scheduled backups
 
 * {{ k8spgjira(292) }}: The Operator now uses units based on the power of 2 (e.g. `GiB` instead of `G`) for the storage size, to make it multiple of the 1024 default kernel block size (thanks to Rodney Karemba for contribution)
 
