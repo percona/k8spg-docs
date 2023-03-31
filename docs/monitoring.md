@@ -29,15 +29,15 @@ Kubernetes-based environment:
 
 1. The PMM client installation is initiated by updating the `pmm`
     section in the
-    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/master/deploy/cr.yaml)
+    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/cr.yaml)
     file.
 
     * set `pmm.enabled=true`
     * set the `pmm.serverHost` key to your PMM Server hostname,
     * check that  the `pmm.serverUser` key contains your PMM Server user name
         (`admin` by default),
-    * make sure the `password` key in the
-        [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/pmm-secret.yaml)
+    * make sure the `password` key in the        
+        [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/pmm-secret.yaml)
         secrets file contains the password specified for the PMM Server during its
         installation.
 

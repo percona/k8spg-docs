@@ -16,7 +16,7 @@ Percona welcomes and encourages community contributions. See the [Contribution G
 
 ## License
 
-Percona Server for MongoDB documentation is licensed under a
+Percona Operator for PostgreSQL documentation is licensed under a
 [Creative Commons Attribution 4.0 International License][cc-by].
 
 [![CC BY 4.0][cc-by-image]][cc-by]
