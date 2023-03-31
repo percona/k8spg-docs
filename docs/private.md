@@ -80,7 +80,7 @@ the following steps:
 
             ``` {.bash data-prompt="$" }
             $ echo -n 'plain-text-string' | base64 --wrap=0
-           ```
+            ```
 
         === "in macOS"
 
