@@ -62,7 +62,7 @@ bootstrap:
 
 You can create a ConfigMap from this file. The syntax for `kubectl create configmap` command is:
 
-```bash
+``` {.bash data-prompt="$" }
 kubectl -n <namespace> create configmap <configmap-name> --from-file=postgres-ha.yaml
 ```
 
@@ -71,13 +71,13 @@ ConfigMap name should include your cluster name and a dash as a prefix
 
 The following example defines `cluster1-custom-config` as the ConfigMap name:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl create -n pgo configmap cluster1-custom-config --from-file=postgres-ha.yaml
 ```
 
 To view the created ConfigMap, use the following command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl describe configmaps cluster1-custom-config
 ```
 
@@ -111,7 +111,7 @@ For example, let’s change the `max_connections` option in a globally applied
 `postgresql.conf` configuration file for the cluster named `cluster1`.
 Edit the `cluster1-pgha-config` ConfigMap with the following command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl edit -n pgo configmap cluster1-pgha-config
 ```
 
@@ -136,24 +136,34 @@ your cluster using the `kubectl exec` command with a specific Pod name.
 First find out names of your Pods in a common way, using the `kubectl get pods`
 command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl get pods
-NAME                                              READY   STATUS    RESTARTS   AGE
-backrest-backup-cluster1-j275w                    0/1     Completed 0          10m
-cluster1-85486d645f-gpxzb                         1/1     Running   0          10m
-cluster1-backrest-shared-repo-6495464548-c8wvl    1/1     Running   0          10m
-cluster1-pgbouncer-fc45869f7-s86rf                1/1     Running   0          10m
-pgo-deploy-rhv6k                                  0/1     Completed 0          5m
-postgres-operator-8646c68b57-z8m62                4/4     Running   1          5m
 ```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    NAME                                              READY   STATUS    RESTARTS   AGE
+    backrest-backup-cluster1-j275w                    0/1     Completed 0          10m
+    cluster1-85486d645f-gpxzb                         1/1     Running   0          10m
+    cluster1-backrest-shared-repo-6495464548-c8wvl    1/1     Running   0          10m
+    cluster1-pgbouncer-fc45869f7-s86rf                1/1     Running   0          10m
+    pgo-deploy-rhv6k                                  0/1     Completed 0          5m
+    postgres-operator-8646c68b57-z8m62                4/4     Running   1          5m
+    ```
 
 Now let’s check the `cluster1-85486d645f-gpxzb` Pod for the current
 `max_connections` value:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl -n pgo exec -it cluster1-85486d645f-gpxzb -- psql -c 'show max_connections;'
-  max_connections
-  -----------------
-  50
-  (1 row)
 ```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    max_connections
+    -----------------
+    50
+    (1 row)
+    ```

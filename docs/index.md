@@ -22,6 +22,8 @@ environment is key.
 
 * [Design and architecture](architecture.md)
 
+* [Comparison with other solutions](compare.md)
+
 # Quickstart guides
 
 * [Install on Minikube](minikube.md)

@@ -41,7 +41,7 @@ You can install *cert-manager* as follows:
 
 The following commands perform all the needed actions:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl create namespace cert-manager
 $ kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
 $ kubectl_bin apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
@@ -49,7 +49,7 @@ $ kubectl_bin apply -f https://github.com/jetstack/cert-manager/releases/downloa
 
 After the installation, you can verify the *cert-manager* by running the following command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl get pods -n cert-manager
 ```
 
@@ -96,7 +96,7 @@ another set for internal ones.
 Supposing that your cluster name is `cluster1`, you can use the following
 commands to generate certificates:
 
-```bash
+``` {.bash data-prompt="$" }
 $ CLUSTER_NAME=cluster1
 $ NAMESPACE=default
 $ cat <<EOF | cfssl gencert -initca - | cfssljson -bare ca
@@ -151,7 +151,7 @@ $ kubectl create secret tls  ${CLUSTER_NAME}-ssl-keypair --cert=server.pem --key
 
 If your PostgreSQL cluster includes replica instances (this feature is on by default), generate certificates for them in a similar way:
 
-```bash
+``` {.bash data-prompt="$" }
 $ cat <<EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replicas
 {
    "CN": "primaryuser",
@@ -179,7 +179,7 @@ secret created to encrypt **internal** communications,
 
 Don’t forget to apply changes as usual:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/cr.yaml
 ```
 
@@ -191,7 +191,7 @@ spawn a new `pg-client` container, which includes needed command and can be
 used for the check (use your real cluster name instead of the `<cluster-name>`
 placeholder):
 
-```bash
+``` {.bash data-prompt="$" }
 $ cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
@@ -233,15 +233,15 @@ Now get shell access to the newly created container, and launch the PostgreSQL
 interactive terminal to check connectivity over the encrypted channel (please
 use real cluster-name, PostgreSQL user login and password):
 
-```bash
+``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
 $ kubectl exec -it deployment/pg-client -- bash -il
 [postgres@pg-client /]$ PGSSLMODE=verify-ca PGSSLROOTCERT=/tmp/tls/ca.crt psql postgres://<postgresql-user>:<postgresql-password>@<cluster-name>-pgbouncer.<namespace>.svc.cluster.local
 ```
 
 Now you should see the prompt of PostgreSQL interactive terminal:
 
-```bash
-psql ({{ postgresrecommended }})
+``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
+$ psql ({{ postgresrecommended }})
 Type "help" for help.
 pgdb=>
 ```

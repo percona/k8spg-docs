@@ -48,7 +48,7 @@ You can set additional namespace to be watched by the Operator as follows:
 
 1. First of all clean up the installer artifacts:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl delete -f deploy/operator.yaml
     ```
 
@@ -59,7 +59,7 @@ You can set additional namespace to be watched by the Operator as follows:
         `"pgo"` by default) and append your additional namespace to it in a
         comma-separated list.
 
-        ```bash
+        ``` {.bash data-prompt="$" }
         ...
         apiVersion: v1
         kind: ConfigMap
@@ -76,7 +76,7 @@ You can set additional namespace to be watched by the Operator as follows:
         It has `env` element named `DEPLOY_ACTION`, which you should change
         from `install` to `update`:
 
-        ```bash
+        ``` {.bash data-prompt="$" }
         ...
         apiVersion: batch/v1
         kind: Job
@@ -94,7 +94,7 @@ You can set additional namespace to be watched by the Operator as follows:
 
 3. Now apply your changes as usual:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml
     ```
 

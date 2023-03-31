@@ -14,26 +14,35 @@ theme:
   name: material
   logo: assets/images/percona-logo.svg
   favicon: assets/images/percona-favicon.ico
+  custom_dir: _resource/overrides/
+  font:
+    text: Chivo, Colfax, Franziska
+    text: Poppins
   palette:
-    #    - media: "(prefers-color-scheme: light)"
-    scheme: percona-light
-#      toggle:
-#        icon: material/toggle-switch-off-outline
-#        name: Switch to night mode
-#    - media: "(prefers-color-scheme: dark)"
-#      scheme: slate
-#      toggle:
-#        icon: material/toggle-switch
-#        name: Switch to day mode
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: percona-light
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to light mode
+
+    # Dark mode 
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css
   - css/percona.css
   - css/lightgallery.min.css
+  - css/nocopy.css
 
 extra_javascript:
-  - js/version-select.js
+  - js/promptremover.js
+#  - js/version-select.js
   - js/toctree.js
   - js/lightgallery.min.js
 
@@ -59,7 +68,9 @@ markdown_extensions:
     emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
-  search: {}
+  section-index: {}
+  search: 
+    separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
   macros:
     include_yaml:
@@ -75,7 +86,7 @@ plugins:
     cover_subtitle: 1.3.0 (August 4, 2022)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/Kubernetes-PG.png
-    custom_template_path: _resources/templates
+    custom_template_path: _resource/templates
     enabled_if_env: ENABLE_PDF_EXPORT
   # Check links - but extends build time significantly
   # https://pypi.org/project/mkdocs-htmlproofer-plugin/
@@ -87,6 +98,15 @@ plugins:
     canonical_version: null
 
 extra: # Used in main.html template and can't be externalized
+  homepage:
+    https://docs.percona.com
+  consent:
+    title: Cookie consent
+    description: >- 
+      We use cookies to recognize your repeated visits and preferences, as well
+      as to measure the effectiveness of our documentation and whether users
+      find what they're searching for. With your consent, you're helping us to
+      make our documentation better.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 1.3.0
@@ -102,6 +122,7 @@ nav:
     - Requirements:
           - "System Requirements": System-Requirements.md
           - "Design and architecture": architecture.md
+          - "Comparison with other solutions": compare.md
           
     - Quickstart guides:
           - "Install on Minikube": minikube.md
@@ -138,6 +159,7 @@ nav:
           - "Frequently Asked Questions": faq.md
           
     - Release Notes:
+          - "Release notes index": ReleaseNotes/index.md
           - "Percona Operator for PostgreSQL 1.3.0 (2022-08-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.3.0.md
           - "Percona Operator for PostgreSQL 1.2.0 (2022-04-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.md
           - "Percona Operator for PostgreSQL 1.1.0 (2021-12-07)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.md

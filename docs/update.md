@@ -17,16 +17,16 @@ The following steps will allow you to update the Operator to current version
 
 1. Pause the cluster in order to stop all possible activities:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/pause", "value": true},{"op":"replace","path":"/spec/pgBouncer/size","value":0}]'
     ```
 
 2. If you upgrade the Operator **from a version earlier than 1.1.0**, the
 following additional step is needed for the 1.0.0 → 1.1.0 upgrade.
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ export CLUSTER=<cluster-name>
-    $ for user in postgres primaryuser $(kubectl get perconapgcluster/${CLUSTER} -o yaml | yq r - 'spec.user'); do args+="--from-literal=$user=$(kubectl get secret/${CLUSTER}-${user}-o yaml | yq r - 'data.password' | base64 -d) "; done; eval kubectl create secret generic ${CLUSTER}-users "${args}"
+    $ for user in postgres primaryuser $(kubectl get perconapgcluster/${CLUSTER} -o yaml | yq r - 'spec.user'); do args+="--from-literal=$user=$(kubectl get secret/${CLUSTER}-${user}-o yaml | yq r - 'data.password' | base64 --decode) "; done; eval kubectl create secret generic ${CLUSTER}-users "${args}"
     ```
 
     This command creates users’ secrets with existing passwords. Otherwise, new
@@ -44,7 +44,7 @@ following additional step is needed for the 1.0.0 → 1.1.0 upgrade.
 
 3. Remove the old Operator and start the new Operator version:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl delete \
         serviceaccounts/pgo-deployer-sa \
         clusterroles/pgo-deployer-cr \
@@ -124,7 +124,7 @@ updates:
         Alternatively, you can run Version Service inside your cluster. This
         can be done with the `kubectl` command as follows:
 
-        ```bash
+        ``` {.bash data-prompt="$" }
         $ kubectl run version-service --image=perconalab/version-service --env="SERVE_HTTP=true" --port 11000 --expose
         ```
 
@@ -160,13 +160,13 @@ The following steps will allow you to update the Operator to current version
 
 1. Pause the cluster in order to stop all possible activities:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/pause", "value": true},{"op":"replace","path":"/spec/pgBouncer/size","value":0}]'
     ```
 
 2. Now you can switch the cluster to a new version:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"},{"op": "replace", "path": "/spec/pause", "value": false}]'
     ```
 
@@ -181,7 +181,7 @@ The following steps will allow you to update the Operator to current version
 
 3. Now you can enable the `pgbouncer` again:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl patch perconapgcluster/<cluster-name --type json -p \
         '[
             {"op":"replace","path":"/spec/pgBouncer/size","value":1}

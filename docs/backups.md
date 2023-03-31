@@ -85,9 +85,22 @@ or set to `false` to disable it,
 * `type` should be set to `s3`.
 
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
-secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/)
-(e.g. encoding needed data with the `echo "string-to-encode" | base64`
-command). Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
+secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
+e.g. encoding needed data with the following command:
+
+=== "in Linux"
+
+    ``` {.bash data-prompt="$" }
+    $ echo -n 'plain-text-string' | base64 --wrap=0
+    ```
+
+=== "in macOS"
+
+    ``` {.bash data-prompt="$" }
+    $ echo -n 'plain-text-string' | base64
+    ```
+
+Edit the `deploy/backup/cluster1-backrest-repo-config-secret.yaml`
 configuration file: set there proper cluster name, AWS S3 key, and key secret:
 
 ```yaml
@@ -103,13 +116,13 @@ data:
 
 When done, create the secret as follows:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/backup/cluster1-backrest-repo-config-secret.yaml
 ```
 
 Finally, create or update the cluster:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/cr.yaml
 ```
 
@@ -157,13 +170,13 @@ The Operator will also need your service account key to access storage.
 
     When done, create the secret as follows:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f ./my-gcs-account-secret.yaml
     ```
 
 4. Finally, create or update the cluster:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
 
@@ -213,7 +226,7 @@ for example `cluster1`.
 
 When the backup options are configured, execute the actual backup command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/backup/backup.yaml
 ```
 
@@ -222,14 +235,14 @@ $ kubectl apply -f deploy/backup/backup.yaml
 To get list of all existing backups in the pgBackrest repo, use the following
 command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl exec <name-of-backrest-shared-repo-pod>  -it -- pgbackrest info
 ```
 
 You can find out the appropriate Pod name using the \`\` kubectl get pods\`\`
 command, as usual. Here is an example of the backups list:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl exec cluster1-backrest-shared-repo-5ffc465b85-gvhlh -it -- pgbackrest info
 stanza: db
     status: ok
@@ -271,7 +284,7 @@ To restore the previously saved backup the user should use a *backup restore*
 configuration file. The example of the backup configuration file is
 [deploy/backup/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup/restore.yaml):
 
-```bash
+``` {.bash data-prompt="$" }
 apiVersion: pg.percona.com/v1
 kind: Pgtask
 metadata:
@@ -304,7 +317,7 @@ pgBackRest,
 
 The actual restoration process can be started as follows:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/backup/restore.yaml
 ```
 
@@ -321,7 +334,7 @@ the following content:
     ```yaml
     apiVersion: v1
     data:
-      password: <base64-encoded-password-for-pguser->
+      password: <base64-encoded-password-for-pguser>
       username: <base64-encoded-pguser-user-name>
     kind: Secret
     metadata:
@@ -358,7 +371,7 @@ the following content:
 
 2. When done, create the secrets as follows:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f ./cluster2-config-secrets.yaml
     ```
 
@@ -369,7 +382,7 @@ the following content:
 
 4. Create the cluster as follows:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
 
@@ -424,13 +437,13 @@ If you want to delete some backup manually, you need to delete both the
 object can be done using the same YAML file which was used for the on-demand
 backup:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl delete -f deploy/backup/backup.yaml
 ```
 
 Deletion of the job which corresponds to the backup can be done using
 `kubectl delete jobs` command with the backup name:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl delete jobs cluster1-backrest-full-backup
 ```

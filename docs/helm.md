@@ -16,15 +16,15 @@ Install Helm following its [official installation instructions](https://docs.hel
 1. Add the Percona’s Helm charts repository and make your Helm client up to
     date with it:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ helm repo add percona https://percona.github.io/percona-helm-charts/
     $ helm repo update
     ```
 
 2. Install the Percona Operator for PostgreSQL:
 
-    ```bash
-    $ helm install my-operator percona/pg-operator --version {{ release }}
+    ``` {.bash data-prompt="$" }
+    $ helm install my-operator percona/pg-operator
     ```
 
     The `my-operator` parameter in the above example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -34,13 +34,19 @@ Install Helm following its [official installation instructions](https://docs.hel
     !!! note
 
         If nothing explicitly specified, `helm install` command will work
-        with `default` namespace. To use different namespace, provide it with
-        the following additional parameter: `--namespace my-namespace`.
+        with the `default` namespace and the latest version of the Helm
+        chart. 
+
+        * To use different namespace, provide its name with
+            the following additional parameter: `--namespace my-namespace`.
+
+        * To use different Helm chart version, provide it as follows:
+            `--version {{ release }}`
 
 3. Install PostgreSQL:
 
     ```bash
-    $ helm install my-db percona/pg-db --version {{ release }}
+    $ helm install my-db percona/pg-db
     ```
 
     The `my-db` parameter in the above example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -58,7 +64,7 @@ The following example will deploy a Percona Distribution for PostgreSQL Cluster
 in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html)
 and 20 Gi storage for a Primary PostgreSQL node:
 
-```bash
+``` {.bash data-prompt="$" }
 $ helm install my-db percona/pg-db --version {{ release }} --namespace pgdb \
   --set pgPrimary.volumeSpec.size=20Gi \
   --set pmm.enabled=true

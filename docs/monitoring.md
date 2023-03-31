@@ -29,7 +29,7 @@ Kubernetes-based environment:
 
 1. The PMM client installation is initiated by updating the `pmm`
     section in the
-    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/master/deploy/cr.yaml)
+    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/cr.yaml)
     file.
 
     * set `pmm.enabled=true`
@@ -37,7 +37,7 @@ Kubernetes-based environment:
     * check that  the `serverUser` key contains your PMM Server user name
         (`admin` by default),
     * make sure the `pmmserver` key in the
-        [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/pmm-secret.yaml)
+        [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/pmm-secret.yaml)
         secrets file contains the password specified for the PMM Server during its
         installation.
 
@@ -50,25 +50,34 @@ Kubernetes-based environment:
         plain text format. But the resulting Secrets contain passwords stored
         as base64-encoded strings. If you want to *update* password field,
         you’ll need to encode the value into base64 format. To do this, you can
-        run `echo -n "password" | base64` in your local shell to get valid
-        values. For example, setting the PMM Server user’s password to
-        `new_password` in the `cluster1-pmm-secret` object can be done
-        with the following command:
+        run `echo -n "password" | base64 --wrap=0` (or just
+        `echo -n "password" | base64` in case of Apple macOS) in your local
+        shell to get valid values. For example, setting the PMM Server user’s
+        password to `new_password` in the `cluster1-pmm-secret` object can be
+        done with the following command:
 
-        ```bash
-        kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
-        ```
+        === "in Linux"
+
+            ``` {.bash data-prompt="$" }
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64 --wrap=0)'}}'
+            ```
+
+        === "in macOS"
+
+            ``` {.bash data-prompt="$" }
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
+            ```
 
     When done, apply the edited `deploy/cr.yaml` file:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
 
 2. Check that corresponding Pods are not in a cycle of stopping and restarting.
     This cycle occurs if there are errors on the previous steps:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl get pods
     $ kubectl logs cluster1-7b7f7898d5-7f5pz -c pmm-client
     ```

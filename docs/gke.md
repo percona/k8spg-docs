@@ -18,7 +18,7 @@ If you would like to use *your local shell*, install the following:
 
 2. [kubectl](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). It is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ gcloud auth login
     $ gcloud components install kubectl
     ```
@@ -27,7 +27,7 @@ If you would like to use *your local shell*, install the following:
 
 You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command will create a cluster named `my-cluster-1`:
 
-```bash
+``` {.bash data-prompt="$" }
 $ gcloud container clusters create cluster-1 --project <project name> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
 ```
 
@@ -47,7 +47,7 @@ Now you should configure the command-line access to your newly created cluster t
 
 In the Google Cloud Console, select your cluster and then click the *Connect* shown on the above image. You will see the connect statement configures command-line access. After you have edited the statement, you may run the command in your local shell:
 
-```bash
+``` {.bash data-prompt="$" }
 $ gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project <project name>
 ```
 
@@ -55,27 +55,28 @@ $ gcloud container clusters get-credentials cluster-1 --zone us-central1-a --pro
 
 1. First of all, use your [Cloud Identity and Access Management (Cloud IAM)](https://cloud.google.com/iam) to control access to the cluster. The following command will give you the ability to create Roles and RoleBindings:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value core/account)
     ```
 
-    The return statement confirms the creation:
+    ??? example "Expected output"
 
-    ```text
-    clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-binding created
-    ```
+        ``` {.text .no-copy}
+        
+        clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-binding created
+        ```
 
 2. Use the following `git clone` command to download the correct branch of the percona-postgresql-operator repository:
 
-    ```bash
-    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    cd percona-postgresql-operator
+    ``` {.bash data-prompt="$" }
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    $ cd percona-postgresql-operator
     ```
 
 3. The next thing to do is to add the `pgo` namespace to Kubernetes,
 not forgetting to set the correspondent context for further steps:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl create namespace pgo
     $ kubectl config set-context $(kubectl config current-context) --namespace=pgo
     ```
@@ -88,30 +89,35 @@ not forgetting to set the correspondent context for further steps:
 
 4. Deploy the operator with the following command:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml
     ```
 
 5. After the operator is started Percona Distribution for PostgreSQL
 can be created at any time with the following commands:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
 
     Creation process will take some time. The process is over when the Operator
     and PostgreSQL Pods have reached their Running status:
 
-    ```bash
+    ``` {.bash data-prompt="$" }
     $ kubectl get pods
-    NAME                                              READY   STATUS    RESTARTS   AGE
-    backrest-backup-cluster1-4nq2x                    0/1     Completed 0          10m
-    cluster1-6c9d4f9678-qdfx2                         1/1     Running   0          10m
-    cluster1-backrest-shared-repo-7cb4dd8f8f-sh5gg    1/1     Running   0          10m
-    cluster1-pgbouncer-6cd69d8966-vlxdt               1/1     Running   0          10m
-    pgo-deploy-bp2ts                                  0/1     Completed 0          5m
-    postgres-operator-67f58bcb8c-9p4tl                4/4     Running   1          5m
     ```
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        
+        NAME                                              READY   STATUS    RESTARTS   AGE
+        backrest-backup-cluster1-4nq2x                    0/1     Completed 0          10m
+        cluster1-6c9d4f9678-qdfx2                         1/1     Running   0          10m
+        cluster1-backrest-shared-repo-7cb4dd8f8f-sh5gg    1/1     Running   0          10m
+        cluster1-pgbouncer-6cd69d8966-vlxdt               1/1     Running   0          10m
+        pgo-deploy-bp2ts                                  0/1     Completed 0          5m
+        postgres-operator-67f58bcb8c-9p4tl                4/4     Running   1          5m
+        ```
 
     Also, you can see the same information when browsing Pods of your cluster in
     Google Cloud console via the *Object Browser*:
@@ -132,17 +138,17 @@ can be created at any time with the following commands:
     Here the actual password is base64-encoded, and `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to a human-readable form (in this example it will be a `pguser_password` string).
 
 
-7. Check connectivity to newly created cluster
+7. Check connectivity to newly created cluster. Run a new Pod to use it as a client and connect its console output to your terminal (running it may require some time to deploy). When you see the command line prompt of the newly created Pod, run `psql` tool using the password obtained from the secret. The following command will do this, naming the new Pod `pg-client`:
 
-    ```bash
+    ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U pguser pgdb
     ```
 
     This command will connect you to the PostgreSQL interactive terminal.
 
-    ```text
-    psql ({{ postgresrecommended }})
+    ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
+    $ psql ({{ postgresrecommended }})
     Type "help" for help.
     pgdb=>
     ```

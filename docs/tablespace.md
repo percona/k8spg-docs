@@ -132,7 +132,7 @@ You can see the list of Deployment objects with the kubectl `get deploy`
 command. Running it for a default cluster named `cluster1` results in the
 following output:
 
-```text
+``` {.text .no-copy}
 NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
 cluster1                        1/1     1            1           156m
 cluster1-backrest-shared-repo   1/1     1            1           156m

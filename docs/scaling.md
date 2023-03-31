@@ -9,7 +9,7 @@ Size of the cluster is dynamically controlled by a [pgReplicas.REPLICA-NAME.size
 this option and applying the updated configuration file. This may be done in a
 specifically saved config, or on the fly, using the following command:
 
-```bash
+``` {.bash data-prompt="$" }
 $ kubectl scale --replicas=5 perconapgcluster/cluster1
 ```
 
