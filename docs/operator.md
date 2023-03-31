@@ -193,6 +193,31 @@ The pgPrimary section controls the PostgreSQL Primary instance.
 | **Example**     | `Always` |
 | **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating pgPrimary and pgReplicas images |
 |                 | |
+| **Key**         | {{ optionlink('pgPrimary.expose.serviceType') }} |
+| **Value**       | string |
+| **Example**     | `ClusterIP` |
+| **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgPrimary |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.expose.loadBalancerIP') }} |
+| **Value**       | string |
+| **Example**     | `127.0.0.1` |
+| **Description** | The static IP-address for the load balancer |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.expose.loadBalancerSourceRanges') }} |
+| **Value**       | string |
+| **Example**     | `"10.0.0.0/8"` |
+| **Description** | The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations) |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.expose.annotations') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-annot: cluster1` |
+| **Description** | The [Kubernetes annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for pgPrimary |
+|                 | |
+| **Key**         | {{ optionlink('pgPrimary.expose.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgPrimary Service |
+|                 | |
 | **Key**         | {{ optionlink('pgPrimary.customconfig') }} |
 | **Value**       | string |
 | **Example**     | `""` |
@@ -512,10 +537,16 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | string |
 | **Example**     | `preferred` |
 | **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
+|                 | |
 | **Key**         | {{ optionlink('pgBouncer.expose.serviceType') }} |
 | **Value**       | string |
 | **Example**     | `ClusterIP` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgBouncer |
+|                 | |
+| **Key**         | {{ optionlink('pgBouncer.expose.loadBalancerIP') }} |
+| **Value**       | string |
+| **Example**     | `127.0.0.1` |
+| **Description** | The static IP-address for the load balancer |
 |                 | |
 | **Key**         | {{ optionlink('pgBouncer.expose.loadBalancerSourceRanges') }} |
 | **Value**       | string |
