@@ -29,7 +29,7 @@ Kubernetes-based environment:
 
 1. The PMM client installation is initiated by updating the `pmm`
     section in the
-    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/v1.3.0/deploy/cr.yaml)
+    [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/cr.yaml)
     file.
 
     * set `pmm.enabled=true`
