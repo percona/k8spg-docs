@@ -9,8 +9,12 @@ of storage classes, hostPath, and NFS.
 The following platforms were tested and are officially supported by the Operator
 {{ release }}:
 
-* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.21 - 1.24
-* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.20 - 1.22
-* [OpenShift Container Platform](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.7 - 4.10
+* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.22 - 1.25
+
+* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.22 - 1.25
+
+* [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.10 - 4.12
+
+* [Minikube](https://minikube.sigs.k8s.io/docs/) 1.28 (based on Kubernetes 1.25)
 
 Other Kubernetes platforms may also work but have not been tested.

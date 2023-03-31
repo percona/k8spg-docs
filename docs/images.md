@@ -5,24 +5,25 @@ Percona Operator for PostgreSQL:
 
 | Image                                                       | Digest                                                                  |
 |:------------------------------------------------------------|:------------------------------------------------------------------------|
-| percona/percona-postgresql-operator:1.3.0-pgo-deployer      | sha256:4f1e7292db27fcd7cbd96066d9e22c38a5cdfbefc5701d003cef8c631587401c |
-| percona/percona-postgresql-operator:1.3.0-postgres-operator | sha256:c997d3b902bd95185252ae6727bca1fef5424ff1d8c6c716e2f419b88946716a |
-| percona/percona-postgresql-operator:1.3.0-pgo-scheduler     | sha256:5e6a484f7a559e90e79aa7a034bdcf9415848015c08d244b176de17d47deeb12 |
-| percona/percona-postgresql-operator:1.3.0-pgo-rmdata        | sha256:3c7688d4ad7bbfda10a773862b58a070f6eb11106a003fd909081ed51edd520d |
-| percona/percona-postgresql-operator:1.3.0-pgo-event         | sha256:8089fb1d73bf16757a28d94b1c08649556457d5f61cdfdc33bd75cea1147f012 |
-| percona/percona-postgresql-operator:1.3.0-pgo-apiserver     | sha256:362eb3c33eaa99ab39fdf42962a38f2818253e1841aa55f656a16bcb79ac5489 |
-| percona/percona-postgresql-operator:1.3.0-ppg12-pgbadger    | sha256:7f32c664f332bdbd31ef3b85a5c00ebb073012f9c24a1f4a172e6d41686bc660 |
-| percona/percona-postgresql-operator:1.3.0-ppg13-pgbadger    | sha256:4ed1cfeb88cbe97ca714e013e4f04011f648c6336b699cdc04844cb40a97b453 |
-| percona/percona-postgresql-operator:1.3.0-ppg14-pgbadger    | sha256:b885df785f1ec057e04d9e7fefc0805d93f479ac812d6b8df4161a178cab21a1 |
-| percona/percona-postgresql-operator:1.3.0-ppg12-postgres-ha | sha256:d592459c6d30d84157050d4032ad8676a272f98a54a192ea64dfa58ecc87d1a2 |
-| percona/percona-postgresql-operator:1.3.0-ppg13-postgres-ha | sha256:535fe86580cc45cdc2f5de5f0b470d642ba7e358c67c0056364d1d28e347db32 |
-| percona/percona-postgresql-operator:1.3.0-ppg14-postgres-ha | sha256:65746063ec9fab1869065f48394bb40b164c33e8102c48c42439812b2a6ba43e |
-| percona/percona-postgresql-operator:1.3.0-ppg12-pgbouncer   | sha256:e39b74afd2cb02b290d54d925348c1c8219cdcfbb98ecc5a53767d310476ed7b |
-| percona/percona-postgresql-operator:1.3.0-ppg13-pgbouncer   | sha256:90cd9cff47c1c9bb81712cd2159eb4cc9de83c9fb13eca59f5564b58c9e8c672 |
-| percona/percona-postgresql-operator:1.3.0-ppg14-pgbouncer   | sha256:0863a651319c5339898343adb4bbf09ef6e50478badd5927a1582abd5e3c3b74 |
-| percona/percona-postgresql-operator:1.3.0-ppg12-pgbackrest  | sha256:1581f4a8733a24f82d59b113c396dda2a908e7084f252e561cae49ee8e1c4969 |
-| percona/percona-postgresql-operator:1.3.0-ppg13-pgbackrest  | sha256:92f78c38b7192880ef4bb63b419fb4de72723073ff1410c4cd244e0458ec08dc |
-| percona/percona-postgresql-operator:1.3.0-ppg14-pgbackrest  | sha256:8cfc2320d663152ec46adb79355935e161879249796e4689b3243a75653089ee |
-| percona/percona-postgresql-operator:1.3.0-ppg12-pgbackrest-repo | sha256:87ce6a7ae2c40d8080b0724614e7c53e4767064d04211dad03d3492a2757e5fe |
-| percona/percona-postgresql-operator:1.3.0-ppg13-pgbackrest-repo | sha256:8ad77cadc3f3c76afb5bf231ff0a629aa1f832299eaf7a6e82b298534b5f86ee |
-| percona/percona-postgresql-operator:1.3.0-ppg14-pgbackrest-repo | sha256:0bde250fde02d7e0a234277780d83785f5ef04c48dbf1e57c127d0f2ccbaa34a |
+| percona/percona-postgresql-operator:1.4.0-pgo-deployer      | sha256:e342d99b50f8cb58bdc25eb248c220ad4cdfe6600d4b30fe88715f9003d2eeb9 |
+| percona/percona-postgresql-operator:1.4.0-postgres-operator | sha256:007a53b1dab0a756e20899744b11c52d5ab68fe2215fa32d019bce3d71329abc |
+| percona/percona-postgresql-operator:1.4.0-pgo-scheduler     | sha256:ff6bbcd1fce588cd4e3d5fb144629e4d40d87c388e772a15a7a83afa0354d56a |
+| percona/percona-postgresql-operator:1.4.0-pgo-rmdata        | sha256:7d862e6de39116902b97ec3ff291670c6a7fba86034f440ff70eb6daa9413089 |
+| percona/percona-postgresql-operator:1.4.0-pgo-event         | sha256:60f1b2095610af341dd6a0c288d00b20182660c6534f39fc8c4117bbbac87ffe |
+| percona/percona-postgresql-operator:1.4.0-pgo-apiserver     | sha256:cb8cd3c3eb24bf5958c76e7cf355a97a82b8d9b999537ff781afe712a051768e |
+| percona/percona-postgresql-operator:1.4.0-ppg12-pgbadger    | sha256:d0bd549b2025f48fdad5966e513fe7f06323a921c5e03dbfe028326a478710d0 |
+| percona/percona-postgresql-operator:1.4.0-ppg13-pgbadger    | sha256:3111f6bc5093415ba92b1fb832dce22bccb8e80fe60f801c53b43610e9f4a76f |
+| percona/percona-postgresql-operator:1.4.0-ppg14-pgbadger    | sha256:5bee70001bf49ef091a5bc15784fe7f3f2f1d6dc85f738fcddb29597d2c61442 |
+| percona/percona-postgresql-operator:1.4.0-ppg12-postgres-ha | sha256:2bfbf40b8f87252b32b1adafc632216394a5d81a82493334ae9e79133ed99261 |
+| percona/percona-postgresql-operator:1.4.0-ppg13-postgres-ha | sha256:0a36fd94c0686b1cb8c0fecd30c31fa609a00ab127a7cb5ba76c1c9300843065 |
+| percona/percona-postgresql-operator:1.4.0-ppg14-postgres-ha | sha256:93b69b07914f1ed43812013b7bfc75692369bc39fc24349853584165fc192e45 |
+| percona/percona-postgresql-operator:1.4.0-ppg12-pgbouncer   | sha256:f9a685cc0c1867a45aec88e94657d37d01f92e9406c78797836651b5635ec1a4 |
+| percona/percona-postgresql-operator:1.4.0-ppg13-pgbouncer   | sha256:8038295f32e6962dca084efe9b390129bacc48cf64fa156392c3f58eb11cecd6 |
+| percona/percona-postgresql-operator:1.4.0-ppg14-pgbouncer   | sha256:01cb8e0c3bfe2ba55ee1559d1de24c7cf077aadef87573fe54c2138846e69991 |
+| percona/percona-postgresql-operator:1.4.0-ppg12-pgbackrest  | sha256:83b554b5354cf217ab08ddef04b356c6afa9f0b53d5e34741c87e3b01915c918 |
+| percona/percona-postgresql-operator:1.4.0-ppg13-pgbackrest  | sha256:b46a8e468b18e31ce538d554747cf577481239a178e0108d5256733c1bd551f6 |
+| percona/percona-postgresql-operator:1.4.0-ppg14-pgbackrest  | sha256:44134a683c043792acee37a342b80934b2923912f42345eb53c5c0019610608a |
+| percona/percona-postgresql-operator:1.4.0-ppg12-pgbackrest-repo | sha256:b5008c4c8e8d9ac3a21a9fd76fb75354729eb726e1654f5918391c371c1aedf1 |
+| percona/percona-postgresql-operator:1.4.0-ppg13-pgbackrest-repo | sha256:5fc2f7f332334c8b16aa85972e5a5b7cfe2b9514e62ffaaf4d6e212c068fbbb4 |
+| percona/percona-postgresql-operator:1.4.0-ppg14-pgbackrest-repo | sha256:5ca47c5c6ddd85aa47b6a2e3e618a731804583d838900a8287ff0a821e158645 |
+
