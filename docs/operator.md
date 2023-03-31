@@ -398,6 +398,11 @@ name used for backups |
 | **Example**     | `local` |
 | **Description** | The [type](backups.md#backups-pgbackrest-repo-type) of the pgBackRest repository |
 |                 | |
+| **Key**         | {{ optionlink('backup.schedule.backrestOpts') }} |
+| **Value**       | string |
+| **Example**     | `--annotation=source=scheduled-backup` |
+| **Description** | Custom pgBackRest configuration options for scheduled backups |
+|                 | |
 | **Key**         | {{ optionlink('backup.customconfig') }} |
 | **Value**       | string |
 | **Example**     | `""` |
