@@ -151,6 +151,7 @@ nav:
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespace.md
+          - "Creating a private S3-compatible cloud for backups": private.md
           
     - Reference:
           - "Custom Resource options": operator.md
