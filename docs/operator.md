@@ -33,6 +33,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `true` |
 | **Description** | Set to `true` if the cluster is being deployed on OpenShift, set to `false` otherwise, or  unset it for autodetection |
 |                 | |
+| **Key**         | {{ optionlink('standby.repoName') }} |
+| **Value**       | string |
+| **Example**     | `repo1` |
+| **Description** | Name of the pgBackRest repository in the primary cluster this standby cluster connects to |
+|                 | |
 | **Key**         | {{ optionlink('users.name') }} |
 | **Value**       | string |
 | **Example**     | `rhino` |
