@@ -19,9 +19,20 @@ by adding marketing-requested elements
 </div>
 </div>
 {%- endmacro %}
-              
+            
               {% block extrahead %}
               {{ super() }}
+
+              <html data-lt-installed="true">
+                <head>
+                    <meta property="og:title" content="Percona Operator for PostgreSQL">
+                    <meta property="og:description" content="Documentation">
+                    <meta property="og:image" content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
+                    <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
+                </head>
+                <body>
+                </body>
+              </html>
 
               <script>
               (function (w, d, s, l, i) {
@@ -53,8 +64,8 @@ by adding marketing-requested elements
 
                 <!-- Edit and view button -->
                 {% if page.edit_url %}
-                  {% set edit = "https://github.com/percona/k8spg-docs/edit/main/docs/" %}
-                  {% set view = "https://raw.githubusercontent.com/percona/k8spg-docs/main/docs/" %}
+                  {% set edit = "https://github.com/percona/k8spg-docs/edit/2.0/docs/" %}
+                  {% set view = "https://raw.githubusercontent.com/percona/k8spg-docs/2.0/docs/" %}
                   <a
                     href="{{ page.edit_url }}"
                     title="{{ lang.t('edit.link.title') }}"
