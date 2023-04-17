@@ -66,21 +66,19 @@ use the *standby cluster* name.
     $ kubectl create -f /tmp/copied-secrets/${standby_cluster_name}-users
     ```
 
-* Set the [backup.repoPath](operator.md#backup-repopath) option in the
-    `deploy/cr.yaml` file of your *standby cluster* to the actual place where
-    the *primary cluster* stores backups. If this option is not set in
-    `deploy/cr.yaml` of your *primary cluster*, then the following default
-    naming is used: `/backrestrepo/<primary-cluster-name>-backrest-shared-repo`.
-    For example, in case of `myPrimaryCluster` and `myStandbyCluster`
+* Set the `standby.repoName`, `standby.host`, and optionally `standby.port`
+    Custom Resource options in the `deploy/cr.yaml` file of your
+    *standby cluster* to the actual place where the *primary cluster* stores
+    backups. For example, in case of `myPrimaryCluster` and `myStandbyCluster`
     clusters, it should look as follows:
 
     ```yaml
     ...
       name: myStandbyCluster
     ...
-      backup:
-        ...
-        repoPath: "/backrestrepo/myPrimaryCluster-backrest-shared-repo"
+      standby:
+        host: "myPrimaryClusterHost"
+        repoName: "myPrimaryCluster-backrest-shared-repo"
     ```
 
 * Supply your *standby cluster* with the Kubernetes Secret used by pgBackRest of
@@ -92,10 +90,11 @@ use the *standby cluster* name.
     `cluster1-backrest-repo-config` should be recreated as
     `cluster2-backrest-repo-config`.
 
-* Enable the standby option in your *standby cluster’s* `deploy/cr.yaml` file:
+* Enable the standby mode in your *standby cluster’s* `deploy/cr.yaml` file:
 
     ```yaml
-    standby: true
+    standby
+      enabled: true
     ```
 
 When you have applied your new cluster configuration with the usual
@@ -103,10 +102,11 @@ When you have applied your new cluster configuration with the usual
 pgBackRest, and your Disaster Recovery preparations are over.
 
 When you need to actually use your new cluster, get it out from standby mode,
-changing the standby option in your `deploy/cr.yaml` file:
+changing the `standby.enabled` option in your `deploy/cr.yaml` file:
 
 ```yaml
-standby: false
+standby
+  enabled: false
 ```
 
 Please take into account, that your `cluster1` cluster should not exist at the
