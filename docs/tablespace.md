@@ -128,7 +128,7 @@ directory in PostgreSQL Pods. To remove these mounts, you should edit
 Kubernetes cluster and remove the `Volume` and `VolumeMount` entries related
 to your tablespace.
 
-You can see the list of Deployment objects with the kubectl `get deploy`
+You can see the list of Deployment objects with the `kubectl get deploy`
 command. Running it for a default cluster named `cluster1` results in the
 following output:
 
