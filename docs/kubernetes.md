@@ -63,16 +63,11 @@ can be created at any time with the following command:
 
 5. During previous steps, the Operator has generated several [secrets](https://kubernetes.io/docs/concepts/configuration/secret/), including the password for the `pguser` user, which you will need to access the cluster.
 
-    Use `kubectl get secrets` command to see the list of Secrets objects (by default Secrets object you are interested in has `cluster1-pguser-secret` name). Then `kubectl get secret cluster1-pguser-secret -o yaml` will return the YAML file with generated secrets, including the password which should look as follows:
+    Use `kubectl get secrets` command to see the list of Secrets objects (by default Secrets object you are interested in has `cluster1-pguser-secret` name). Then you can use `kubectl get secret cluster1-pguser-secret -o yaml` to look through the YAML file with generated secrets (the actual password will be base64-encoded), or just get the needed password with the following command:
 
-    ```yaml
-    ...
-    data:
-      ...
-      password: cGd1c2VyX3Bhc3N3b3JkCg==
+    ``` {.bash data-prompt="$"}
+    $ kubectl get secrets cluster1-users -o yaml -o jsonpath='{.data.postgres}' | base64 --decode | tr '\n' ' ' && echo " "
     ```
-
-    Here the actual password is base64-encoded, and `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to a human-readable form (in this example it will be a `pguser_password` string).
 
 6. Check connectivity to newly created cluster. Run a new Pod to use it as a client and connect its console output to your terminal (running it may require some time to deploy). When you see the command line prompt of the newly created Pod, run `psql` tool using the password obtained from the secret. The following command will do this, naming the new Pod `pg-client`:
 
