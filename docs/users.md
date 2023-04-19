@@ -38,7 +38,7 @@ of this user in the `spec.user`  Custom Resource option).
 ### YAML Object Format
 
 The default name of the Secrets object for these users is `cluster1-users` and
-can be set in the CR for your cluster in `spec.secretName` to something
+can be set in the CR for your cluster in `spec.secretsName` to something
 different. When you create the object yourself, it should match the following
 simple format:
 

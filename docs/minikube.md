@@ -87,23 +87,11 @@ the following three components:
     including the password for the `pguser` user, which you will need to access
     the cluster.
 
-    Use `kubectl get secrets` command to see the list of Secrets objects(by
-    default Secrets object you are interested in has `cluster1-pguser-secret`
-    name). Then `kubectl get secret cluster1-pguser-secret -o yaml` will return
-    the YAML file with generated secrets, including the password which should
-    look as follows:
+    Use `kubectl get secrets` command to see the list of Secrets objects (by default Secrets object you are interested in has `minimal-cluster-pguser-secret` name). Then you can use `kubectl get secret minimal-cluster-pguser-secret -o yaml` to look through the YAML file with generated secrets (the actual password will be base64-encoded), or just get the needed password with the following command:
 
-    ```yaml
-    ...
-    data:
-      ...
-      password: cGd1c2VyX3Bhc3N3b3JkCg==
+    ``` {.bash data-prompt="$"}
+    $ kubectl get secrets minimal-cluster-users -o yaml -o jsonpath='{.data.postgres}' | base64 --decode | tr '\n' ' ' && echo " "
     ```
-
-    Here the actual password is base64-encoded, and
-    `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to
-    a human-readable form (in this example it will be a `pguser_password`
-    string).
 
 6. Check connectivity to a newly created cluster.
 

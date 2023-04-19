@@ -46,6 +46,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `cluster1-ssl-ca` |
 | **Description** | The name of the secret with TLS  used for both connection encryption (external traffic), and replication (internal traffic) |
 |                 | |
+| **Key**         | {{ optionlink('secretsName','spec') }} |
+| **Value**       | string |
+| **Example**     | `cluster1-secrets` |
+| **Description** | The name of the secret created to store [credentials for system users](users.md) |
+|                 | |
 | **Key**         | {{ optionlink('sslSecretName','spec') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-ssl-keypair` |
