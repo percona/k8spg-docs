@@ -9,8 +9,8 @@ User accounts within the Cluster can be divided into two different groups:
 
 The Operator creates needed system users at the cluster deployment time with
 generated random passwords. It can manage additional (application-level) users
-in the same way, if their data are placed into the Custom Resource `users`
-section.
+also if their data are placed into the Custom Resource `users` section. Changes
+in this section will be tracked and immediately applied by the Operator.
 
 For example, here is a self-explanatory `deploy/cr.yaml` configuration file
 fragment which would add a new `rhino` user with administrative privileges over
@@ -53,6 +53,12 @@ placeholder):
 ``` {.bash data-prompt="$" }
 $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{.data.password | base64decode}}{{"\n"}}'
 ```
+
+!!! note
+
+    The `{{"\n"}}` fragment at the end of the above command provides a newline to
+    improve the readability of the command output. In case of automation (for
+    example, in a script), this fragment can be safely omitted.
 
 If you want to rotate user's password, just remove the old password in the
 correspondent Secret: the Operator will immediately generate a new password
