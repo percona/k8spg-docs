@@ -15,8 +15,9 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
         It is crucial to specify the right branch with `-b` option while cloning the
         code on this step. Please be careful.
 
-2. The next thing to do is to add the `pgo` namespace to Kubernetes,
-not forgetting to set the correspondent context for further steps:
+2. The next thing to do is to add the `postgres-operator` namespace to
+    Kubernetes, not forgetting to set the correspondent context for further
+    steps:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace postgres-operator
@@ -35,15 +36,15 @@ not forgetting to set the correspondent context for further steps:
     $ kubectl apply -f deploy/bundle.yaml
     ```
 
-4. After the operator is started Percona Distribution for PostgreSQL
-can be created at any time with the following command:
+4. After the operator is started Percona Distribution for PostgreSQL can be
+    created at any time with the following command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
 
     Creation process will take some time. The process is over when both
-    operator and replica set pod have reached their Running status:
+    Operator and replica set Pods have reached their Running status:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pods
@@ -60,21 +61,26 @@ can be created at any time with the following command:
         percona-postgresql-operator-75fd989d98-wvx4h   1/1     Running     0          109s
         ```
 
-5. During previous steps, the Operator has generated several [secrets](https://kubernetes.io/docs/concepts/configuration/secret/), including the password for the default unprivileged user named after the cluster (the `cluster1` user by default).
+5. During previous steps, the Operator has generated several
+    [secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
+    including the one with password for default `pguser` user named after the
+    cluster.
 
-    Use `kubectl get secrets` command to see the list of Secrets objects. The Secrets object you are interested in is named as `<clusterName>-pguser-<clusterName>`, so the default variant will be `cluster1-pguser-cluster1`. Then `kubectl get secret cluster1-pguser-cluster1 -o yaml` will return the YAML file with generated secrets, including the password which should look as follows:
-
-    ```yaml
-    ...
-    data:
-      ...
-      password: cGd1c2VyX3Bhc3N3b3JkCg==
+    Use `kubectl get secrets` command to see the list of Secrets objects. The
+    Secrets object you are interested in is named as
+    `<cluster_name>-pguser-<cluster_name>`, so the default variant will be
+    `cluster1-pguser-cluster1`. You can use the following command to get the
+    password of this user:
+    
+    ``` {.bash data-prompt="$" }
+    $ kubectl get secret cluster1-pguser-cluster1 --template='{{.data.password | base64decode}}{{"\n"}}'
     ```
 
-    Here the actual password is base64-encoded, and `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to a human-readable form (in this example it will be a `pguser_password` string).
-
-
-6. Check connectivity to newly created cluster. Run a new Pod to use it as a client and connect its console output to your terminal (running it may require some time to deploy). When you see the command line prompt of the newly created Pod, run `psql` tool using the password obtained from the secret. The following command will do this, naming the new Pod `pg-client`:
+6. Check connectivity to newly created cluster. Run a new Pod to use it as a
+    client and connect its console output to your terminal (running it may
+    require some time to deploy). When you see the command line prompt of the
+    newly created Pod, run `psql` tool using the password obtained from the
+    Secret. The following command will do this, naming the new Pod `pg-client`:
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
