@@ -51,7 +51,7 @@ cluster name instead of the `<cluster_name>-<user_name>-<cluster_name>`
 placeholder):
 
 ``` {.bash data-prompt="$" }
-$ kubectl get secrets <cluster_name>-<user_name>-<cluster_name> -o yaml -o jsonpath='{.data.password}' | base64 --decode | tr '\n' ' ' && echo " "
+$ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{.data.password | base64decode}}{{"\n"}}'
 ```
 
 If you want to rotate user's password, just remove the old password in the
