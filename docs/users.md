@@ -51,7 +51,7 @@ cluster name instead of the `<cluster_name>-<user_name>-<cluster_name>`
 placeholder):
 
 ``` {.bash data-prompt="$" }
-$ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{.data.password | base64decode}}{{"\n"}}'
+$ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
 ```
 
 !!! note
