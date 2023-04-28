@@ -10,7 +10,7 @@
     password of this user:
     
     ``` {.bash data-prompt="$" }
-    $ kubectl get secret cluster1-pguser-cluster1 --template='{{.data.password | base64decode}}{{"\n"}}'
+    $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
     ```
 
 2. Run a container with `psql` tool and connect its console output to your
