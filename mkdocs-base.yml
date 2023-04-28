@@ -126,15 +126,16 @@ extra: # Used in main.html template and can't be externalized
 nav:
 
     - Welcome: index.md
-    - Requirements:
+    - Features:
           - "System Requirements": System-Requirements.md
           - "Design and architecture": architecture.md
           
-    - Quickstart guides:
-          - "Install on Google Kubernetes Engine (GKE)": gke.md
+    - Quickstart:
           - "Install with Helm": helm.md
+          - "Install with kubectl": kubectl.md
           
-    - Detailed installation guide:
+    - Installation:
+          - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Generic Kubernetes installation": kubernetes.md
           
     - Configuration:

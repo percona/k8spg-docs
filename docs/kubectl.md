@@ -15,8 +15,8 @@ The following tools are used in this guide and therefore should be preinstalled:
 The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
 your Kubernetes environment:
 
-1. Add the `postgres-operator` namespace to Kubernetes, not forgetting to set the
-    correspondent context for further steps:
+1. Add the `postgres-operator` namespace to Kubernetes, not forgetting to set
+    the correspondent context for further steps:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace postgres-operator
@@ -30,7 +30,7 @@ your Kubernetes environment:
         `deploy/bundle.yaml` configuration files.
 
 
-1. Deploy the Operator with the following command:
+2. Deploy the Operator with the following command:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
@@ -51,7 +51,7 @@ your Kubernetes environment:
 
     As the result you will have the Operator Pod up and running.
 
-2. Deploy Percona Distribution for PostgreSQL:
+3. Deploy Percona Distribution for PostgreSQL:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml

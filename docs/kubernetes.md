@@ -12,8 +12,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-        It is crucial to specify the right branch with `-b` option while cloning the
-        code on this step. Please be careful.
+    It is crucial to specify the right branch with `-b` option while cloning the
+    code on this step. Please be careful.
 
 2. The next thing to do is to add the `postgres-operator` namespace to
     Kubernetes, not forgetting to set the correspondent context for further
@@ -33,7 +33,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 3. Deploy the operator with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/bundle.yaml
+    $ kubectl apply --server-side  -f deploy/bundle.yaml
     ```
 
 4. After the operator is started Percona Distribution for PostgreSQL can be
@@ -61,37 +61,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
         percona-postgresql-operator-75fd989d98-wvx4h   1/1     Running     0          109s
         ```
 
-5. During previous steps, the Operator has generated several
-    [secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
-    including the one with password for default `pguser` user named after the
-    cluster.
+## Verifying the cluster operation
 
-    Use `kubectl get secrets` command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    `<cluster_name>-pguser-<cluster_name>`, so the default variant will be
-    `cluster1-pguser-cluster1`. You can use the following command to get the
-    password of this user:
-    
-    ``` {.bash data-prompt="$" }
-    $ kubectl get secret cluster1-pguser-cluster1 --template='{{.data.password | base64decode}}{{"\n"}}'
-    ```
+When creation process is over, you can try to connect to the cluster.
 
-6. Check connectivity to newly created cluster. Run a new Pod to use it as a
-    client and connect its console output to your terminal (running it may
-    require some time to deploy). When you see the command line prompt of the
-    newly created Pod, run `psql` tool using the password obtained from the
-    Secret. The following command will do this, naming the new Pod `pg-client`:
-
-    ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U cluster1 cluster1
-    ```
-
-    This command will connect you as a `cluster1` user to a `cluster1` database
-    via the PostgreSQL interactive terminal.
-
-    ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
-    $ psql ({{ postgresrecommended }})
-    Type "help" for help.
-    pgdb=>
-    ```
+{% include 'assets/fragments/connectivity.txt' %}
