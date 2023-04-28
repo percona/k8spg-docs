@@ -38,6 +38,16 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `repo1` |
 | **Description** | Name of the pgBackRest repository in the primary cluster this standby cluster connects to |
 |                 | |
+| **Key**         | {{ optionlink('secrets.customTLSSecretName') }} |
+| **Value**       | string |
+| **Example**     | `""` |
+| **Description** | A secret with TLS certificate generated for *external* communications, see [Transport Layer Security (TLS)](TLS.md) for details |
+|                 | |
+| **Key**         | {{ optionlink('secrets.customReplicationTLSSecret') }} |
+| **Value**       | string |
+| **Example**     | `""` |
+| **Description** | A secret with TLS certificate generated for *internal* communications, see [Transport Layer Security (TLS)](TLS.md) for details |
+|                 | |
 | **Key**         | {{ optionlink('users.name') }} |
 | **Value**       | string |
 | **Example**     | `rhino` |

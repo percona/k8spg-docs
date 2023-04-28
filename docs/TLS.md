@@ -14,10 +14,6 @@ TLS security can be configured in several ways:
 * the Operator can generate certificates automatically at cluster creation time,
 * you can also generate certificates manually.
 
-You can also use pre-generated certificates available in the
-`deploy/ssl-secrets.yaml` file for test purposes, but we strongly recommend
-**avoiding their usage on any production system**!
-
 The following subsections explain how to configure TLS security with the
 Operator yourself, as well as how to temporarily disable it if needed.
 
@@ -25,63 +21,15 @@ Operator yourself, as well as how to temporarily disable it if needed.
 
 The Operator is able to generate long-term certificates automatically and
 turn on encryption at cluster creation time, if there are no certificate
-secrets available. It generates certificates with the help of [cert-manager](https://cert-manager.io/docs/)
--  a Kubernetes certificate management controller widely used to
-automate the management and issuance of TLS certificates.
-Cert-manager is community-driven and open source.
-
-### Installation of the *cert-manager*
-
-You can install *cert-manager* as follows:
-
-
-* Create a namespace,
-* Disable resource validations on the cert-manager namespace,
-* Install the cert-manager.
-
-The following commands perform all the needed actions:
-
-``` {.bash data-prompt="$" }
-$ kubectl create namespace cert-manager
-$ kubectl label namespace cert-manager certmanager.k8s.io/disable-validation=true
-$ kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.5.4/cert-manager.yaml
-```
-
-After the installation, you can verify the *cert-manager* by running the following command:
-
-``` {.bash data-prompt="$" }
-$ kubectl get pods -n cert-manager
-```
-
-The result should display the *cert-manager* and webhook active and running.
-
-### Turning automatic generation of certificates on
-
-When you have already installed *cert-manager*, the operator is able to request a
-certificate from it. To make this happend, uncomment `sslCA`, `sslSecretName`,
-and `sslReplicationSecretName` options in the `deploy/cr.yaml` configuration
-file:
-
-```yaml
-...
-spec:
-#  secretsName: cluster1-users
-  sslCA: cluster1-ssl-ca
-  sslSecretName: cluster1-ssl-keypair
-  sslReplicationSecretName: cluster1-ssl-keypair
-...
-```
-
-When done, deploy your cluster as usual, with the `kubectl apply -f deploy/cr.yaml`
-command. Certificates will be generated if there are no certificate secrets
-available.
+secrets available. Just deploy your cluster as usual, with the
+`kubectl apply -f deploy/cr.yaml` command, and certificates will be generated.
 
 ## Generate certificates manually
 
 To generate certificates manually, follow these steps:
 
-1. Provision a  to generate TLS certificates,
-2. Generate a  key and certificate file with the server details,
+1. Provision a Certificate Authority (CA)  to generate TLS certificates,
+2. Generate a CA key and certificate file with the server details,
 3. Create the server TLS certificates using the keys, certs, and server details.
 
 The set of commands generates certificates with the following attributes:
@@ -168,14 +116,10 @@ $ kubectl create secret tls  ${CLUSTER_NAME}-ssl-replicas --cert=replicas.pem --
 When certificates are generated, set the following keys in the
 `deploy/cr.yaml` configuration file:
 
-* `spec.sslCA` key should contain the name of the secret with TLS
- used for both connection encryption
-(external traffic), and replication (internal traffic),
-* `spec.sslSecretName` key should contain the name of the secret created to
-encrypt **external** communications,
-* `spec.secrets.sslReplicationSecretName` key should contain the name of the
-secret created to encrypt **internal** communications,
-* `spec.tlsOnly` is set to `true` by default and enforces encryption
+* `spec.secrets.customTLSSecretName` key should contain the name of the secret
+    created to encrypt **external** communications,
+* `spec.secrets.customReplicationTLSSecret` key should contain the name of the
+    secret created to encrypt **internal** communications.
 
 Don’t forget to apply changes as usual:
 
@@ -231,7 +175,7 @@ EOF
 
 Now get shell access to the newly created container, and launch the PostgreSQL
 interactive terminal to check connectivity over the encrypted channel (please
-use real cluster-name, PostgreSQL user login and password):
+use real cluster-name, [PostgreSQL user login and password](users.md)):
 
 ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
 $ kubectl exec -it deployment/pg-client -- bash -il
@@ -246,11 +190,3 @@ Type "help" for help.
 pgdb=>
 ```
 
-## Run Percona Distribution for PostgreSQL without TLS
-
-Omitting TLS is also possible, but we recommend that you run your cluster with
-the TLS protocol enabled.
-
-To disable TLS protocol (e.g. for demonstration purposes) set the
-`spec.tlsOnly` key to `false`, and make sure that there are no
-certificate secrets configured in the `deploy/cr.yaml` file.
