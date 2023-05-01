@@ -23,7 +23,7 @@ The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Pos
 
 ## Release Highlights
 
-* Now it is [possible](../backups.md#restore) to restore previously saved backups not only to an already-esixting cluster, but also to some new Kubernetes-based environment
+* Now it is [possible](../backups.md#restore) to restore previously saved backups not only to an already-existing cluster, but also to some new Kubernetes-based environment
 
 * Handy `pg`, `pg-backup`, and `pg-restore` short names have been added for the Operator Custom Resources, useful to quickly query the cluster state with the `kubectl get` command
 
@@ -35,29 +35,23 @@ The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Pos
 
 * {{ k8spgjira(330) }}: The new `delete-ssl` finalizer can now be used to automatically delete objects created for SSL (Secret, certificate, and issuer) in case of cluster deletion
 
-* {{ k8spgjira(331) }}: Starting from now, the operator adds short names to its custom resources: `pg`, `pg-backup`, and `pg-restore`
+* {{ k8spgjira(331) }}: Starting from now, the Operator adds short names to its Custom Resources: `pg`, `pg-backup`, and `pg-restore`
 
 ## Improvements
 
 * {{ k8spgjira(282) }}: PostgreSQL 15 is now officially supported by the Operator
 
-* {{ k8spgjira(262) }}: Operator should not try to start PMM if there is no 'pmmserverkey or pmmserver' key in secret
+* {{ k8spgjira(262) }}: The Operator now does not attempt to start Percona Monitoring and Management (PMM) client if the corresponding secret does not contain the `pmmserver` or `pmmserverkey` key
 
-* {{ k8spgjira(272) }}: pmm agent is not deleted from server inventory on pod termination
+* {{ k8spgjira(272) }}: Fix a bug due to which PMM agent related to the Pod wasn't deleted from the PMM Server inventory on Pod termination
 
-* {{ k8spgjira(278) }}: Keep finalizers consistent between cluster objects
+* {{ k8spgjira(285) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we [add more data points](../telemetry.md) to it
 
-* {{ k8spgjira(285) }}: More questions answered with telemetry
+* {{ k8spgjira(295) }}: Additional information was added to the status of the Operator Custom Resource, which now shows `name`, `endpoint`, `status`, and `age` fields
 
-* {{ k8spgjira(295) }}: PerconaPGCluster CR status inconsistencies with other operators
+* {{ k8spgjira(304) }}: The Operator stops using trust authentication method in `pg_hba.conf` for better security
 
-* {{ k8spgjira(304) }}: Reconsider using trust in pg_hba.conf
-
-* {{ k8spgjira(305) }}: Research migration process
-
-* {{ k8spgjira(306) }}: Ensure feature parity with v1
-
-* {{ k8spgjira(325) }}: Custom resource pause and shutdown alignment	Dmitriy Kostiuk	In Doc	Under Review	
+* {{ k8spgjira(325) }}: Custom Resource options previously named `paused` and `shutdown` were renamed to `unmanaged` and `pause` for better alignment with other Percona Operators
 
 * {{ k8spgjira(327) }}: Consider removing Crunchy status from PostgresClusterStatus
 
