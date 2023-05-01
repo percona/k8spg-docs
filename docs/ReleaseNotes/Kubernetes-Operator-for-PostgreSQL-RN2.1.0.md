@@ -23,21 +23,23 @@ The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Pos
 
 ## Release Highlights
 
-* The [automated upgrade](../update.md#automatic-upgrade) is now disabled by default to prevent an unplanned downtimes for user applications and to provide defaults more focused on strict user’s control over the cluster
+* Now it is [possible](../backups.md#restore) to restore previously saved backups not only to an already-esixting cluster, but also to some new Kubernetes-based environment
 
-* [Flexible anti-affinity configuration](../constraints.md) is now available, which allows the Operator to isolate PostgreSQL cluster instances on different Kubernetes nodes or to increase its availability by placing PostgreSQL instances in different availability zones
+* Handy `pg`, `pg-backup`, and `pg-restore` short names have been added for the Operator Custom Resources, useful to quickly query the cluster state with the `kubectl get` command
 
 ## New Features
 
-* {{ k8spgjira(158) }}: Restore from a backup to the new cluster
+* {{ k8spgjira(158) }}: A possibility to [restore backups to a new Kubernetes-based environment](../backups.md#restore) with no existing Percona PostgreSQL Operator Custom Resource
 
-* {{ k8spgjira(282) }}: Add support for PostgreSQL v 15
+* {{ k8spgjira(328) }}: The new `delete-pvc` finalizer allows to either delete or preserve Persistent Volumes at Custom Resource deletion
 
-* {{ k8spgjira(328) }}: PVCs should be preserved on custom resource deletion	Dmitriy Kostiuk	In Doc	MERGED	
-* {{ k8spgjira(330) }}: SSL secrets should be preserved on deletion	Dmitriy Kostiuk	In Doc	MERGED	
-* {{ k8spgjira(331) }}: Add short name for CRD
+* {{ k8spgjira(330) }}: The new `delete-ssl` finalizer can now be used to automatically delete objects created for SSL (Secret, certificate, and issuer) in case of cluster deletion
+
+* {{ k8spgjira(331) }}: Starting from now, the operator adds short names to its custom resources: `pg`, `pg-backup`, and `pg-restore`
 
 ## Improvements
+
+* {{ k8spgjira(282) }}: PostgreSQL 15 is now officially supported by the Operator
 
 * {{ k8spgjira(262) }}: Operator should not try to start PMM if there is no 'pmmserverkey or pmmserver' key in secret
 
