@@ -21,19 +21,21 @@ setup of a Percona Distribution for PostgreSQL cluster. The benefits of the
 Operator are many, but saving time and delivering a consistent and vetted
 environment is key.
 
-# Requirements
+# Features
 
 * [System Requirements](System-Requirements.md)
 
 * [Design and architecture](architecture.md)
 
-# Quickstart guides
-
-* [Install on Google Kubernetes Engine (GKE)](gke.md)
+# Quickstart
 
 * [Install with Helm](helm.md)
 
-# Detailed installation guides
+* [Install with kubectl](kubectl.md)
+
+# Installation
+
+* [Install on Google Kubernetes Engine (GKE)](gke.md)
 
 * [Generic Kubernetes installation](kubernetes.md)
 

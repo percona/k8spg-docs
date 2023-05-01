@@ -7,7 +7,7 @@ For more information on the GKE, see the [Kubernetes Engine Quickstart](https://
 
 ## Prerequisites
 
-All commands from this quickstart can be run either in the **Google Cloud shell** or in **your local shell**.
+All commands from this installation guide can be run either in the **Google Cloud shell** or in **your local shell**.
 
 To use *Google Cloud shell*, you need nothing but a modern web browser.
 
@@ -25,7 +25,7 @@ If you would like to use *your local shell*, install the following:
 
 ## Create and configure the GKE cluster
 
-You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command will create a cluster named `my-cluster-1`:
+You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command will create a cluster named `cluster-1`:
 
 ``` {.bash data-prompt="$" }
 $ gcloud container clusters create cluster-1 --project <project name> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
@@ -33,7 +33,7 @@ $ gcloud container clusters create cluster-1 --project <project name> --zone us-
 
 !!! note
 
-    You must edit the following command and other command-line statements to
+    You must edit the above command and other command-line statements to
     replace the `<project name>` placeholder with your project name. You may
     also be required to edit the *zone location*, which is set to `us-central1`
     in the above example. Other parameters specify that we are creating a
@@ -81,8 +81,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     $ cd percona-postgresql-operator
     ```
 
-2. The next thing to do is to add the `postgres-operator` namespace to Kubernetes,
-not forgetting to set the correspondent context for further steps:
+2. Add the `postgres-operator` namespace to Kubernetes, not forgetting to set
+    the correspondent context for further steps:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace postgres-operator
@@ -98,15 +98,35 @@ not forgetting to set the correspondent context for further steps:
 3. Deploy the operator with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/bundle.yaml --server-side
+    $ kubectl apply --server-side -f deploy/bundle.yaml
     ```
 
-4. After the operator is started Percona Distribution for PostgreSQL
-can be created at any time with the following commands:
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
+        serviceaccount/percona-postgresql-operator serverside-applied
+        role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+        rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
+        deployment.apps/percona-postgresql-operator serverside-applied
+        ```
+
+    As the result you will have the Operator Pod up and running.
+
+4. Deploy Percona Distribution for PostgreSQL:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        perconapgcluster.pg.percona.com/cluster1 created
+        ```
 
     Creation process will take some time. The process is over when the Operator
     and PostgreSQL Pods have reached their Running status:
@@ -126,37 +146,38 @@ can be created at any time with the following commands:
         percona-postgresql-operator-75fd989d98-wvx4h   1/1     Running     0          109s
         ```
 
-    Also, you can see the same information when browsing Pods of your cluster in
-    Google Cloud console via the *Object Browser*:
+??? note "You can also track the creation process in Google Cloud console via the Object Browser"
+
+    When the creation process is finished, it will look as follows:
 
     ![image](assets/images/gke-quickstart-object-browser.svg)
 
-5. During previous steps, the Operator has generated several [secrets](https://kubernetes.io/docs/concepts/configuration/secret/), including the password for the default unprivileged user named after the cluster (the `cluster1` user by default).
+## Verifying the cluster operation
 
-    Use `kubectl get secrets` command to see the list of Secrets objects. The Secrets object you are interested in is named as `<clusterName>-pguser-<clusterName>`, so the default variant will be `cluster1-pguser-cluster1`. Then `kubectl get secret cluster1-pguser-cluster1 -o yaml` will return the YAML file with generated secrets, including the password which should look as follows:
+When creation process is over, you can try to connect to the cluster.
 
-    ```yaml
-    ...
-    data:
-      ...
-      password: cGd1c2VyX3Bhc3N3b3JkCg==
-    ```
+{% include 'assets/fragments/connectivity.txt' %}
 
-    Here the actual password is base64-encoded, and `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to a human-readable form (in this example it will be a `pguser_password` string).
+## Removing the GKE cluster
 
+There are several ways that you can delete the cluster.
 
-6. Check connectivity to newly created cluster. Run a new Pod to use it as a client and connect its console output to your terminal (running it may require some time to deploy). When you see the command line prompt of the newly created Pod, run `psql` tool using the password obtained from the secret. The following command will do this, naming the new Pod `pg-client`:
+You can clean up the cluster with the `gcloud` command as follows:
 
-    ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U cluster1 cluster1
-    ```
+``` {.bash data-prompt="$" }
+$ gcloud container clusters delete <cluster name>
+```
 
-    This command will connect you as a `cluster1` user to a `cluster1` database
-    via the PostgreSQL interactive terminal.
+The return statement requests your confirmation of the deletion. Type `y` to confirm.
 
-    ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
-    $ psql ({{ postgresrecommended }})
-    Type "help" for help.
-    pgdb=>
-    ```
+??? note "Also, you can delete your cluster via the Google Cloud console"
+
+    Just click the `Delete` popup menu item in the clusters list:
+
+    ![image](assets/images/gke-quickstart-cluster-connect.svg)
+
+The cluster deletion may take time.
+
+!!! warning
+
+    After deleting the cluster, all data stored in it will be lost!
