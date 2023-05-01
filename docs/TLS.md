@@ -190,3 +190,8 @@ Type "help" for help.
 pgdb=>
 ```
 
+## Keep certificates after deleting the cluster
+
+In case of cluster deletion, objects, created for SSL (Secret, certificate, and issuer) are not deleted by default.
+
+If the user wants the cleanup of objects created for SSL, there is a [finalizers.percona.com/delete-ssl](operator.md#finalizers-delete-ssl) Custom Resource option, which can be set in `deploy/cr.yaml`: if this finalizer is set, the Operator will delete Secret, certificate and issuer after the cluster deletion event.
