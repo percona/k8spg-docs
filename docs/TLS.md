@@ -116,9 +116,9 @@ $ kubectl create secret tls  ${CLUSTER_NAME}-ssl-replicas --cert=replicas.pem --
 When certificates are generated, set the following keys in the
 `deploy/cr.yaml` configuration file:
 
-* `spec.secrets.customTLSSecretName` key should contain the name of the secret
+* `spec.secrets.customTLSSecret.name` key should contain the name of the secret
     created to encrypt **external** communications,
-* `spec.secrets.customReplicationTLSSecret` key should contain the name of the
+* `spec.secrets.customReplicationTLSSecret.name` key should contain the name of the
     secret created to encrypt **internal** communications.
 
 Don’t forget to apply changes as usual:
