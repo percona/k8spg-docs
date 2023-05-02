@@ -9,27 +9,23 @@
     [Installing Percona Operator for PostgreSQL](https://www.percona.com/doc/kubernetes-operator-for-postgresql/2.0/index.html#installation-guide) 
 
 
-The Percona Operator is based on best practices for configuration and setup of
-a [Percona Distribution for PostgreSQL on Kubernetes](https://www.percona.com/doc/postgresql/LATEST/index.html).
-The benefits of the Operator are many, but saving time and delivering a
-consistent and vetted environment is key.
+The Percona Operator built with best practices of configuration and setup of
+[Percona Distribution for PostgreSQL on Kubernetes](https://www.percona.com/doc/postgresql/LATEST/index.html).
+
+Percona Operator for PostgreSQL helps create and manage highly available, enterprise-ready PostgreSQL clusters on Kubernetes. It is 100% open source, free from vendor lock-in, usage restrictions and expensive contracts, and include enterprise-ready features: backup/restore, high availability, replication, logging, and more.
+
+The benefits of using Percona Operator for PostgreSQL include saving time on database operations via automation of Day-1 and Day-2 operations and deployment of consistent and vetted environment on Kubernetes.
 
 !!! note
 
     Version 2.1.0 of the Percona Operator for PostgreSQL is a **tech preview release** and it is **not recommended for production environments.**
     As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://www.percona.com/https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
-The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Postgres Operator developed by Crunchy Data](https://access.crunchydata.com/documentation/postgres-operator/latest/). Please see the main changes in this version below.
-
 ## Release Highlights
-
-* Now it is [possible](../backups.md#restore) to restore previously saved backups not only to an already-existing cluster, but also to some new Kubernetes-based environment
 
 * Handy `pg`, `pg-backup`, and `pg-restore` short names have been added for the Operator Custom Resources, useful to quickly query the cluster state with the `kubectl get` command
 
 ## New Features
-
-* {{ k8spgjira(158) }}: A possibility to [restore backups to a new Kubernetes-based environment](../backups.md#restore) with no existing Percona PostgreSQL Operator Custom Resource
 
 * {{ k8spgjira(328) }}: The new `delete-pvc` finalizer allows to either delete or preserve Persistent Volumes at Custom Resource deletion
 
@@ -37,13 +33,11 @@ The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Pos
 
 * {{ k8spgjira(331) }}: Starting from now, the Operator adds short names to its Custom Resources: `pg`, `pg-backup`, and `pg-restore`
 
-## Improvements
-
 * {{ k8spgjira(282) }}: PostgreSQL 15 is now officially supported by the Operator
 
-* {{ k8spgjira(262) }}: The Operator now does not attempt to start Percona Monitoring and Management (PMM) client if the corresponding secret does not contain the `pmmserver` or `pmmserverkey` key
+## Improvements
 
-* {{ k8spgjira(272) }}: Fix a bug due to which PMM agent related to the Pod wasn't deleted from the PMM Server inventory on Pod termination
+* {{ k8spgjira(262) }}: The Operator now does not attempt to start Percona Monitoring and Management (PMM) client if the corresponding secret does not contain the `pmmserver` or `pmmserverkey` key
 
 * {{ k8spgjira(285) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we [add more data points](../telemetry.md) to it
 
@@ -53,11 +47,9 @@ The *Percona Operator for PostgreSQL 2.x* is based on the 5.x branch of the [Pos
 
 * {{ k8spgjira(325) }}: Custom Resource options previously named `paused` and `shutdown` were renamed to `unmanaged` and `pause` for better alignment with other Percona Operators
 
-* {{ k8spgjira(327) }}: Consider removing Crunchy status from PostgresClusterStatus
-
 ## Bugs Fixed
 
-* {{ k8spgjira(217) }}: Point In Time recovery after a failover results in just 2 node cluster **NOTHING TO FIX, PROBABLY NOT RELEVANT**
+* {{ k8spgjira(272) }}: Fix a bug due to which PMM agent related to the Pod wasn't deleted from the PMM Server inventory on Pod termination
 
 * {{ k8spgjira(279) }}: Fix a bug which made the Operator to crash after creating a backup if there was no `backups.pgbackrest.manual` section in the Custom Resource
 
