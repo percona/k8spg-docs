@@ -43,6 +43,8 @@ environment is key.
 
 * [Application and system users](users.md)
 
+* [Changing PostgreSQL Options](options.md)
+
 * [Anti-affinity and tolerations](constraints.md)
 
 * [Telemetry](telemetry.md)
