@@ -60,6 +60,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `zoo` |
 | **Description** | Databases accessible by a specific PostgreSQL user with rights to create objects in them (the option is ignored for `postgres` user; also, modifying it can't be used to revoke the already given access) |
 |                 | |
+| **Key**         | {{ optionlink('users.password.type') }} |
+| **Value**       | string |
+| **Example**     | `ASCII` |
+| **Description** | The set of characters used for password generation: can be either `ASCII` (default) or `AlphaNumeric` |
+|                 | |
 | **Key**         | {{ optionlink('users.options') }} |
 | **Value**       | string |
 | **Example**     | `"SUPERUSER"` |
