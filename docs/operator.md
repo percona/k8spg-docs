@@ -10,9 +10,9 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters](https
 
 * <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
 
+* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for Percona XtraDB Cluster Pods after the cluster deletion event (off by default).
+
 The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
-
-
 
 |                 | |
 |-----------------|-|
@@ -39,6 +39,16 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Value**       | string |
 | **Example**     | `repo1` |
 | **Description** | Name of the pgBackRest repository in the primary cluster this standby cluster connects to |
+|                 | |
+| **Key**         | {{ optionlink('secrets.customTLSSecret.name') }} |
+| **Value**       | string |
+| **Example**     | `cluster1-cert` |
+| **Description** | A secret with TLS certificate generated for *external* communications, see [Transport Layer Security (TLS)](TLS.md) for details |
+|                 | |
+| **Key**         | {{ optionlink('secrets.customReplicationTLSSecret.name') }} |
+| **Value**       | string |
+| **Example**     | `replication1-cert` |
+| **Description** | A secret with TLS certificate generated for *internal* communications, see [Transport Layer Security (TLS)](TLS.md) for details |
 |                 | |
 | **Key**         | {{ optionlink('users.name') }} |
 | **Value**       | string |
