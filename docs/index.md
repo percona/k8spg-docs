@@ -55,6 +55,8 @@ environment is key.
 
 * [Backup and restore](backups.md)
 
+* [Scaling the cluster](scaling.md)
+
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
 * [Add sidecar containers](sidecar.md)
