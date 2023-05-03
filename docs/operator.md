@@ -126,7 +126,7 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) or [Google Cloud Storage bucket](https://cloud.google.com/storage/docs/key-terms#buckets)
 name used for backups |
 |                 | |
-| **Key**         | {{ optionlink('dataSource.pgbackrest.repo.s3.endpointURL') }} |
+| **Key**         | {{ optionlink('dataSource.pgbackrest.repo.s3.endpoint') }} |
 | **Value**       | string |
 | **Example**     | `"s3.ca-central-1.amazonaws.com"` |
 | **Description** | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
