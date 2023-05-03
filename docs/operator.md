@@ -396,7 +396,7 @@ Percona Distribution for PostgreSQL backups.
 | **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) 
 name used for backups |
 |                 | |
-| **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.endpointURL') }} |
+| **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.endpoint') }} |
 | **Value**       | string |
 | **Example**     | `"s3.ca-central-1.amazonaws.com"` |
 | **Description** | The endpoint URL of the S3-compatible storage to be used for backups (not needed for the original Amazon S3 cloud) |
