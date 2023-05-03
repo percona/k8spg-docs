@@ -80,12 +80,12 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `cluster1-init-sql` |
 | **Description** | Name of the [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time |
 |                 | |
-| **Key**         | {{ optionlink('shutdown') }} |
+| **Key**         | {{ optionlink('pause') }} |
 | **Value**       | string |
 | **Example**     | `false` |
-| **Description** | Setting it to `true` gracefully stops the cluster, scaling workloads are scaled to zero and suspending CronJobs; setting it to `false` after shut down starts the cluster back |
+| **Description** | Setting it to `true` gracefully stops the cluster, scaling workloads to zero and suspending CronJobs; setting it to `false` after shut down starts the cluster back |
 |                 | |
-| **Key**         | {{ optionlink('paused') }} |
+| **Key**         | {{ optionlink('unmanaged') }} |
 | **Value**       | string |
 | **Example**     | `false` |
 | **Description** | Setting it to `true` stops the Operator's activity including the rollout and reconciliation of changes made in the Custom Resource; setting it to `false` starts the Operator's activity back |
