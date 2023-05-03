@@ -53,6 +53,8 @@ environment is key.
 
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
+* [Add sidecar containers](sidecar.md)
+
 * [Restart or pause the cluster](pause.md)
 
 

@@ -194,12 +194,37 @@ name used for backups |
 | **Key**         | {{ optionlink('instances.sidecars.image') }} |
 | **Value**       | string |
 | **Example**     | `mycontainer1:latest` |
-| **Description** | Image for the [custom sidecar container](faq.md#faq-sidecar) for PostgreSQL Pods |
+| **Description** | Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.sidecars.name') }} |
 | **Value**       | string |
 | **Example**     | `testcontainer` |
-| **Description** | Name of the [custom sidecar container](faq.md#faq-sidecar) for PostgreSQL Pods |
+| **Description** | Name of the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
+| **Value**       | string |
+| **Example**     | `Always` |
+| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.env') }} |
+| **Value**       | subdoc |
+| **Example**     |  |
+| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
+| **Value**       | subdoc |
+| **Example**     | |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.command') }} |
+| **Value**       | array |
+| **Example**     | `["/bin/sh"]` |
+| **Description** | Command for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.args') }} |
+| **Value**       | array |
+| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
+| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.maxSkew') }} |
 | **Value**       | int |
@@ -514,3 +539,38 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | string |
 | **Example**     | `preferred` |
 | **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.image') }} |
+| **Value**       | string |
+| **Example**     | `mycontainer1:latest` |
+| **Description** | Image for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.name') }} |
+| **Value**       | string |
+| **Example**     | `testcontainer` |
+| **Description** | Name of the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.imagePullPolicy') }} |
+| **Value**       | string |
+| **Example**     | `Always` |
+| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the pgBouncer Pod sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.env') }} |
+| **Value**       | subdoc |
+| **Example**     |  |
+| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.envFrom') }} |
+| **Value**       | subdoc |
+| **Example**     | |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.command') }} |
+| **Value**       | array |
+| **Example**     | `["/bin/sh"]` |
+| **Description** | Command for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.args') }} |
+| **Value**       | array |
+| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
+| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
