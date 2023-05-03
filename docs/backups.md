@@ -85,7 +85,7 @@ options in the `backups.pgbackrest.repos` subsection:
 
 * `bucket` specifies the AWS S3 bucket that should be utilized,
 for example `my-postgresql-backups-example`,
-* `endpointUrl` specifies the S3 endpoint that should be utilized,
+* `endpoint` specifies the S3 endpoint that should be utilized,
 for example `s3.amazonaws.com`,
 * `region` specifies the AWS S3 region that should be utilized,
 for example `us-east-1`.
