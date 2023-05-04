@@ -1,4 +1,4 @@
-# Scale PostgreSQL cluster
+# High availability and scaling
 
 One of the great advantages brought by Kubernetes and the OpenShift platform is the ease of an application scaling. Scaling an application results in adding resources or Pods and scheduling them to available Kubernetes nodes.
 
