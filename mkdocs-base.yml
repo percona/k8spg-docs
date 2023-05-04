@@ -140,11 +140,13 @@ nav:
           
     - Configuration:
           - "Application and system users": users.md
+          - "Exposing the cluster": expose.md
           - "Anti-affinity and tolerations": constraints.md
           - "Telemetry": telemetry.md
           
     - Management:
           - "Backup and restore": backups.md
+          - "High availability and scaling": scaling.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md

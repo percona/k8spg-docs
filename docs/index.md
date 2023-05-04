@@ -43,6 +43,8 @@ environment is key.
 
 * [Application and system users](users.md)
 
+* [Exposing the cluster](expose.md)
+
 * [Anti-affinity and tolerations](constraints.md)
 
 * [Telemetry](telemetry.md)
@@ -50,6 +52,8 @@ environment is key.
 # Management
 
 * [Backup and restore](backups.md)
+
+* [High availability and scaling](scaling.md)
 
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
