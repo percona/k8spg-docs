@@ -89,10 +89,10 @@ plugins:
   # https://github.com/orzih/mkdocs-with-pdf
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
-    cover_title: "Documentation"
+    cover_title: "Percona Operator for PostgreSQL documentation"
     cover_subtitle: 2.1.0 (May 04, 2023)
     author: "Percona Technical Documentation Team"
-    cover_logo: docs/assets/images/Kubernetes-PG.png
+    cover_logo: docs/assets/images/percona_kubernetes_icon.png
     custom_template_path: _resource/templates
     enabled_if_env: ENABLE_PDF_EXPORT
   # Check links - but extends build time significantly
@@ -142,6 +142,7 @@ nav:
           - "Application and system users": users.md
           - "Exposing the cluster": expose.md
           - "Anti-affinity and tolerations": constraints.md
+          - "Transport Encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
           
     - Management:

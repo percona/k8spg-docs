@@ -68,6 +68,4 @@ environment is key.
 
 * [Percona certified images](images.md)
 
-* [Frequently Asked Questions](faq.md)
-
 * [Release Notes](ReleaseNotes/index.md)
