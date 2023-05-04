@@ -6,24 +6,26 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](https://www.percona.com/doc/kubernetes-operator-for-postgresql/2.0/index.html#installation-guide) 
+    [Installing Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html#installation-guide) 
 
 
 The Percona Operator built with best practices of configuration and setup of
 [Percona Distribution for PostgreSQL on Kubernetes](https://www.percona.com/doc/postgresql/LATEST/index.html).
 
-Percona Operator for PostgreSQL helps create and manage highly available, enterprise-ready PostgreSQL clusters on Kubernetes. It is 100% open source, free from vendor lock-in, usage restrictions and expensive contracts, and include enterprise-ready features: backup/restore, high availability, replication, logging, and more.
+Percona Operator for PostgreSQL helps create and manage highly available, enterprise-ready PostgreSQL clusters on Kubernetes. It is 100% open source, free from vendor lock-in, usage restrictions and expensive contracts, and includes enterprise-ready features: backup/restore, high availability, replication, logging, and more.
 
 The benefits of using Percona Operator for PostgreSQL include saving time on database operations via automation of Day-1 and Day-2 operations and deployment of consistent and vetted environment on Kubernetes.
 
 !!! note
 
     Version 2.1.0 of the Percona Operator for PostgreSQL is a **tech preview release** and it is **not recommended for production environments.**
-    As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://www.percona.com/https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
+    As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
 ## Release Highlights
 
-* Handy `pg`, `pg-backup`, and `pg-restore` short names have been added for the Operator Custom Resources, useful to quickly query the cluster state with the `kubectl get` command
+* PostgreSQL 15 is now officially supported by the Operator with the [new exciting features](https://www.percona.com/blog/postgresql-15-new-features-to-be-excited-about/) it brings to developers
+
+* UX improvements related to Custom Resource have been added in this release, including the handy `pg`, `pg-backup`, and `pg-restore` short names useful to quickly query the cluster state with the `kubectl get` command and additional information in the status fields, which now show `name`, `endpoint`, `status`, and `age`
 
 ## New Features
 
@@ -39,7 +41,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 * {{ k8spgjira(262) }}: The Operator now does not attempt to start Percona Monitoring and Management (PMM) client if the corresponding secret does not contain the `pmmserver` or `pmmserverkey` key
 
-* {{ k8spgjira(285) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we [add more data points](../telemetry.md) to it
+* {{ k8spgjira(285) }}: To improve the Operator we capture anonymous telemetry and usage data. In this release we [add more data points](../telemetry.md) to it
 
 * {{ k8spgjira(295) }}: Additional information was added to the status of the Operator Custom Resource, which now shows `name`, `endpoint`, `status`, and `age` fields
 
@@ -62,11 +64,9 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 The following platforms were tested and are officially supported by the Operator
 2.1.0:
 
-* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.21 - 1.24
+* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.23 - 1.25
 
-* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.20 - 1.22
-
-* [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.7 - 4.10
+* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.23 - 1.25
 
 This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.
 
