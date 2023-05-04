@@ -1,5 +1,31 @@
 # Scale PostgreSQL cluster
 
+One of the great advantages brought by Kubernetes and the OpenShift platform is the ease of an application scaling. Scaling an application results in adding resources or Pods and scheduling them to available Kubernetes nodes.
+
+Scaling can be vertical and horizontal. Vertical scaling adds more compute or storage resources to MySQL nodes; horizontal scaling is about adding more nodes to the cluster.
+
+## Vertical scaling
+
+There are multiple components that Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, etc. To add or reduce CPU or Memory you need to edit corresponding sections in the Custom Resource. We follow the structure for requests and limits that Kubernetes [provides](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+
+To add more resources to your PostgreSQL instances edit the following section in the Custom Resource:
+
+```yaml
+spec:
+...
+  instances:
+  - name: instance1
+    replicas: 3
+    resources:
+      limits:
+        cpu: 2.0
+        memory: 4Gi
+```
+
+Use our reference documentation for the [Custom Resource options](operator.md) for more details about other components.
+
+## Horizontal scaling
+
 Percona Operator allows you to deploy highly-available PostgreSQL clusters.
 There are two ways how to control replicas in your HA cluster:
 
