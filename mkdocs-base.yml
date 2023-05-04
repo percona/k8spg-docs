@@ -4,7 +4,7 @@ site_name: Percona Operator for PostgreSQL
 site_description: Documentation
 site_author: Percona LLC
 site_url: ""
-copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2022
+copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2023
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -90,7 +90,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Documentation"
-    cover_subtitle: 2.0.0 (December 30, 2022)
+    cover_subtitle: 2.1.0 (May 04, 2023)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/Kubernetes-PG.png
     custom_template_path: _resource/templates
@@ -116,8 +116,8 @@ extra: # Used in main.html template and can't be externalized
       make our documentation better.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.0.0
-  pmm2recommended: 2.32.0
+  release: 2.1.0
+  pmm2recommended: 2.37.0
   postgresrecommended: 14.4
   version:
     provider: mike
@@ -158,4 +158,5 @@ nav:
           
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md
           - "Percona Operator for PostgreSQL 2.0.0 Tech preview (2022-12-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
