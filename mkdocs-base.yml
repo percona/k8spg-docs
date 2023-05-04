@@ -118,7 +118,7 @@ extra: # Used in main.html template and can't be externalized
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 2.1.0
   pmm2recommended: 2.37.0
-  postgresrecommended: 14.4
+  postgresrecommended: 15
   version:
     provider: mike
 

@@ -56,7 +56,7 @@ $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{
 
 !!! note
 
-    The `{{"\n"}}` fragment at the end of the above command provides a newline to
+    The `{{"{{"}}"\n"{{"}}"}}` fragment at the end of the above command provides a newline to
     improve the readability of the command output. In case of automation (for
     example, in a script), this fragment can be safely omitted.
 
