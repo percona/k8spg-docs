@@ -53,7 +53,7 @@ environment is key.
 
 * [Backup and restore](backups.md)
 
-* [Horizontal and vertical scaling](scaling.md)
+* [High availability and scaling](scaling.md)
 
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
