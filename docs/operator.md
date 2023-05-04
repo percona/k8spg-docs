@@ -579,3 +579,21 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | array |
 | **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 | **Description** | Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.config') }} |
+| **Value**       | subdoc |
+| **Example**     | <pre>global:<br>pool_mode: transaction</pre> |
+| **Description** | Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
+
+## patroni Section
+
+The `patroni` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni](https://patroni.readthedocs.io/).
+
+|                 | |
+|-----------------|-|
+| **Key**         | {{ optionlink('patroni.dynamicConfiguration') }} |
+| **Value**       | subdoc |
+| **Example**     | <pre>postgresql:<br>  parameters:<br>    max_parallel_workers: 2<br>    max_worker_processes: 2<br>    shared_buffers: 1GB<br>    work_mem: 2MB</pre> |
+| **Description** | Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
+
