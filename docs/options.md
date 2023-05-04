@@ -1,5 +1,14 @@
 # Changing PostgreSQL Options
 
+!!! note
+
+    PostgreSQL cluster is managed by the Operator, and so there is no need
+    to set custom configuration options in common usage scenarios. Also,
+    configuration changes are automatically applied to running instances without
+    validation, and so, changing certain options may cause PostgreSQL cluster
+    malfunction. Do not customize configuration unless you know what you are
+    doing!
+
 You may require a configuration change for your application. PostgreSQL
 allows customizing the database with configuration files.
 You can use a [ConfigMap](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap)
