@@ -153,4 +153,4 @@ nav:
           - "Release notes index": ReleaseNotes/index.md
           - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md
           - "Percona Operator for PostgreSQL 2.0.0 Tech preview (2022-12-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
-    - K8S Squad: https://www.percona.com/k8s
+    - Join K8S Squad: https://www.percona.com/k8s
