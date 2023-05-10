@@ -155,6 +155,7 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
+          - "K8S Squad": https://www.percona.com/k8s
           
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
