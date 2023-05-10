@@ -2,7 +2,7 @@
 
 !!! note
 
-    This is version 2.0.0 of the Percona Operator for PostgreSQL. It is a **tech preview release** and it is **not recommended for production environments.**
+    This is version {{ release }} of the Percona Operator for PostgreSQL. It is a **tech preview release** and it is **not recommended for production environments.**
     As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://www.percona.com/https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
 Kubernetes have added a way to manage containerized systems, including database
@@ -28,8 +28,6 @@ environment is key.
 * [Design and architecture](architecture.md)
 
 # Quickstart
-
-* [Install with Helm](helm.md)
 
 * [Install with kubectl](kubectl.md)
 
