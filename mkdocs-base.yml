@@ -131,7 +131,6 @@ nav:
           - "Design and architecture": architecture.md
           
     - Quickstart:
-          - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
           
     - Installation:
