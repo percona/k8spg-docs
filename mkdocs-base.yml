@@ -129,6 +129,7 @@ nav:
     - Features:
           - "System Requirements": System-Requirements.md
           - "Design and architecture": architecture.md
+          - "Comparison with other solutions": compare.md
     - Quickstart:
           - "Install with kubectl": kubectl.md
     - Installation:
