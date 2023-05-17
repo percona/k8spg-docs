@@ -27,6 +27,8 @@ environment is key.
 
 * [Design and architecture](architecture.md)
 
+* [Comparison with other solutions](compare.md)
+
 # Quickstart
 
 * [Install with kubectl](kubectl.md)
