@@ -25,7 +25,7 @@ environment is key.
 
 * [System Requirements](System-Requirements.md)
 
-* [Design and architecture](architecture.md))
+* [Design and architecture](architecture.md)
 
 * [Comparison with other solutions](compare.md)
 
