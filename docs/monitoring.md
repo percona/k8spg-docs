@@ -33,7 +33,8 @@ Kubernetes-based environment:
     file.
 
     * set `pmm.enabled=true`
-    * set the `pmm.serverHost` key to your PMM Server hostname,
+    * set the `pmm.serverHost` key to your PMM Server hostname or IP address
+        (it should be resolvable and reachable from within your cluster)
     * check that  the `pmm.serverUser` key contains your PMM Server user name
         (`admin` by default),
     * make sure the `password` key in the        
