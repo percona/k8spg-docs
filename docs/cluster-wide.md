@@ -146,7 +146,7 @@ monitoring all namespaces for `PerconaPGCluster` custom resources.
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace percona-db-1
     $ kubectl config set-context $(kubectl config current-context) --namespace=percona-db-1
-    ``
+    ```
     
 4.  Deploy the cluster in the namespace of your choice:
 
