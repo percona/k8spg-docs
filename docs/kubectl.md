@@ -15,22 +15,7 @@ The following tools are used in this guide and therefore should be preinstalled:
 The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
 your Kubernetes environment:
 
-1. Add the `postgres-operator` namespace to Kubernetes, not forgetting to set
-    the correspondent context for further steps:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
-    $ kubectl config set-context $(kubectl config current-context) --namespace=postgres-operator
-    ```
-
-    !!! note
-
-        To use different namespace, you should edit *all occurrences* of
-        the `namespace: postgres-operator` line in both `deploy/cr.yaml` and
-        `deploy/bundle.yaml` configuration files.
-
-
-2. Deploy the Operator with the following command:
+1. Deploy the Operator with the following command:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
@@ -86,23 +71,19 @@ your Kubernetes environment:
     Operator and replica set Pods have reached their Running status:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl get pods
+    $ kubectl get pg
     ```
 
     ??? example "Expected output"
 
-        ``` {.text .no-copy}
-        
-        NAME                                           READY   STATUS      RESTARTS   AGE
-        cluster1-backup-7hsq-9ch48                     0/1     Completed   0          35s
-        cluster1-instance1-mtnz-0                      4/4     Running     0          87s
-        cluster1-pgbouncer-f4dcfffc8-lrs2d             2/2     Running     0          87s
-        cluster1-repo-host-0                           2/2     Running     0          87s
-        percona-postgresql-operator-75fd989d98-wvx4h   1/1     Running     0          109s
+        ```{.text .no-copy}
+        NAME       ENDPOINT                     STATUS   POSTGRES   PGBOUNCER   AGE
+        cluster1   cluster1-pgbouncer.pgo.svc   ready    3          3           143m
         ```
 
 ## Verifying the cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, `kubectl get pg` command will show you the
+cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}

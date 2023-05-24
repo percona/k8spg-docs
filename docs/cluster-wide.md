@@ -20,30 +20,10 @@ Normally this is a recommended approach, as isolation minimizes impact in case o
 
 Let’s say you have a Namespace in your Kubernetes cluster called `percona-db-1`.
 
+1. Create your `percona-db-1` namespace (if it doesn't yet exist) as follows:
 
-1. Edit the following lines in your [deploy/operator.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/operator.yaml):
-
-    ```yaml
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-    name: pgo-deployer-cm
-    data:
-      values.yaml: |-
-      ...
-        namespace: "percona-db-1"
-        pgo_operator_namespace: "percona-db-1"
-    
-    ...
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: pgo-deployer-crb
-    subjects:
-    ...
-    
-      - kind: ServiceAccount
-        namespace: percona-db-1
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace percona-db-1
     ```
 
 2. Deploy the Operator:
@@ -62,30 +42,12 @@ You can deploy multiple clusters in this namespace.
 
 ### Add more namespaces
 
-What if there is a need to deploy clusters in another namespace? The solution for namespace-scope deployment is to have more than one Operator in the corresponding namespace. We will use the `percona-db-2` namespace as an example.
+What if there is a need to deploy clusters in another namespace? The solution for namespace-scope deployment is to have more than one Operator. We will use the `percona-db-2` namespace as an example.
 
-1. Edit or copy `operator.yaml`:
+1. Create your `percona-db-2` namespace (if it doesn't yet exist) as follows:
 
-    ```yaml
-    apiVersion: v1
-    kind: ConfigMap
-    metadata:
-      name: pgo-deployer-cm
-    data:
-      values.yaml: |-
-    ...
-         namespace: "percona-db-2"
-         pgo_operator_namespace: "percona-db-2"
-
-    ...
-    apiVersion: rbac.authorization.k8s.io/v1
-    kind: ClusterRoleBinding
-    metadata:
-      name: pgo-deployer-crb
-    subjects:
-    ...
-       - kind: ServiceAccount
-        namespace: percona-db-2
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace percona-db-2
     ```
 
 2. Deploy the Operator:
@@ -93,7 +55,6 @@ What if there is a need to deploy clusters in another namespace? The solution fo
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/operator.yaml -n percona-db-2
     ```
-
 
 3. Once Operator is up and running deploy the database cluster itself:
 
@@ -129,7 +90,7 @@ monitoring all namespaces for `PerconaPGCluster` custom resources.
 1. Clone `percona-postgresql-operator` repository:
 
     ``` {.bash data-prompt="$" }
-    $ git clone -b VERSION https://github.com/percona/percona-postgresql-operator
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
     $ cd percona-postgresql-operator
     ```
 
