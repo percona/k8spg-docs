@@ -165,6 +165,7 @@ nav:
           - "Operator installation options": installation-options.md
           - "Percona certified images": images.md
           - "Frequently Asked Questions": faq.md
+          - "Old releases (documentation archive)": https://docs.percona.com/legacy-documentation/
           
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
