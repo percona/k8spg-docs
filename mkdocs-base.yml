@@ -150,6 +150,9 @@ nav:
     - Management:
           - "Backup and restore": backups.md
           - "High availability and scaling": scaling.md
+          - Disaster recovery: 
+            - "Overview": disaster-recovery.md
+            - "Deployment": dr-deployment.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md

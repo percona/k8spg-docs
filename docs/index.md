@@ -55,6 +55,11 @@ environment is key.
 
 * [High availability and scaling](scaling.md)
 
+* Disaster recovery:
+
+    * [Overview](disaster-recovery.md)
+    * [Deployment](dr-deploy.md)
+
 * [Monitor with Percona Monitoring and Management (PMM)](monitoring.md)
 
 * [Add sidecar containers](sidecar.md)
