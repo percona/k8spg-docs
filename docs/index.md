@@ -82,4 +82,6 @@ environment is key.
 
 * [Frequently Asked Questions](faq.md)
 
+* [Old releases (documentation archive)](https://docs.percona.com/legacy-documentation/)
+
 * [Release Notes](ReleaseNotes/index.md)
