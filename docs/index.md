@@ -37,6 +37,8 @@ environment is key.
 
 * [Install on Google Kubernetes Engine (GKE)](gke.md)
 
+* [Install on Amazon Elastic Kubernetes Service (AWS EKS)](eks.md)
+
 * [Generic Kubernetes installation](kubernetes.md)
 
 # Configuration
