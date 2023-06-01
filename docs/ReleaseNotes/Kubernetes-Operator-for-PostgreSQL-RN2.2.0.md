@@ -59,7 +59,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 * {{ k8spgjira(351) }}: Migration via PVC reutilisation fails REMOVE
 
-* {{ k8spgjira(355) }}: The Operator can now be deployed in multi-namespace ("cluster-wide") mode to track Custom Resources and manage database clusterts in several nameaspaces
+* {{ k8spgjira(355) }}: The Operator can now be deployed in multi-namespace ("cluster-wide") mode to track Custom Resources and manage database clusters in several namespaces
 
 ## Supported platforms
 
