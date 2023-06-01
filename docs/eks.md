@@ -43,6 +43,10 @@ Also, you need to configure AWS CLI with your credentials according to the
 
 2. After you have created the EKS cluster, you also need to [install the Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) on your cluster. See the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) on adding it as an Amazon EKS add-on.
 
+    !!! note
+
+        CSI driver is needed for the Operator to work propely, and is not included by default starting from the Amazon EKS version 1.22. Therefore sers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
+
 ## Install the Operator and Percona Distribution for PostgreSQL
 
 The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
