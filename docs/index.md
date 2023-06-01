@@ -35,6 +35,8 @@ environment is key.
 
 # Installation
 
+* [Install on Minikube](minikube.md)
+
 * [Install on Google Kubernetes Engine (GKE)](gke.md)
 
 * [Generic Kubernetes installation](kubernetes.md)
