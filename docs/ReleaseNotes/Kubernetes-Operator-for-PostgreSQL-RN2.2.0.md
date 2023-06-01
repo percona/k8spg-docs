@@ -21,7 +21,12 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 ## Release Highlights
 
+We have Percona Operator for PostgreSQL version 1. It is Production ready and in General Availability from October 2021. 
+It has its flaws with . 
 
+* Starting with this release, Percona Operator for PostgreSQL version 2 is out of technical preview and can be used in production with all the improvements it brings over version 1 in terms of architecture, backup and recovery features, and overall flexibility
+
+* We prepared a detailed [migration guide](../upgrade.md) which allows moving existing PostgreSQL clusters previously managed by the Operator 1.x to the new Operator version.
 
 ## Improvements
 
