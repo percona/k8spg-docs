@@ -21,19 +21,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 ## Release Highlights
 
-* PostgreSQL 15 is now officially supported by the Operator with the [new exciting features](https://www.percona.com/blog/postgresql-15-new-features-to-be-excited-about/) it brings to developers
 
-* UX improvements related to Custom Resource have been added in this release, including the handy `pg`, `pg-backup`, and `pg-restore` short names useful to quickly query the cluster state with the `kubectl get` command and additional information in the status fields, which now show `name`, `endpoint`, `status`, and `age`
-
-## New Features
-
-
-
-
-
-
-
-* {{ k8spgjira(282) }}: PostgreSQL 15 is now officially supported by the Operator
 
 ## Improvements
 
@@ -51,11 +39,11 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 * {{ k8spgjira(371) }}: Fresh v2 installation complains about deprecated v1
 
-* {{ k8spgjira(373) }}: If pmm is enabled we do not create default user secret cluster1-pguser-cluster1
+* {{ k8spgjira(373) }}: Fix the bug due to which the Operator did not not create Secrets for the `pguser` if PMM was enabled in the Custom Resource
 
-* {{ k8spgjira(362) }}: Migration v1 to v2 - not possible to install CRDs of both operators
+* {{ k8spgjira(362) }}: It was impossible to install Custom Resource Definitions for both 1.x and 2.x Operators in one environment, preventing the migration of a cluster to the newer Operator version
 
-* {{ k8spgjira(334) }}: Fix a bug which prevented password management work via secret 
+* {{ k8spgjira(360) }}: Fix a bug due to which manual password changing or resetting via Secret didn't work
 
 ## Supported platforms
 
