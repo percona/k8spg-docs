@@ -18,11 +18,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 **Percona announces the general availability of Percona Distribution for PostgreSQL Operator 2.2.0.**
 
-
 ## Release Highlights
-
-We have Percona Operator for PostgreSQL version 1. It is Production ready and in General Availability from October 2021. 
-It has its flaws with . 
 
 * Starting with this release, Percona Operator for PostgreSQL version 2 is out of technical preview and can be used in production with all the improvements it brings over version 1 in terms of architecture, backup and recovery features, and overall flexibility
 
@@ -36,13 +32,13 @@ It has its flaws with .
 
 * {{ k8spgjira(301) }}: The Operator [can now be installed](../eks.md) on [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) was added to the list of officially supported platforms
 
-* {{ k8spgjira(K8SPG-302) }}: [Minikube](https://github.com/kubernetes/minikube) platform is now [officially supported by the Operator](../minikube.md)
+* {{ k8spgjira(302) }}: [Minikube](https://github.com/kubernetes/minikube) platform is now [officially supported by the Operator](../minikube.md)
 
-* {{ k8spgjira(K8SPG-303) }}: Add e2e tests REMOVE
+* {{ k8spgjira(303) }}: Add e2e tests REMOVE
 
-* {{ k8spgjira(K8SPG-305) }}: Research migration process REMOVE
+* {{ k8spgjira(305) }}: Research migration process REMOVE
 
-* {{ k8spgjira(K8SPG-326) }}: Both the Operator and database [can be now installed](../helm.md) with the Helm package manager
+* {{ k8spgjira(326) }}: Both the Operator and database [can be now installed](../helm.md) with the Helm package manager
 
 * {{ k8spgjira(340) }}: Send the CR-based telemetry when spec.upgradeOptions.apply=disabled REMOVE
 
