@@ -46,6 +46,37 @@ This migration method introduces a downtime. Also you can only reverse it by res
 
        A third PVC used to store write-ahead logs (WAL) may also be present if external WAL volumes were enabled for the cluster.
 
+5. Permissions for `pgBackRest` repo folders are managed differently in version 1 and v version 2. To avoid errors during migration we need to change the ownership of the `backrest` folder on the PVC. Running a `chown` command within a container fixes this problem. 
+    You can use the following manifest to execute it:
+
+    ```yaml title="chown-pod.yaml"
+    apiVersion: v1
+    kind: Pod
+    metadata:
+      name: chown-pod
+    spec:
+      volumes:
+        - name: backrestrepo
+          persistentVolumeClaim:
+            claimName: cluster1-pgbr-repo
+      containers:
+        - name: task-pv-container
+          image: ubuntu
+          command:
+          - chown
+          - -R
+          - 26:26
+          - /backrestrepo/cluster1-backrest-shared-repo
+          volumeMounts:
+            - mountPath: "/backrestrepo"
+              name: backrestrepo
+    ```
+    
+    Apply it as follows:
+    
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f chown-pod.yaml -n pgo
+    ```
 
 ## Execute the migration to v2
 
