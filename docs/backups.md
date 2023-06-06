@@ -32,6 +32,9 @@ Each pgBackRest repository consists of the following Kubernetes objects:
 * A Pod with a number of supporting scripts,
 * A Service.
 
+You can have up to 4 pgBackRest repositories named as `repo1`, `repo2`, `repo3`,
+and `repo4`.
+
 ## Backup types
 
 The PostgreSQL Operator supports three types of pgBackRest backups:
@@ -225,7 +228,9 @@ The Operator will also need your service account key to access storage.
     !!! note
 
         This Secret can store credentials for several repositories presented as
-        separate data keys.
+        separate data keys. The content of the `gcs.conf` depends on the repository
+        name: for example, the `repo2` repository will contain
+        `repo2-gcs-key=<path to key file>`, etc.
 
     Create the Secrets object from this yaml file:
 
