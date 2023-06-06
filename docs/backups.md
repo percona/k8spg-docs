@@ -168,9 +168,20 @@ The Operator will also need your service account key to access storage.
     type. These actions will result in downloading a file in JSON format with
     your new private key and related information.
 
-3. Now you should use a base64-encoded version of this file and to create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). You can encode
-    the file with the `base64 <filename>` command. When done, create the
-    following yaml file with your cluster name and base64-encoded file contents:
+3. Now you should create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+    using base64-encoded versions of two files: the private key file you have just 
+    downloaded, and the specially created `gcs.conf` configuration file.
+    
+    This `gcs.conf` configuration file should have the following contents:
+    
+    ```
+    [global]
+    repo1-gcs-key=/etc/pgbackrest/conf.d/gcs-key.json
+    ```
+    
+    You can encode a text file with the `base64 <filename>` command.
+    When done, create the following yaml file with your cluster name
+    and base64-encoded files contents:
 
     ```yaml
     apiVersion: v1
@@ -180,6 +191,7 @@ The Operator will also need your service account key to access storage.
     type: Opaque
     data:
       gcs-key: <base64-encoded-json-file-contents>
+      gcs.conf: <base64-encoded-conf-file-contents>
     ```
 
     When done, create the secret as follows:
