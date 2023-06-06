@@ -169,10 +169,10 @@ The Operator will also need your service account key to access storage.
     your new private key and related information.
 
 3. Now you should create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
-    using base64-encoded versions of two files: the private key file you have just 
-    downloaded, and the specially created `gcs.conf` configuration file.
-    
-    This `gcs.conf` configuration file should have the following contents:
+    using base64-encoded versions of two files: the file containing the
+    private key have just downloaded, and the special `gcs.conf` configuration file.
+
+    This `gcs.conf` file should have the following contents:
     
     ```
     [global]
