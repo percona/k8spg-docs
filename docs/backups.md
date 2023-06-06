@@ -32,6 +32,9 @@ Each pgBackRest repository consists of the following Kubernetes objects:
 * A Pod with a number of supporting scripts,
 * A Service.
 
+You can have up to 4 pgBackRest repositories named as `repo1`, `repo2`, `repo3`,
+and `repo4`.
+
 ## Backup types
 
 The PostgreSQL Operator supports three types of pgBackRest backups:
@@ -195,9 +198,21 @@ The Operator will also need your service account key to access storage.
     type. These actions will result in downloading a file in JSON format with
     your new private key and related information.
 
-3. Now you should use a base64-encoded version of this file and create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). You can encode
-    the file with the `base64 <filename>` command. When done, create a yaml file
-    with your cluster name and base64-encoded file contents as the following
+3. Now you should create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+    using base64-encoded versions of two files: the file containing the
+    private key you have just downloaded, and the special `gcs.conf` configuration file.
+
+    The content of the `gcs.conf` file depends on the repository
+    name. In case of the `repo1` repository, it looks as follows:
+
+    ```
+    [global]
+    repo1-gcs-key=/etc/pgbackrest/conf.d/gcs-key.json
+    ```
+
+    You can encode a text file with the `base64 <filename>` command.
+    When done, create the following yaml file with your cluster name
+    and base64-encoded files contents as the following
     `cluster1-pgbackrest-secrets.yaml` example:
 
     ```yaml
@@ -208,6 +223,7 @@ The Operator will also need your service account key to access storage.
     type: Opaque
     data:
       gcs-key.json: <base64-encoded-json-file-contents>
+      gcs.conf: <base64-encoded-conf-file-contents>
     ```
 
     !!! note
