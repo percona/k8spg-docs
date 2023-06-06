@@ -202,7 +202,8 @@ The Operator will also need your service account key to access storage.
     using base64-encoded versions of two files: the file containing the
     private key you have just downloaded, and the special `gcs.conf` configuration file.
 
-    This `gcs.conf` file should have the following contents:
+    The content of the `gcs.conf` file depends on the repository
+    name. In case of the `repo1` repository, it looks as follows:
 
     ```
     [global]
@@ -228,9 +229,7 @@ The Operator will also need your service account key to access storage.
     !!! note
 
         This Secret can store credentials for several repositories presented as
-        separate data keys. The content of the `gcs.conf` depends on the repository
-        name: for example, the `repo2` repository will contain
-        `repo2-gcs-key=<path to key file>`, etc.
+        separate data keys.
 
     Create the Secrets object from this yaml file:
 
