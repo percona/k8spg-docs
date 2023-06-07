@@ -210,7 +210,8 @@ The Operator will also need your service account key to access storage.
     repo1-gcs-key=/etc/pgbackrest/conf.d/gcs-key.json
     ```
 
-    You can encode a text file with the `base64 <filename>` command.
+    You can encode a text file with the `base64 --wrap=0 <filename>`
+    command (or just `base64 <filename>` in case of Apple macOS).
     When done, create the following yaml file with your cluster name
     and base64-encoded files contents as the following
     `cluster1-pgbackrest-secrets.yaml` example:
