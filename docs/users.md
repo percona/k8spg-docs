@@ -34,7 +34,7 @@ Each such user has its own dedicated Secret named as
 
 By default, the Operator creates only `pguser` administrative user (the
 superuser), and it would have a Secret named `cluster1-pguser-cluster1` in case
-of the default cluster name.
+of the default [cluster name](operator.md#metadata-name).
 
 !!! note
 
