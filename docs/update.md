@@ -14,28 +14,33 @@ Distribution for PostgreSQL.
     See [documentation archive](https://docs.percona.com/legacy-documentation/)
     for documentation on previous versions of the Operator.
 
-The following steps will allow you to update the Operator to current version
-(use the name of your cluster instead of the `<cluster-name>` placeholder).
+Upgrading the Operator is similar to deploying a new Operator version, but you
+should change the `DEPLOY_ACTION` option in the `deploy/operator.yaml` file
+before applying it from `install` to `update`:
 
-1. Remove the old Operator version:
+```yaml hl_lines="7 8"
+...
+  containers:
+    - name: pgo-deploy
+      image: percona/percona-postgresql-operator:1.4.0-pgo-deployer
+      imagePullPolicy: Always
+      env:
+        - name: DEPLOY_ACTION
+          value: update
+...
+```
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl delete \
-        serviceaccounts/pgo-deployer-sa \
-        clusterroles/pgo-deployer-cr \
-        configmaps/pgo-deployer-cm \
-        configmaps/pgo-config \
-        clusterrolebindings/pgo-deployer-crb \
-        jobs.batch/pgo-deploy \
-        deployment/postgres-operator
-    ```
+You can automate this with the [yq tool](https://github.com/mikefarah/yq/#install) as
+follows, assuming that you are upgrading to the Operator version {{ release }}:
 
-2. Start the new Operator version:
+``` {.bash data-prompt="$" }
+$  curl -s https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml | | yq w - "spec.template.spec.containers[0].env[3].value" "update" | kubectl apply -f -
+$ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
+```
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml
-    $ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
-    ```
+!!! note
+
+    The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the yq command may be slightly different in other versions.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
@@ -133,38 +138,17 @@ Semi-automatic update of Percona Distribution for PostgreSQL should be used with
 version 1.0.0 or earlier. For all newer versions, use automatic update
 instead.
 
-The following steps will allow you to update the Operator to current version
+The following command will allow you to update the Operator to current version
 (use the name of your cluster instead of the `<cluster-name>` placeholder).
 
+``` {.bash data-prompt="$" }
+$ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"}]'
+```
 
-1. Pause the cluster in order to stop all possible activities:
+!!! note
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/pause", "value": true},{"op":"replace","path":"/spec/pgBouncer/size","value":0}]'
-    ```
+    The above example is composed in asumption of using PostgreSQL 14 as
+    a database management system. For PostgreSQL 13 you should change all
+    occurrences of the `ppg14` substring to `ppg13`.
 
-2. Now you can switch the cluster to a new version:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"},{"op": "replace", "path": "/spec/pause", "value": false}]'
-    ```
-
-    !!! note
-
-        The above example is composed in asumption of using PostgreSQL 14 as
-        a database management system. For PostgreSQL 13 you should change all
-        occurrences of the `ppg14` substring to `ppg13`.
-
-    This will carry on the image update, cluster version update and the pause status
-    switch.
-
-3. Now you can enable the `pgbouncer` again:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl patch perconapgcluster/<cluster-name --type json -p \
-        '[
-            {"op":"replace","path":"/spec/pgBouncer/size","value":1}
-        ]'
-    ```
-
-    Wait until the cluster is ready.
+This will carry on the image and the cluster version update.
