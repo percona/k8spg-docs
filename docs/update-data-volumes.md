@@ -2,35 +2,39 @@
 
 ## Prerequisites:
 
-- You have a v1 cluster with `spec.keepData: true` in the Custom Resource
-- You have both operators deployed and allow them to control resources in the same namespace
+The following conditions should be met for the Volumes-based migration:
+
+- You have a version 1.x cluster with `spec.keepData: true` in the Custom Resource
+- You have both Operators deployed and allow them to control resources in the same namespace
 - Old and new clusters must be of the same PostgreSQL major version
 
-This migration method introduces a downtime. Also you can only reverse it by restoring the old cluster from the backup. See [other migration methods](update.md) if you need lower downtime and a roll back plan.
+This migration method has two limitations. First of all, this migration method introduces a downtime. 
+Also, you can only reverse such migration by restoring the old cluster from the backup. See [other migration methods](update.md) if you need lower downtime and a roll back plan.
 
-## Prepare v1 cluster for the migration
+## Prepare version 1.x cluster for the migration
 
-1. Remove all replicas from the cluster, keeping only primary running. It is required to assure that primary PVC volume does not change.
+1. Remove all Replicas from the cluster, keeping only primary running. It is required to assure that Volume of the primary [PVC](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) does not change. The `deploy/cr.yaml` configuration file should have it as follows:
     
     ```yaml
+    ...
     pgReplicas:
         hotStandby:
           size: 0
     ```
 
-2. Apply the custom resource.
+2. Apply the Custom Resource in a usual way:
 
     ```{.bash data-prompt="$"}
-    $ kubectl apply -f cr.yaml
+    $ kubectl apply -f deploy/cr.yaml
     ```
 
-3. When all replicas are gone, proceed with removing the cluster. Double check that `spec.keepData` is in place, otherwise the Operator will delete the volumes.
+3. When all Replicas are gone, proceed with removing the cluster. Double check that `spec.keepData` is in place, otherwise the Operator will delete the volumes!
 
     ```{.bash data-prompt="$"}
     $ kubectl delete perconapgcluster cluster1
     ```
 
-4. Find PVC for the primary and `pgBackRest`:
+4. Find PVC for the Primary and `pgBackRest`:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
@@ -44,9 +48,9 @@ This migration method introduces a downtime. Also you can only reverse it by res
         cluster1-pgbr-repo   Bound    pvc-afb00490-5a45-45cb-a1cb-10af8e48bb13   1Gi        RWO            standard-rwo   57m
         ```
 
-       A third PVC used to store write-ahead logs (WAL) may also be present if external WAL volumes were enabled for the cluster.
+   A third PVC used to store write-ahead logs (WAL) may also be present if external WAL volumes were enabled for the cluster.
 
-5. Permissions for `pgBackRest` repo folders are managed differently in version 1 and v version 2. To avoid errors during migration we need to change the ownership of the `backrest` folder on the PVC. Running a `chown` command within a container fixes this problem. 
+5. Permissions for `pgBackRest` repo folders are managed differently in version 1 and version 2. We need to change the ownership of the `backrest` folder on the Persistent Volume to avoid errors during migration. Running a `chown` command within a container fixes this problem. 
     You can use the following manifest to execute it:
 
     ```yaml title="chown-pod.yaml"
@@ -78,11 +82,11 @@ This migration method introduces a downtime. Also you can only reverse it by res
     $ kubectl apply -f chown-pod.yaml -n pgo
     ```
 
-## Execute the migration to v2
+## Execute the migration to vevsion 2.x
 
-The old cluster is shut down, the volumes are ready to be used to provision the new cluster managed by Operator v2.
+The old cluster is shut down, and Volumes are ready to be used to provision the new cluster managed by the Operator version 2.x.
 
-1. To list the claims belonging to the old cluster run the following command:
+1. Run the following command to show the names of PVC belonging to the old cluster:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
@@ -96,7 +100,7 @@ The old cluster is shut down, the volumes are ready to be used to provision the 
         cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi        RWO            standard-rwo   87m
         ```
 
-2. In the custom resource manifest for v2 cluster, change `dataSource.volumes` fields where they point to the PVCs of the v1 cluster:
+2. In the Custom Resource manifest for the version 2.x cluster, update those fields under the `dataSource.volumes`, which point to the PVCs, putting there PVC names of the version 1.x cluster:
 
     ```yaml
     dataSource:
@@ -112,7 +116,7 @@ The old cluster is shut down, the volumes are ready to be used to provision the 
 3. Apply the manifest:
 
     ```{.bash data-prompt="$"}
-    $ kubectl apply -f cr.yaml
+    $ kubectl apply -f deploy/cr.yaml
     ```
 
-The new cluster will be provisioned shortly using the volume of the v1 cluster. You should remove the `spec.datasource.volumes` section from your manifest.
+The new cluster will be provisioned shortly using the volume of the version 1.x cluster. You should remove the `spec.datasource.volumes` section from your manifest.
