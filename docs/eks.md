@@ -1,6 +1,6 @@
 # Install Percona Distribution for PostgreSQL on Amazon Elastic Kubernetes Service (EKS)
 
-This guide shows you how to deploy Percona Operator for MongoDB on Amazon
+This guide shows you how to deploy Percona Operator for PostgreSQL on Amazon
 Elastic Kubernetes Service (EKS). The document assumes some experience with the
 platform. For more information on the EKS, see the [Amazon EKS official documentation](https://aws.amazon.com/eks/).
 
