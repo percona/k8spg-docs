@@ -153,6 +153,10 @@ nav:
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
+    - Troubleshooting:
+          - "Initial troubleshooting": debug.md
+          - "Exec into the container": debug-shell.md
+          - "Check the logs": debug-logs.md
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md

@@ -61,6 +61,13 @@ environment is key.
 
 * [Restart or pause the cluster](pause.md)
 
+# Troubleshooting
+
+* [Initial troubleshooting](debug.md)
+
+* [Exec into the container](debug-shell.md)
+
+* [Check the logs](debug-logs.md)
 
 # Reference
 
