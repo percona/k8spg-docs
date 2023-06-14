@@ -34,13 +34,13 @@ You can automate this with the [yq tool](https://github.com/mikefarah/yq/#instal
 follows, assuming that you are upgrading to the Operator version {{ release }}:
 
 ``` {.bash data-prompt="$" }
-$  curl -s https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml | | yq w - "spec.template.spec.containers[0].env[3].value" "update" | kubectl apply -f -
+$ curl -s https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml | yq w --doc 4 - "spec.template.spec.containers[0].env[0].value" "update" | kubectl apply -f -
 $ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
 ```
 
 !!! note
 
-    The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the yq command may be slightly different in other versions.
+    The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the `yq` command may be slightly different in other versions.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
@@ -142,7 +142,7 @@ The following command will allow you to update the Operator to current version
 (use the name of your cluster instead of the `<cluster-name>` placeholder).
 
 ``` {.bash data-prompt="$" }
-$ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg13-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"}]'
+$ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace", "path": "/spec/backup/backrestRepoImage", "value": "percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest-repo"},{"op":"replace","path":"/spec/backup/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest"},{"op":"replace","path":"/spec/pgBadger/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbadger"},{"op":"replace","path":"/spec/pgBouncer/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer"},{"op":"replace","path":"/spec/pgPrimary/image","value":"percona/percona-postgresql-operator:{{ release }}-ppg14-postgres-ha"},{"op":"replace","path":"/spec/userLabels/pgo-version","value":"v{{ release }}"},{"op":"replace","path":"/metadata/labels/pgo-version","value":"v{{ release }}"}]'
 ```
 
 !!! note
