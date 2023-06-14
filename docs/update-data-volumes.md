@@ -100,9 +100,10 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
         cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi        RWO            standard-rwo   87m
         ```
 
-2. In the Custom Resource manifest for the version 2.x cluster, update those fields under the `dataSource.volumes`, which point to the PVCs, putting there PVC names of the version 1.x cluster:
+2. Now edit the Custom Resource manifest (`deploy/cr.yaml` configuration file) of the version 2.x cluster: add fields to the `dataSource.volumes` subsection, pointing to the PVCs of the version 1.x cluster:
 
     ```yaml
+    ...
     dataSource:
       volumes:
           pgDataVolume:
