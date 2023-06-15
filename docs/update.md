@@ -147,7 +147,7 @@ $ kubectl patch perconapgcluster/<cluster-name> --type json -p '[{"op": "replace
 
 !!! note
 
-    The above example is composed in asumption of using PostgreSQL 14 as
+    The above example is composed in assumption of using PostgreSQL 14 as
     a database management system. For PostgreSQL 13 you should change all
     occurrences of the `ppg14` substring to `ppg13`.
 
