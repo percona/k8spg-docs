@@ -155,5 +155,4 @@ $ kubectl patch secret <clusterName>-pguser-<userName> -p '{"stringData":{"passw
 ### Superuser and pgBouncer
 
 For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. You can connect through `primary` service (read more in [exposure documentation](expose.md)).
-Otherwise you can use the [proxy.pgBouncer.exposePostgresUser](operator.md#proxy-pgbouncer-exposepostgresuser) Custom Resource option to enable superusers connection via pgBouncer.
 
