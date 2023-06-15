@@ -8,7 +8,7 @@ Distribution for PostgreSQL.
 
 !!! note
 
-    Only the incremental update to a nearest minor version of the Operator is
+    Only the incremental update to a nearest minor version of the Operator 1.x is
     supported. To update to a newer version, which differs from the current
     version by more than one, make several incremental updates sequentially.
     See [documentation archive](https://docs.percona.com/legacy-documentation/)
