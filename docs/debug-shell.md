@@ -22,8 +22,7 @@ In the following examples we will access the container `database` of the `cluste
     would show the following result:
     
     ``` {.text .no-copy}
-    OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown
-command terminated with exit code 126
+    OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
     ```
 
 * Print log files to a terminal:
