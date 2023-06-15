@@ -17,24 +17,24 @@ In the following examples we will access containers of the `cluster1-pxc-0` Pod.
 * Check logs of the `database` container:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 -c database
+    $ kubectl logs cluster1-instance1-b5mr-0 --container database
     ```
 
 * Check logs of the `pgbackrest` container:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 -c pgbackrest
+    $ kubectl logs cluster1-instance1-b5mr-0 --container pgbackrest
     ```
 
 * Filter logs of the `database` container which are not older than 600 seconds:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 -c database --since=600s
+    $ kubectl logs cluster1-instance1-b5mr-0 --container database --since=600s
     ```
 
 * Check logs of a previous instantiation of the `database` container, if any:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 -c database --previous
+    $ kubectl logs cluster1-instance1-b5mr-0 --container database --previous
     ```
 
