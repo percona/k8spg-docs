@@ -34,7 +34,7 @@ Users and databases can be customized in `spec.users` section in the Custom Reso
 - The Operator does not automatically drop users in case of removed Custom Resource options to prevent accidental data loss.
 - Similarly, to prevent accidental data loss Operator does not automatically drop databases (see how to actually drop a database [here](users.md#deleting-users-and-databases)).
 - Role attributes are not automatically dropped if you remove them. You need to set the inverse attribute to actually drop them (e.g. `NOSUPERUSER`).
-- The special `postgres` user can be added as one of the custom users; however, the privileges of the users cannot be adjusted.
+- The special `postgres` user can be added as one of the custom users; however, the privileges of this user cannot be adjusted.
 
 ### Creating a New User
 
