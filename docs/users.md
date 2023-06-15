@@ -23,7 +23,7 @@ As an example, using our `cluster1` PostgreSQL cluster, we would see the followi
 - A PostgreSQL user named `cluster1`.
 - A Secret named `cluster1-pguser-cluster1` that contains the user credentials and connection information.
 
-## Custom Users and Databases
+## <a name="application-users"></a> Custom Users and Databases
 
 Users and databases can be customized in `spec.users` section in the Custom Resource. Section can be changed at the cluster creation time and adjusted over time. Note the following:
 
