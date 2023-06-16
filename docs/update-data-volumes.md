@@ -86,7 +86,9 @@ Also, you can only reverse such migration by restoring the old cluster from the 
 
 The old cluster is shut down, and Volumes are ready to be used to provision the new cluster managed by the Operator version 2.x.
 
-1. Run the following command to show the names of PVC belonging to the old cluster:
+1. Install the Operator version 2 (if not done yet). Pick your favorite method from [our documentaion](index.md).
+
+2. Run the following command to show the names of PVC belonging to the old cluster:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
@@ -100,7 +102,7 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
         cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi        RWO            standard-rwo   87m
         ```
 
-2. Now edit the Custom Resource manifest (`deploy/cr.yaml` configuration file) of the version 2.x cluster: add fields to the `dataSource.volumes` subsection, pointing to the PVCs of the version 1.x cluster:
+3. Now edit the Custom Resource manifest (`deploy/cr.yaml` configuration file) of the version 2.x cluster: add fields to the `dataSource.volumes` subsection, pointing to the PVCs of the version 1.x cluster:
 
     ```yaml
     ...
@@ -114,7 +116,7 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
             directory: cluster1-backrest-shared-repo
     ```
 
-3. Apply the manifest:
+4. Apply the manifest:
 
     ```{.bash data-prompt="$"}
     $ kubectl apply -f deploy/cr.yaml
