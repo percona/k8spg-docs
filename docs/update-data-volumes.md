@@ -82,7 +82,7 @@ Also, you can only reverse such migration by restoring the old cluster from the 
     $ kubectl apply -f chown-pod.yaml -n pgo
     ```
 
-## Execute the migration to vevsion 2.x
+## Execute the migration to version 2.x
 
 The old cluster is shut down, and Volumes are ready to be used to provision the new cluster managed by the Operator version 2.x.
 
