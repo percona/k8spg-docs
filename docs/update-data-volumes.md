@@ -116,6 +116,20 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
             directory: cluster1-backrest-shared-repo
     ```
 
+3.1. Do not forget to set the proper PostgreSQL major version. It must be the same version that was used in version 1 cluster.
+You can set the version in the corresponding `image` sections and `postgresVersion`. The following example sets version 14:
+    ```yaml
+    spec:
+      image: percona/percona-postgresql-operator:{{ release }}-ppg14-postgres
+      postgresVersion: 14
+      proxy:
+        pgBouncer:
+          image: percona/percona-postgresql-operator:{{ release }}-ppg14-pgbouncer
+      backups:
+        pgbackrest:
+          image: percona/percona-postgresql-operator:{{ release }}-ppg14-pgbackrest
+    ```
+
 4. Apply the manifest:
 
     ```{.bash data-prompt="$"}
