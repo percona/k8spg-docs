@@ -9,13 +9,13 @@ When you create a PostgreSQL cluster with the Operator and do not specify any ad
 - Create a database that matches the name of your PostgreSQL cluster.
 - Create an unprivileged PostgreSQL user with the name of the cluster. This user has access to the database created in the previous step.
 - Create a Secret with the login credentials and connection details for the PostgreSQL user which is in relation to the database. This is stored in a Secret named `<clusterName>-pguser-<clusterName>`. These credentials include:
-  - `user`: The name of the user account.
-  - `password`: The password for the user account.
-  - `dbname`: The name of the database that the user has access to by default.
-  - `host`: The name of the host of the database. This references the Service of the primary PostgreSQL instance.
-  - `port`: The port that the database is listening on.
-  - `uri`: A PostgreSQL connection URI that provides all the information for logging into the PostgreSQL database via pgBouncer
-  - `jdbc-uri`: A PostgreSQL JDBC connection URI that provides all the information for logging into the PostgreSQL database via the JDBC driver.
+    - `user`: The name of the user account.
+    - `password`: The password for the user account.
+    - `dbname`: The name of the database that the user has access to by default.
+    - `host`: The name of the host of the database. This references the Service of the primary PostgreSQL instance.
+    - `port`: The port that the database is listening on.
+    - `uri`: A PostgreSQL connection URI that provides all the information for logging into the PostgreSQL database via pgBouncer
+    - `jdbc-uri`: A PostgreSQL JDBC connection URI that provides all the information for logging into the PostgreSQL database via the JDBC driver.
 
 As an example, using our `cluster1` PostgreSQL cluster, we would see the following created:
 
