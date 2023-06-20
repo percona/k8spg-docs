@@ -96,8 +96,9 @@ for example `us-east-1`.
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
 secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1. Put your AWS S3 key and AWS S3 key secret into the base64 encoded pgBackRest
-    configuration as follows:
+1. Put your AWS S3 key and AWS S3 key secret into the base64-encoded pgBackRest
+    configuration with your pgBackRest repository name. In case of the `repo1`
+    repository it can be done as follows:
 
     === "in Linux"
 
@@ -143,11 +144,11 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-3. Update your `deploy/cr.yaml` configuration with the your S3 credentials
+3. Update your `deploy/cr.yaml` configuration with the S3 credentials
     Secret in the `backups.pgbackrest.configuration` subsection, and put all
     other S3 related information into the options of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, the S3 storage
-    for the `repo2` repository would look as follows.
+    for the `repo1` repository would look as follows.
 
     ```yaml
     ...
@@ -159,8 +160,7 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
-        - name: repo2
+        - name: repo1
           s3:
             bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
             endpoint: "<YOUR_AWS_S3_ENDPOINT>"
@@ -232,13 +232,13 @@ The Operator will also need your service account key to access storage.
         This Secret can store credentials for several repositories presented as
         separate data keys.
 
-    Create the Secrets object from this yaml file:
+    Create the Secrets object from this YAML file:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-4. Update your `deploy/cr.yaml` configuration with the your GCS credentials
+4. Update your `deploy/cr.yaml` configuration with your GCS credentials
     Secret in the `backups.pgbackrest.configuration` subsection, and put GCS
     bucket name into the `bucket` option of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, GCS storage
@@ -254,7 +254,6 @@ The Operator will also need your service account key to access storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
         - name: repo3
           gcs:
             bucket: "<YOUR_GCS_BUCKET_NAME>"
@@ -268,18 +267,16 @@ The Operator will also need your service account key to access storage.
 
 ### Configuring Azure Blob Storage for backups
 
-You can configure [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
-as an object store for backups similarly to S3 or GCS storage.
-
-In order to use Azure Blob Storage for backups you need to provide a proper
-Azure container name. It can be passed to `pgBackRest` via the `azure.container`
-key in the `backups.pgbackrest.repos` subsection of `deploy/cr.yaml`.
+In order to use [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) for backups you need to provide a proper Azure container name. It can be passed to
+`pgBackRest` via the `azure.container` key in the `backups.pgbackrest.repos`
+subsection of `deploy/cr.yaml`.
 
 The Operator will also need a [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
 with your Azure Storage credentials to access the storage.
 
-1. Put your Azure storage account name and key into the base64 encoded pgBackRest
-    configuration as follows:
+1. Put your Azure storage account name and key into the base64-encoded pgBackRest
+    configuration with your pgBackRest repository name. In case of the `repo1`
+    repository it can be done as follows:
 
     === "in Linux"
 
@@ -325,11 +322,11 @@ with your Azure Storage credentials to access the storage.
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-3. Update your `deploy/cr.yaml` configuration with the your S3 credentials
-    Secret in the `backups.pgbackrest.configuration` subsection, and put all
-    other S3 related information into the options of one of your repositories
-    in the `backups.pgbackrest.repos` subsection. For example, the S3 storage
-    for the `repo4` repository would look as follows.
+3. Update your `deploy/cr.yaml` configuration with the Azure Storage credentials
+    Secret in the `backups.pgbackrest.configuration` subsection, and put Azure
+    container name into the options of one of your repositories
+    in the `backups.pgbackrest.repos` subsection. For example, the Azure storage
+    for the `repo1` repository would look as follows.
 
     ```yaml
     ...
@@ -341,8 +338,7 @@ with your Azure Storage credentials to access the storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
-        - name: repo4
+        - name: repo1
           azure:
             container: "<YOUR_AZURE_CONTAINER>"
     ```
