@@ -275,7 +275,7 @@ The Operator will also need a [Kubernetes Secret](https://kubernetes.io/docs/con
 with your Azure Storage credentials to access the storage.
 
 1. Put your Azure storage account name and key into the base64-encoded pgBackRest
-    configuration with your pgBackRest repository name. In case of the `repo4`
+    configuration with your pgBackRest repository name. In case of the `repo1`
     repository it can be done as follows:
 
     === "in Linux"
@@ -283,8 +283,8 @@ with your Azure Storage credentials to access the storage.
         ``` {.bash data-prompt="$" }
         $ cat <<EOF | base64 --wrap=0
         [global]
-        repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-        repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+        repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+        repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
         EOF
         ```
 
@@ -293,8 +293,8 @@ with your Azure Storage credentials to access the storage.
         ``` {.bash data-prompt="$" }
         $ cat <<EOF | base64
         [global]
-        repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-        repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+        repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+        repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
         EOF
         ```
 
@@ -326,7 +326,7 @@ with your Azure Storage credentials to access the storage.
     Secret in the `backups.pgbackrest.configuration` subsection, and put Azure
     container name into the options of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, the Azure storage
-    for the `repo4` repository would look as follows.
+    for the `repo1` repository would look as follows.
 
     ```yaml
     ...
@@ -338,8 +338,7 @@ with your Azure Storage credentials to access the storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
-        - name: repo4
+        - name: repo1
           azure:
             container: "<YOUR_AZURE_CONTAINER>"
     ```
