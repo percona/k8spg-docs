@@ -96,16 +96,9 @@ for example `us-east-1`.
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
 secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1. Now you should create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
-    using base64-encoded versions of two files: the file containing the
-    private key you have just downloaded, and the special `s3.conf` configuration file.
-
-    The content of the `s3.conf` file depends on the repository
-    name. In case of the `repo1` repository, it looks as follows:
-
-
-Put your AWS S3 key and AWS S3 key secret into the base64 encoded pgBackRest
-    configuration as follows:
+1. Put your AWS S3 key and AWS S3 key secret into the base64-encoded pgBackRest
+    configuration with your pgBackRest repository name. In case of the `repo1`
+    repository it can be done as follows:
 
     === "in Linux"
 
@@ -126,9 +119,6 @@ Put your AWS S3 key and AWS S3 key secret into the base64 encoded pgBackRest
         repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
         EOF
         ```
-
-The content of the `s3.conf` file depends on the repository
-    name. In case of the `repo1` repository, it looks as follows:
 
 2. Create the Secret configuration file with the resulted base64-encoded string
     as the following `cluster1-pgbackrest-secrets.yaml` example:
@@ -154,7 +144,7 @@ The content of the `s3.conf` file depends on the repository
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-3. Update your `deploy/cr.yaml` configuration with the your S3 credentials
+3. Update your `deploy/cr.yaml` configuration with the S3 credentials
     Secret in the `backups.pgbackrest.configuration` subsection, and put all
     other S3 related information into the options of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, the S3 storage
@@ -170,7 +160,6 @@ The content of the `s3.conf` file depends on the repository
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
         - name: repo1
           s3:
             bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
