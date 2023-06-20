@@ -338,6 +338,7 @@ with your Azure Storage credentials to access the storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
+        ...
         - name: repo4
           azure:
             container: "<YOUR_AZURE_CONTAINER>"
