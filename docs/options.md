@@ -1,7 +1,12 @@
 # Changing PostgreSQL Options
 
 You may require a configuration change for your application. PostgreSQL
-allows the option to configure the database with a configuration file.
+allows the option to configure the database with a configuration file, as many other database
+management systems do. You can pass options to PostgreSQL instances using the
+specific Custom Resource option via the `deploy/cr.yaml` configuration file.
+
+Often there's no need to add custom options, as the Operator takes care of
+providing PostgreSQL with reasonable defaults.
 
 The `patroni` section in the Custom Resource, present in `deploy/cr.yaml` file,
 contains configuration options to customize the PostgreSQL high-availability
@@ -19,4 +24,6 @@ patroni:
         work_mem: 2MB
 ```
 
-Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.
+Please note that configuration changes are automatically applied to the running instances
+without validation, so having an invalid config can make the cluster unavailable. 
+Also, some options can't be applied dynamically, but require restarting PosgreSQL to be applied.
