@@ -77,7 +77,7 @@ Percona Distribution for PostgreSQL on OpenShift.
     Use `oc get secrets` command to see the list of Secrets objects (by default Secrets object you are interested in has `cluster1-pguser-secret` name). Then you can use `oc get secret cluster1-pguser-secret -o yaml` to look through the YAML file with generated secrets (the actual password will be base64-encoded), or just get the needed password with the following command:
 
     ``` {.bash data-prompt="$"}
-    $ oc get secrets cluster1-users -o yaml -o jsonpath='{.data.postgres}' | base64 --decode | tr '\n' ' ' && echo " "
+    $ oc get secrets cluster1-users -o yaml -o jsonpath='{.data.pguser}' | base64 --decode | tr '\n' ' ' && echo " "
     ```
 
     Here the actual password is base64-encoded, and `echo 'cGd1c2VyX3Bhc3N3b3JkCg==' | base64 --decode` will bring it back to a human-readable form (in this example it will be a `pguser_password` string).
