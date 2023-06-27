@@ -16,6 +16,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('crVersion') }} |
+| **Value**       | string |
+| **Example**     | `{{ release }}` |
+| **Description** | Version of the Operator the Custom Resource belongs to |
+|                 | |
 | **Key**         | {{ optionlink('standby.enabled') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
