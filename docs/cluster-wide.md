@@ -151,7 +151,7 @@ monitoring all namespaces for `PerconaPGCluster` custom resources.
 4.  Deploy the cluster in the namespace of your choice:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml
+    $ kubectl apply -f deploy/cr.yaml -n percona-db-1
     ```
 
 ## Verifying the cluster operation
