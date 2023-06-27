@@ -511,7 +511,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
-| **Key**         | {{ optionlink('proxy.pgBouncer.exposePostgresUser') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
 | **Description** | Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer) |
