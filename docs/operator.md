@@ -514,7 +514,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Key**         | {{ optionlink('proxy.pgBouncer.exposePostgresUser') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
-| **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#superuser-and-pgbouncer) |
+| **Description** | Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer) |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |
