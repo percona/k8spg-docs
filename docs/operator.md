@@ -75,6 +75,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Example**     | `"SUPERUSER"` |
 | **Description** | The `ALTER ROLE` options other than password (the option is ignored for `postgres` user) |
 |                 | |
+| **Key**         | {{ optionlink('users.secretName') }} |
+| **Value**       | string |
+| **Example**     | `"rhino-credentials"` |
+| **Description** | The custom name of the user's Secret; if not specified, the default `<clusterName>-pguser-<userName>` variant will be used |
+|                 | |
 | **Key**         | {{ optionlink('databaseInitSQL.key') }} |
 | **Value**       | string |
 | **Example**     | `init.sql` |
