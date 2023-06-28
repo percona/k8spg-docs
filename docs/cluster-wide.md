@@ -140,12 +140,11 @@ monitoring all namespaces for `PerconaPGCluster` custom resources.
     Right now the operator deployed in cluster-wide mode will monitor all
     namespaces in the cluster, either already existing or newly created ones.
 
-3. Switch to the namespace you have chosen for the cluster (don't forget to
-    create it if needed). let's call it `percona-db-1` for example:
-    
+3. Create the namespace you have chosen for the cluster, if needed. let's call
+it `percona-db-1` for example:
+
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace percona-db-1
-    $ kubectl config set-context $(kubectl config current-context) --namespace=percona-db-1
     ```
     
 4.  Deploy the cluster in the namespace of your choice:
