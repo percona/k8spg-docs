@@ -2,7 +2,7 @@
 
 * **Date**
 
-    June 15, 2023
+    June 29, 2023
 
 * **Installation**
 
@@ -34,13 +34,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 * {{ k8spgjira(302) }}: [Minikube](https://github.com/kubernetes/minikube) platform is now [officially supported by the Operator](../minikube.md)
 
-* {{ k8spgjira(303) }}: Add e2e tests REMOVE
-
-* {{ k8spgjira(305) }}: Research migration process REMOVE
-
 * {{ k8spgjira(326) }}: Both the Operator and database [can be now installed](../helm.md) with the Helm package manager
-
-* {{ k8spgjira(340) }}: Send the CR-based telemetry when spec.upgradeOptions.apply=disabled REMOVE
 
 * {{ k8spgjira(342) }}: There is now no need in manual restart of PostgreSQL Pods after the monitor user password changed in Secrets 
 
