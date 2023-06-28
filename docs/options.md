@@ -26,4 +26,5 @@ patroni:
 
 Please note that configuration changes are automatically applied to the running instances
 without validation, so having an invalid config can make the cluster unavailable. 
-Also, some options can't be applied dynamically, but require restarting PosgreSQL to be applied.
+Also, take into account that some PosgreSQL options can't be applied dynamically but
+require restarting to be applied.
