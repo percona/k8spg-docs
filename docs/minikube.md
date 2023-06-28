@@ -36,9 +36,9 @@ for PostgreSQL on minikube:
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
         customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
         serviceaccount/percona-postgresql-operator serverside-applied
         role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
@@ -57,7 +57,7 @@ for PostgreSQL on minikube:
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        perconapgcluster.pg.percona.com/cluster1 created
+        perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
     !!! note
@@ -89,8 +89,8 @@ for PostgreSQL on minikube:
     ??? example "Expected output"
    
         ```{.text .no-copy}
-        NAME       ENDPOINT                     STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.pgo.svc   ready    3          3           143m
+        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
 ## Verifying the cluster operation
