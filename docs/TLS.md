@@ -191,49 +191,41 @@ $ kubectl apply -f deploy/cr.yaml
 
 ## Check your certificates for expiration
 
-1. First, check the necessary secrets names (`cluster1-ssl` and
-    `cluster1-ssl-internal` by default):
+1. First, check the necessary secrets names (`cluster1-cluster-cert` and
+    `cluster1-replication-cert` by default):
 
     ``` {.bash data-prompt="$" }
-    $ kubectl get certificate
+    $ kubectl get secrets
     ```
 
     You will have the following response:
 
     ``` {.text .no-copy}
-    NAME                    READY   SECRET                  AGE
-    cluster1-ssl            True    cluster1-ssl            49m
-    cluster1-ssl-internal   True    cluster1-ssl-internal   49m
+    NAME                            TYPE     DATA   AGE
+    cluster1-cluster-cert           Opaque   3      11m
+    ...
+    cluster1-replication-cert       Opaque   3      11m
+    ...
+
     ```
 
-2. Optionally you can also check that the certificates issuer is up and running:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl get issuer
-    ```
-
-    The response should be as follows:
-
-    ``` {.text .no-copy}
-    NAME                READY   AGE
-    cluster1-psmdb-ca   True    61s
-    ```
-
-3. Now use the following command to find out the certificates validity dates,
+2. Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:
 
     ``` {.bash data-prompt="$" }
     $ {
-      kubectl get secret/cluster1-ssl-internal -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -noout -dates
-      kubectl get secret/cluster1-ssl -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -noout -dates
+      kubectl get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -noout -dates
+      kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -noout -dates
       }
     ```
 
     The resulting output will be self-explanatory:
 
     ``` {.text .no-copy}
-    notBefore=Apr 25 12:09:38 2022 GMT notAfter=Jul 24 12:09:38 2022 GMT
-    notBefore=Apr 25 12:09:38 2022 GMT notAfter=Jul 24 12:09:38 2022 GMT
+    notBefore=Jun 28 10:20:19 2023 GMT
+    notAfter=Jun 27 11:20:19 2024 GMT
+    notBefore=Jun 28 10:20:18 2023 GMT
+    notAfter=Jun 25 11:20:18 2033 GMT
     ```
 
 ## Keep certificates after deleting the cluster
