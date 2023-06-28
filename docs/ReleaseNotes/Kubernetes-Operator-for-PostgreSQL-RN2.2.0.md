@@ -43,8 +43,6 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 
 ## Bugs Fixed
 
-* {{ k8spgjira(371) }}: Fresh v2 installation complains about deprecated v1
-
 * {{ k8spgjira(373) }}: Fix the bug due to which the Operator did not not create Secrets for the `pguser` user if PMM was enabled in the Custom Resource
 
 * {{ k8spgjira(362) }}: It was impossible to install Custom Resource Definitions for both 1.x and 2.x Operators in one environment, preventing the migration of a cluster to the newer Operator version
