@@ -33,7 +33,7 @@ your Kubernetes environment:
         To use different namespace, specify other name instead of
         `postgres-operator` in the above command, and modify the 
         `-n postgres-operator` parameter with it in the following two steps.
-        You can also ommit this parameter completely to deploy everything in the
+        You can also omit this parameter completely to deploy everything in the
         `default` namespace.
 
 2. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
@@ -46,9 +46,9 @@ your Kubernetes environment:
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
         customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
         serviceaccount/percona-postgresql-operator serverside-applied
         role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
@@ -68,7 +68,7 @@ your Kubernetes environment:
     ??? example "Expected output"
 
         ``` {.text .no-copy}
-        erconapgcluster.pg.percona.com/cluster1 created
+        perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
     !!! note
@@ -100,8 +100,8 @@ your Kubernetes environment:
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        NAME       ENDPOINT                     STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.pgo.svc   ready    3          3           143m
+        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
 ## Verifying the cluster operation
