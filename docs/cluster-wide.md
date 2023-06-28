@@ -83,9 +83,19 @@ different set of configuration YAML files, which are available in the deploy
 folder and have filenames with a special `cw-` prefix: e.g.
 `deploy/cw-bundle.yaml`.
 
-Using `cw-*` manifests will create a new namespace (`pg-operator` by default),
-deploy the Operator into it. Deployed this way, the Operator will start
-monitoring all namespaces for `PerconaPGCluster` custom resources.
+While using this cluster-wide versions of configuration files, you should set
+the following information there:
+
+* `subjects.namespace` option should contain the namespace which will host
+    the Operator,
+* `WATCH_NAMESPACE` key-value pair in the `env` section should have
+    `value` equal to a  comma-separated list of the namespaces to be watched by
+    the Operator, *and* the namespace in which the Operator resides (or just a
+    blank string to make the Operator deal with *all namespaces* in a Kubernetes
+    cluster).
+
+The following simple example shows how to install Operator cluster-wide on
+Kubernetes.
 
 1. Clone `percona-postgresql-operator` repository:
 
@@ -94,60 +104,42 @@ monitoring all namespaces for `PerconaPGCluster` custom resources.
     $ cd percona-postgresql-operator
     ```
 
-2. Deploy the bundle. It will create the `pg-operator` namespace, and deploy the
-    Operator into it.
+2. Let’s suppose that Operator’s namespace should be the `pg-operator` one.
+    Create it as follows:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cw-bundle.yaml –server-side
+    $ kubectl create namespace pg-operator
     ```
 
-    !!! note
+3. Edit the ``deploy/cw-bundle.yaml`` configuration file to make sure it
+    contains proper namespace name for the Operator:
 
-        If you want to change the namespace, please edit
-        **all** `pg-operator` **namespace entries** in `cw-bundle.yaml` before
-        applying. The entries to edit may look as follows:
+    ```yaml
+    ...
+    subjects:
+    - kind: ServiceAccount
+      name: percona-postgresql-operator
+      namespace: pg-operator
+    ...
+    ```
 
-        ```yaml
-        apiVersion: v1
-        kind: Namespace
-        metadata:
-          name: pg-operator
-        ...
-        ---
-        apiVersion: v1
-        kind: ServiceAccount
-        metadata:
-          name: percona-postgresql-operator
-          namespace: pg-operator
-        ...
-        ---
-        apiVersion: rbac.authorization.k8s.io/v1
-        kind: ClusterRoleBinding
-        ...
-        subjects:
-        - kind: ServiceAccount
-          name: percona-postgresql-operator
-          namespace: pg-operator
-        ---
-        apiVersion: apps/v1
-        kind: Deployment
-        ...
-          name: percona-postgresql-operator
-          namespace: pg-operator
-        ...
-        ```
+4. Apply the `deploy/cw-bundle.yaml` file with the following command:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl apply -f deploy/cw-bundle.yaml -n pg-operator
+    ```
 
     Right now the operator deployed in cluster-wide mode will monitor all
     namespaces in the cluster, either already existing or newly created ones.
 
-3. Create the namespace you have chosen for the cluster, if needed. let's call
-it `percona-db-1` for example:
+5. Create the namespace you have chosen for the cluster, if needed. let's call
+    it `percona-db-1` for example:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace percona-db-1
     ```
     
-4.  Deploy the cluster in the namespace of your choice:
+6.  Deploy the cluster in the namespace of your choice:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
