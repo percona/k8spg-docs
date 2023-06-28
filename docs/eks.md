@@ -52,7 +52,8 @@ Also, you need to configure AWS CLI with your credentials according to the
 The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
 your Kubernetes environment:
 
-1. Add the `postgres-operator` namespace to Kubernetes, if it doesn't exist:
+1. Create the Kubernetes namespace for your cluster if needed (for example,
+   let's name it `postgres-operator`):
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace postgres-operator
@@ -66,16 +67,17 @@ your Kubernetes environment:
 
     !!! note
 
-        To use different namespace, you should edit *all occurrences* of
-        the `namespace: postgres-operator` line in both `deploy/cr.yaml` and
-        `deploy/bundle.yaml` configuration files before applying them on two
-        next steps.
+        To use different namespace, specify other name instead of
+        `postgres-operator` in the above command, and modify the 
+        `-n postgres-operator` parameter with it in the following two steps.
+        You can also ommit this parameter completely to deploy everything in the
+        `default` namespace.
 
 2. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side --namespace=postgres-operator -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
+    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -97,7 +99,7 @@ your Kubernetes environment:
     for PostgreSQL cluster:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -122,7 +124,7 @@ your Kubernetes environment:
         file as follows:
 
         ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml
+        $ kubectl apply -f deploy/cr.yaml -n postgres-operator
         ```
 
     The creation process may take some time. The process is over when both
@@ -144,6 +146,7 @@ your Kubernetes environment:
 
 When creation process is over, `kubectl get pg` command will show you the
 cluster status as `ready`, and you can try to connect to the cluster.
+
 {% include 'assets/fragments/connectivity.txt' %}
 
 ## Removing the EKS cluster
