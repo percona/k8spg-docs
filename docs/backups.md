@@ -265,12 +265,7 @@ The Operator will also need your service account key to access storage.
     $ kubectl apply -f deploy/cr.yaml
     ```
 
-### Configuring Azure Blob Storage for backups
-
-!!! warning
-
-    Storing backups in Azure Blob Storage is a technical preview and is not
-    considered ready for production environments.
+### Configuring Azure Blob Storage for backups (tech preview)
 
 In order to use [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) for backups you need to provide a proper Azure container name. It can be passed to
 `pgBackRest` via the `azure.container` key in the `backups.pgbackrest.repos`
