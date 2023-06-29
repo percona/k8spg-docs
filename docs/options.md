@@ -1,15 +1,14 @@
 # Changing PostgreSQL Options
 
-You may require a configuration change for your application. PostgreSQL
-allows the option to configure the database with a configuration file, as many other database
-management systems do. You can pass options to PostgreSQL instances using the
-specific Custom Resource option via the `deploy/cr.yaml` configuration file.
+Despite the Operator's ability to configure PostgreSQL and the large number of
+Custom Resource options, there may be situations where you need to pass specific
+options directly to your cluster's PostgreSQL instances. For this purpose, you
+can use the [PostgreSQL dynamic configuration method](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html)
+provided by Patroni. You can pass PostgreSQL options to Patroni through the 
+Operator Custom Resource, updating it with `deploy/cr.yaml` configuration file).
 
-Often there's no need to add custom options, as the Operator takes care of
-providing PostgreSQL with reasonable defaults.
-
-The `patroni` section in the Custom Resource, present in `deploy/cr.yaml` file,
-contains configuration options to customize the PostgreSQL.
+Custom PostgreSQL configuration options should be included into the
+`patroni.dynamicConfiguration.postgresql` subsection as follows:
 
 ```yaml
 ...
@@ -23,7 +22,19 @@ patroni:
         work_mem: 2MB
 ```
 
-Please note that configuration changes are automatically applied to the running instances
-without validation, so having an invalid config can make the cluster unavailable. 
-Also, take into account that some PosgreSQL options can't be applied dynamically but
-require restarting to be applied.
+Please note that configuration changes will be automatically applied to the
+running instances as soon as you apply Custom Resource changes in a usual way,
+running the `kubectl apply -f deploy/cr.yaml` command.
+
+Normally, options should be applied to PostgreSQL instances dynamically without
+restart, except [options with the postmaster context](https://www.postgresql.org/docs/15/view-pg-settings.html).
+Changing options which have `context=postmaster` will cause Patroni to initiate
+restart of all PostgreSQL instances, one by one. You can check the context of
+a specific option using the `SELECT name, context FROM pg_settings;` query to
+to see if the change should cause a restart or not.
+
+!!! note
+
+    The Operator passes options to Patroni without validation, so there is a
+    theoretical possibility of the cluster malfunction caused by wrongly
+    configured PostgreSQL instances.
