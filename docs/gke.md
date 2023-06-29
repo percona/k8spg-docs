@@ -130,7 +130,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         ```
 
     Creation process will take some time. The process is over when both
-    Operator and replica set Pods have reached their Running status:
+    Operator and PostgreSQL Pods have reached their Running status:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg
