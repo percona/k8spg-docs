@@ -8,7 +8,7 @@ provided by Patroni. You can pass PostgreSQL options to Patroni through the
 Operator Custom Resource, updating it with `deploy/cr.yaml` configuration file).
 
 Custom PostgreSQL configuration options should be included into the
-`patroni.dynamicConfiguration.postgresql` subsection as follows:
+`patroni.dynamicConfiguration.postgresql.parameters` subsection as follows:
 
 ```yaml
 ...
@@ -39,4 +39,9 @@ to see if the change should cause a restart or not.
 
     The Operator passes options to Patroni without validation, so there is a
     theoretical possibility of the cluster malfunction caused by wrongly
-    configured PostgreSQL instances.
+    configured PostgreSQL instances. Also, this configuration method is used
+    for PostgreSQL options only and cannot be applied to change other 
+    [Patroni dynamic configuration options](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html).
+    It means that options in the `parameters` subsection under
+    `patroni.dynamicConfiguration.postgresql` will be applied, and everything
+    else in `patroni.dynamicConfiguration.postgresql` will be ignored.
