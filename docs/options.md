@@ -9,8 +9,7 @@ Often there's no need to add custom options, as the Operator takes care of
 providing PostgreSQL with reasonable defaults.
 
 The `patroni` section in the Custom Resource, present in `deploy/cr.yaml` file,
-contains configuration options to customize the PostgreSQL high-availability
-implementation based on [Patroni](https://patroni.readthedocs.io/).
+contains configuration options to customize the PostgreSQL.
 
 ```yaml
 ...
