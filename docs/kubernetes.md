@@ -15,6 +15,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     It is crucial to specify the right branch with `-b` option while cloning the
     code on this step. Please be careful.
 
+
 2. Create the Kubernetes namespace for your cluster if needed (for example,
    let's name it `postgres-operator`):
 
@@ -36,13 +37,13 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
         You can also omit this parameter completely to deploy everything in the
         `default` namespace.
 
-3. Deploy the operator with the following command:
+3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side  -f deploy/bundle.yaml -n postgres-operator
     ```
 
-4. After the operator is started Percona Distribution for PostgreSQL can be
+4. After the Operator is started Percona Distribution for PostgreSQL can be
     created at any time with the following command:
 
     ``` {.bash data-prompt="$" }
@@ -65,6 +66,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
 ## Verifying the cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, `kubectl get pg` command will show you the
+cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}

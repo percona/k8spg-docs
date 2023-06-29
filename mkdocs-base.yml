@@ -155,6 +155,8 @@ nav:
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
+    - How to:
+          - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md

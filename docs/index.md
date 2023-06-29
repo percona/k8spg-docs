@@ -65,6 +65,10 @@ environment is key.
 
 * [Restart or pause the cluster](pause.md)
 
+# HOWTOs
+
+* [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
+
 # Troubleshooting
 
 * [Initial troubleshooting](debug.md)

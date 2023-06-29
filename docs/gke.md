@@ -102,7 +102,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         You can also omit this parameter completely to deploy everything in the
         `default` namespace.
 
-3. Deploy the operator with the following command:
+3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    the following command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side -f deploy/bundle.yaml -n postgres-operator
@@ -136,7 +137,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         ```
 
     Creation process will take some time. The process is over when both
-    Operator and replica set Pods have reached their Running status:
+    Operator and PostgreSQL Pods have reached their Running status:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg
@@ -157,7 +158,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
 ## Verifying the cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, `kubectl get pg` command will show you the
+cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 

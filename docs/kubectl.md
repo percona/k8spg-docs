@@ -58,7 +58,7 @@ your Kubernetes environment:
 
     As the result you will have the Operator Pod up and running.
 
-2. The operator has been started, and you can deploy your Percona Distribution
+3. The Operator has been started, and you can deploy your Percona Distribution
     for PostgreSQL cluster:
 
     ``` {.bash data-prompt="$" }
@@ -100,6 +100,7 @@ your Kubernetes environment:
     ??? example "Expected output"
 
         ```{.text .no-copy}
+
         NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
