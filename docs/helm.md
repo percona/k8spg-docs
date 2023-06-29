@@ -60,13 +60,12 @@ Custom options can be passed to a `helm install` command as a
 `--set key=value[,key=value]` argument. The options passed with a chart can be
 any of the Operator’s [Custom Resource options](operator.md#operator-custom-resource-options).
 
-The following example will deploy a Percona Distribution for PostgreSQL Cluster
-in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html)
-and 20 Gi storage for a Primary PostgreSQL node:
+The following example will deploy a PostgreSQL 14 based cluster
+in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html):
 
 ``` {.bash data-prompt="$" }
 $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace \
-  --set pgPrimary.volumeSpec.size=20Gi \
+  --set postgresVersion=14 \
   --set pmm.enabled=true
 ```
 
