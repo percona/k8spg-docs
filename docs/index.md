@@ -35,7 +35,11 @@ environment is key.
 
 # Installation
 
+* [Install on Minikube](minikube.md)
+
 * [Install on Google Kubernetes Engine (GKE)](gke.md)
+
+* [Install on Amazon Elastic Kubernetes Service (AWS EKS)](eks.md)
 
 * [Generic Kubernetes installation](kubernetes.md)
 
@@ -64,6 +68,14 @@ environment is key.
 # HOWTOs
 
 * [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
+
+# Troubleshooting
+
+* [Initial troubleshooting](debug.md)
+
+* [Exec into the container](debug-shell.md)
+
+* [Check the logs](debug-logs.md)
 
 # Reference
 

@@ -5,7 +5,7 @@ The Cluster is configured via the
 
 The metadata part of this file contains the following keys:
 
-* `name` (`cluster1` by default) sets the name of your Percona Distribution
+* <a name="metadata-name"></a> `name` (`cluster1` by default) sets the name of your Percona Distribution
 for PostgreSQL Cluster; it should include only [URL-compatible characters](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3), not exceed 22 characters, start with an alphabetic character, and end with an alphanumeric character;
 
 * <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
@@ -16,6 +16,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('crVersion') }} |
+| **Value**       | string |
+| **Example**     | `{{ release }}` |
+| **Description** | Version of the Operator the Custom Resource belongs to |
+|                 | |
 | **Key**         | {{ optionlink('standby.enabled') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
@@ -69,6 +74,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Value**       | string |
 | **Example**     | `"SUPERUSER"` |
 | **Description** | The `ALTER ROLE` options other than password (the option is ignored for `postgres` user) |
+|                 | |
+| **Key**         | {{ optionlink('users.secretName') }} |
+| **Value**       | string |
+| **Example**     | `"rhino-credentials"` |
+| **Description** | The custom name of the user's Secret; if not specified, the default `<clusterName>-pguser-<userName>` variant will be used |
 |                 | |
 | **Key**         | {{ optionlink('databaseInitSQL.key') }} |
 | **Value**       | string |
@@ -511,10 +521,10 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
-| **Key**         | {{ optionlink('proxy.pgBouncer.exposePostgresUser') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
-| **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#application-users) |
+| **Description** | Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer) |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |

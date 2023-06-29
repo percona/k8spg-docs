@@ -81,33 +81,40 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     $ cd percona-postgresql-operator
     ```
 
-2. By default deployment will be done in the `default` namespace. If that's not
-    the desired one, you can create a new namespace and/or set the context for
-    the namespace as follows (replace the `<namespace name>` placeholder with
-    some descriptive name):
+2. Create the Kubernetes namespace for your cluster if needed (for example,
+   let's name it `postgres-operator`):
 
     ``` {.bash data-prompt="$" }
-    $ kubectl create namespace <namespace name>
-    $ kubectl config set-context $(kubectl config current-context) --namespace=<namespace name>
+    $ kubectl create namespace postgres-operator
     ```
 
-    At success, you will see the message that `namespace/<namespace name>` was
-    created, and the context
-    (`gke_<project name>_<zone location>_<cluster name>`) was modified.
+    ??? example "Expected output"
 
-    Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+        ``` {.text .no-copy}
+        namespace/postgres-operator was created
+        ```
+
+    !!! note
+
+        To use different namespace, specify other name instead of
+        `postgres-operator` in the above command, and modify the 
+        `-n postgres-operator` parameter with it in the following two steps.
+        You can also omit this parameter completely to deploy everything in the
+        `default` namespace.
+
+3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/bundle.yaml
+    $ kubectl apply --server-side -f deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pg.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pg.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
         customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
         serviceaccount/percona-postgresql-operator serverside-applied
         role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
@@ -120,13 +127,13 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 4. Deploy Percona Distribution for PostgreSQL:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml
+    $ kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        perconapgcluster.pg.percona.com/cluster1 created
+        perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
     Creation process will take some time. The process is over when both
@@ -139,15 +146,15 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        NAME       ENDPOINT                     STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.pgo.svc   ready    3          3           143m
+        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
-??? note "You can also track the creation process in Google Cloud console via the Object Browser"
+    ??? note "You can also track the creation process in Google Cloud console via the Object Browser"
 
-    When the creation process is finished, it will look as follows:
+        When the creation process is finished, it will look as follows:
 
-    ![image](assets/images/gke-quickstart-object-browser.svg)
+        ![image](assets/images/gke-quickstart-object-browser.svg)
 
 ## Verifying the cluster operation
 
