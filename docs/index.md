@@ -78,6 +78,8 @@ environment is key.
 
 # HOWTOs
 
+* [How to deploy a standby cluster for Disaster Recovery](standby.md)
+
 * [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
 
 # Troubleshooting

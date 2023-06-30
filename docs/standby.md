@@ -1,122 +1,137 @@
 # How to deploy a standby cluster for Disaster Recovery
 
-Deployment of a [standby PostgreSQL cluster](https://www.postgresql.org/docs/12/warm-standby.html)
-is mainly targeted for Disaster Recovery (DR), though it can also be used for
-migrations.
+Disaster recovery is not optional for businesses operating in the digital age. With the ever-increasing reliance on data, system outages or data loss can be catastrophic, causing significant business disruptions and financial losses.
 
-In both cases, it involves using some [object storage system for backups](backups.md#backups),
-such as AWS S3 or GCP Cloud Storage, which the standby cluster can access:
+With multi-cloud or multi-regional PostgreSQL deployments, the complexity of managing disaster recovery only increases. This is where the Percona Operators come in, providing a solution to streamline disaster recovery for PostgreSQL clusters running on Kubernetes. With the Percona Operators, businesses can manage multi-cloud or hybrid-cloud PostgreSQL deployments with ease, ensuring that critical data is always available and secure, no matter what happens.
+
+## Solution overview
+
+Operators automate routine tasks and remove toil. For standby, the [Percona Operator for PostgreSQL version 2](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) provides the following options:
+
+1. pgBackrest repo based standby
+2. Streaming replication
+3. Combination of (1) and (2)
+
+This document describes the pgBackRest repo-based standby as the simplest one. The following is the architecture diagram:
 
 ![image](assets/images/dr1.svg)
 
-* there is a *primary cluster* with configured `pgbackrest` tool, which pushes
-the write-ahead log (WAL) archives [to the correct remote repository](backups.md#backups-pgbackrest-repository),
-* the *standby cluster* is built from one of these backups, and it is kept in
-sync with the *primary cluster* by consuming the WAL files copied from the
-remote repository.
+1. This solution describes two Kubernetes clusters in different regions, clouds or running in hybrid mode (on-premises and cloud). One cluster is Main and the other is Disaster Recovery (DR)
 
-!!! note
+2. Each cluster includes the following components:
 
-    The primary node in the *standby cluster* is **not a streaming replica**
-    from any of the nodes in the *primary cluster*. It relies only on WAL
-    archives to replicate events. For this reason, this approach cannot be used
-    as a High Availability solution.
+    1. Percona Operator
+    2. PostgreSQL cluster
+    3. pgBackrest
+    4. pgBouncer
 
-Creating such a standby cluster involves the following steps:
+3. pgBackrest on the Main site streams backups and Write Ahead Logs (WALs) to the object storage
 
-* Copy needed passwords from the *primary cluster* Secrets and adjust them to
-use the *standby cluster* name. 
+4. pgBackrest on the DR site takes these backups and streams them to the standby cluster
 
-    !!! note inline end
+## Deploy disaster recovery for PostgreSQL on Kubernetes
 
-        You need the [yq tool installed](https://github.com/mikefarah/yq/#install).
+### Configure Main site
 
-    The following commands save the secrets
-    files from `cluster1` under `/tmp/copied-secrets` directory and prepare
-    them to be used in `cluster2`:
+1. Deploy the Operator [using your favorite method](kubectl.md). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
 
-    ``` {.bash data-prompt="$" }
-    $ mkdir -p /tmp/copied-secrets/
-    $ export primary_cluster_name=cluster1
-    $ export standby_cluster_name=cluster2
-    $ export secrets="${primary_cluster_name}-users"
-    $ kubectl get secret/$secrets -o yaml \
-    yq eval 'del(.metadata.creationTimestamp)' - \
-    yq eval 'del(.metadata.uid)' - \
-    yq eval 'del(.metadata.selfLink)' - \
-    yq eval 'del(.metadata.resourceVersion)' - \
-    yq eval 'del(.metadata.namespace)' - \
-    yq eval 'del(.metadata.annotations."kubectl.kubernetes.io/last-applied-configuration")' - \
-    yq eval '.metadata.name = "'"${secrets/$primary_cluster_name/$standby_cluster_name}"'"' - \
-    yq eval '.metadata.labels.pg-cluster = "'"${standby_cluster_name}"'"' - \
-    >/tmp/copied-secrets/${secrets/$primary_cluster_name/$standby_cluster_name}
-    ```
-
-* Create the Operator in the Kubernetes environment for the *standby cluster*,
-    if not done:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml
-    ```
-
-* Apply the Adjusted Kubernetes Secrets:
-
-    ``` {.bash data-prompt="$" }
-    $ export standby_cluster_name=cluster2
-    $ kubectl create -f /tmp/copied-secrets/${standby_cluster_name}-users
-    ```
-
-* Set the `standby.repoName`, `standby.host`, and optionally `standby.port`
-    Custom Resource options in the `deploy/cr.yaml` file of your
-    *standby cluster* to the actual place where the *primary cluster* stores
-    backups. For example, in case of `myPrimaryCluster` and `myStandbyCluster`
-    clusters, it should look as follows:
+2. Configure the `backups.pgbackrest.repos` section by adding the necessary configuration. The below example is for Google Cloud Storage (GCS):
 
     ```yaml
-    ...
-      name: myStandbyCluster
-    ...
-      standby:
-        host: "myPrimaryClusterHost"
-        repoName: "myPrimaryCluster-backrest-shared-repo"
+    spec:
+      backups:
+        configuration:
+          - secret:
+              name: main-pgbackrest-secrets
+        pgbackrest:
+          repos:
+          - name: repo1
+            gcs:
+              bucket: MY-BUCKET
     ```
 
-* Supply your *standby cluster* with the Kubernetes Secret used by pgBackRest of
-    the *primary cluster* to Access the Storage Bucket. The name of this Secret is
-    `<cluster-name>-backrest-repo-config`, and its content depends on the cloud
-    used for backups (refer to the Operator’s [backups documentation](backups.md#backups)
-    for this step). The contents of the Secret needs to be the same for both
-    *primary* and *standby* clusters except for the name: e.g.
-    `cluster1-backrest-repo-config` should be recreated as
-    `cluster2-backrest-repo-config`.
+    The `main-pgbackrest-secrets` value contains the keys for GCS. Read more about the configuration in the [backup and restore tutorial](backups.md).
 
-* Enable the standby mode in your *standby cluster’s* `deploy/cr.yaml` file:
+3. Once configured, apply the custom resource:
 
-    ```yaml
-    standby
-      enabled: true
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f deploy/cr.yaml 
     ```
 
-When you have applied your new cluster configuration with the usual
-`kubectl -f deploy/cr.yaml` command, it starts the synchronization via
-pgBackRest, and your Disaster Recovery preparations are over.
+    ??? example "Expected output"
 
-When you need to actually use your new cluster, get it out from standby mode,
-changing the `standby.enabled` option in your `deploy/cr.yaml` file:
+        ```{.bash .no-copy}
+        perconapgcluster.pg.percona.com/standby created
+        ```
+
+    The backups should appear in the object storage. By default pgBackrest puts them into the pgbackrest folder.
+
+
+### Configure DR site
+
+The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the only difference in standby settings.
+
+The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case):
 
 ```yaml
-standby
-  enabled: false
+metadata:
+  name: standby
+spec: 
+...
+  backups:
+    configuration:
+      - secret:
+          name: standby-pgbackrest-secrets
+    pgbackrest:
+      repos:
+      - name: repo1
+        gcs:
+          bucket: MY-BUCKET
+  standby:
+    enabled: true
+    repoName: repo1
 ```
 
-Please take into account, that your `cluster1` cluster should not exist at the
-moment when you get out your `cluster2` from standby:
+Deploy the standby cluster by applying the manifest:
 
+```{.bash data-prompt="$"}
+$ kubectl apply -f deploy/cr.yaml
+```
 
-![image](assets/images/dr2.svg)
+??? example "Expected output"
 
-!!! note
+    ```{.bash .no-copy}
+    perconapgcluster.pg.percona.com/standby created
+    ```
 
-    If `cluster1` still exists for some reason, **make sure it can not connect**
-    to backup storage. Otherwise, both clusters sending WAL archives to it would
-    cause data corruption!
+## Failover
+
+In case of the Main site failure or in other cases, you can promote the standby cluster. The promotion effectively allows writing to the cluster. This creates a net effect of pushing Write Ahead Logs (WALs) to the pgBackrest repository. It might create a split-brain situation where two primary instances attempt to write to the same repository. To avoid this, make sure the primary cluster is either deleted or shut down before trying to promote the standby cluster.
+
+Once the primary is down or inactive, promote the standby through changing the corresponding section:
+
+```yaml
+spec:
+  standby:
+    enabled: false
+```
+
+Now you can start writing to the cluster.
+
+### Split brain
+
+There might be a case, where your old primary comes up and starts writing to the repository. To recover from this situation, do the following:
+
+1. Keep only one primary with the latest data running
+2. Stop the writes on the other one
+3. Take the new full backup from the primary and upload it to the repo
+
+### Automate the failover
+
+Automated failover consists of multiple steps and is outside of the Operator’s scope. There are a few steps that you can take to reduce the Recovery Time Objective (RTO). To detect the failover we recommend having the 3rd site to monitor both DR and Main sites. In this case you can be sure that Main really failed and it is not a network split situation.
+
+Another aspect of automation is to switch the traffic for the application from Main to Standby after promotion. It can be done through various Kubernetes configurations and heavily depends on how your networking and application are designed. The following options are quite common:
+
+1. Global Load Balancer - various clouds and vendors provide their solutions
+2. Multi Cluster Services or MCS - available on most of the public clouds
+3. Federation or other multi-cluster solutions
