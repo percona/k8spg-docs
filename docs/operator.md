@@ -206,41 +206,6 @@ name used for backups |
 | **Example**     | `4Gi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
 |                 | |
-| **Key**         | {{ optionlink('instances.sidecars.image') }} |
-| **Value**       | string |
-| **Example**     | `mycontainer1:latest` |
-| **Description** | Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.name') }} |
-| **Value**       | string |
-| **Example**     | `testcontainer` |
-| **Description** | Name of the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
-| **Value**       | string |
-| **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.env') }} |
-| **Value**       | subdoc |
-| **Example**     |  |
-| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
-| **Value**       | subdoc |
-| **Example**     | |
-| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.command') }} |
-| **Value**       | array |
-| **Example**     | `["/bin/sh"]` |
-| **Description** | Command for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.args') }} |
-| **Value**       | array |
-| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
-| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.maxSkew') }} |
 | **Value**       | int |
 | **Example**     | 1 |
@@ -305,6 +270,48 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `1Gi` |
 | **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
+
+### instances.sidecars subsection
+
+The `instances.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to PostgreSQL Pods.
+
+|                 | |
+|-----------------|-|
+| **Key**         | {{ optionlink('instances.sidecars.image') }} |
+| **Value**       | string |
+| **Example**     | `mycontainer1:latest` |
+| **Description** | Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.name') }} |
+| **Value**       | string |
+| **Example**     | `testcontainer` |
+| **Description** | Name of the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
+| **Value**       | string |
+| **Example**     | `Always` |
+| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.env') }} |
+| **Value**       | subdoc |
+| **Example**     |  |
+| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
+| **Value**       | subdoc |
+| **Example**     | |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.command') }} |
+| **Value**       | array |
+| **Example**     | `["/bin/sh"]` |
+| **Description** | Command for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.args') }} |
+| **Value**       | array |
+| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
+| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 
 ## Backup Section
 
@@ -555,6 +562,18 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `preferred` |
 | **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
 |                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.config') }} |
+| **Value**       | subdoc |
+| **Example**     | <pre>global:<br>pool_mode: transaction</pre> |
+| **Description** | Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
+
+### proxy.pgBouncer.sidecars subsection
+
+The `proxy.pgBouncer.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to pgBouncer Pods.
+
+|                 | |
+|-----------------|-|
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.image') }} |
 | **Value**       | string |
 | **Example**     | `mycontainer1:latest` |
@@ -589,11 +608,6 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | array |
 | **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 | **Description** | Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
-|                 | |
-| **Key**         | {{ optionlink('proxy.pgBouncer.config') }} |
-| **Value**       | subdoc |
-| **Example**     | <pre>global:<br>pool_mode: transaction</pre> |
-| **Description** | Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
 
 ## patroni Section
 
