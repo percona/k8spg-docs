@@ -59,6 +59,13 @@ environment is key.
 
 # Management
 
+* Upgrade from version 1 to version 2:
+
+    * [Upgrade overview](update.md)
+    * [Using data volumes](update-data-volumes.md)
+    * [Using backup and restore](update-backup-restore.md)
+    * [Using standby](update-standby.md)
+
 * [Backup and restore](backups.md)
 
 * [High availability and scaling](scaling.md)
