@@ -454,9 +454,8 @@ a state before an unwanted change had occurred.
 
     For this feature to work, the Operator initiates a full backup 
     immediately after the cluster creation, to use it as a basis for
-    point-in-time recovery when needed. Because this backup has a technical
-    purpose, it is not listed in the output of the `kubectl get pg-backup`
-    command.
+    point-in-time recovery when needed (this backup is not listed in the output
+    of the `kubectl get pg-backup` command).
 
 You can set up a point-in-time recovery using the normal restore command of
 pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
