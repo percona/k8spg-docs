@@ -48,7 +48,7 @@ Also, you can only reverse such migration by restoring the old cluster from the 
         cluster1-pgbr-repo   Bound    pvc-afb00490-5a45-45cb-a1cb-10af8e48bb13   1Gi        RWO            standard-rwo   57m
         ```
 
-   A third PVC used to store write-ahead logs (WAL) may also be present if external WAL volumes were enabled for the cluster.
+    A third PVC used to store write-ahead logs (WAL) may also be present if external WAL volumes were enabled for the cluster.
 
 5. Permissions for `pgBackRest` repo folders are managed differently in version 1 and version 2. We need to change the ownership of the `backrest` folder on the Persistent Volume to avoid errors during migration. Running a `chown` command within a container fixes this problem. 
     You can use the following manifest to execute it:
@@ -117,7 +117,7 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
     ```
 
 4. Do not forget to set the proper PostgreSQL major version. It must be the same version that was used in version 1 cluster.
-You can set the version in the corresponding `image` sections and `postgresVersion`. The following example sets version 14:
+    You can set the version in the corresponding `image` sections and `postgresVersion`. The following example sets version 14:
     ```yaml
     spec:
       image: percona/percona-postgresql-operator:{{ release }}-ppg14-postgres
