@@ -185,7 +185,14 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `LoadBalancer` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL |
+
+## <a name="operator-instances-section"></a>Instances section
+
+The `instances` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for PostgreSQL instances.
+
 |                 | |
+|-----------------|-|
 | **Key**         | {{ optionlink('instances.name') }} |
 | **Value**       | string |
 | **Example**     | `rs 0` |
@@ -313,7 +320,7 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 | **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 | **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 
-## Backup Section
+## Backup section
 
 The `backup` section in the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
@@ -479,7 +486,7 @@ name used for backups |
 | **Example**     | |
 | **Description** | The pgBackRest command-line options for the pgBackRest restore command |
 
-## PMM Section
+## PMM section
 
 The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for Percona Monitoring and Management.
@@ -511,7 +518,7 @@ file contains configuration options for Percona Monitoring and Management.
 | **Example**     | `monitoring-service` |
 | **Description** | Address of the PMM Server to collect data from the cluster |
 
-## proxy Section
+## Proxy section
 
 The `proxy` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
@@ -609,7 +616,7 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 | **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 | **Description** | Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
 
-## patroni Section
+## Patroni Section
 
 The `patroni` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni](https://patroni.readthedocs.io/).
