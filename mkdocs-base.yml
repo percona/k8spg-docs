@@ -137,6 +137,7 @@ nav:
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
     - Quickstart:
+          - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
     - Installation:
           - "Install on Minikube": minikube.md

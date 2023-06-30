@@ -31,6 +31,8 @@ environment is key.
 
 # Quickstart
 
+* [Install with Helm](helm.md)
+
 * [Install with kubectl](kubectl.md)
 
 # Installation
