@@ -468,8 +468,8 @@ by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
 example means just UTC),
 * optional `--set` argument allows you to choose the backup which will be the
 starting point for point-in-time recovery (look through the available backups
-with `kubectl get pg-backup` command to find out the proper backup name). This
-option must be specified if the target is one or more backups away from the
+with the `kubectl get pg-backup` command to find out the proper backup name).
+This option must be specified if the target is one or more backups away from the
 current moment.
 
 After setting these options in the *backup restore* configuration file,
