@@ -12,7 +12,7 @@ logs with the `kubectl logs` command:
 | `--timestamps`                      | Print timestamp in the logs (timezone is taken from the container)        |
 | `-p`, `--previous`                  | Print previous instantiation of a container. This is extremely useful in case of container restart, where there is a need to check the logs on why the container restarted. Logs of previous instantiation might not be available in all the cases. |
 
-In the following examples we will access containers of the `cluster1-pxc-0` Pod.
+In the following examples we will access containers of the `cluster1-instance1-b5mr-0` Pod.
 
 * Check logs of the `database` container:
 
