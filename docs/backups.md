@@ -11,9 +11,10 @@ and restore utility.
 
 ### Backup repositories
 
- A special *pgBackRest repository* is created by the Operator along with
- creating a new PostgreSQL cluster to facilitate the usage of the pgBackRest
- features in it.
+A special *pgBackRest repository* is created by the Operator along with
+creating a new PostgreSQL cluster to facilitate the usage of the pgBackRest
+features in it (you can notice additional `repo-host` Pod after the cluster
+creation).
 
 The Operator can use the following variants of cloud storage outside the
 Kubernetes cluster to keep PostgreSQL backups:
@@ -449,6 +450,14 @@ $ kubectl apply -f deploy/restore.yaml
 Point-in-time recovery functionality allows users to revert the database back to
 a state before an unwanted change had occurred.
 
+!!! note
+
+    For this feature to work, the Operator initiates a full backup 
+    immediately after the cluster creation, to use it as a basis for
+    point-in-time recovery when needed. Because this backup has a technical
+    purpose, it is not listed in the output of the `kubectl get pg-backup`
+    command.
+
 You can set up a point-in-time recovery using the normal restore command of
 pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
 
@@ -459,8 +468,9 @@ by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
 example means just UTC),
 * optional `--set` argument allows you to choose the backup which will be the
 starting point for point-in-time recovery (look through the available backups
-to find out the proper backup name). This option must be specified if the target is
-one or more backups away from the current moment.
+with `kubectl get pg-backup` command to find out the proper backup name). This
+option must be specified if the target is one or more backups away from the
+current moment.
 
 After setting these options in the *backup restore* configuration file,
 follow the standard restore instructions.
