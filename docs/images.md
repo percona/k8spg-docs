@@ -5,18 +5,18 @@ Percona Operator for PostgreSQL:
 
 | Image                                                       | Digest                                                           |
 |:------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:2.1.0                   | 538076c55e2fb2e7c8964a793dfaf56dea4ce276e839e0cd8ac7da54966784a8 |
-| percona/percona-postgresql-operator:2.1.0-ppg12-postgres    | 950b63972fb5ddcdb50adca3306b3894ae6c2c64d16c36096101a64a6bc9bbb2 |
-| percona/percona-postgresql-operator:2.1.0-ppg13-postgres    | e728d6f70b427e7752703cb20b38b456090e47079535d2f62ef224f7544bddfd |
-| percona/percona-postgresql-operator:2.1.0-ppg14-postgres    | 1f1ae0278071f3331db3fbd368baa0ef2c28fadd497e2d8fb7ad5904f5113945 |
-| percona/percona-postgresql-operator:2.1.0-ppg15-postgres    | a00da56a3a907b585a6eab8b4522864285878291240e07914c060eefbbc7c543 |
-| percona/percona-postgresql-operator:2.1.0-ppg12-pgbouncer   | cd52276253214f37f66714dcd5a9fcafa21e2aff02048e8fda2f3d5affba13ca |
-| percona/percona-postgresql-operator:2.1.0-ppg13-pgbouncer   | cdeb1de7882067a49d20024a7959cadb5efa627420bad6a95e4036b1643aa7a4 |
-| percona/percona-postgresql-operator:2.1.0-ppg14-pgbouncer   | c144eb7bf7c0f332785ec49785f5c974325c9bd467488d9e624ca8d744da4cfc |
-| percona/percona-postgresql-operator:2.1.0-ppg15-pgbouncer   | ff89002b697ad820e638410e8851d8b71ec2b2c1b008dc18ec0aaf69ff03da91 |
-| percona/percona-postgresql-operator:2.1.0-ppg12-pgbackrest  | 8b3515ad7bd0fd572d2ee3334eeb8f6c213baf39be65ff2c1dde5c1b50fe4ea2 |
-| percona/percona-postgresql-operator:2.1.0-ppg13-pgbackrest  | 05fb839203eecc2f3151bf72df3bccc31d5d6409d6bc7ba288fcdf06896c5029 |
-| percona/percona-postgresql-operator:2.1.0-ppg14-pgbackrest  | 80df91c4d8d9092351ff33f2d476df74366c4eb82c296dbc4edb307fc0407171 |
-| percona/percona-postgresql-operator:2.1.0-ppg15-pgbackrest  | 06ca64615c324ae97c79e95349f33995cc47843caa452ce9740ea4ccd3a455e1 |
+| percona/percona-postgresql-operator:2.2.0                   | c4b300498b319e6458f98310a3804d08af6680c9ce76ea64baecc57917838be4 |
+| percona/percona-postgresql-operator:2.2.0-ppg12-postgres    | 20703450ccc4f1d020b54b22809ca0814b16c49d0894d73cdaafccf31beb6a26 |
+| percona/percona-postgresql-operator:2.2.0-ppg13-postgres    | c6dea3348111b24036e1e88b8efd5a9af94934793ee2d763c20f320100b22e45 |
+| percona/percona-postgresql-operator:2.2.0-ppg14-postgres    | 5f628a8a98c4ce2c25ae2b5db53c1515d94d86edef1e97b48c0059fdaff60f22 |
+| percona/percona-postgresql-operator:2.2.0-ppg15-postgres    | 762874bd5dab6984942c96bb31bcfda5348e7a511f7383f282620bff48669f5f |
+| percona/percona-postgresql-operator:2.2.0-ppg12-pgbouncer   | 67fb5808461da6fead4a4608abab4ee903630c0944a86ff2c513cdf1038d393d |
+| percona/percona-postgresql-operator:2.2.0-ppg13-pgbouncer   | 80f0ad8c0edd902f799f148333a854e4b9ecbbcf034e6eeff4c49eca25e08e94 |
+| percona/percona-postgresql-operator:2.2.0-ppg14-pgbouncer   | ad46d14445ff0980f613f6ae89d9c6400715b756f52f4d3268c93e99ed12514f |
+| percona/percona-postgresql-operator:2.2.0-ppg15-pgbouncer   | b704485b4b39205719edad6042527c45ccdcf7e2f2d4d56eda4c15819db053a4 |
+| percona/percona-postgresql-operator:2.2.0-ppg12-pgbackrest  | 292854a005d350abb22bbe9c1d5ecaaf5f807dc05de01a94e5c1cca675ea331d |
+| percona/percona-postgresql-operator:2.2.0-ppg13-pgbackrest  | 0c38e1356cf06b318bd73ae3d6947a79535816b5a6d311f2ca8fcc945edb92a1 |
+| percona/percona-postgresql-operator:2.2.0-ppg14-pgbackrest  | 943d46fb2162760d884e14888f70ec168b62e21b728dc9ed4a49004a89009484 |
+| percona/percona-postgresql-operator:2.2.0-ppg15-pgbackrest  | e444b4296be43d17a6d7d6b1be48fc95312700ba16efd8662f4f04f6618a1230 |
 | percona/pmm-client:2.37.0                                   | e1e2f4cbfd4ce4be5d883330d810e9962a62531e2da07f1b115077a49ff97ed5 |
 
