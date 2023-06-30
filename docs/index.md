@@ -4,7 +4,7 @@
 
     This is version {{ release }} of the Percona Operator for PostgreSQL. 
     **The Operator 1.x is now in maintenance mode. We strongly recommend to use**
-    [Percona Operator for PostgreSQL 2.x](https://www.percona.com/https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html).
+    [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html).
 
 
 
