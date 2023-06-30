@@ -35,18 +35,24 @@ Kubernetes-based environment:
     * set `pmm.enabled=true`
     * set the `pmm.serverHost` key to your PMM Server hostname or IP address
         (it should be resolvable and reachable from within your cluster)
-    * check that  the `serverUser` key contains your PMM Server user name
-        (`admin` by default),
-    * make sure the `pmmserver` key in the
-        [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/pmm-secret.yaml)
-        secrets file contains the password specified for the PMM Server during its
-        installation.
+    * authorize PMM Client within PMM Server: [acquire the API Key from your PMM Server](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication) and set ``PMM_SERVER_KEY`` in the [deploy/secrets.yaml](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/secrets.yaml) secrets file to this obtained API Key value. Keep in mind that you need an API Key with the "Admin" role. The API Key won't be rotated automatically.
+    
+    !!! note
 
-    Apply changes with the `kubectl apply -f deploy/pmm-secret.yaml` command.
-
+        Alternatively, you can query your PMM Server installation for the API
+        Key using `curl` and `jq` utils as follows:
+        
+        ``` {.bash data-prompt="$" }
+        $ API_KEY=$(curl --insecure -X POST -H "Content-Type: application/json" -d '{"name":"operator", "role": "Admin"}' "https://<login>:<password>@<server_host>/graph/api/auth/keys" | jq .key)
+        ```
+        
+        Don't forget to use your real PMM Server login, password, and host
+        address (same as in `pmm.serverHost` key) instead of the
+        `<login>:<password>@<server_host>` placeholders.
+    
     !!! info
 
-        You use `deploy/pmm-secret.yaml` file to *create* Secrets Object.
+        You use `deploy/secrets.yaml` file to *create* Secrets Object.
         The file contains all values for each key/value pair in a convenient
         plain text format. But the resulting Secrets contain passwords stored
         as base64-encoded strings. If you want to *update* password field,
@@ -60,13 +66,13 @@ Kubernetes-based environment:
         === "in Linux"
 
             ``` {.bash data-prompt="$" }
-            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64 --wrap=0)'}}'
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64 --wrap=0)'}}'
             ```
 
         === "in macOS"
 
             ``` {.bash data-prompt="$" }
-            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"pmmserver": '$(echo -n new_password | base64)'}}'
+            $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64)'}}'
             ```
 
     When done, apply the edited `deploy/cr.yaml` file:
@@ -82,7 +88,3 @@ Kubernetes-based environment:
     $ kubectl get pods
     $ kubectl logs cluster1-7b7f7898d5-7f5pz -c pmm-client
     ```
-
-3. Now you can access PMM via *https* in a web browser, with the
-    login/password authentication, and the browser is configured to show
-    Percona Distribution for PostgreSQL metrics.

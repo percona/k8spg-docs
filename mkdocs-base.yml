@@ -119,7 +119,7 @@ extra: # Used in main.html template and can't be externalized
       We use cookies to recognize your repeated visits and preferences, as well
       as to measure the effectiveness of our documentation and whether users
       find what they're searching for. With your consent, you're helping us to
-      make our documentation better.
+      make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 2.1.0
@@ -137,13 +137,17 @@ nav:
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
     - Quickstart:
+          - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
     - Installation:
+          - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
+          - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
           - "Exposing the cluster": expose.md
+          - "Changing PostgreSQL Options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Transport Encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
@@ -158,10 +162,17 @@ nav:
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
-
+    - How to:
+          - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
+    - Troubleshooting:
+          - "Initial troubleshooting": debug.md
+          - "Exec into the container": debug-shell.md
+          - "Check the logs": debug-logs.md
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
+          - "Copyright and licensing information": copyright.md
+          - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
           - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md

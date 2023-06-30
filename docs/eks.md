@@ -1,14 +1,51 @@
-# Install Percona Distribution for PostgreSQL using kubectl
+# Install Percona Distribution for PostgreSQL on Amazon Elastic Kubernetes Service (EKS)
 
-The [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility is a tool used before anything else to interact with Kubernetes and containerized applications running on it. Users can run kubectl to deploy applications, manage cluster resources, check logs, etc.
+This guide shows you how to deploy Percona Operator for PostgreSQL on Amazon
+Elastic Kubernetes Service (EKS). The document assumes some experience with the
+platform. For more information on the EKS, see the [Amazon EKS official documentation](https://aws.amazon.com/eks/).
 
-## Pre-requisites
+## Prerequisites
+
+### Software installation
 
 The following tools are used in this guide and therefore should be preinstalled:
 
-1. The **Git** distributed version control system. You can install it following the [official installation instructions](https://github.com/git-guides/install-git).
+1. **AWS Command Line Interface (AWS CLI)** for interacting with the different
+    parts of AWS. You can install it following the [official installation instructions for your system](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-install.html).
 
-2. The **kubectl** tool to manage and deploy applications on Kubernetes, included in most Kubernetes distributions. Install it, if not present, [following the official installation instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+2. **eksctl** to simplify cluster creation on EKS. It can be installed
+    along its [installation notes on GitHub](https://github.com/weaveworks/eksctl#installation).
+
+3. **kubectl**  to manage and deploy applications on Kubernetes. Install
+    it [following the official installation instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+
+Also, you need to configure AWS CLI with your credentials according to the
+[official guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
+
+### Creating the EKS cluster
+
+1. To create your cluster, you will need the following data:
+
+    * name of your EKS cluster,
+    * AWS region in which you wish to deploy your cluster,
+    * the amount of nodes you would like tho have,
+    * the desired ratio between [on-demand](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-on-demand-instances.html)
+        and [spot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html)
+        instances in the total number of nodes.
+
+    !!! note
+
+        [spot](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html)
+        instances are not recommended for production environment, but may be useful
+        e.g. for testing purposes.
+
+    After you have settled all the needed details, create your EKS cluster [following the official cluster creation instructions](https://docs.aws.amazon.com/eks/latest/userguide/create-cluster.html).
+
+2. After you have created the EKS cluster, you also need to [install the Amazon EBS CSI driver](https://docs.aws.amazon.com/eks/latest/userguide/ebs-csi.html) on your cluster. See the [official documentation](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html) on adding it as an Amazon EKS add-on.
+
+    !!! note
+
+        CSI driver is needed for the Operator to work propely, and is not included by default starting from the Amazon EKS version 1.22. Therefore sers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
 
 ## Install the Operator and Percona Distribution for PostgreSQL
 
@@ -58,7 +95,7 @@ your Kubernetes environment:
 
     As the result you will have the Operator Pod up and running.
 
-3. The Operator has been started, and you can deploy your Percona Distribution
+2. The operator has been started, and you can deploy your Percona Distribution
     for PostgreSQL cluster:
 
     ``` {.bash data-prompt="$" }
@@ -100,7 +137,6 @@ your Kubernetes environment:
     ??? example "Expected output"
 
         ```{.text .no-copy}
-
         NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
@@ -111,3 +147,23 @@ When creation process is over, `kubectl get pg` command will show you the
 cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
+
+## Removing the EKS cluster
+
+To delete your cluster, you will need the following data:
+
+* name of your EKS cluster,
+* AWS region in which you have deployed your cluster.
+
+You can clean up the cluster with the `eksctl` command as follows (with
+real names instead of `<region>` and `<cluster name>` placeholders):
+
+``` {.bash data-prompt="$" }
+$ eksctl delete cluster --region=<region> --name="<cluster name>"
+```
+
+The cluster deletion may take time.
+
+!!! warning
+
+    After deleting the cluster, all data stored in it will be lost!

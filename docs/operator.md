@@ -5,7 +5,7 @@ The Cluster is configured via the
 
 The metadata part of this file contains the following keys:
 
-* `name` (`cluster1` by default) sets the name of your Percona Distribution
+* <a name="metadata-name"></a> `name` (`cluster1` by default) sets the name of your Percona Distribution
 for PostgreSQL Cluster; it should include only [URL-compatible characters](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3), not exceed 22 characters, start with an alphabetic character, and end with an alphanumeric character;
 
 * <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
@@ -16,6 +16,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('crVersion') }} |
+| **Value**       | string |
+| **Example**     | `{{ release }}` |
+| **Description** | Version of the Operator the Custom Resource belongs to |
+|                 | |
 | **Key**         | {{ optionlink('standby.enabled') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
@@ -69,6 +74,11 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Value**       | string |
 | **Example**     | `"SUPERUSER"` |
 | **Description** | The `ALTER ROLE` options other than password (the option is ignored for `postgres` user) |
+|                 | |
+| **Key**         | {{ optionlink('users.secretName') }} |
+| **Value**       | string |
+| **Example**     | `"rhino-credentials"` |
+| **Description** | The custom name of the user's Secret; if not specified, the default `<clusterName>-pguser-<userName>` variant will be used |
 |                 | |
 | **Key**         | {{ optionlink('databaseInitSQL.key') }} |
 | **Value**       | string |
@@ -175,7 +185,14 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `LoadBalancer` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL |
+
+## <a name="operator-instances-section"></a>Instances section
+
+The `instances` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for PostgreSQL instances.
+
 |                 | |
+|-----------------|-|
 | **Key**         | {{ optionlink('instances.name') }} |
 | **Value**       | string |
 | **Example**     | `rs 0` |
@@ -195,41 +212,6 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `4Gi` |
 | **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.image') }} |
-| **Value**       | string |
-| **Example**     | `mycontainer1:latest` |
-| **Description** | Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.name') }} |
-| **Value**       | string |
-| **Example**     | `testcontainer` |
-| **Description** | Name of the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
-| **Value**       | string |
-| **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.env') }} |
-| **Value**       | subdoc |
-| **Example**     |  |
-| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
-| **Value**       | subdoc |
-| **Example**     | |
-| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.command') }} |
-| **Value**       | array |
-| **Example**     | `["/bin/sh"]` |
-| **Description** | Command for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
-|                 | |
-| **Key**         | {{ optionlink('instances.sidecars.args') }} |
-| **Value**       | array |
-| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
-| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.maxSkew') }} |
 | **Value**       | int |
@@ -296,7 +278,49 @@ name used for backups |
 | **Example**     | `1Gi` |
 | **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
 
-## Backup Section
+### instances.sidecars subsection
+
+The `instances.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to PostgreSQL Pods.
+
+|                 | |
+|-----------------|-|
+| **Key**         | {{ optionlink('instances.sidecars.image') }} |
+| **Value**       | string |
+| **Example**     | `mycontainer1:latest` |
+| **Description** | Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.name') }} |
+| **Value**       | string |
+| **Example**     | `testcontainer` |
+| **Description** | Name of the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
+| **Value**       | string |
+| **Example**     | `Always` |
+| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.env') }} |
+| **Value**       | subdoc |
+| **Example**     |  |
+| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
+| **Value**       | subdoc |
+| **Example**     | |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.command') }} |
+| **Value**       | array |
+| **Example**     | `["/bin/sh"]` |
+| **Description** | Command for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+|                 | |
+| **Key**         | {{ optionlink('instances.sidecars.args') }} |
+| **Value**       | array |
+| **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
+| **Description** | Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+
+## Backup section
 
 The `backup` section in the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
@@ -462,7 +486,7 @@ name used for backups |
 | **Example**     | |
 | **Description** | The pgBackRest command-line options for the pgBackRest restore command |
 
-## PMM Section
+## PMM section
 
 The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for Percona Monitoring and Management.
@@ -494,7 +518,7 @@ file contains configuration options for Percona Monitoring and Management.
 | **Example**     | `monitoring-service` |
 | **Description** | Address of the PMM Server to collect data from the cluster |
 
-## proxy Section
+## Proxy section
 
 The `proxy` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
@@ -511,10 +535,10 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
-| **Key**         | {{ optionlink('proxy.pgBouncer.exposePostgresUser') }} |
+| **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
-| **Description** | Enables or disables [exposing postgres user through pgBouncer](users.md#application-users) |
+| **Description** | Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer) |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |
@@ -545,6 +569,18 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Example**     | `preferred` |
 | **Description** | [Pod anti-affinity type](constraints.md#affinity-and-anti-affinity), can be either `preferred` or `required` |
 |                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.config') }} |
+| **Value**       | subdoc |
+| **Example**     | <pre>global:<br>pool_mode: transaction</pre> |
+| **Description** | Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
+
+### proxy.pgBouncer.sidecars subsection
+
+The `proxy.pgBouncer.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to pgBouncer Pods.
+
+|                 | |
+|-----------------|-|
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.image') }} |
 | **Value**       | string |
 | **Example**     | `mycontainer1:latest` |
@@ -579,13 +615,8 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | array |
 | **Example**     | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 | **Description** | Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
-|                 | |
-| **Key**         | {{ optionlink('proxy.pgBouncer.config') }} |
-| **Value**       | subdoc |
-| **Example**     | <pre>global:<br>pool_mode: transaction</pre> |
-| **Description** | Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
 
-## patroni Section
+## Patroni Section
 
 The `patroni` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni](https://patroni.readthedocs.io/).

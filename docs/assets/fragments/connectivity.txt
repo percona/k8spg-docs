@@ -5,9 +5,10 @@
 
     Use `kubectl get secrets` command to see the list of Secrets objects. The
     Secrets object you are interested in is named as
-    `<cluster_name>-pguser-<cluster_name>`, so the default variant will be
-    `cluster1-pguser-cluster1`. You can use the following command to get the
-    password of this user:
+    `<cluster_name>-pguser-<cluster_name>` (substitute `<cluster_name>` with
+    the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name)).
+    The default variant will be `cluster1-pguser-cluster1`. You can use the
+    following command to get the password of this user:
     
     ``` {.bash data-prompt="$" }
     $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'

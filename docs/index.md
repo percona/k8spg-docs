@@ -31,11 +31,17 @@ environment is key.
 
 # Quickstart
 
+* [Install with Helm](helm.md)
+
 * [Install with kubectl](kubectl.md)
 
 # Installation
 
+* [Install on Minikube](minikube.md)
+
 * [Install on Google Kubernetes Engine (GKE)](gke.md)
+
+* [Install on Amazon Elastic Kubernetes Service (AWS EKS)](eks.md)
 
 * [Generic Kubernetes installation](kubernetes.md)
 
@@ -44,6 +50,8 @@ environment is key.
 * [Application and system users](users.md)
 
 * [Exposing the cluster](expose.md)
+
+* [Changing PostgreSQL Options](options.md)
 
 * [Anti-affinity and tolerations](constraints.md)
 
@@ -68,6 +76,17 @@ environment is key.
 
 * [Restart or pause the cluster](pause.md)
 
+# HOWTOs
+
+* [Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](cluster-wide.md)
+
+# Troubleshooting
+
+* [Initial troubleshooting](debug.md)
+
+* [Exec into the container](debug-shell.md)
+
+* [Check the logs](debug-logs.md)
 
 # Reference
 

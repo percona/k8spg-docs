@@ -11,9 +11,10 @@ and restore utility.
 
 ### Backup repositories
 
- A special *pgBackRest repository* is created by the Operator along with
- creating a new PostgreSQL cluster to facilitate the usage of the pgBackRest
- features in it.
+A special *pgBackRest repository* is created by the Operator along with
+creating a new PostgreSQL cluster to facilitate the usage of the pgBackRest
+features in it (you can notice additional `repo-host` Pod after the cluster
+creation).
 
 The Operator can use the following variants of cloud storage outside the
 Kubernetes cluster to keep PostgreSQL backups:
@@ -31,6 +32,9 @@ Each pgBackRest repository consists of the following Kubernetes objects:
     (e.g. SSH keys, AWS S3 keys, etc.),
 * A Pod with a number of supporting scripts,
 * A Service.
+
+You can have up to 4 pgBackRest repositories named as `repo1`, `repo2`, `repo3`,
+and `repo4`.
 
 ## Backup types
 
@@ -93,8 +97,9 @@ for example `us-east-1`.
 You also need to supply pgBackRest with base64-encoded AWS S3 key and AWS S3 key
 secret stored along with other sensitive information in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/).
 
-1. Put your AWS S3 key and AWS S3 key secret into the base64 encoded pgBackRest
-    configuration as follows:
+1. Put your AWS S3 key and AWS S3 key secret into the base64-encoded pgBackRest
+    configuration with your pgBackRest repository name. In case of the `repo1`
+    repository it can be done as follows:
 
     === "in Linux"
 
@@ -140,11 +145,11 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-3. Update your `deploy/cr.yaml` configuration with the your S3 credentials
+3. Update your `deploy/cr.yaml` configuration with the S3 credentials
     Secret in the `backups.pgbackrest.configuration` subsection, and put all
     other S3 related information into the options of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, the S3 storage
-    for the `repo2` repository would look as follows.
+    for the `repo1` repository would look as follows.
 
     ```yaml
     ...
@@ -156,8 +161,7 @@ secret stored along with other sensitive information in [Kubernetes Secrets](htt
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
-        - name: repo2
+        - name: repo1
           s3:
             bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
             endpoint: "<YOUR_AWS_S3_ENDPOINT>"
@@ -195,9 +199,22 @@ The Operator will also need your service account key to access storage.
     type. These actions will result in downloading a file in JSON format with
     your new private key and related information.
 
-3. Now you should use a base64-encoded version of this file and create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). You can encode
-    the file with the `base64 <filename>` command. When done, create a yaml file
-    with your cluster name and base64-encoded file contents as the following
+3. Now you should create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
+    using base64-encoded versions of two files: the file containing the
+    private key you have just downloaded, and the special `gcs.conf` configuration file.
+
+    The content of the `gcs.conf` file depends on the repository
+    name. In case of the `repo1` repository, it looks as follows:
+
+    ```
+    [global]
+    repo1-gcs-key=/etc/pgbackrest/conf.d/gcs-key.json
+    ```
+
+    You can encode a text file with the `base64 --wrap=0 <filename>`
+    command (or just `base64 <filename>` in case of Apple macOS).
+    When done, create the following yaml file with your cluster name
+    and base64-encoded files contents as the following
     `cluster1-pgbackrest-secrets.yaml` example:
 
     ```yaml
@@ -208,6 +225,7 @@ The Operator will also need your service account key to access storage.
     type: Opaque
     data:
       gcs-key.json: <base64-encoded-json-file-contents>
+      gcs.conf: <base64-encoded-conf-file-contents>
     ```
 
     !!! note
@@ -215,13 +233,13 @@ The Operator will also need your service account key to access storage.
         This Secret can store credentials for several repositories presented as
         separate data keys.
 
-    Create the Secrets object from this yaml file:
+    Create the Secrets object from this YAML file:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-4. Update your `deploy/cr.yaml` configuration with the your GCS credentials
+4. Update your `deploy/cr.yaml` configuration with your GCS credentials
     Secret in the `backups.pgbackrest.configuration` subsection, and put GCS
     bucket name into the `bucket` option of one of your repositories
     in the `backups.pgbackrest.repos` subsection. For example, GCS storage
@@ -237,7 +255,6 @@ The Operator will also need your service account key to access storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
         - name: repo3
           gcs:
             bucket: "<YOUR_GCS_BUCKET_NAME>"
@@ -249,20 +266,18 @@ The Operator will also need your service account key to access storage.
     $ kubectl apply -f deploy/cr.yaml
     ```
 
-### Configuring Azure Blob Storage for backups
+### Configuring Azure Blob Storage for backups (tech preview)
 
-You can configure [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
-as an object store for backups similarly to S3 or GCS storage.
-
-In order to use Azure Blob Storage for backups you need to provide a proper
-Azure container name. It can be passed to `pgBackRest` via the `azure.container`
-key in the `backups.pgbackrest.repos` subsection of `deploy/cr.yaml`.
+In order to use [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) for backups you need to provide a proper Azure container name. It can be passed to
+`pgBackRest` via the `azure.container` key in the `backups.pgbackrest.repos`
+subsection of `deploy/cr.yaml`.
 
 The Operator will also need a [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/)
 with your Azure Storage credentials to access the storage.
 
-1. Put your Azure storage account name and key into the base64 encoded pgBackRest
-    configuration as follows:
+1. Put your Azure storage account name and key into the base64-encoded pgBackRest
+    configuration with your pgBackRest repository name. In case of the `repo1`
+    repository it can be done as follows:
 
     === "in Linux"
 
@@ -308,11 +323,11 @@ with your Azure Storage credentials to access the storage.
     $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
     ```
 
-3. Update your `deploy/cr.yaml` configuration with the your S3 credentials
-    Secret in the `backups.pgbackrest.configuration` subsection, and put all
-    other S3 related information into the options of one of your repositories
-    in the `backups.pgbackrest.repos` subsection. For example, the S3 storage
-    for the `repo4` repository would look as follows.
+3. Update your `deploy/cr.yaml` configuration with the Azure Storage credentials
+    Secret in the `backups.pgbackrest.configuration` subsection, and put Azure
+    container name into the options of one of your repositories
+    in the `backups.pgbackrest.repos` subsection. For example, the Azure storage
+    for the `repo1` repository would look as follows.
 
     ```yaml
     ...
@@ -324,8 +339,7 @@ with your Azure Storage credentials to access the storage.
               name: cluster1-pgbackrest-secrets
         ...
         repos:
-        ...
-        - name: repo4
+        - name: repo1
           azure:
             container: "<YOUR_AZURE_CONTAINER>"
     ```
@@ -436,6 +450,13 @@ $ kubectl apply -f deploy/restore.yaml
 Point-in-time recovery functionality allows users to revert the database back to
 a state before an unwanted change had occurred.
 
+!!! note
+
+    For this feature to work, the Operator initiates a full backup 
+    immediately after the cluster creation, to use it as a basis for
+    point-in-time recovery when needed (this backup is not listed in the output
+    of the `kubectl get pg-backup` command).
+
 You can set up a point-in-time recovery using the normal restore command of
 pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
 
@@ -446,8 +467,9 @@ by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
 example means just UTC),
 * optional `--set` argument allows you to choose the backup which will be the
 starting point for point-in-time recovery (look through the available backups
-to find out the proper backup name). This option must be specified if the target is
-one or more backups away from the current moment.
+with the `kubectl get pg-backup` command to find out the proper backup name).
+This option must be specified if the target is one or more backups away from the
+current moment.
 
 After setting these options in the *backup restore* configuration file,
 follow the standard restore instructions.
