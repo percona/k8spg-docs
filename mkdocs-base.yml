@@ -163,6 +163,7 @@ nav:
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
     - How to:
+          - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
