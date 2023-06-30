@@ -51,6 +51,8 @@ environment is key.
 
 * [Exposing the cluster](expose.md)
 
+* [Changing PostgreSQL Options](options.md)
+
 * [Anti-affinity and tolerations](constraints.md)
 
 * [Telemetry](telemetry.md)
