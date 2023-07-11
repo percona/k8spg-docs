@@ -161,7 +161,7 @@ The Operator will also need your service account key to access storage.
    → _Service Accounts_ in the left menu panel, then click your account and
    open the _KEYS_ tab):
 
-   ![image](assets/images/gcs-service-account.png)
+   ![image](assets/images/gcs-service-account.svg)
 
    Click the _ADD KEY_ button, chose _Create new key_ and chose _JSON_ as a key
    type. These actions will result in downloading a file in JSON format with
@@ -407,7 +407,6 @@ pgBackRest with few additional options specified in the
 `parameters.backrest-restore-opts` key in the [backup restore configuration file](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup/restore.yaml):
 
 ```yaml
-
 ---
 spec:
   name: cluster1-backrest-restore
