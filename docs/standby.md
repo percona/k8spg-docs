@@ -33,7 +33,7 @@ This document describes the pgBackRest repo-based standby as the simplest one. T
 
 ### Configure Main site
 
-1. Deploy the Operator [using your favorite method](install-index.md). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
+1. Deploy the Operator [using your favorite method](System-Requirements.md). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
 
 2. Configure the `backups.pgbackrest.repos` section by adding the necessary configuration. The below example is for Google Cloud Storage (GCS):
 

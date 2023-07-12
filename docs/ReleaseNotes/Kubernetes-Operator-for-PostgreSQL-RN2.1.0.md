@@ -6,7 +6,7 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](install-index.md) 
+    [Installing Percona Operator for PostgreSQL](System-Requirements.md) 
 
 
 The Percona Operator built with best practices of configuration and setup of
