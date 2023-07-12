@@ -1,6 +1,6 @@
 # Upgrade from the Operator version 1.x to version 2.x
 
-The Operator version 2.x has a lot of differences compared to the version 2.x.
+The Operator version 2.x has a lot of differences compared to the version 1.x.
 This makes upgrading from version 1.x to version 2.x quite different from a normal upgrade. In fact, you have to migrate the cluster from version 1.x to version 2.x.
 
 There are several ways to do such version 1.x to version 2.x upgrade. Choose the method based on your downtime preference and roll back strategy:
