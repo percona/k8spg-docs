@@ -141,6 +141,7 @@ nav:
           - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
     - Installation:
+          - "System requirements": install-index.md
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md

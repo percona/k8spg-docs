@@ -6,7 +6,7 @@ With multi-cloud or multi-regional PostgreSQL deployments, the complexity of man
 
 ## Solution overview
 
-Operators automate routine tasks and remove toil. For standby, the [Percona Operator for PostgreSQL version 2](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) provides the following options:
+Operators automate routine tasks and remove toil. For standby, the [Percona Operator for PostgreSQL version 2](index.md) provides the following options:
 
 1. pgBackrest repo based standby
 2. Streaming replication
@@ -33,7 +33,7 @@ This document describes the pgBackRest repo-based standby as the simplest one. T
 
 ### Configure Main site
 
-1. Deploy the Operator [using your favorite method](kubectl.md). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
+1. Deploy the Operator [using your favorite method](install-index.md). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
 
 2. Configure the `backups.pgbackrest.repos` section by adding the necessary configuration. The below example is for Google Cloud Storage (GCS):
 

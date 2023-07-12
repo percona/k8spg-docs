@@ -6,7 +6,7 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](https://www.percona.com/doc/kubernetes-operator-for-postgresql/2.0/index.html#installation-guide) 
+    [Installing Percona Operator for PostgreSQL](install-index.md) 
 
 
 The Percona Operator is based on best practices for configuration and setup of
