@@ -11,7 +11,7 @@ The following platforms were tested and are officially supported by the Operator
 
 * [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.22 - 1.25
 
-* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.22 - 1.25
+* [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com/eks/) 1.22 - 1.25
 
 * [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.10 - 4.12
 
