@@ -6,6 +6,11 @@ of storage classes, hostPath, and NFS.
 
 ## Officially supported platforms
 
+The Operator was developed and tested with PostgreSQL versions 12.14, 13.10, and
+14.7. Other options may also work but have not been tested. The Operator {{ release }}
+provides connection pooling based on pgBouncer 1.18.0 and high-availability
+implementation based on Patroni 2.1.4.
+
 The following platforms were tested and are officially supported by the Operator
 {{ release }}:
 
