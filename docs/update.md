@@ -14,6 +14,18 @@ Distribution for PostgreSQL.
     See [documentation archive](https://docs.percona.com/legacy-documentation/)
     for documentation on previous versions of the Operator.
 
+Check that the Operator deployment job is not still present in your cluster:
+
+``` {.bash data-prompt="$" }
+$ kubectl get job/pgo-deploy
+```
+
+If the job is present, delete it before upgrading the Operator:
+
+``` {.bash data-prompt="$" }
+$ kubectl delete  job/pgo-deploy
+```
+
 Upgrading the Operator is similar to deploying a new Operator version, but you
 should change the `DEPLOY_ACTION` option in the `deploy/operator.yaml` file
 before applying it from `install` to `update`:
