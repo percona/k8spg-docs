@@ -13,10 +13,10 @@ See [documentation archive](https://docs.percona.com/legacy-documentation/)
 for documentation on previous versions of the Operator.
 
 You can check the Operator images to find out the current Operator version with
-the following command:
+the following command (in case it is deployed in the `pgo` namespace):
 
 ``` {.bash data-prompt="$" }
-$ kubectl -n pgo get deployment postgres-operator -o yaml | grep percona-postgresql-operator
+$ kubectl get deployment postgres-operator -o yaml | grep percona-postgresql-operator
 ```
 
 ??? example "Expected output"
@@ -28,12 +28,25 @@ $ kubectl -n pgo get deployment postgres-operator -o yaml | grep percona-postgre
     image: percona/percona-postgresql-operator:1.4.0-pgo-event
     ```
 
+!!! note
+
+    The above command and other commands in this section follow the assumption
+    that the context with the Operator namespace (`pgo` by default) was set.
+    You can set context as follows:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl config set-context $(kubectl config current-context) --namespace=pgo
+    ```
+
+    Alternatively, you can specify the proper namespace explicitly: for example,
+    by adding the `-n pgo` option to `kubectl` in all commands.
+
 The following steps will update the Operator to a newer version:
 
 1. Check that the Operator deployment job is not still present in your cluster:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl get job/pgo-deploy
+    $ kubectl get job/pgo-deploy -n pgo
     ```
 
     ??? example "Expected output"
@@ -47,7 +60,7 @@ The following steps will update the Operator to a newer version:
     Otherwise you should delete this job before upgrading the Operator:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl delete  job/pgo-deploy
+    $ kubectl delete  job/pgo-deploy -n pgo
     ```
 
 2. Upgrading the Operator is similar to deploying a new Operator version, but
@@ -90,7 +103,7 @@ The following steps will update the Operator to a newer version:
     ```
 
 3.  The `pgo-deploy` Kubernetes Job created to carry on the Operator deployment
-    process can take several minutes to be completed. You can track it with the
+    process can take a minute or more to be completed. You can track it with the
     following command:
     
     ``` {.bash data-prompt="$" }
@@ -104,8 +117,8 @@ The following steps will update the Operator to a newer version:
         pgo-deploy   1/1           81s        5m53s
         ```
 
-    When it reaches the COMPLETIONS count of `1/1`, you can safely delete the job
-    as follows:
+    When it reaches the COMPLETIONS count of `1/1`, you can safely delete the
+    job as follows:
     
     ``` {.bash data-prompt="$" }
     $ kubectl delete  job/pgo-deploy
