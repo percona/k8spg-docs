@@ -14,45 +14,53 @@ Distribution for PostgreSQL.
     See [documentation archive](https://docs.percona.com/legacy-documentation/)
     for documentation on previous versions of the Operator.
 
-Check that the Operator deployment job is not still present in your cluster:
+1. Check that the Operator deployment job is not still present in your cluster:
 
-``` {.bash data-prompt="$" }
-$ kubectl get job/pgo-deploy
-```
+    ``` {.bash data-prompt="$" }
+    $ kubectl get job/pgo-deploy
+    ```
 
-If the job is present, delete it before upgrading the Operator:
+    ??? example "Expected output"
 
-``` {.bash data-prompt="$" }
-$ kubectl delete  job/pgo-deploy
-```
+        ``` {.text .no-copy}
+        NAME         COMPLETIONS   DURATION   AGE
+        pgo-deploy   1/1           81s        5m53s
+        ```
 
-Upgrading the Operator is similar to deploying a new Operator version, but you
-should change the `DEPLOY_ACTION` option in the `deploy/operator.yaml` file
-before applying it from `install` to `update`:
+    If the job is not present, you will get a message that it is not found.
+    Otherwise you should delete this job before upgrading the Operator:
 
-```yaml hl_lines="7 8"
-...
-  containers:
-    - name: pgo-deploy
-      image: percona/percona-postgresql-operator:1.4.0-pgo-deployer
-      imagePullPolicy: Always
-      env:
-        - name: DEPLOY_ACTION
-          value: update
-...
-```
+    ``` {.bash data-prompt="$" }
+    $ kubectl delete  job/pgo-deploy
+    ```
 
-You can automate this with the [yq tool](https://github.com/mikefarah/yq/#install) as
-follows, assuming that you are upgrading to the Operator version {{ release }}:
+2. Upgrading the Operator is similar to deploying a new Operator version, but
+    you should change the `DEPLOY_ACTION` option in the `deploy/operator.yaml`
+    file before applying it from `install` to `update`:
 
-``` {.bash data-prompt="$" }
-$ curl -s https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml | yq w --doc 4 - "spec.template.spec.containers[0].env[0].value" "update" | kubectl apply -f -
-$ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
-```
+    ```yaml hl_lines="7 8"
+    ...
+      containers:
+        - name: pgo-deploy
+          image: percona/percona-postgresql-operator:1.4.0-pgo-deployer
+          imagePullPolicy: Always
+          env:
+            - name: DEPLOY_ACTION
+              value: update
+    ...
+    ```
 
-!!! note
+    You can automate this with the [yq tool](https://github.com/mikefarah/yq/#install)
+    as follows, assuming that you are upgrading to the Operator version {{ release }}:
 
-    The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the `yq` command may be slightly different in other versions.
+    ``` {.bash data-prompt="$" }
+    $ curl -s https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml | yq w --doc 4 - "spec.template.spec.containers[0].env[0].value" "update" | kubectl apply -f -
+    $ kubectl wait --for=condition=Complete job/pgo-deploy --timeout=90s
+    ```
+
+    !!! note
+
+        The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the `yq` command may be slightly different in other versions.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
