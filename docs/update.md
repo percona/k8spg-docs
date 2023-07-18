@@ -6,13 +6,29 @@ Distribution for PostgreSQL.
 
 ## Upgrading the Operator
 
-!!! note
+Only the incremental update to a nearest minor version of the Operator 1.x is
+supported. To update to a newer version, which differs from the current
+version by more than one, make several incremental updates sequentially.
+See [documentation archive](https://docs.percona.com/legacy-documentation/)
+for documentation on previous versions of the Operator.
 
-    Only the incremental update to a nearest minor version of the Operator 1.x is
-    supported. To update to a newer version, which differs from the current
-    version by more than one, make several incremental updates sequentially.
-    See [documentation archive](https://docs.percona.com/legacy-documentation/)
-    for documentation on previous versions of the Operator.
+You can check the Operator images to find out the current Operator version with
+the following command:
+
+``` {.bash data-prompt="$" }
+$ kubectl -n pgo get deployment postgres-operator -o yaml | grep percona-postgresql-operator
+```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    image: percona/percona-postgresql-operator:1.4.0-pgo-apiserver
+    image: percona/percona-postgresql-operator:1.4.0-postgres-operator
+    image: percona/percona-postgresql-operator:1.4.0-pgo-scheduler
+    image: percona/percona-postgresql-operator:1.4.0-pgo-event
+    ```
+
+The following steps will update the Operator to a newer version:
 
 1. Check that the Operator deployment job is not still present in your cluster:
 
