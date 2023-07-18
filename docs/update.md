@@ -62,6 +62,44 @@ Distribution for PostgreSQL.
 
         The example above (and other examples in this document) uses [the yq version 3.4.0](https://github.com/mikefarah/yq/releases/tag/3.4.0). Note that the syntax for the `yq` command may be slightly different in other versions.
 
+    Applying the modified `operator.yaml` will produce the command output as
+    follows:
+
+    ``` {.text .no-copy}
+    serviceaccount/pgo-deployer-sa unchanged
+    clusterrole.rbac.authorization.k8s.io/pgo-deployer-cr unchanged
+    configmap/pgo-deployer-cm configured
+    clusterrolebinding.rbac.authorization.k8s.io/pgo-deployer-crb unchanged
+    job.batch/pgo-deploy created
+    ```
+
+3.  The `pgo-deploy` Kubernetes Job created to carry on the Operator deployment
+    process can take several minutes to be completed. You can track it with the
+    following command:
+    
+    ``` {.bash data-prompt="$" }
+    $ kubectl get job/pgo-deploy
+    ```
+
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        NAME         COMPLETIONS   DURATION   AGE
+        pgo-deploy   1/1           81s        5m53s
+        ```
+
+    When it reaches the COMPLETIONS count of `1/1`, you can safely delete the job
+    as follows:
+    
+    ``` {.bash data-prompt="$" }
+    $ kubectl delete  job/pgo-deploy
+    ```
+    
+    !!! note
+
+        Deleting the `pgo-deploy` job will be needed before the next upgrade of
+        the Operator.
+
 ## Upgrading Percona Distribution for PostgreSQL
 
 ### Automatic upgrade
