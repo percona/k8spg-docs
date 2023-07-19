@@ -1,9 +1,9 @@
 # Install Percona Distribution for PostgreSQL on Google Kubernetes Engine (GKE)
 
-Following steps will allow you to install the Operator and use it to manage
+Following steps help you install the Operator and use it to manage
 Percona Distribution for PostgreSQL with the Google Kubernetes Engine. The
 document assumes some experience with Google Kubernetes Engine (GKE).
-For more information on the GKE, see the [Kubernetes Engine Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart).
+For more information on GKE, see the [Kubernetes Engine Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart).
 
 ## Prerequisites
 
@@ -16,7 +16,7 @@ If you would like to use *your local shell*, install the following:
 
 1. [gcloud](https://cloud.google.com/sdk/docs/quickstarts). This tool is part of the Google Cloud SDK. To install it, select your operating system on the [official Google Cloud SDK documentation page](https://cloud.google.com/sdk/docs) and then follow the instructions.
 
-2. [kubectl](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). It is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
+2. [kubectl](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). This is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
 
     ``` {.bash data-prompt="$" }
     $ gcloud auth login
@@ -25,7 +25,7 @@ If you would like to use *your local shell*, install the following:
 
 ## Create and configure the GKE cluster
 
-You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command will create a cluster named `cluster-1`:
+You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command creates a cluster named `cluster-1`:
 
 ``` {.bash data-prompt="$" }
 $ gcloud container clusters create cluster-1 --project <project name> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
@@ -98,7 +98,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
         To use different namespace, specify other name instead of
         `postgres-operator` in the above command, and modify the 
-        `-n postgres-operator` parameter with it in the following two steps.
+        `-n postgres-operator` parameter with it in the following steps.
         You can also omit this parameter completely to deploy everything in the
         `default` namespace.
 
@@ -140,7 +140,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     Operator and PostgreSQL Pods have reached their Running status:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl get pg
+    $ kubectl get pg -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -158,7 +158,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
 ## Verifying the cluster operation
 
-When creation process is over, `kubectl get pg` command will show you the
+When creation process is over, `kubectl get pg -n <namespace>` command will show you the
 cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
