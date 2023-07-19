@@ -6,7 +6,7 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](System-Requirements.md) 
+    [Installing Percona Operator for PostgreSQL](System-Requirements.md#installation-guidelines) 
 
 
 **Percona announces the general availability of Percona Operator for PostgreSQL 2.2.0.**
