@@ -470,21 +470,6 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `my-container` |
 | **Description** | Name of the [Azure Blob Storage container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#containers) for backups |
-|                 | |
-| **Key**         | {{ optionlink('backups.restore.enabled') }} |
-| **Value**       | boolean |
-| **Example**     | `false` |
-| **Description** | Enables or disables restoring a previously made backup |
-|                 | |
-| **Key**         | {{ optionlink('backups.restore.repoName') }} |
-| **Value**       | string |
-| **Example**     | `repo1` |
-| **Description** | Name of the pgBackRest repository that contains the backup to be restored |
-|                 | |
-| **Key**         | {{ optionlink('backups.restore.options') }} |
-| **Value**       | string |
-| **Example**     | |
-| **Description** | The pgBackRest command-line options for the pgBackRest restore command |
 
 ## PMM section
 
