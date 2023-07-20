@@ -6,7 +6,7 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html#installation-guide) 
+    [Installing Percona Operator for PostgreSQL](System-Requirements.md#installation-guidelines) 
 
 
 The Percona Operator built with best practices of configuration and setup of

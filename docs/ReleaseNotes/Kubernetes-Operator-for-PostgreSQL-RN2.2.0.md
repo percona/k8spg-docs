@@ -6,14 +6,14 @@
 
 * **Installation**
 
-    [Installing Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html#installation-guide) 
+    [Installing Percona Operator for PostgreSQL](System-Requirements.md#installation-guidelines) 
 
 
 **Percona announces the general availability of Percona Operator for PostgreSQL 2.2.0.**
 
 Starting with this release, Percona Operator for PostgreSQL version 2 is out of technical preview and can be used in production with all the improvements it brings over the version 1 in terms of architecture, backup and recovery features, and overall flexibility.
 
-We prepared a detailed [migration guide](../upgrade.md) which allows existing Operator 1.x users to move their PostgreSQL clusters to the Operator 2.x. Also, [see this blog post](https://www.percona.com/blog/announcing-the-general-availability-of-percona-operator-for-postgresql-version-2/) to find out more about the Operator 2.x features and benefits.
+We prepared a detailed [migration guide](../update.md) which allows existing Operator 1.x users to move their PostgreSQL clusters to the Operator 2.x. Also, [see this blog post](https://www.percona.com/blog/announcing-the-general-availability-of-percona-operator-for-postgresql-version-2/) to find out more about the Operator 2.x features and benefits.
 
 ## Improvements
 

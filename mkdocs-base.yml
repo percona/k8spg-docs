@@ -134,13 +134,13 @@ nav:
 
     - Welcome: index.md
     - Features:
-          - "System Requirements": System-Requirements.md
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
     - Quickstart:
           - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
     - Installation:
+          - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
