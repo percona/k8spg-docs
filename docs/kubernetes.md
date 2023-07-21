@@ -35,6 +35,43 @@ not forgetting to set the correspondent context for further steps:
     $ kubectl apply -f deploy/operator.yaml
     ```
 
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        
+        serviceaccount/pgo-deployer-sa created
+        clusterrole.rbac.authorization.k8s.io/pgo-deployer-cr created
+        configmap/pgo-deployer-cm created
+        clusterrolebinding.rbac.authorization.k8s.io/pgo-deployer-crb created
+        job.batch/pgo-deploy created
+        ```
+
+    The last line of the command output mentions the `pgo-deploy` Kubernetes
+    Job created to carry on the Operator deployment process. It can take several
+    minutes to be completed. You can track it with the following command:
+    
+    ``` {.bash data-prompt="$" }
+    $ kubectl get job/pgo-deploy
+    ```
+
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        NAME         COMPLETIONS   DURATION   AGE
+        pgo-deploy   1/1           81s        5m53s
+        ```
+
+    When it reaches the COMPLETIONS count of `1/1`, you can safely delete the job
+    as follows:
+    
+    ``` {.bash data-prompt="$" }
+    $ kubectl delete  job/pgo-deploy
+    ```
+    
+    !!! note
+
+        Deleting the `pgo-deploy` job will be needed before [upgrading](update.md) the Operator.
+
 4. After the operator is started Percona Distribution for PostgreSQL
 can be created at any time with the following command:
 
