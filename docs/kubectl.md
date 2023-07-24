@@ -4,11 +4,19 @@ The [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility is a
 
 ## Pre-requisites
 
-The following tools are used in this guide and therefore should be preinstalled:
+To install Percona Distribution for PostgreSQL, you need the following:
 
 1. The **Git** distributed version control system. You can install it following the [official installation instructions](https://github.com/git-guides/install-git).
 
 2. The **kubectl** tool to manage and deploy applications on Kubernetes, included in most Kubernetes distributions. Install it, if not present, [following the official installation instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+
+3. A Kubernetes environment. You can deploy it on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or on [any supported platform](System-Requirements.md#officially-supported-platforms)
+
+    !!! note "See also"
+
+        * [Set up Minikube](minikube.md#set-up-minikube)
+        * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
+        * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
 
 ## Install the Operator and Percona Distribution for PostgreSQL
 
@@ -90,11 +98,11 @@ your Kubernetes environment:
         $ kubectl apply -f deploy/cr.yaml -n postgres-operator
         ```
 
-    The creation process may take some time. The process is over when both
+4. Check the Operator and replica set Pods status. The creation process may take some time and is over when both
     Operator and replica set Pods have reached their Running status:
-
+   
     ``` {.bash data-prompt="$" }
-    $ kubectl get pg
+    $ kubectl get pg -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -105,9 +113,6 @@ your Kubernetes environment:
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
-## Verifying the cluster operation
+## Next
 
-When creation process is over, `kubectl get pg` command will show you the
-cluster status as `ready`, and you can try to connect to the cluster.
-
-{% include 'assets/fragments/connectivity.txt' %}
+[Connect to PostgreSQL](connect.md)

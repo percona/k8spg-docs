@@ -1,17 +1,22 @@
 # Install Percona Distribution for PostgreSQL using Helm
 
-[Helm](https://github.com/helm/helm) is the package manager for Kubernetes. Percona Helm charts can be found in [percona/percona-helm-charts](https://github.com/percona/percona-helm-charts) repository in Github.
+[Helm](https://github.com/helm/helm) is the package manager for Kubernetes. 
+A Helm [chart](https://helm.sh/docs/topics/charts/) is a package that contains all the necessary resources to deploy an application to a Kubernetes cluster.
+
+Percona Helm charts can be found in [percona/percona-helm-charts](https://github.com/percona/percona-helm-charts) repository in Github.
 
 ## Pre-requisites
 
-Install Helm following its [official installation instructions](https://docs.helm.sh/using_helm/#installing-helm).
+1. Helm v3 up and running. Install Helm following its [official installation instructions](https://docs.helm.sh/using_helm/#installing-helm).
+2. A Kubernetes environment. You can deploy it on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or on [any supported platform](System-Requirements.md#officially-supported-platforms)
 
-!!! note
+    !!! note "See also"
 
-    Helm v3 is needed to run the following steps.
+        * [Set up Minikube](minikube.md#set-up-minikube)
+        * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
+        * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
 
 ## Installation
-
 
 1. Add the Percona’s Helm charts repository and make your Helm client up to
     date with it:
@@ -45,7 +50,7 @@ Install Helm following its [official installation instructions](https://docs.hel
 
 3. Install PostgreSQL:
 
-    ```bash
+    ```{.bash data-prompt="$" }
     $ helm install my-db percona/pg-db
     ```
 
@@ -69,3 +74,6 @@ $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namesp
   --set pmm.enabled=true
 ```
 
+## Next steps
+
+[Connect to PostgreSQL](connect.md)

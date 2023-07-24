@@ -1,16 +1,20 @@
 # Install Percona Distribution for PostgreSQL on Minikube
 
 Installing the Percona Operator for PostgreSQL on [Minikube](https://github.com/kubernetes/minikube)
-is the easiest way to try it locally without a cloud provider. Minikube runs
+is the easiest way to try it locally without a cloud provider. 
+
+Minikube runs
 Kubernetes on GNU/Linux, Windows, or macOS system using a system-wide
 hypervisor, such as VirtualBox, KVM/QEMU, VMware Fusion or Hyper-V. Using it is
 a popular way to test Kubernetes application locally prior to deploying it on a
 cloud.
 
-The following steps are needed to deploy the Operator and Percona Distribution
-for PostgreSQL on minikube:
+This document describes how to deploy the Operator and Percona Distribution
+for PostgreSQL on Minikube.
 
-1. [Install minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
+## Set up Minikube
+
+1. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
 
     1. kubectl tool,
 
@@ -18,16 +22,24 @@ for PostgreSQL on minikube:
 
     3. actual minikube package
 
-    After the installation, run `minikube start --memory=5120 --cpus=4 --disk-size=30g`
-    (parameters increase the virtual machine limits for the CPU cores, memory, and disk,
-    to ensure stable work of the Operator). Being executed, this command will
-    download needed virtualized images, then initialize and run the
-    cluster. After Minikube is successfully started, you can optionally run the
+    
+2. After the installation, initialize and start the Kubernetes cluster. The parameters we pass for the following command increase the virtual machine limits for the CPU cores, memory, and disk, to ensure stable work of the Operator:
+
+    ```{.bash data-prompt="$"}
+    $ minikube start --memory=5120 --cpus=4 --disk-size=30g`
+    ```
+
+    This command downloads needed virtualized images, then initializes and runs the
+    cluster. 
+
+3. After Minikube is successfully started, you can optionally run the
     Kubernetes dashboard, which visually represents the state of your cluster.
-    Executing `minikube dashboard` will start the dashboard and open it in your
+    Executing `minikube dashboard` starts the dashboard and opens it in your
     default web browser.
 
-2. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
+## Deploy the Percona Operator for PostgreSQL 
+
+1. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
@@ -46,9 +58,9 @@ for PostgreSQL on minikube:
         deployment.apps/percona-postgresql-operator serverside-applied
         ```
 
-    As the result you will have the Operator Pod up and running.
+    As the result you have the Operator Pod up and running.
 
-3. Deploy Percona Distribution for PostgreSQL:
+2. Deploy Percona Distribution for PostgreSQL:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml
@@ -60,7 +72,7 @@ for PostgreSQL on minikube:
         perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
-    !!! note
+    !!! note 
 
         This deploys default Percona Distribution for PostgreSQL configuration.
         Please see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
@@ -79,11 +91,11 @@ for PostgreSQL on minikube:
         $ kubectl apply -f deploy/cr.yaml
         ```
 
-    The creation process may take some time. The process is over when both
+3. Check the Operator and replica set Pods status. The creation process may take some time and is over when both
     Operator and replica set Pods have reached their Running status:
    
     ``` {.bash data-prompt="$" }
-    $ kubectl get pg
+    $ kubectl get pg -n postgres-operator
     ```
     
     ??? example "Expected output"
@@ -93,8 +105,28 @@ for PostgreSQL on minikube:
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
-## Verifying the cluster operation
+## Verify the Percona Distribution for PostgreSQL cluster operation
 
 When creation process is over, you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
+
+## Delete the cluster
+
+If you no longer need the Kubernetes cluster in Minikube, the following are the steps to remove it. 
+
+1. Stop the Minikube cluster:
+
+    ```
+    $ minikube stop
+    ```
+
+2. Delete the cluster 
+
+    ```
+    $ minikube delete
+    ```
+
+    This command deletes the virtual machines, and removes all associated files.
+
+
