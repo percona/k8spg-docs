@@ -24,8 +24,8 @@
 </div>
 </section>
 <script>
-  document.getElementById("2x").value=window.location.href.includes("/2.0/") ? window.location.href : window.location.href.includes("/ReleaseNotes/") ? window.location.href.replace("/ReleaseNotes/", "/2.0/ReleaseNotes/") : window.location.href.slice(0, window.location.href.lastIndexOf("/"))+"/2.0"+window.location.href.slice(window.location.href.lastIndexOf("/"));
-  document.getElementById("1x").value=window.location.href.replace("/2.0/", "/");
+  document.getElementById("2x").value=window.location.href.replace("/1.0/", "/2.0/");
+  document.getElementById("1x").value=window.location.href.replace("/2.0/", "/1.0/");
 </script>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
