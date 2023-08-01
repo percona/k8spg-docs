@@ -17,8 +17,8 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
    * Retrieve the credentials of the PostgreSQL user
 
       ``` {.bash data-prompt="$" }
-    $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
-    ```
+      $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
+      ```
 
 2. Create a Pod and start a container with Percona Distribution for PostgreSQL. The following command does it, naming the Pod `pg-client`:
 
@@ -46,4 +46,4 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
 
 ## Next steps
 
-Now you have your connected to your PostgreSQL cluster. In the next step we will [insert some sample data to the database](data-insert.md). 
+Now you have connected to your PostgreSQL cluster. In the next step we will [insert some sample data to the database](data-insert.md). 

@@ -10,7 +10,7 @@ To install Percona Distribution for PostgreSQL, you need the following:
 
 2. The **kubectl** tool to manage and deploy applications on Kubernetes, included in most Kubernetes distributions. Install it, if not present, [following the official installation instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
-3. A Kubernetes environment. You can deploy it on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or on [any supported platform](System-Requirements.md#officially-supported-platforms)
+3. A Kubernetes environment. You can deploy it on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
 
     !!! note "See also"
 
@@ -20,10 +20,10 @@ To install Percona Distribution for PostgreSQL, you need the following:
 
 ## Install the Operator and Percona Distribution for PostgreSQL
 
-The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
-your Kubernetes environment:
+To deploy the Operator and Percona Distribution for PostgreSQL in
+your Kubernetes environment, do the following:
 
-1. Create the Kubernetes namespace for your cluster if needed (for example,
+1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace (for example,
    let's name it `postgres-operator`):
 
     ``` {.bash data-prompt="$" }
@@ -66,7 +66,7 @@ your Kubernetes environment:
 
     As the result you will have the Operator Pod up and running.
 
-3. The Operator has been started, and you can deploy your Percona Distribution
+3. With the Operator up and running, and you can deploy your Percona Distribution
     for PostgreSQL cluster:
 
     ``` {.bash data-prompt="$" }
@@ -77,25 +77,6 @@ your Kubernetes environment:
 
         ``` {.text .no-copy}
         perconapgcluster.pgv2.percona.com/cluster1 created
-        ```
-
-    !!! note
-
-        This deploys default Percona Distribution for PostgreSQL configuration.
-        Please see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
-        and [Custom Resource Options](operator.md) for the configuration
-        options. You can clone the repository with all manifests and source code
-        by executing the following command:
-
-        ```{.bash data-prompt="$" }
-        $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-        ```
-
-        After editing the needed options, apply your modified `deploy/cr.yaml`
-        file as follows:
-
-        ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n postgres-operator
         ```
 
 4. Check the Operator and replica set Pods status. The creation process may take some time and is over when both
@@ -113,6 +94,26 @@ your Kubernetes environment:
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ```
 
-## Next
+### Deploy Percona Distribution for PostgreSQL with customized parameters
 
-[Connect to PostgreSQL](connect.md)
+The previous section shows how to deploy default Percona Distribution for PostgreSQL configuration.
+
+To check available configuration options, see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml) and [Custom Resource Options](operator.md). 
+
+To customize the configuration, do the following:
+
+1. Clone the repository with all manifests and source code by executing the following command:
+
+    ```{.bash data-prompt="$" }
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    ```
+
+2. Edit the required options and apply your modified `deploy/cr.yaml` file as follows:
+
+     ```{.bash data-prompt="$" }
+     $ kubectl apply -f deploy/cr.yaml -n postgres-operator        
+     ```
+
+## Next steps
+
+You have successfully installed and deployed the Operator. Now let's [connect to PostgreSQL](connect.md)

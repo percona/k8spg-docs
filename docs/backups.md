@@ -1,27 +1,32 @@
 # About backups
 
-The Operator allows doing backups in two ways:
+In this section you will learn how to set up and manage backups of your data using the Operator.
 
-* _Scheduled backups_ are configured in the
+You can make backups in two ways:
+
+* _On-demand_. You can do them manually at any moment.
+* _Schedule backups_. Configure backups and their schedule in the
 [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file to be executed automatically in proper time. 
-* _On-demand backups_
-can be done manually at any moment.
+file. The Operator makes them automatically in the specified time. 
 
-The Operator uses the open source [pgBackRest](https://pgbackrest.org/) backup
-and restore utility for making backups.
+## Backup storage
 
-The Operator uses the following variants of cloud storage outside the
-Kubernetes cluster to store PostgreSQL backups:
+You have the following options to store PostgreSQL backups outside the
+Kubernetes cluster:
 
-* Amazon S3, or [any S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
-* [Google Cloud Storage](https://cloud.google.com/storage), 
-* [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
+* Cloud storage:
 
-It is also possible to store backups in Kubernetes on a [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) attached to the pgBackRest Pod.
+   * Amazon S3, or [any S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
+   * [Google Cloud Storage](https://cloud.google.com/storage), 
+   * [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
+
+* A [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) attached to the pgBackRest Pod.
 
 
 ### Backup repositories
+
+To make backups, the Operator uses the open source [pgBackRest](https://pgbackrest.org/) backup
+and restore utility. 
 
 When the Operator creates a new PostgreSQL cluster, it also creates a special *pgBackRest repository* to facilitate the usage of the pgBackRest
 features. You can notice an additional `repo-host` Pod after the cluster
