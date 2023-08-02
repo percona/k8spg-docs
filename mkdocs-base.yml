@@ -147,6 +147,7 @@ nav:
             - "Configure storage for backups": backups-storage.md
             - "Make scheduled backups": backups-schedule.md
             - "Make on-demand backup": backups-ondemand.md
+            - "Backup retention": backup-retention.md
             - "Restore from a backup": backups-restore.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
     - Installation:
