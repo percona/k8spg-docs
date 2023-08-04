@@ -51,7 +51,7 @@ to see if the change should cause a restart or not.
 
 PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the PostgreSQL 
 database based on the IP address or the host name of the connecting host. You can 
-configure pg_hba through the Custom Resource manifest through 
+configure pg_hba through the Custom Resource manifest in the
 `spec.patroni.dynamicConfiguration.postgresql.pg_hba` section.
 
 ```yaml
