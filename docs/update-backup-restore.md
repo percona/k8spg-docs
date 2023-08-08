@@ -4,7 +4,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 
 !!! note
 
-    To make sure that all transactions are captured in the backup, you need to stop the old cluster. This bringы downtime to the application.
+    To make sure that all transactions are captured in the backup, you need to stop the old cluster. This brings downtime to the application.
 
 
 ## Prepare the backup
@@ -69,7 +69,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
           repoName: repo1
     ```
 
-    You can also provide other pgBackRest restore options, e.g. if you wish to restore to a specific [point-in-time (PITR)](/backups.md#restore-the-cluster-with-point-in-time-recovery).
+    You can also provide other pgBackRest restore options, e.g. if you wish to restore to a specific [point-in-time (PITR)](backups.md#restore-the-cluster-with-point-in-time-recovery).
 
 5. Create the version 2.x cluster:
 

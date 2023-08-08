@@ -14,8 +14,8 @@ spec:
 #  - --type=full
 ```
 
-1. Before you start, make sure you have [configured a backup storage](backup-storage.md).
-2. In the `deploy/backup.yaml` configuration file, specify the cluster name and the repository name to be used for backups. The repository name must be the same as the one you defined in the [backup storage configuration](backup-storage.md). 
+1. Before you start, make sure you have [configured a backup storage](backups-storage.md).
+2. In the `deploy/backup.yaml` configuration file, specify the cluster name and the repository name to be used for backups. The repository name must be the same as the one you defined in the [backup storage configuration](backups-storage.md). It must also match the repository name specified in the `backups.pgbackrest.manual` subsection of the `deploy/cr.yaml` file.
 3. If needed, you can add any 
 [pgBackRest command line options](https://pgbackrest.org/configuration.html).
 
@@ -31,4 +31,12 @@ spec:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg-backup
-    ```    
+    ```  
+    
+## Next steps
+
+[Restore from a backup](backups-restore.md)
+
+## Useful links
+
+[Backup retention](backup-retention.md)

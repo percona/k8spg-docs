@@ -128,6 +128,7 @@ extra: # Used in main.html template and can't be externalized
   certmanagerrecommended: '1.8.0'
   version:
     provider: mike
+  
 
 # Common navigation for percona.com, render.com and PDF
 nav:
