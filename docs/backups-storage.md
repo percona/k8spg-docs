@@ -272,4 +272,5 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 ## Next steps
 
-
+* [Make an on-demand backup](backups-ondemand.md)
+* [Make a scheduled backup](backups-schedule.md)

@@ -7,18 +7,24 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
    * List the Secrets objects
 
       ```{.bash data-prompt="$"}
-      $ kubectl get secrets
+      $ kubectl get secrets -n postgres operator
       ```
 
       The Secrets object you are interested in is named as
     `<cluster_name>-pguser-<cluster_name>`. The `<cluster_name>` value is
     the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is `cluster1-pguser-cluster1`.
 
-   * Retrieve the credentials of the PostgreSQL user
+   * Retrieve the pgBouncer URI of your secret
 
       ``` {.bash data-prompt="$" }
-      $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
+      $  kubectl get secret cluster1-pguser-cluster1 -n postgres-operator -o yaml
       ```
+
+   * Decode the base64-encoded `pgbouncer-uri` string from the secret
+
+     ``` {.bash data-prompt="$" }
+     $ echo -n <base64-pgbouncer-uri-string> | base64 --decode
+     ```
 
 2. Create a Pod and start a container with Percona Distribution for PostgreSQL. The following command does it, naming the Pod `pg-client`:
 
@@ -28,11 +34,11 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
 
     It may take some time to execute the command. As the result you should see the following command prompt `[postgres@pg-client /]` (`pg-client` here is the name of the Pod)
 
-3. Connect to `psql`. The following command connects you as a `cluster1` user to a `cluster1` database
+3. Connect to `psql` by passing the retrieved `pgbouncer-uri`. The following command connects you as a `cluster1` user to a `cluster1` database
     via the PostgreSQL interactive terminal. 
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer.postgres-operator.svc -p 5432 -U cluster1 cluster1
+    [postgres@pg-client /]$ psql postgresql://cluster1:<pguser_password>@cluster1-pgbouncer.postgres-operator.svc:5432/cluster1
     ```
 
     The output resembles the following:

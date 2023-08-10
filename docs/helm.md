@@ -28,13 +28,13 @@ To install and deploy the Operator, you need the following:
     $ helm repo update
     ```
 
-2. Install the Percona Operator for PostgreSQL. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace:
+2. Install the Percona Operator for PostgreSQL. By default, it installs the Operators in the `default` namespace. It is a good practice though to isolate workloads in Kubernetes via namespaces. Pass the `--namespace` flag to  install the Operator in a custom namespace:
 
     ``` {.bash data-prompt="$" }
     $ helm install my-operator percona/pg-operator --namespace my-namespace 
     ```
 
-    The `my-operator` parameter in the previous example is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
+    The `my-namespace` in the previous example is the name of your custom namespace. The `my-operator` parameter is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
     which is created for the Operator when you install its Helm chart (use any
     name you like).
 

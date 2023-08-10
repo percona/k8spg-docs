@@ -3,7 +3,7 @@
 To make an on-demand backup manually, you need a backup configuration file. You can use the example of the backup configuration file [deploy/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml):
 
 ```yaml
-apiVersion: pg.percona.com/v2beta1
+apiVersion: pgv2.percona.com/v2
 kind: PerconaPGBackup
 metadata:
   name: backup1
