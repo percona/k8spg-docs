@@ -7,7 +7,7 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
    * List the Secrets objects
 
       ```{.bash data-prompt="$"}
-      $ kubectl get secrets -n postgres operator
+      $ kubectl get secrets -n <namespace>
       ```
 
       The Secrets object you are interested in is named as
@@ -17,7 +17,7 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
    * Retrieve the pgBouncer URI of your secret
 
       ``` {.bash data-prompt="$" }
-      $  kubectl get secret cluster1-pguser-cluster1 -n postgres-operator -o yaml
+      $  kubectl get secret cluster1-pguser-cluster1 -n <namespace> -o yaml
       ```
 
    * Decode the base64-encoded `pgbouncer-uri` string from the secret
@@ -38,7 +38,7 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
     via the PostgreSQL interactive terminal. 
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-    [postgres@pg-client /]$ psql postgresql://cluster1:<pguser_password>@cluster1-pgbouncer.postgres-operator.svc:5432/cluster1
+    [postgres@pg-client /]$ psql postgresql://cluster1:<pguser_password>@cluster1-pgbouncer.<namespace>.svc:5432/cluster1
     ```
 
     The output resembles the following:

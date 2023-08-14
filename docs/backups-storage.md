@@ -14,15 +14,15 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
      **Configuration steps**
 
-     1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo1`. 
+     1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
         === "in Linux"     
 
              ``` {.bash data-prompt="$" }
              $ cat <<EOF | base64 --wrap=0
              [global]
-             repo1-s3-key=<YOUR_AWS_S3_KEY>
-             repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+             repo2-s3-key=<YOUR_AWS_S3_KEY>
+             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
              EOF
              ```     
 
@@ -31,8 +31,8 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              ``` {.bash data-prompt="$" }
              $ cat <<EOF | base64
              [global]
-             repo1-s3-key=<YOUR_AWS_S3_KEY>
-             repo1-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+             repo2-s3-key=<YOUR_AWS_S3_KEY>
+             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
              EOF
              ```     
 
@@ -73,7 +73,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                name: cluster1-pgbackrest-secrets
          ...
          repos:
-         - name: repo1
+         - name: repo2
            s3:
              bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
              endpoint: "<YOUR_AWS_S3_ENDPOINT>"
@@ -198,15 +198,15 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
     **Configuration steps**
 
-    1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo1`.   
+    1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo4`.   
 
         === "Linux"    
 
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64 --wrap=0
             [global]
-            repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-            repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+            repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+            repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
             EOF
             ```    
 
@@ -215,8 +215,8 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64
             [global]
-            repo1-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
-            repo1-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
+            repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
+            repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
             EOF
             ```    
 
@@ -259,7 +259,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                   name: cluster1-pgbackrest-secrets
             ...
             repos:
-            - name: repo1
+            - name: repo4
               azure:
                 container: "<YOUR_AZURE_CONTAINER>"
         ```    
