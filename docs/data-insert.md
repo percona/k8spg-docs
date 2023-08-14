@@ -59,4 +59,4 @@ This command does the following:
 
 ## Next steps
 
-[Make a backup](backups.md)
+The cluster is up and running with some data in it. It's time to [make a backup.](backups.md)

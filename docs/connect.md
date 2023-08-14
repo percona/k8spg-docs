@@ -52,4 +52,4 @@ During the installation of Percona Distribution for PostgreSQL, the Operator cre
 
 ## Next steps
 
-Now you have connected to your PostgreSQL cluster. In the next step we will [insert some sample data to the database](data-insert.md). 
+You have connected to your PostgreSQL cluster. In the next step you will [insert some sample data to the database](data-insert.md). 

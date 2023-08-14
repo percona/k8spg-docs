@@ -57,9 +57,7 @@ Kubernetes cluster:
 
 ## Next steps
 
-Ready to move forward? 
-
-[Configure backup storage](backups-storage.md){ .md-button .md-button }
+Ready to move forward? [Configure backup storage](backups-storage.md)
 
 
 
