@@ -173,6 +173,7 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
+          - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md
           - "Trademark policy": trademark-policy.md
     - Release Notes:
