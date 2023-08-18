@@ -17,11 +17,11 @@ Cluster components:
 
 Platforms:
 
-| Operator | [GKE](https://cloud.google.com/kubernetes-engine)         | [EKS](https://aws.amazon.com)         | [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift) <br> (coming soon for 2.x)  | [Minikube](https://github.com/kubernetes/minikube)                          |
+| Operator | [GKE](https://cloud.google.com/kubernetes-engine)         | [EKS](https://aws.amazon.com)         | [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift) | [Minikube](https://github.com/kubernetes/minikube)                          |
 |:--------|:------------|:------------|:------------|:----------------------------------|
-| [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 1.23 - 1.26 | 1.23 - 1.27 | - | 1.30.1 |
-| [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 1.23 - 1.25 | 1.23 - 1.25 | - | - |
-| [2.0.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md) | 1.22 - 1.25 |      -      | - | - |
+| [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 1.23 - 1.26 | 1.23 - 1.27 | coming soon | 1.30.1 |
+| [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 1.23 - 1.25 | 1.23 - 1.25 | coming soon | - |
+| [2.0.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md) | 1.22 - 1.25 |      -      | coming soon | - |
 | [1.4.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.4.0.html) | 1.22 - 1.25 | 1.22 - 1.25 | 4.10 - 4.12 | 1.28 |
 | [1.3.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.3.0.html) | 1.21 - 1.24 | 1.20 - 1.22 | 4.7 - 4.10  | - |
 | [1.2.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.html) | 1.19 - 1.22 | 1.19 - 1.21 | 4.7 - 4.10  | - |
