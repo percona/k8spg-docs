@@ -140,17 +140,11 @@ nav:
     - Get started:
           - "Overview": get-started.md
           - Quick install:
-            - "With Helm": helm.md
             - "With kubectl": kubectl.md
+            - "With Helm": helm.md
           - Connect to PostgreSQL: connect.md
           - Insert data: data-insert.md
-          - Back up and restore: 
-            - "About backups": backups.md
-            - "Configure storage for backups": backups-storage.md
-            - "Make scheduled backups": backups-schedule.md
-            - "Make on-demand backup": backups-ondemand.md
-            - "Backup retention": backup-retention.md
-            - "Restore from a backup": backups-restore.md
+          - Make a backup: backup-tutorial.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
     - Installation:
           - "System requirements": System-Requirements.md
@@ -171,10 +165,18 @@ nav:
             - "Using data volumes": update-data-volumes.md
             - "Using backup and restore": update-backup-restore.md
             - "Using standby": update-standby.md
+          - Back up and restore: 
+            - "About backups": backups.md
+            - "Configure storage for backups": backups-storage.md
+            - "Make scheduled backups": backups-schedule.md
+            - "Make on-demand backup": backups-ondemand.md
+            - "Backup retention": backup-retention.md
+            - "Restore from a backup": backups-restore.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
     - How to:
+          - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
     - Troubleshooting:

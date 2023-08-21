@@ -56,7 +56,8 @@ This command does the following:
 * generates the random number of dates from the current date and time within the last 100 days, and
 * inserts 100 rows of this data
 
+Now your cluster has some data in it.
 
 ## Next steps
 
-The cluster is up and running with some data in it. It's time to [make a backup.](backups.md)
+[Make a backup](backup-tutorial.md){.md-button}.

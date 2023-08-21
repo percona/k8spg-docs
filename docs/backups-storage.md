@@ -61,24 +61,24 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
      4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
 
-     For example, the S3 storage for the `repo1` repository looks as follows:     
+        For example, the S3 storage for the `repo2` repository looks as follows:        
 
-     ```yaml
-     ...
-     backups:
-       pgbackrest:
-         ...
-         configuration:
-           - secret:
-               name: cluster1-pgbackrest-secrets
-         ...
-         repos:
-         - name: repo2
-           s3:
-             bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
-             endpoint: "<YOUR_AWS_S3_ENDPOINT>"
-             region: "<YOUR_AWS_S3_REGION>"
-     ```     
+        ```yaml
+        ...
+        backups:
+          pgbackrest:
+            ...
+            configuration:
+              - secret:
+                  name: cluster1-pgbackrest-secrets
+            ...
+            repos:
+            - name: repo2
+              s3:
+                bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+                endpoint: "<YOUR_AWS_S3_ENDPOINT>"
+                region: "<YOUR_AWS_S3_REGION>"
+        ```     
 
      5. Create or update the cluster:     
 
