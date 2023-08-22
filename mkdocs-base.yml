@@ -184,5 +184,4 @@ nav:
           - "Percona Operator for PostgreSQL 2.2.0 (2023-06-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md
           - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md
           - "Percona Operator for PostgreSQL 2.0.0 Tech preview (2022-12-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
-          
     - Join K8S Squad: https://www.percona.com/k8s
