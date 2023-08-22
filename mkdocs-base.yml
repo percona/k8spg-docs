@@ -161,8 +161,6 @@ nav:
               - "Using data volumes": update-data-volumes.md
               - "Using backup and restore": update-backup-restore.md
               - "Using standby": update-standby.md
-              
-          - Backup and restore:
               - "About backups": backups.md
               - "Configure storage for backups": backups-storage.md
               - "Make scheduled backups": backups-schedule.md
