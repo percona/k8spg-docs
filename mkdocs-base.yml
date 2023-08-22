@@ -75,7 +75,6 @@ markdown_extensions:
     emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
- # section-index: {}
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
@@ -158,12 +157,12 @@ nav:
               - "Using data volumes": update-data-volumes.md
               - "Using backup and restore": update-backup-restore.md
               - "Using standby": update-standby.md
-          - Backup and restore: 
+          - Backup and restore:
               - "About backups": backups.md
               - "Configure storage for backups": backups-storage.md
               - "Make scheduled backups": backups-schedule.md
               - "Make on-demand backup": backups-ondemand.md
-              - "Restore from a backup": backups-restore.md
+              - "Restore from a backup": backups-restore.md          
           - "High availability and scaling": scaling.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
