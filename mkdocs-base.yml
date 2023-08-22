@@ -39,7 +39,6 @@ theme:
     - search.highlight
     - navigation.top
     - content.tabs.link
-    - navigation.tabs
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
@@ -136,18 +135,15 @@ nav:
     - Features:
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
-          
     - Quickstart:
           - "Install with Helm": helm.md
           - "Install with kubectl": kubectl.md
-          
     - Installation:
           - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
           - "Generic Kubernetes installation": kubernetes.md
-          
     - Configuration:
           - "Application and system users": users.md
           - "Exposing the cluster": expose.md
@@ -155,28 +151,34 @@ nav:
           - "Anti-affinity and tolerations": constraints.md
           - "Transport Encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
-          
     - Management:
+          - Upgrade from version 1 to version 2:
+              - "Upgrade overview": update.md
+              - "Using data volumes": update-data-volumes.md
+              - "Using backup and restore": update-backup-restore.md
+              - "Using standby": update-standby.md
+          - Backup and restore:
+              - "About backups": backups.md
+              - "Configure storage for backups": backups-storage.md
+              - "Make scheduled backups": backups-schedule.md
+              - "Make on-demand backup": backups-ondemand.md
+              - "Restore from a backup": backups-restore.md
           - "High availability and scaling": scaling.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
-          
     - How to:
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
-          
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
-          
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
           - "Copyright and licensing information": copyright.md
           - "Trademark policy": trademark-policy.md
-          
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
           - "Percona Operator for PostgreSQL 2.2.0 (2023-06-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md
