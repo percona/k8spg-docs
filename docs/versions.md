@@ -26,5 +26,5 @@ Platforms:
 | [1.3.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.3.0.html) | 1.21 - 1.24 | 1.20 - 1.22 | 4.7 - 4.10  | - |
 | [1.2.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.2.0.html) | 1.19 - 1.22 | 1.19 - 1.21 | 4.7 - 4.10  | - |
 | [1.1.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.1.0.html) | 1.19 - 1.22 | 1.18 - 1.21 | 4.7 - 4.9   | - |
-| [1.0.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.html) | 1.17 - 1.21 | 1.21        | 4.6 - 4.8 | - |
+| [1.0.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.0.0.html) | 1.17 - 1.21 | 1.21        | 4.6 - 4.8   | - |
 
