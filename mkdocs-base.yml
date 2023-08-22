@@ -39,6 +39,7 @@ theme:
     - search.highlight
     - navigation.top
     - content.tabs.link
+    - navigation.tabs
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
