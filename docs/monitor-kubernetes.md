@@ -297,15 +297,15 @@ To instruct the `kube-state-metrics` what metrics to capture, create the ConfigM
 2. Click **Explore** and switch to the **Code** mode.
 3. Check that the required metrics are captured, type the following in the Metrics browser dropdown:
 
-   * cadvisor:
+    * [cadvisor](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md):
 
-      ![image]()
+       ![image](assets/images/cadvisor.svg)
 
-   * kubelet:
+    * kubelet:
 
-      ![image]()
+       ![image](assets/images/kubelet.svg)
 
-   * kube-state-metrics metrics that also include Custom resource metrics for the Operators deployed in your Kubernetes clusters:
+    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/main/docs) metrics that also include Custom resource metrics for the Operators deployed in your Kubernetes clusters:
 
       ![image]()
 
