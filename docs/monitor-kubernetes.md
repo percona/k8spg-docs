@@ -10,26 +10,25 @@ This document describes how to set up monitoring of the Kubernetes cluster healt
 
 1. In this setup we use [Victoria Metrics kubernetes monitoring stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack) Helm chart. When customizing the chart's values, consider the following:
 
-    * Since data we use the PMM server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, set the `vmsngle.enabled` and `vmcuster.enabled` parameters in the Victoria Metrics Helm chart to `false`.
-    * The Prometheus node exporter is not installed by default since it requires  privileged containers with the access to the host file system. If you need the metrics for nodes, enable the Prometheus node exporter by setting the `prometheus-node-exporter.enabled` flag in the Victoria Metrics Helm chart to `true`.
+    * Since we use the PMM server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, set the `vmsngle.enabled` and `vmcuster.enabled` parameters in the Victoria Metrics Helm chart to `false`.
+    * The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, enable the Prometheus node exporter by setting the `prometheus-node-exporter.enabled` flag in the Victoria Metrics Helm chart to `true`.
     * [Check all the role-based access control rules provided by the charts](https://helm.sh/docs/topics/rbac/) and modify them based on your requirements. 
 
-2. This setup is used for a 1:1 mapping from Kubernetes cluster to the PMM server. If you wish to monitor more than one Kubernetes cluster in a single PMM server, you need to configure the dashboard to filter a specific Kubernetes cluster. You also need to properly [relabel the metrics](https://docs.victoriametrics.com/vmagent.html#relabeling) from the backend. 
-
+2. This setup is used for a 1:1 mapping from Kubernetes cluster to the PMM server. If you wish to monitor more than one Kubernetes cluster in a single PMM server, you need to configure the dashboard to filter a specific Kubernetes cluster. You also need to properly [relabel the metrics](https://docs.victoriametrics.com/vmagent.html#relabeling) from the backend.
 
 ## Pre-requisites
 
 To set up monitoring of Kubernetes, you need the following:
 
-1. PMM server up and running. You can run PMM Server as a Docker image, a virtual appliance, or on an AWS instance. Please refer to the [official PMM documentation](https://docs.percona.com/percona-monitoring-and-management/setting-up/server/index.html) for the installation instructions.
+1. PMM Server up and running. You can run PMM Server as a Docker image, a virtual appliance, or on an AWS instance. Please refer to the [official PMM documentation](https://docs.percona.com/percona-monitoring-and-management/setting-up/server/index.html) for the installation instructions.
 
 2. [Helm v3](https://docs.helm.sh/using_helm/#installing-helm).
 
 ## Procedure
 
-### Set up authentication in PMM server
+### Set up authentication in PMM Server
 
-To access the PMM server resources and perform actions on the server, configure authentication.
+To access the PMM Server resources and perform actions on the server, configure authentication.
 
 1. Get the PMM API key. The key must have the role "Admin".
 
@@ -76,13 +75,13 @@ To access the PMM server resources and perform actions on the server, configure 
     type: Opaque
     ```
 
-4. Create the namespace where you want to set up monitoring. The following command creates the namespace `monitoring-system`. You can use another name.
+4. Create the Namespace where you want to set up monitoring. The following command creates the Namespace `monitoring-system`. You can use another name.
     
     ```{.bash data-prompt="$" }
     $ kubectl create namespace monitoring-system
     ```
 
-5. Switch the context to the namespace you created. The subsequent commands will be executed in this namespace.
+5. Switch the context to the namespace you created. The subsequent commands will be executed in this Namespace.
 
     ```{.bash data-prompt="$" }
     $ kubectl config set-context --current --namespace=monitoring-system
@@ -105,7 +104,7 @@ The `kube-state-metrics` (KSM) is a simple service that listens to the Kubernete
 
 To instruct the `kube-state-metrics` what metrics to capture, create the ConfigMap and mount it to a container. 
 
-1. Edit the [example `configmap.yaml` configuration file](https://raw.githubusercontent.com/percona/percona-everest-cli/main/data/crds/victoriametrics/kube-state-metrics/configmap.yaml) and specify the `<namespace>`. The namespace must match the namespace where you created the secret. 
+1. Edit the [example `configmap.yaml` configuration file](https://raw.githubusercontent.com/percona/percona-everest-cli/main/data/crds/victoriametrics/kube-state-metrics/configmap.yaml) and specify the `<namespace>`. The Namespace must match the Namespace where you created the Secret. 
 
 2. Apply the configuration
 
@@ -264,13 +263,13 @@ To instruct the `kube-state-metrics` what metrics to capture, create the ConfigM
       enabled: false
     ```
 
-8. Install the Victoria Metrics Operator. The `vm-k8s` value in the following command is the operator name. Replace the `<namespace>` placeholder with your value. The namespace must be the same as the namespace for the Secret and ConfigMap.
+8. Install the Victoria Metrics Operator. The `vm-k8s` value in the following command is the Operator name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
 
     ```{.bash data-prompt="$" }
     $ helm install vm-k8s vm/victoria-metrics-k8s-stack  -f values.yaml -n <namespace>
     ```
 
-9. Validate the successful installation by checking the pods. 
+9. Validate the successful installation by checking the Pods. 
 
     ```{.bash data-prompt="$" }
     $ kubectl get pods -n <namespace>
