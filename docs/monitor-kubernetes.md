@@ -81,18 +81,13 @@ To access the PMM Server resources and perform actions on the server, configure 
     $ kubectl create namespace monitoring-system
     ```
 
-5. Switch the context to the namespace you created. The subsequent commands will be executed in this Namespace.
-
-    ```{.bash data-prompt="$" }
-    $ kubectl config set-context --current --namespace=monitoring-system
-    ```
-6. Create the Secrets object using the secrets file. Replace the `<filename>` placeholder with your value.
+5. Create the Secrets object using the secrets file. Replace the `<filename>` placeholder with your value.
 
     ```{.bash data-prompt="$" }
     $ kubectl apply -f <filename> -n <namespace>
     ```
 
-5. Check that the secret is created. The following command checks the secret for the resource named `pmm-token-vmoperator` (as defined in the `metadata.name` option in the secrets file). If you defined another resource name, specify your value.  
+6. Check that the secret is created. The following command checks the secret for the resource named `pmm-token-vmoperator` (as defined in the `metadata.name` option in the secrets file). If you defined another resource name, specify your value.  
 
    ```{.bash data-prompt="$" }
    $ kubectl get secret pmm-token-vmoperator -n <namespace>
@@ -142,7 +137,7 @@ To instruct the `kube-state-metrics` what metrics to capture, create the ConfigM
     $ helm show values vm/victoria-metrics-k8s-stack > values.yaml
     ```
 
-7. Edit the `values.yaml` file and specify the following:
+5. Edit the `values.yaml` file and specify the following:
 
     * the IP address / hostname of the PMM server in the `externalVM.write.url` option
     * specify the unique name or an ID of the Kubernetes cluster in the ``vmagent.spec.externalLabels.cluster` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server.
@@ -263,13 +258,13 @@ To instruct the `kube-state-metrics` what metrics to capture, create the ConfigM
       enabled: false
     ```
 
-8. Install the Victoria Metrics Operator. The `vm-k8s` value in the following command is the Operator name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
+6. Install the Victoria Metrics Operator. The `vm-k8s` value in the following command is the Operator name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
 
     ```{.bash data-prompt="$" }
     $ helm install vm-k8s vm/victoria-metrics-k8s-stack  -f values.yaml -n <namespace>
     ```
 
-9. Validate the successful installation by checking the Pods. 
+7. Validate the successful installation by checking the Pods. 
 
     ```{.bash data-prompt="$" }
     $ kubectl get pods -n <namespace>
