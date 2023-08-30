@@ -62,7 +62,7 @@ To access the PMM Server resources and perform actions on the server, configure 
         $ echo -n <API-key> | base64 
         ```
 
-3. Create the YAML file for the [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) and specify the API key value within. In this example the Secrets file is named `pmm-api-vmoperator.yaml`.
+3. Create the YAML file for the [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) and specify the API key value within. Let's name this file `pmm-api-vmoperator.yaml`.
 
     ```yaml title="pmm-api-vmoperator.yaml"
     apiVersion: v1
@@ -75,16 +75,16 @@ To access the PMM Server resources and perform actions on the server, configure 
     type: Opaque
     ```
 
-4. Create the Namespace where you want to set up monitoring. The following command creates the Namespace `monitoring-system`. You can use another name.
+4. Create the Namespace where you want to set up monitoring. The following command creates the Namespace `monitoring-system`. You can specify a different name. In the latter steps, specify this name instead of the `<namespace>` placeholder.
     
     ```{.bash data-prompt="$" }
     $ kubectl create namespace monitoring-system
     ```
 
-5. Create the Secrets object using the secrets file. Replace the `<filename>` placeholder with your value.
+5. Create the Secrets object using the YAML file you created previously. Replace the `<filename>` placeholder with your value.
 
     ```{.bash data-prompt="$" }
-    $ kubectl apply -f <filename> -n <namespace>
+    $ kubectl apply -f pmm-api-vmoperator.yaml -n <namespace>
     ```
 
 6. Check that the secret is created. The following command checks the secret for the resource named `pmm-token-vmoperator` (as defined in the `metadata.name` option in the secrets file). If you defined another resource name, specify your value.  
