@@ -93,4 +93,4 @@ You have successfully installed and deployed the Operator with [default paramete
 
 ## Next steps
 
-[Connect to PostgreSQL](connect.md){.md-button}
+[Connect to PostgreSQL :material-arrow-right:](connect.md){.md-button}

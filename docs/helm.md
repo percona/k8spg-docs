@@ -9,7 +9,7 @@ You can find Percona Helm charts in [percona/percona-helm-charts](https://github
 
 To install and deploy the Operator, you need the following:
 
-1. Helm v3 up and running. Install Helm following its [official installation instructions](https://docs.helm.sh/using_helm/#installing-helm).
+1. [Helm v3 up and running](https://docs.helm.sh/using_helm/#installing-helm).
 2. [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility.
 3. A Kubernetes environment. You can deploy it locally on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
 
@@ -19,7 +19,7 @@ To install and deploy the Operator, you need the following:
         * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
         * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
 
-## Installation
+## Installation {.power-number}
 
 1. Add the Percona’s Helm charts repository and make your Helm client up to
     date with it:
@@ -29,7 +29,7 @@ To install and deploy the Operator, you need the following:
     $ helm repo update
     ```
 
-2. It is a good practice though to isolate workloads in Kubernetes via namespaces. Create a namespace:
+2. It is a good practice to isolate workloads in Kubernetes via namespaces. Create a namespace:
 
     ```{.bash data-prompt="$" }
     $ kubectl create namespace <my-namespace>
@@ -60,4 +60,4 @@ You have successfully deployed the Operator with the [default parameters](operat
 
 ## Next steps
 
-[Connect to PostgreSQL](connect.md){.md-button}
+[Connect to PostgreSQL :material-arrow-right:](connect.md){.md-button}

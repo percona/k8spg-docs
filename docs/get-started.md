@@ -10,5 +10,5 @@ Ready to get started with the Operator? In this section you will learn some basi
 
 ## Next steps
  
-[Install the Operator](kubectl.md){.md-button}
+[Install the Operator :material-arrow-right:](kubectl.md){.md-button}
 
