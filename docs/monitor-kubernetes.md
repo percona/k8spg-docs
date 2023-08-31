@@ -233,7 +233,7 @@ To define what metrics the `kube-state-metrics` should capture, create the [Conf
           - list
           - watch
         - apiGroups:
-          - pg.percona.com
+          - pgv2.percona.com
           resources:
           - perconapgbackups/status
           - perconapgclusters/status
@@ -302,7 +302,7 @@ To define what metrics the `kube-state-metrics` should capture, create the [Conf
 
        ![image](assets/images/kubelet.svg)
 
-    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/main/docs) metrics that also include Custom resource metrics for the Operators deployed in your Kubernetes clusters:
+    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/main/docs) metrics that also include Custom resource metrics for the Operator and database deployed in your Kubernetes cluster:
 
-      ![image]()
+      ![image](assets/images/pg_metric.svg)
 
