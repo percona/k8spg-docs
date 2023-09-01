@@ -14,7 +14,7 @@ In this section you will learn how to manually make a full backup of your data w
 If you don't have access to AWS, you can use any S3-compatible storage like [MinIO](https://min.io/docs/minio/linux/index.html). Also check the list of [supported storages](backups.md#backup-storage).
 2. The Operator uses the [`pgBackRest`](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
 
-## 1. Configure backup storage
+## Configure backup storage {.power-number}
 
 1. Encode the S3 credentials and the pgBackRest repository name (`repo2` in our setup).
 
@@ -83,9 +83,10 @@ If you don't have access to AWS, you can use any S3-compatible storage like [Min
     $ kubectl apply -f deploy/cr.yaml
     ``` 
 
-## 2. Make a backup
+## Make a backup 
 
 For manual backups, you need a backup configuration file.
+{.power-number}
 
 1. Edit the example backup configuration file [deploy/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml). Specify your cluster name and the `repo` name.
 
@@ -112,3 +113,9 @@ For manual backups, you need a backup configuration file.
     ``` {.bash data-prompt="$" }
     $ kubectl get pg-backup -n <namespace>
     ```  
+
+Congratulations! You have made the first backup manually. Want to learn more about backups? See the [Backup and restore section](backups.md) for details like types, retention and how to [automatically make backups according to the schedule](backups-schedule.md).
+
+## Next steps
+
+[Monitor the database :material-arrow-right:](monitoring.md){.md-button}

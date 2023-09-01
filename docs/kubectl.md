@@ -24,7 +24,7 @@ To install Percona Distribution for PostgreSQL, you need the following:
         * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
         * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
 
-## Procedure
+## Procedure {.power-number}
 
 1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace (for example,
    let's name it `postgres-operator`):

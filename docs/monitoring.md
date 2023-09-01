@@ -141,5 +141,5 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
 
 ## Useful links
 
-* [Prepare for production guide](production.md)S
+* [Prepare for production guide](production.md)
 * [Monitor Kubernetes health](monitor-kubernetes.md)

@@ -60,4 +60,4 @@ Now your cluster has some data in it.
 
 ## Next steps
 
-[Make a backup](backup-tutorial.md){.md-button}.
+[Make a backup :material-arrow-right:](backup-tutorial.md){.md-button}.

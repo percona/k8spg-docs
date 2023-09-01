@@ -4,6 +4,9 @@ The [`pg_bouncer`](http://pgbouncer.github.io/) component of Percona Distributio
 
 The `pg_bouncer` URI is stored in the [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) object, which the Operator generates during the installation.
 
+To connect to PostgreSQL, do the following:
+{.power-number}
+
 1. List the Secrets objects
 
     ```{.bash data-prompt="$"}
@@ -60,4 +63,4 @@ Congratulations! You have connected to your PostgreSQL cluster.
 
 ## Next steps
 
-[Insert testing data](data-insert.md){.md-button}. 
+[Insert testing data :material-arrow-right:](data-insert.md){.md-button}. 
