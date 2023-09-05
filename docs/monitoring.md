@@ -135,11 +135,10 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
 
 1. Log in to PMM server.
 
-2. Click :simple-postgresql: *PostgreSQL* from the left-hand navigation menu. You land on the Instances Overview page. 
+2. Click :simple-postgresql: **PostgreSQL** from the left-hand navigation menu. You land on the Instances Overview page. 
 
-3. Click :simple-postgresql: *PostgreSQL*  →  *Other dashboards* to see the list of available dashboards for you to drill down to the metrics you are interested in. 
+3. Click :simple-postgresql: **PostgreSQL**  →  **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in. 
 
-## Useful links
+## Next steps
 
-* [Prepare for production guide](production.md)
-* [Monitor Kubernetes health](monitor-kubernetes.md)
+[What's next :material-arrow-right:](what-next.md){.md-button}
