@@ -170,6 +170,7 @@ nav:
     - How to:
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
+          - "Monitor Kubernetes": monitor-kubernetes.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
