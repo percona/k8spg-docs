@@ -89,6 +89,9 @@ markdown_extensions:
   pymdownx.emoji:
     emoji_index: !!python/name:materialx.emoji.twemoji
     emoji_generator: !!python/name:materialx.emoji.to_svg
+    options:
+      custom_icons:
+        - _resource/overrides/.icons
 
 plugins:
   section-index: {}
@@ -149,12 +152,12 @@ extra: # Used in main.html template and can't be externalized
 # Common navigation for percona.com, render.com and PDF
 nav:
 
-    - Welcome: index.md
+    - Home: index.md
     - Features:
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
-    - Get started:
-          - "Overview": get-started.md
+    - Quickstart guides:
+          - "Overview": quickstart.md
           - Quick install:
             - "With kubectl": kubectl.md
             - "With Helm": helm.md

@@ -1,11 +1,11 @@
 # Overview
 
-Ready to get started with the Operator? In this section you will learn some basic operations, such as:
+Ready to get started with the Percona Operator for PostgreSQL? In this section, you will learn some basic operations, such as:
 
 -	Install and deploy an Operator
--	Connect to the PostgreSQL cluster
+-	Connect to PostgreSQL 
 -	Insert sample data to the database
--	Set up backups
+-	Set up and make a manual backup
 -	Monitor the database health with PMM
 
 ## Next steps

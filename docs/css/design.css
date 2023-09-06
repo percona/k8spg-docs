@@ -223,6 +223,9 @@
 [data-banner] a:link {
     font-weight: bold;
 }
+[data-banner] .actions > p {
+    margin: 0;
+}
 [data-banner] .actions a {
     display: inline-block;
     margin: 0.5em 1.5em 0 0;
