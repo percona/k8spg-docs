@@ -75,7 +75,6 @@ markdown_extensions:
     emoji_generator: !!python/name:materialx.emoji.to_svg
 
 plugins:
-  section-index: {}
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
@@ -154,11 +153,16 @@ nav:
           - "Telemetry": telemetry.md
     - Management:
           - Upgrade from version 1 to version 2:
-            - "Upgrade overview": update.md
-            - "Using data volumes": update-data-volumes.md
-            - "Using backup and restore": update-backup-restore.md
-            - "Using standby": update-standby.md
-          - "Backup and restore": backups.md
+              - "Upgrade overview": update.md
+              - "Using data volumes": update-data-volumes.md
+              - "Using backup and restore": update-backup-restore.md
+              - "Using standby": update-standby.md
+          - Backup and restore:
+              - "About backups": backups.md
+              - "Configure storage for backups": backups-storage.md
+              - "Make scheduled backups": backups-schedule.md
+              - "Make on-demand backup": backups-ondemand.md
+              - "Restore from a backup": backups-restore.md
           - "High availability and scaling": scaling.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
@@ -174,6 +178,7 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
+          - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md
           - "Trademark policy": trademark-policy.md
     - Release Notes:
