@@ -4,21 +4,22 @@ In this section you will learn how to manually make a full backup of your data w
 
 ## Considerations
 
-1. In this tutorial we use AWS S3 as the backup storage. You need the following S3-related information:
+* In this tutorial we use AWS S3 as the backup storage. You need the following S3-related information:
 
     * The name of S3 bucket;
     * The endpoint - the URL to access the bucket
     * The region - the location of the bucket
     * S3 credentials such as S3 key and secret to access the storage.
 
-If you don't have access to AWS, you can use any S3-compatible storage like [MinIO](https://min.io/docs/minio/linux/index.html). Also check the list of [supported storages](backups.md#backup-storage).
-2. The Operator uses the [`pgBackRest`](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
+    If you don't have access to AWS, you can use any S3-compatible storage like [MinIO](https://min.io/docs/minio/linux/index.html). Also check the list of [supported storages](backups.md#backup-storage).
+
+* The Operator uses the [`pgBackRest`](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
 
 ## Configure backup storage {.power-number}
 
 1. Encode the S3 credentials and the pgBackRest repository name (`repo2` in our setup).
 
-    === "in Linux"     
+    === "on Linux"     
 
          ``` {.bash data-prompt="$" }
          $ cat <<EOF | base64 --wrap=0
@@ -28,7 +29,7 @@ If you don't have access to AWS, you can use any S3-compatible storage like [Min
          EOF
          ```     
 
-    === "in macOS"     
+    === "on macOS"     
 
          ``` {.bash data-prompt="$" }
          $ cat <<EOF | base64

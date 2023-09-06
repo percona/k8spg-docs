@@ -24,6 +24,7 @@ for the installation instructions.
 ## Install PMM Client
 
 To install PMM Client as a side-car container in your Kubernetes-based environment, do the following:
+{.power-number}
 
 1. [Get the PMM API key from PMM Server](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication). The API key must have the role "Admin". You need this key to authorize PMM Client within PMM Server. 
 
@@ -92,19 +93,20 @@ To install PMM Client as a side-car container in your Kubernetes-based environme
     ```
 
     
-### Update the secrets file
+## Update the secrets file
 
 The `deploy/secrets.yaml` file contains all values for each key/value pair in a convenient plain text format. But the resulting Secrets Objects contains passwords stored as base64-encoded strings. If you want to *update* the password field, you need to encode the new password into the base64 format and pass it to the Secrets Object.
+{.power-number}
 
 1. Encode the password
 
-    === "in Linux" 
+    === "on Linux" 
 
         ```{.bash data-prompt="$"} 
         $ echo -n "password" | base64 --wrap=0
         ``` 
 
-    === "in macOS" 
+    === "on macOS" 
 
         ```{.bash data-prompt="$"} 
         $ echo -n "password" | base64
@@ -113,13 +115,13 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
 2. Update the Secrets Object. For example, use the following command to set the PMM Server user’s
         password to `new_password` in the `cluster1-pmm-secret` Secrets Object 
 
-    === "in Linux"
+    === "on Linux"
 
         ``` {.bash data-prompt="$" }
         $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64 --wrap=0)'}}'
         ```
 
-    === "in macOS"
+    === "on macOS"
 
         ``` {.bash data-prompt="$" }
         $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64)'}}'
@@ -133,9 +135,12 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
 
 ## Check the metrics
 
+Let's see how the collected data is visualized in PMM.
+{.power-number}
+
 1. Log in to PMM server.
 
-2. Click :simple-postgresql: **PostgreSQL** from the left-hand navigation menu. You land on the Instances Overview page. 
+2. Click :simple-postgresql: **PostgreSQL** from the left-hand navigation menu. You land on the **Instances Overview** page. 
 
 3. Click :simple-postgresql: **PostgreSQL**  →  **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in. 
 

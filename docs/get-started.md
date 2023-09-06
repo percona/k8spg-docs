@@ -1,6 +1,6 @@
 # Overview
 
-Ready to get started with the Operator? In this section you will learn some basic operations with the Operator, such as:
+Ready to get started with the Operator? In this section you will learn some basic operations, such as:
 
 -	Install and deploy an Operator
 -	Connect to the PostgreSQL cluster

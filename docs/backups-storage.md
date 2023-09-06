@@ -53,10 +53,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              This Secret can store credentials for several repositories presented as
              separate data keys.     
 
-     3. Create the Secrets object from this yaml file:     
+     3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:     
 
          ``` {.bash data-prompt="$" }
-         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
+         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
          ```     
 
      4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
@@ -80,10 +80,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 region: "<YOUR_AWS_S3_REGION>"
         ```     
 
-     5. Create or update the cluster:     
+     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:     
 
          ``` {.bash data-prompt="$" }
-         $ kubectl apply -f deploy/cr.yaml
+         $ kubectl apply -f deploy/cr.yaml -n <namespace>
          ```
 
 === "Google Cloud Storage"
@@ -107,7 +107,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
         ![image](assets/images/gcs-service-account.svg)    
 
-        Click the *ADD KEY* button, chose *Create new key* and chose *JSON* as a key
+        Click the *ADD KEY* button, choose *Create new key* and choose *JSON* as a key
         type. These actions will result in downloading a file in JSON format with
         your new private key and related information (for example, `gcs-key.json`).    
 
@@ -156,10 +156,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                This Secret can store credentials for several repositories presented as
                separate data keys.    
 
-    4. Create the Secrets object from the Secret configuration file:    
+    4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:    
 
         ``` {.bash data-prompt="$" }
-        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
+        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
     5. Update your `deploy/cr.yaml` configuration. Specify your GCS credentials
@@ -183,10 +183,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 bucket: "<YOUR_GCS_BUCKET_NAME>"
         ```    
 
-    6. Create or update the cluster:    
+    6. Create or update the cluster. Replace the `<namespace>` placeholder with your value:    
 
         ``` {.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml
+        $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 
 === "Azure Blob Storage (tech preview)"
@@ -237,10 +237,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             This Secret can store credentials for several repositories presented as
             separate data keys.    
 
-    3. Create the Secrets object from this yaml file:    
+    3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:         
 
         ``` {.bash data-prompt="$" }
-        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml
+        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
     4. Update your deploy/cr.yaml configuration. Specify the Secret file you have created in the previous step in the `backups.pgbackrest.configuration` subsection. Put Azure
@@ -264,10 +264,10 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 container: "<YOUR_AZURE_CONTAINER>"
         ```    
 
-    5. Create or update the cluster:    
+    5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:         
 
         ``` {.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml
+        $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 
 ## Next steps

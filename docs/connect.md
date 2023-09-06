@@ -1,6 +1,8 @@
 # Connect to the PostgreSQL cluster
 
-The [`pg_bouncer`](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pg_bouncer` URI to connect to PostgreSQL. 
+In this tutorial, we will connect to the cluster you have created previously. 
+
+The [`pg_bouncer`](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pg_bouncer` URI to connect. 
 
 The `pg_bouncer` URI is stored in the [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) object, which the Operator generates during the installation.
 
@@ -13,7 +15,7 @@ To connect to PostgreSQL, do the following:
     $ kubectl get secrets -n <namespace>
     ```
 
-    The Secrets object you are interested in is named as
+    The Secrets object we target is named as
     `<cluster_name>-pguser-<cluster_name>`. The `<cluster_name>` value is
     the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is `cluster1-pguser-cluster1`.
 
@@ -41,7 +43,7 @@ To connect to PostgreSQL, do the following:
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     ```
 
-    It may take some time to execute the command. As the result you should see the following command prompt `[postgres@pg-client /]` (`pg-client` here is the name of the Pod)
+    It may take some time to create the Pod. As the result, you should see the following command prompt `[postgres@pg-client /]`. The `pg-client` here is the name of the Pod.
 
 5. Connect to `psql` by passing the retrieved `pgbouncer-uri`. The following command connects you as a `cluster1` user to a `cluster1` database
     via the PostgreSQL interactive terminal. 
@@ -50,14 +52,14 @@ To connect to PostgreSQL, do the following:
     [postgres@pg-client /]$ psql postgresql://cluster1:<password>@cluster1-pgbouncer.<namespace>.svc:5432/cluster1
     ```
 
-    The output resembles the following:
+    ??? example "Expected output"
 
-    ``` {.text .no-copy}
-    psql ({{ postgresrecommended }})
-    SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-    Type "help" for help.
-    pgdb=>
-    ```
+        ``` {.text .no-copy}
+        psql ({{ postgresrecommended }})
+        SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+        Type "help" for help.
+        pgdb=>
+        ```
 
 Congratulations! You have connected to your PostgreSQL cluster.
 

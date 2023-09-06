@@ -1,4 +1,4 @@
-# Insert testing data
+# Insert sample data
 
 In this section you will learn to insert some sample data to PostgreSQL.
 
