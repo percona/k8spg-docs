@@ -8,13 +8,11 @@ This document describes how to set up monitoring of the Kubernetes cluster healt
 
 ## Considerations
 
-1. In this setup we use [Victoria Metrics kubernetes monitoring stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack) Helm chart. When customizing the chart's values, consider the following:
+In this setup, we use [Victoria Metrics kubernetes monitoring stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack) Helm chart. When customizing the chart's values, consider the following:
 
-    * Since we use the PMM server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the `vmsingle.enabled` and `vmcluster.enabled` parameters set to `false` in this setup.
-    * The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, enable the Prometheus node exporter by setting the `prometheus-node-exporter.enabled` flag in the Victoria Metrics Helm chart to `true`.
-    * [Check all the role-based access control (RBAC) rules](https://helm.sh/docs/topics/rbac/) of the `victoria-metrics-k8s-stack` chart and the dependencies chart, and modify them based on your requirements. 
-
-2. This setup is used for a 1:1 mapping from Kubernetes cluster to the PMM server. If you wish to monitor more than one Kubernetes cluster in a single PMM server, provide the unique cluster ID for the `victoria-metrics-k8s-stack` chart. The dashboard must support filtering per Kubernetes cluster. You also need to properly [relabel the metrics](https://docs.victoriametrics.com/vmagent.html#relabeling) from the backend.
+* Since we use the PMM server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the `vmsingle.enabled` and `vmcluster.enabled` parameters set to `false` in this setup.
+* The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, enable the Prometheus node exporter by setting the `prometheus-node-exporter.enabled` flag in the Victoria Metrics Helm chart to `true`.
+* [Check all the role-based access control (RBAC) rules](https://helm.sh/docs/topics/rbac/) of the `victoria-metrics-k8s-stack` chart and the dependencies chart, and modify them based on your requirements. 
 
 ## Pre-requisites
 
@@ -100,15 +98,13 @@ The [`kube-state-metrics` (KSM)](https://github.com/kubernetes/kube-state-metric
 
 To define what metrics the `kube-state-metrics` should capture, create the [ConfigMap](https://github.com/kubernetes/kube-state-metrics/blob/main/docs/customresourcestate-metrics.md#configuration) and mount it to a container. 
 
-1. Edit the [example `configmap.yaml` configuration file](https://github.com/Percona-Lab/k8s-monitoring/blob/main/vm-operator-k8s-stack/ksm-configmap.yaml) and specify the `<namespace>`. The Namespace must match the Namespace where you created the Secret. 
+Use the [example `configmap.yaml` configuration file](https://github.com/Percona-Lab/k8s-monitoring/blob/main/vm-operator-k8s-stack/ksm-configmap.yaml) to create the ConfigMap.
 
-2. Apply the configuration
+```{.bash data-prompt="$" }
+$ kubectl apply -f https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/ksm-configmap.yaml -n <namespace>
+```
 
-    ```{.bash data-prompt="$" }
-    $ kubectl apply -f <github-link> -n <namespace>
-    ```
-
-    As a result, you have the `customresource-config-ksm` ConfigMap created. 
+As a result, you have the `customresource-config-ksm` ConfigMap created. 
 
 ### Install the Victoria Metrics Operator Helm chart
 
@@ -123,7 +119,6 @@ To define what metrics the `kube-state-metrics` should capture, create the [Conf
 
     ```{.bash data-prompt="$" }
     $ helm repo add vm https://victoriametrics.github.io/helm-charts/
-    $ helm repo update
     ```
 
 3. Update the repositories.
@@ -132,25 +127,61 @@ To define what metrics the `kube-state-metrics` should capture, create the [Conf
     $ helm repo update
     ```
 
-4. Modify the default configuration of the `victoria-metrics-k8s-stack` chart. Edit the [`values.yaml`](https://github.com/Percona-Lab/k8s-monitoring/blob/main/vm-operator-k8s-stack/values.yaml) file and specify the following:
+4. Install the Victoria Metrics Operator. You need to specify the following configuration:
 
-    * the IP address / hostname of the PMM server in the `externalVM.write.url` option
-    * the unique name or an ID of the Kubernetes cluster in the `vmagent.spec.externalLabels.k8s_cluster_id` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server.
-
-    Optionally, check the rest of the file and make changes. For example,   if you plan to gather metrics for Nodes with the Prometheus node exporter, set the `prometheus-node-exporter.enabled` option to `true`.
-
-    !!! note
-
-        The example `values.yaml` file is taken from the `victoria-metrics-k8s-stack` version 0.17.5. The fields and default values may differ in newer releases of the `victoria-metrics-k8s-stack` helm chart. Please check them if you are using a different version of the `victoria-metrics-k8s-stack` helm chart.
+    * the URL to access the PMM server in the `externalVM.write.url` option in the format `<PMM-SERVER-URL>/victoriametrics/api/v1/write`. The URL can contain either the IP address or the hostname of the PMM server.
+    * the unique name or an ID of the Kubernetes cluster in the `vmagent.spec.externalLabels.k8s_cluster_id` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. 
 
 
-6. Install the Victoria Metrics Operator. The `vm-k8s` value in the following command is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
+    === "Configuration file" 
 
-    ```{.bash data-prompt="$" }
-    $ helm install vm-k8s vm/victoria-metrics-k8s-stack  -f values.yaml -n <namespace>
-    ```
+         1. Edit the [`values.yaml`](https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/values.yaml) 
 
-7. Validate the successful installation by checking the Pods. 
+            ```yaml
+            externalVM:
+              write:
+                # Replace PMM-SERVER-URL with valid URL of PMM Server
+                url: "https://<PMM-SERVER-URL>//victoriametrics/api/v1/write"
+
+            ....
+
+            vmagent:
+              # spec for VMAgent crd
+              # https://docs.victoriametrics.com/operator/api.html#vmagentspec
+              spec:
+                selectAllByDefault: true
+                image:
+                  tag: v1.91.3
+                scrapeInterval: 25s
+                externalLabels:
+                  k8s_cluster_id: <cluster-name>
+            ```     
+
+            Optionally, check the rest of the file and make changes. For example, if you plan to gather metrics for Nodes with the Prometheus node exporter, set the `prometheus-node-exporter.enabled` option to `true`.
+
+         2. Run the following command to install the Operator. The `vm-k8s` value is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
+
+             ```
+             $ kubectl apply -f values.yaml -n <namespace>
+             ``` 
+
+        !!! note     
+
+            The example `values.yaml` file is taken from the `victoria-metrics-k8s-stack` version 0.17.5. The fields and default values may differ in newer releases of the `victoria-metrics-k8s-stack` helm chart. Please check them if you are using a different version of the `victoria-metrics-k8s-stack` helm chart.
+
+    === "Command line"
+
+        Use the following command to install the Victoria Metrics Operator and pass the required configuration. The `vm-k8s` value command is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap:
+
+        ```{.bash data-prompt="$" }
+        $ helm install vm-k8s vm/victoria-metrics-k8s-stack \
+         -f https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/values.yaml \
+         --set externalVM.write.url=<PMM-SERVER-URL>/victoriametrics/api/v1/write \
+         --set vmagent.spec.externalLabels.k8s_cluster_id=<UNIQUE-CLUSTER-IDENTIFER/NAME> \
+         -n <namespace>
+        ```
+
+5. Validate the successful installation by checking the Pods. 
 
     ```{.bash data-prompt="$" }
     $ kubectl get pods -n <namespace>
