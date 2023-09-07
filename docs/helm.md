@@ -9,7 +9,7 @@ You can find Percona Helm charts in [percona/percona-helm-charts](https://github
 
 To install and deploy the Operator, you need the following:
 
-1. [Helm v3 up and running](https://docs.helm.sh/using_helm/#installing-helm).
+1. [Helm v3](https://docs.helm.sh/using_helm/#installing-helm).
 2. [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility.
 3. A Kubernetes environment. You can deploy it locally on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
 
