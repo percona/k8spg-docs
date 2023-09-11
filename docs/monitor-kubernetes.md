@@ -4,13 +4,13 @@ Monitoring the state of the database is crucial to timely identify and react to 
 
 However, the database state also depends on the state of the Kubernetes cluster itself. Hence it’s important to have metrics that can depict the state of the Kubernetes cluster.
 
-This document describes how to set up monitoring of the Kubernetes cluster health. This setup has been tested with the [PMM server](https://docs.percona.com/percona-monitoring-and-management/details/architecture.html#pmm-server) as the centralized data storage and the Victoria Metrics Kubernetes monitoring stack as the metrics collector. These steps may also apply if you use another Prometheus-compatible storage.
+This document describes how to set up monitoring of the Kubernetes cluster health. This setup has been tested with the [PMM Server](https://docs.percona.com/percona-monitoring-and-management/details/architecture.html#pmm-server) as the centralized data storage and the Victoria Metrics Kubernetes monitoring stack as the metrics collector. These steps may also apply if you use another Prometheus-compatible storage.
 
 ## Considerations
 
-In this setup, we use [Victoria Metrics kubernetes monitoring stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack) Helm chart. When customizing the chart's values, consider the following:
+In this setup, we use [Victoria Metrics Kubernetes monitoring stack](https://github.com/VictoriaMetrics/helm-charts/tree/master/charts/victoria-metrics-k8s-stack) Helm chart. When customizing the chart's values, consider the following:
 
-* Since we use the PMM server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the `vmsingle.enabled` and `vmcluster.enabled` parameters set to `false` in this setup.
+* Since we use the PMM Server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the `vmsingle.enabled` and `vmcluster.enabled` parameters set to `false` in this setup.
 * The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, enable the Prometheus node exporter by setting the `prometheus-node-exporter.enabled` flag in the Victoria Metrics Helm chart to `true`.
 * [Check all the role-based access control (RBAC) rules](https://helm.sh/docs/topics/rbac/) of the `victoria-metrics-k8s-stack` chart and the dependencies chart, and modify them based on your requirements. 
 
@@ -106,7 +106,7 @@ $ kubectl apply -f https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/
 
 As a result, you have the `customresource-config-ksm` ConfigMap created. 
 
-### Install the Victoria Metrics kubernetes monitoring stack
+### Install the Victoria Metrics Kubernetes monitoring stack
 
 1. Add the dependency repositories of [victoria-metrics-k8s-stack](https://github.com/VictoriaMetrics/helm-charts/blob/master/charts/victoria-metrics-k8s-stack) chart. 
 
@@ -115,7 +115,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
     $ helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
     ```
 
-2. Add the Victoria Metrics kubernetes monitoring stack repository.
+2. Add the Victoria Metrics Kubernetes monitoring stack repository.
 
     ```{.bash data-prompt="$" }
     $ helm repo add vm https://victoriametrics.github.io/helm-charts/
@@ -127,7 +127,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
     $ helm repo update
     ```
 
-4. Install the Victoria Metrics kubernetes monitoring stack helm chart. You need to specify the following configuration:
+4. Install the Victoria Metrics Kubernetes monitoring stack Helm chart. You need to specify the following configuration:
 
     * the URL to access the PMM server in the `externalVM.write.url` option in the format `<PMM-SERVER-URL>/victoriametrics/api/v1/write`. The URL can contain either the IP address or the hostname of the PMM server.
     * the unique name or an ID of the Kubernetes cluster in the `vmagent.spec.externalLabels.k8s_cluster_id` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. 
@@ -180,7 +180,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
 
             Optionally, check the rest of the file and make changes. For example, if you plan to gather metrics for Nodes with the Prometheus node exporter, set the `prometheus-node-exporter.enabled` option to `true`.
 
-         2. Run the following command to install the Victoria Metrics kubernetes monitoring stack. The `vm-k8s` value is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
+         2. Run the following command to install the Victoria Metrics Kubernetes monitoring stack. The `vm-k8s` value is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap.
 
              ```
              $ kubectl apply -f values.yaml -n <namespace>
@@ -188,7 +188,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
 
         !!! note     
 
-            The example `values.yaml` file is taken from the `victoria-metrics-k8s-stack` version 0.17.5. The fields and default values may differ in newer releases of the `victoria-metrics-k8s-stack` helm chart. Please check them if you are using a different version of the `victoria-metrics-k8s-stack` helm chart.
+            The example `values.yaml` file is taken from the `victoria-metrics-k8s-stack` version 0.17.5. The fields and default values may differ in newer releases of the `victoria-metrics-k8s-stack` Helm chart. Please check them if you are using a different version of the `victoria-metrics-k8s-stack` Helm chart.
 
 5. Validate the successful installation by checking the Pods. 
 
