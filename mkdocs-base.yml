@@ -94,7 +94,6 @@ markdown_extensions:
         - _resource/overrides/.icons
 
 plugins:
-  section-index: {}
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
@@ -201,6 +200,7 @@ nav:
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Delete the Operator": delete.md
+          - "Monitor Kubernetes": monitor-kubernetes.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
@@ -208,6 +208,7 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Percona certified images": images.md
+          - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md
           - "Trademark policy": trademark-policy.md
     - Release Notes:

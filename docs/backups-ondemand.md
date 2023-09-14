@@ -14,6 +14,7 @@ spec:
 #  - --type=full
 ```
 
+
 1. Before you start, make sure you have [configured a backup storage](backups-storage.md).
 2. In the `deploy/backup.yaml` configuration file, specify the cluster name and the repository name to be used for backups. The repository name must be the same as the one you defined in the [backup storage configuration](backups-storage.md). It must also match the repository name specified in the `backups.pgbackrest.manual` subsection of the `deploy/cr.yaml` file.
 3. If needed, you can add any 

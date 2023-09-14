@@ -45,3 +45,23 @@ to see if the change should cause a restart or not.
     It means that options in the `parameters` subsection under
     `patroni.dynamicConfiguration.postgresql` will be applied, and everything
     else in `patroni.dynamicConfiguration.postgresql` will be ignored.
+
+
+## pg_hba
+
+PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the PostgreSQL 
+database based on the IP address or the host name of the connecting host. You can 
+configure pg_hba through the Custom Resource manifest in the
+`spec.patroni.dynamicConfiguration.postgresql.pg_hba` section.
+
+```yaml
+...
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      pg_hba:
+      - local   all all trust
+      - host    all all 0.0.0.0/0 md5
+      - host    all all ::1/128   md5
+      - host    all mytest 123.123.123.123/32 reject
+```

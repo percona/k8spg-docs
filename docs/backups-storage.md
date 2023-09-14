@@ -1,6 +1,7 @@
 # Configure backup storage
 
 Configure backup storage for your [backup repositories](backups.md#backup-repositories) in the
+
 `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
 === "S3-compatible backup storage"
@@ -53,7 +54,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              This Secret can store credentials for several repositories presented as
              separate data keys.     
 
-     3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:     
+     3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:     
 
          ``` {.bash data-prompt="$" }
          $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
@@ -166,7 +167,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         Secret in the `backups.pgbackrest.configuration` subsection, and put GCS
         bucket name into the `bucket` option 
         in the `backups.pgbackrest.repos` subsection. The repository name must be the same as the name you specified when you created the `gcs.conf` file. For example, GCS storage configuration
-        for the `repo3` repository would look as follows.    
+        for the `repo3` repository would look as follows:    
 
         ```yaml
         ...
@@ -274,3 +275,4 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 * [Make an on-demand backup](backups-ondemand.md)
 * [Make a scheduled backup](backups-schedule.md)
+
