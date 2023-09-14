@@ -1,4 +1,4 @@
-# Monitoring
+# Monitor with Percona Monitoring and Management (PMM)
 
 In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html). 
  

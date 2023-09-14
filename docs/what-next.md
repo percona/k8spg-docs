@@ -1,4 +1,4 @@
-## What's next?
+# What's next?
 
 Congratulations! You have completed all the steps in the Get started guide. 
 
