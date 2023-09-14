@@ -4,7 +4,13 @@ The Operator is validated for deployment on Kubernetes, GKE and EKS clusters.
 The Operator is cloud native and storage agnostic, working with a wide variety
 of storage classes, hostPath, and NFS.
 
-The Operator was developed and tested with PostgreSQL versions 12.14, 13.10, 14.7, and 15.2. Other options may also work but have not been tested. The Operator provides connection pooling based on [`pgBouncer`](https://www.pgbouncer.org/) 1.18.0 and high-availability implementation based on [`Patroni`](https://patroni.readthedocs.io/en/latest/) 3.0.1.
+## Supported versions
+
+The Operator {{ release }} is developed, tested and based on:
+
+* PostgreSQL 12.14, 13.10, 14.7, and 15.2 as the database. Other versions may also work but have not been tested. 
+* pgBouncer 1.18.0 for connection pooling
+* Patroni 3.0.1 for high-availability.
 
 ## Supported platforms
 

@@ -4,7 +4,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 
 !!! note
 
-    To make sure that all transactions are captured in the backup, you need to stop the old cluster. This bringы downtime to the application.
+    To make sure that all transactions are captured in the backup, you need to stop the old cluster. This brings downtime to the application.
 
 
 ## Prepare the backup

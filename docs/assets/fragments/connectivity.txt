@@ -1,36 +1,44 @@
-1. During the installation, the Operator has generated several
+During the installation, the Operator has generated several
     [secrets](https://kubernetes.io/docs/concepts/configuration/secret/),
     including the one with password for default PostgreSQL user. This default
-    user has the login name same as the the cluster.
+    user has the same login name as the cluster name.
 
-    Use `kubectl get secrets` command to see the list of the Secrets objects. The
+
+1. Use `kubectl get secrets` command to see the list of Secrets objects. The
     Secrets object you are interested in is named as
     `<cluster_name>-pguser-<cluster_name>` (substitute `<cluster_name>` with
     the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name)).
-    The default variant will be `cluster1-pguser-cluster1`. You can use the
+    The default variant will be `cluster1-pguser-cluster1`. 
+
+2.  Use the
     following command to get the password of this user:
     
     ``` {.bash data-prompt="$" }
     $ kubectl get secret <cluster_name>-<user_name>-<cluster_name> -n postgres-operator --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
     ```
 
-2. Run a container with `psql` tool and connect its console output to your
-    terminal. The following command will do this, naming the new Pod
+3. Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
     `pg-client`:
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-    $ kubectl run -n postgres-operator -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer.postgres-operator.svc -p 5432 -U cluster1 cluster1
+    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     ```
-
     Executing it may require some time to deploy the corresponding Pod.
 
+4. Run a container with `psql` tool and connect its console output to your
+    terminal. 
     This command will connect you as a `cluster1` user to a `cluster1` database
     via the PostgreSQL interactive terminal.
 
-    ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
-    psql ({{ postgresrecommended }})
-    SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-    Type "help" for help.
-    pgdb=>
+    ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
+    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer.postgres-operator.svc -p 5432 -U cluster1 cluster1
     ```
+
+    ??? example "Sample output"
+
+        ``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
+        psql ({{ postgresrecommended }})
+        SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+        Type "help" for help.
+        pgdb=>
+        ```

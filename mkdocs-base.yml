@@ -16,12 +16,14 @@ theme:
   favicon: assets/images/percona-favicon.ico
   custom_dir: _resource/overrides/
   font:
-    text: Chivo, Colfax, Franziska
-    text: Poppins
+    text: Roboto
+    code: Roboto Mono
   palette:
     # Light mode
     - media: "(prefers-color-scheme: light)"
       scheme: percona-light
+      primary: custom
+      accent: custom
       toggle:
         icon: material/toggle-switch-off-outline
         name: Switch to light mode
@@ -29,6 +31,8 @@ theme:
     # Dark mode 
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
+      primary: custom
+      accent: custom
       toggle:
         icon: material/toggle-switch
         name: Switch to dark mode
@@ -44,7 +48,7 @@ extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css
   - css/percona.css
-  - css/version-select.css
+  - css/design.css
   - css/nocopy.css
 
 extra_javascript:
@@ -53,10 +57,16 @@ extra_javascript:
 #  - js/toctree.js
 #  - js/lightgallery.min.js
 
+#Copyright
+copyright: >
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2023 — <a href="#__consent">Cookie Consent</a>
+
+#Extensions
 markdown_extensions:
   attr_list: {}
   toc:
-    permalink: True
+    permalink: true
+  md_in_html: {}
   admonition: {}
   def_list: {}
   meta: {}
@@ -68,11 +78,20 @@ markdown_extensions:
   pymdownx.superfences: {}
   pymdownx.tabbed:
     alternate_style: true
+  pymdownx.tasklist:
+    custom_checkbox: true
+  pymdownx.snippets:
+      base_path: ["snippets"]
+      auto_append:
+        - services-banner.md
   pymdownx.highlight:
-    linenums: false
+    use_pygments: true
   pymdownx.emoji:
     emoji_index: !!python/name:materialx.emoji.twemoji
     emoji_generator: !!python/name:materialx.emoji.to_svg
+    options:
+      custom_icons:
+        - _resource/overrides/.icons
 
 plugins:
   search: 
@@ -127,17 +146,25 @@ extra: # Used in main.html template and can't be externalized
   certmanagerrecommended: '1.8.0'
   version:
     provider: mike
+  
 
 # Common navigation for percona.com, render.com and PDF
 nav:
 
-    - Welcome: index.md
+    - Home: index.md
     - Features:
           - "Design and architecture": architecture.md
           - "Comparison with other solutions": compare.md
-    - Quickstart:
-          - "Install with Helm": helm.md
-          - "Install with kubectl": kubectl.md
+    - Quickstart guides:
+          - "Overview": quickstart.md
+          - Quick install:
+            - "With kubectl": kubectl.md
+            - "With Helm": helm.md
+          - Connect to PostgreSQL: connect.md
+          - Insert data: data-insert.md
+          - Make a backup: backup-tutorial.md
+          - "Monitor the database health": monitoring.md
+          - What's next: what-next.md
     - Installation:
           - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
@@ -153,23 +180,26 @@ nav:
           - "Telemetry": telemetry.md
     - Management:
           - Upgrade from version 1 to version 2:
-              - "Upgrade overview": update.md
-              - "Using data volumes": update-data-volumes.md
-              - "Using backup and restore": update-backup-restore.md
-              - "Using standby": update-standby.md
-          - Backup and restore:
-              - "About backups": backups.md
-              - "Configure storage for backups": backups-storage.md
-              - "Make scheduled backups": backups-schedule.md
-              - "Make on-demand backup": backups-ondemand.md
-              - "Restore from a backup": backups-restore.md
+            - "Upgrade overview": update.md
+            - "Using data volumes": update-data-volumes.md
+            - "Using backup and restore": update-backup-restore.md
+            - "Using standby": update-standby.md
+          - Back up and restore: 
+            - "About backups": backups.md
+            - "Configure storage for backups": backups-storage.md
+            - "Make scheduled backups": backups-schedule.md
+            - "Make on-demand backup": backups-ondemand.md
+            - "Backup retention": backup-retention.md
+            - "Restore from a backup": backups-restore.md
           - "High availability and scaling": scaling.md
-          - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
+          - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
     - How to:
+          - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
+          - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
