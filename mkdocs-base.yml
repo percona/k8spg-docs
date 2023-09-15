@@ -163,7 +163,7 @@ nav:
           - Connect to PostgreSQL: connect.md
           - Insert data: data-insert.md
           - Make a backup: backup-tutorial.md
-          - "Monitor the database health": monitoring.md
+          - "Monitor the database with PMM": monitoring.md
           - What's next: what-next.md
     - Installation:
           - "System requirements": System-Requirements.md
@@ -194,7 +194,7 @@ nav:
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
-          - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
+          - "Monitor the database with PMM": monitoring.md
     - How to:
           - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
