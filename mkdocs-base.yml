@@ -163,7 +163,7 @@ nav:
           - Connect to PostgreSQL: connect.md
           - Insert data: data-insert.md
           - Make a backup: backup-tutorial.md
-          - "Monitor the database with PMM": monitoring.md
+          - Monitor the database with PMM: monitoring-tutorial.md
           - What's next: what-next.md
     - Installation:
           - "System requirements": System-Requirements.md

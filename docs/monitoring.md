@@ -144,6 +144,3 @@ Let's see how the collected data is visualized in PMM.
 
 3. Click :simple-postgresql: **PostgreSQL**  →  **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in. 
 
-## Next steps
-
-[What's next :material-arrow-right:](what-next.md){.md-button}
