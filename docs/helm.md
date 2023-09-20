@@ -41,7 +41,7 @@ Here's a sequence of steps to follow:
 3. Install the Percona Operator for PostgreSQL:
 
     ``` {.bash data-prompt="$" }
-    $ helm install my-operator percona/pg-operator --namespace my-namespace 
+    $ helm install my-operator percona/pg-operator --namespace <my-namespace> 
     ```
 
     The `my-namespace` is the name of your namespace. The `my-operator` parameter is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -51,12 +51,29 @@ Here's a sequence of steps to follow:
 3. Install Percona Distribution for PostgreSQL:
 
     ```{.bash data-prompt="$" }
-    $ helm install my-db percona/pg-db
+    $ helm install cluster1 percona/pg-db -n <my-namespace>
     ```
 
-    The `my-db` parameter is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
+    The `cluster1` parameter is the name of [a new release object](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
     which is created for the Percona Distribution for PostgreSQL when you install
     its Helm chart (use any name you like).
+
+4. Check the Operator and replica set Pods status. 
+   
+    ``` {.bash data-prompt="$" }
+    $ kubectl get pg -n <my-namespace>
+    ```
+
+    The creation process is over when both the
+    Operator and replica set Pods report the `ready` status:
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+
+        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
+        ``` 
 
 You have successfully installed and deployed the Operator with default parameters. You can check them in the [Custom Resource options reference](operator.md#operator-custom-resource-options).
 

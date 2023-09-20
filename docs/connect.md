@@ -17,27 +17,29 @@ To connect to PostgreSQL, do the following:
 
     The Secrets object we target is named as
     `<cluster_name>-pguser-<cluster_name>`. The `<cluster_name>` value is
-    the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is `cluster1-pguser-cluster1`.
+    the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is:
 
-2. Retrieve the pgBouncer URI of your secret
+    === "via kubectl" 
+
+        `cluster1-pguser-cluster1`
+
+    === "via Helm"
+
+        `cluster1-pg-db-pguser-cluster1-pg-db`
+
+2. Retrieve the pgBouncer URI from your secret, decode and pass it as the `PGBOUNCER_URI` environment variable. Replace the `<secret>`, `<namespace>` placeholders with your Secret object and namespace accordingly:
 
     ``` {.bash data-prompt="$" }
-    $  kubectl get secret cluster1-pguser-cluster1 -n <namespace> -o yaml
+    $ PGBOUNCER_URI=$(kubectl get secret <secret> --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
     ```
 
-3. Decode the base64-encoded `pgBouncer` URI string from the secret
+    The following example shows how to pass the pgBouncer URI from the default Secret object `cluster1-pguser-cluster1`:
 
     ``` {.bash data-prompt="$" }
-    $ PGBOUNCER_URI=`echo -n <base64-pgbouncer-uri-string> | base64 --decode`
+    $ PGBOUNCER_URI=$(kubectl get secret cluster1-pguser-cluster1 --namespace <namespace> -o json
     ```
 
-    The format of the decoded URI is the following:
-
-    ```{.text .no-copy}
-    postgresql://<user>:<password>@<cluster-name>-pgbouncer.<namespace>.svc:5432/<db>
-    ```
-
-4. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
+3. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
 
     ``` {.bash data-prompt="$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:15 --restart=Never -- psql $PGBOUNCER_URI
