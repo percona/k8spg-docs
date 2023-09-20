@@ -26,7 +26,7 @@ for PostgreSQL on Minikube.
 2. After the installation, initialize and start the Kubernetes cluster. The parameters we pass for the following command increase the virtual machine limits for the CPU cores, memory, and disk, to ensure stable work of the Operator:
 
     ```{.bash data-prompt="$"}
-    $ minikube start --memory=5120 --cpus=4 --disk-size=30g`
+    $ minikube start --memory=5120 --cpus=4 --disk-size=30g
     ```
 
     This command downloads needed virtualized images, then initializes and runs the
