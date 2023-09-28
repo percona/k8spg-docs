@@ -36,7 +36,7 @@ To connect to PostgreSQL, do the following:
     The following example shows how to pass the pgBouncer URI from the default Secret object `cluster1-pguser-cluster1`:
 
     ``` {.bash data-prompt="$" }
-    $ PGBOUNCER_URI=$(kubectl get secret cluster1-pguser-cluster1 --namespace <namespace> -o json
+    $ PGBOUNCER_URI=$(kubectl get secret cluster1-pguser-cluster1 --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
     ```
 
 3. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
