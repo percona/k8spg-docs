@@ -24,6 +24,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              [global]
              repo2-s3-key=<YOUR_AWS_S3_KEY>
              repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+             repo2-storage-verify-tls=y
              EOF
              ```     
 
@@ -34,8 +35,11 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              [global]
              repo2-s3-key=<YOUR_AWS_S3_KEY>
              repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+             repo2-storage-verify-tls=y
              EOF
              ```     
+
+        The `repo2-storage-verify-tls` option in the above example enables TLS verification for pgBackRest (when set to `y` or simply omitted) or disables it, when set to `n`.
 
      2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:     
 
