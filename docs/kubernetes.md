@@ -36,12 +36,6 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
      $ kubectl create namespace postgres-operator
      ```
 
-     ??? example "Expected output"
-
-         ``` {.text .no-copy}
-         namespace/postgres-operator was created
-         ```
-
      !!! note
 
          To use different namespace, specify other name instead of
