@@ -71,10 +71,10 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     ```
 
     Optionally, you can add PostgreSQL Users secrets and TLS certificates to
-    Kubernetes. If you don't, the Operator will create both needed users and
+    Kubernetes. If you don't, the Operator will create the needed users and
     certificates automatically, when you create the database cluster. You can
     see documentation on [Users](users.md) and [TLS certificates](TLS.md) if
-    want to create users and/or certificates yourself.
+    still want to create them yourself.
 
 6. After the Operator is started Percona Distribution for PostgreSQL cluster can
     be created at any time with the following command:
