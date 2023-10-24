@@ -70,3 +70,8 @@ When creation process is over, `kubectl get pg` command will show you the
 cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
+
+## Deleting the cluster
+
+If you need to delete the cluster (for example, to clean up the testing
+deployment before adopting it for production use), check [this HowTo](delete.md).
