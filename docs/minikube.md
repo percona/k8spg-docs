@@ -113,7 +113,12 @@ When creation process is over, you can try to connect to the cluster.
 
 ## Delete the cluster
 
-If you no longer need the Kubernetes cluster in Minikube, the following are the steps to remove it. 
+If you need to delete the Operator and PostgreSQL cluster (for example, to clean
+up the testing deployment before adopting it for production use), check
+[this HowTo](delete.md).
+
+If you no longer need the Kubernetes cluster in Minikube, the following are the
+steps to remove it. 
 
 1. Stop the Minikube cluster:
 

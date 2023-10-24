@@ -1,6 +1,6 @@
 # Delete Percona Operator for PostgreSQL
 
-To delete Percona Operator for PostgreSQL from Kubernetes environment means to delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (for complete clean-up of your Kubernetes-based environment) and the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) related to the Operator. 
+To delete Percona Operator for PostgreSQL from Kubernetes environment means to delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) and the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) related to the Operator. 
 
 Here's the sequence of steps to do it:
 
