@@ -1,10 +1,15 @@
 # Delete Percona Operator for PostgreSQL
 
-To delete Percona Operator for PostgreSQL from Kubernetes environment means to delete the [CustomRecourceDefinitions (CRDs))](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) and the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) related to the Operator.
+To delete Percona Operator for PostgreSQL from Kubernetes environment means to delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) (for complete clean-up of your Kubernetes-based environment) and the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) related to the Operator. 
 
 Here's the sequence of steps to do it:
 
-1. List the CRDs:
+1.  If you are not just deleting the Operator and the PotgreSQL cluster from a
+    specific namespace, but are completely cleaning out your Kubernetes cluster,
+    delete the CRD. Otherwise **skip this step**, because CRDs in Kubernetes are
+    non-namespaced, but are available to the whole environment.
+
+    List the CRDs:
 
     ```{.bash data-prompt="$"}
     $ kubectl get crd
@@ -35,7 +40,7 @@ Here's the sequence of steps to do it:
         volumesnapshots.snapshot.storage.k8s.io              2023-09-07T14:15:52Z
         ```
 
-2. Delete the `percona*.pgv2.percona.com` CRDs
+    Now delete the `percona*.pgv2.percona.com` CRDs:
 
     ```{.bash data-prompt="$"}
     $ kubectl delete crd perconapgbackups.pgv2.percona.com perconapgclusters.pgv2.percona.com perconapgrestores.pgv2.percona.com
