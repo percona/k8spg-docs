@@ -148,9 +148,13 @@ cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 
-## Removing the EKS cluster
+## Removing the cluster
 
-To delete your cluster, you will need the following data:
+If you need to delete the Operator and PostgreSQL cluster (for example, to clean
+up the testing deployment before adopting it for production use), check
+[this HowTo](delete.md).
+
+To delete your Kubernetes cluster in EKS, you will need the following data:
 
 * name of your EKS cluster,
 * AWS region in which you have deployed your cluster.

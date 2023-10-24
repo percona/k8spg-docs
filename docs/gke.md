@@ -163,9 +163,13 @@ cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 
-## Removing the GKE cluster
+## Removing the cluster
 
-There are several ways that you can delete the cluster.
+If you need to delete the Operator and PostgreSQL cluster (for example, to clean
+up the testing deployment before adopting it for production use), check
+[this HowTo](delete.md).
+
+Also, there are several ways that you can delete your Kubernetes cluster in GKE.
 
 You can clean up the cluster with the `gcloud` command as follows:
 
