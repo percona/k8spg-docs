@@ -4,10 +4,10 @@ To delete Percona Operator for PostgreSQL from Kubernetes environment means to d
 
 Here's the sequence of steps to do it:
 
-1.  If you are not just deleting the Operator and the PotgreSQL cluster from a
+1.  If you are not just deleting the Operator and the PostgreSQL cluster from a
     specific namespace, but are completely cleaning out your Kubernetes cluster,
-    delete the CRD. Otherwise **skip this step**, because CRDs in Kubernetes are
-    non-namespaced, but are available to the whole environment.
+    delete the CRD. Otherwise, **skip this step** because CRDs in Kubernetes are
+    non-namespaced but are available to the whole environment.
 
     List the CRDs:
 
