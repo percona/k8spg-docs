@@ -34,9 +34,9 @@ The Custom Resource should have `Ready` status.
     ??? example "Expected output"
 
         ``` {.text .no-copy}
-        perconapgbackups          pg-backup    pg.percona.com/v2beta1            true         PerconaPGBackup
-        perconapgclusters         pg           pg.percona.com/v2beta1            true         PerconaPGCluster
-        perconapgrestores         pg-restore   pg.percona.com/v2beta1            true         PerconaPGRestore
+        perconapgbackups          pg-backup    pgv2.percona.com/v2            true         PerconaPGBackup
+        perconapgclusters         pg           pgv2.percona.com/v2            true         PerconaPGCluster
+        perconapgrestores         pg-restore   pgv2.percona.com/v2            true         PerconaPGRestore
         ```
 
 ## Check the Pods

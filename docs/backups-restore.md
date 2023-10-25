@@ -41,7 +41,7 @@ configuration file. The example of the backup configuration file is
 [deploy/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
 
 ```yaml
-apiVersion: pg.percona.com/v2beta1
+apiVersion: pgv2.percona.com/v2
 kind: PerconaPGRestore
 metadata:
   name: restore1
