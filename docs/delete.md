@@ -1,15 +1,53 @@
 # Delete Percona Operator for PostgreSQL
 
-To delete Percona Operator for PostgreSQL from Kubernetes environment means to delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions) and the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/) related to the Operator. 
+You can delete both Percona Operator for PostgreSQL and the database cluster
+managed by it by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+related to the Operator. 
 
 Here's the sequence of steps to do it:
 
-1.  If you are not just deleting the Operator and the PostgreSQL cluster from a
-    specific namespace, but are completely cleaning out your Kubernetes cluster,
-    delete the CRD. Otherwise, **skip this step** because CRDs in Kubernetes are
-    non-namespaced but are available to the whole environment.
+1. List the deployments. Replace the `<namespace>` placeholder with your namespace.
+    
+    ```{.bash data-prompt="$"}
+    $ kubectl get deploy -n <namespace>
+    ```
 
-    List the CRDs:
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
+        percona-postgresql-operator   1/1     1            1           13m
+        ```
+
+2. Delete the `percona-*` deployment
+
+    ```{.bash data-prompt="$"}
+    $ kubectl delete deploy percona-postgresql-operator -n <namespace>
+    ```
+
+3. Check that the Operator is deleted by listing the Pods. As a result you should have no Pods 
+
+    ```{.bash data-prompt="$"}
+    $ kubectl get pods -n <namespace>
+    ``` 
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        No resources found in <namespace> namespace.
+        ```
+
+## Delete Custom Resource Definition
+
+If you are not just deleting the Operator and PostgreSQL cluster from a specific
+namespace, but want to completely clean up your Kubernetes cluster,
+you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
+
+CRDs in Kubernetes are non-namespaced but are available to the whole
+environment. So you shouldn't delete CRD if you still have the Operator and
+database cluster in some other namespace.
+
+1. List the CRDs:
 
     ```{.bash data-prompt="$"}
     $ kubectl get crd
@@ -40,7 +78,7 @@ Here's the sequence of steps to do it:
         volumesnapshots.snapshot.storage.k8s.io              2023-09-07T14:15:52Z
         ```
 
-    Now delete the `percona*.pgv2.percona.com` CRDs:
+2. Now delete the `percona*.pgv2.percona.com` CRDs:
 
     ```{.bash data-prompt="$"}
     $ kubectl delete crd perconapgbackups.pgv2.percona.com perconapgclusters.pgv2.percona.com perconapgrestores.pgv2.percona.com
@@ -52,35 +90,4 @@ Here's the sequence of steps to do it:
         customresourcedefinition.apiextensions.k8s.io "perconapgbackups.pgv2.percona.com" deleted
         customresourcedefinition.apiextensions.k8s.io "perconapgclusters.pgv2.percona.com" deleted
         customresourcedefinition.apiextensions.k8s.io "perconapgrestores.pgv2.percona.com" deleted
-        ```
-
-3. List the deployments. Replace the `<namespace>` placeholder with your namespace.
-    
-    ```{.bash data-prompt="$"}
-    $ kubectl get deploy -n <namespace>
-    ```
-
-    ??? example "Sample output"
-
-        ```{.text .no-copy}
-        NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
-        percona-postgresql-operator   1/1     1            1           13m
-        ```
-
-4. Delete the `percona-*` deployment
-
-    ```{.bash data-prompt="$"}
-    $ kubectl delete deploy percona-postgresql-operator -n <namespace>
-    ```
-
-5. Check that the Operator is deleted by listing the Pods. As a result you should have no Pods 
-
-    ```{.bash data-prompt="$"}
-    $ kubectl get pods -n <namespace>
-    ``` 
-
-    ??? example "Sample output"
-
-        ```{.text .no-copy}
-        No resources found in <namespace> namespace.
         ```
