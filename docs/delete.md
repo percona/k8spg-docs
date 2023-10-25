@@ -16,37 +16,35 @@ Operator by deleting the appropriate Custom Resource.
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl get pg -n <namespace>
     ```
 
-    ??? example "Sample output"
-
-        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+    --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
 
 2. Delete the Custom Resource with the name of your cluster (for example, let's
     use the default `cluster1` name).
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl delete pg cluster1 -n <namespace>
     ```
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         perconapgcluster.pgv2.percona.com "cluster1" deleted
         ```
 
 3. Check that the cluster is deleted by listing the available Custom Resources
     once again.
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl get pg -n <namespace>
     ``` 
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         No resources found in <namespace> namespace.
         ```
 
@@ -58,33 +56,33 @@ related to it.
 1. List the deployments. Replace the `<namespace>` placeholder with your
     namespace.
     
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl get deploy -n <namespace>
     ```
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
         percona-postgresql-operator   1/1     1            1           13m
         ```
 
 2. Delete the `percona-*` deployment
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl delete deploy percona-postgresql-operator -n <namespace>
     ```
 
 3. Check that the Operator is deleted by listing the Pods. As a result you
     should have no Pods related to it.
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl get pods -n <namespace>
     ``` 
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         No resources found in <namespace> namespace.
         ```
 
@@ -102,13 +100,13 @@ you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io
 
 1. List the CRDs:
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl get crd
     ```
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         allowlistedv2workloads.auto.gke.io                   2023-09-07T14:15:30Z
         allowlistedworkloads.auto.gke.io                     2023-09-07T14:15:29Z
         audits.warden.gke.io                                 2023-09-07T14:15:32Z
@@ -133,13 +131,13 @@ you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io
 
 2. Now delete the `percona*.pgv2.percona.com` CRDs:
 
-    ```{.bash data-prompt="$"}
+    ``` {.bash data-prompt="$"}
     $ kubectl delete crd perconapgbackups.pgv2.percona.com perconapgclusters.pgv2.percona.com perconapgrestores.pgv2.percona.com
     ```
 
     ??? example "Sample output"
 
-        ```{.text .no-copy}
+        ``` {.text .no-copy}
         customresourcedefinition.apiextensions.k8s.io "perconapgbackups.pgv2.percona.com" deleted
         customresourcedefinition.apiextensions.k8s.io "perconapgclusters.pgv2.percona.com" deleted
         customresourcedefinition.apiextensions.k8s.io "perconapgrestores.pgv2.percona.com" deleted

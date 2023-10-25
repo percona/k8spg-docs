@@ -1,4 +1,6 @@
-```text
-NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
-cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
-```
+??? example "Sample output"
+
+    ```text
+    NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
+    cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
+    ```
