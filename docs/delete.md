@@ -23,7 +23,7 @@ Operator by deleting the appropriate Custom Resource.
     ??? example "Sample output"
 
         ```text
-        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+        --8<-- "assets/code/kubectl-get-pg-response.txt"
         ```
 
 2. Delete the Custom Resource with the name of your cluster (for example, let's
