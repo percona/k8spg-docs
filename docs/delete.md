@@ -1,12 +1,14 @@
 # Delete Percona Operator for PostgreSQL
 
-You may want to delete any of the following objects:
+When cleaning up your Kubernetes environment (e.g., moving from a trial
+deployment to a production one, or testing experimental configurations), you may
+need to remove some (or all) of the following objects:
 
-* Database cluster managed by Percona Operator for PostgreSQL
+* Percona Distribution for PosgreSQL cluster managed by the Operator
 * Percona Operator for PostgreSQL itself
 * Custom Resource Definition deployed with the Operator
 
-## Delete the database cluster
+## Delete a database cluster
 
 You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.
@@ -20,7 +22,7 @@ Operator by deleting the appropriate Custom Resource.
 
     ??? example "Sample output"
 
-        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+        {% include 'assets/code/kubectl-get-pg-response.txt' %}
 
 2. Delete the Custom Resource with the name of your cluster (for example, let's
     use the default `cluster1` name).
@@ -89,12 +91,14 @@ related to it.
 ## Delete Custom Resource Definition
 
 If you are not just deleting the Operator and PostgreSQL cluster from a specific
-namespace, but want to completely clean up your Kubernetes cluster,
+namespace, but want to clean up your entire Kubernetes environment,
 you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
 
-CRDs in Kubernetes are non-namespaced but are available to the whole
-environment. So you shouldn't delete CRD if you still have the Operator and
-database cluster in some other namespace.
+!note 
+
+    CRDs in Kubernetes are non-namespaced but are available to the whole
+    environment. This means that you shouldn't delete CRD if you still have the
+    Operator and database cluster in some namespace.
 
 1. List the CRDs:
 
