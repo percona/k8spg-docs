@@ -1,12 +1,60 @@
 # Delete Percona Operator for PostgreSQL
 
-You can delete both Percona Operator for PostgreSQL and the database cluster
-managed by it by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
-related to the Operator. 
+You may want to delete any of the following objects:
 
-Here's the sequence of steps to do it:
+* Database cluster managed by Percona Operator for PostgreSQL
+* Percona Operator for PostgreSQL itself
+* Custom Resource Definition deployed with the Operator
 
-1. List the deployments. Replace the `<namespace>` placeholder with your namespace.
+## Delete the database cluster
+
+You can delete the Percona Distribution for PosgreSQL cluster managed by the
+Operator by deleting the appropriate Custom Resource.
+
+1. List Custom Resources, replacing the `<namespace>` placeholder with your
+    namespace.
+    
+    ```{.bash data-prompt="$"}
+    $ kubectl get pg -n <namespace>
+    ```
+
+    ??? example "Sample output"
+
+        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+
+2. Delete the Custom Resource with the name of your cluster (for example, let's
+    use the default `cluster1` name).
+
+    ```{.bash data-prompt="$"}
+    $ kubectl delete pg cluster1 -n <namespace>
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        perconapgcluster.pgv2.percona.com "cluster1" deleted
+        ```
+
+3. Check that the cluster is deleted by listing the available Custom Resources
+    once again.
+
+    ```{.bash data-prompt="$"}
+    $ kubectl get pg -n <namespace>
+    ``` 
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        No resources found in <namespace> namespace.
+        ```
+
+## Delete the Operator
+
+You can uninstall the Operator by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+related to it.
+
+1. List the deployments. Replace the `<namespace>` placeholder with your
+    namespace.
     
     ```{.bash data-prompt="$"}
     $ kubectl get deploy -n <namespace>
@@ -25,7 +73,8 @@ Here's the sequence of steps to do it:
     $ kubectl delete deploy percona-postgresql-operator -n <namespace>
     ```
 
-3. Check that the Operator is deleted by listing the Pods. As a result you should have no Pods 
+3. Check that the Operator is deleted by listing the Pods. As a result you
+    should have no Pods related to it.
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -n <namespace>

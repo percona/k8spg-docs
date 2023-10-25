@@ -136,8 +136,9 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
-    Creation process will take some time. The process is over when both
-    Operator and PostgreSQL Pods have reached their Running status:
+    The creation process may take some time. When the process is over your
+    cluster will obtain the `ready` status. You can check it with the following
+    command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg -n postgres-operator
@@ -145,10 +146,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
-        ```
+        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
 
     ??? note "You can also track the creation process in Google Cloud console via the Object Browser"
 
