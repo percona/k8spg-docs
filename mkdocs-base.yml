@@ -83,8 +83,8 @@ markdown_extensions:
   pymdownx.snippets:
       base_path:
         - snippets
-        - assets/code
-        - assets/fragments
+        - docs/assets/code
+        - docs/assets/fragments
       auto_append:
         - services-banner.md
   pymdownx.highlight:
