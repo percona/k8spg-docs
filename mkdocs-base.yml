@@ -81,7 +81,9 @@ markdown_extensions:
   pymdownx.tasklist:
     custom_checkbox: true
   pymdownx.snippets:
-      base_path: ["snippets"]
+      base_path:
+        - snippets
+        - assets/code/fragments
       auto_append:
         - services-banner.md
   pymdownx.highlight:
