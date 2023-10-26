@@ -16,10 +16,7 @@ $ kubectl get pg
 
 ??? example "Expected output"
 
-    ``` {.text .no-copy}
-    NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
-    cluster1   cluster1-pgbouncer.default.svc   ready    3          3           33d
-    ```
+    --8<-- "kubectl-get-pg-response.txt"
 
 The Custom Resource should have `Ready` status.
 

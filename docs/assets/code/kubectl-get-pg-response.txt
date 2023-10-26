@@ -1,2 +1,4 @@
+``` {.text .no-copy}
 NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
 cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
+```

@@ -60,7 +60,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     ??? example "Expected output"
 
-        --8<-- "assets/code/kubectl-get-pg-response.txt"
+        --8<-- "kubectl-get-pg-response.txt"
 
 ## Verifying the cluster operation
 

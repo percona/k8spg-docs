@@ -101,7 +101,7 @@ for PostgreSQL on Minikube.
     
     ??? example "Expected output"
    
-        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+        --8<-- "kubectl-get-pg-response.txt"
 
 ## Verify the Percona Distribution for PostgreSQL cluster operation
 

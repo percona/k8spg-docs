@@ -146,7 +146,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
     ??? example "Expected output"
 
-        --8<-- "./docs/assets/code/kubectl-get-pg-response.txt"
+        --8<-- "kubectl-get-pg-response.txt"
 
     ??? note "You can also track the creation process in Google Cloud console via the Object Browser"
 

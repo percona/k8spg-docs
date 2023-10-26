@@ -13,8 +13,6 @@ need to remove some (or all) of the following objects:
 You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.
 
---8<-- "kubectl-get-pg-response.txt"
-
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
@@ -22,13 +20,9 @@ Operator by deleting the appropriate Custom Resource.
     $ kubectl get pg -n <namespace>
     ```
 
-    --8<-- "kubectl-get-pg-response.txt"
-
     ??? example "Sample output"
 
-        ```text
         --8<-- "kubectl-get-pg-response.txt"
-        ```
 
 2. Delete the Custom Resource with the name of your cluster (for example, let's
     use the default `cluster1` name).
