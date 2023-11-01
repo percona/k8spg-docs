@@ -20,6 +20,6 @@ def define_env(env):
   def kubectl():      
       if ("OpenShift" in self.title()):
         commandName = "oc"
-      else
+      else:
         commandName = "kubectl"
       return commandName
