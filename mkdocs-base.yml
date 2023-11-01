@@ -170,6 +170,7 @@ nav:
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
