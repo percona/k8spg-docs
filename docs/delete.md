@@ -20,7 +20,7 @@ Operator by deleting the appropriate Custom Resource.
     * `finalizers.percona.com/delete-ssl`: if present, [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) are deleted when the cluster deletion occurs.
     * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the Percona Distribution for PostgreSQL Pods are deleted when the cluster deletion occurs.
 
-    Both finalizers are off by default in the `deploy/cr.yaml` configuration file.
+    Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
