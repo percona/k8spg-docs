@@ -13,6 +13,15 @@ need to remove some (or all) of the following objects:
 You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.
 
+!!! note
+
+    There are two (finalizers](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) defined in the Custom Resource, which define whether TLS-related objects and data volumes should be deleted or preserved when the cluster is deleted.
+
+    * `finalizers.percona.com/delete-ssl`: if present, [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) are deleted when the cluster deletion occurs.
+    * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the Percona Distribution for PostgreSQL Pods are deleted when the cluster deletion occurs.
+
+    Both finalizers are off by default in the `deploy/cr.yaml` configuration file.
+
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
@@ -54,6 +63,10 @@ Operator by deleting the appropriate Custom Resource.
 
 You can uninstall the Operator by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 related to it.
+
+* <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
+
+* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for Percona XtraDB Cluster Pods after the cluster deletion event (off by default).
 
 1. List the deployments. Replace the `<namespace>` placeholder with your
     namespace.
