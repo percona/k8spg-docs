@@ -91,8 +91,9 @@ for PostgreSQL on Minikube.
         $ kubectl apply -f deploy/cr.yaml
         ```
 
-3. Check the Operator and replica set Pods status. The creation process may take some time and is over when both
-    Operator and replica set Pods have reached their Running status:
+3. The creation process may take some time. When the process is over your
+    cluster will obtain the `ready` status. You can check it with the following
+    command:
    
     ``` {.bash data-prompt="$" }
     $ kubectl get pg -n postgres-operator
@@ -100,10 +101,7 @@ for PostgreSQL on Minikube.
     
     ??? example "Expected output"
    
-        ```{.text .no-copy}
-        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
-        ```
+        --8<-- "kubectl-get-pg-response.txt"
 
 ## Verify the Percona Distribution for PostgreSQL cluster operation
 
@@ -113,7 +111,12 @@ When creation process is over, you can try to connect to the cluster.
 
 ## Delete the cluster
 
-If you no longer need the Kubernetes cluster in Minikube, the following are the steps to remove it. 
+If you need to delete the Operator and PostgreSQL cluster (for example, to clean
+up the testing deployment before adopting it for production use), check
+[this HowTo](delete.md).
+
+If you no longer need the Kubernetes cluster in Minikube, the following are the
+steps to remove it. 
 
 1. Stop the Minikube cluster:
 

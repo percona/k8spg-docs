@@ -50,8 +50,9 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     $ kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
-    Creation process will take some time. The process is over when both
-    Operator and replica set Pods have reached their Running status:
+    The creation process may take some time. When the process is over your
+    cluster will obtain the `ready` status. You can check it with the following
+    command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg
@@ -59,10 +60,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
-        ```
+        --8<-- "kubectl-get-pg-response.txt"
 
 ## Verifying the cluster operation
 
@@ -70,3 +68,8 @@ When creation process is over, `kubectl get pg` command will show you the
 cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
+
+## Deleting the cluster
+
+If you need to delete the cluster (for example, to clean up the testing
+deployment before adopting it for production use), check [this HowTo](delete.md).
