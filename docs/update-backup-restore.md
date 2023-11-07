@@ -16,7 +16,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
     $ kubectl apply -f deploy/backup/backup.yaml
     ```
 
-2. [Pause](https://docs.percona.com/percona-operator-for-postgresql/1.0/pause.md) or delete the version 1.x cluster to ensure that you have the latest data.
+2. [Pause](https://docs.percona.com/percona-operator-for-postgresql/1.0/pause.html) or delete the version 1.x cluster to ensure that you have the latest data.
     
     
     !!! warning 
