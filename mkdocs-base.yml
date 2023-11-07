@@ -43,6 +43,7 @@ theme:
     - search.highlight
     - navigation.top
     - navigation.tabs
+    - navigation.sections
     - content.tabs.link
 
 
