@@ -13,8 +13,8 @@ This document describes how to deploy the Operator and Percona Distribution
 for PostgreSQL on Minikube.
 
 ## Set up Minikube
-
 {.power-number}
+
 1. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
 
     1. kubectl tool,
@@ -39,8 +39,8 @@ for PostgreSQL on Minikube.
     default web browser.
 
 ## Deploy the Percona Operator for PostgreSQL 
-
 {.power-number}
+
 1. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
     ```{.bash data-prompt="$" }
@@ -119,8 +119,8 @@ up the testing deployment before adopting it for production use), check
 
 If you no longer need the Kubernetes cluster in Minikube, the following are the
 steps to remove it. 
-
 {.power-number}
+
 1. Stop the Minikube cluster:
 
     ```
