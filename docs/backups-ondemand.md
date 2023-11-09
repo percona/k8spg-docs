@@ -13,6 +13,8 @@ spec:
 #  options:
 #  - --type=full
 ```
+
+Here's a sequence of steps to follow:
 {.power-number}
 
 1. Before you start, make sure you have [configured a backup storage](backups-storage.md).

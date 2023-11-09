@@ -14,8 +14,8 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
      * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
      **Configuration steps**
-
      {.power-number}
+     
      1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
         === "in Linux"     
@@ -42,7 +42,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
         The `repo2-storage-verify-tls` option in the above example enables TLS verification for pgBackRest (when set to `y` or simply omitted) or disables it, when set to `n`.
 
-     2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:     
+     2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:
 
          ```yaml
          apiVersion: v1
@@ -59,7 +59,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              This Secret can store credentials for several repositories presented as
              separate data keys.     
 
-     3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:     
+     3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:
 
          ``` {.bash data-prompt="$" }
          $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
@@ -86,7 +86,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 region: "<YOUR_AWS_S3_REGION>"
         ```     
 
-     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:     
+     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
          ``` {.bash data-prompt="$" }
          $ kubectl apply -f deploy/cr.yaml -n <namespace>
@@ -95,18 +95,18 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 === "Google Cloud Storage"
 
     To use [Google Cloud Storage](https://cloud.google.com/storage) as
-    an object store for backups, you need the following information:    
+    an object store for backups, you need the following information:
 
     * a proper GCS bucket name. Pass the bucket name to `pgBackRest` via the
     `gcs.bucket` key in the `backups.pgbackrest.repos` subsection of
     `deploy/cr.yaml`.
-    * your service account key for the Operator to access the storage.    
+    * your service account key for the Operator to access the storage.
     
     **Configuration steps** 
-
     {.power-number}
+
     1. Create your service account key following the [official Google Cloud instructions](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
-    2. Export this key from your Google Cloud account.    
+    2. Export this key from your Google Cloud account.
 
         You can find your key in the Google Cloud console (select *IAM & Admin*
         → *Service Accounts* in the left menu panel, then click your account and
@@ -163,7 +163,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                This Secret can store credentials for several repositories presented as
                separate data keys.    
 
-    4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:    
+    4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:
 
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
@@ -190,7 +190,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 bucket: "<YOUR_GCS_BUCKET_NAME>"
         ```    
 
-    6. Create or update the cluster. Replace the `<namespace>` placeholder with your value:    
+    6. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
@@ -204,9 +204,9 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
     * Azure Storage credentials. These are stored in an encoded form in the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/).
 
     **Configuration steps**
-
     {.power-number}
-    1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo4`.   
+
+    1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo4`.
 
         === "Linux"    
 
@@ -228,7 +228,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             EOF
             ```    
 
-    2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:    
+    2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:
 
         ```yaml
         apiVersion: v1
@@ -245,7 +245,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             This Secret can store credentials for several repositories presented as
             separate data keys.    
 
-    3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:         
+    3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:
 
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
@@ -272,7 +272,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
                 container: "<YOUR_AZURE_CONTAINER>"
         ```    
 
-    5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:         
+    5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>

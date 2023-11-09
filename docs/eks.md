@@ -22,8 +22,7 @@ The following tools are used in this guide and therefore should be preinstalled:
 Also, you need to configure AWS CLI with your credentials according to the
 [official guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
 
-### Creating the EKS cluster
-{.power-number}
+### Creating the EKS cluster {.power-number}
 
 1. To create your cluster, you will need the following data:
 
