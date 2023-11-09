@@ -15,6 +15,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
      **Configuration steps**
 
+     {.power-number}
      1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
         === "in Linux"     
@@ -103,6 +104,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
     
     **Configuration steps** 
 
+    {.power-number}
     1. Create your service account key following the [official Google Cloud instructions](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
     2. Export this key from your Google Cloud account.    
 
@@ -203,6 +205,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
     **Configuration steps**
 
+    {.power-number}
     1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo4`.   
 
         === "Linux"    
