@@ -9,6 +9,7 @@ This method only works if the version 1.x cluster uses [Amazon S3 or S3-compatib
 
 There is no need to perform any additional configuration on version 1.x cluster, you will only need to configure  the version 2.x one.
 
+{.power-number}
 1. Configure `spec.backups.pgbackrest.repos` Custom Resource option to point to the backup storage system. For example, for GCS, the repository would be defined similar to the following:
 
     ```yaml
@@ -53,6 +54,7 @@ There is no need to perform any additional configuration on version 1.x cluster,
 
 Once the standby cluster is up and running, you can promote it.
 
+{.power-number}
 1. Delete version 1.x cluster, but ensure that `spec.keepBackups` is set to `true`.
 
     ```{.bash data-prompt="$"}
