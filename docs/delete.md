@@ -22,6 +22,7 @@ Operator by deleting the appropriate Custom Resource.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
+{.power-number}
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
@@ -64,6 +65,7 @@ Operator by deleting the appropriate Custom Resource.
 You can uninstall the Operator by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 related to it.
 
+{.power-number}
 1. List the deployments. Replace the `<namespace>` placeholder with your
     namespace.
     
