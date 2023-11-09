@@ -45,7 +45,7 @@ Learn what you can do to maintain regular backups of your PostgrgeSQL cluster.
 
 Our comprehensive resources will help you overcome challenges, from everyday issues to specific doubts.
 
-[Run diagnostics :material-arrow-right:](debug.md){.md-button}
+[Diagnostics :material-arrow-right:](debug.md){.md-button}
 
 </div>
 </div>
