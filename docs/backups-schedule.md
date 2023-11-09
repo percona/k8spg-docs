@@ -6,6 +6,7 @@ Backups schedule is defined on the per-repository basis in the
 You can supply each repository with a `schedules.<backup type>` key equal to an
 actual schedule that you specify in crontab format.
 
+{.power-number}
 1. Before you start, make sure you have [configured a backup storage](backups-storage.md).
 
 2. Configure backup schedule in the `deploy/cr.yaml` file. The schedule is specified in crontab format as explained in
