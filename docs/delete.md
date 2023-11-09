@@ -12,7 +12,6 @@ need to remove some (or all) of the following objects:
 
 You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.
-{.power-number}
 
 !!! note
 
@@ -23,6 +22,8 @@ Operator by deleting the appropriate Custom Resource.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
+Here's a sequence of steps to follow:
+{.power-number}
 
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
