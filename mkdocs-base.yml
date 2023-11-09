@@ -20,7 +20,7 @@ theme:
     code: Roboto Mono
   palette:
     # Light mode
-    - media: "(prefers-color-scheme: light)"
+    - media: "(prefers-color-scheme: percona-light)"
       scheme: percona-light
       primary: custom
       accent: custom
@@ -29,7 +29,7 @@ theme:
         name: Switch to light mode
 
     # Dark mode 
-    - media: "(prefers-color-scheme: dark)"
+    - media: "(prefers-color-scheme: percona-dark)"
       scheme: slate
       primary: custom
       accent: custom
@@ -43,7 +43,8 @@ theme:
     - search.highlight
     - navigation.top
     - navigation.tabs
-    - navigation.sections
+    - navigation.tabs.sticky
+    #- navigation.sections
     - navigation.tracking
     - content.tabs.link
     - content.action.edit
