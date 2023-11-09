@@ -12,6 +12,7 @@ need to remove some (or all) of the following objects:
 
 You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.
+{.power-number}
 
 !!! note
 
@@ -21,7 +22,7 @@ Operator by deleting the appropriate Custom Resource.
     * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods are deleted when the cluster deletion occurs.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
-{.power-number}
+
 
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
@@ -104,13 +105,13 @@ related to it.
 If you are not just deleting the Operator and PostgreSQL cluster from a specific
 namespace, but want to clean up your entire Kubernetes environment,
 you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
+{.power-number}
 
 !!! warning 
 
     CRDs in Kubernetes are non-namespaced but are available to the whole
     environment. This means that you shouldn't delete CRD if you still have the
     Operator and database cluster in some namespace.
-{.power-number}
 
 1. List the CRDs:
 
