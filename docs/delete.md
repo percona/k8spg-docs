@@ -106,13 +106,15 @@ related to it.
 If you are not just deleting the Operator and PostgreSQL cluster from a specific
 namespace, but want to clean up your entire Kubernetes environment,
 you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
-{.power-number}
 
 !!! warning 
 
     CRDs in Kubernetes are non-namespaced but are available to the whole
     environment. This means that you shouldn't delete CRD if you still have the
     Operator and database cluster in some namespace.
+
+You can delete CRD as follows:
+{.power-number}
 
 1. List the CRDs:
 
