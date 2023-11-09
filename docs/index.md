@@ -26,19 +26,19 @@ Want to see it for yourself? Get started quickly with our step-by-step installat
 
 </div><div data-banner markdown>
 
+## :material-security: Security and encryption { .title }
+
+Rest assured! Learn more about our security features designed to protect your valuable data.
+
+[Security Measures :material-arrow-right:](TLS.md){ .md-button }
+</div><div data-banner markdown>
+
 ### :material-backup-restore: Backup management { .title }
 
 Learn what you can do to maintain regular backups of your PostgrgeSQL cluster.
 
 [Backup Management :material-arrow-right:](backups.md){ .md-button }
 
-</div><div data-banner markdown>
-
-## :material-security: Top-notch security { .title }
-
-Rest assured! Learn more about our security features designed to protect your valuable data.
-
-[Security Measures :material-arrow-right:](TLS.md){ .md-button }
 </div><div data-banner markdown>
 
 ### :material-frequently-asked-questions: Troubleshooting { .title }
