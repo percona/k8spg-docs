@@ -9,6 +9,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 
 ## Prepare the backup
 
+{.power-number}
 1. Create the backup on the version 1.x cluster, following the [official guide for manual (on-demand) backups](backups.md#making-on-demand-backup).
     This involves preparing the manifest in YAML and applying it in the ususal way:
 
@@ -32,6 +33,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 
 **Restore from S3 / Google Cloud Storage for backups repository**
 
+{.power-number}
 1. To restore from the S3 or Google Cloud Storage for backups (GCS) repository, you should first configure the `spec.backups.pgbackrest.repos`
     subsection in your version 2.x cluster Custom Resource to point to the backup storage system. Just follow the repository documentation instruction for
     [S3](backups.md#configuring-the-s3-compatible-backup-storage) or [GCS](backups.md#use-google-cloud-storage-for-backups).
