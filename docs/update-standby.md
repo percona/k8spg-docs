@@ -1,9 +1,8 @@
 # Migrate using Standby
 
-This method allows you to migrate from version 1,x to version 2.x by creating a new version 2.x PostgreSQL cluster in a "standby" mode, mirroring the version 1.x cluster to it continuously. This method can provide minimal downtime, but requires additional computing resources to run two clusters in parallel.
+This method allows you to migrate from version 1.x to version 2.x by creating a new version 2.x PostgreSQL cluster in a "standby" mode, mirroring the version 1.x cluster to it continuously. This method can provide minimal downtime, but requires additional computing resources to run two clusters in parallel.
 
-This method only works if the version 1.x cluster uses [Amazon S3 or S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services), or [Google Cloud storage (GCS)](https://cloud.google.com/storage) for backups. For more information on standby clusters, please refer to [this article].
-
+This method only works if the version 1.x cluster uses [Amazon S3 or S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services), or [Google Cloud storage (GCS)](https://cloud.google.com/storage) for backups. For more information on standby clusters, please refer to [this article](https://www.postgresql.org/docs/current/warm-standby.html).
 
 ## Migrate to version 2
 
