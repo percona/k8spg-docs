@@ -153,7 +153,7 @@ name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-postgres` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres` |
 | **Description** | The PostgreSQL Docker image to use |
 |                 | |
 | **Key**         | {{ optionlink('imagePullPolicy') }} |
@@ -331,7 +331,7 @@ Percona Distribution for PostgreSQL backups.
 |-----------------|-|
 | **Key**         | {{ optionlink('backups.pgbackrest.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbackrest` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
 | **Description** | The Docker image for [pgBackRest](backups.md#backups-pgbackrest) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.configuration.secret.name') }} |
@@ -517,7 +517,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |

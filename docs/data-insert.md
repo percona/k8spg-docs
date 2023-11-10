@@ -6,7 +6,7 @@ In this section you will learn to insert some sample data to PostgreSQL.
 
 Every database in PostgreSQL has a default schema called `public`. A schema stores database objects like tables, views, indexes and allows organizing them into logical groups. 
 
-When you create a table, it ends up in the `public` schema by default. In PostgreSQL 15, non-database owners cannot access the `public` schema. Therefore, you need to create a new schema to insert the data.
+When you create a table, it ends up in the `public` schema by default. In recent PostgreSQL versions, non-database owners cannot access the `public` schema. Therefore, you need to create a new schema to insert the data.
 
 Use the following statement to create a schema
 

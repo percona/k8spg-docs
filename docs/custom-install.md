@@ -6,21 +6,21 @@ To check available configuration options, see [deploy/cr.yaml](https://raw.githu
 
 === "kubectl"
 
-    To customize the configuration, do the following:    
+    To customize the configuration, do the following:
 
-    1. Clone the repository with all manifests and source code by executing the following command:    
+    1. Clone the repository with all manifests and source code by executing the following command:
 
         ```{.bash data-prompt="$" }
         $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
         ```    
 
-    2. Edit the required options and apply your modified `deploy/cr.yaml` file as follows:    
+    2. Edit the required options and apply your modified `deploy/cr.yaml` file as follows:
 
          ```{.bash data-prompt="$" }
          $ kubectl apply -f deploy/cr.yaml -n postgres-operator        
          ```
 
-=== "Helm"    
+=== "Helm"
 
     To install Percona Distribution for PostgreSQL with custom parameters, use the following command:
     
@@ -29,13 +29,13 @@ To check available configuration options, see [deploy/cr.yaml](https://raw.githu
     ```
 
     You can pass any of the Operator’s [Custom Resource options](operator.md#operator-custom-resource-options) as a
-    `--set key=value[,key=value]` argument.    
+    `--set key=value[,key=value]` argument.
 
-    The following example deploys a PostgreSQL 15 based cluster
-    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html):    
+    The following example deploys a PostgreSQL {{postgresrecommended}} based cluster
+    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html):
 
     ``` {.bash data-prompt="$" }
     $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace \
-      --set postgresVersion=15 \
+      --set postgresVersion={{postgresrecommended}} \
       --set pmm.enabled=true
     ```

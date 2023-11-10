@@ -29,7 +29,7 @@ running the `kubectl apply -f deploy/cr.yaml` command.
 You can apply custom configuration in this way for both new and existing clusters.
 
 Normally, options should be applied to PostgreSQL instances dynamically without
-restart, except [the options with the postmaster context](https://www.postgresql.org/docs/15/view-pg-settings.html).
+restart, except [the options with the postmaster context](https://www.postgresql.org/docs/16/view-pg-settings.html).
 Changing options which have `context=postmaster` will cause Patroni to initiate
 restart of all PostgreSQL instances, one by one. You can check the context of
 a specific option using the `SELECT name, context FROM pg_settings;` query to
