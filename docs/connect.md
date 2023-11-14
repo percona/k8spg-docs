@@ -19,11 +19,11 @@ To connect to PostgreSQL, do the following:
     `<cluster_name>-pguser-<cluster_name>`. The `<cluster_name>` value is
     the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is:
 
-    === "via kubectl" 
+    === ":simple-kubernetes: via kubectl" 
 
         `cluster1-pguser-cluster1`
 
-    === "via Helm"
+    === ":simple-helm: via Helm"
 
         `cluster1-pg-db-pguser-cluster1-pg-db`
 
