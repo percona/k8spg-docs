@@ -4,7 +4,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
-=== "S3-compatible backup storage"
+=== ":simple-amazons3: S3-compatible backup storage"
 
      To use S3-compatible storage for backups, you need to have the following S3-related information:
 
@@ -18,7 +18,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
      
      1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
-        === "in Linux"     
+        === ":simple-linux: Linux"     
 
              ``` {.bash data-prompt="$" }
              $ cat <<EOF | base64 --wrap=0
@@ -29,7 +29,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
              EOF
              ```     
 
-        === "in macOS"     
+        === ":simple-apple: macOS"     
 
              ``` {.bash data-prompt="$" }
              $ cat <<EOF | base64
@@ -92,7 +92,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
          $ kubectl apply -f deploy/cr.yaml -n <namespace>
          ```
 
-=== "Google Cloud Storage"
+=== ":simple-googlecloud: Google Cloud Storage"
 
     To use [Google Cloud Storage](https://cloud.google.com/storage) as
     an object store for backups, you need the following information:
@@ -131,13 +131,13 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
         * Encode both `gcs-key.json` and `gcs.conf` files. 
 
-            === "Linux"
+            === ":simple-linux: Linux"
 
                 ```
                 base64 --wrap=0 <filename>
                 ```
 
-            === "MacOS"
+            === ":simple-apple: MacOS"
                 
                 ```
                 base64 <filename>
@@ -196,7 +196,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 
-=== "Azure Blob Storage (tech preview)"
+=== ":material-microsoft-azure: Azure Blob Storage (tech preview)"
 
     To use [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) for storing backups, you need the following:
 
@@ -208,7 +208,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
     1. Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using `repo4`.
 
-        === "Linux"    
+        === ":simple-linux: Linux"    
 
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64 --wrap=0
@@ -218,7 +218,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             EOF
             ```    
 
-        === "macOS"    
+        === ":simple-apple: macOS"    
 
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64
