@@ -22,7 +22,7 @@ Starting with Percona Server for MySQL is easy. Follow our documentation guides,
 
 Want to see it for yourself? Get started quickly with our step-by-step installation instructions.
 
-[Quickstart Guides :material-arrow-right:](quickstart.md){ .md-button }
+[Quickstart guides :material-arrow-right:](quickstart.md){ .md-button }
 
 </div><div data-banner markdown>
 
@@ -30,14 +30,14 @@ Want to see it for yourself? Get started quickly with our step-by-step installat
 
 Rest assured! Learn more about our security features designed to protect your valuable data.
 
-[Security Measures :material-arrow-right:](TLS.md){ .md-button }
+[Security measures :material-arrow-right:](TLS.md){ .md-button }
 </div><div data-banner markdown>
 
 ### :material-backup-restore: Backup management { .title }
 
 Learn what you can do to maintain regular backups of your PostgrgeSQL cluster.
 
-[Backup Management :material-arrow-right:](backups.md){ .md-button }
+[Backup management :material-arrow-right:](backups.md){ .md-button }
 
 </div><div data-banner markdown>
 
