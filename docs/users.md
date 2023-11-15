@@ -55,7 +55,7 @@ stringData:
  pguser: pguser_password
 ```
 
-The example above matches what is shipped in the [deploy/secrets.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/users-secret.yaml)
+The example above matches what is shipped in the [deploy/secrets.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/users-secret.yaml)
 file.
 
 As you can see, we use the `stringData` type when creating the Secrets object,

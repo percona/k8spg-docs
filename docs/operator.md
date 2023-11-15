@@ -1,7 +1,7 @@
 # Custom Resource options
 
 The Cluster is configured via the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file.
+[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml) file.
 
 The metadata part of this file contains the following keys:
 
@@ -9,7 +9,7 @@ The metadata part of this file contains the following keys:
 * `name` (`cluster1` by default) sets the name of your Percona Distribution
 for PostgreSQL Cluster; it should include only [URL-compatible characters](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3), not exceed 22 characters, start with an alphabetic character, and end with an alphanumeric character;
 
-The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following sections:
+The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml) file contains the following sections:
 
 | Key            | Value type                                 | Default | Description |
 | -------------- | ------------------------------------------ | ------- | ----------- |
@@ -83,7 +83,7 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 
 ## Upgrade Options Section
 
-The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains various configuration options to control Percona Distribution for PostgreSQL upgrades.
+The `upgradeOptions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml) file contains various configuration options to control Percona Distribution for PostgreSQL upgrades.
 
 |                 | |
 |-----------------|-|
@@ -230,7 +230,7 @@ The pgPrimary section controls the PostgreSQL Primary instance.
 
 ## Tablespaces Storage Section
 
-The `tablespaceStorages` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `tablespaceStorages` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains configuration options for PostgreSQL [Tablespace](https://www.postgresql.org/docs/current/manage-ag-tablespaces.html).
 
 |                 | |
@@ -262,7 +262,7 @@ file contains configuration options for PostgreSQL [Tablespace](https://www.post
 
 ## Write-ahead Log Storage Section
 
-The `walStorage` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `walStorage` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains configuration options for PostgreSQL [write-ahead logging](https://www.postgresql.org/docs/current/wal-intro.html).
 
 |                 | |
@@ -295,7 +295,7 @@ file contains configuration options for PostgreSQL [write-ahead logging](https:/
 ## Backup Section
 
 The `backup` section in the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains the following configuration options for the regular
 Percona Distribution for PostgreSQL backups.
 
@@ -445,7 +445,7 @@ name used for backups |
 
 ## PMM Section
 
-The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains configuration options for Percona Monitoring and Management.
 
 |                 | |
@@ -502,7 +502,7 @@ file contains configuration options for Percona Monitoring and Management.
 
 ## pgBouncer Section
 
-The `pgBouncer` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `pgBouncer` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
 
 |                 | |
@@ -580,7 +580,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 
 ## pgReplicas Section
 
-The `pgReplicas` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `pgReplicas` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file stores information required to manage the replicas within a PostgreSQL cluster.
 
 |                 | |
@@ -668,7 +668,7 @@ for a PostgreSQL Replica container |
 
 ## pgBadger Section
 
-The `pgBadger` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `pgBadger` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file contains configuration options for the [pgBadger PostgreSQL log analyzer](https://github.com/darold/pgbadger).
 
 |                 | |

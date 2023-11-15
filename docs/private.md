@@ -51,7 +51,7 @@ the following steps:
     the selected access and secret keys (substitute `some-access-key`
     and `some-secret-key` with the values used on the previous step).
 
-3. Now edit the backup section of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+3. Now edit the backup section of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
     file to set proper values for your newly created  storage as follows (you
     can find more on these options in [backup and restore documentation](backups.md#configuring-the-s3-compatible-backup-storage)).
 
