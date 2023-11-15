@@ -27,7 +27,7 @@ If you would like to report a bug, use the Percona Operator for PostgreSQL [proj
 [pgBadger](https://pgbadger.darold.net/) is a report generator for PostgreSQL,
 which can analyze PostgreSQL logs and provide you web-based representation with
 charts and various statistics. You can configure it via the
-[pgBadger Section](operator.md#operator-pgbadger-section) in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[pgBadger Section](operator.md#operator-pgbadger-section) in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file. The most important option there is [pgBadger.enabled](operator.md#pgbadger-enabled),
 which is off by default. When enabled, a separate pgBadger sidecar container
 with a specialized HTTP server is added to each PostgreSQL Pod.

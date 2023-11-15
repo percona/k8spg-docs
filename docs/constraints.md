@@ -8,7 +8,7 @@ equipped machine, or to reduce network costs choosing nodes in a same
 availability zone.
 
 Appropriate sections of the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/cr.yaml)
 file (such as `pgPrimary` or `pgReplicas`) contain keys which can be used to do this, depending on what is the
 best for a particular situation.
 
