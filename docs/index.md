@@ -1,4 +1,4 @@
-# Percona Operator for PostgreSQL
+# Percona Operator for PostgreSQL documentation
 
 The [Percona Operator for PostgreSQL](https://github.com/percona/percona-postgresql-operator) 
 automates the creation, modification, or deletion of items in your Percona
