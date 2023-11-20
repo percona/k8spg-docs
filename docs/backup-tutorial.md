@@ -1,6 +1,10 @@
-# Make a backup
+# 5 Make a backup
 
-In this section you will learn how to manually make a full backup of your data with the Operator. If you are interested to learn more about backups, their types and retention policy, see the [Backups section](backups.md).
+Now your database [contains some data](data-insert.md), so it's a good time to learn how to manually make a full backup of your data with the Operator. 
+
+!!! note 
+
+    If you are interested to learn more about backups, their types and retention policy, see the [Backups section](backups.md).
 
 ## Considerations
 
