@@ -1,4 +1,4 @@
-# 3. Connect to the PostgreSQL cluster
+# 2 Connect to the PostgreSQL cluster
 
 When the [installation](kubectl.md) is done, we can connect to the cluster. 
 
