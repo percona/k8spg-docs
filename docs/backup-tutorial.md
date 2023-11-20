@@ -23,7 +23,7 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
 1. Encode the S3 credentials and the pgBackRest repository name (`repo2` in our setup).
 
-    === "on Linux"
+    === ":simple-linux: Linux"
 
          ``` {.bash data-prompt="$" }
          $ cat <<EOF | base64 --wrap=0
@@ -33,7 +33,7 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
          EOF
          ```     
 
-    === "on macOS"
+    === ":simple-apple: macOS"
 
          ``` {.bash data-prompt="$" }
          $ cat <<EOF | base64
