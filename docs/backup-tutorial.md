@@ -1,4 +1,4 @@
-# 5 Make a backup
+# 4 Make a backup
 
 Now your database [contains some data](data-insert.md), so it's a good time to learn how to manually make a full backup of your data with the Operator. 
 
