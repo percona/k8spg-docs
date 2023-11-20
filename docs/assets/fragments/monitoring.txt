@@ -103,7 +103,7 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
         $ echo -n "password" | base64 --wrap=0
         ``` 
 
-    === "simple-apple: macOS" 
+    === ":simple-apple: macOS" 
 
         ```{.bash data-prompt="$"} 
         $ echo -n "password" | base64
@@ -118,7 +118,7 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
         $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64 --wrap=0)'}}'
         ```
 
-    === "simple-apple: macOS"
+    === ":simple-apple: macOS"
 
         ``` {.bash data-prompt="$" }
         $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64)'}}'
