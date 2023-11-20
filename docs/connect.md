@@ -60,4 +60,4 @@ Congratulations! You have connected to your PostgreSQL cluster.
 
 ## Next steps
 
-[Insert testing data :material-arrow-right:](data-insert.md){.md-button}
+[:material-database-plus: Insert testing data :material-arrow-right:](data-insert.md){.md-button}
