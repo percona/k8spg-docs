@@ -1,6 +1,6 @@
-# Insert sample data
+# 4 Insert sample data
 
-In this section you will learn to insert some sample data to PostgreSQL.
+The next step after [connecting to the cluster](connect.md) is to insert some sample data to PostgreSQL.
 
 ## Create a schema
 
