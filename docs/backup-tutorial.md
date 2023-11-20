@@ -123,4 +123,4 @@ Congratulations! You have made the first backup manually. Want to learn more abo
 
 ## Next steps
 
-[Monitor the database :material-arrow-right:](monitoring.md){.md-button}
+[:material-monitor-dashboard: Monitor the database :material-arrow-right:](monitoring.md){.md-button}
