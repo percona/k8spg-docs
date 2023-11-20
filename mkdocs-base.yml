@@ -175,8 +175,8 @@ nav:
     - Quickstart guide:
           - "Overview": quickstart.md
           - 1 Quick install:
-            - "1.1 With kubectl": kubectl.md
-            - "1.2 With Helm": helm.md
+            - "With kubectl": kubectl.md
+            - "With Helm": helm.md
           - 2 Connect to PostgreSQL: connect.md
           - 3 Insert data: data-insert.md
           - 4 Make a backup: backup-tutorial.md
