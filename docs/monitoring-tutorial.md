@@ -1,4 +1,7 @@
-{% include 'monitoring.md' %}
+5 Monitor the database
+
+Finally, when we are [done with backup](backup-tutorial.md), it's time for one more step.
+{% include 'assets/fragments/monitoring.txt' %}
 
 ## Next steps
 
