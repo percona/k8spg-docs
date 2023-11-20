@@ -1,4 +1,4 @@
-# 4 Insert sample data
+# 3 Insert sample data
 
 The next step after [connecting to the cluster](connect.md) is to insert some sample data to PostgreSQL.
 
