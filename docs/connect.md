@@ -1,6 +1,6 @@
-# Connect to the PostgreSQL cluster
+# 3. Connect to the PostgreSQL cluster
 
-In this tutorial, we will connect to the cluster you have created previously. 
+When the [installation](kubectl.md) is done, we can connect to the cluster. 
 
 The [`pgBouncer`](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pgBouncer` URI to connect. 
 
