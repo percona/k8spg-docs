@@ -1,4 +1,4 @@
-# Binding Percona Distribution for PostgreSQL components to Specific Kubernetes/OpenShift Nodes
+# Binding Percona Distribution for PostgreSQL components to specific Kubernetes/OpenShift Nodes
 
 The operator does good job automatically assigning new Pods to nodes
 with sufficient resources to achieve balanced distribution across the cluster.
