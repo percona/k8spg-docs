@@ -1,4 +1,4 @@
-# Transport Layer Security (TLS)
+# Transport layer security (TLS)
 
 The Percona Operator for PostgreSQL uses Transport Layer Security
 (TLS) cryptographic protocol for the following types of communication:
