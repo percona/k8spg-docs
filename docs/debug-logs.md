@@ -1,4 +1,4 @@
-# Check the Logs
+# Check the logs
 
 Logs provide valuable information. It makes sense to check the logs of the
 database Pods and the Operator Pod. Following flags are helpful for checking the
