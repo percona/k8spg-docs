@@ -191,9 +191,9 @@ nav:
     - Configuration:
           - "Application and system users": users.md
           - "Exposing the cluster": expose.md
-          - "Changing PostgreSQL Options": options.md
+          - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
-          - "Transport Encryption (TLS/SSL)": TLS.md
+          - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
     - Management:
           - Upgrade from version 1 to version 2:
