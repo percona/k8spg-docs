@@ -10,19 +10,17 @@
 
 ## Improvements
 
-* {{ k8spgjira(340) }}: Send the CR-based telemetry when spec.upgradeOptions.apply=disabled
+* {{ k8spgjira(340) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
 
 ## Bugs Fixed
 
-* {{ k8spgjira(420) }}:	Ending up in multiple shared repo after cluster pause and unpuase	Unassigned	Pending Release	MERGED	
+* {{ k8spgjira(420) }}: Fix a bug due to which pausing and unpausing the cluster after modification of Custom Resource could result in wrong scale of replica and backrest repo Pods
 
-* {{ k8spgjira(314) }}: Unsupported version string is sent to version service
+* {{ k8spgjira(314) }}: The Operator was incorrectly parsing the version string to get major minor versions in case of recent Percona Distribution for PostgreSQL releases, being unable to provide Version Service with this data to check available versions for the database upgrade
   
-* {{ k8spgjira(404) }}: Upgrade from Operator 1.3 to 1.4 is ending up with cluster without any replicas
+* {{ k8spgjira(404) }}: Fix a bug due to which upgrading the Operator version 1.3 to 1.4 could cause the cluster to have no replicas
 
-* {{ k8spgjira(464) }}: Affinity test is failing
-  
-* {{ k8spgjira(376) }}: Missing documentation for previous versions makes impossible sequential upgrade
+* {{ k8spgjira(464) }}: Fix a bug in the Affinity configuration process that could leads to unscheduled Pods
 
 ## Supported platforms
 
