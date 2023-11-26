@@ -8,6 +8,10 @@
 
     [Percona Operator for PostgreSQL](../index.md#installation-guides)
 
+## Release highlights
+
+This release contains a number fixes and improvements made within the maintenance mode that Operator 1.x is in.
+
 ## Improvements
 
 * {{ k8spgjira(340) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
@@ -37,5 +41,3 @@ The following platforms were tested and are officially supported in this release
 
 * [Minikube](https://minikube.sigs.k8s.io/docs/) 1.28 (based on Kubernetes 1.25)
 
-
-	Bug	
