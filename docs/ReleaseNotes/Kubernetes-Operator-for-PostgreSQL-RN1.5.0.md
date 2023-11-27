@@ -10,7 +10,7 @@
 
 ## Release highlights
 
-This release contains a number fixes and improvements made within the maintenance mode that Operator 1.x is in.
+This release contains a number of fixes and improvements made within the maintenance mode that Operator 1.x is in.
 
 ## Improvements
 
@@ -28,16 +28,16 @@ This release contains a number fixes and improvements made within the maintenanc
 
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 12.14, 13.10, and 14.7. Other options may also work but have not been tested. The Operator 1.4.0 provides connection pooling based on pgBouncer 1.18.0 and high-availability implementation based on Patroni 2.1.4.
+The Operator was developed and tested with PostgreSQL versions 12.14, 13.10, and 14.7. Other options may also work but have not been tested. The Operator 1.5.0 provides connection pooling based on pgBouncer 1.20.0 and high-availability implementation based on Patroni 2.1.4.
 
 The following platforms were tested and are officially supported in this release:
 
 
-* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.22 - 1.25
+* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
 
-* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.22 - 1.25
+* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.24 - 1.28
 
-* [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.10 - 4.12
+* [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11 - 4.14
 
-* [Minikube](https://minikube.sigs.k8s.io/docs/) 1.28 (based on Kubernetes 1.25)
+* [Minikube](https://minikube.sigs.k8s.io/docs/) 1.32
 
