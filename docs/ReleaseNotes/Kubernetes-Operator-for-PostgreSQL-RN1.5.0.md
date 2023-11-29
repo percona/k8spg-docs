@@ -11,20 +11,22 @@
 ## Release highlights
 
 This release contains a number of fixes and improvements made within the maintenance mode that Operator 1.x is in.
+[Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) has newer PostgreSQL versions, new features and improvements, which will not find their way to the Operator 1.x.
+The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) instead.
 
 ## Improvements
 
-* {{ k8spgjira(340) }}: To improve the operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
+* {{ k8spgjira(340) }}: To continuously improve the operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
 
 ## Bugs Fixed
 
 * {{ k8spgjira(420) }}: Fix a bug due to which pausing and unpausing the cluster after modification of Custom Resource could result in wrong scale of replica and backrest repo Pods
 
-* {{ k8spgjira(314) }}: The Operator was incorrectly parsing the version string to get major minor versions in case of recent Percona Distribution for PostgreSQL releases, being unable to provide Version Service with this data to check available versions for the database upgrade
+* {{ k8spgjira(314) }}: Version Service at check.percona.com was was incorrectly parsing the version string which lead to issues with automated upgrades
   
 * {{ k8spgjira(404) }}: Fix a bug due to which upgrading the Operator version 1.3 to 1.4 could cause the cluster to have no replicas
 
-* {{ k8spgjira(464) }}: Fix a bug in the Affinity configuration process that could leads to unscheduled Pods
+* {{ k8spgjira(464) }}: Our Affinity configuration was not taking components into account. This led to unschedulable Pods that were stuck in Pending state. It is fixed in this release through adding component labels
 
 ## Supported platforms
 
