@@ -2,7 +2,7 @@
 
 * **Date**
 
-    November 30, 2023
+    December 5, 2023
 
 * **Installation**
 
@@ -11,8 +11,9 @@
 ## Release highlights
 
 This release contains a number of fixes and improvements made within the maintenance mode that Operator 1.x is in.
-[Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) has newer PostgreSQL versions, new features and improvements, which will not find their way to the Operator 1.x.
-The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) instead.
+
+The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use
+[Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) instead. The Operator version 2 has newer PostgreSQL versions, new features and improvements, which will not find their way to the Operator 1.x version.
 
 ## Improvements
 
@@ -30,7 +31,7 @@ The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use
 
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 12.14, 13.10, and 14.7. Other options may also work but have not been tested. The Operator 1.5.0 provides connection pooling based on pgBouncer 1.20.0 and high-availability implementation based on Patroni 2.1.4.
+The Operator was developed and tested with PostgreSQL versions 12.16, 13.12, and 14.10. Other options may also work but have not been tested. The Operator 1.5.0 provides connection pooling based on pgBouncer 1.20.0 and high-availability implementation based on Patroni 2.1.4.
 
 The following platforms were tested and are officially supported in this release:
 
