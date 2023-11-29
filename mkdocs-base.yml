@@ -179,6 +179,7 @@ nav:
           - "Exposing the cluster": expose.md
           - "Changing PostgreSQL Options": options.md
           - "Anti-affinity and tolerations": constraints.md
+          - "Labels and annotations": annotations.md
           - "Transport Encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
     - Management:

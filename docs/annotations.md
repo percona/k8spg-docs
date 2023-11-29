@@ -14,8 +14,10 @@ external tools.
 
 You can set labels and/or annotations as key/value string pairs in the Custom
 Resource metadata section of the `deploy/cr.yaml`. For PostgreSQL, pgBouncer and pgBackRest Pods,
-use `instances.metadata.labels`, `proxy.pgbouncer.metadata.labels`, or
-`backups.pgbackrest.metadata.labels` keys as follows:
+use `instances.metadata.annotations`/`instances.metadata.labels`,
+`proxy.pgbouncer.metadata.annotations`/`proxy.pgbouncer.metadata.labels`, or
+`backups.pgbackrest.metadata.annotations`/`backups.pgbackrest.metadata.labels`
+keys as follows:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -27,9 +29,11 @@ spec:
    - name: instance1
      replicas: 3
      metadata:
-       labels:
-         my-label: value
-     ...
+      annotations:
+        my-annotation: value1
+      labels:
+        my-label: value2
+    ...
 ```
 
 For PostgreSQL and pgBouncer Services, use `expose.annotations`/`expose.labels` or
@@ -59,10 +63,10 @@ following example:
 $ kubectl get service cluster1-pgbouncer -o jsonpath='{.metadata.annotations}'
 ```
 
-## Settings labels to the Operator Pod
+## Settings labels and annotations to the Operator Pod
 
-You can assign labels to the Pod of the Operator itself by editing the 
-and the [deploy/operator.yaml configuration file](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
+You can assign labels and/or annotations to the Pod of the Operator itself by
+editing the and the [deploy/operator.yaml configuration file](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
 before [applying it during the installation](kubernetes.md).
 
 ```yaml
@@ -79,6 +83,7 @@ spec:
         app.kubernetes.io/name: percona-postgresql-operator
         app.kubernetes.io/part-of: percona-postgresql-operator
         pgv2.percona.com/control-plane: postgres-operator
+        ...
 ```
 
 
