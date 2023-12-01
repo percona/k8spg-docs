@@ -45,9 +45,10 @@ Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
     $ kubectl create namespace percona-db-1
     ```
 
-4. Deploy the Operator:
+4. Configure the role-based access control (RBAC) for Percona Distribution for PostgreSQL and deploy the Operator:
 
     ``` {.bash data-prompt="$" }
+    $ kubectl apply -f deploy/rbac.yaml -n percona-db-1
     $ kubectl apply -f deploy/operator.yaml -n percona-db-1
     ```
 
