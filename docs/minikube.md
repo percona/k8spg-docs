@@ -140,7 +140,7 @@ the following three components:
 
     ``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
     $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
-    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer -p 5432 -U pguser pgdb
+    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h minimal-cluster -p 5432 -U pguser pgdb
     ```
 
     This command will connect you to the  PostgreSQL interactive terminal.
