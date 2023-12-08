@@ -6,7 +6,7 @@ The [Percona Operator for PostgreSQL](compare.md) is based on best practices for
 
 We recommend installing the Operator with the [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility. It is the universal way to interact with Kubernetes. Alternatively, you can install it using the [Helm](https://github.com/helm/helm) package manager.
 
-[Install with kubectl :material-arrow-down:](#prerequisites){.md-button} [Install with Helm :material-arrow-right:](helm.md){.md-button}
+[:simple-kubernetes: Install with kubectl :material-arrow-down:](#prerequisites){.md-button} [:simple-helm: Install with Helm :material-arrow-right:](helm.md){.md-button}
 
 ## Prerequisites
 
@@ -97,4 +97,4 @@ You have successfully installed and deployed the Operator with default parameter
 
 ## Next steps
 
-[Connect to PostgreSQL :material-arrow-right:](connect.md){.md-button}
+[:simple-postgresql: Connect to PostgreSQL :material-arrow-right:](connect.md){.md-button}

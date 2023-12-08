@@ -4,7 +4,7 @@ You can customize the configuration of Percona Distribution for PostgreSQL and i
 
 To check available configuration options, see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml) and [Custom Resource Options](operator.md). 
 
-=== "kubectl"
+=== ":simple-kubernetes: kubectl"
 
     To customize the configuration, do the following:    
 
@@ -20,7 +20,7 @@ To check available configuration options, see [deploy/cr.yaml](https://raw.githu
          $ kubectl apply -f deploy/cr.yaml -n postgres-operator        
          ```
 
-=== "Helm"    
+=== ":simple-helm: Helm"    
 
     To install Percona Distribution for PostgreSQL with custom parameters, use the following command:
     

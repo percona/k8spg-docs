@@ -1,4 +1,4 @@
-# Changing PostgreSQL Options
+# Changing PostgreSQL options
 
 Despite the Operator's ability to configure PostgreSQL and the large number of
 Custom Resource options, there may be situations where you need to pass specific

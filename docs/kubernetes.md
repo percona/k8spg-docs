@@ -2,6 +2,7 @@
 
 Following steps will allow you to install the Operator and use it to manage
 Percona Distribution for PostgreSQL in a Kubernetes-based environment.
+{.power-number}
 
 1. First of all, clone the percona-postgresql-operator repository:
 

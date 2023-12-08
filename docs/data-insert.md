@@ -1,6 +1,6 @@
-# Insert sample data
+# 3 Insert sample data
 
-In this section you will learn to insert some sample data to PostgreSQL.
+The next step after [connecting to the cluster](connect.md) is to insert some sample data to PostgreSQL.
 
 ## Create a schema
 
@@ -60,4 +60,4 @@ Now your cluster has some data in it.
 
 ## Next steps
 
-[Make a backup :material-arrow-right:](backup-tutorial.md){.md-button}
+[:simple-amazons3: Make a backup :material-arrow-right:](backup-tutorial.md){.md-button}

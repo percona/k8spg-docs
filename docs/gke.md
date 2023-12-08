@@ -72,7 +72,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-binding created
     ```
 
-## Install the Operator and deploy your PostgreSQL cluster
+## Install the Operator and deploy your PostgreSQL cluster {.power-number}
 
 1. First of all, use the following `git clone` command to download the correct branch of the percona-postgresql-operator repository:
 
