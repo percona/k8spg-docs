@@ -87,7 +87,7 @@ Also, you can only reverse such migration by restoring the old cluster from the 
 The old cluster is shut down, and Volumes are ready to be used to provision the new cluster managed by the Operator version 2.x.
 {.power-number}
 
-1. Install the Operator version 2 (if not done yet). Pick your favorite method from [our documentaion](index.md).
+1. **Install the Operator version 2** (if not done yet). Pick your favorite method from [our documentaion](System-Requirements.md#installation-guidelines).
 
 2. Run the following command to show the names of PVC belonging to the old cluster:
 
