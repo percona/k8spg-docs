@@ -2,7 +2,7 @@
 
 * **Date**
 
-    December 5, 2023
+    December 11, 2023
 
 * **Installation**
 
@@ -10,14 +10,14 @@
 
 ## Release highlights
 
-This release contains a number of fixes and improvements made within the maintenance mode that Operator 1.x is in.
+This release contains a number of fixes and improvements made within the maintenance mode that the Operator 1.x is in.
 
 The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use
 [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html) instead. The Operator version 2 has newer PostgreSQL versions, new features and improvements, which will not find their way to the Operator 1.x version.
 
 ## Improvements
 
-* {{ k8spgjira(340) }}: To continuously improve the operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
+* {{ k8spgjira(340) }}: To continuously improve the Operator we capture anonymous telemetry and usage data. In this release we add [more data points](../telemetry.md) to it
 
 ## Bugs Fixed
 
