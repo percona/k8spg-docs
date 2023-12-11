@@ -8,10 +8,16 @@
 
     [Installing Percona Operator for PostgreSQL](../System-Requirements.md#installation-guidelines) 
 
+## Release Highlights
+
+### Support for custom PostgreSQL extensions
+
+One of great features of PostgreSQL is support for [Extensions](https://www.postgresql.org/download/products/6-postgresql-extensions/), which allow adding new functionality to the database on a plugin basis. Until now, the Operator used some built-in extensions with Percona Distribution for PostgreSQL, for example, the one used to provide valuable metrics to Percona Monitoring and Management (PMM). Starting from this release, adding custom PostgreSQL extensions is available for the end users (see [this HowTo](../extensions.md) on how to create and connect yours). Also this functionality provides fine more control on built-in extensions, allowing to enable or disable them via the Custom Resource.
+
 ## New features
 
-* {{ k8spgjira(311) }}:  Add option to customize load balancer source ranges
-* {{ k8spgjira(375) }}:  Add support for more extensions in the Operator
+* {{ k8spgjira(311) }}:  A new `loadBalancerSourceRanges` Custom Resource option allows to customize the range of IP addresses from which the load balancer should be reachable
+* {{ k8spgjira(375) }}:  Support for custom PostgreSQL extensions [was added](../extensions.md) to the Operator
 * {{ k8spgjira(391) }}:  The Operator [is now compatible](../openshift.md) with the OpenShift platform
 * {{ k8spgjira(434) }}:  The Operator now supports Percona Distribution for PostgreSQL version 16 and uses it as default database version
 
