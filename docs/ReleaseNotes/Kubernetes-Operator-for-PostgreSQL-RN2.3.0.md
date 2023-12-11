@@ -14,9 +14,17 @@
 
 One of great features of PostgreSQL is support for [Extensions](https://www.postgresql.org/download/products/6-postgresql-extensions/), which allow adding new functionality to the database on a plugin basis. Until now, the Operator used some built-in extensions with Percona Distribution for PostgreSQL, for example, the one used to provide valuable metrics to Percona Monitoring and Management (PMM). Starting from this release, adding custom PostgreSQL extensions is available for the end users (see [this HowTo](../extensions.md) on how to create and connect yours). Also this functionality provides fine more control on built-in extensions, allowing to enable or disable them via the Custom Resource.
 
+### PostGIS support
+
+One of the new possibilities brought by the custom PostgreSQL extensions was widening the list of built-in extensions with new items, disabled by default but still available for those users who need them. One of the most remarkable additions is PostGIS, which allows to store geographic objects in PostgreSQL, allowing your database cluster to store data for a wide range [geographic information system](https://en.wikipedia.org/wiki/Geographic_information_system) related software.
+
+### Backup improvements
+
+The user can  now see information about the backups and restores with  `kubectl get pg-backup` and `kubectl get pg-restore`  commands, as in other Percona's Operators. Also, various improvements were done in the backup documentation, including more detailed examples and mentions of specific scenarios
+
 ## New features
 
-* {{ k8spgjira(311) }}:  A new `loadBalancerSourceRanges` Custom Resource option allows to customize the range of IP addresses from which the load balancer should be reachable
+* {{ k8spgjira(311) }} and {{ k8spgjira(389) }}:  A new `loadBalancerSourceRanges` Custom Resource option allows to customize the range of IP addresses from which the load balancer should be reachable
 * {{ k8spgjira(375) }}:  Support for custom PostgreSQL extensions [was added](../extensions.md) to the Operator
 * {{ k8spgjira(391) }}:  The Operator [is now compatible](../openshift.md) with the OpenShift platform
 * {{ k8spgjira(434) }}:  The Operator now supports Percona Distribution for PostgreSQL version 16 and uses it as default database version
@@ -24,25 +32,15 @@ One of great features of PostgreSQL is support for [Extensions](https://www.post
 ## Improvements
 
 * {{ k8spgjira(425) }}:  Asynchronous archiving to prevent "was not archived before 60000ms timeout" error
-* {{ k8spgjira(413) }}:  Need essential comptibility and feature Matrix for each Operator version which is currently supported
-* {{ k8spgjira(332) }}:  Operators' action on pause during an initial running backup
-* {{ k8spgjira(370) }}:  Align logging management with other operators
-* {{ k8spgjira(372) }}:  Cluster-wide and namespace list
-* {{ k8spgjira(389) }}:  Provide loadBalancerSourceRanges for LoadBalancer
-* {{ k8spgjira(400) }}:  Allow to connect with application user without TLS
-* {{ k8spgjira(410) }}:  Add pg-backup CRs for scheduled backups
-* {{ k8spgjira(411) }}:  Add Destination to the PerconaPGBackupStatus
-* {{ k8spgjira(416) }}:  pg_hba customization - support in helm chart
-* {{ k8spgjira(417) }}:  Document restore procedures for each possible case
-* {{ k8spgjira(419) }}:  Add example for add/updating pg_hba conf entries in Pg operator doc
-* {{ k8spgjira(422) }}:  PG Backup Status object to provide information on type of backup
-* {{ k8spgjira(430) }}:  Standardize the labels used similar to other percona operators
-* {{ k8spgjira(438) }}:  Update operator documentation about restores
-* {{ k8spgjira(447) }}:  Add CLUSTER, STATUS and COMPLETED fields for PerconaPGRestore
-* {{ k8spgjira(455) }}:  All annotations should be converted to Crunchy API group
-* {{ k8spgjira(458) }}:  Configure affinity in default cr.yaml
-* {{ k8spgjira(465) }}:  Need documentation on how to create certificates for PG Operator 2.x
-* {{ k8spgjira(414) }}:  Add pmm-client upgrade steps in Kubernetes-based environment.
+* {{ k8spgjira(413) }}:  The Operator documentation now includes a [comptibility matrix](../versions.md) for each Operator version, specifying exact versions of all core components as well as supported versions of the database and platforms
+* {{ k8spgjira(332) }}:  The Operator now correlates making backups with [pausing the cluster](../pause.md), it either waits with pausing while having a running backup, or waits with starting a backup on a paused cluster
+* {{ k8spgjira(370) }}:  [Logging management](../debug-logs.md) is now aligned with other Percona Operators, allowing to use structured logging and to contol log level
+* {{ k8spgjira(372) }}:  The multi-namespace (cluster-wide) mode of the Operator was improved, making it possible to customize the list of Kubernetes namespaces under the Operator's control
+* {{ k8spgjira(400) }}:  The documentation now explains how to allow application users connecting to a database cluster [without TLS](../TLS.md#allow-bypassing-tls) for those who really need it
+* {{ k8spgjira(410) }}:  Now scheduled backups are trackable with a special `pg-backup` Kubernetes object
+* {{ k8spgjira(416) }}:  PostgreSQL custom configuration is now supported  in the Helm chart
+* {{ k8spgjira(422) }} and {{ k8spgjira(447) }}: The user can  now see information about the backups and restores  `kubectl get pg-backup` and `kubectl get pg-restore` PG Backup and Restore statuses now provide information on type of backup
+* {{ k8spgjira(458) }}:  Affinity configuration examples were added to the `default/cr.yaml` configuration file
 
 ## Bugs Fixed
 
