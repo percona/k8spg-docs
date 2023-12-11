@@ -117,8 +117,8 @@ extra: # Used in main.html template and can't be externalized
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 1.5.0
   certmanagerversion: '1.9.0'
-  pmm2recommended: 2.36.0
-  postgresrecommended: 14.7
+  pmm2recommended: 2.40.1
+  postgresrecommended: 14.9
   version:
     provider: mike
 

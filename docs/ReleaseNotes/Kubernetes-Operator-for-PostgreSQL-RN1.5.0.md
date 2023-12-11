@@ -31,7 +31,7 @@ The Operator 1.x goes end-of-life in July, 2024, so we strongly recommend to use
 
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 12.16, 13.12, and 14.10. Other options may also work but have not been tested. The Operator 1.5.0 provides connection pooling based on pgBouncer 1.20.0 and high-availability implementation based on Patroni 2.1.4.
+The Operator was developed and tested with PostgreSQL versions 12.16, 13.12, and 14.9. Other options may also work but have not been tested. The Operator 1.5.0 provides connection pooling based on pgBouncer 1.20.0 and high-availability implementation based on Patroni 2.1.4.
 
 The following platforms were tested and are officially supported in this release:
 
