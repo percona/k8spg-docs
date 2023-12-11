@@ -40,22 +40,15 @@
 
 ## Bugs Fixed
 
-* {{ k8spgjira(435) }}:  Pod is recreated when /tmp is filled
-* {{ k8spgjira(453) }}:  pg_stat_monitor hangs primary instance and it's impossible to disable it
-* {{ k8spgjira(394) }}:  Failing to upgrade from operator v1 to v2 following the documentation
-* {{ k8spgjira(279) }}:  Operator will crash after creating backup if there is no manual section in CR
-* {{ k8spgjira(310) }}:  Invalid value: "boolean": spec.backups.pgbackrest.global.repo2-storage-verify-tls in body must be of type string: "boolean"
-* {{ k8spgjira(407) }}:  Allow perconapgclusters/finalizers in role
-* {{ k8spgjira(408) }}:  openshift in helm chart variable is wrong
-* {{ k8spgjira(432) }}:  Delete backup job/pod when backup object is deleted
-* {{ k8spgjira(433) }}:  Update cr examples in our docs
-* {{ k8spgjira(442) }}:  Operator should respect the order of shared_preload_libraries
-* {{ k8spgjira(443) }}:  Only english locale is installed, missing other languages support in Postgres
-* {{ k8spgjira(450) }}:  Postgresql can't initialize the database because huge pages are enabled on k8s worker nodes
-* {{ k8spgjira(456) }}:  [doc] Documentation wrong: Can't deploy PGO 2 in namespace-scope
-* {{ k8spgjira(472) }}:  cannot re-enable builtin extensions after disabling
-* {{ k8spgjira(482) }}:  pmm agent is failing in openshift with temp folder permission issue
-* {{ k8spgjira(401) }}:  Operator crashes if pmm section is not specified
+* {{ k8spgjira(435) }}:  Fix a bug with insufficient size of /tmp fliesystem which caused PostgreSQL Pods to be recreated every few days due to raning out of free space on it
+* {{ k8spgjira(453) }}:  Bug in `pg_stat_monitor` PostgreSQL extensions could hang PostgreSQL
+* {{ k8spgjira(279) }}:  Fix regression which made the Operator to crash after creating a backup if there was no backups.pgbackrest.manual section in the Custom Resource
+* {{ k8spgjira(310) }}:  Documentation didn't explain how to apply  enables TLS verification for pgBackRest `verifyTLS` option which can be used to explicitly enable or disable TLS verification for it
+* {{ k8spgjira(432) }}:  Fix a bug due to which backup jobs and Pods were not deleted on deleting the backup object
+* {{ k8spgjira(442) }}:  The Operator didn't allow to append custom items to the PostgreSQL shared_preload_libraries option
+* {{ k8spgjira(443) }}:  Fix a bug due to which only English locale was installed in the PostgreSQL image, missing other languages support
+* {{ k8spgjira(450) }}:  Fix a bug which prevented PostgreSQL to initialize the database on Kubernetes working nodes with enabled huge memory pages id Pod resource limits didn't allow using them
+* {{ k8spgjira(401) }}:  Fix a bug which caused Operator crash if deployed with no `pmm` section in the `deploy/cr.yaml` configuration file
 
 ## Supported platforms
 
