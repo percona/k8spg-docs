@@ -1,5 +1,7 @@
 # Percona Operator for PostgreSQL Release Notes
 
+* [Percona Ooerator for PostgreSQL 1.5.0 (2023-12-11)](Kubernetes-Operator-for-PostgreSQL-RN1.5.0.md)
+
 * [Percona Operator for PostgreSQL 1.4.0 (2023-03-31)](Kubernetes-Operator-for-PostgreSQL-RN1.4.0.md)
 
 * [Percona Operator for PostgreSQL 1.3.0 (2022-08-04)](Kubernetes-Operator-for-PostgreSQL-RN1.3.0.md)
