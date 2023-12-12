@@ -33,17 +33,17 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 3. Create the Kubernetes namespace for your cluster if needed (for example,
     let's name it `postgres-operator`):
 
-     ``` {.bash data-prompt="$" }
-     $ kubectl create namespace postgres-operator
-     ```
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace postgres-operator
+    ```
 
-     !!! note
+    !!! note
 
-         To use different namespace, specify other name instead of
-         `postgres-operator` in the above command, and modify the 
-         `-n postgres-operator` parameter with it in the following two steps.
-         You can also omit this parameter completely to deploy everything in the
-         `default` namespace.
+        To use different namespace, specify other name instead of
+        `postgres-operator` in the above command, and modify the 
+        `-n postgres-operator` parameter with it in the following two steps.
+        You can also omit this parameter completely to deploy everything in the
+        `default` namespace.
 
 4. The role-based access control (RBAC) for Percona Distribution for PostgreSQL
     is configured with the `deploy/rbac.yaml` file. Role-based access is based
