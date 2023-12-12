@@ -16,10 +16,4 @@ def define_env(env):
       if (optionprefix != ''):
         optionprefix+='-'
       return '<a name=\"'+optionprefix+linkname+'\"></a> ['+optionname+'](#'+optionprefix+linkname+')'
-  @env.macro
-  def kubectl():      
-      if ("OpenShift" in self.title()):
-        commandName = "oc"
-      else:
-        commandName = "kubectl"
-      return commandName
+

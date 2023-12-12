@@ -1,5 +1,7 @@
 # Install Percona Distribution for PostgreSQL on OpenShift
 
+{%set commandName = 'oc' %}
+
 Percona Operator for PostgreSQL is a [Red Hat Certified Operator](https://connect.redhat.com/en/partner-with-us/red-hat-openshift-certification). This means that Percona Operator is portable across hybrid clouds and fully supports the Red Hat OpenShift lifecycle.
 
 Installing Percona Distribution for PostgreSQL on OpenShift includes two steps:
