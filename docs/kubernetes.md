@@ -13,8 +13,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-    It is crucial to specify the right branch with `-b` option while cloning the
-    code on this step. Please be careful.
+        It is crucial to specify the right branch with `-b` option while cloning the
+        code on this step. Please be careful.
 
 2. The Custom Resource Definition for Percona Distribution for PostgreSQL should
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
