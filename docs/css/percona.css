@@ -77,3 +77,18 @@ color: #FFF;
 background: #0d184c;
 border: 0;
 }
+
+article table {
+  page-break-before: auto !important;
+  page-break-inside: auto !important;
+}
+
+article ol {
+  page-break-before: auto !important;
+  page-break-inside: auto !important;
+}
+
+section {
+  page-break-before: auto !important;
+  page-break-inside: auto !important;
+}

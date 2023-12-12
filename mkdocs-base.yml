@@ -39,6 +39,7 @@ extra_css:
   - css/percona.css
   - css/lightgallery.min.css
   - css/nocopy.css
+  - css/extra.css
 
 extra_javascript:
   - js/promptremover.js
