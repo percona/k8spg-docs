@@ -44,17 +44,17 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
 3. Create the OpenShift namespace for your cluster if needed (for example,
     let's name it `postgres-operator`):
 
-     ``` {.bash data-prompt="$" }
-     $ oc create namespace postgres-operator
-     ```
+    ``` {.bash data-prompt="$" }
+    $ oc create namespace postgres-operator
+    ```
 
-     !!! note
+    !!! note
 
-         To use different namespace, specify other name instead of
-         `postgres-operator` in the above command, and modify the 
-         `-n postgres-operator` parameter with it in the following two steps.
-         You can also omit this parameter completely to deploy everything in the
-         `default` namespace.
+        To use different namespace, specify other name instead of
+        `postgres-operator` in the above command, and modify the 
+        `-n postgres-operator` parameter with it in the following two steps.
+        You can also omit this parameter completely to deploy everything in the
+        `default` namespace.
 
 4. The role-based access control (RBAC) for Percona Distribution for PostgreSQL
     is configured with the `deploy/rbac.yaml` file. Role-based access is based

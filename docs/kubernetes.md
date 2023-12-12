@@ -17,7 +17,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
 
 2. Create the Kubernetes namespace for your cluster if needed (for example,
-   let's name it `postgres-operator`):
+    let's name it `postgres-operator`):
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace postgres-operator
