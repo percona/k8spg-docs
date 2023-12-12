@@ -12,8 +12,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-    It is crucial to specify the right branch with `-b` option while cloning the
-    code on this step. Please be careful.
+        It is crucial to specify the right branch with `-b` option while cloning the
+        code on this step. Please be careful.
 
 
 2. Create the Kubernetes namespace for your cluster if needed (for example,

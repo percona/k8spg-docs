@@ -24,8 +24,8 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
 
     !!! note
 
-    It is crucial to specify the right branch with `-b` option while cloning the
-    code on this step. Please be careful.
+        It is crucial to specify the right branch with `-b` option while cloning the
+        code on this step. Please be careful.
 
 2. The Custom Resource Definition for Percona Distribution for PostgreSQL should
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
