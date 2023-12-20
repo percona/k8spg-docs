@@ -47,12 +47,12 @@ to see if the change should cause a restart or not.
     else in `patroni.dynamicConfiguration.postgresql` will be ignored.
 
 
-## pg_hba
+## Using host-based authentication (pg_hba)
 
-PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the PostgreSQL 
-database based on the IP address or the host name of the connecting host. You can 
-configure pg_hba through the Custom Resource manifest in the
-`spec.patroni.dynamicConfiguration.postgresql.pg_hba` section.
+PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the
+PostgreSQL database based on the IP address or the host name of the connecting
+host. You can  configure `pg_hba` through the Custom Resource 
+`patroni.dynamicConfiguration.postgresql.pg_hba` subsection as follows:
 
 ```yaml
 ...
@@ -60,8 +60,34 @@ patroni:
   dynamicConfiguration:
     postgresql:
       pg_hba:
+      - host    all all 0.0.0.0/0 md5
+```
+
+As you may guess, this example allows all hosts to connect to any database with
+MD5-based authentication.
+
+Obviously, you can connect both `dynamicConfiguration.postgresql.parameters`
+and `dynamicConfiguration.postgresql.pg_hba` subsections: 
+
+```yaml
+...
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      parameters:
+        max_parallel_workers: 2
+        max_worker_processes: 2
+        shared_buffers: 1GB
+        work_mem: 2MB
+      pg_hba:
       - local   all all trust
       - host    all all 0.0.0.0/0 md5
       - host    all all ::1/128   md5
       - host    all mytest 123.123.123.123/32 reject
+```
+
+The changes will be applied after you update Custom Resource in a usual way:
+
+``` {.bash data-prompt="$" }
+$  kubectl apply -f deploy/cr.yaml
 ```
