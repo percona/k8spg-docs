@@ -177,3 +177,24 @@ $ kubectl apply -f deploy/cr.yaml
 In case of cluster deletion, objects, created for SSL (Secret, certificate, and issuer) are not deleted by default.
 
 If the user wants the cleanup of objects created for SSL, there is a [finalizers.percona.com/delete-ssl](operator.md#finalizers-delete-ssl) Custom Resource option, which can be set in `deploy/cr.yaml`: if this finalizer is set, the Operator will delete Secret, certificate and issuer after the cluster deletion event. 
+
+## Connect to the database cluster without TLS
+
+Omitting TLS is also possible, but we recommend that you connect to your cluster
+with the TLS protocol enabled.
+
+You can enable connections without TLS (e.g. for demonstration purposes) via the
+following line to the [custom PostgreSQL configuration](options.md#using-host-based-authentication-pg_hba).
+Add the following line to the Operator Custom Resource via the `deploy/cr.yaml`
+configuration file:
+
+```yaml
+...
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      pg_hba:
+      - host    all all 0.0.0.0/0 md5
+```
+
+See [Using host-based authentication](options.md#using-host-based-authentication-pg_hba) for more details.

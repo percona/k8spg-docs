@@ -64,7 +64,7 @@ patroni:
 ```
 
 As you may guess, this example allows all hosts to connect to any database with
-MD5-based authentication.
+MD5 password-based authentication.
 
 Obviously, you can connect both `dynamicConfiguration.postgresql.parameters`
 and `dynamicConfiguration.postgresql.pg_hba` subsections: 
