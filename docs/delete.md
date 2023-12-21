@@ -22,6 +22,9 @@ Operator by deleting the appropriate Custom Resource.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
+Here's a sequence of steps to follow:
+{.power-number}
+
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
@@ -63,6 +66,7 @@ Operator by deleting the appropriate Custom Resource.
 
 You can uninstall the Operator by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 related to it.
+{.power-number}
 
 1. List the deployments. Replace the `<namespace>` placeholder with your
     namespace.
@@ -108,6 +112,9 @@ you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io
     CRDs in Kubernetes are non-namespaced but are available to the whole
     environment. This means that you shouldn't delete CRD if you still have the
     Operator and database cluster in some namespace.
+
+You can delete CRD as follows:
+{.power-number}
 
 1. List the CRDs:
 

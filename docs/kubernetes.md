@@ -2,6 +2,7 @@
 
 Following steps will allow you to install the Operator and use it to manage
 Percona Distribution for PostgreSQL in a Kubernetes-based environment.
+{.power-number}
 
 1. First of all, clone the percona-postgresql-operator repository:
 
@@ -12,8 +13,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-    It is crucial to specify the right branch with `-b` option while cloning the
-    code on this step. Please be careful.
+        It is crucial to specify the right branch with `-b` option while cloning the
+        code on this step. Please be careful.
 
 2. The Custom Resource Definition for Percona Distribution for PostgreSQL should
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
@@ -32,17 +33,17 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 3. Create the Kubernetes namespace for your cluster if needed (for example,
     let's name it `postgres-operator`):
 
-     ``` {.bash data-prompt="$" }
-     $ kubectl create namespace postgres-operator
-     ```
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace postgres-operator
+    ```
 
-     !!! note
+    !!! note
 
-         To use different namespace, specify other name instead of
-         `postgres-operator` in the above command, and modify the 
-         `-n postgres-operator` parameter with it in the following two steps.
-         You can also omit this parameter completely to deploy everything in the
-         `default` namespace.
+        To use different namespace, specify other name instead of
+        `postgres-operator` in the above command, and modify the 
+        `-n postgres-operator` parameter with it in the following two steps.
+        You can also omit this parameter completely to deploy everything in the
+        `default` namespace.
 
 4. The role-based access control (RBAC) for Percona Distribution for PostgreSQL
     is configured with the `deploy/rbac.yaml` file. Role-based access is based

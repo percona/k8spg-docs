@@ -27,31 +27,20 @@ Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
     $ cd percona-postgresql-operator
     ```
 
-2. Create the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions)
-   for Percona Distribution for PostgreSQL. This step should be done only once:
-   skip this step if you already have other Percona Operator for PostgreSQL 2.x
-   deployments in your Kubernetes environment.
-
-   You can [apply the CRD](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
-   as follows:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/crd.yaml
-    ```
-
-3. Create your `percona-db-1` Namespace (if it doesn't yet exist) as follows:
+2. Create your `percona-db-1` Namespace (if it doesn't yet exist) as follows:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace percona-db-1
     ```
 
-4. Deploy the Operator:
+3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml -n percona-db-1
+    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-1
     ```
 
-5. Once Operator is up and running, deploy the database cluster itself:
+4. Once Operator is up and running, deploy the database cluster itself:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
@@ -72,7 +61,7 @@ What if there is a need to deploy clusters in another namespace? The solution fo
 2. Deploy the Operator:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml -n percona-db-2
+    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-2
     ```
 
 3. Once Operator is up and running deploy the database cluster itself:
@@ -109,9 +98,10 @@ the following information there:
     the Operator,
 * `WATCH_NAMESPACE` key-value pair in the `env` section should have
     `value` equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, *and* the namespace in which the Operator resides (or just a
-    blank string to make the Operator deal with *all namespaces* in a Kubernetes
-    cluster).
+    the Operator, *and* the namespace in which the Operator resides. If this key
+    is set to a blank string, the Operator will watch
+    **only the namespace it runs in**, which would be the same as
+    [single-namespace deployment](cluster-wide.md#namespace-scope).
 
 The following simple example shows how to install Operator cluster-wide on
 Kubernetes.
