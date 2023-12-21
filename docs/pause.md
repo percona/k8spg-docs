@@ -1,4 +1,4 @@
-# Pause/resume PostgreSQL Cluster
+# Pause/resume PostgreSQL cluster
 
 There may be external situations when it is needed to pause your
 Cluster for a while and then start it back up (some works related to

@@ -7,7 +7,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
     To make sure that all transactions are captured in the backup, you need to stop the old cluster. This brings downtime to the application.
 
 
-## Prepare the backup
+## Prepare the backup {.power-number}
 
 1. Create the backup on the version 1.x cluster, following the [official guide for manual (on-demand) backups](https://docs.percona.com/percona-operator-for-postgresql/1.0/backups.html#making-on-demand-backup).
     This involves preparing the manifest in YAML and applying it in the ususal way:
@@ -31,6 +31,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 ## Restore the backup as a version 2.x cluster
 
 **Restore from S3 / Google Cloud Storage for backups repository**
+{.power-number}
 
 1. To restore from the S3 or Google Cloud Storage for backups (GCS) repository, you should first configure the `spec.backups.pgbackrest.repos`
     subsection in your version 2.x cluster Custom Resource to point to the backup storage system. Just follow the repository documentation instruction for

@@ -193,6 +193,11 @@ file contains configuration options for PostgreSQL instances.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('instances.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL Pods |
+|                 | |
 | **Key**         | {{ optionlink('instances.name') }} |
 | **Value**       | string |
 | **Example**     | `rs 0` |
@@ -329,6 +334,11 @@ Percona Distribution for PostgreSQL backups.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('backups.pgbackrest.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods |
+|                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.image') }} |
 | **Value**       | string |
 | **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
@@ -510,6 +520,11 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('proxy.pgBouncer.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBouncer Pods |
+|                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.replicas') }} |
 | **Value**       | int |
 | **Example**     | `3` |

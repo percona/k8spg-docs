@@ -12,27 +12,35 @@ This how-to explains how to configure Percona Operator for PostgreSQL for each s
 
 By default, Percona Operator for PostgreSQL functions in a specific Kubernetes namespace. You can
 create one during installation (like it is shown in the
-[installation instructions](kubernetes.md#install-kubernetes)) or just use the default namespace. This approach allows several Operators to co-exist in one Kubernetes-based environment, being separated in different namespaces:
+[installation instructions](kubernetes.md)) or just use the default namespace. This approach allows several Operators to co-exist in one Kubernetes-based environment, being separated in different namespaces:
 
 ![image](assets/images/cluster-wide-1.svg)
 
 Normally this is a recommended approach, as isolation minimizes impact in case of various failure scenarios. This is the default configuration of our Operator.
 
-Let’s say you have a Namespace in your Kubernetes cluster called `percona-db-1`.
+Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
 
-1. Create your `percona-db-1` namespace (if it doesn't yet exist) as follows:
+1. Clone `percona-postgresql-operator` repository:
+
+    ``` {.bash data-prompt="$" }
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    $ cd percona-postgresql-operator
+    ```
+
+2. Create your `percona-db-1` Namespace (if it doesn't yet exist) as follows:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace percona-db-1
     ```
 
-2. Deploy the Operator:
+3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml -n percona-db-1
+    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-1
     ```
 
-3. Once Operator is up and running, deploy the database cluster itself:
+4. Once Operator is up and running, deploy the database cluster itself:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
@@ -53,7 +61,7 @@ What if there is a need to deploy clusters in another namespace? The solution fo
 2. Deploy the Operator:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml -n percona-db-2
+    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-2
     ```
 
 3. Once Operator is up and running deploy the database cluster itself:
