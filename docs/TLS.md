@@ -118,6 +118,62 @@ $ kubectl create secret generic -n postgres-operator hippo.tls \
   --from-file=tls.crt=hippo.crt
 ```
 
+!!! note
+
+    One of the options to create certificates youself is to use [CloudFlare PKI and TLS toolkit](https://cfssl.org/).
+    Supposing that your cluster name is `cluster1`, certificates generation may
+    look as follows:
+
+    ``` {.bash data-prompt="$" }
+    $ CLUSTER_NAME=cluster1
+    $ NAMESPACE=postgres-operator
+    $ cat <<EOF | cfssl gencert -initca - | cfssljson -bare ca
+    {
+      "CN": "*",
+      "key": {
+        "algo": "ecdsa",
+        "size": 384
+      }
+    }
+    EOF
+
+    $ cat <<EOF > ca-config.json
+    {
+       "signing": {
+         "default": {
+            "expiry": "87600h",
+            "usages": ["digital signature", "key encipherment", "content commitment"]
+          }
+       }
+    }
+    EOF
+
+    $ cat <<EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server
+    {
+       "hosts": [
+         "localhost",
+         "${CLUSTER_NAME}",
+         "${CLUSTER_NAME}.${NAMESPACE}",
+         "${CLUSTER_NAME}.${NAMESPACE}.svc.cluster.local",
+         "${CLUSTER_NAME}-pgbouncer",
+         "${CLUSTER_NAME}-pgbouncer.${NAMESPACE}",
+         "${CLUSTER_NAME}-pgbouncer.${NAMESPACE}.svc.cluster.local",
+         "*.${CLUSTER_NAME}",
+         "*.${CLUSTER_NAME}.${NAMESPACE}",
+         "*.${CLUSTER_NAME}.${NAMESPACE}.svc.cluster.local",
+         "*.${CLUSTER_NAME}-pgbouncer",
+         "*.${CLUSTER_NAME}-pgbouncer.${NAMESPACE}",
+         "*.${CLUSTER_NAME}-pgbouncer.${NAMESPACE}.svc.cluster.local"
+       ],
+       "CN": "${CLUSTER_NAME}",
+       "key": {
+         "algo": "ecdsa",
+         "size": 384
+       }
+    }
+    EOF
+    ```
+
 Now you can add the custom TLS Secret name to the `secrets.customTLSSecret.name` 
 field in your Rustom Resource:
 
@@ -177,24 +233,3 @@ $ kubectl apply -f deploy/cr.yaml
 In case of cluster deletion, objects, created for SSL (Secret, certificate, and issuer) are not deleted by default.
 
 If the user wants the cleanup of objects created for SSL, there is a [finalizers.percona.com/delete-ssl](operator.md#finalizers-delete-ssl) Custom Resource option, which can be set in `deploy/cr.yaml`: if this finalizer is set, the Operator will delete Secret, certificate and issuer after the cluster deletion event. 
-
-## Connect to the database cluster without TLS
-
-Omitting TLS is also possible, but we recommend that you connect to your cluster
-with the TLS protocol enabled.
-
-You can enable connections without TLS (e.g. for demonstration purposes) via the
-following line to the [custom PostgreSQL configuration](options.md#using-host-based-authentication-pg_hba).
-Add the following line to the Operator Custom Resource via the `deploy/cr.yaml`
-configuration file:
-
-```yaml
-...
-patroni:
-  dynamicConfiguration:
-    postgresql:
-      pg_hba:
-      - host    all all 0.0.0.0/0 md5
-```
-
-See [Using host-based authentication](options.md#using-host-based-authentication-pg_hba) for more details.
