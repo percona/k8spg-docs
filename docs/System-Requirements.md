@@ -8,7 +8,7 @@ of storage classes, hostPath, and NFS.
 
 The Operator {{ release }} is developed, tested and based on:
 
-* PostgreSQL 12.14, 13.10, 14.7, and 15.2 as the database. Other versions may also work but have not been tested. 
+* PostgreSQL 12.14, 13.10, 14.7, 15.2, and 16.x as the database. Other versions may also work but have not been tested. 
 * pgBouncer 1.18.0 for connection pooling
 * Patroni 3.0.1 for high-availability.
 

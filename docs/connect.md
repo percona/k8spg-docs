@@ -42,7 +42,7 @@ To connect to PostgreSQL, do the following:
 3. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
 
     ``` {.bash data-prompt="$"}
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:15 --restart=Never -- psql $PGBOUNCER_URI
+    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:16 --restart=Never -- psql $PGBOUNCER_URI
     ```
 
     It may take some time to create the Pod and connect to the database. As the result, you should see the following sample output: 

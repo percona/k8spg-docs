@@ -6,6 +6,7 @@ Cluster components:
 
 | Operator | [PostgreSQL](https://www.postgresql.org/) | [pgBackRest](https://pgbackrest.org/) | [pgBouncer](http://pgbouncer.github.io/) |
 |:--------|:--------|:-----|:-------|
+| [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 12 - 16 | **ToDo** | **ToDo** |
 | [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 12 - 15 | 2.43 | 1.18.0 |
 | [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 12 - 15 | 2.43 | 1.18.0 |
 | [2.0.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md) | 12 - 14 | 2.41 | 1.17.0 |
