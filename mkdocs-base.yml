@@ -125,7 +125,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Percona Operator for PostgreSQL documentation"
-    cover_subtitle: 2.2.0 (June 30, 2023)
+    cover_subtitle: 2.3.0 (December 21, 2023)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/percona_kubernetes_icon.png
     custom_template_path: _resource/templates
@@ -151,9 +151,9 @@ extra: # Used in main.html template and can't be externalized
       make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
+  release: 2.3.0
+  pmm2recommended: 2.41.0
   commandName: 'kubectl'
-  release: 2.2.0
-  pmm2recommended: 2.37.0
   postgresrecommended: 16
   certmanagerrecommended: '1.8.0'
   version:
@@ -193,8 +193,8 @@ nav:
           - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
     - Management:
+          - "Upgrade PostgreSQL and the Operator": update.md
           - Upgrade from version 1 to version 2:
-            - "Upgrade overview": update.md
             - "Using data volumes": update-data-volumes.md
             - "Using backup and restore": update-backup-restore.md
             - "Using standby": update-standby.md
