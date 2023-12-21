@@ -185,6 +185,11 @@ name used for backups |
 | **Value**       | string |
 | **Example**     | `LoadBalancer` |
 | **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL |
+|                 | |
+| **Key**         | {{ optionlink('expose.loadBalancerSourceRanges') }} |
+| **Value**       | string |
+| **Example**     | `"10.0.0.0/8"` |
+| **Description** | The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations) |
 
 ## <a name="operator-instances-section"></a>Instances section
 
@@ -564,6 +569,11 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
 | **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgBouncer Service |
+|                 | |
+| **Key**         | {{ optionlink('proxy.pgBouncer.expose.loadBalancerSourceRanges') }} |
+| **Value**       | string |
+| **Example**     | `"10.0.0.0/8"` |
+| **Description** | The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations) |
 |                 | |
 | **Value**       | string |
 | **Example**     | `preferred` |
