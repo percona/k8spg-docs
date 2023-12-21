@@ -9,6 +9,8 @@ manage PostGIS-enabled PostgreSQL.
 Due to the large size and domain specifics of this extension, Percona provides
 separate PostgreSQL Distribution images with it.
 
+## Deploy the Operator with PostGIS-enabled database cluster
+
 Following steps will allow you to deploy PostgreSQL cluster with these images.
 
 1. Clone the percona-postgresql-operator repository:
@@ -100,5 +102,42 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
 
         --8<-- "kubectl-get-pg-response.txt"
 
-You can find more about PostGIS and it's usage with Percona Distribution for
-PostgreSQL [in this blogpost](https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/).
+## Check PostGIS extension
+
+To use PostGIS extension you should enable it for a specific database. 
+
+For example, you can create the new database named `mygisdata` with the  `psql`
+tool as follows:
+
+```sql
+CREATE database mygisdata;
+\c mygisdata;
+CREATE SCHEMA gis;
+```
+
+Next, enable the `postgis` extension. Make sure you are connected to the
+database you created earlier and run the following command:
+
+```sql
+CREATE EXTENSION postgis;
+```
+
+Finally, check that the extension is enabled:
+
+```sql
+SELECT postgis_full_version();
+```
+    
+The output should resemble the following:
+
+```{.sql .no-copy}
+postgis_full_version
+    -----------------------------------------------------------------------------------------------------------------------------------------------------------------
+ POSTGIS="3.3.3" [EXTENSION] PGSQL="140" GEOS="3.10.2-CAPI-1.16.0" PROJ="8.2.1" LIBXML="2.9.13" LIBJSON="0.15" LIBPROTOBUF="1.3.3" WAGYU="0.5.0 (Internal)"
+```
+
+You can find more about using PostGIS in the official Percona Distribution for
+PostgreSQL [documentation](https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html),
+as well as in this [blogpost](https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/).
+
+
