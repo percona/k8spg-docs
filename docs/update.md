@@ -44,7 +44,7 @@ Only the incremental update to a nearest version of the Operator is supported
 differs from the current version by more than one, make several incremental
 updates sequentially.
 
-The upgrade includes the following steps.
+Considering the Operator uses `postgres-operator` namespace, upgrade to the version {{ version }} includes the following steps.
 
 1. Update the [Custom Resource Definition](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
     for the Operator, taking it from the official repository on Github, and do
@@ -52,21 +52,24 @@ The upgrade includes the following steps.
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
     ```
+    !!! note
 
-2. Now you should [apply a patch](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
+        In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
+
+3. Now you should [apply a patch](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
     to your deployment, supplying necessary image name with a newer version
     tag. You can find the proper
     image name for the current Operator release [in the list of certified images](images.md#custom-registry-images).
     updating to the `{{ release }}` version should look as follows:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl patch deployment percona-postgresql-operator \
+    $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
        -p'{"spec":{"template":{"spec":{"containers":[{"name":"percona-postgresql-operator","image":"percona/percona-postgresql-operator:{{ release }}"}]}}}}'
     ```
 
-3. The deployment rollout will be automatically triggered by the applied patch.
+4. The deployment rollout will be automatically triggered by the applied patch.
     You can track the rollout process in real time with the
     `kubectl rollout status` command with the name of your cluster:
 
@@ -94,7 +97,7 @@ Upgrading Percona Distribution for PostgreSQL can be done as follows:
     should look as follows:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl patch psmdb cluster1 --type=merge --patch '{
+    $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
        "spec": {
           "crVersion":"{{ release }}",
           "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-postgres",
@@ -109,7 +112,7 @@ Upgrading Percona Distribution for PostgreSQL can be done as follows:
         The above command upgrades various components of the cluster including PMM Client. It is [highly recommended](https://docs.percona.com/percona-monitoring-and-management/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
     
         ``` {.bash data-prompt="$" }
-        $ kubectl patch psmdb cluster1 --type=merge --patch '{
+        $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
               "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-postgres",
@@ -118,14 +121,7 @@ Upgrading Percona Distribution for PostgreSQL can be done as follows:
            }}'
         ```
 
-3. The deployment rollout will be automatically triggered by the applied patch.
-    You can track the rollout process in real time using the
-    `kubectl rollout status` command with the name of your cluster:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl rollout status sts cluster1-rs0
-    ```
-
-    The update process is successfully finished when all Pods have been restarted.
+The deployment rollout will be automatically triggered by the applied patch.
+The update process is successfully finished when all Pods have been restarted.
 
 
