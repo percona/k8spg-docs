@@ -25,7 +25,7 @@ the example of the Operator deployed in the OpenShift environment.
 
     * your registry IP address.
 
-     The token can be find out with the following command:
+     The token can be found with the following command:
 
     ``` {.bash data-prompt="$" }
     $ oc whoami -t
