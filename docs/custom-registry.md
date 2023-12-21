@@ -1,6 +1,6 @@
 # Use Docker images from a custom registry
 
-Using images from a private Docker registry may required for privacy, security
+Using images from a private Docker registry may be required for privacy, security
 or other reasons. In these cases, Percona Operator for PostgreSQL allows the use
 of a custom registry This following example illustrates how this can be done by
 the example of the Operator deployed in the OpenShift environment.
