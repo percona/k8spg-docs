@@ -638,3 +638,61 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 | **Example**     | <pre>postgresql:<br>  parameters:<br>    max_parallel_workers: 2<br>    max_worker_processes: 2<br>    shared_buffers: 1GB<br>    work_mem: 2MB</pre> |
 | **Description** | Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
 
+## Custom extensions Section
+
+The `extensions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options to [manage PostgreSQL extensions](custom-extensions.md).
+
+|                 | |
+|-----------------|-|
+| **Key**         | {{ optionlink('extensions.image') }} |
+| **Value**       | string |
+| **Example**     | `percona/percona-postgresql-operator:{{ release }}` |
+| **Description** | Image for the custom PostgreSQL extension loader sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('extensions.imagePullPolicy') }} |
+| **Value**       | string |
+| **Example**     | `Always` |
+| **Description** | [Policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the custom extension sidecar container |
+|                 | |
+| **Key**         | {{ optionlink('extensions.storage.type') }} |
+| **Value**       | string |
+| **Example**     | `s3` |
+| **Description** | The cloud storage type used for backups. Only `s3` type is currently supported |
+|                 | |
+| **Key**         | {{ optionlink('extensions.storage.bucket') }} |
+| **Value**       | string |
+| **Example**     | `pg-extensions` |
+| **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name for prepackaged PostgreSQL custom extensions |
+|                 | |
+| **Key**         | {{ optionlink('extensions.storage.region') }} |
+| **Value**       | string |
+| **Example**     | `eu-central-1` |
+| **Description** | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use |
+|                 | |
+| **Key**         | {{ optionlink('extensions.storage.secret.name') }} |
+| **Value**       | string |
+| **Example**     | `cluster1-extensions-secret` |
+| **Description** | The [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys. |
+|                 | |
+| **Key**         | {{ optionlink('extensions.builtin') }} |
+| **Value**       | label |
+| **Example**     | `pg_stat_monitor: true` |
+| **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions](https://docs.percona.com/postgresql/16/) |
+|                 | |
+| **Key**         | {{ optionlink('extensions.builtin') }} |
+| **Value**       | label |
+| **Example**     | `pg_stat_monitor: true` |
+| **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions](https://docs.percona.com/postgresql/16/) |
+|                 | |
+| **Key**         | {{ optionlink('extensions.custom.name') }} |
+| **Value**       | string |
+| **Example**     | `pg_cron` |
+| **Description** | Name of the PostgreSQL custom extension |
+|                 | |
+| **Key**         | {{ optionlink('extensions.custom.version') }} |
+| **Value**       | string |
+| **Example**     | `1.6.1` |
+| **Description** | Version of the PostgreSQL custom extension |
+|                 | |
+
