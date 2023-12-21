@@ -153,7 +153,8 @@ extra: # Used in main.html template and can't be externalized
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
   release: 2.3.0
   pmm2recommended: 2.41.0
-  postgresrecommended: 15
+  commandName: 'kubectl'
+  postgresrecommended: 16
   certmanagerrecommended: '1.8.0'
   version:
     provider: mike
@@ -181,6 +182,7 @@ nav:
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
@@ -210,6 +212,7 @@ nav:
     - HowTo:
           - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
+          - "Add custom PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md

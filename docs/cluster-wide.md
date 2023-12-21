@@ -98,9 +98,10 @@ the following information there:
     the Operator,
 * `WATCH_NAMESPACE` key-value pair in the `env` section should have
     `value` equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, *and* the namespace in which the Operator resides (or just a
-    blank string to make the Operator deal with *all namespaces* in a Kubernetes
-    cluster).
+    the Operator, *and* the namespace in which the Operator resides. If this key
+    is set to a blank string, the Operator will watch
+    **only the namespace it runs in**, which would be the same as
+    [single-namespace deployment](cluster-wide.md#namespace-scope).
 
 The following simple example shows how to install Operator cluster-wide on
 Kubernetes.
