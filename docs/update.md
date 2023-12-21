@@ -66,7 +66,7 @@ Considering the Operator uses `postgres-operator` namespace, upgrade to the vers
 
     ``` {.bash data-prompt="$" }
     $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
-       -p'{"spec":{"template":{"spec":{"containers":[{"name":"percona-postgresql-operator","image":"percona/percona-postgresql-operator:{{ release }}"}]}}}}'
+       -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"percona/percona-postgresql-operator:{{ release }}"}]}}}}'
     ```
 
 4. The deployment rollout will be automatically triggered by the applied patch.
