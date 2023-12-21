@@ -3,7 +3,7 @@
 site_name: Percona Operator for PostgreSQL
 site_description: Documentation
 site_author: Percona LLC
-site_url: ""
+site_url: https://docs.percona.com/percona-operator-for-postgresql/
 copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2023
 use_directory_urls: false
 repo_name: percona/k8spg-docs
@@ -20,7 +20,7 @@ theme:
     code: Roboto Mono
   palette:
     # Light mode
-    - media: "(prefers-color-scheme: light)"
+    - media: "(prefers-color-scheme: percona-light)"
       scheme: percona-light
       primary: custom
       accent: custom
@@ -29,7 +29,7 @@ theme:
         name: Switch to light mode
 
     # Dark mode 
-    - media: "(prefers-color-scheme: dark)"
+    - media: "(prefers-color-scheme: percona-dark)"
       scheme: slate
       primary: custom
       accent: custom
@@ -42,7 +42,14 @@ theme:
   features:
     - search.highlight
     - navigation.top
+    #- navigation.tabs
+    #- navigation.tabs.sticky
+    #- navigation.sections
+    - navigation.tracking
     - content.tabs.link
+    - content.action.edit
+    - content.action.view
+    - content.code.copy
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
@@ -90,8 +97,8 @@ markdown_extensions:
   pymdownx.highlight:
     use_pygments: true
   pymdownx.emoji:
-    emoji_index: !!python/name:materialx.emoji.twemoji
-    emoji_generator: !!python/name:materialx.emoji.to_svg
+    emoji_index: !!python/name:material.extensions.emoji.twemoji
+    emoji_generator: !!python/name:material.extensions.emoji.to_svg
     options:
       custom_icons:
         - _resource/overrides/.icons
@@ -100,6 +107,7 @@ plugins:
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
+  section-index: {}
   meta-descriptions:
     export_csv: false
     quiet: false
@@ -117,7 +125,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Percona Operator for PostgreSQL documentation"
-    cover_subtitle: 2.2.0 (June 30, 2023)
+    cover_subtitle: 2.3.0 (December 21, 2023)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/percona_kubernetes_icon.png
     custom_template_path: _resource/templates
@@ -143,9 +151,10 @@ extra: # Used in main.html template and can't be externalized
       make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.2.0
-  pmm2recommended: 2.37.0
-  postgresrecommended: 15
+  release: 2.3.0
+  pmm2recommended: 2.41.0
+  commandName: 'kubectl'
+  postgresrecommended: 16
   certmanagerrecommended: '1.8.0'
   version:
     provider: mike
@@ -154,36 +163,38 @@ extra: # Used in main.html template and can't be externalized
 # Common navigation for percona.com, render.com and PDF
 nav:
 
-    - Home: index.md
-    - Features:
-          - "Design and architecture": architecture.md
+    - About:
+          - "Percona Operator for PostgreSQL": index.md
           - "Comparison with other solutions": compare.md
-    - Quickstart guides:
+          - "Design and architecture": architecture.md
+    - Quickstart guide:
           - "Overview": quickstart.md
-          - Quick install:
+          - 1 Quick install:
             - "With kubectl": kubectl.md
             - "With Helm": helm.md
-          - Connect to PostgreSQL: connect.md
-          - Insert data: data-insert.md
-          - Make a backup: backup-tutorial.md
-          - Monitor the database with PMM: monitoring-tutorial.md
+          - 2 Connect to PostgreSQL: connect.md
+          - 3 Insert data: data-insert.md
+          - 4 Make a backup: backup-tutorial.md
+          - 5 Monitor the database with PMM: monitoring-tutorial.md
           - What's next: what-next.md
     - Installation:
           - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
           - "Exposing the cluster": expose.md
-          - "Changing PostgreSQL Options": options.md
+          - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
-          - "Transport Encryption (TLS/SSL)": TLS.md
+          - "Labels and annotations": annotations.md
+          - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
     - Management:
+          - "Upgrade PostgreSQL and the Operator": update.md
           - Upgrade from version 1 to version 2:
-            - "Upgrade overview": update.md
             - "Using data volumes": update-data-volumes.md
             - "Using backup and restore": update-backup-restore.md
             - "Using standby": update-standby.md
@@ -198,12 +209,15 @@ nav:
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
-    - How to:
+    - HowTo:
           - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
+          - "How to use private registry": custom-registry.md
+          - "Add custom PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
+          - "Use PostGIS extension": postgis.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md

@@ -28,7 +28,7 @@ In the following examples we will access the container `database` of the `cluste
 * Print log files to a terminal:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg15/log/postgresql-*.log
+    $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
     ```
 
 * Similarly, opening an Interactive terminal, executing a pair of commands in
@@ -38,7 +38,7 @@ In the following examples we will access the container `database` of the `cluste
     $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
     bash-4.4$ hostname
     cluster1-pxc-0
-    bash-4.4$ ls /pgdata/pg15/log/
+    bash-4.4$ ls /pgdata/pg16/log/
     postgresql-Wed.log
     bash-4.4$ exit
     exit

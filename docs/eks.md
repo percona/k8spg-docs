@@ -22,7 +22,7 @@ The following tools are used in this guide and therefore should be preinstalled:
 Also, you need to configure AWS CLI with your credentials according to the
 [official guide](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html).
 
-### Creating the EKS cluster
+### Creating the EKS cluster {.power-number}
 
 1. To create your cluster, you will need the following data:
 
@@ -51,6 +51,7 @@ Also, you need to configure AWS CLI with your credentials according to the
 
 The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
 your Kubernetes environment:
+{.power-number}
 
 1. Create the Kubernetes namespace for your cluster if needed (for example,
    let's name it `postgres-operator`):
