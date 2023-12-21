@@ -7,7 +7,7 @@ Adding more extensions is not an easy task in case of a containerized database i
 
 Still, starting from the Operator version 2.3 there is an alternative way to extend Percona Distribution for PostgreSQL by downloading prepackaged extensions from an external storage on the fly, as defined in the `extensions` section of the Operator Custom Resource.
 
-## Enabling or disabling builtin extensions
+## Enabling or disabling built-in extensions
 
 Percona Distribution for PostgreSQL [builtin extensions](https://docs.percona.com/postgresql/16/) can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file as follows:
 
