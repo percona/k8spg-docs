@@ -44,7 +44,7 @@ Only the incremental update to a nearest version of the Operator is supported
 differs from the current version by more than one, make several incremental
 updates sequentially.
 
-Considering the Operator uses `postgres-operator` namespace, upgrade to the version {{ version }} includes the following steps.
+Considering the Operator uses `postgres-operator` namespace, upgrade to the version {{ release }} includes the following steps.
 
 1. Update the [Custom Resource Definition](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
     for the Operator, taking it from the official repository on Github, and do
