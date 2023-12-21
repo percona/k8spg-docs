@@ -1,6 +1,6 @@
-# Connect to the PostgreSQL cluster
+# 2 Connect to the PostgreSQL cluster
 
-In this tutorial, we will connect to the cluster you have created previously. 
+When the [installation](kubectl.md) is done, we can connect to the cluster. 
 
 The [`pgBouncer`](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pgBouncer` URI to connect. 
 
@@ -19,11 +19,11 @@ To connect to PostgreSQL, do the following:
     `<cluster_name>-pguser-<cluster_name>`. The `<cluster_name>` value is
     the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name). The default variant is:
 
-    === "via kubectl" 
+    === ":simple-kubernetes: via kubectl" 
 
         `cluster1-pguser-cluster1`
 
-    === "via Helm"
+    === ":simple-helm: via Helm"
 
         `cluster1-pg-db-pguser-cluster1-pg-db`
 
@@ -42,7 +42,7 @@ To connect to PostgreSQL, do the following:
 3. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
 
     ``` {.bash data-prompt="$"}
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:15 --restart=Never -- psql $PGBOUNCER_URI
+    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:16 --restart=Never -- psql $PGBOUNCER_URI
     ```
 
     It may take some time to create the Pod and connect to the database. As the result, you should see the following sample output: 
@@ -60,4 +60,4 @@ Congratulations! You have connected to your PostgreSQL cluster.
 
 ## Next steps
 
-[Insert testing data :material-arrow-right:](data-insert.md){.md-button}
+[:material-database-plus: Insert testing data :material-arrow-right:](data-insert.md){.md-button}

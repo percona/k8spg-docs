@@ -10,7 +10,7 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters](https
 
 * <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
 
-* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for Percona XtraDB Cluster Pods after the cluster deletion event (off by default).
+* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
 
 The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
 
@@ -153,7 +153,7 @@ name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-postgres` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres` |
 | **Description** | The PostgreSQL Docker image to use |
 |                 | |
 | **Key**         | {{ optionlink('imagePullPolicy') }} |
@@ -193,6 +193,11 @@ file contains configuration options for PostgreSQL instances.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('instances.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL Pods |
+|                 | |
 | **Key**         | {{ optionlink('instances.name') }} |
 | **Value**       | string |
 | **Example**     | `rs 0` |
@@ -329,9 +334,14 @@ Percona Distribution for PostgreSQL backups.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('backups.pgbackrest.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods |
+|                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbackrest` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
 | **Description** | The Docker image for [pgBackRest](backups.md#backups-pgbackrest) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.configuration.secret.name') }} |
@@ -510,6 +520,11 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 
 |                 | |
 |-----------------|-|
+| **Key**         | {{ optionlink('proxy.pgBouncer.metadata.labels') }} |
+| **Value**       | label |
+| **Example**     | `pg-cluster-label: cluster1` |
+| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBouncer Pods |
+|                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.replicas') }} |
 | **Value**       | int |
 | **Example**     | `3` |
@@ -517,7 +532,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:main-ppg14-pgbouncer` |
+| **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbouncer` |
 | **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |

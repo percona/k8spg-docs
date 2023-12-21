@@ -72,7 +72,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     clusterrolebinding.rbac.authorization.k8s.io/cluster-admin-binding created
     ```
 
-## Install the Operator and deploy your PostgreSQL cluster
+## Install the Operator and deploy your PostgreSQL cluster {.power-number}
 
 1. First of all, use the following `git clone` command to download the correct branch of the percona-postgresql-operator repository:
 
@@ -136,8 +136,9 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
-    Creation process will take some time. The process is over when both
-    Operator and PostgreSQL Pods have reached their Running status:
+    The creation process may take some time. When the process is over your
+    cluster will obtain the `ready` status. You can check it with the following
+    command:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg -n postgres-operator
@@ -145,10 +146,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
-        cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
-        ```
+        --8<-- "kubectl-get-pg-response.txt"
 
     ??? note "You can also track the creation process in Google Cloud console via the Object Browser"
 
@@ -163,9 +161,13 @@ cluster status as `ready`, and you can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 
-## Removing the GKE cluster
+## Removing the cluster
 
-There are several ways that you can delete the cluster.
+If you need to delete the Operator and PostgreSQL cluster (for example, to clean
+up the testing deployment before adopting it for production use), check
+[this HowTo](delete.md).
+
+Also, there are several ways that you can delete your Kubernetes cluster in GKE.
 
 You can clean up the cluster with the `gcloud` command as follows:
 
