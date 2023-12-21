@@ -151,6 +151,7 @@ extra: # Used in main.html template and can't be externalized
       make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
+  commandName: 'kubectl'
   release: 2.2.0
   pmm2recommended: 2.37.0
   postgresrecommended: 16
@@ -181,6 +182,7 @@ nav:
           - "Install on Minikube": minikube.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
