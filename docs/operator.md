@@ -637,7 +637,7 @@ file contains configuration options to [manage PostgreSQL extensions](custom-ext
 |-----------------|-|
 | **Key**         | {{ optionlink('extensions.image') }} |
 | **Value**       | string |
-| **Example**     | `perconalab/percona-postgresql-operator:{{ release }}-ext-installer` |
+| **Example**     | `percona/percona-postgresql-operator:{{ release }}` |
 | **Description** | Image for the custom PostgreSQL extension loader sidecar container |
 |                 | |
 | **Key**         | {{ optionlink('extensions.imagePullPolicy') }} |

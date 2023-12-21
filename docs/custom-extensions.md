@@ -23,8 +23,7 @@ Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
 
 !!! note
 
-    For obvious reasons, editing this section and applying it is causing Pods
-    restart. 
+    Editing this section and applying it is causing Pods restart.
 
 ## Adding custom extensions
 
@@ -49,7 +48,7 @@ For example, the directory for `pg_cron` extension should look as follows:
 
 ``` {.bash data-prompt="$" }
 $ tree ~/pg_cron-1.6.1/
-/home/ege/pg_cron-1.6.1/
+/home/user/pg_cron-1.6.1/
 └── usr
     └── pgsql-15
         ├── lib
@@ -85,28 +84,100 @@ When the extension is packaged, it should be uploaded to the cloud storage
 the storage and extension details should be specified in the Custom Resource
 to make the Operator download and install it.
 
-Storage credentials are specified in `extensions.storage` subsection, and configuring it is similar to [setting Amazon S3 storage for backups](backups-storage.md):
+1. The Operator will need the following data to access extensions stored on the
+    Amazon S3:
+    
+    * the `metadata.name` key is the name which you wll further use to refer
+        your Kubernetes Secret,
+    * the `data.AWS_ACCESS_KEY_ID` and `data.AWS_SECRET_ACCESS_KEY` keys are
+        base64-encoded credentials used to access the storage (obviously these
+        keys should contain proper values to make the access possible).
 
-```yaml
-extensions:
-  ...
-  storage:
-    type: s3
-    bucket: pg-extensions
-    region: eu-central-1
-    secret:
+    Create the Secrets file with these base64-encoded keys as follows:
+
+    ```yaml title="extensions-secret.yaml"
+    apiVersion: v1
+    kind: Secret
+    metadata:
       name: cluster1-extensions-secret
+    type: Opaque
+    data:
+      AWS_ACCESS_KEY_ID: <base64 encoded secret>
+      AWS_SECRET_ACCESS_KEY: <base64 encoded secret>
+    ```
+
+    !!! note
+
+        You can use the following command to get a base64-encoded string
+        from a plain text one:
+
+        === "in Linux"
+
+            For GNU/Linux:
+
+            ``` {.bash data-prompt="$" }
+            $ echo -n 'plain-text-string' | base64 --wrap=0
+            ```
+
+        === "in macOS"
+
+            For Apple macOS:
+
+            ``` {.bash data-prompt="$" }
+            $ echo -n 'plain-text-string' | base64
+            ```
+
+    Once the editing is over, create the Kubernetes Secret object as follows:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl apply -f extensions-secret.yaml
+    ```
+
+2. Storage credentials are specified in the Custom Resource
+    `extensions.storage` subsection. The appropriate fragment of the
+    `deploy/cr.yaml` configuration file should look as follows:
+
+    ```yaml
+    extensions:
+      ...
+      storage:
+        type: s3
+        bucket: pg-extensions
+        region: eu-central-1
+        secret:
+          name: cluster1-extensions-secret
+    ```
+
+3. When the storage is configured, and the archive with the extension is already
+    present in the appropriate bucket, the extension itself can be specified
+    to the Operator in the Custom Resource via the `deploy/cr.yaml`
+    configuration file as in the following example:
+
+    ```yaml
+    extensions:
+      ...
+      custom:
+      - name: pg_cron
+        version: 1.6.1
+    ```
+
+The installed extension will not be enabled by default. Enabling it in can be
+done for desired databases using the `CREATE EXTENSION` statement:
+
+```sql
+CREATE EXTENSION pg_cron;
 ```
 
-When the storage is configured, and archive with extension is already present
-in the appropriate bucket, the extension itself can be specified to the Operator
-as follows:
+Also, some extensions (such as `pg_cron`) can be used only if added to
+`shared_preload_libraries`. Users can do it via the `deploy/cr.yaml`
+configuration file as follows:
 
 ```yaml
-extensions:
-  ...
-  custom:
-  - name: pg_cron
-    version: 1.6.1
-```
-
+...
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      parameters:
+        shared_preload_libraries: pg_cron
+        ...
+ ```
