@@ -216,6 +216,7 @@ nav:
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
+          - "Use PostGIS extension": postgis.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
