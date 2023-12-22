@@ -680,11 +680,6 @@ file contains configuration options to [manage PostgreSQL extensions](custom-ext
 | **Example**     | `pg_stat_monitor: true` |
 | **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions](https://docs.percona.com/postgresql/16/) |
 |                 | |
-| **Key**         | {{ optionlink('extensions.builtin') }} |
-| **Value**       | label |
-| **Example**     | `pg_stat_monitor: true` |
-| **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions](https://docs.percona.com/postgresql/16/) |
-|                 | |
 | **Key**         | {{ optionlink('extensions.custom.name') }} |
 | **Value**       | string |
 | **Example**     | `pg_cron` |

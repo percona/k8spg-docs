@@ -16,9 +16,9 @@ new PostgreSQL cluster that can run alongside an existing one. There are several
 scenarios where using this technique is helpful:
 
 * Creating a copy of a PostgreSQL cluster that can be used for other purposes.
-Another way of putting this is *creating a clone*.
+    Another way of putting this is *creating a clone*.
 * Restore to a point-in-time and inspect the state of the data without affecting
-the current cluster.
+    the current cluster.
 
 To create a new PostgreSQL cluster from either the active one, or a former cluster
 whose pgBackRest repository still exists, use the [dataSource.postgresCluster](operator.md#datasource-postgrescluster-clustername) subsection options. The content of this subsection
