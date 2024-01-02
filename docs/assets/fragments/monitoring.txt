@@ -97,13 +97,13 @@ The `deploy/secrets.yaml` file contains all values for each key/value pair in a 
 
 To encode a password or any other parameter, run the following command:
 
-=== "on Linux" 
+=== ":simple-linux: Linux" 
 
     ```{.bash data-prompt="$"} 
     $ echo -n "password" | base64 --wrap=0
     ``` 
 
-=== "on macOS" 
+=== ":simple-apple: macOS" 
 
     ```{.bash data-prompt="$"} 
     $ echo -n "password" | base64
