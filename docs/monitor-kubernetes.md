@@ -25,28 +25,88 @@ To set up monitoring of Kubernetes, you need the following:
 
 ## Procedure
 
-### Set up authentication in PMM Server
+### Get the PMM Server API key
 
 To access the PMM Server resources and perform actions on the server, configure authentication.
 
-1. Get the PMM API key. The key must have the role "Admin".
+Get the PMM API key. The key must have the role "Admin".
 
-    === "From PMM UI" 
+=== "From PMM UI" 
 
-        [Generate the PMM API key](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication){.md-button} 
+    [Generate the PMM API key](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication){.md-button} 
 
-    === "From command line"
+=== "From command line"
 
-        You can query your PMM Server installation for the API
-        Key using `curl` and `jq` utilities. Replace `<login>:<password>@<server_host>` placeholders with your real PMM Server login, password, and hostname in the following command:
+    You can query your PMM Server installation for the API
+    Key using `curl` and `jq` utilities. Replace `<login>:<password>@<server_host>` placeholders with your real PMM Server login, password, and hostname in the following command:
 
-        ``` {.bash data-prompt="$" }
-        $ API_KEY=$(curl --insecure -X POST -H "Content-Type: application/json" -d '{"name":"operator", "role": "Admin"}' "https://<login>:<password>@<server_host>/graph/api/auth/keys" | jq .key)
+    ``` {.bash data-prompt="$" }
+    $ API_KEY=$(curl --insecure -X POST -H "Content-Type: application/json" -d {"name":"operator", "role": "Admin"}' "https://<login>:<password>@<server_host>/graph/api/auth/keys" | jq .key)
         ```
 
     !!! note
 
         The API key is not rotated. 
+
+### Install the Victoria Metrics Kubernetes monitoring stack
+
+To install the Victoria Metrics Kubernetes monitoring stack with the default parameters, use the quick start command. Replace the following placeholders with your values:
+
+* `API-KEY` - The [API key of your PMM Server](#get-the-pmm-server-api-key)
+* `PMM-SERVER-URL` - The URL to access the PMM Server 
+* `UNIQUE-K8s-CLUSTER-IDENTIFIER` - Identifier for the Kubernetes cluster. It can be the name you defined during the cluster creation.
+
+  You should use a unique identifier for each Kubernetes cluster. The use of the same identifer for more than one Kubernetes cluster will result in the conflicts during the metrics collection.
+
+* `NAMESPACE` - The namespace where the Victoria metrics Kubernetes stack will be installed. If you haven't created the namespace before, it will be created during the command execution. 
+
+  We recommend to use a separate namespace like `monitoring-system` for the same.
+
+  ```{.bash data-prompt="$" }
+  $ curl -fsL  https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/quick-install.sh | bash -s -- --api-key <API-KEY> --pmm-server-url <PMM-SERVER-URL> --k8s-cluster-id <UNIQUE-K8s-CLUSTER-IDENTIFIER> --namespace <NAMESPACE> 
+  ```
+
+If you need to customize the Victoria metrics Kubernetes stack, refer to the [Install manually](install-the-victoria-metrics-kubernetes-monitoring-stack-manually) section.
+
+Validate the successful installation:
+
+```{.bash data-prompt="$" }
+$ kubectl get pods -n <namespace>
+```
+
+??? example "Sample output"
+
+    ```{.text .no-copy}
+    vm-k8s-stack-kube-state-metrics-d9d85978d-9pzbs                   1/1     Running   0          28m
+    vm-k8s-stack-victoria-metrics-operator-844d558455-gvg4n           1/1     Running   0          28m
+    vmagent-vm-k8s-stack-victoria-metrics-k8s-stack-55fd8fc4fbcxwhx   2/2     Running   0          28m
+    ```
+
+## Verify metrics capture
+
+1. Connect to the PMM server.
+2. Click **Explore** and switch to the **Code** mode.
+3. Check that the required metrics are captured, type the following in the Metrics browser dropdown:
+
+    * [cadvisor](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md):
+
+       ![image](assets/images/cadvisor.svg)
+
+    * kubelet:
+
+       ![image](assets/images/kubelet.svg)
+
+    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/main/docs) metrics that also include Custom resource metrics for the Operator and database deployed in your Kubernetes cluster:
+
+      ![image](assets/images/pg_metric.svg)
+
+## Install Victoria metrics Kubernetes stack manually
+
+You may need to customize the default parameters of the Victoria metrics Kubernetes stack. 
+
+### Configure authentication in PMM
+
+1. [Get the PMM Server API key](#get-the-pmm-server-api-key)
 
 2. Encode the API key with base64.
 
@@ -211,21 +271,30 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
         
         What Pods are running depends on the configuration chosen in values used while installing `victoria-metrics-k8s-stack` chart.
 
-## Verify metrics capture
+## Uninstall Victoria metrics Kubernetes stack
 
-1. Connect to the PMM server.
-2. Click **Explore** and switch to the **Code** mode.
-3. Check that the required metrics are captured, type the following in the Metrics browser dropdown:
+To remove Kubernetes cluster monitoring, use the cleanup script. By default, the script removes all the [Custom Resource Definitions(CRD)](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/) and Secrets associated with the Victoria metrics Kubernetes stack. To keep the CRDs, run the script with the `--keep-crd` flag.
 
-    * [cadvisor](https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md):
+=== "Remove CRDs"
 
-       ![image](assets/images/cadvisor.svg)
+    Replace the `<NAMESPACE>` placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: 
 
-    * kubelet:
+    ```{.bash data-prompt="$" }
+    $ curl -fsL  https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/cleanup.sh | bash -s -- --namespace <NAMESPACE>
+    ```
 
-       ![image](assets/images/kubelet.svg)
+=== "Keep CRDs"
 
-    * [kube-state-metrics](https://github.com/kubernetes/kube-state-metrics/tree/main/docs) metrics that also include Custom resource metrics for the Operator and database deployed in your Kubernetes cluster:
+    Replace the `<NAMESPACE>` placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: 
 
-      ![image](assets/images/pg_metric.svg)
+    ```{.bash data-prompt="$" }
+    $ curl -fsL  https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/cleanup.sh | bash -s -- --keep-crd --namespace <NAMESPACE> 
+    ```
 
+Check that the Victoria metrics Kubernetes stack is deleted:
+
+```{.bash data-prompt="$" }
+$ helm list -n <namespace>
+```
+
+The output should provide the empty list.
