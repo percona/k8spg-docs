@@ -31,11 +31,11 @@ To access the PMM Server resources and perform actions on the server, configure 
 
 Get the PMM API key. The key must have the role "Admin".
 
-=== "From PMM UI" 
+=== ":material-view-dashboard-variant: From PMM UI" 
 
     [Generate the PMM API key](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication){.md-button} 
 
-=== "From command line"
+=== ":material-console: From command line"
 
     You can query your PMM Server installation for the API
     Key using `curl` and `jq` utilities. Replace `<login>:<password>@<server_host>` placeholders with your real PMM Server login, password, and hostname in the following command:
@@ -110,13 +110,13 @@ You may need to customize the default parameters of the Victoria metrics Kuberne
 
 2. Encode the API key with base64.
 
-    === "in Linux" 
+    === ":simple-linux: Linux" 
 
         ````{.bash data-prompt="$" }
         $ echo -n <API-key> | base64 --wrap=0
         ````
 
-    === "in macOS"   
+    === ":simple-apple: macOS"   
         ```{.bash data-prompt="$" }
         $ echo -n <API-key> | base64 
         ```
@@ -192,7 +192,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
     * the URL to access the PMM server in the `externalVM.write.url` option in the format `<PMM-SERVER-URL>/victoriametrics/api/v1/write`. The URL can contain either the IP address or the hostname of the PMM server.
     * the unique name or an ID of the Kubernetes cluster in the `vmagent.spec.externalLabels.k8s_cluster_id` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. 
 
-    === "Command line"
+    === ":material-console: Command line"
 
         Use the following command to install the Victoria Metrics Operator and pass the required configuration. The `vm-k8s` value command is the Release name. You can use a different name. Replace the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap:
 
@@ -214,7 +214,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
          -n monitoring-system
         ```
 
-    === "Configuration file" 
+    === ":octicons-file-code-24: Configuration file" 
 
          1. Edit the [`values.yaml`](https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/values.yaml) 
 
@@ -275,7 +275,7 @@ As a result, you have the `customresource-config-ksm` ConfigMap created.
 
 To remove Kubernetes cluster monitoring, use the cleanup script. By default, the script removes all the [Custom Resource Definitions(CRD)](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/) and Secrets associated with the Victoria metrics Kubernetes stack. To keep the CRDs, run the script with the `--keep-crd` flag.
 
-=== "Remove CRDs"
+=== ":material-file-remove-outline: Remove CRDs"
 
     Replace the `<NAMESPACE>` placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: 
 
@@ -283,7 +283,7 @@ To remove Kubernetes cluster monitoring, use the cleanup script. By default, the
     $ curl -fsL  https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/main/vm-operator-k8s-stack/cleanup.sh | bash -s -- --namespace <NAMESPACE>
     ```
 
-=== "Keep CRDs"
+=== ":material-file-outline: Keep CRDs"
 
     Replace the `<NAMESPACE>` placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: 
 
