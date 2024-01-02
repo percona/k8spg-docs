@@ -95,39 +95,32 @@ To install PMM Client as a side-car container in your Kubernetes-based environme
 The `deploy/secrets.yaml` file contains all values for each key/value pair in a convenient plain text format. But the resulting Secrets Objects contains passwords stored as base64-encoded strings. If you want to *update* the password field, you need to encode the new password into the base64 format and pass it to the Secrets Object.
 {.power-number}
 
-1. Encode the password
+To encode a password or any other parameter, run the following command:
 
-    === ":simple-linux: Linux" 
+=== "on Linux" 
 
-        ```{.bash data-prompt="$"} 
-        $ echo -n "password" | base64 --wrap=0
-        ``` 
+    ```{.bash data-prompt="$"} 
+    $ echo -n "password" | base64 --wrap=0
+    ``` 
 
-    === ":simple-apple: macOS" 
+=== "on macOS" 
 
-        ```{.bash data-prompt="$"} 
-        $ echo -n "password" | base64
-        ```
+    ```{.bash data-prompt="$"} 
+    $ echo -n "password" | base64
+    ```
 
-2. Update the Secrets Object. For example, use the following command to set the PMM Server user’s
-        password to `new_password` in the `cluster1-pmm-secret` Secrets Object 
+For example, to set the new PMM API key in the `my-cluster-name-secrets` object, do the following:
 
-    === ":simple-linux: Linux"
-
-        ``` {.bash data-prompt="$" }
-        $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64 --wrap=0)'}}'
-        ```
-
-    === ":simple-apple: macOS"
-
-        ``` {.bash data-prompt="$" }
-        $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_password | base64)'}}'
-        ```
-
-3. Apply the edited `deploy/cr.yaml` file, replace the `<namespace>` placeholder with your namespace:
+=== ":simple-linux: Linux"
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_key | base64 --wrap=0)'}}'
+    ```
+
+=== ":simple-apple: macOS"
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_KEY": '$(echo -n new_key | base64)'}}'
     ```
 
 ## Check the metrics
