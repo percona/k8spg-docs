@@ -14,7 +14,7 @@ environment is key.
 
     This is the documentation for the latest release, **{{release}}** ([Release Notes](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md)).
 
-Starting with Percona Server for MySQL is easy. Follow our documentation guides, and you'll be set up in a minute.
+Starting with Percona Kubernetes Operator is easy. Follow our documentation guides, and you'll be set up in a minute.
 
 <div data-grid markdown><div data-banner markdown>
 
