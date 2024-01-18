@@ -15,7 +15,7 @@ This release provides a number of bug fixes, including fixes for the following v
 * OpenSSH could cause remote code execution by ssh-agent if a user establishes an SSH connection to a compromised or malicious SSH server and has agent forwarding enabled ([CVE-2023-38408](https://nvd.nist.gov/vuln/detail/CVE-2023-38408)). This vulnerability affects pgBackRest and PostgreSQL images.
 * The c-ares library could cause a Denial of Service with 0-byte UDP payload ([CVE-2023-32067](https://nvd.nist.gov/vuln/detail/CVE-2023-32067)). This vulnerability affects pgBouncer image.
 
-**Users are advised to upgrade to version 2.3.1 which resolves this issues**.
+**Users are advised to upgrade to version 2.3.1 which resolves these issues**.
 
 ## Bugs Fixed
 
