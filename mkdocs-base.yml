@@ -4,7 +4,7 @@ site_name: Percona Operator for PostgreSQL
 site_description: Documentation
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
-copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2023
+copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2024
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -66,7 +66,7 @@ extra_javascript:
 
 #Copyright
 copyright: >
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2023 — <a href="#__consent">Cookie Consent</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2024 — <a href="#__consent">Cookie Consent</a>
 
 #Extensions
 markdown_extensions:
@@ -125,7 +125,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Percona Operator for PostgreSQL documentation"
-    cover_subtitle: 2.3.0 (December 21, 2023)
+    cover_subtitle: 2.3.1 (January 22, 2024)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/percona_kubernetes_icon.png
     custom_template_path: _resource/templates
@@ -151,7 +151,7 @@ extra: # Used in main.html template and can't be externalized
       make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.3.0
+  release: 2.3.1
   pmm2recommended: 2.41.0
   commandName: 'kubectl'
   postgresrecommended: 16
@@ -230,6 +230,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 2.3.1 (2024-01-22)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md
           - "Percona Operator for PostgreSQL 2.3.0 (2023-12-21)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md
           - "Percona Operator for PostgreSQL 2.2.0 (2023-06-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md
           - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md

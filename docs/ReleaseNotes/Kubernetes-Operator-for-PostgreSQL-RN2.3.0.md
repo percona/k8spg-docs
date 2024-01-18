@@ -1,8 +1,8 @@
-# Percona Operator for PostgreSQL 2.3.0
+# Percona Operator for PostgreSQL 2.3.1
 
 * **Date**
 
-    December 21, 2023
+    January 22, 2024
 
 * **Installation**
 
@@ -10,49 +10,18 @@
 
 ## Release Highlights
 
-### PostGIS support
+This release provides a number of bug fixes, including fixes for the following vulnerabilities:
 
-Modern businesses heavily rely on location-based data to gain valuable insights and make data-driven decisions. However, integrating geospatial functionality into the existing database systems has often posed a challenge for enterprises. PostGIS, an open-source software extension for PostgreSQL, addresses this difficulty by equipping users with extensive geospatial operations for handling geographic data efficiently. Percona Operator now supports PostGIS, available through a separate container image. You can read more about PostGIS and how to use it with the Operator in our [documentation](../postgis.md).
+* OpenSSH could cause remote code execution by ssh-agent if a user establishes an SSH connection to a compromised or malicious SSH server and has agent forwarding enabled ([CVE-2023-38408](https://nvd.nist.gov/vuln/detail/CVE-2023-38408)). This vulnerability affects pgBackRest and PostgreSQL images.
+* The c-ares library could cause a Denial of Service with 0-byte UDP payload ([CVE-2023-32067](https://nvd.nist.gov/vuln/detail/CVE-2023-32067)). This vulnerability affects pgBouncer image.
 
-## OpenShift and PostgreSQL 16 support
-
-The Operator [is now compatible](../openshift.md) with the OpenShift platform empowering enterprise customers with seamless on-premise or cloud deployments on the platform of their choice. Also, PostgreSQL 16 was added to the range of supported database versions and is used by default starting with this release.
-
-### Experimental support for custom PostgreSQL extensions
-
-One of great features of PostgreSQL is support for [Extensions](https://www.postgresql.org/download/products/6-postgresql-extensions/), which allow adding new functionality to the database on a plugin basis. Starting from this release, users can add custom PostgreSQL extensions dynamically, without the need to rebuild the container image (see [this HowTo](../custom-extensions.md) on how to create and connect yours). 
-
-
-## New features
-
-* {{ k8spgjira(311) }} and {{ k8spgjira(389) }}:  A new `loadBalancerSourceRanges` Custom Resource option allows to customize the range of IP addresses from which the load balancer should be reachable
-* {{ k8spgjira(375) }}:  Experimental support for custom PostgreSQL extensions [was added](../custom-extensions.md) to the Operator
-* {{ k8spgjira(391) }}:  The Operator [is now compatible](../openshift.md) with the OpenShift platform
-* {{ k8spgjira(434) }}:  The Operator now supports Percona Distribution for PostgreSQL version 16 and uses it as default database version
-
-## Improvements
-
-* {{ k8spgjira(413) }}:  The Operator documentation now includes a [comptibility matrix](../versions.md) for each Operator version, specifying exact versions of all core components as well as supported versions of the database and platforms
-* {{ k8spgjira(332) }}:  Creating backups and [pausing the cluster](../pause.md) do not interfere with each other: the Operator either postpones the pausing until the active backup ends, or postpones the scheduled backup on the paused cluster
-* {{ k8spgjira(370) }}:  [Logging management](../debug-logs.md) is now aligned with other Percona Operators, allowing to use structured logging and to control log level
-* {{ k8spgjira(372) }}:  The multi-namespace (cluster-wide) mode of the Operator was improved, making it possible to customize the list of Kubernetes namespaces under the Operator's control
-* {{ k8spgjira(400) }}:  The documentation now explains how to allow application users to connect to a database cluster [without TLS](../TLS.md#connect-to-the-database-cluster-without-tls) (for example, for testing or demonstration purposes)
-* {{ k8spgjira(410) }}:  Scheduled backups now create `pg-backup` object to simplify backup management and tracking
-* {{ k8spgjira(416) }}:   PostgreSQL custom configuration is now supported in the Helm chart
-* {{ k8spgjira(422) }} and {{ k8spgjira(447) }}: The user can now see backup type and status in the output of `kubectl get pg-backup` and `kubectl get pg-restore` commands
-* {{ k8spgjira(458) }}:  Affinity configuration examples were added to the `default/cr.yaml` configuration file
+**Users are advised to upgrade to version 2.3.1 which resolves this issues**.
 
 ## Bugs Fixed
 
-* {{ k8spgjira(435) }}:  Fix a bug with insufficient size of /tmp filesystem which caused PostgreSQL Pods to be recreated every few days due to running out of free space on it
-* {{ k8spgjira(453) }}:  Bug in `pg_stat_monitor` PostgreSQL extensions could hang PostgreSQL
-* {{ k8spgjira(279) }}:  Fix regression which made the Operator to crash after creating a backup if there was no backups.pgbackrest.manual section in the Custom Resource
-* {{ k8spgjira(310) }}:  Documentation didn't explain how to apply pgBackRest `verifyTLS` option which can be used to explicitly enable or disable TLS verification for it
-* {{ k8spgjira(432) }}:  Fix a bug due to which backup jobs and Pods were not deleted on deleting the backup object
-* {{ k8spgjira(442) }}:  The Operator didn’t allow to append custom items to the PostgreSQL `shared_preload_libraries` option
-* {{ k8spgjira(443) }}:  Fix a bug due to which only English locale was installed in the PostgreSQL image, missing other languages support
-* {{ k8spgjira(450) }}:  Fix a bug which prevented PostgreSQL to initialize the database on Kubernetes working nodes with enabled huge memory pages if Pod resource limits didn’t allow using them
-* {{ k8spgjira(401) }}:  Fix a bug which caused Operator crash if deployed with no `pmm` section in the `deploy/cr.yaml` configuration file
+* {{ k8spgjira(493) }}: Fix a regression due to which the Operator could run scheduled backup only one time
+* {{ k8spgjira(494) }}: High level vulnerabilities in pg images
+* {{ k8spgjira(496) }}: Fix the bug where setting the `pause` Custom Resource option to `true` for the cluster with a backup running would not take effect even after the backup completed
 
 ## Supported platforms
 
