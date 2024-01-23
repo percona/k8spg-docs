@@ -6,6 +6,7 @@ Cluster components:
 
 | Operator | [PostgreSQL](https://www.postgresql.org/) | [pgBackRest](https://pgbackrest.org/) | [pgBouncer](http://pgbouncer.github.io/) |
 |:---------|:--------|:-----|:-------|
+| [2.3.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 12 - 16 | 2.48 | 1.18.0 |
 | [2.3.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 12 - 16 | 2.48 | 1.18.0 |
 | [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 12 - 15 | 2.43 | 1.18.0 |
 | [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 12 - 15 | 2.43 | 1.18.0 |
@@ -21,6 +22,7 @@ Platforms:
 
 | Operator | [GKE](https://cloud.google.com/kubernetes-engine)         | [EKS](https://aws.amazon.com)         | [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift) | [Minikube](https://github.com/kubernetes/minikube)                          |
 |:--------|:------------|:------------|:------------|:----------------------------------|
+| [2.3.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11.55 - 4.14.6 | 1.32   |
 | [2.3.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11.55 - 4.14.6 | 1.32   |
 | [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 1.23 - 1.26 | 1.23 - 1.27 | -                | 1.30.1 |
 | [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 1.23 - 1.25 | 1.23 - 1.25 | -                | -      |
