@@ -2,7 +2,7 @@
 
 * **Date**
 
-    January 26, 2024
+    January 29, 2024
 
 * **Installation**
 
@@ -15,7 +15,7 @@ This release provides fixes for the following vulnerabilities in  PostgreSQL, pg
 * OpenSSH could cause remote code execution by ssh-agent if a user establishes an SSH connection to a compromised or malicious SSH server and has agent forwarding enabled ([CVE-2023-38408](https://nvd.nist.gov/vuln/detail/CVE-2023-38408)). This vulnerability affects pgBackRest and PostgreSQL images.
 * The c-ares library could cause a Denial of Service with 0-byte UDP payload ([CVE-2023-32067](https://nvd.nist.gov/vuln/detail/CVE-2023-32067)). This vulnerability affects pgBouncer image.
 
-**Both Operator 1.x (including version 1.5.0) and Operator 2.x (including version 2.3.0) are affected. Users of the Operator version 1.x are recommended to [upgrade](../update.md) to 1.5.1 to resolve these issues**.
+**Users of the Operator version 1.x are recommended to [upgrade](../update.md) to 1.5.1 to resolve these issues**.
 
 ## Bugs Fixed
 
