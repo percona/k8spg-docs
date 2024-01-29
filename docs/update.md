@@ -221,10 +221,6 @@ updates:
 
 ### Semi-automatic upgrade
 
-Semi-automatic update of Percona Distribution for PostgreSQL should be used with the Operator
-version 1.0.0 or earlier. For all newer versions, use automatic update
-instead.
-
 The following command will allow you to update the Operator to current version
 (use the name of your cluster instead of the `<cluster-name>` placeholder).
 
