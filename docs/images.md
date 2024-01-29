@@ -21,8 +21,8 @@ Percona Operator for PostgreSQL:
 | percona/percona-postgresql-operator:1.5.1-ppg13-pgbouncer       | dfad497290026cf5b14af970daf38b1d1b482ce712a4e36e0f2e302994786251 |
 | percona/percona-postgresql-operator:1.5.1-ppg14-pgbouncer       | 019c12422c9a33da1bf59d8065c172d82f097c0153b357b8066bf6c7a5268146 |
 | percona/percona-postgresql-operator:1.5.1-ppg12-pgbackrest      | bbe89ae227b6c8a9afe49e4ba269e412f45da4ef43752a6b9b2083bd6e77c290 |
-| percona/percona-postgresql-operator:1.5.1-ppg13-pgbackrest      | 119b979cf91889fbecb175851365075cbe735507ab6b9f5dff642b304d9a8d04 |
-| percona/percona-postgresql-operator:1.5.1-ppg14-pgbackrest      | 52d362cfedf00a40936106e3f78963b36fd894070601ee68671bfe7b7e491c1d |
+| percona/percona-postgresql-operator:1.5.1-ppg13-pgbackrest      | dcf286797f313ef3039a7fdc76dfcc0f17433fd90e81496134e6e25e5f385bd1 |
+| percona/percona-postgresql-operator:1.5.1-ppg14-pgbackrest      | cdb4c7a3251efee0bb851d0ae7e73b0e55b8a7b786b47f2f9e6fc557446643a8 |
 | percona/percona-postgresql-operator:1.5.1-ppg12-pgbackrest-repo | e107395950e72eb7b93cf82952a0e1a888cebffed443491aafb6b771a1e40f19 |
 | percona/percona-postgresql-operator:1.5.1-ppg13-pgbackrest-repo | 7147f21a6b43f946cebd584a198ea956137fe71f05ffca8b95b6666d694467eb |
 | percona/percona-postgresql-operator:1.5.1-ppg14-pgbackrest-repo | f375f40628b4f1f26f11a4a1e5b77f1324d11a78b261ff96dea04887bffeb112 |
