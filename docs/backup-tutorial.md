@@ -6,9 +6,9 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
     If you are interested to learn more about backups, their types and retention policy, see the [Backups section](backups.md).
 
-## Considerations
+## Considerations and prerequisites
 
-* In this tutorial we use AWS S3 as the backup storage. You need the following S3-related information:
+* In this tutorial we use the [AWS S3](https://aws.amazon.com/s3/) as the backup storage. You need the following S3-related information:
 
     * The name of S3 bucket;
     * The endpoint - the URL to access the bucket
@@ -18,6 +18,19 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
     If you don't have access to AWS, you can use any S3-compatible storage like [MinIO](https://min.io/docs/minio/linux/index.html). Also check the list of [supported storages](backups.md#backup-storage).
 
 * The Operator uses the [`pgBackRest`](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
+
+* Also, we will use some files from the Operator repository for setting up
+    backups. So, clone the percona-postgresql-operator repository:
+
+    ``` {.bash data-prompt="$" }
+    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    $ cd percona-postgresql-operator
+    ```
+
+    !!! note
+
+        It is important to specify the right branch with `-b` option while
+        cloning the code on this step. Please be careful.
 
 ## Configure backup storage {.power-number}
 
