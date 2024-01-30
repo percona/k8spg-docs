@@ -33,6 +33,16 @@ CREATE TABLE LIBRARY(
 );
 ```
 
+!!! tip
+
+    If the schema has not been automatically set to the one you created, set it manually using the following SQL statement:
+
+    ```sql
+    SET schema 'demo';
+    ```
+
+    Replace the `demo` schema name with your value if you used another name.
+
 ## Insert the data
 
 PostgreSQL does not have the built-in support to generate random data. However, it provides the `random()` function which generates random numbers and `generate_series()` function which generates the series of rows and populates them with the numbers incremented by 1 (by default).
