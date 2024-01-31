@@ -14,8 +14,8 @@ This document describes how to configure backup encryption.
 
 ## Prerequisites
 
-As it was already mentioned, to configure backup encryption, you require the
-encryption key. You should use the a long, random encryption key. For example,
+So, you need the encryption key to encrypt backups. 
+You should use a long, random encryption key. For example,
 you can generate it using OpenSSL as follows:
 
 ```{.bash data-prompt="$"}
@@ -25,11 +25,11 @@ $ openssl rand -base64 48
 ## Configure backup storage
 
 You can follow the general [backup storage configuration](backups-storage.md)
-instruction. The only difference is that you add the encryption key to the
-storage configuration and encode it together with the storage credentials
-and the pgBackRest repository name.
+instruction. The only difference is one of the initial steps - the one where you encode your cloud credentials and the pgBackRest repo name to be used for backups.
+Here you should also add your backup encryption key to the `repo2-cipher-pass` option and encode it together with the storage credentials
+and the pgBackRest repository name. The following example shows how this can be done for S3-compatible storage (other cloud storages are configured similarly).
 
-1. Encode the storage configuration file. The following is the example configuration for the S3-compatible storage.
+1. Encode the storage configuration file.
 
     === ":simple-linux: Linux"         
 
