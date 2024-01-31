@@ -4,19 +4,17 @@ Backup encryption is a security best practice that helps protect your organizati
 
 The pgBackRest tool used by the Operator allows encrypting backups using AES-256
 encryption. The approach is **repository-based**: pgBackRest encrypts the whole
-repository where it stores backups. Encryption is automatically enabled if a
+repository where it stores backups. Encryption is enabled if a
 user-supplied encryption key was passed to pgBackRest with the
 `-repo-cypher-pass` option *when configuring the backup storage*.
 
-<i warning>:material-alert: Limitation:</i> You cannot change encryption settings after the backups are established. Create a new repository to enable encryption or change the encryption key.
+<i warning>:material-alert: Limitation:</i> You cannot change encryption settings after the backups are established. You must create a new repository to enable encryption or change the encryption key.
 
 This document describes how to configure backup encryption.
 
-## Prerequisites
+## Generate the encryption key
 
-So, you need the encryption key to encrypt backups. 
-You should use a long, random encryption key. For example,
-you can generate it using OpenSSL as follows:
+You should use a long, random encryption key. You can generate it using OpenSSL as follows:
 
 ```{.bash data-prompt="$"}
 $ openssl rand -base64 48
@@ -24,10 +22,10 @@ $ openssl rand -base64 48
 
 ## Configure backup storage
 
-You can follow the general [backup storage configuration](backups-storage.md)
-instruction. The only difference is one of the initial steps - the one where you encode your cloud credentials and the pgBackRest repo name to be used for backups.
-Here you should also add your backup encryption key to the `repo2-cipher-pass` option and encode it together with the storage credentials
-and the pgBackRest repository name. The following example shows how this can be done for S3-compatible storage (other cloud storages are configured similarly).
+Follow the general [backup storage configuration](backups-storage.md)
+instruction relevant to the backup storage you are using. The only difference is in encoding your cloud credentials and the pgBackRest repository name to be used for backups: you also add the encryption key to the configuration file as the `repo-cipher-pass` option. The repo name within the option must match the pgBackRest repo name.
+
+The following example shows the configuration for S3-compatible storage and the pgBackRest repo name `repo2` (other cloud storages are configured similarly).
 
 1. Encode the storage configuration file.
 
