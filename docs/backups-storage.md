@@ -138,7 +138,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             === ":simple-apple: MacOS"
                 
                 ```
-                base64 <filename>
+                base64 -i <filename>
                 ```
 
         * Create the Kubernetes Secret configuration file and specify your cluster name
