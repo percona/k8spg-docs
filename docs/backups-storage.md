@@ -1,8 +1,6 @@
 # Configure backup storage
 
-Configure backup storage for your [backup repositories](backups.md#backup-repositories) in the
-
-`backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
+Configure backup storage for your [backup repositories](backups.md#backup-repositories) in the `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
 === ":simple-amazons3: S3-compatible backup storage"
 
@@ -140,7 +138,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
             === ":simple-apple: MacOS"
                 
                 ```
-                base64 <filename>
+                base64 -i <filename>
                 ```
 
         * Create the Kubernetes Secret configuration file and specify your cluster name
@@ -277,6 +275,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
+
 
 ## Speed-up backups with pgBackRest asynchronous archiving
 

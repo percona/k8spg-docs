@@ -1,4 +1,4 @@
-# Use Docker images from a custom registry
+# Use Docker images from a private registry
 
 Using images from a private Docker registry may be required for privacy, security
 or other reasons. In these cases, Percona Operator for PostgreSQL allows the use
