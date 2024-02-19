@@ -13,7 +13,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Feature/Product        | Percona Operator for PostgreSQL |        Stackgres        |                     CrunchyData                     |     CloudNativePG (EDB)     | Zalando |
 |------------------------|:---------------------------:|:---------------------------:|:---------------------------------------------------:|:---------------------------:|:-------:|
 | Open-source license    |          Apache 2.0         |            AGPL 3           | Apache 2.0, but images are under Developer Program  |          Apache 2.0         |   MIT   |
-| PostgreSQL versions    |          12, 13, 14         |              14             |                      12, 13, 14                     |     11 - 14, 15 in Beta     | 11 - 14 |
+| PostgreSQL versions    |          12 - 16            |              14 - 16        |                      13 - 16                        |     12 - 16                 | 11 - 15 |
 | Kubernetes conformance | Various versions are tested | Various versions are tested |             Various versions are tested             | Various versions are tested | AWS EKS |
 
 ## Maintenance
