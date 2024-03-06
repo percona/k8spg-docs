@@ -219,6 +219,7 @@ nav:
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
+          - "Change the primary node": change-primary.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
