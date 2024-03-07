@@ -25,6 +25,20 @@ by adding marketing-requested elements
 </div>
 </div>
 {%- endmacro %}
+
+
+              {% block scripts %}
+              <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>
+
+              {{ super() }}
+
+              <img src="https://tracking.g2crowd.com/attribution_tracking/conversions/1007137.gif?e=" width="1" height="1" />
+
+              <noscript>
+                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBVF48V" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+              </noscript>
+              {% endblock %}
+
             
                {% block extrahead %}
                {{ super() }}
@@ -59,15 +73,6 @@ by adding marketing-requested elements
               {% endblock %}
 
 
-              {% block scripts %}
-              {{ super() }}
-
-              <img src="https://tracking.g2crowd.com/attribution_tracking/conversions/1007137.gif?e=" width="1" height="1" />
-
-              <noscript>
-                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WBVF48V" height="0" width="0" style="display:none;visibility:hidden"></iframe>
-              </noscript>
-              {% endblock %}
 
               {% block content %}
 
