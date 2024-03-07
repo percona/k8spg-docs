@@ -3,7 +3,7 @@
 There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we will focus on comparing the following open source solutions:
 
 * [Crunchy Data PostgreSQL Operator (PGO)](https://github.com/CrunchyData/postgres-operator)
-* [CloudNative PG](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
+* [CloudNative PG](https://github.com/cloudnative-pg/cloudnative-pg), vendor-neutral, originally created by EDB
 * [Stackgres](https://github.com/ongres/stackgres) from OnGres
 * [Zalando Postgres Operator](https://github.com/zalando/postgres-operator)
 * [Percona Operator for PostgreSQL](https://github.com/percona/percona-postgresql-operator/)
@@ -32,8 +32,8 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Warm standby       |       :white_check_mark:        |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | Hot standby        |       :white_check_mark:        |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | Connection pooling |       :white_check_mark:        |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
-| Delayed replica    |        :no_entry_sign:          |   :no_entry_sign:    |    :no_entry_sign:     |        :no_entry_sign:         |  :no_entry_sign:   |
-| Tablespaces        |       :white_check_mark:        |   :no_entry_sign:    |   :white_check_mark:   |       :no_entry_sign:          |  :no_entry_sign:   |
+| Delayed replica    |        :no_entry_sign:          |   :no_entry_sign:    |    :no_entry_sign:     |       :white_check_mark:       |  :no_entry_sign:   |
+| Tablespaces        |       :white_check_mark:        |   :no_entry_sign:    |   :white_check_mark:   |       :white_check_mark:       |  :no_entry_sign:   |
 
 ## Backups
 
@@ -45,12 +45,13 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | GCS               |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | S3                |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | Azure             |              :no_entry_sign:               |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
+| Volume snapshots  |             :no_entry_sign:                |  :no_entry_sign:     |   :no_entry_sign:      |       :white_check_mark:       | :no_entry_sign:    |
 
 ## Monitoring
 
 | Feature/Product |  Percona Operator for PostgreSQL  |               Stackgres               |           CrunchyData          |             CloudNativePG              |  Zalando |
 |-----------------|:---------------------------------:|:-------------------------------------:|:------------------------------:|:--------------------------------------:|:--------:|
-| Solution        | Percona Monitoring and Management | Exposing metrics in Prometheus format | Prometheus stack and pgMonitor | Exposing metrics in Prometheus format  | Sidecars |
+| Solution        | Percona Monitoring and Management | Exposing metrics in Prometheus format | Prometheus stack and pgMonitor | Prometheus metrics & Grafana dashboard | Sidecars |
 
 ## Miscellaneous
 
