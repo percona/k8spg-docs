@@ -44,8 +44,7 @@ last full or differential backup.
 
 ### Backup storage
 
-You have the following options to store PostgreSQL backups outside the
-Kubernetes cluster:
+You have the following options to store PostgreSQL backups:
 
 * Cloud storage:
 
