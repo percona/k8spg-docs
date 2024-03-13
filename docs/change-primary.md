@@ -25,7 +25,15 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   cluster1-instance1-ttm9   master
         ```
 
-2. Edit the `deploy/cr.yaml` manifest and add the following configuration:
+2. Enter the edit mode for your cluster. Replace the `cluster1` with the name of your cluster and the `<namespace>` placeholder with your value:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl edit pg cluster1 -n <namespace>
+    ```
+
+    This opens the Custom Resource for your cluster.
+
+3. Add the following configuration to the Custom Resource:
 
     ```yaml 
     patroni:
@@ -36,11 +44,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
     Specify the name of the instance that you want to act as the new primary. In our example, we're targeting the `cluster1-instance1-bmdp` to be the new primary
 
-4. Apply the changes. Replace the `<namespace>` placeholder with your value:
-
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
-    ```
+4. Save the changes and exit the editor. This applies the new configuration. 
 
 5. Trigger the switchover by adding the annotation to your custom resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 
