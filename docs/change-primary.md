@@ -1,14 +1,14 @@
-# Change the primary node
+# Change the PostgreSQL primary instance
 
-You may wish to manually change the primary node in your PostgreSQL cluster to achieve more control and meet specific requirements in various scenarios like  planned maintenance, testing failover procedures, load balancing and performance optimization activities and the like.
+You may wish to manually change the primary instance in your PostgreSQL cluster to achieve more control and meet specific requirements in various scenarios like  planned maintenance, testing failover procedures, load balancing and performance optimization activities and the like.
 
-In Percona Operator, the primary node change is controlled by the `patroni.switchover` section of the `deploy/cr.yaml` manifest. It allows you to enable switchovers in your PostgresClusters, target a specific instance as the new primary, and run a failover if your PostgreSQL cluster has entered a bad state.
+In Percona Operator, the primary instance change is controlled by the `patroni.switchover` section of the `deploy/cr.yaml` manifest. It allows you to enable switchovers in your PostgresClusters, target a specific instance as the new primary, and run a failover if your PostgreSQL cluster has entered a bad state.
 
-This document provides instructions how to change the primary node. 
+This document provides instructions how to change the primary instance. 
 
 For the following steps, we assume that you have the PostgreSQL cluster up and running. The cluster name is `cluster1`. 
 
-1. Check the information about the cluster nodes. Replace the `<namespace>` placeholder with your value:
+1. Check the information about the cluster instances. Replace the `<namespace>` placeholder with your value:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -l -n <namespace> postgres-operator.crunchydata.com/cluster=cluster1 \ 
