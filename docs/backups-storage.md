@@ -145,20 +145,18 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         and the base64-encoded contents of the files from previous steps. The following is the example of the
         `cluster1-pgbackrest-secrets.yaml` Secret file:    
 
-           ```yaml
-           apiVersion: v1
-           kind: Secret
-           metadata:
-             name: cluster1-pgbackrest-secrets
-           type: Opaque
-           data:
-             gcs-key.json: <base64-encoded-json-file-contents>
-             gcs.conf: <base64-encoded-conf-file-contents>
-           ```       
+            ```yaml
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: cluster1-pgbackrest-secrets
+            type: Opaque
+            data:
+              gcs-key.json: <base64-encoded-json-file-contents>
+              gcs.conf: <base64-encoded-conf-file-contents>
+            ```       
 
-           !!! note       
-
-               This Secret can store credentials for several repositories presented as
+          <i info>:material-information: Info </i>   This Secret can store credentials for several repositories presented as
                separate data keys.    
 
     4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:
@@ -275,6 +273,22 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
+=== ":octicons-database-16: Persistent Volume"
+
+    Percona Operator for PostgreSQL uses Persistent Volumes to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
+
+    ```yaml
+    - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+    ```
+
+    This configuration is sufficient to make a backup.
 
 
 ## Speed-up backups with pgBackRest asynchronous archiving
