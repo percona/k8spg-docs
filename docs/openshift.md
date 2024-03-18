@@ -76,7 +76,7 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
         $ oc create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
         ```
 
-5. If you are going to use the operator with anyuid <https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html> security context constraint
+5. If you are going to use the operator with [anyuid :octicons-link-external-16:](https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html) security context constraint
     please execute the following command:
 
     ``` {.bash data-prompt="$" }
