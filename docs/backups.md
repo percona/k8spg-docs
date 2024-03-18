@@ -6,14 +6,14 @@ You can make backups in two ways:
 
 * _On-demand_. You can do them manually at any moment.
 * _Schedule backups_. Configure backups and their schedule in the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file. The Operator makes them automatically according to the schedule. 
 
 ## What you need to know
 
 ### Backup repositories
 
-To make backups, the Operator uses the open source [pgBackRest](https://pgbackrest.org/) backup
+To make backups, the Operator uses the open source [pgBackRest :material-arrow-top-right:](https://pgbackrest.org/) backup
 and restore utility. 
 
 When the Operator creates a new PostgreSQL cluster, it also creates a special *pgBackRest repository* to facilitate the usage of the pgBackRest
@@ -48,11 +48,11 @@ You have the following options to store PostgreSQL backups:
 
 * Cloud storage:
 
-    * [Amazon S3](https://aws.amazon.com/s3/), or [any S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
-    * [Google Cloud Storage](https://cloud.google.com/storage), 
-    * [Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/)
+    * [Amazon S3 :material-arrow-top-right:](https://aws.amazon.com/s3/), or [any S3-compatible storage :material-arrow-top-right:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
+    * [Google Cloud Storage :material-arrow-top-right:](https://cloud.google.com/storage), 
+    * [Azure Blob Storage :material-arrow-top-right:](https://azure.microsoft.com/en-us/services/storage/blobs/)
 
-* A [Persistent Volume](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) attached to the pgBackRest Pod.
+* A [Persistent Volume :material-arrow-top-right:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) attached to the pgBackRest Pod.
 
 ## Next steps
 

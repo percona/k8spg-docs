@@ -38,7 +38,7 @@ the restore:
 
 To restore the previously saved backup, use a *backup restore*
 configuration file. The example of the backup configuration file is
-[deploy/restore.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
+[deploy/restore.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml):
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -58,7 +58,7 @@ The following keys are the most important ones:
 * `pgCluster` specifies the name of your cluster,
 * `repoName` specifies the name of one of the 4 pgBackRest repositories,
     already configured in the `backups.pgbackrest.repos` subsection,
-* `options` passes through any [pgBackRest command line options](https://pgbackrest.org/configuration.html).
+* `options` passes through any [pgBackRest command line options :material-arrow-top-right:](https://pgbackrest.org/configuration.html).
 
 To start the restoration process, run the following command:
 

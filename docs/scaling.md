@@ -6,7 +6,7 @@ Scaling can be vertical and horizontal. Vertical scaling adds more compute or st
 
 ## Vertical scaling
 
-There are multiple components that Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, etc. To add or reduce CPU or Memory you need to edit corresponding sections in the Custom Resource. We follow the structure for requests and limits that Kubernetes [provides](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+There are multiple components that Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, etc. To add or reduce CPU or Memory you need to edit corresponding sections in the Custom Resource. We follow the structure for requests and limits that Kubernetes [provides :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
 
 To add more resources to your PostgreSQL instances edit the following section in the Custom Resource:
 

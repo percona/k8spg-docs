@@ -2,9 +2,9 @@
 
 When the [installation](kubectl.md) is done, we can connect to the cluster. 
 
-The [`pgBouncer`](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pgBouncer` URI to connect. 
+The [`pgBouncer` :material-arrow-top-right:](http://pgbouncer.github.io/) component of Percona Distribution for PostgreSQL provides the point of entry to the PostgreSQL cluster. We will use the `pgBouncer` URI to connect. 
 
-The `pgBouncer` URI is stored in the [Secret](https://kubernetes.io/docs/concepts/configuration/secret/) object, which the Operator generates during the installation.
+The `pgBouncer` URI is stored in the [Secret :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/secret/) object, which the Operator generates during the installation.
 
 To connect to PostgreSQL, do the following:
 {.power-number}

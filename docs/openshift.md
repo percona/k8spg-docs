@@ -2,7 +2,7 @@
 
 {%set commandName = 'oc' %}
 
-Percona Operator for PostgreSQL is a [Red Hat Certified Operator](https://connect.redhat.com/en/partner-with-us/red-hat-openshift-certification). This means that Percona Operator is portable across hybrid clouds and fully supports the Red Hat OpenShift lifecycle.
+Percona Operator for PostgreSQL is a [Red Hat Certified Operator :material-arrow-top-right:](https://connect.redhat.com/en/partner-with-us/red-hat-openshift-certification). This means that Percona Operator is portable across hybrid clouds and fully supports the Red Hat OpenShift lifecycle.
 
 Installing Percona Distribution for PostgreSQL on OpenShift includes two steps:
 
@@ -11,7 +11,7 @@ Installing Percona Distribution for PostgreSQL on OpenShift includes two steps:
 
 ## Install the Operator
 
-You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat Marketplace](https://marketplace.redhat.com) web interface or using the command line interface.
+You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat Marketplace :material-arrow-top-right:](https://marketplace.redhat.com) web interface or using the command line interface.
 
 ### Install the Operator via the command-line interface
 
@@ -31,7 +31,7 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
     extends the standard set of resources which OpenShift “knows” about with
     the new items (in our case ones which are the core of the Operator).
-    [Apply it](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    [Apply it :material-arrow-top-right:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
     ``` {.bash data-prompt="$" }
@@ -60,7 +60,7 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
     is configured with the `deploy/rbac.yaml` file. Role-based access is based
     on defined roles and the available actions which correspond to each role.
     The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in specific [OpenShift documentation](https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html))
+    Further details about users and roles can be found in specific [OpenShift documentation :material-arrow-top-right:](https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html))
 
     ``` {.bash data-prompt="$" }
     $ oc apply -f deploy/rbac.yaml -n postgres-operator

@@ -6,9 +6,9 @@
 
 Percona Operator for PostgreSQL automates and simplifies deploying and managing open source PostgreSQL clusters on Kubernetes. 
 
-The Percona Operator for PostgreSQL code is [here](https://github.com/percona/percona-postgresql-operator).
+The Percona Operator for PostgreSQL code is [here :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator).
 
-This repository contains the source files for [Percona Operator for PostgreSQL documentation](https://docs.percona.com/percona-operator-for-postgresql/index.html). The documentation is written in [Markdown markup language](https://en.wikipedia.org/wiki/Markdown) and is converted to HTML using [MkDocs](https://www.mkdocs.org/).
+This repository contains the source files for [Percona Operator for PostgreSQL documentation :material-arrow-top-right:](https://docs.percona.com/percona-operator-for-postgresql/index.html). The documentation is written in [Markdown markup language :material-arrow-top-right:](https://en.wikipedia.org/wiki/Markdown) and is converted to HTML using [MkDocs :material-arrow-top-right:](https://www.mkdocs.org/).
 
 ## Contributing
 

@@ -2,33 +2,33 @@
 
 The Percona Operator for PostgreSQL automates and simplifies
 deploying and managing open source PostgreSQL clusters on Kubernetes.
-The Operator is based on [CrunchyData’s PostgreSQL Operator](https://access.crunchydata.com/documentation/postgres-operator/v5/).
+The Operator is based on [CrunchyData’s PostgreSQL Operator :material-arrow-top-right:](https://access.crunchydata.com/documentation/postgres-operator/v5/).
 
 ![image](assets/images/pgo.svg)
 
 PostgreSQL containers deployed with the Operator include the following components:
 
-* The [PostgreSQL](https://www.postgresql.org/) database management system, including:
+* The [PostgreSQL :material-arrow-top-right:](https://www.postgresql.org/) database management system, including:
 
-    * [PostgreSQL Additional Supplied Modules](https://www.postgresql.org/docs/current/contrib.html),
+    * [PostgreSQL Additional Supplied Modules :material-arrow-top-right:](https://www.postgresql.org/docs/current/contrib.html),
 
-    * [pgAudit](https://www.pgaudit.org/) PostgreSQL auditing extension,
+    * [pgAudit :material-arrow-top-right:](https://www.pgaudit.org/) PostgreSQL auditing extension,
 
-    * [PostgreSQL set_user Extension Module](https://github.com/pgaudit/set_user),
+    * [PostgreSQL set_user Extension Module :material-arrow-top-right:](https://github.com/pgaudit/set_user),
 
-    * [wal2json output plugin](https://github.com/eulerto/wal2json),
+    * [wal2json output plugin :material-arrow-top-right:](https://github.com/eulerto/wal2json),
 
-* The [pgBackRest](https://pgbackrest.org/) Backup & Restore utility,
+* The [pgBackRest :material-arrow-top-right:](https://pgbackrest.org/) Backup & Restore utility,
 
-* The [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL,
+* The [pgBouncer :material-arrow-top-right:](http://pgbouncer.github.io/) connection pooler for PostgreSQL,
 
-* The PostgreSQL high-availability implementation based on the [Patroni template](https://patroni.readthedocs.io/),
+* The PostgreSQL high-availability implementation based on the [Patroni template :material-arrow-top-right:](https://patroni.readthedocs.io/),
 
-* the [pg_stat_monitor](https://github.com/percona/pg_stat_monitor/) PostgreSQL Query Performance Monitoring utility,
+* the [pg_stat_monitor :material-arrow-top-right:](https://github.com/percona/pg_stat_monitor/) PostgreSQL Query Performance Monitoring utility,
 
 * LLVM (for JIT compilation).
 
-To provide high availability the Operator involves [node affinity](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+To provide high availability the Operator involves [node affinity :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 to run PostgreSQL Cluster instances on separate worker nodes if possible. If
 some node fails, the Pod with it is automatically re-created on another node.
 
@@ -41,11 +41,11 @@ Container Storage Interface (CSI) should be able to re-mount storage on
 a different node.
 
 The Operator functionality extends the Kubernetes API with [Custom Resources
-Definitions](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
+Definitions :material-arrow-top-right:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
 These CRDs provide extensions to the Kubernetes API, and, in the case of the
 Operator, allow you to perform actions such as creating a PostgreSQL Cluster,
 updating PostgreSQL Cluster resource allocations, adding additional utilities to
-a PostgreSQL cluster, e.g. [pgBouncer](https://www.pgbouncer.org/) for
+a PostgreSQL cluster, e.g. [pgBouncer :material-arrow-top-right:](https://www.pgbouncer.org/) for
 connection pooling and more.
 
 When a new Custom Resource is created or an existing one undergoes some changes

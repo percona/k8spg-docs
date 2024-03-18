@@ -20,7 +20,7 @@ The Operator [is now compatible](../openshift.md) with the OpenShift platform em
 
 ### Experimental support for custom PostgreSQL extensions
 
-One of great features of PostgreSQL is support for [Extensions](https://www.postgresql.org/download/products/6-postgresql-extensions/), which allow adding new functionality to the database on a plugin basis. Starting from this release, users can add custom PostgreSQL extensions dynamically, without the need to rebuild the container image (see [this HowTo](../custom-extensions.md) on how to create and connect yours). 
+One of great features of PostgreSQL is support for [Extensions :material-arrow-top-right:](https://www.postgresql.org/download/products/6-postgresql-extensions/), which allow adding new functionality to the database on a plugin basis. Starting from this release, users can add custom PostgreSQL extensions dynamically, without the need to rebuild the container image (see [this HowTo](../custom-extensions.md) on how to create and connect yours). 
 
 
 ## New features
@@ -61,9 +61,9 @@ The Operator was developed and tested with PostgreSQL versions 12.17, 13.13, 14.
 The following platforms were tested and are officially supported by the Operator
 2.3.0:
 
-* [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
-* [Amazon Elastic Container Service for Kubernetes (EKS)](https://aws.amazon.com) 1.24 - 1.28
-* [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11.55 - 4.14.6
-* [Minikube](https://github.com/kubernetes/minikube) 1.32
+* [Google Kubernetes Engine (GKE) :material-arrow-top-right:](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
+* [Amazon Elastic Container Service for Kubernetes (EKS) :material-arrow-top-right:](https://aws.amazon.com) 1.24 - 1.28
+* [OpenShift :material-arrow-top-right:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11.55 - 4.14.6
+* [Minikube :material-arrow-top-right:](https://github.com/kubernetes/minikube) 1.32
 
 This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.

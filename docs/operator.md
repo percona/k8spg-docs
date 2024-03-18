@@ -1,18 +1,18 @@
 # Custom Resource options
 
 The Cluster is configured via the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file.
+[deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file.
 
 The metadata part of this file contains the following keys:
 
 * <a name="metadata-name"></a> `name` (`cluster1` by default) sets the name of your Percona Distribution
-for PostgreSQL Cluster; it should include only [URL-compatible characters](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3), not exceed 22 characters, start with an alphabetic character, and end with an alphanumeric character;
+for PostgreSQL Cluster; it should include only [URL-compatible characters :material-arrow-top-right:](https://datatracker.ietf.org/doc/html/rfc3986#section-2.3), not exceed 22 characters, start with an alphabetic character, and end with an alphanumeric character;
 
-* <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
+* <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer :material-arrow-top-right:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
 
-* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
+* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer :material-arrow-top-right:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims :material-arrow-top-right:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
 
-The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
+The spec part of the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
 
 |                 | |
 |-----------------|-|
@@ -83,12 +83,12 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Key**         | {{ optionlink('databaseInitSQL.key') }} |
 | **Value**       | string |
 | **Example**     | `init.sql` |
-| **Description** | Data key for the [Custom configuration options ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time |
+| **Description** | Data key for the [Custom configuration options ConfigMap :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time |
 |                 | |
 | **Key**         | {{ optionlink('databaseInitSQL.name') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-init-sql` |
-| **Description** | Name of the [ConfigMap](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time |
+| **Description** | Name of the [ConfigMap :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time |
 |                 | |
 | **Key**         | {{ optionlink('pause') }} |
 | **Value**       | string |
@@ -118,12 +118,12 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Key**         | {{ optionlink('dataSource.pgbackrest.stanza') }} |
 | **Value**       | string |
 | **Example**     | `db` |
-| **Description** | Name of the [pgBackRest stanza](https://pgbackrest.org/command.html) to use as the data source when restoring backup to a new cluster |
+| **Description** | Name of the [pgBackRest stanza :material-arrow-top-right:](https://pgbackrest.org/command.html) to use as the data source when restoring backup to a new cluster |
 |                 | |
 | **Key**         | {{ optionlink('dataSource.pgbackrest.configuration.secret.name') }} |
 | **Value**       | string |
 | **Example**     | `pgo-s3-creds` |
-| **Description** | Name of the [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) with custom pgBackRest configuration, which will be added to the pgBackRest configuration generated by the Operator |
+| **Description** | Name of the [Kubernetes Secret object :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) with custom pgBackRest configuration, which will be added to the pgBackRest configuration generated by the Operator |
 |                 | |
 | **Key**         | {{ optionlink('dataSource.pgbackrest.global') }} |
 | **Value**       | subdoc |
@@ -138,7 +138,7 @@ The spec part of the [deploy/cr.yaml](https://github.com/percona/percona-postgre
 | **Key**         | {{ optionlink('dataSource.pgbackrest.repo.s3.bucket') }} |
 | **Value**       | string |
 | **Example**     | `"my-bucket"` |
-| **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) or [Google Cloud Storage bucket](https://cloud.google.com/storage/docs/key-terms#buckets)
+| **Description** | The [Amazon S3 bucket :material-arrow-top-right:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) or [Google Cloud Storage bucket :material-arrow-top-right:](https://cloud.google.com/storage/docs/key-terms#buckets)
 name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('dataSource.pgbackrest.repo.s3.endpoint') }} |
@@ -149,7 +149,7 @@ name used for backups |
 | **Key**         | {{ optionlink('dataSource.pgbackrest.repo.s3.region') }} |
 | **Value**       | boolean |
 | **Example**     | `"ca-central-1"` |
-| **Description** | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
+| **Description** | The [AWS region :material-arrow-top-right:](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
 |                 | |
 | **Key**         | {{ optionlink('image') }} |
 | **Value**       | string |
@@ -159,7 +159,7 @@ name used for backups |
 | **Key**         | {{ optionlink('imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PostgreSQL images |
+| **Description** | This option is used to set the [policy :material-arrow-top-right:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PostgreSQL images |
 |                 | |
 | **Key**         | {{ optionlink('postgresVersion') }} |
 | **Value**       | int |
@@ -174,17 +174,17 @@ name used for backups |
 | **Key**         | {{ optionlink('expose.annotations') }} |
 | **Value**       | label |
 | **Example**     | `my-annotation: value1` |
-| **Description** | The [Kubernetes annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL |
+| **Description** | The [Kubernetes annotations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL |
 |                 | |
 | **Key**         | {{ optionlink('expose.labels') }} |
 | **Value**       | label |
 | **Example**     | `my-label: value2` |
-| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL Service |
+| **Description** | Set [labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL Service |
 |                 | |
 | **Key**         | {{ optionlink('expose.type') }} |
 | **Value**       | string |
 | **Example**     | `LoadBalancer` |
-| **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL |
+| **Description** | Specifies the type of [Kubernetes Service :material-arrow-top-right:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL |
 |                 | |
 | **Key**         | {{ optionlink('expose.loadBalancerSourceRanges') }} |
 | **Value**       | string |
@@ -193,7 +193,7 @@ name used for backups |
 
 ## <a name="operator-instances-section"></a>Instances section
 
-The `instances` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `instances` section in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for PostgreSQL instances.
 
 |                 | |
@@ -201,7 +201,7 @@ file contains configuration options for PostgreSQL instances.
 | **Key**         | {{ optionlink('instances.metadata.labels') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
-| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL Pods |
+| **Description** | Set [labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.name') }} |
 | **Value**       | string |
@@ -216,81 +216,81 @@ file contains configuration options for PostgreSQL instances.
 | **Key**         | {{ optionlink('instances.resources.limits.cpu') }} |
 | **Value**       | string |
 | **Example**     | `2.0` |
-| **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
+| **Description** | [Kubernetes CPU limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.resources.limits.memory') }} |
 | **Value**       | string |
 | **Example**     | `4Gi` |
-| **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
+| **Description** | The [Kubernetes memory limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.maxSkew') }} |
 | **Value**       | int |
 | **Example**     | 1 |
-| **Description** | The degree to which Pods may be unevenly distributed under the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The degree to which Pods may be unevenly distributed under the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.topologyKey') }} |
 | **Value**       | string |
 | **Example**     | `my-node-label` |
-| **Description** | The key of node labels for the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The key of node labels for the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.whenUnsatisfiable') }} |
 | **Value**       | string |
 | **Example**     | `DoNotSchedule` |
-| **Description** | What to do with a Pod if it doesn't satisfy the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | What to do with a Pod if it doesn't satisfy the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('instances.topologySpreadConstraints.labelSelector.matchLabels') }} |
 | **Value**       | label |
 | **Example**     | `postgres-operator.crunchydata.com/instance-set: instance1` |
-| **Description** | The Label selector for the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The Label selector for the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('instances.tolerations.effect') }} |
 | **Value**       | string |
 | **Example**     | `NoSchedule` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the PostgreSQL instance |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.tolerations.key') }} |
 | **Value**       | string |
 | **Example**     | `role` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the PostgreSQL instance |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.tolerations.operator') }} |
 | **Value**       | string |
 | **Example**     | `Equal` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the PostgreSQL instance |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.tolerations.value') }} |
 | **Value**       | string |
 | **Example**     | `connection-poolers` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the PostgreSQL instance |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the PostgreSQL instance |
 |                 | |
 | **Key**         | {{ optionlink('instances.priorityClassName') }} |
 | **Value**       | string |
 | **Example**     | `high-priority` |
-| **Description** | The [Kuberentes Pod priority class](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods |
+| **Description** | The [Kuberentes Pod priority class :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.walVolumeClaimSpec.accessModes') }} |
 | **Value**       | string |
 | **Example**     | `ReadWriteOnce` |
-| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
+| **Description** | The [Kubernetes PersistentVolumeClaim :material-arrow-top-right:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
 |                 | |
 | **Key**         | {{ optionlink('instances.walVolumeClaimSpec.resources.requests.storage') }} |
 | **Value**       | string |
 | **Example**     | `1Gi` |
-| **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
+| **Description** | The [Kubernetes storage requests :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
 |                 | |
 | **Key**         | {{ optionlink('instances.dataVolumeClaimSpec.accessModes') }} |
 | **Value**       | string |
 | **Example**     | `ReadWriteOnce` |
-| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
+| **Description** | The [Kubernetes PersistentVolumeClaim :material-arrow-top-right:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage |
 |                 | |
 | **Key**         | {{ optionlink('instances.dataVolumeClaimSpec.resources.requests.storage') }} |
 | **Value**       | string |
 | **Example**     | `1Gi` |
-| **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
+| **Description** | The [Kubernetes storage requests :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use |
 
 ### instances.sidecars subsection
 
-The `instances.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `instances.sidecars` subsection in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to PostgreSQL Pods.
 
 |                 | |
@@ -308,17 +308,17 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 | **Key**         | {{ optionlink('instances.sidecars.imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
+| **Description** | This option is used to set the [policy :material-arrow-top-right:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the PostgreSQL Pod sidecar container |
 |                 | |
 | **Key**         | {{ optionlink('instances.sidecars.env') }} |
 | **Value**       | subdoc |
 | **Example**     |  |
-| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+| **Description** | The [environment variables set as key-value pairs :material-arrow-top-right:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.sidecars.envFrom') }} |
 | **Value**       | subdoc |
 | **Example**     | |
-| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps :material-arrow-top-right:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for PostgreSQL Pods |
 |                 | |
 | **Key**         | {{ optionlink('instances.sidecars.command') }} |
 | **Value**       | array |
@@ -333,7 +333,7 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 ## Backup section
 
 The `backup` section in the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains the following configuration options for the regular
 Percona Distribution for PostgreSQL backups.
 
@@ -342,7 +342,7 @@ Percona Distribution for PostgreSQL backups.
 | **Key**         | {{ optionlink('backups.pgbackrest.metadata.labels') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
-| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods |
+| **Description** | Set [labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.image') }} |
 | **Value**       | string |
@@ -352,42 +352,42 @@ Percona Distribution for PostgreSQL backups.
 | **Key**         | {{ optionlink('backups.pgbackrest.configuration.secret.name') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-pgbackrest-secrets` |
-| **Description** | Name of the [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) with custom pgBackRest configuration, which will be added to the pgBackRest configuration generated by the Operator |
+| **Description** | Name of the [Kubernetes Secret object :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) with custom pgBackRest configuration, which will be added to the pgBackRest configuration generated by the Operator |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.priorityClassName') }} |
 | **Value**       | string |
 | **Example**     | `high-priority` |
-| **Description** | The [Kuberentes Pod priority class](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs |
+| **Description** | The [Kuberentes Pod priority class :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.resources.limits.cpu') }} |
 | **Value**       | int |
 | **Example**     | `200` |
-| **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest job |
+| **Description** | [Kubernetes CPU limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.resources.limits.memory') }} |
 | **Value**       | int |
 | **Example**     | `128Mi` |
-| **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest job |
+| **Description** | The [Kubernetes memory limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.tolerations.effect') }} |
 | **Value**       | string |
 | **Example**     | `NoSchedule` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a pgBackRest job |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.tolerations.key') }} |
 | **Value**       | string |
 | **Example**     | `role` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a pgBackRest job |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.tolerations.operator') }} |
 | **Value**       | string |
 | **Example**     | `Equal` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a pgBackRest job |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.jobs.tolerations.value') }} |
 | **Value**       | string |
 | **Example**     | `connection-poolers` |
-| **Description** | The [Kubernetes Pod tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a pgBackRest job |
+| **Description** | The [Kubernetes Pod tolerations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a pgBackRest job |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.global') }} |
 | **Value**       | subdoc |
@@ -397,27 +397,27 @@ Percona Distribution for PostgreSQL backups.
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.priorityClassName') }} |
 | **Value**       | string |
 | **Example**     | `high-priority` |
-| **Description** | The [Kuberentes Pod priority class](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo |
+| **Description** | The [Kuberentes Pod priority class :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.topologySpreadConstraints.maxSkew') }} |
 | **Value**       | int |
 | **Example**     | 1 |
-| **Description** | The degree to which Pods may be unevenly distributed under the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The degree to which Pods may be unevenly distributed under the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.topologySpreadConstraints.topologyKey') }} |
 | **Value**       | string |
 | **Example**     | `my-node-label` |
-| **Description** | The key of node labels for the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The key of node labels for the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.topologySpreadConstraints.whenUnsatisfiable') }} |
 | **Value**       | string |
 | **Example**     | `ScheduleAnyway` |
-| **Description** | What to do with a Pod if it doesn't satisfy the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | What to do with a Pod if it doesn't satisfy the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.topologySpreadConstraints.labelSelector.matchLabels') }} |
 | **Value**       | label |
 | **Example**     | `postgres-operator.crunchydata.com/pgbackrest: ""` |
-| **Description** | The Label selector for the [Kubernetes Pod Topology Spread Constraints](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
+| **Description** | The Label selector for the [Kubernetes Pod Topology Spread Constraints :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repoHost.affinity.podAntiAffinity') }} |
 | **Value**       | subdoc |
@@ -442,27 +442,27 @@ Percona Distribution for PostgreSQL backups.
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.schedules.full') }} |
 | **Value**       | string |
 | **Example**     | `0 0 \* \* 6` |
-| **Description** | Scheduled time to make a full backup specified in the [crontab format](https://en.wikipedia.org/wiki/Cron) |
+| **Description** | Scheduled time to make a full backup specified in the [crontab format :material-arrow-top-right:](https://en.wikipedia.org/wiki/Cron) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.schedules.differential') }} |
 | **Value**       | string |
 | **Example**     | `0 0 \* \* 6` |
-| **Description** | Scheduled time to make a differential backup specified in the [crontab format](https://en.wikipedia.org/wiki/Cron) |
+| **Description** | Scheduled time to make a differential backup specified in the [crontab format :material-arrow-top-right:](https://en.wikipedia.org/wiki/Cron) |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.volume.volumeClaimSpec.accessModes') }} |
 | **Value**       | string |
 | **Example**     | `ReadWriteOnce` |
-| **Description** | The [Kubernetes PersistentVolumeClaim](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the pgBackRest Storage |
+| **Description** | The [Kubernetes PersistentVolumeClaim :material-arrow-top-right:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the pgBackRest Storage |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.volume.volumeClaimSpec.resources.requests.storage') }} |
 | **Value**       | string |
 | **Example**     | `1Gi` |
-| **Description** | The [Kubernetes storage requests](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the pgBackRest storage |
+| **Description** | The [Kubernetes storage requests :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the pgBackRest storage |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.bucket') }} |
 | **Value**       | string |
 | **Example**     | `"my-bucket"` |
-| **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) 
+| **Description** | The [Amazon S3 bucket :material-arrow-top-right:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) 
 name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.endpoint') }} |
@@ -473,22 +473,22 @@ name used for backups |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.s3.region') }} |
 | **Value**       | boolean |
 | **Example**     | `"ca-central-1"` |
-| **Description** | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
+| **Description** | The [AWS region :material-arrow-top-right:](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use for Amazon and all S3-compatible storages |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.gcs.bucket') }} |
 | **Value**       | string |
 | **Example**     | `"my-bucket"` |
-| **Description** | The [Google Cloud Storage bucket](https://cloud.google.com/storage/docs/key-terms#buckets)
+| **Description** | The [Google Cloud Storage bucket :material-arrow-top-right:](https://cloud.google.com/storage/docs/key-terms#buckets)
 name used for backups |
 |                 | |
 | **Key**         | {{ optionlink('backups.pgbackrest.repos.azure.container') }} |
 | **Value**       | string |
 | **Example**     | `my-container` |
-| **Description** | Name of the [Azure Blob Storage container](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#containers) for backups |
+| **Description** | Name of the [Azure Blob Storage container :material-arrow-top-right:](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction#containers) for backups |
 
 ## PMM section
 
-The `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `pmm` section in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for Percona Monitoring and Management.
 
 |                 | |
@@ -496,22 +496,22 @@ file contains configuration options for Percona Monitoring and Management.
 | **Key**         | {{ optionlink('pmm.enabled') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
-| **Description** | Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html) |
+| **Description** | Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM :material-arrow-top-right:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html) |
 |                 | |
 | **Key**         | {{ optionlink('pmm.image') }} |
 | **Value**       | string |
 | **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
-| **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
+| **Description** | [Percona Monitoring and Management (PMM) Client :material-arrow-top-right:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
 |                 | |
 | **Key**         | {{ optionlink('pmm.imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `IfNotPresent` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
+| **Description** | This option is used to set the [policy :material-arrow-top-right:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating PMM Client images |
 |                 | |
 | **Key**         | {{ optionlink('pmm.pmmSecret') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-pmm-secret` |
-| **Description** | Name of the [Kubernetes Secret object](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password |
+| **Description** | Name of the [Kubernetes Secret object :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password |
 |                 | |
 | **Key**         | {{ optionlink('pmm.serverHost') }} |
 | **Value**       | string |
@@ -520,15 +520,15 @@ file contains configuration options for Percona Monitoring and Management.
 
 ## Proxy section
 
-The `proxy` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file contains configuration options for the [pgBouncer](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
+The `proxy` section in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for the [pgBouncer :material-arrow-top-right:](http://pgbouncer.github.io/) connection pooler for PostgreSQL.
 
 |                 | |
 |-----------------|-|
 | **Key**         | {{ optionlink('proxy.pgBouncer.metadata.labels') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
-| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBouncer Pods |
+| **Description** | Set [labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBouncer Pods |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.replicas') }} |
 | **Value**       | int |
@@ -538,7 +538,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Key**         | {{ optionlink('proxy.pgBouncer.image') }} |
 | **Value**       | string |
 | **Example**     | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbouncer` |
-| **Description** | Docker image for the [pgBouncer](http://pgbouncer.github.io/) connection pooler |
+| **Description** | Docker image for the [pgBouncer :material-arrow-top-right:](http://pgbouncer.github.io/) connection pooler |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.exposeSuperusers') }} |
 | **Value**       | boolean |
@@ -548,27 +548,27 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 | **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.cpu') }} |
 | **Value**       | int |
 | **Example**     | `200m` |
-| **Description** | [Kubernetes CPU limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
+| **Description** | [Kubernetes CPU limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.resources.limits.memory') }} |
 | **Value**       | int |
 | **Example**     | `128Mi` |
-| **Description** | The [Kubernetes memory limits](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
+| **Description** | The [Kubernetes memory limits :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.expose.type') }} |
 | **Value**       | string |
 | **Example**     | `ClusterIP` |
-| **Description** | Specifies the type of [Kubernetes Service](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgBouncer |
+| **Description** | Specifies the type of [Kubernetes Service :material-arrow-top-right:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for pgBouncer |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.expose.annotations') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-annot: cluster1` |
-| **Description** | The [Kubernetes annotations](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for pgBouncer |
+| **Description** | The [Kubernetes annotations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for pgBouncer |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.expose.labels') }} |
 | **Value**       | label |
 | **Example**     | `pg-cluster-label: cluster1` |
-| **Description** | Set [labels](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgBouncer Service |
+| **Description** | Set [labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the pgBouncer Service |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.expose.loadBalancerSourceRanges') }} |
 | **Value**       | string |
@@ -586,7 +586,7 @@ file contains configuration options for the [pgBouncer](http://pgbouncer.github.
 
 ### proxy.pgBouncer.sidecars subsection
 
-The `proxy.pgBouncer.sidecars` subsection in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `proxy.pgBouncer.sidecars` subsection in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to pgBouncer Pods.
 
 |                 | |
@@ -604,17 +604,17 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `Always` |
-| **Description** | This option is used to set the [policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the pgBouncer Pod sidecar container |
+| **Description** | This option is used to set the [policy :material-arrow-top-right:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the pgBouncer Pod sidecar container |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.env') }} |
 | **Value**       | subdoc |
 | **Example**     |  |
-| **Description** | The [environment variables set as key-value pairs](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+| **Description** | The [environment variables set as key-value pairs :material-arrow-top-right:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.envFrom') }} |
 | **Value**       | subdoc |
 | **Example**     | |
-| **Description** | The [environment variables set as key-value pairs in ConfigMaps](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
+| **Description** | The [environment variables set as key-value pairs in ConfigMaps :material-arrow-top-right:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/) for the [custom sidecar container](sidecar.md) for pgBouncer Pods |
 |                 | |
 | **Key**         | {{ optionlink('proxy.pgBouncer.sidecars.command') }} |
 | **Value**       | array |
@@ -628,8 +628,8 @@ file contains configuration options for [custom sidecar containers](sidecar.md) 
 
 ## Patroni Section
 
-The `patroni` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni](https://patroni.readthedocs.io/).
+The `patroni` section in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni :material-arrow-top-right:](https://patroni.readthedocs.io/).
 
 |                 | |
 |-----------------|-|
@@ -640,7 +640,7 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 
 ## Custom extensions Section
 
-The `extensions` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+The `extensions` section in the [deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to [manage PostgreSQL extensions](custom-extensions.md).
 
 |                 | |
@@ -653,7 +653,7 @@ file contains configuration options to [manage PostgreSQL extensions](custom-ext
 | **Key**         | {{ optionlink('extensions.imagePullPolicy') }} |
 | **Value**       | string |
 | **Example**     | `Always` |
-| **Description** | [Policy](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the custom extension sidecar container |
+| **Description** | [Policy :material-arrow-top-right:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for the custom extension sidecar container |
 |                 | |
 | **Key**         | {{ optionlink('extensions.storage.type') }} |
 | **Value**       | string |
@@ -663,22 +663,22 @@ file contains configuration options to [manage PostgreSQL extensions](custom-ext
 | **Key**         | {{ optionlink('extensions.storage.bucket') }} |
 | **Value**       | string |
 | **Example**     | `pg-extensions` |
-| **Description** | The [Amazon S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name for prepackaged PostgreSQL custom extensions |
+| **Description** | The [Amazon S3 bucket :material-arrow-top-right:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) name for prepackaged PostgreSQL custom extensions |
 |                 | |
 | **Key**         | {{ optionlink('extensions.storage.region') }} |
 | **Value**       | string |
 | **Example**     | `eu-central-1` |
-| **Description** | The [AWS region](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use |
+| **Description** | The [AWS region :material-arrow-top-right:](https://docs.aws.amazon.com/general/latest/gr/rande.html) to use |
 |                 | |
 | **Key**         | {{ optionlink('extensions.storage.secret.name') }} |
 | **Value**       | string |
 | **Example**     | `cluster1-extensions-secret` |
-| **Description** | The [Kubernetes secret](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys. |
+| **Description** | The [Kubernetes secret :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys. |
 |                 | |
 | **Key**         | {{ optionlink('extensions.builtin') }} |
 | **Value**       | label |
 | **Example**     | `pg_stat_monitor: true` |
-| **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions](https://docs.percona.com/postgresql/16/) |
+| **Description** | The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions :material-arrow-top-right:](https://docs.percona.com/postgresql/16/) |
 |                 | |
 | **Key**         | {{ optionlink('extensions.custom.name') }} |
 | **Value**       | string |

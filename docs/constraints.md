@@ -8,7 +8,7 @@ equipped machine, or to reduce network costs choosing nodes in a same
 availability zone.
 
 Appropriate sections of the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file (such as `proxy.pgBouncer`) contain keys which can be used to do this, depending on what is the
 best for a particular situation.
 
@@ -44,7 +44,7 @@ affinity:
         topologyKey: kubernetes.io/hostname
 ```
 
-You can see the explanation of these affinity options [in Kubernetes documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
+You can see the explanation of these affinity options [in Kubernetes documentation :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/#inter-pod-affinity-and-anti-affinity).
 
 ## Topology Spread Constraints
 
@@ -67,7 +67,7 @@ topologySpreadConstraints:
         postgres-operator.crunchydata.com/instance-set: instance1
 ```
 
-You can see the explanation of these affinity options [in Kubernetes documentation](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/).
+You can see the explanation of these affinity options [in Kubernetes documentation :material-arrow-top-right:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/).
 
 
 ## Tolerations
@@ -93,5 +93,5 @@ tolerations:
   value: connection-poolers
 ```
 
-The [Kubernetes Taints and Toleratins](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+The [Kubernetes Taints and Toleratins :material-arrow-top-right:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 contains more examples on this topic.
