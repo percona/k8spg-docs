@@ -10,7 +10,7 @@ Before submitting code contributions, you should first complete the following pr
 
 ### 1. Sign the CLA
 
-Before you can contribute, we kindly ask you to sign our [Contributor License Agreement :octicons-link-external-16:](https://cla-assistant.io/percona/percona-postgresql-operator) (CLA). You can do this using your GitHub account and one click.
+Before you can contribute, we kindly ask you to sign our [Contributor License Agreement](https://cla-assistant.io/percona/percona-postgresql-operator) (CLA). You can do this using your GitHub account and one click.
 
 ### 2. Code of Conduct
 
@@ -20,17 +20,17 @@ Please make sure to read and observe the [Contribution Policy](code-of-conduct.m
 
 ### 1. Making a bug report
 
-Improvement and bugfix tasks for Percona's projects are tracked in [Jira :octicons-link-external-16:](https://jira.percona.com/projects/K8SPG/issues).
+Improvement and bugfix tasks for Percona's projects are tracked in [Jira](https://jira.percona.com/projects/K8SPG/issues).
 
 Although not mandatory, it is a good practice to examine already open Jira issues first. For bigger contributions, we suggest creating a Jira issue and discussing it with the engineering team and community before proposing any code changes.
 
-Another good place to discuss Percona's projects with developers and other community members is the [community forum :octicons-link-external-16:](https://forums.percona.com).
+Another good place to discuss Percona's projects with developers and other community members is the [community forum](https://forums.percona.com).
 
 ### 2. Contributing to the source tree
 
 Contributions to the source tree should follow the workflow described below:
 
-1. First, you need to [fork the repository on GitHub :octicons-link-external-16:](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), clone your fork locally, and then [sync your local fork to upstream :octicons-link-external-16:](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork). After that, before starting to work on changes, make sure to always sync your fork with upstream.
+1. First, you need to [fork the repository on GitHub](https://docs.github.com/en/github/getting-started-with-github/fork-a-repo), clone your fork locally, and then [sync your local fork to upstream](https://docs.github.com/en/github/collaborating-with-issues-and-pull-requests/syncing-a-fork). After that, before starting to work on changes, make sure to always sync your fork with upstream.
 2. Create a branch for changes you are planning to make. If there is a Jira ticket related to your contribution, it is recommended to name your branch in the following way: `<Jira issue number>-<short description>`, where the issue number is something like `K8SPG-42`.
 
    Create the branch in your local repo as follows:
@@ -55,8 +55,8 @@ Contributions to the source tree should follow the workflow described below:
 
 Please take into account a few things:
 
-1. All documentation is written using the [Markdown markup language :octicons-link-external-16:](https://en.wikipedia.org/wiki/Markdown). It allows easy publishing of various output formats such as HTML and PDF.
-2. We store the documentation as *.md files in the [main :octicons-link-external-16:](https://github.com/percona/k8spg-docs/tree/main) branch of the repository and use [MkDocs :octicons-link-external-16:](https://www.mkdocs.org/) to convert Markdown files into a static HTML website or PDF. The documentation is licensed under the [Attribution 4.0 International license (CC BY 4.0) :octicons-link-external-16:](https://creativecommons.org/licenses/by/4.0/).
+1. All documentation is written using the [Markdown markup language](https://en.wikipedia.org/wiki/Markdown). It allows easy publishing of various output formats such as HTML and PDF.
+2. We store the documentation as *.md files in the [main](https://github.com/percona/k8spg-docs/tree/main) branch of the repository and use [MkDocs](https://www.mkdocs.org/) to convert Markdown files into a static HTML website or PDF. The documentation is licensed under the [Attribution 4.0 International license (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
 ## Code review
 
