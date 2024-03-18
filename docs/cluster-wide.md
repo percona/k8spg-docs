@@ -33,7 +33,7 @@ Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
     $ kubectl create namespace percona-db-1
     ```
 
-3. Deploy the Operator [using :material-arrow-top-right:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+3. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }

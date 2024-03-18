@@ -2,11 +2,11 @@
 
 There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we will focus on comparing the following open source solutions:
 
-* [Crunchy Data PostgreSQL Operator (PGO) :material-arrow-top-right:](https://github.com/CrunchyData/postgres-operator)
-* [CloudNative PG :material-arrow-top-right:](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
-* [Stackgres :material-arrow-top-right:](https://github.com/ongres/stackgres) from OnGres
-* [Zalando Postgres Operator :material-arrow-top-right:](https://github.com/zalando/postgres-operator)
-* [Percona Operator for PostgreSQL :material-arrow-top-right:](https://github.com/percona/percona-postgresql-operator/)
+* [Crunchy Data PostgreSQL Operator (PGO) :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator)
+* [CloudNative PG :octicons-link-external-16:](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
+* [Stackgres :octicons-link-external-16:](https://github.com/ongres/stackgres) from OnGres
+* [Zalando Postgres Operator :octicons-link-external-16:](https://github.com/zalando/postgres-operator)
+* [Percona Operator for PostgreSQL :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/)
 
 ## Generic
 

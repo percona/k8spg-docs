@@ -1,7 +1,7 @@
 # Labels and annotations
 
-[Labels :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
-and [annotations :material-arrow-top-right:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
+[Labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/)
+and [annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/)
 are used to attach additional metadata information to Kubernetes resources.
 
 Labels and annotations are rather similar. The difference between them is that
@@ -66,7 +66,7 @@ $ kubectl get service cluster1-pgbouncer -o jsonpath='{.metadata.annotations}'
 ## Settings labels and annotations to the Operator Pod
 
 You can assign labels and/or annotations to the Pod of the Operator itself by
-editing the and the [deploy/operator.yaml configuration file :material-arrow-top-right:](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
+editing the and the [deploy/operator.yaml configuration file :octicons-link-external-16:](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
 before [applying it during the installation](kubernetes.md).
 
 ```yaml

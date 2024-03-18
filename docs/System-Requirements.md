@@ -17,10 +17,10 @@ The Operator {{ release }} is developed, tested and based on:
 The following platforms were tested and are officially supported by the Operator
 {{ release }}:
 
-* [Google Kubernetes Engine (GKE) :material-arrow-top-right:](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
-* [Amazon Elastic Container Service for Kubernetes (EKS) :material-arrow-top-right:](https://aws.amazon.com) 1.24 - 1.28
-* [OpenShift :material-arrow-top-right:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11.55 - 4.14.6
-* [Minikube :material-arrow-top-right:](https://github.com/kubernetes/minikube) 1.32
+* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
+* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.24 - 1.28
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11.55 - 4.14.6
+* [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.32
 
 Other Kubernetes platforms may also work but have not been tested.
 

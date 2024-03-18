@@ -20,7 +20,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
     extends the standard set of resources which Kubernetes “knows” about with
     the new items (in our case ones which are the core of the Operator).
-    [Apply it :material-arrow-top-right:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    [Apply it :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
     ``` {.bash data-prompt="$" }
@@ -49,7 +49,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     is configured with the `deploy/rbac.yaml` file. Role-based access is based
     on defined roles and the available actions which correspond to each role.
     The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in [Kubernetes documentation :material-arrow-top-right:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
+    Further details about users and roles can be found in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/rbac.yaml -n postgres-operator

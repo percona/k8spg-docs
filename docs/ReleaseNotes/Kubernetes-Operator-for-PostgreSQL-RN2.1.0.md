@@ -10,7 +10,7 @@
 
 
 The Percona Operator built with best practices of configuration and setup of
-[Percona Distribution for PostgreSQL on Kubernetes :material-arrow-top-right:](https://www.percona.com/doc/postgresql/LATEST/index.html).
+[Percona Distribution for PostgreSQL on Kubernetes :octicons-link-external-16:](https://www.percona.com/doc/postgresql/LATEST/index.html).
 
 Percona Operator for PostgreSQL helps create and manage highly available, enterprise-ready PostgreSQL clusters on Kubernetes. It is 100% open source, free from vendor lock-in, usage restrictions and expensive contracts, and includes enterprise-ready features: backup/restore, high availability, replication, logging, and more.
 
@@ -19,11 +19,11 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 !!! note
 
     Version 2.1.0 of the Percona Operator for PostgreSQL is a **tech preview release** and it is **not recommended for production environments.**
-    As of today, we recommend using [Percona Operator for PostgreSQL 1.x :material-arrow-top-right:](https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
+    As of today, we recommend using [Percona Operator for PostgreSQL 1.x :octicons-link-external-16:](https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
 ## Release Highlights
 
-* PostgreSQL 15 is now officially supported by the Operator with the [new exciting features :material-arrow-top-right:](https://www.percona.com/blog/postgresql-15-new-features-to-be-excited-about/) it brings to developers
+* PostgreSQL 15 is now officially supported by the Operator with the [new exciting features :octicons-link-external-16:](https://www.percona.com/blog/postgresql-15-new-features-to-be-excited-about/) it brings to developers
 
 * UX improvements related to Custom Resource have been added in this release, including the handy `pg`, `pg-backup`, and `pg-restore` short names useful to quickly query the cluster state with the `kubectl get` command and additional information in the status fields, which now show `name`, `endpoint`, `status`, and `age`
 
@@ -64,9 +64,9 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 The following platforms were tested and are officially supported by the Operator
 2.1.0:
 
-* [Google Kubernetes Engine (GKE) :material-arrow-top-right:](https://cloud.google.com/kubernetes-engine) 1.23 - 1.25
+* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.23 - 1.25
 
-* [Amazon Elastic Container Service for Kubernetes (EKS) :material-arrow-top-right:](https://aws.amazon.com) 1.23 - 1.25
+* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.23 - 1.25
 
 This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.
 

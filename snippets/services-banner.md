@@ -6,6 +6,6 @@ If you need assistance, visit the community forum for comprehensive and free dat
 
 <div class="actions" markdown>
 
-[:material-forum-outline: Community Forum :material-arrow-top-right:](https://forums.percona.com/c/postgresql/percona-kubernetes-operator-for-postgresql/68?utm_campaign=Doc%20pages&_gl=1*hqhs2g*_gcl_au*NDQzODI2NzEuMTY5MTQyMjA4OQ..) [:percona-logo: Get a Percona Expert :material-arrow-top-right:](https://www.percona.com/about/contact) [:percona-kubernetes: Join K8S Squad :material-arrow-top-right:](https://www.percona.com/k8s?_gl=1*1x3nak3*_gcl_au*NDQzODI2NzEuMTY5MTQyMjA4OQ..)
+[:material-forum-outline: Community Forum :octicons-link-external-16:](https://forums.percona.com/c/postgresql/percona-kubernetes-operator-for-postgresql/68?utm_campaign=Doc%20pages&_gl=1*hqhs2g*_gcl_au*NDQzODI2NzEuMTY5MTQyMjA4OQ..) [:percona-logo: Get a Percona Expert :octicons-link-external-16:](https://www.percona.com/about/contact) [:percona-kubernetes: Join K8S Squad :octicons-link-external-16:](https://www.percona.com/k8s?_gl=1*1x3nak3*_gcl_au*NDQzODI2NzEuMTY5MTQyMjA4OQ..)
 
 </div></div>

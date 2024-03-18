@@ -1,6 +1,6 @@
 # Use PostGIS extension with Percona Distribution for PostgreSQL
 
-[PostGIS :material-arrow-top-right:](https://postgis.net/) is a PostgreSQL extension that adds GIS
+[PostGIS :octicons-link-external-16:](https://postgis.net/) is a PostgreSQL extension that adds GIS
 capabilities to this database.
 
 Starting from the  Operator version 2.3.0 it became possible to deploy and
@@ -29,7 +29,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
     extends the standard set of resources which Kubernetes “knows” about with
     the new items (in our case ones which are the core of the Operator).
-    [Apply it :material-arrow-top-right:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    [Apply it :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
     ``` {.bash data-prompt="$" }
@@ -47,7 +47,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     is configured with the `deploy/rbac.yaml` file. Role-based access is based
     on defined roles and the available actions which correspond to each role.
     The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in [Kubernetes documentation :material-arrow-top-right:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
+    Further details about users and roles can be found in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/rbac.yaml -n postgres-operator
@@ -137,7 +137,7 @@ postgis_full_version
 ```
 
 You can find more about using PostGIS in the official Percona Distribution for
-PostgreSQL [documentation :material-arrow-top-right:](https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html),
-as well as in this [blogpost :material-arrow-top-right:](https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/).
+PostgreSQL [documentation :octicons-link-external-16:](https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html),
+as well as in this [blogpost :octicons-link-external-16:](https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/).
 
 

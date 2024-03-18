@@ -1,6 +1,6 @@
 # Exposing cluster
 
-The Operator provides entry points for accessing the database by client applications. The database cluster is exposed with regular Kubernetes [Service objects :material-arrow-top-right:](https://kubernetes.io/docs/concepts/services-networking/service/) configured by the Operator.
+The Operator provides entry points for accessing the database by client applications. The database cluster is exposed with regular Kubernetes [Service objects :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/) configured by the Operator.
 
 This document describes the usage of [Custom Resource manifest options](operator.md) to expose the clusters deployed with the Operator. 
 

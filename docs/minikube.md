@@ -1,6 +1,6 @@
 # Install Percona Distribution for PostgreSQL on Minikube
 
-Installing the Percona Operator for PostgreSQL on [Minikube :material-arrow-top-right:](https://github.com/kubernetes/minikube)
+Installing the Percona Operator for PostgreSQL on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube)
 is the easiest way to try it locally without a cloud provider. 
 
 Minikube runs
@@ -14,7 +14,7 @@ for PostgreSQL on Minikube.
 
 ## Set up Minikube {.power-number}
 
-1. [Install Minikube :material-arrow-top-right:](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
+1. [Install Minikube :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
 
     1. kubectl tool,
 
@@ -39,7 +39,7 @@ for PostgreSQL on Minikube.
 
 ## Deploy the Percona Operator for PostgreSQL {.power-number}
 
-1. Deploy the Operator [using :material-arrow-top-right:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
+1. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
     ```{.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
@@ -75,7 +75,7 @@ for PostgreSQL on Minikube.
     !!! note 
 
         This deploys default Percona Distribution for PostgreSQL configuration.
-        Please see [deploy/cr.yaml :material-arrow-top-right:](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
+        Please see [deploy/cr.yaml :octicons-link-external-16:](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
         and [Custom Resource Options](operator.md) for the configuration
         options. You can clone the repository with all manifests and source code
         by executing the following command:

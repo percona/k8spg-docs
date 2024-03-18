@@ -46,7 +46,7 @@ updates sequentially.
 
 Considering the Operator uses `postgres-operator` namespace, upgrade to the version {{ release }} includes the following steps.
 
-1. Update the [Custom Resource Definition :material-arrow-top-right:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+1. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
     for the Operator, taking it from the official repository on Github, and do
     the same for the Role-based access control:
 
@@ -58,7 +58,7 @@ Considering the Operator uses `postgres-operator` namespace, upgrade to the vers
 
         In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
 
-3. Now you should [apply a patch :material-arrow-top-right:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
+3. Now you should [apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
     to your deployment, supplying necessary image name with a newer version
     tag. You can find the proper
     image name for the current Operator release [in the list of certified images](images.md#custom-registry-images).
@@ -81,7 +81,7 @@ Considering the Operator uses `postgres-operator` namespace, upgrade to the vers
 
 Upgrading Percona Distribution for PostgreSQL can be done as follows:
 
-1. [Apply a patch :material-arrow-top-right:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
+1. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
     to your Custom Resource, setting necessary Custom Resource version and image
     names with a newer version tag.
 
@@ -109,7 +109,7 @@ Upgrading Percona Distribution for PostgreSQL can be done as follows:
 
     !!! warning
 
-        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :material-arrow-top-right:](https://docs.percona.com/percona-monitoring-and-management/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
+        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
     
         ``` {.bash data-prompt="$" }
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
