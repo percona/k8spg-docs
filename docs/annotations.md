@@ -66,7 +66,7 @@ $ kubectl get service cluster1-pgbouncer -o jsonpath='{.metadata.annotations}'
 ## Settings labels and annotations to the Operator Pod
 
 You can assign labels and/or annotations to the Pod of the Operator itself by
-editing the and the [deploy/operator.yaml configuration file :octicons-link-external-16:](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
+editing the [deploy/operator.yaml configuration file :octicons-link-external-16:](https://github.com/percona/percona-server-mongodb-operator/blob/main/deploy/operator.yaml)
 before [applying it during the installation](kubernetes.md).
 
 ```yaml
