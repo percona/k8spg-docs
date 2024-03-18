@@ -2,7 +2,7 @@
 
 This repository contains the source file for Percona Operator for PostgreSQL documentation and this document explains how you can contribute to it. 
 
-If you'd like to submit a code patch, follow the [Contributing guide in the Operator code repository :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/CONTRIBUTING.md). 
+If you'd like to submit a code patch, follow the [Contributing guide in the Operator code repository](https://github.com/percona/percona-postgresql-operator/blob/main/CONTRIBUTING.md). 
 
 ## Prerequisites
 
