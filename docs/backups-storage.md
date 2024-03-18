@@ -4,7 +4,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 === ":simple-amazons3: S3-compatible backup storage"
 
-     To use S3-compatible storage for backups, you need to have the following S3-related information:
+     To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
 
      * The name of S3 bucket;
      * The endpoint - the URL to access the bucket
@@ -92,7 +92,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 === ":simple-googlecloud: Google Cloud Storage"
 
-    To use [Google Cloud Storage](https://cloud.google.com/storage) as
+    To use [Google Cloud Storage :octicons-link-external-16:](https://cloud.google.com/storage) as
     an object store for backups, you need the following information:
 
     * a proper GCS bucket name. Pass the bucket name to `pgBackRest` via the
@@ -145,20 +145,18 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         and the base64-encoded contents of the files from previous steps. The following is the example of the
         `cluster1-pgbackrest-secrets.yaml` Secret file:    
 
-           ```yaml
-           apiVersion: v1
-           kind: Secret
-           metadata:
-             name: cluster1-pgbackrest-secrets
-           type: Opaque
-           data:
-             gcs-key.json: <base64-encoded-json-file-contents>
-             gcs.conf: <base64-encoded-conf-file-contents>
-           ```       
+            ```yaml
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: cluster1-pgbackrest-secrets
+            type: Opaque
+            data:
+              gcs-key.json: <base64-encoded-json-file-contents>
+              gcs.conf: <base64-encoded-conf-file-contents>
+            ```       
 
-           !!! note       
-
-               This Secret can store credentials for several repositories presented as
+          <i info>:material-information: Info </i>   This Secret can store credentials for several repositories presented as
                separate data keys.    
 
     4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:
@@ -196,7 +194,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 === ":material-microsoft-azure: Azure Blob Storage (tech preview)"
 
-    To use [Microsoft Azure Blob Storage](https://azure.microsoft.com/en-us/services/storage/blobs/) for storing backups, you need the following:
+    To use [Microsoft Azure Blob Storage :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/storage/blobs/) for storing backups, you need the following:
 
     * a proper Azure container name. 
     * Azure Storage credentials. These are stored in an encoded form in the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/).
@@ -275,6 +273,22 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
+=== ":octicons-database-16: Persistent Volume"
+
+    Percona Operator for PostgreSQL uses Persistent Volumes to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
+
+    ```yaml
+    - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+    ```
+
+    This configuration is sufficient to make a backup.
 
 
 ## Speed-up backups with pgBackRest asynchronous archiving
