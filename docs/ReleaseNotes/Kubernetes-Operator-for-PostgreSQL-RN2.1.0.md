@@ -19,7 +19,7 @@ The benefits of using Percona Operator for PostgreSQL include saving time on dat
 !!! note
 
     Version 2.1.0 of the Percona Operator for PostgreSQL is a **tech preview release** and it is **not recommended for production environments.**
-    As of today, we recommend using [Percona Operator for PostgreSQL 1.x :octicons-link-external-16:](https://docs.percona.com/percona-operator-for-postgresql/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
+    As of today, we recommend using [Percona Operator for PostgreSQL 1.x](https://docs.percona.com/percona-operator-for-postgresql/1.0/index.html), which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.
 
 ## Release Highlights
 
