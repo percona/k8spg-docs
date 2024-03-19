@@ -637,6 +637,18 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 | **Value**       | subdoc |
 | **Example**     | <pre>postgresql:<br>  parameters:<br>    max_parallel_workers: 2<br>    max_worker_processes: 2<br>    shared_buffers: 1GB<br>    work_mem: 2MB</pre> |
 | **Description** | Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable |
+|                 | |
+| **Key**         | {{ optionlink('patroni.switchover.enabled') }} |
+| **Value**       | boolean |
+| **Example**     | <pre>true</pre> |
+| **Description** | Enables or disables manual change of the new primary instance |
+|                 | |
+| **Key**         | {{ optionlink('patroni.switchover.targetInstance') }} |
+| **Value**       | string |
+| **Example**     | |
+| **Description** | The name of the Pod that will be set as the new primary. When not specified, the new primary will be selected randomly|
+
+
 
 ## Custom extensions Section
 
