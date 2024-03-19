@@ -39,7 +39,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-        To use different namespace, specify other name instead of
+        To use a different namespace, specify another name instead of
         `postgres-operator` in the above command, and modify the 
         `-n postgres-operator` parameter with it in the following two steps.
         You can also omit this parameter completely to deploy everything in the
@@ -98,8 +98,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
 ## Verifying the cluster operation
 
-When creation process is over, `kubectl get pg` command will show you the
-cluster status as `ready`, and you can try to connect to the cluster.
+When creation process is over, the output of the `kubectl get pg` command shows the
+cluster status as `ready`. You can now try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 

@@ -108,9 +108,7 @@ You can install Percona Operator for PostgreSQL on OpenShift using the [Red Hat 
         This will automatically create Custom Resource Definition, set up
         role-based access control and install the Operator as one single action.
 
-
-
-6. After the Operator is started Percona Distribution for PostgreSQL cluster can
+7. After the Operator is started Percona Distribution for PostgreSQL cluster can
     be created at any time with the following command:
 
     ``` {.bash data-prompt="$" }

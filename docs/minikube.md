@@ -74,7 +74,7 @@ for PostgreSQL on Minikube.
 
     !!! note 
 
-        This deploys default Percona Distribution for PostgreSQL configuration.
+        This deploys the default Percona Distribution for PostgreSQL configuration.
         Please see [deploy/cr.yaml :octicons-link-external-16:](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
         and [Custom Resource Options](operator.md) for the configuration
         options. You can clone the repository with all manifests and source code
@@ -105,7 +105,7 @@ for PostgreSQL on Minikube.
 
 ## Verify the Percona Distribution for PostgreSQL cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, the output of the `kubectl get pg` command shows the cluster status as `ready`. You can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 

@@ -11,7 +11,7 @@ This how-to explains how to configure Percona Operator for PostgreSQL for each s
 ## Namespace-scope
 
 By default, Percona Operator for PostgreSQL functions in a specific Kubernetes namespace. You can
-create one during installation (like it is shown in the
+create one during the installation (like it is shown in the
 [installation instructions](kubernetes.md)) or just use the default namespace. This approach allows several Operators to co-exist in one Kubernetes-based environment, being separated in different namespaces:
 
 ![image](assets/images/cluster-wide-1.svg)
