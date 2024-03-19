@@ -4,7 +4,7 @@ Versions of the cluster components and platforms tested with different Operator 
 
 Cluster components:
 
-| Operator | [PostgreSQL](https://www.postgresql.org/) | [pgBackRest](https://pgbackrest.org/) | [pgBouncer](http://pgbouncer.github.io/) |
+| Operator | [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/) | [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) | [pgBouncer :octicons-link-external-16:](http://pgbouncer.github.io/) |
 |:---------|:--------|:-----|:-------|
 | [2.3.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md) | 12 - 16 | 2.48 | 1.18.0 |
 | [2.3.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 12 - 16 | 2.48 | 1.18.0 |
@@ -21,7 +21,7 @@ Cluster components:
 
 Platforms:
 
-| Operator | [GKE](https://cloud.google.com/kubernetes-engine)         | [EKS](https://aws.amazon.com)         | [Openshift](https://www.redhat.com/en/technologies/cloud-computing/openshift) | [Minikube](https://github.com/kubernetes/minikube)                          |
+| Operator | [GKE :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine)         | [EKS :octicons-link-external-16:](https://aws.amazon.com)         | [Openshift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) | [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube)                          |
 |:--------|:------------|:------------|:------------|:----------------------------------|
 | [2.3.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11.55 - 4.14.6 | 1.32   |
 | [2.3.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11.55 - 4.14.6 | 1.32   |
