@@ -15,10 +15,10 @@ Operator by deleting the appropriate Custom Resource.
 
 !!! note
 
-    There are two [finalizers](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) defined in the Custom Resource, which define whether TLS-related objects and data volumes should be deleted or preserved when the cluster is deleted.
+    There are two [finalizers :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) defined in the Custom Resource, which define whether TLS-related objects and data volumes should be deleted or preserved when the cluster is deleted.
 
     * `finalizers.percona.com/delete-ssl`: if present, [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) are deleted when the cluster deletion occurs.
-    * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods are deleted when the cluster deletion occurs.
+    * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods are deleted when the cluster deletion occurs.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
@@ -64,7 +64,7 @@ Here's a sequence of steps to follow:
 
 ## Delete the Operator
 
-You can uninstall the Operator by deleting the [Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+You can uninstall the Operator by deleting the [Deployments :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
 related to it.
 {.power-number}
 
@@ -105,7 +105,7 @@ related to it.
 
 If you are not just deleting the Operator and PostgreSQL cluster from a specific
 namespace, but want to clean up your entire Kubernetes environment,
-you can also delete the [CustomRecourceDefinitions (CRDs)](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
+you can also delete the [CustomRecourceDefinitions (CRDs) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
 
 !!! warning 
 

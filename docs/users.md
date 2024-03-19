@@ -68,7 +68,7 @@ If you inspect the `<clusterName>-pguser-perconapg` Secret after applying the ch
 
 ### Adjusting privileges
 
-You can set role privileges by using the standard [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) that PostgreSQL provides and adding them to the `spec.users.options` subsection in the Custom Resource. 
+You can set role privileges by using the standard [role attributes :octicons-link-external-16:](https://www.postgresql.org/docs/current/role-attributes.html) that PostgreSQL provides and adding them to the `spec.users.options` subsection in the Custom Resource. 
 The following example will make the `perconapg` a superuser. You can add the following to the spec in your `deploy/cr.yaml`:
 
 ```yaml

@@ -11,7 +11,7 @@ This how-to explains how to configure Percona Operator for PostgreSQL for each s
 ## Namespace-scope
 
 By default, Percona Operator for PostgreSQL functions in a specific Kubernetes namespace. You can
-create one during installation (like it is shown in the
+create one during the installation (like it is shown in the
 [installation instructions](kubernetes.md)) or just use the default namespace. This approach allows several Operators to co-exist in one Kubernetes-based environment, being separated in different namespaces:
 
 ![image](assets/images/cluster-wide-1.svg)
@@ -33,7 +33,7 @@ Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
     $ kubectl create namespace percona-db-1
     ```
 
-3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+3. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }
