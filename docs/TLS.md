@@ -110,15 +110,15 @@ data:
   tls.key: <value>
 ```
 
-For example, if you have files named `ca.crt`, `hippo.key`, and `hippo.crt`
+For example, if you have files named `ca.crt`, `my_tls.key`, and `my_tls.crt`
 stored on your local machine, you could run the following command to create a
 Secret named `cluster1.tls` in the `postgres-operator` namespace:
 
 ``` {.bash data-prompt="$"}
 $ kubectl create secret generic -n postgres-operator cluster1.tls \
   --from-file=ca.crt=ca.crt \
-  --from-file=tls.key=hippo.key \
-  --from-file=tls.crt=hippo.crt
+  --from-file=tls.key=my_tls.key \
+  --from-file=tls.crt=my_tls.crt
 ```
 
 You should use two sets of certificates: one set is for external communications,
@@ -290,7 +290,6 @@ external communications, and another set is for internal ones.
     ...
     cluster1-replication-cert       Opaque   3      11m
     ...
-
     ```
 
 2. Now use the following command to find out the certificates validity dates,
