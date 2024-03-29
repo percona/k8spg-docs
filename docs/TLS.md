@@ -218,7 +218,7 @@ $ kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.tls\.crt}' | base
 
 While sharing the same `ca.crt`, certificates for external communications (referenced in the `secrets.customTLSSecret.name` Custom Resource option) and certificates for internal ones (referenced in the `secrets.customReplicationTLSSecret.name` Custom Resource option) share the same `ca.crt`, can't share the same `tls.crt`. The `tls.crt` for external communications should have a Common Name (CN) setting that matches the primary Service name (`Subject: CN = cluster1-primary.default.svc.cluster.local.` in the above example). Similarly, the `tls.crt` for internal communications should have a Common Name (CN) setting that matches the preset replication user and will look like `Subject: CN=_crunchyrepl`.
 
-One of the options to create certificates yourself is to use [CloudFlare PKI and TLS toolkit](https://cfssl.org/).
+One of the options to create certificates yourself is to use [CloudFlare PKI and TLS toolkit :octicons-link-external-16:](https://cfssl.org/). 
 Supposing that your cluster name is `cluster1` and the desired namespace is
 `postgres-operator`, certificates generation may look as follows:
 
@@ -271,6 +271,8 @@ Supposing that your cluster name is `cluster1` and the desired namespace is
     }
     EOF
     ```
+
+Find more about genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/)
 
 Don't forget that you should generate certificates twice: one set is for
 external communications, and another set is for internal ones. 
