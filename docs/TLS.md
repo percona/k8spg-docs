@@ -266,7 +266,7 @@ Supposing that your cluster name is `cluster1` and the desired namespace is
     EOF
     ```
 
-You can find a good step-by-step instuction on genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/).
+You can find more on genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/).
 
 Don't forget that you should generate certificates twice: one set is for
 external communications, and another set is for internal ones!
