@@ -252,20 +252,12 @@ Supposing that your cluster name is `cluster1` and the desired namespace is
     {
        "hosts": [
          "localhost",
-         "${CLUSTER_NAME}",
-         "${CLUSTER_NAME}.${NAMESPACE}",
-         "${CLUSTER_NAME}.${NAMESPACE}.svc.cluster.local",
-         "${CLUSTER_NAME}-pgbouncer",
-         "${CLUSTER_NAME}-pgbouncer.${NAMESPACE}",
-         "${CLUSTER_NAME}-pgbouncer.${NAMESPACE}.svc.cluster.local",
-         "*.${CLUSTER_NAME}",
-         "*.${CLUSTER_NAME}.${NAMESPACE}",
-         "*.${CLUSTER_NAME}.${NAMESPACE}.svc.cluster.local",
-         "*.${CLUSTER_NAME}-pgbouncer",
-         "*.${CLUSTER_NAME}-pgbouncer.${NAMESPACE}",
-         "*.${CLUSTER_NAME}-pgbouncer.${NAMESPACE}.svc.cluster.local"
+         "${CLUSTER_NAME}-primary",
+         "${CLUSTER_NAME}-primary.${NAMESPACE}",
+         "${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local",
+         "${CLUSTER_NAME}-primary.${NAMESPACE}.svc"
        ],
-       "CN": "${CLUSTER_NAME}", 
+       "CN": "${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local", 
        "key": {
          "algo": "ecdsa",
          "size": 384
@@ -274,7 +266,7 @@ Supposing that your cluster name is `cluster1` and the desired namespace is
     EOF
     ```
 
-Find more about genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/)
+You can find a good step-by-step instuction on genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/).
 
 Don't forget that you should generate certificates twice: one set is for
 external communications, and another set is for internal ones!
