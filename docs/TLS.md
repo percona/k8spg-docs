@@ -275,15 +275,17 @@ Supposing that your cluster name is `cluster1` and the desired namespace is
 Find more about genrating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/)
 
 Don't forget that you should generate certificates twice: one set is for
-external communications, and another set is for internal ones. 
+external communications, and another set is for internal ones!
 
 ## Check your certificates for expiration
 
+``` {.bash data-prompt="$" }
+$ kubectl get secrets
+```
+
+
 1. First, check the necessary secrets names (`cluster1-cluster-cert` and `cluster1-replication-cert` by default):
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get secrets
-    ```
 
     You will have the following response:
 
