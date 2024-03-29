@@ -153,6 +153,7 @@ auto-generated CA certificate (`ca.crt`) after deploying the cluster as follows:
 
 ``` {.bash data-prompt="$"}
 $ kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -text -noout
+```
 
 ??? example "Expected output"
 
@@ -177,6 +178,7 @@ You can check the auto-generated TLS certificate (`tls.crt`) in a similar way:
 
 ``` {.bash data-prompt="$"}
 $ kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -text -noout
+```
 
 ??? example "Expected output"
 
