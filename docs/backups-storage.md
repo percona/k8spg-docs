@@ -11,10 +11,17 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
      * The region - the location of the bucket
      * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
+     <i warning>:material-alert: Warning:</i> If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the following:
+
+     * missing incremental backups
+     * delay of archiving and impossibility to create a new replica/join delayed replica if the primary restarts.
+
+     To prevent issues with PostgreSQL archiving and have faster restores, it's recommended to use the same S3 region for both the Operator and backup options. Additionally, you can replicate the S3 bucket to another region with tools like [Amazon S3 Cross Region Replication :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
+
      **Configuration steps**
      {.power-number}
      
-     1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
+     1. Encode the S3 credentials and the pgBackRest repository name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
         === ":simple-linux: Linux"     
 
