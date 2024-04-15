@@ -37,6 +37,7 @@ The following example shows the configuration for S3-compatible storage and the 
           repo2-s3-key=<YOUR_AWS_S3_KEY>
           repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
           repo2-cipher-pass=<YOUR_ENCRYPTION_KEY>
+          repo2-cipher-type: aes-256-cbc
           EOF
           ```         
 
@@ -51,7 +52,40 @@ The following example shows the configuration for S3-compatible storage and the 
          EOF
          ``` 
 
-2. Create the Secrets configuration file, the Secrets object and modify the cluster configuration as described in steps 2-5 of the [S3-compatible backup storage configuration](backups-storage.md). Follow the instructions relevant to the backup storage you are using. 
+2. Create the Secrets configuration file and the Secrets object as described in steps 2-3 of the [S3-compatible backup storage configuration](backups-storage.md). Follow the instructions relevant to the backup storage you are using. 
+
+3. Update the `deploy/cr.yaml` configuration. Specify the following information:
+
+     * The Secret name you created in the `backups.pgbackrest.configuration` subsection
+     * All storage-related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1. 
+     * The cipher type in the `pgbackrest.global` subsection
+
+    The following example shows the configuration for the S3-compatible storage and the pgBackRest repo name `repo2`:
+
+    ```yaml
+    backups:
+      pgbackrest:
+        ...
+        configuration:
+          - secret:
+              name: cluster1-pgbackrest-secrets
+        ...
+        repos:
+        - name: repo2
+          s3:
+            bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+            endpoint: "<YOUR_AWS_S3_ENDPOINT>"
+            region: "<YOUR_AWS_S3_REGION>"
+        global:
+          cipher-type: aes-256-cbc
+    ```
+
+4. Apply the changes. Replace the `<namespace>` placeholder with your value.
+
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
+
 
 ## Make a backup
 
