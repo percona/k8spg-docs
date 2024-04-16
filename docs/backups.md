@@ -6,14 +6,14 @@ You can make backups in two ways:
 
 * _On-demand_. You can do them manually at any moment.
 * _Schedule backups_. Configure backups and their schedule in the
-[deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+[deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file. The Operator makes them automatically according to the schedule. 
 
 ## What you need to know
 
 ### Backup repositories
 
-To make backups, the Operator uses the open source [pgBackRest](https://pgbackrest.org/) backup
+To make backups, the Operator uses the open source [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) backup
 and restore utility. 
 
 When the Operator creates a new PostgreSQL cluster, it also creates a special *pgBackRest repository* to facilitate the usage of the pgBackRest
@@ -48,7 +48,7 @@ You have the following options to store PostgreSQL backups:
 
 * Cloud storage:
 
-    * [Amazon S3](backups-storage.md#__tabbed_1_1), or [any S3-compatible storage](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
+    * [Amazon S3](backups-storage.md#__tabbed_1_1), or any S3-compatible storage,
     * [Google Cloud Storage](backups-storage.md#__tabbed_1_2), 
     * [Azure Blob Storage](backups-storage.md#__tabbed_1_3)
 
@@ -57,8 +57,3 @@ You have the following options to store PostgreSQL backups:
 ## Next steps
 
 Ready to move forward? [Configure backup storage](backups-storage.md)
-
-
-
-
-

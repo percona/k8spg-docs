@@ -8,16 +8,16 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
 ## Considerations and prerequisites
 
-* In this tutorial we use the [AWS S3](https://aws.amazon.com/s3/) as the backup storage. You need the following S3-related information:
+* In this tutorial we use the [AWS S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) as the backup storage. You need the following S3-related information:
 
     * The name of S3 bucket;
     * The endpoint - the URL to access the bucket
     * The region - the location of the bucket
     * S3 credentials such as S3 key and secret to access the storage.
 
-    If you don't have access to AWS, you can use any S3-compatible storage like [MinIO](https://min.io/docs/minio/linux/index.html). Check the list of [supported storages](backups.md#backup-storage). Find the storage [configuration instructions for each](backups-storage.md)
+    If you don't have access to AWS, you can use any S3-compatible storage like [MinIO :octicons-link-external-16:](https://min.io/docs/minio/linux/index.html). Check the list of [supported storages](backups.md#backup-storage). Find the storage [configuration instructions for each](backups-storage.md)
 
-* The Operator uses the [`pgBackRest`](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
+* The Operator uses the [`pgBackRest` :octicons-link-external-16:](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
 
 * Also, we will use some files from the Operator repository for setting up
     backups. So, clone the percona-postgresql-operator repository:
@@ -106,7 +106,7 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 For manual backups, you need a backup configuration file.
 {.power-number}
 
-1. Edit the example backup configuration file [deploy/backup.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml). Specify your cluster name and the `repo` name.
+1. Edit the example backup configuration file [deploy/backup.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml). Specify your cluster name and the `repo` name.
 
     ```yaml
     apiVersion: pgv2.percona.com/v2

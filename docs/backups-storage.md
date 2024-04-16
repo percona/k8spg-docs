@@ -11,7 +11,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
      * The name of S3 bucket;
      * The endpoint - the URL to access the bucket
      * The region - the location of the bucket
-     * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
+     * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
      **Configuration steps**
      {.power-number}
@@ -105,7 +105,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
     **Configuration steps** 
     {.power-number}
 
-    1. Create your service account key following the [official Google Cloud instructions](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
+    1. Create your service account key following the [official Google Cloud instructions :octicons-link-external-16:](https://cloud.google.com/iam/docs/creating-managing-service-account-keys).
     2. Export this key from your Google Cloud account.
 
         You can find your key in the Google Cloud console (select *IAM & Admin*
@@ -118,7 +118,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         type. These actions will result in downloading a file in JSON format with
         your new private key and related information (for example, `gcs-key.json`).    
 
-    3. Create the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/). The Secret consists of 
+    3. Create the [Kubernetes Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/). The Secret consists of 
          base64-encoded versions of two files: the `gcs-key.json` file with the Google service account key you have just downloaded, and the special `gcs.conf` configuration file.    
 
         * Create the `gcs.conf` configuration file. The file contents depends on the repository
@@ -199,7 +199,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
     To use [Microsoft Azure Blob Storage :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/storage/blobs/) for storing backups, you need the following:
 
     * a proper Azure container name. 
-    * Azure Storage credentials. These are stored in an encoded form in the [Kubernetes Secret](https://kubernetes.io/docs/concepts/configuration/secret/).
+    * Azure Storage credentials. These are stored in an encoded form in the [Kubernetes Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/).
 
     **Configuration steps**
     {.power-number}
@@ -301,7 +301,7 @@ parallelism or batching. In extreme cases backup can be even considered
 unsuccessful by the Operator because of the timeout.
 
 The pgBackRest tool used by the Operator can, if necessary, solve this problem
-by using the [WAL asynchronous archiving](https://pgbackrest.org/user-guide-centos7.html#async-archiving) feature.
+by using the [WAL asynchronous archiving :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving) feature.
 
 You can set up asynchronous archiving in your storage configuration file for
 pgBackRest. Turn on the additional `archive-async` flag, and set the 
@@ -326,8 +326,8 @@ process-max=4
 
 No modifications are needed aside of setting these additional parameters.
 You can find more information about WAL asynchronous archiving in
-[gpBackRest official documentation](https://pgbackrest.org/user-guide-centos7.html#async-archiving)
-and in [this blog post](https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/).
+[gpBackRest official documentation :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving)
+and in [this blog post :octicons-link-external-16:](https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/).
 
 ## Next steps
 
