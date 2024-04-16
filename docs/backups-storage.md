@@ -277,7 +277,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         ```
 === ":octicons-database-16: Persistent Volume"
 
-    Percona Operator for PostgreSQL uses Persistent Volumes to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
+    Percona Operator for PostgreSQL uses [Kubernetes Persistent Volumes](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
 
     ```yaml
     - name: repo1
