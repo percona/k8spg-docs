@@ -14,7 +14,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
     !!! note
 
         The pgBackRest tool does backups based on [write-ahead logs (WAL) archiving](async-archiving.md).
-        If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. A new WAL file is archived in 60 seconds at the backup start [by default :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-archive/option-archive-timeout), causing both full and incremental backups fail in case of long delay.
+        If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. A new WAL file is archived in 60 seconds at the backup start [by default :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-TIMEOUT), causing both full and incremental backups fail in case of long delay.
 
         To prevent issues with PostgreSQL archiving and have faster restores, it's recommended to use the same S3 region for both the Operator and backup options. Additionally, you can replicate the S3 bucket to another region with tools like [Amazon S3 Cross Region Replication :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
 
