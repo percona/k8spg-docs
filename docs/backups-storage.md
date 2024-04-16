@@ -2,9 +2,11 @@
 
 Configure backup storage for your [backup repositories](backups.md#backup-repositories) in the `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
+Follow the instructions relevant to the cloud storage or Persistent Volume you are using for backups.
+
 === ":simple-amazons3: S3-compatible backup storage"
 
-     To use S3-compatible storage for backups, you need to have the following S3-related information:
+     To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
 
      * The name of S3 bucket;
      * The endpoint - the URL to access the bucket
@@ -145,20 +147,18 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         and the base64-encoded contents of the files from previous steps. The following is the example of the
         `cluster1-pgbackrest-secrets.yaml` Secret file:    
 
-           ```yaml
-           apiVersion: v1
-           kind: Secret
-           metadata:
-             name: cluster1-pgbackrest-secrets
-           type: Opaque
-           data:
-             gcs-key.json: <base64-encoded-json-file-contents>
-             gcs.conf: <base64-encoded-conf-file-contents>
-           ```       
+            ```yaml
+            apiVersion: v1
+            kind: Secret
+            metadata:
+              name: cluster1-pgbackrest-secrets
+            type: Opaque
+            data:
+              gcs-key.json: <base64-encoded-json-file-contents>
+              gcs.conf: <base64-encoded-conf-file-contents>
+            ```       
 
-           !!! note       
-
-               This Secret can store credentials for several repositories presented as
+          <i info>:material-information: Info </i>   This Secret can store credentials for several repositories presented as
                separate data keys.    
 
     4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:
@@ -275,43 +275,22 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
         ``` {.bash data-prompt="$" }
         $ kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
+=== ":octicons-database-16: Persistent Volume"
 
+    Percona Operator for PostgreSQL uses [Kubernetes Persistent Volumes](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
 
-## Speed-up backups with pgBackRest asynchronous archiving
+    ```yaml
+    - name: repo1
+        volume:
+          volumeClaimSpec:
+            accessModes:
+            - ReadWriteOnce
+            resources:
+              requests:
+                storage: 1Gi
+    ```
 
-Backing up a database with high write-ahead logs (WAL) generation can be rather
-slow, because PostgreSQL archiving process is sequential, without any
-parallelism or batching. In extreme cases backup can be even considered
-unsuccessful by the Operator because of the timeout.
-
-The pgBackRest tool used by the Operator can, if necessary, solve this problem
-by using the [WAL asynchronous archiving :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving) feature.
-
-You can set up asynchronous archiving in your storage configuration file for
-pgBackRest. Turn on the additional `archive-async` flag, and set the 
-`process-max` value for `archive-push` and `archive-get` commands.
-Your storage configuration file may look as follows:
-
-```yaml title="s3.conf"
-[global]
-repo2-s3-key=REPLACE-WITH-AWS-ACCESS-KEY
-repo2-s3-key-secret=REPLACE-WITH-AWS-SECRET-KEY
-repo2-storage-verify-tls=n
-repo2-s3-uri-style=path
-archive-async=y
-spool-path=/pgdata
-
-[global:archive-get]
-process-max=2
-
-[global:archive-push]
-process-max=4
-```
-
-No modifications are needed aside of setting these additional parameters.
-You can find more information about WAL asynchronous archiving in
-[gpBackRest official documentation :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving)
-and in [this blog post :octicons-link-external-16:](https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/).
+    This configuration is sufficient to make a backup.
 
 ## Next steps
 
