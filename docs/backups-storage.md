@@ -2,6 +2,8 @@
 
 Configure backup storage for your [backup repositories](backups.md#backup-repositories) in the `backups.pgbackrest.repos` section of the `deploy/cr.yaml` configuration file.
 
+Follow the instructions relevant to the cloud storage or Persistent Volume you are using for backups.
+
 === ":simple-amazons3: S3-compatible backup storage"
 
      To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
