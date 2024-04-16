@@ -1,6 +1,6 @@
 # 4 Make a backup
 
-Now your database [contains some data](data-insert.md), so it's a good time to learn how to manually make a full backup of your data with the Operator. 
+Now your database [contains some data](data-insert.md), so it's a good time to learn how to manually make a full backup of your data with the Operator.
 
 !!! note 
 
@@ -15,7 +15,7 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
     * The region - the location of the bucket
     * S3 credentials such as S3 key and secret to access the storage.
 
-    If you don't have access to AWS, you can use any S3-compatible storage like [MinIO :octicons-link-external-16:](https://min.io/docs/minio/linux/index.html). Also check the list of [supported storages](backups.md#backup-storage).
+    If you don't have access to AWS, you can use any S3-compatible storage like [MinIO :octicons-link-external-16:](https://min.io/docs/minio/linux/index.html). Check the list of [supported storages](backups.md#backup-storage). Find the storage [configuration instructions for each](backups-storage.md)
 
 * The Operator uses the [`pgBackRest` :octicons-link-external-16:](https://pgbackrest.org/) tool to make backups. `pgBackRest` stores the backups and archives WAL segments in repositories. The Operator has up to four `pgBackRest` repositories named `repo1`, `repo2`, `repo3` and `repo4`. In this tutorial we use `repo2` for backups.
 

@@ -48,17 +48,12 @@ You have the following options to store PostgreSQL backups:
 
 * Cloud storage:
 
-    * [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/), or [any S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services),
-    * [Google Cloud Storage :octicons-link-external-16:](https://cloud.google.com/storage), 
-    * [Azure Blob Storage :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/storage/blobs/)
+    * [Amazon S3](backups-storage.md#__tabbed_1_1), or any S3-compatible storage,
+    * [Google Cloud Storage](backups-storage.md#__tabbed_1_2), 
+    * [Azure Blob Storage](backups-storage.md#__tabbed_1_3)
 
-* A [Persistent Volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) attached to the pgBackRest Pod.
+* A [Persistent Volume](backups-storage.md#__tabbed_1_4) attached to the pgBackRest Pod.
 
 ## Next steps
 
 Ready to move forward? [Configure backup storage](backups-storage.md)
-
-
-
-
-

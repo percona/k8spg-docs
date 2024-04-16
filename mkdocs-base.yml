@@ -198,16 +198,17 @@ nav:
           - Back up and restore: 
             - "About backups": backups.md
             - "Configure storage for backups": backups-storage.md
-            - "Backup encryption": backup-encryption.md
             - "Make scheduled backups": backups-schedule.md
             - "Make on-demand backup": backups-ondemand.md
-            - "Backup retention": backup-retention.md
             - "Restore from a backup": backups-restore.md
+            - "Backup encryption": backup-encryption.md
+            - "Speed up backups": async-archiving.md
+            - "Backup retention": backup-retention.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
-    - HowTo:
+    - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "How to use private registry": custom-registry.md
