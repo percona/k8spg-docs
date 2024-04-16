@@ -11,7 +11,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
      * The region - the location of the bucket
      * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
-     !!! warning
+     !!! note
      
          The pgBackRest tool does backups based on [write-ahead logs (WAL) archiving](async-archiving.md).
          If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. A new WAL file is archived in 60 seconds at the backup start [by default :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-archive/option-archive-timeout), causing both full and incremental backups fail in case of long delay.
