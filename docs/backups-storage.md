@@ -6,95 +6,102 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
 === ":simple-amazons3: S3-compatible backup storage"
 
-     To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
+    To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
 
-     * The name of S3 bucket;
-     * The endpoint - the URL to access the bucket
-     * The region - the location of the bucket
-     * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
+    * The name of S3 bucket;
+    * The endpoint - the URL to access the bucket
+    * The region - the location of the bucket
+    * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
-     **Configuration steps**
-     {.power-number}
-     
-     1. Encode the S3 credentials and the pgBackRest repo name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
+    !!! note
+
+        The pgBackRest tool does backups based on [write-ahead logs (WAL) archiving](async-archiving.md).
+        If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. A new WAL file is archived in 60 seconds at the backup start [by default :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-TIMEOUT), causing both full and incremental backups fail in case of long delay.
+
+        To prevent issues with PostgreSQL archiving and have faster restores, it's recommended to use the same S3 region for both the Operator and backup options. Additionally, you can replicate the S3 bucket to another region with tools like [Amazon S3 Cross Region Replication :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
+
+    **Configuration steps**
+    {.power-number}
+
+    1. Encode the S3 credentials and the pgBackRest repository name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
         === ":simple-linux: Linux"     
 
-             ``` {.bash data-prompt="$" }
-             $ cat <<EOF | base64 --wrap=0
-             [global]
-             repo2-s3-key=<YOUR_AWS_S3_KEY>
-             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-             repo2-storage-verify-tls=y
-             EOF
-             ```     
+            ``` {.bash data-prompt="$" }
+            $ cat <<EOF | base64 --wrap=0
+            [global]
+            repo2-s3-key=<YOUR_AWS_S3_KEY>
+            repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+            repo2-storage-verify-tls=y
+            EOF
+            ```     
 
         === ":simple-apple: macOS"     
 
-             ``` {.bash data-prompt="$" }
-             $ cat <<EOF | base64
-             [global]
-             repo2-s3-key=<YOUR_AWS_S3_KEY>
-             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-             repo2-storage-verify-tls=y
-             EOF
-             ```     
+            ``` {.bash data-prompt="$" }
+            $ cat <<EOF | base64
+            [global]
+            repo2-s3-key=<YOUR_AWS_S3_KEY>
+            repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
+            repo2-storage-verify-tls=y
+            EOF
+            ```     
 
         The `repo2-storage-verify-tls` option in the above example enables TLS verification for pgBackRest (when set to `y` or simply omitted) or disables it, when set to `n`.
 
-     2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:
+    2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:
 
-         ```yaml
-         apiVersion: v1
-         kind: Secret
-         metadata:
-           name: cluster1-pgbackrest-secrets
-         type: Opaque
-         data:
-           s3.conf: <base64-encoded-configuration-contents>
-         ```     
+        ```yaml
+        apiVersion: v1
+        kind: Secret
+        metadata:
+          name: cluster1-pgbackrest-secrets
+        type: Opaque
+        data:
+          s3.conf: <base64-encoded-configuration-contents>
+        ```     
 
         !!! note     
 
-             This Secret can store credentials for several repositories presented as
-             separate data keys.     
+            This Secret can store credentials for several repositories presented as
+            separate data keys.     
 
-     3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:
+    3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:
 
-         ``` {.bash data-prompt="$" }
-         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
-         ```     
-
-     4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
-
-        For example, the S3 storage for the `repo2` repository looks as follows:        
-
-        ```yaml
-        ...
-        backups:
-          pgbackrest:
-            ...
-            configuration:
-              - secret:
-                  name: cluster1-pgbackrest-secrets
-            ...
-            repos:
-            - name: repo2
-              s3:
-                bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
-                endpoint: "<YOUR_AWS_S3_ENDPOINT>"
-                region: "<YOUR_AWS_S3_REGION>"
+        ``` {.bash data-prompt="$" }
+        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```     
 
-     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
+    4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
 
-         ``` {.bash data-prompt="$" }
-         $ kubectl apply -f deploy/cr.yaml -n <namespace>
-         ```
+       For example, the S3 storage for the `repo2` repository looks as follows:
+
+       ```yaml
+       ...
+       backups:
+         pgbackrest:
+           ...
+           configuration:
+             - secret:
+                 name: cluster1-pgbackrest-secrets
+           ...
+           repos:
+           - name: repo2
+             s3:
+               bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+               endpoint: "<YOUR_AWS_S3_ENDPOINT>"
+               region: "<YOUR_AWS_S3_REGION>"
+       ```
+
+    5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
+
+        ``` {.bash data-prompt="$" }
+        $ kubectl apply -f deploy/cr.yaml -n <namespace>
+        ```
 
 === ":simple-googlecloud: Google Cloud Storage"
 
-    To use [Google Cloud Storage :octicons-link-external-16:](https://cloud.google.com/storage) as
+    To use [Google Cloud Storage (GCS) :octicons-link-external-16:](https://cloud.google.com/storage) as
     an object store for backups, you need the following information:
 
     * a proper GCS bucket name. Pass the bucket name to `pgBackRest` via the
