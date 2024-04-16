@@ -11,9 +11,8 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
      * The region - the location of the bucket
      * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
 
-     <i warning>:material-alert: Warning:</i> If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay of archiving and impossibility to create a new replica/join delayed replica if the primary restarts. 
-
-     When using the default settings, both full and incremental backups may fail because a new WAL file is archived in 60 seconds at the backup start. 
+     <i warning>:material-alert: Warning:</i> The pgBackRest tool does backups based on [write-ahead logs (WAL) archiving](async-archiving.md).
+     If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. With [default settings :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-archive/option-archive-timeout), both full and incremental backups may fail because a new WAL file is archived in 60 seconds at the backup start. 
 
      To prevent issues with PostgreSQL archiving and have faster restores, it's recommended to use the same S3 region for both the Operator and backup options. Additionally, you can replicate the S3 bucket to another region with tools like [Amazon S3 Cross Region Replication :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html).
 
@@ -98,7 +97,7 @@ Configure backup storage for your [backup repositories](backups.md#backup-reposi
 
 === ":simple-googlecloud: Google Cloud Storage"
 
-    To use [Google Cloud Storage :octicons-link-external-16:](https://cloud.google.com/storage) as
+    To use [Google Cloud Storage (GCS) :octicons-link-external-16:](https://cloud.google.com/storage) as
     an object store for backups, you need the following information:
 
     * a proper GCS bucket name. Pass the bucket name to `pgBackRest` via the
