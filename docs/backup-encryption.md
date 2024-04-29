@@ -37,7 +37,6 @@ The following example shows the configuration for S3-compatible storage and the 
           repo2-s3-key=<YOUR_AWS_S3_KEY>
           repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
           repo2-cipher-pass=<YOUR_ENCRYPTION_KEY>
-          repo2-cipher-type: aes-256-cbc
           EOF
           ```         
 
