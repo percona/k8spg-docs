@@ -13,8 +13,8 @@ edit_uri: edit/main/docs/
 
 theme:
   name: material
-  logo: assets/operators-mark.svg
-  favicon: assets/operators-fav.svg
+  logo: assets/images/operators-mark.svg
+  favicon: assets/images/operators-fav.svg
   custom_dir: _resource/overrides/
   font:
     text: Roboto
