@@ -4,17 +4,17 @@ Disaster recovery is not optional for businesses operating in the digital age. W
 
 With multi-cloud or multi-regional PostgreSQL deployments, the complexity of managing disaster recovery only increases. This is where the Percona Operators come in, providing a solution to streamline disaster recovery for PostgreSQL clusters running on Kubernetes. With the Percona Operators, businesses can manage multi-cloud or hybrid-cloud PostgreSQL deployments with ease, ensuring that critical data is always available and secure, no matter what happens.
 
-## Solution overview
-
 Operators automate routine tasks and remove toil. For standby, the [Percona Operator for PostgreSQL version 2](index.md) provides the following options:
 
-1. pgBackrest repo based standby
+1. [pgBackrest repo based standby]
 2. Streaming replication
 3. Combination of (1) and (2)
 
-This document describes the pgBackRest repo-based standby as the simplest one. The following is the architecture diagram:
+The pgBackRest repo-based standby is the simplest one. The following is the architecture diagram:
 
 ![image](assets/images/dr1.svg)
+
+### pgBackrest repo based standby
 
 1. This solution describes two Kubernetes clusters in different regions, clouds or running in hybrid mode (on-premises and cloud). One cluster is Main and the other is Disaster Recovery (DR)
 
@@ -29,9 +29,9 @@ This document describes the pgBackRest repo-based standby as the simplest one. T
 
 4. pgBackrest on the DR site takes these backups and streams them to the standby cluster
 
-## Deploy disaster recovery for PostgreSQL on Kubernetes
+### Deploy disaster recovery for PostgreSQL on Kubernetes
 
-### Configure Main site
+#### Configure Main site
 
 1. Deploy the Operator [using your favorite method](System-Requirements.md#installation-guidelines). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
 
@@ -67,7 +67,7 @@ This document describes the pgBackRest repo-based standby as the simplest one. T
     The backups should appear in the object storage. By default pgBackrest puts them into the pgbackrest folder.
 
 
-### Configure DR site
+#### Configure DR site
 
 The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the only difference in standby settings.
 
@@ -104,7 +104,7 @@ $ kubectl apply -f deploy/cr.yaml
     perconapgcluster.pg.percona.com/standby created
     ```
 
-## Failover
+### Failover
 
 In case of the Main site failure or in other cases, you can promote the standby cluster. The promotion effectively allows writing to the cluster. This creates a net effect of pushing Write Ahead Logs (WALs) to the pgBackrest repository. It might create a split-brain situation where two primary instances attempt to write to the same repository. To avoid this, make sure the primary cluster is either deleted or shut down before trying to promote the standby cluster.
 
@@ -118,7 +118,7 @@ spec:
 
 Now you can start writing to the cluster.
 
-### Split brain
+#### Split brain
 
 There might be a case, where your old primary comes up and starts writing to the repository. To recover from this situation, do the following:
 
@@ -126,7 +126,7 @@ There might be a case, where your old primary comes up and starts writing to the
 2. Stop the writes on the other one
 3. Take the new full backup from the primary and upload it to the repo
 
-### Automate the failover
+#### Automate the failover
 
 Automated failover consists of multiple steps and is outside of the Operator’s scope. There are a few steps that you can take to reduce the Recovery Time Objective (RTO). To detect the failover we recommend having the 3rd site to monitor both DR and Main sites. In this case you can be sure that Main really failed and it is not a network split situation.
 
@@ -135,3 +135,7 @@ Another aspect of automation is to switch the traffic for the application from M
 1. Global Load Balancer - various clouds and vendors provide their solutions
 2. Multi Cluster Services or MCS - available on most of the public clouds
 3. Federation or other multi-cluster solutions
+
+### Streaming replication
+
+
