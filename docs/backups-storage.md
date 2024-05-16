@@ -25,33 +25,25 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     1. Encode the S3 credentials and the pgBackRest repository name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and `repo2`. 
 
-        === ":simple-linux: Linux"     
+        === ":simple-linux: Linux"
 
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64 --wrap=0
             [global]
             repo2-s3-key=<YOUR_AWS_S3_KEY>
             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-            repo2-storage-verify-tls=y
-            repo2-s3-uri-style: path
             EOF
-            ```     
+            ```
 
-        === ":simple-apple: macOS"     
+        === ":simple-apple: macOS"
 
             ``` {.bash data-prompt="$" }
             $ cat <<EOF | base64
             [global]
             repo2-s3-key=<YOUR_AWS_S3_KEY>
             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
-            repo2-storage-verify-tls=y
-            repo2-s3-uri-style: path
             EOF
-            ```     
-
-        The `repo2-storage-verify-tls` option in the above example enables TLS verification for pgBackRest (when set to `y` or simply omitted) or disables it, when set to `n`.
-        
-        The `repo2-s3-uri-style` option [should be set to `path`  :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository/option-repo-s3-uri-style) if you use S3-compatible storage (otherwise you might see host not found error in your backup job logs), and is not needed for Amazon S3.
+            ```
 
     2. Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  `cluster1-pgbackrest-secrets.yaml` Secret file:
 
@@ -77,25 +69,56 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         ```     
 
     4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
+       Also, if your S3-compatible storage requires additional [repository options :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository) for the pgBackRest tool, you can specify these parameters in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection (use standard pgBackRest option names prefixed with the repository name).
 
-        For example, the S3 storage for the `repo2` repository looks as follows:
+        === ":simple-amazonaws: Amazon S3 storage"
 
-        ```yaml
-        ...
-        backups:
-          pgbackrest:
+            For example, the S3 storage for the `repo2` repository looks as follows:
+
+            ```yaml
             ...
-            configuration:
-              - secret:
-                  name: cluster1-pgbackrest-secrets
+            backups:
+              pgbackrest:
+                ...
+                configuration:
+                  - secret:
+                      name: cluster1-pgbackrest-secrets
+                ...
+                repos:
+                - name: repo2
+                  s3:
+                    bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+                    region: "<YOUR_AWS_S3_REGION>"
+            ```
+
+        === ":simple-amazons3: S3-compatible storage"
+
+            For example, the S3-compatible storage for the `repo2` repository looks as follows:
+
+            ```yaml
             ...
-            repos:
-            - name: repo2
-              s3:
-                bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
-                endpoint: "<YOUR_AWS_S3_ENDPOINT>"
-                region: "<YOUR_AWS_S3_REGION>"
-        ```
+            backups:
+              pgbackrest:
+                ...
+                configuration:
+                  - secret:
+                      name: cluster1-pgbackrest-secrets
+                ...
+                global:
+                  repo2-storage-verify-tls=y
+                  repo2-s3-uri-style: path
+                ...
+                repos:
+                - name: repo2
+                  s3:
+                    bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
+                    endpoint: "<YOUR_AWS_S3_ENDPOINT>"
+                    region: "<YOUR_AWS_S3_REGION>"
+            ```
+
+            The `repo2-storage-verify-tls` option in the above example enables TLS verification for pgBackRest (when set to `y` or simply omitted) or disables it, when set to `n`.
+
+            The `repo2-s3-uri-style` option [should be set to `path`  :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository/option-repo-s3-uri-style) if you use S3-compatible storage (otherwise you might see "host not found error" in your backup job logs), and is not needed for Amazon S3.
 
     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
