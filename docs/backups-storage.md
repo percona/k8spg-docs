@@ -9,9 +9,9 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
     To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
 
     * The name of S3 bucket;
-    * The endpoint - the URL to access the bucket
     * The region - the location of the bucket
     * S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in [Kubernetes Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) along with other sensitive information. 
+    * For S3-compatible storage other than native Amazon S3, you will also need to specify the endpoint - the actual URI to access the bucket - and the URI style (see below).
 
     !!! note
 
