@@ -93,7 +93,7 @@ pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
     [pgBackRest info :octicons-link-external-16:](https://pgbackrest.org/command.html#command-info)
     command to find out the proper backup ID.
 
-    ??? example "pgBackRest ID example"
+    ??? example "pgBackRest backup ID example"
 
         After obtaining the Pod name with `kubectl get pods` command, you can
         run `pgbackrest --stanza=db info` command on the appropriate Pod as
