@@ -100,7 +100,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Percona Operator for PostgreSQL documentation"
-    cover_subtitle: 1.6.1 (May 23, 2024)
+    cover_subtitle: 1.6.0 (May 23, 2024)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/percona_kubernetes_icon.png
     custom_template_path: _resource/templates

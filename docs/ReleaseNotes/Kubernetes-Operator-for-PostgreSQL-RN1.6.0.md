@@ -10,18 +10,18 @@
 
 ## Release Highlights
 
-Percona Operator for PostgreSQL* 1.6.0 is the last release of the 1.x branch,
-as far as the Operator 1.x goes end-of-life in July, 2024. It contains last 
-fixes and components version updates.
+Percona Operator for PostgreSQL 1.6.0 is the last release of the 1.x branch. Operator 1.x goes end-of-life on June 30, 2024.
 
-We strongly recommend switching to [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html).
+This release contains last fixes and components version updates.
+
+We strongly recommend [switching to Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/update.html#upgrade-from-the-operator-version-1x-to-version-2x).
 The Operator version 2 has newer PostgreSQL versions, new features and improvements.
 
 ## Bugs Fixed
 
 * {{ k8spgjira(547) }}: Fix dependency issue which made pgbackrest-repo container incompatible with pgBackRest 2.50, resulting in the older 2.48 version being used instead
 
-* {{ k8spgjira(490) }}: Fix a bug where replication would break in case of primary instance outage for PostgreSQL 14 and older versions.
+* {{ k8spgjira(490) }}: Fix a bug where replication would break in case of primary instance outage for PostgreSQL 14 and older versions
 
 ## Supported platforms
 
