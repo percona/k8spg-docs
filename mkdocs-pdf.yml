@@ -5,3 +5,5 @@ INHERIT: mkdocs-base.yml
 markdown_extensions:
   pymdownx.tabbed: {}
   admonition: {}
+
+copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2024
