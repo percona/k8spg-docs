@@ -4,7 +4,7 @@ if (selectBox) {
     // Populate the select box with options based on the versionMap
     const versionMap = {
         '2.3.1': '/2.0/',  
-        '1.5.1': '/1.0/',
+        '1.6.0': '/1.0/',
         // Add new versions here as needed
     };
 

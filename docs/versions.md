@@ -11,6 +11,7 @@ Cluster components:
 | [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 12 - 15 | 2.43 | 1.18.0 |
 | [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 12 - 15 | 2.43 | 1.18.0 |
 | [2.0.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md) | 12 - 14 | 2.41 | 1.17.0 |
+| [1.6.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.6.0.html) | 12 - 14 | 2.50 | 1.22.0 |
 | [1.5.1](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.5.1.html) | 12 - 14 | 2.47 | 1.20.0 |
 | [1.5.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.5.0.html) | 12 - 14 | 2.47 | 1.20.0 |
 | [1.4.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.4.0.html) | 12 - 14 | 2.43 | 1.18.0 |
@@ -28,6 +29,7 @@ Platforms:
 | [2.2.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md) | 1.23 - 1.26 | 1.23 - 1.27 | -                | 1.30.1 |
 | [2.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md) | 1.23 - 1.25 | 1.23 - 1.25 | -                | -      |
 | [2.0.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md) | 1.22 - 1.25 |      -      | -                | -      |
+| [1.6.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.6.0.html) | 1.26 - 1.29 | 1.26 - 1.29 | 4.12.57 - 4.15.13 | 1.33 |
 | [1.5.1](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.5.1.html) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11 - 4.14 | 1.32 |
 | [1.5.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.5.0.html) | 1.24 - 1.28 | 1.24 - 1.28 | 4.11 - 4.14 | 1.32 |
 | [1.4.0](https://docs.percona.com/percona-operator-for-postgresql/1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN1.4.0.html) | 1.22 - 1.25 | 1.22 - 1.25 | 4.10 - 4.12 | 1.28 |
