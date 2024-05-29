@@ -6,7 +6,7 @@ monitoring solutions, etc.
 
 !!! note
 
-    Custom sidecar containers [can easily access other components of your cluster](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication).
+    Custom sidecar containers [can easily access other components of your cluster :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication).
 Therefore they should be used carefully and by experienced users only.
 
 ## Adding a sidecar container

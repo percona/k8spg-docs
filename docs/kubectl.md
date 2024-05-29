@@ -4,7 +4,7 @@ A Kubernetes Operator is a special type of controller introduced to simplify com
 
 The [Percona Operator for PostgreSQL](compare.md) is based on best practices for configuration and setup of a Percona Distribution for PostgreSQL cluster in a Kubernetes-based environment on-premises or in the cloud.
 
-We recommend installing the Operator with the [kubectl](https://kubernetes.io/docs/tasks/tools/) command line utility. It is the universal way to interact with Kubernetes. Alternatively, you can install it using the [Helm](https://github.com/helm/helm) package manager.
+We recommend installing the Operator with the [kubectl :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/) command line utility. It is the universal way to interact with Kubernetes. Alternatively, you can install it using the [Helm :octicons-link-external-16:](https://github.com/helm/helm) package manager.
 
 [:simple-kubernetes: Install with kubectl :material-arrow-down:](#prerequisites){.md-button} [:simple-helm: Install with Helm :material-arrow-right:](helm.md){.md-button}
 
@@ -12,9 +12,9 @@ We recommend installing the Operator with the [kubectl](https://kubernetes.io/do
 
 To install Percona Distribution for PostgreSQL, you need the following:
 
-1. The **kubectl** tool to manage and deploy applications on Kubernetes, included in most Kubernetes distributions. Install not already installed, [follow its official installation instructions](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
+1. The **kubectl** tool to manage and deploy applications on Kubernetes, included in most Kubernetes distributions. Install not already installed, [follow its official installation instructions :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/install-kubectl/).
 
-2. A Kubernetes environment. You can deploy it on [Minikube](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
+2. A Kubernetes environment. You can deploy it on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
 
     !!! note "See also"
 
@@ -41,7 +41,7 @@ Here's a sequence of steps to follow:
 
     We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands. 
 
-2. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }

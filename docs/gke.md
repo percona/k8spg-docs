@@ -3,7 +3,7 @@
 Following steps help you install the Operator and use it to manage
 Percona Distribution for PostgreSQL with the Google Kubernetes Engine. The
 document assumes some experience with Google Kubernetes Engine (GKE).
-For more information on GKE, see the [Kubernetes Engine Quickstart](https://cloud.google.com/kubernetes-engine/docs/quickstart).
+For more information on GKE, see the [Kubernetes Engine Quickstart :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine/docs/quickstart).
 
 ## Prerequisites
 
@@ -14,9 +14,9 @@ To use *Google Cloud shell*, you need nothing but a modern web browser.
 If you would like to use *your local shell*, install the following:
 
 
-1. [gcloud](https://cloud.google.com/sdk/docs/quickstarts). This tool is part of the Google Cloud SDK. To install it, select your operating system on the [official Google Cloud SDK documentation page](https://cloud.google.com/sdk/docs) and then follow the instructions.
+1. [gcloud :octicons-link-external-16:](https://cloud.google.com/sdk/docs/quickstarts). This tool is part of the Google Cloud SDK. To install it, select your operating system on the [official Google Cloud SDK documentation page :octicons-link-external-16:](https://cloud.google.com/sdk/docs) and then follow the instructions.
 
-2. [kubectl](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). This is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
+2. [kubectl :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). This is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
 
     ``` {.bash data-prompt="$" }
     $ gcloud auth login
@@ -25,7 +25,7 @@ If you would like to use *your local shell*, install the following:
 
 ## Create and configure the GKE cluster
 
-You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command creates a cluster named `cluster-1`:
+You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell :octicons-link-external-16:](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command creates a cluster named `cluster-1`:
 
 ``` {.bash data-prompt="$" }
 $ gcloud container clusters create cluster-1 --project <project name> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
@@ -58,7 +58,7 @@ command in your local shell:
 ``` {.bash data-prompt="$" }
 $ gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project <project name>
 ```
-Finally, use your [Cloud Identity and Access Management (Cloud IAM)](https://cloud.google.com/iam)
+Finally, use your [Cloud Identity and Access Management (Cloud IAM) :octicons-link-external-16:](https://cloud.google.com/iam)
 to control access to the cluster. The following command will give you the
 ability to create Roles and RoleBindings:
 
@@ -102,7 +102,7 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
         You can also omit this parameter completely to deploy everything in the
         `default` namespace.
 
-3. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+3. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
     ``` {.bash data-prompt="$" }
