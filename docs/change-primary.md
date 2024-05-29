@@ -78,7 +78,6 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
     $ kubectl get pods -l -n <namespace> postgres-operator.crunchydata.com/cluster=cluster1 \ 
         -L postgres-operator.crunchydata.com/instance \
         -L postgres-operator.crunchydata.com/role | grep instance1
-
     ```
 
     ??? example "Sample output"
