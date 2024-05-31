@@ -3,7 +3,7 @@
 The Operator uses PostgreSQL high-availability implementation based on the [Patroni template :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/faq.html#concepts-and-requirements).
 This means that each PostgreSQL cluster includes one member availiable for read/write transactions (PostgreSQL primary instance, or leader in terms of Patroni) and a number of replicas which can serve read requests only (standby members of the cluster).
 
-You may wish to manually change the primary instance in your PostgreSQL cluster to achieve more control and meet specific requirements in various scenarios like planned maintenance, testing failover procedures, load balancing and performance optimization activities and the like.
+You may wish to manually change the primary instance in your PostgreSQL cluster to achieve more control and meet specific requirements in various scenarios like planned maintenance, testing failover procedures, load balancing and performance optimization activities.
 Primary instance is re-elected during the automatic failover (Patroni's "leader race" mechanism), but still there are use cases to controll this process manually.
 
 In Percona Operator, the primary instance change can be controlled by the `patroni.switchover` section of the `deploy/cr.yaml` manifest. It allows you to enable switchover targeting a specific PostgreSQL instance as the new primary, or just running a failover if PostgreSQL cluster has entered a bad state.
