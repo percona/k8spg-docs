@@ -12,9 +12,8 @@ This document provides instructions how to change the primary instance manually.
 
 For the following steps, we assume that you have the PostgreSQL cluster up and running. The cluster name is `cluster1`. 
 
-1. Check the information about the *cluster instances*. Cluster instances (actually, PostgreSQL clusters created by the Operator in one namespace) are defined in the `spec.instances` Custom Resource section.
-    By default you have one cluster instance named `instance1`, which contains a number of PostgreSQL instances (3 by default) and other components.
-    You can check what your cluster instances are using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
+1. Check the information about the *cluster instances*. Cluster instances (actually, specifically configured parts of your PostgreSQL cluster) are defined in the `spec.instances` Custom Resource section. By default you have one cluster instance named `instance1` with 3 PostgreSQL instances in it.
+    You can check which cluster instances you have. Do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
