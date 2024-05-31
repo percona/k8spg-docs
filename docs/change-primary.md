@@ -6,7 +6,7 @@ This means that each PostgreSQL cluster includes one member availiable for read/
 You may wish to manually change the primary instance in your PostgreSQL cluster to achieve more control and meet specific requirements in various scenarios like planned maintenance, testing failover procedures, load balancing and performance optimization activities.
 Primary instance is re-elected during the automatic failover (Patroni's "leader race" mechanism), but still there are use cases to controll this process manually.
 
-In Percona Operator, the primary instance change can be controlled by the `patroni.switchover` section of the `deploy/cr.yaml` manifest. It allows you to enable switchover targeting a specific PostgreSQL instance as the new primary, or just running a failover if PostgreSQL cluster has entered a bad state.
+In Percona Operator, the primary instance election can be controlled by the `patroni.switchover` section of the Custom Resource manifest. It allows you to enable switchover targeting a specific PostgreSQL instance as the new primary, or just running a failover if PostgreSQL cluster has entered a bad state.
 
 This document provides instructions how to change the primary instance manually. 
 
