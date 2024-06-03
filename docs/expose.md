@@ -33,7 +33,9 @@ $ kubectl get service
 
     ``` {.text .no-copy}
     NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)          AGE
+    ...
     cluster1-pgbouncer   LoadBalancer   10.88.8.48     34.133.38.186   5432:30601/TCP   20m
+    ...
     ```
 
 You can connect to the database using the External IP of the load balancer and
@@ -60,11 +62,15 @@ $ kubectl get service
 
     ``` {.text .no-copy}
     NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+    ...
     cluster1-ha          ClusterIP   10.88.8.121   <none>        5432/TCP   115s
+    ...
+    cluster1-replicas    ClusterIP   10.88.8.115   <none>        5432/TCP   2m16s
     ```
 
-This service points to the active primary. In case of failover to the replica
-node, will change the endpoint automatically.
+The `cluster1-ha` service points to the active primary. In case of failover to
+the replica node, will change the endpoint automatically. Also, you can use
+`cluster1-replicas` service to make read requests to PostgreSQL replica instances.
 
 To change the Service type, use `expose.type` in the Custom Resource manifest.
 For example, the following manifest will expose this service through a load

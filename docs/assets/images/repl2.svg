@@ -168,14 +168,14 @@
    </g>
    <g class="com.sun.star.drawing.CustomShape">
     <g id="id15">
-     <rect class="BoundingBox" stroke="none" fill="none" x="12607" y="9634" width="835" height="1391"/>
-     <text class="SVGTextShape" transform="rotate(-90 13208 10883)"><tspan class="TextParagraph"><tspan class="TextPosition" x="13208" y="10883"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Read</tspan></tspan></tspan></text>
+     <rect class="BoundingBox" stroke="none" fill="none" x="12606" y="9634" width="835" height="1391"/>
+     <text class="SVGTextShape" transform="rotate(-90 13207 10883)"><tspan class="TextParagraph"><tspan class="TextPosition" x="13207" y="10883"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Read</tspan></tspan></tspan></text>
     </g>
    </g>
    <g class="com.sun.star.drawing.CustomShape">
     <g id="id16">
-     <rect class="BoundingBox" stroke="none" fill="none" x="13360" y="9659" width="835" height="2154"/>
-     <text class="SVGTextShape" transform="rotate(90 13593 9800)"><tspan class="TextParagraph"><tspan class="TextPosition" x="13593" y="9800"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Write      </tspan></tspan></tspan></text>
+     <rect class="BoundingBox" stroke="none" fill="none" x="13361" y="9659" width="835" height="2154"/>
+     <text class="SVGTextShape" transform="rotate(90 13594 9800)"><tspan class="TextParagraph"><tspan class="TextPosition" x="13594" y="9800"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Write      </tspan></tspan></tspan></text>
     </g>
    </g>
   </g>
@@ -227,6 +227,36 @@
     <g id="id24">
      <rect class="BoundingBox" stroke="none" fill="none" x="14974" y="13469" width="1523" height="1135"/>
      <text class="SVGTextShape" transform="rotate(13.7 15166 14087)"><tspan class="TextParagraph"><tspan class="TextPosition" x="15166" y="14087"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Write</tspan></tspan></tspan></text>
+    </g>
+   </g>
+  </g>
+  <g class="Group">
+   <g class="com.sun.star.drawing.LineShape">
+    <g id="id25">
+     <rect class="BoundingBox" stroke="none" fill="none" x="8743" y="9128" width="319" height="2795"/>
+     <path fill="none" stroke="rgb(190,24,24)" stroke-width="106" stroke-linejoin="miter" d="M 8902,9425 L 8902,11922"/>
+     <path fill="rgb(190,24,24)" stroke="none" d="M 8743,9446 L 8902,9128 9061,9446 8743,9446 Z"/>
+    </g>
+   </g>
+   <g class="com.sun.star.drawing.CustomShape">
+    <g id="id26">
+     <rect class="BoundingBox" stroke="none" fill="none" x="8107" y="9634" width="835" height="1391"/>
+     <text class="SVGTextShape" transform="rotate(-90 8708 10883)"><tspan class="TextParagraph"><tspan class="TextPosition" x="8708" y="10883"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Read</tspan></tspan></tspan></text>
+    </g>
+   </g>
+  </g>
+  <g class="Group">
+   <g class="com.sun.star.drawing.LineShape">
+    <g id="id27">
+     <rect class="BoundingBox" stroke="none" fill="none" x="17743" y="9128" width="319" height="2795"/>
+     <path fill="none" stroke="rgb(190,24,24)" stroke-width="106" stroke-linejoin="miter" d="M 17902,9425 L 17902,11922"/>
+     <path fill="rgb(190,24,24)" stroke="none" d="M 17743,9446 L 17902,9128 18061,9446 17743,9446 Z"/>
+    </g>
+   </g>
+   <g class="com.sun.star.drawing.CustomShape">
+    <g id="id28">
+     <rect class="BoundingBox" stroke="none" fill="none" x="17107" y="9634" width="835" height="1391"/>
+     <text class="SVGTextShape" transform="rotate(-90 17708 10883)"><tspan class="TextParagraph"><tspan class="TextPosition" x="17708" y="10883"><tspan font-family="Arial, sans-serif" font-size="459px" font-weight="400" fill="rgb(9,34,87)" stroke="none" style="white-space: pre">Read</tspan></tspan></tspan></text>
     </g>
    </g>
   </g>
