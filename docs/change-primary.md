@@ -47,6 +47,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
        "patroni": { "switchover": { "enabled": "true" } },
        "patroni": { "switchover": { "targetInstance": "cluster1-instance1-bmdp" } }
     }}'
+    ```
 
 5. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 

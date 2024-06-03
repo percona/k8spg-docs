@@ -28,8 +28,7 @@ PostgreSQL containers deployed with the Operator include the following component
 
 * LLVM (for JIT compilation).
 
-The Operator uses PostgreSQL high-availability implementation based on the [Patroni template :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/faq.html#concepts-and-requirements).
-This means that each PostgreSQL cluster includes one member availiable for read/write transactions (PostgreSQL primary instance, or leader in terms of Patroni) and a number of replicas which can serve read requests only (standby members of the cluster).
+Each PostgreSQL cluster includes one member availiable for read/write transactions (PostgreSQL primary instance, or leader in terms of Patroni) and a number of replicas which can serve read requests only (standby members of the cluster).
 
 To provide high availability from the Kubernetes side the Operator involves [node affinity :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 to run PostgreSQL Cluster instances on separate worker nodes if possible. If

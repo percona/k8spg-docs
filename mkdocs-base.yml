@@ -212,13 +212,13 @@ nav:
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
+          - "Change PostgreSQL primary instance": change-primary.md
           - "How to use private registry": custom-registry.md
           - "Add custom PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
-          - "Change the primary node": change-primary.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Exec into the container": debug-shell.md
