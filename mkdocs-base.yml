@@ -153,6 +153,7 @@ extra: # Used in main.html template and can't be externalized
   commandName: 'kubectl'
   postgresrecommended: 16
   certmanagerrecommended: '1.8.0'
+  gkerecommended: '1.28'  
   version:
     provider: mike
   
