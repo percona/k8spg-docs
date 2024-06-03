@@ -7,6 +7,9 @@ This document describes the usage of [Custom Resource manifest options](operator
 ## PgBouncer
 
 We recommend exposing the cluster through PgBouncer, which is enabled by default.
+
+![image](assets/images/repl1.svg)
+
 You can disable pgBouncer by setting `proxy.pgBouncer.replicas` to 0.
 
 The following example deploys two pgBouncer nodes exposed through a LoadBalancer Service object:
@@ -43,8 +46,11 @@ default. In this case to connect to the database use the internal domain name -
 
 ## Exposing the cluster without PgBouncer
 
-You can connect to the cluster without a proxy. For that use `<clusterName>-ha`
-Service object:
+You can connect to the cluster without a proxy.
+
+![image](assets/images/repl2.svg)
+
+For that use `<clusterName>-ha` Service object:
 
 ``` {.bash data-prompt="$" }
 $ kubectl get service
