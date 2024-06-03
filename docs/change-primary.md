@@ -88,4 +88,4 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         cluster1-instance1-ttm9-0             4/4     Running     0          23m   cluster1-instance1-ttm9   replica
         ```
 
-The primary now should be has successfully changed to `cluster1-instance1-bmdp`.
+The primary now should be changed to `cluster1-instance1-bmdp`.
