@@ -302,7 +302,7 @@ The range of client IP addresses from which the load balancer should be reachabl
 ## <a name="operator-instances-section"></a>Instances section
 
 The `instances` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file contains configuration options for PostgreSQL instances.
+file contains configuration options for PostgreSQL instances. This section contains at least one *cluster instance* with a number of *PostgreSQL instances* in it (cluster instances are groups of PostgreSQL instances used for fine-grained resources assignment).
 
 ### `instances.metadata.labels`
 
