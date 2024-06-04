@@ -45,7 +45,7 @@ Also, you need to configure AWS CLI with your credentials according to the
 
     !!! note
 
-        CSI driver is needed for the Operator to work propely, and is not included by default starting from the Amazon EKS version 1.22. Therefore sers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
+        CSI driver is needed for the Operator to work propely, and is not included by default starting from the Amazon EKS version 1.22. Therefore servers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
 
 ## Install the Operator and Percona Distribution for PostgreSQL
 
