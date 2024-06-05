@@ -2,50 +2,39 @@
 
 The pgBackRest repo-based standby is the simplest one. The following is the architecture diagram:
 
-![image](assets/images/dr1.svg)
+![image](assets/images/dr-stream.svg)
 
 ## pgBackrest repo based standby
 
-1. This solution describes two Kubernetes clusters in different regions, clouds or running in hybrid mode (on-premises and cloud). One cluster is Main and the other is Disaster Recovery (DR)
+1. This solution describes two Kubernetes clusters in different regions, clouds, data centers or even two namespaces, or running in hybrid mode (on-premises and cloud). One cluster is Main site, and the other is Disaster Recovery site (DR)
 
-2. Each cluster includes the following components:
+2. Each site supposedly includes Percona Operator and for sure includes PostgreSQL cluster.
 
-    1. Percona Operator
-    2. PostgreSQL cluster
-    3. pgBackrest
-    4. pgBouncer
+3. In the DR site the cluster is in Standby mode
 
-3. pgBackrest on the Main site streams backups and Write Ahead Logs (WALs) to the object storage
-
-4. pgBackrest on the DR site takes these backups and streams them to the standby cluster
+4. We set up streaming replication between these two clusters
 
 ## Deploy disaster recovery for PostgreSQL on Kubernetes
 
 ### Configure Main site
 
-1. Deploy the Operator [using your favorite method](System-Requirements.md#installation-guidelines). Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.
+1. Deploy the Operator [using your favorite method](System-Requirements.md#installation-guidelines).
 
-2. Configure the `backups.pgbackrest.repos` section by adding the necessary configuration. The below example is for Google Cloud Storage (GCS):
+2. The Main cluster needs to expose it, so that standby can connect to the primary PostgreSQL instance. To expose the primary PostgreSQL instance, use the `spec.expose` section:
 
     ```yaml
     spec:
-      backups:
-        configuration:
-          - secret:
-              name: main-pgbackrest-secrets
-        pgbackrest:
-          repos:
-          - name: repo1
-            gcs:
-              bucket: MY-BUCKET
+      ...
+      expose:
+        type: ClusterIP
     ```
 
-    The `main-pgbackrest-secrets` value contains the keys for GCS. Read more about the configuration in the [backup and restore tutorial](backups.md).
+    Use here a Service type of your choice. For example, `ClusterIP` is sufficient for two clusters in different namespaces.
 
 3. Once configured, apply the custom resource:
 
     ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml 
+    $ kubectl apply -f deploy/cr.yaml -n main-pg
     ```
 
     ??? example "Expected output"
@@ -54,38 +43,53 @@ The pgBackRest repo-based standby is the simplest one. The following is the arch
         perconapgcluster.pg.percona.com/standby created
         ```
 
-    The backups should appear in the object storage. By default pgBackrest puts them into the pgbackrest folder.
+    The service that you should use for connecting to standby is called <clustername>-ha (main-ha in my case):
 
+    ```text
+    main-ha          ClusterIP   10.118.227.214   <none>        5432/TCP   163m
+    ```
 
 ### Configure DR site
 
-The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the only difference in standby settings.
+To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user `_crunchyrepl` will be used.
 
-The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case):
+In the simplest case you can copy the certificates from the Main cluster. You need to look out for two files:
+* main-cluster-cert
+* main-replication-cert 
+
+Copy them to the namespace where DR cluster is going to be running and reference under `spec.secrets` (in the following example they were renamed, replacing "main" with "dr"):
 
 ```yaml
-metadata:
-  name: standby
-spec: 
-...
-  backups:
-    configuration:
-      - secret:
-          name: standby-pgbackrest-secrets
-    pgbackrest:
-      repos:
-      - name: repo1
-        gcs:
-          bucket: MY-BUCKET
+spec:
+  secrets:
+    customTLSSecret:
+      name: dr-cluster-cert
+    customReplicationTLSSecret:
+      name: dr-replication-cert
+```
+
+If you are generating your own certificates, just remember the following rules:
+
+1. Certificates for both Main and Standby clusters must be signed by the same CA
+2. `customReplicationTLSSecret` must have a Common Name (CN) setting that matches `_crunchyrepl`, which is a default replication user.
+
+You can find more about certificates in the [TLS doc](TLS.md).
+
+Apart from setting certificates correctly, you should also set standby configuration.
+
+```yaml
   standby:
     enabled: true
-    repoName: repo1
+    host: main-ha.main-pg.svc
 ```
+
+* `standby.enabled` controls if it is a standby cluster or not
+* `standby.host` must point to the primary node of a Main cluster. In this example it is a `main-ha` Service in another namespace.
 
 Deploy the standby cluster by applying the manifest:
 
 ```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml
+$ kubectl apply -f dr-cr.yaml -n dr-pg
 ```
 
 ??? example "Expected output"
@@ -93,6 +97,14 @@ $ kubectl apply -f deploy/cr.yaml
     ```{.bash .no-copy}
     perconapgcluster.pg.percona.com/standby created
     ```
+
+Once both clusters are up, you can verify that replication is working.
+
+1. Insert some data into Main cluster
+2. Connect to the DR cluster
+
+To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.
+
 
 ## Failover
 
