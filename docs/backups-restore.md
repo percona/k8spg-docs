@@ -49,7 +49,8 @@ spec:
   pgCluster: cluster1
   repoName: repo1
   options:
-  - --type=immediate
+  - --type=time
+  - --target="2022-11-30 15:12:11+03"
 ```
 
 The following keys are the most important ones:
