@@ -66,6 +66,71 @@ To start the restoration process, run the following command:
 $ kubectl apply -f deploy/restore.yaml
 ```
 
+### Specifying which backup to restore
+
+When there are multiple backups, the Operator will restore the latest full
+backup by default.
+
+if you want to restore to some previous backup, not the last one, follow these
+steps:
+
+1. Find the label of the backup you want to restore. For this, you need to
+    run `pgbackrest info` command on the pgBackRest Pod (`cluster1-repo-host-0`
+    if you use the default cluster name):
+
+    ```{.bash data-prompt="$" }
+    $ kubectl exec -it cluster1-repo-host-0 -- pgbackrest info
+    ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        Defaulted container "pgbackrest" out of: pgbackrest, pgbackrest-config, pgbackrest-log-dir (init), nss-wrapper-init (init)
+        stanza: db
+            status: ok
+            cipher: none
+        
+            db (current)
+                wal archive min/max (16): 000000010000000000000001/00000003000000000000001C
+        
+                full backup: 20240126-101011F
+                    timestamp start/stop: 2024-01-26 10:10:11+00 / 2024-01-26 10:12:57+00
+                    wal start/stop: 000000010000000000000006 / 000000010000000000000008
+                    database size: 30.4MB, database backup size: 30.4MB
+                    repo1: backup set size: 4MB, backup size: 4MB
+        
+                incr backup: 20240126-101011F_20240126-114154I
+                    timestamp start/stop: 2024-01-26 11:41:54+00 / 2024-01-26 11:41:57+00
+                    wal start/stop: 000000010000000000000010 / 000000010000000000000011
+                    database size: 30.5MB, database backup size: 4.6MB
+                    repo1: backup set size: 4.1MB, backup size: 699.2KB
+                    backup reference list: 20240126-101011F
+                ...
+        ```
+
+2. Now use a *backup restore* configuration file with additional
+    `--set=<backup_label>` pgBackRest option. For example, the following yaml
+    file will result in restoring to a backup labeled `20240126-101011F`:
+    
+    ```yaml
+    apiVersion: pgv2.percona.com/v2
+    kind: PerconaPGRestore
+    metadata:
+      name: restore1
+    spec:
+      pgCluster: cluster1
+      repoName: repo1
+      options:
+      - --type=immediate
+      - --set=20240126-101011F
+    ```
+
+3. Start the restoration process, as usual:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl apply -f deploy/restore.yaml
+    ```
+
 ## Restore the cluster with point-in-time recovery
 
 Point-in-time recovery functionality allows users to revert the database back to
@@ -92,8 +157,27 @@ with the `kubectl get pg-backup` command to find out the proper backup name.
 This option must be specified if the target is one or more backups away from the
 current moment.
 
+The example may look as follows:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGRestore
+metadata:
+  name: restore1
+spec:
+  pgCluster: cluster1
+  repoName: repo1
+  options:
+  - --type=time
+  - --target="2022-11-30 15:12:11+03"
+```
+
 After setting these options in the *backup restore* configuration file,
-follow the standard restore instructions.
+start the restoration process:
+
+``` {.bash data-prompt="$" }
+$ kubectl apply -f deploy/restore.yaml
+```
 
 !!! note
 
