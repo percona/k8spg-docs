@@ -114,8 +114,8 @@ Kubernetes.
     ```
 
 2. Let’s suppose that Operator’s namespace should be the `pg-operator` one, and
-    namespace you have chosen for the cluster is `percona-db-1`. Create these
-    namespaces, if needed:
+    the namespace you have chosen for the cluster is `percona-db-1`. Create
+    these namespaces, if needed:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace pg-operator
