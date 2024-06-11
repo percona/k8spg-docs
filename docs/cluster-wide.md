@@ -130,12 +130,18 @@ Kubernetes.
       name: percona-postgresql-operator
       namespace: pg-operator
     ...
+    spec:
+      containers:
+      - env:
+        - name: WATCH_NAMESPACE
+          value: ""
+    ...
     ```
 
 4. Apply the `deploy/cw-bundle.yaml` file with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cw-bundle.yaml -n pg-operator
+    $ kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
     ```
 
     Right now the operator deployed in cluster-wide mode will monitor all
