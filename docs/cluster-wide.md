@@ -113,11 +113,13 @@ Kubernetes.
     $ cd percona-postgresql-operator
     ```
 
-2. Let’s suppose that Operator’s namespace should be the `pg-operator` one.
-    Create it as follows:
+2. Let’s suppose that Operator’s namespace should be the `pg-operator` one, and
+    namespace you have chosen for the cluster is `percona-db-1`. Create these
+    namespaces, if needed:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace pg-operator
+    $ kubectl create namespace percona-db-1
     ```
 
 3. Edit the ``deploy/cw-bundle.yaml`` configuration file to make sure it
@@ -134,7 +136,7 @@ Kubernetes.
       containers:
       - env:
         - name: WATCH_NAMESPACE
-          value: ""
+          value: "pg-operator,percona-db-1"
     ...
     ```
 
@@ -147,14 +149,7 @@ Kubernetes.
     Right now the operator deployed in cluster-wide mode will monitor all
     namespaces in the cluster, either already existing or newly created ones.
 
-5. Create the namespace you have chosen for the cluster, if needed. let's call
-    it `percona-db-1` for example:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace percona-db-1
-    ```
-    
-6.  Deploy the cluster in the namespace of your choice:
+5. Deploy the cluster in the namespace of your choice:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1
