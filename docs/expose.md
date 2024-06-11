@@ -7,6 +7,9 @@ This document describes the usage of [Custom Resource manifest options](operator
 ## PgBouncer
 
 We recommend exposing the cluster through PgBouncer, which is enabled by default.
+
+![image](assets/images/repl1.svg)
+
 You can disable pgBouncer by setting `proxy.pgBouncer.replicas` to 0.
 
 The following example deploys two pgBouncer nodes exposed through a LoadBalancer Service object:
@@ -30,7 +33,9 @@ $ kubectl get service
 
     ``` {.text .no-copy}
     NAME                 TYPE           CLUSTER-IP     EXTERNAL-IP     PORT(S)          AGE
+    ...
     cluster1-pgbouncer   LoadBalancer   10.88.8.48     34.133.38.186   5432:30601/TCP   20m
+    ...
     ```
 
 You can connect to the database using the External IP of the load balancer and
@@ -43,8 +48,11 @@ default. In this case to connect to the database use the internal domain name -
 
 ## Exposing the cluster without PgBouncer
 
-You can connect to the cluster without a proxy. For that use `<clusterName>-ha`
-Service object:
+You can connect to the cluster without a proxy.
+
+![image](assets/images/repl2.svg)
+
+For that use `<clusterName>-ha` Service object:
 
 ``` {.bash data-prompt="$" }
 $ kubectl get service
@@ -54,11 +62,15 @@ $ kubectl get service
 
     ``` {.text .no-copy}
     NAME                 TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)    AGE
+    ...
     cluster1-ha          ClusterIP   10.88.8.121   <none>        5432/TCP   115s
+    ...
+    cluster1-replicas    ClusterIP   10.88.8.115   <none>        5432/TCP   2m16s
     ```
 
-This service points to the active primary. In case of failover to the replica
-node, will change the endpoint automatically.
+The `cluster1-ha` service points to the active primary. In case of failover to
+the replica node, will change the endpoint automatically. Also, you can use
+`cluster1-replicas` service to make read requests to PostgreSQL replica instances.
 
 To change the Service type, use `expose.type` in the Custom Resource manifest.
 For example, the following manifest will expose this service through a load

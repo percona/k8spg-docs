@@ -28,7 +28,9 @@ PostgreSQL containers deployed with the Operator include the following component
 
 * LLVM (for JIT compilation).
 
-To provide high availability the Operator involves [node affinity :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+Each PostgreSQL cluster includes one member availiable for read/write transactions (PostgreSQL primary instance, or leader in terms of Patroni) and a number of replicas which can serve read requests only (standby members of the cluster).
+
+To provide high availability from the Kubernetes side the Operator involves [node affinity :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
 to run PostgreSQL Cluster instances on separate worker nodes if possible. If
 some node fails, the Pod with it is automatically re-created on another node.
 

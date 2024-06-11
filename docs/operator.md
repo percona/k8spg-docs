@@ -302,7 +302,7 @@ The range of client IP addresses from which the load balancer should be reachabl
 ## <a name="operator-instances-section"></a>Instances section
 
 The `instances` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
-file contains configuration options for PostgreSQL instances.
+file contains configuration options for PostgreSQL instances. This section contains at least one *cluster instance* with a number of *PostgreSQL instances* in it (cluster instances are groups of PostgreSQL instances used for fine-grained resources assignment).
 
 ### `instances.metadata.labels`
 
@@ -969,6 +969,22 @@ Custom PostgreSQL configuration options. Please note that configuration changes 
 | Value type | Example |
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>postgresql:<br>  parameters:<br>    max_parallel_workers: 2<br>    max_worker_processes: 2<br>    shared_buffers: 1GB<br>    work_mem: 2MB</pre> |
+
+### `patroni.switchover.enabled`
+
+Enables or disables [manual change of the cluster primary instance](change-primary.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | <pre>true</pre> |
+
+### `patroni.switchover.targetInstance`
+
+The name of the Pod that should be [set as the new primary](change-primary.md). When not specified, the new primary will be selected randomly.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string |  |
 
 ## Custom extensions Section
 
