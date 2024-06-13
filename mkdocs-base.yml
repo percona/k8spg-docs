@@ -216,6 +216,7 @@ nav:
             - "Introduction": standby.md
             - "Deploy standby cluster based on backups": standby-backups.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
+            - "Failover": standby-failover.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
           - "How to use private registry": custom-registry.md
           - "Add custom PostgreSQL extensions": custom-extensions.md
