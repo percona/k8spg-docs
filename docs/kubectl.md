@@ -82,8 +82,7 @@ Here's a sequence of steps to follow:
     $ kubectl get pg -n postgres-operator
     ```
 
-    It may take some time to create the Operator. The creation process is over when both the
-    Operator and replica set Pods report the `ready` status:
+    The creation process may take some time. When the process is over your cluster obtains the ready status.
 
     ??? example "Expected output"
 
