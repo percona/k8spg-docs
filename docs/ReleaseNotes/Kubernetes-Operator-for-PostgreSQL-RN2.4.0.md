@@ -10,14 +10,20 @@
 
 ## Release Highlights
 
+## Supporting PostgreSQL tablespaces 
+    
+Tablespaces allow DBAs to store a database on multiple file systems within the same server and to control where (on which file systems) specific parts of the database are stored. You can think about it as if you were giving names to your disk mounts and then using those names as additional parameters when creating database objects.
+
+PostgreSQL supports this feature, allowing you to store data outside of the primary data directory. Tablespaces support was present in Percona Operator for PostgreSQL 1.x, and starting from this version, Percona Operator for PostgreSQL 2.x [is also able](../tablespaces.md) to bring this feature to your Kubernetes environment, when needed.
+
 
 ## New features
 
 * {{ k8spgjira(138) }}: Allow using cloud roles to authenticate on the object storage
-* {{ k8spgjira(254) }}: Add support for major version upgrade
-* {{ k8spgjira(459) }}: Allow configuring tablespace volumes
+* {{ k8spgjira(254) }}: Now Operator [automates](../update.md#major-upgrades) upgrading PostgreSQL major versions support for major version upgrade
+* {{ k8spgjira(459) }}: PostgreSQL tablespaces [are now supported](../tablespaces.md) by the Operator
 * {{ k8spgjira(479) }}: PostgreSQL operator upgrade 1.x to 2.x ability to specify tolerations for data move jobs
-* {{ k8spgjira(503) }}: Provide option to specify resources for the side car containers of DB instance pods
+* {{ k8spgjira(503) }}: It is now possible to specify resources for the side car containers of DB instance pods
 
 ## Improvements
 
