@@ -148,12 +148,12 @@ plugins:
 extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.3.1
-  pmm2recommended: 2.41.0
+  release: 2.4.0
+  pmm2recommended: 2.42.0
   commandName: 'kubectl'
   postgresrecommended: 16
   certmanagerrecommended: '1.8.0'
-  gkerecommended: '1.28'  
+  gkerecommended: '1.29'
   version:
     provider: mike
   
@@ -233,6 +233,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 2.4.0 (2024-06-24)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md
           - "Percona Operator for PostgreSQL 2.3.1 (2024-01-23)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md
           - "Percona Operator for PostgreSQL 2.3.0 (2023-12-21)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md
           - "Percona Operator for PostgreSQL 2.2.0 (2023-06-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md
