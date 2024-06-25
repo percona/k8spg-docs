@@ -2,7 +2,7 @@
 
 * **Date**
 
-    June 24, 2024
+    June 26, 2024
 
 * **Installation**
 
@@ -16,31 +16,51 @@ Tablespaces allow DBAs to store a database on multiple file systems within the s
 
 PostgreSQL supports this feature, allowing you to store data outside of the primary data directory. Tablespaces support was present in Percona Operator for PostgreSQL 1.x, and starting from this version, Percona Operator for PostgreSQL 2.x [is also able](../tablespaces.md) to bring this feature to your Kubernetes environment, when needed.
 
+## Using cloud roles to authenticate on the object storage for backups
+
+Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on [IAM roles  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) for Service Accounts with no need to specify the S3 credentials explicitly. Now Operator [allows to use this feature](backups-storage.md#iam).
+
+
+use arn role to access S3 bucket (create/restore backups) 
+
+Check how works if we add annotations both to spec and in backup 
+
+To test it you need to add a special annotation to the Custom Resource:
+
+```yaml
+spec:
+  crVersion: 2.3.1
+  metadata:
+    annotations:
+      eks.amazonaws.com/role-arn: arn:aws:iam::1191:role/role-pgbackrest-access-s3-bucket
+  ...
+  backups:
+    pgbackrest:
+      image: percona/percona-postgresql-operator:2.3.1-ppg16-pgbackrest
+      global:
+        repo1-s3-key-type: web-id
+```
 
 ## New features
 
-* {{ k8spgjira(138) }}: Allow using cloud roles to authenticate on the object storage
-* {{ k8spgjira(254) }}: Now Operator [automates](../update.md#major-upgrades) upgrading PostgreSQL major versions support for major version upgrade
+* {{ k8spgjira(138) }}: Users are able now to use AWS [IAM role  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) to provide access to the S3 bucket used for backups
+* {{ k8spgjira(254) }}: Now Operator [automates](../update.md#major-upgrades) upgrading PostgreSQL major versions
 * {{ k8spgjira(459) }}: PostgreSQL tablespaces [are now supported](../tablespaces.md) by the Operator
-* {{ k8spgjira(479) }}: PostgreSQL operator upgrade 1.x to 2.x ability to specify tolerations for data move jobs
-* {{ k8spgjira(503) }}: It is now possible to specify resources for the side car containers of DB instance pods
+* {{ k8spgjira(479) }}: The upgrade path from PostgreSQL Operator version 1.x to 2.x have gained the possibility to [specify tolerations for data move jobs](../operator.md#datasourcevolumespgdatavolumepvcname), which can be useful in environments with dedicated Kubernetes worker nodes protected by taints
+* {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the side car containers](../operator.md#instancescontainersresourceslimitscpu) of DB instance pods
 
 ## Improvements
 
-* {{ k8spgjira(175) }}: Provide protection from standby cluster promotion when the old primary is active
-* {{ k8spgjira(259) }}: Change the default loglevel from pgbackrest
-* {{ k8spgjira(303) }}: Add e2e tests
-* {{ k8spgjira(542) }}: Create documentation on how to create a DR cluster using streaming replication
-* {{ k8spgjira(539) }}: Steps for setting up Streaming replication for DR cluster.
-* {{ k8spgjira(506) }}: Add backup name from 'pgbackrest info' output into pg-backup object
-* {{ k8spgjira(508) }}: mprove bundle generation
-* {{ k8spgjira(513) }}: pgbouncer-config container in pgbouncer pods are killed by OOM and there is no way to control the Resource / Limits
-* {{ k8spgjira(514) }}: Provide ability to add securitycontext for all the pods managed with the operator
-* {{ k8spgjira(518) }}: Provide the latest transaction information
-* {{ k8spgjira(519) }}: Add support for endpointUrl for customExtensions
-* {{ k8spgjira(438) }}: Update operator documentation about restores
-* {{ k8spgjira(550) }}: Increase default /tmp size for PMM container
-* {{ k8spgjira(585) }}: Helm - add namespace reference to templates
+ {{ k8spgjira(259) }}: Users can now change the default loglevel for log messages from pgBackRest to simplify fixing backup/restore issues **ToDo: DOC missing**
+* {{ k8spgjira(303) }}: A set of e2e tests was added to cover scheduled backups, users management, upgrade consistency, single-pod functioning and s3 backups based migration
+* {{ k8spgjira(542) }}: Documentation now includes HowTo on [creating a DR cluster using streaming replication](../standby-streaming.md)
+* {{ k8spgjira(506) }}: The `pg-backup` objects have now a new `backupName` status field, which [simplifies](../restore.md) obtain the backup name for restore
+
+* {{ k8spgjira(514) }}: The new `securityContext` Custom Resource subsections allow to configure securityContext for PostgreSQL instances pgBouncer, and pgBackRest Pods
+* {{ k8spgjira(518) }}: The `kubectl get pg-backup` command now shows Latest restorable time to make it easier to pick a point-in-time recovery target
+* {{ k8spgjira(519) }}: The new `extensions.storage.endpoint` Custom Resource option allows to specify  a custom S3 object storage endpoint for installing custom extensions
+* {{ k8spgjira(550) }}: The default size for `/tmp` mount point in PMM container was increased from 1.5G to 2G **REMOVE?**
+* {{ k8spgjira(585) }}: The namespace field was added to the Operator and database Helm chart templates
 
 ## Bugs Fixed
 
