@@ -10,6 +10,31 @@
 
 ## Release Highlights
 
+## Major versions upgrade (tech preview)
+
+Starting from this release Operator users can automatically upgrade from one PostgreSQL major version to another. Upgrade is triggered by applying the yaml file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGUpgrade
+metadata:
+  name: cluster1-15-to-16
+spec:
+  postgresClusterName: cluster1
+  image: perconalab/percona-postgresql-operator:main-upgrade
+  fromPostgresVersion: 15
+  toPostgresVersion: 16
+```
+
+After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` command, the actual upgrade takes place as follows:
+
+1. The cluster is paused for a while,
+2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,
+3. Jobs are created to migrate the data,
+4. The cluster starts up after the upgrade finishes.
+
+Check official documentation for [more details](../update.md#major-upgrades), including ones about tracking the upgrade process and side effects for users with custom extensions.
+
 ## Supporting PostgreSQL tablespaces 
     
 Tablespaces allow DBAs to store a database on multiple file systems within the same server and to control where (on which file systems) specific parts of the database are stored. You can think about it as if you were giving names to your disk mounts and then using those names as additional parameters when creating database objects.
@@ -18,10 +43,10 @@ PostgreSQL supports this feature, allowing you to store data outside of the prim
 
 ## Using cloud roles to authenticate on the object storage for backups
 
-Percona Operator for PostgreSQL has introduced a new feature that allows users to authenticate to AWS S3 buckets via [IAM roles  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html). Now Operator [This enhancement](backups-storage.md#iam) significantly improves security by eliminating the need to manage S3 access keys directly, while also streamlining the configuration process for easier backup and restore operations.
+Percona Operator for PostgreSQL has introduced a new feature that allows users to authenticate to AWS S3 buckets via [IAM roles  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html). Now Operator [This enhancement](../backups-storage.md#iam) significantly improves security by eliminating the need to manage S3 access keys directly, while also streamlining the configuration process for easier backup and restore operations.
 
 
-To use this feature, user should add annotations both to spec and backup subsections of Customr Resource:
+To use this feature, user should add annotations both to spec and backup subsections of Custom Resource:
 
 ```yaml
 spec:
