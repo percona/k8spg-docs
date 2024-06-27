@@ -79,7 +79,47 @@ Considering the Operator uses `postgres-operator` namespace, upgrade to the vers
 
 ## Upgrading Percona Distribution for PostgreSQL
 
-Upgrading Percona Distribution for PostgreSQL can be done as follows:
+Starting from the Operator version 2.4, Percona Distribution for PostgreSQL can be automatically upgrade from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15 to PostgreSQL 16).
+Versions earlier than 2.4 support only minor versions upgrade.
+
+### Major version upgrade
+
+!!! note
+
+    Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
+
+Upgrade is triggered by applying the YAML file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGUpgrade
+metadata:
+  name: cluster1-15-to-16
+spec:
+  postgresClusterName: cluster1
+  image: perconalab/percona-postgresql-operator:main-upgrade
+  fromPostgresVersion: 15
+  toPostgresVersion: 16
+```
+
+After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` command, the actual upgrade takes place as follows:
+
+1. The cluster is paused for a while,
+2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,
+3. Jobs are created to migrate the data,
+4. The cluster starts up after the upgrade finishes.
+
+During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
+
+!!! note
+
+    If the upgrade process meets problems and cannot proceed, the cluster will remain paused. In this case you should delete `PerconaPGUpgrade` object with `kubectl delete` command and [resume the cluster](pause.md) manually to check what went wrong with upgrade.
+
+If there are [custom PostgreSQL extensions](custom-extensions.md) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
+
+### Minor version upgrade
+
+Upgrading Percona Distribution for PostgreSQL minor version can be done as follows:
 
 1. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
     to your Custom Resource, setting necessary Custom Resource version and image
