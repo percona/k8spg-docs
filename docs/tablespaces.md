@@ -44,8 +44,8 @@ Providing a new tablespace for your database in Kubernetes involves two parts:
 
 The first part is done in the traditional way of Percona Operators, by modifying
 Custom Resource via the `deploy/cr.yaml` configuration file. It has a special
-[spec.tablespaceStorages](operator.md#operator-tablespacestorages-section) section with
-subsections names equal to PostgreSQL tablespace names.
+[spec.tablespaceStorages](operator.md#operator-tablespacestorages-section) section
+for tablespaces.
 
 The example already present in `deploy/cr.yaml` shows how to create tablespace
 storage 1Gb in size (you can see
@@ -66,7 +66,7 @@ spec:
 ```
 
 After you apply this by running the `kubectl apply -f deploy/cr.yaml` command,
-the new `lake` tablespace will appear within your database. Please take into
+the new `user` tablespace will appear within your database. Please take into
 account that if you add your new tablespace to the already existing PostgreSQL
 cluster, it may take time for the Operator to create Persistent Volume Claims
 and get Persistent Volumes actually mounted.
@@ -156,13 +156,13 @@ spec:
       - name: database
         ...
         volumeMounts:
-          - name: tablespace-lake
-            mountPath: /tablespaces/lake
+          - name: tablespace-user
+            mountPath: /tablespaces/user
     volumes:
       ...
       - name: tablespace-lake
         persistentVolumeClaim:
-          claimName: cluster1-tablespace-lake
+          claimName: cluster1-tablespace-user
       ...
 ```
 
