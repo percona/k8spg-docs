@@ -48,20 +48,21 @@ Custom Resource via the `deploy/cr.yaml` configuration file. It has a special
 subsections names equal to PostgreSQL tablespace names.
 
 The example already present in `deploy/cr.yaml` shows how to create tablespace
-storage named `lake` 1Gb in size with dynamic provisioning (you can see
+storage 1Gb in size (you can see
 [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details):
 
 ```yaml
 spec:
-...
-  tablespaceStorages:
-    lake:
-      volumeSpec:
-        size: 1G
-        accessmode: ReadWriteOnce
-        storagetype: dynamic
-        storageclass: ""
-        matchLabels: ""
+  instances:
+    ...
+    tablespaceVolumes:
+      - name: user
+        dataVolumeClaimSpec:
+          accessModes:
+            - 'ReadWriteOnce'
+          resources:
+            requests:
+              storage: 1Gi
 ```
 
 After you apply this by running the `kubectl apply -f deploy/cr.yaml` command,
