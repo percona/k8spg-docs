@@ -18,14 +18,10 @@ PostgreSQL supports this feature, allowing you to store data outside of the prim
 
 ## Using cloud roles to authenticate on the object storage for backups
 
-Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on [IAM roles  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) for Service Accounts with no need to specify the S3 credentials explicitly. Now Operator [allows to use this feature](backups-storage.md#iam).
+Percona Operator for PostgreSQL has introduced a new feature that allows users to authenticate to AWS S3 buckets via [IAM roles  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html). Now Operator [This enhancement](backups-storage.md#iam) significantly improves security by eliminating the need to manage S3 access keys directly, while also streamlining the configuration process for easier backup and restore operations.
 
 
-use arn role to access S3 bucket (create/restore backups) 
-
-Check how works if we add annotations both to spec and in backup 
-
-To test it you need to add a special annotation to the Custom Resource:
+To use this feature, user should add annotations both to spec and backup subsections of Customr Resource:
 
 ```yaml
 spec:
@@ -47,13 +43,12 @@ spec:
 * {{ k8spgjira(254) }}: Now Operator [automates](../update.md#major-upgrades) upgrading PostgreSQL major versions
 * {{ k8spgjira(459) }}: PostgreSQL tablespaces [are now supported](../tablespaces.md) by the Operator
 * {{ k8spgjira(479) }}: The upgrade path from PostgreSQL Operator version 1.x to 2.x have gained the possibility to [specify tolerations for data move jobs](../operator.md#datasourcevolumespgdatavolumepvcname), which can be useful in environments with dedicated Kubernetes worker nodes protected by taints
-* {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the side car containers](../operator.md#instancescontainersresourceslimitscpu) of DB instance pods
+* {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the sidecar containers](../operator.md#instancescontainersresourceslimitscpu) of database instance Pods
 
 ## Improvements
 
- {{ k8spgjira(259) }}: Users can now change the default loglevel for log messages from pgBackRest to simplify fixing backup/restore issues **ToDo: DOC missing**
-* {{ k8spgjira(303) }}: A set of e2e tests was added to cover scheduled backups, users management, upgrade consistency, single-pod functioning and s3 backups based migration
-* {{ k8spgjira(542) }}: Documentation now includes HowTo on [creating a DR cluster using streaming replication](../standby-streaming.md)
+* {{ k8spgjira(259) }}: Users can now change the default level for log messages for pgBackRest to simplify fixing backup and restore issues
+* {{ k8spgjira(542) }}: Documentation now includes HowTo on [creating a disaster recovery cluster using streaming replication](../standby-streaming.md)
 * {{ k8spgjira(506) }}: The `pg-backup` objects have now a new `backupName` status field, which [simplifies](../restore.md) obtain the backup name for restore
 
 * {{ k8spgjira(514) }}: The new `securityContext` Custom Resource subsections allow to configure securityContext for PostgreSQL instances pgBouncer, and pgBackRest Pods
@@ -61,28 +56,23 @@ spec:
 * {{ k8spgjira(519) }}: The new `extensions.storage.endpoint` Custom Resource option allows to specify  a custom S3 object storage endpoint for installing custom extensions
 * {{ k8spgjira(550) }}: The default size for `/tmp` mount point in PMM container was increased from 1.5G to 2G **REMOVE?**
 * {{ k8spgjira(585) }}: The namespace field was added to the Operator and database Helm chart templates
+* {{ k8spgjira(549) }}: 
 
 ## Bugs Fixed
 
-* {{ k8spgjira(462) }}: Backup with the same name is stuck
-* {{ k8spgjira(470) }}: Liveness and Readiness checks are not detecting postgresql hang
-* {{ k8spgjira(512) }}: Steps described in the Changing the Primary documentation don't work and the server roles don't change.
+* {{ k8spgjira(462) }}: Fixed a bug where backups could not start if a previous backup had the same name
+* {{ k8spgjira(470) }}: Liveness and Readiness probes timeouts [are now configurable](../operator.md#patroinsyncperiodseconds) through Custom Resource
 * {{ k8spgjira(559) }}: First full backup is falsely reported as incremental
 * {{ k8spgjira(522) }}: Cluster is broken if PG_VERSION file is missing during upgrade from 2.2.0 to 2.3.1
-* {{ k8spgjira(490) }}: replication broken when master killed on older PG
+* {{ k8spgjira(490) }}: Fix broken replication that occurred after the network loss of the master Pod with PostgreSQL 14 and older versions
 * {{ k8spgjira(492) }}: Restore job created by PerconaPGRestore doesn't inherit .spec.instances[].tolerations
-* {{ k8spgjira(502) }}: Backup jobs not being cleaned up since 2.3.1
-* {{ k8spgjira(510) }}: Cluster state set to paused while pods are still running
-* {{ k8spgjira(531) }}: Scheduled backups do not work for a second database in cluster-wide
-* {{ k8spgjira(534) }}: use_slots defaults at false
-* {{ k8spgjira(535) }}: When we try to run backup with non-existent repo operator crashes.
-* {{ k8spgjira(540) }}: pg-db helm - issue with backups.pgbackrest.configuration key
-* {{ k8spgjira(543) }}: operator crash loop due to nil pointer - pgbouncer
-* {{ k8spgjira(547) }}: pgbackrest container can't use pgbackrest 2.50
-* {{ k8spgjira(575) }}: Documentation is misleading in terms of enabling built-in extensions
-* {{ k8spgjira(580) }}: Unable to tell which exact version an image provides
-* {{ k8spgjira(582) }}: Documentation is incomplete
-* {{ k8spgjira(583) }}: perconapgclusters hardcoded version was not updated
+* {{ k8spgjira(502) }}: Fix a bug where backup jobs were not cleaned up after completion
+* {{ k8spgjira(510) }}: Fix a bug where pausing the cluster immediately set its state to “paused” instead of “stopping” while Pods were still running
+* {{ k8spgjira(531) }}: Fix a bug where scheduled backups did not work for a second database with the same name in cluster-wide mode
+* {{ k8spgjira(535) }}: Fix a bug where the Operator crashed when attempting to run a backup with a non-existent repository
+* {{ k8spgjira(543) }}: Fix a bug where applying a cr.yaml with an empty `spec.proxy` field caused the Operator to crash
+* {{ k8spgjira(540) }}: Fixed a bug in the pg-db Helm chart readme where the key to set the backup secret was incorrectly specified (Thanks to Abhay Tiwari for contribution)
+* {{ k8spgjira(547) }}: Fix dependency issue that made pgbackrest-repo container incompatible with pgBackRest 2.50, resulting in the older 2.48 version being used instead
 
 ## Supported platforms
 
