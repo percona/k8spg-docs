@@ -506,7 +506,7 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 
 ### `instances.dataVolumeClaimSpec.accessModes`
 
-The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL Write-ahead Log storage.
+The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the PostgreSQL storage.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -515,6 +515,30 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 ### `instances.dataVolumeClaimSpec.resources.requests.storage`
 
 The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
+
+### `instances.tablespaceVolumes.name`
+
+Name for the custom [tablespace volume](tablespaces.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `user` |
+
+### `instances.tablespaceVolumes.dataVolumeClaimSpec.accessModes`
+
+The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) access modes for the tablespace volume.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `ReadWriteOnce` |
+
+### `instances.tablespaceVolumes.dataVolumeClaimSpec.resources.requests.storage`
+
+The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the tablespace volume.
 
 | Value type | Example |
 | ---------- | ------- |
