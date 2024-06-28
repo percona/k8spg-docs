@@ -74,43 +74,37 @@ backup by default.
 if you want to restore to some previous backup, not the last one, follow these
 steps:
 
-1. Find the label of the backup you want to restore. For this, you need to
-    run `pgbackrest info` command on the pgBackRest Pod (`cluster1-repo-host-0`
-    if you use the default cluster name):
-
-    ```{.bash data-prompt="$" }
-    $ kubectl exec -it cluster1-repo-host-0 -- pgbackrest info
+1. Find the label of the backup you want to restore. For this, you can list
+    available backups with `kubectl get pg-backup` command, and then get detailed
+    information about the backup of your interest with
+    `kubectl describe pg-backup <BACKUP NAME>`. The output should look as follows:
+    
+    ```text hl_lines="18 19"
+    Name:         cluster1-backup-c55w-f858g
+    Namespace:    default
+    Labels:       <none>
+    Annotations:  pgv2.percona.com/pgbackrest-backup-job-name: cluster1-backup-c55w
+                  pgv2.percona.com/pgbackrest-backup-job-type: replica-create
+    API Version:  pgv2.percona.com/v2
+    Kind:         PerconaPGBackup
+    Metadata:
+      Creation Timestamp:  2024-06-28T07:44:08Z
+      Generate Name:       cluster1-backup-c55w-
+      Generation:          1
+      Resource Version:    1199
+      UID:                 92a8193c-6cbd-4cdf-82e5-a4623bf7f2d9
+    Spec:
+      Pg Cluster:  cluster1
+      Repo Name:   repo1
+    Status:
+      Backup Name:  20240628-074416F
+      Backup Type:  full
+    ...
     ```
-
-    ??? example "Expected output"
-
-        ```{.text .no-copy}
-        Defaulted container "pgbackrest" out of: pgbackrest, pgbackrest-config, pgbackrest-log-dir (init), nss-wrapper-init (init)
-        stanza: db
-            status: ok
-            cipher: none
-        
-            db (current)
-                wal archive min/max (16): 000000010000000000000001/00000003000000000000001C
-        
-                full backup: 20240126-101011F
-                    timestamp start/stop: 2024-01-26 10:10:11+00 / 2024-01-26 10:12:57+00
-                    wal start/stop: 000000010000000000000006 / 000000010000000000000008
-                    database size: 30.4MB, database backup size: 30.4MB
-                    repo1: backup set size: 4MB, backup size: 4MB
-        
-                incr backup: 20240126-101011F_20240126-114154I
-                    timestamp start/stop: 2024-01-26 11:41:54+00 / 2024-01-26 11:41:57+00
-                    wal start/stop: 000000010000000000000010 / 000000010000000000000011
-                    database size: 30.5MB, database backup size: 4.6MB
-                    repo1: backup set size: 4.1MB, backup size: 699.2KB
-                    backup reference list: 20240126-101011F
-                ...
-        ```
 
 2. Now use a *backup restore* configuration file with additional
     `--set=<backup_label>` pgBackRest option. For example, the following yaml
-    file will result in restoring to a backup labeled `20240126-101011F`:
+    file will result in restoring to a backup labeled `20240628-074416F`:
     
     ```yaml
     apiVersion: pgv2.percona.com/v2
@@ -122,7 +116,7 @@ steps:
       repoName: repo1
       options:
       - --type=immediate
-      - --set=20240126-101011F
+      - --set=20240628-074416F
     ```
 
 3. Start the restoration process, as usual:
