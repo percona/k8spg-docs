@@ -71,7 +71,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
     4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
        Also, if your S3-compatible storage requires additional [repository options :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository) for the pgBackRest tool, you can specify these parameters in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection (use standard pgBackRest option names prefixed with the repository name).
 
-        === ":simple-amazonaws: Amazon S3 storage"
+        === ":fontawesome-brands-aws: Amazon S3 storage"
 
             For example, the S3 storage for the `repo2` repository looks as follows:
 
@@ -90,6 +90,24 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                     bucket: "<YOUR_AWS_S3_BUCKET_NAME>"
                     region: "<YOUR_AWS_S3_REGION>"
             ```
+
+            ??? note "Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on [IAM roles](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) for Service Accounts with no need to specify the S3 credentials explicitly."
+
+                To use this feature, add annotation to the spec part of the Custom Resource and also add pgBackRest custom configuration option to the backups subsection as follows:
+
+                ```yaml
+                spec:
+                  crVersion: {{ release }}
+                  metadata:
+                    annotations:
+                      eks.amazonaws.com/role-arn: arn:aws:iam::1191:role/role-pgbackrest-access-s3-bucket
+                  ...
+                  backups:
+                    pgbackrest:
+                      image: percona/percona-postgresql-operator:{{ release }}-ppg16-pgbackrest
+                      global:
+                        repo2-s3-key-type: web-id
+                ```
 
         === ":simple-amazons3: S3-compatible storage"
 
