@@ -66,24 +66,33 @@ spec:
 ```
 
 After you apply this by running the `kubectl apply -f deploy/cr.yaml` command,
-the new `user` tablespace will appear within your database. Please take into
+the new `/tablespaces/user/` mountpoint will appear for your database. Please take into
 account that if you add your new tablespace to the already existing PostgreSQL
 cluster, it may take time for the Operator to create Persistent Volume Claims
 and get Persistent Volumes actually mounted.
 
-Now you can append `TABLESPACE <tablespace_name>` to your `CREATE` SQL
-statements to implicitly create tables, indexes, or even entire databases in
-specific tablespaces (of course, your user should have appropriate `CREATE`
-privileges to make it possible).
+Now you should actually create your tablespace on this volume with the
+`CREATE TABLESPACE <tablespace name> LOCATION <mount point>` command, and then
+create objects in it (of course, your user should have appropriate `CREATE`
+privileges to make it possible):
 
-Let’s create an example table in the already mentioned `lake` tablespace:
+```sql
+CREATE TABLESPACE user121
+LOCATION '/tablespaces/user/data';
+```
+
+Now when the tablespace is created you can append `TABLESPACE <tablespace_name>`
+to your `CREATE` SQL statements to implicitly create tables, indexes, or even
+entire databases in specific tablespace.
+
+Let’s create an example table in the already mentioned `user121` tablespace:
 
 ```sql
 CREATE TABLE products (
     product_sku character(10),
     quantity int,
     manufactured_date timestamptz)
-TABLESPACE lake;
+TABLESPACE user121;
 ```
 
 It is also possible to set a default tablespace with the
@@ -112,7 +121,7 @@ find out which objects are stored in a specific tablespace. The example command
 for the `lake` tablespace will look as follows:
 
 ```sql
-SELECT relname FROM pg_class WHERE reltablespace=(SELECT oid FROM pg_tablespace WHERE spcname='lake');
+SELECT relname FROM pg_class WHERE reltablespace=(SELECT oid FROM pg_tablespace WHERE spcname='user121');
 ```
 
 When your tablespace is empty, you can log in to the
@@ -122,48 +131,3 @@ When your tablespace is empty, you can log in to the
 Now, when the PostgreSQL part is finished, you can remove the tablespace entry
 from the `tablespaceStorages` section (don’t forget to run the
 `kubectl apply -f deploy/cr.yaml` command to apply changes).
-
-However, Persistent Volumes will still be mounted to the `/tablespaces`
-directory in PostgreSQL Pods. To remove these mounts, you should edit
-*all Deployment objects* for `pgPrimary` and `pgReplica` instances in your
-Kubernetes cluster and remove the `Volume` and `VolumeMount` entries related
-to your tablespace.
-
-You can see the list of Deployment objects with the `kubectl get deploy`
-command. Running it for a default cluster named `cluster1` results in the
-following output:
-
-``` {.text .no-copy}
-NAME                            READY   UP-TO-DATE   AVAILABLE   AGE
-cluster1                        1/1     1            1           156m
-cluster1-backrest-shared-repo   1/1     1            1           156m
-cluster1-pgbouncer              3/3     3            3           154m
-cluster1-repl1                  1/1     1            1           154m
-cluster1-repl2                  1/1     1            1           154m
-postgres-operator               1/1     1            1           157m
-```
-
-Now run `kubectl edit deploy <oblect_name>` for `cluster1`,
-`cluster1-repl1`, and `cluster1-repl2` objects consequently. Each command
-will open a text editor, where you should remove the appropriate lines, which
-in case of the `lake` tablespace will look as follows:
-
-```yaml
-...
-spec:
-    ...
-    containers:
-      - name: database
-        ...
-        volumeMounts:
-          - name: tablespace-user
-            mountPath: /tablespaces/user
-    volumes:
-      ...
-      - name: tablespace-lake
-        persistentVolumeClaim:
-          claimName: cluster1-tablespace-user
-      ...
-```
-
-Finishing the edit causes Pods to be recreated without tablespace mounts.
