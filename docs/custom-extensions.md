@@ -9,7 +9,7 @@ Still, starting from the Operator version 2.3 there is an alternative way to ext
 
 ## Enabling or disabling built-in extensions
 
-Percona Distribution for PostgreSQL [built-in extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/16/) can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file as follows:
+Built-in extensions can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file as follows:
 
 ```yaml
 extensions:
@@ -24,6 +24,18 @@ Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
 !!! note
 
     Editing this section and applying it is causing Pods restart.
+
+The actual list of built-in extensions for a specific Operator release can be done by examining the `/usr/pgsql-16/share/extension/` directory of the PostgreSQL instance Pod `database` container. For example, if you have got a `cluster1-instance1-c9bn-0` Pod name from the `kubectl get pods` command, you can do it as follows:
+
+``` {.bash data-prompt="$"}
+$ kubectl exec -ti cluster1-instance1-c9bn-0 -c database -- ls -l /usr/pgsql-16/share/extension/
+total 1240
+-rw-r--r-- 1 postgres postgres   274 May  9 09:06 adminpack--1.0--1.1.sql
+-rw-r--r-- 1 postgres postgres  1535 May  9 09:06 adminpack--1.0.sql
+-rw-r--r-- 1 postgres postgres  1682 May  9 09:06 adminpack--1.1--2.0.sql
+-rw-r--r-- 1 postgres postgres   595 May  9 09:06 adminpack--2.0--2.1.sql
+...
+```
 
 ## Adding custom extensions
 
