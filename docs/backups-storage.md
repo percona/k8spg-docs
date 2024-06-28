@@ -93,7 +93,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
             ??? note "Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on [IAM roles](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) for Service Accounts with no need to specify the S3 credentials explicitly."
 
-                To use this feature, add annotation to the spec part of the Custom Resource and also add pgBackRest custom configuration option to the backup subsection as follows:
+                To use this feature, add annotation to the spec part of the Custom Resource and also add pgBackRest custom configuration option to the backups subsection as follows:
 
                 ```yaml
                 spec:
