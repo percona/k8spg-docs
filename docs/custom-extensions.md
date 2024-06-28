@@ -144,6 +144,7 @@ to make the Operator download and install it.
         type: s3
         bucket: pg-extensions
         region: eu-central-1
+        endpoint: s3.eu-central-1.amazonaws.com
         secret:
           name: cluster1-extensions-secret
     ```

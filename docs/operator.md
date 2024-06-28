@@ -178,6 +178,38 @@ The pgBackRest command-line options for the pgBackRest restore command.
 | ---------- | ------- |
 | :material-code-string: string | |
 
+### `dataSource.postgresCluster.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.postgresCluster.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.postgresCluster.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.postgresCluster.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
 ### `dataSource.pgbackrest.stanza`
 
 Name of the [pgBackRest stanza :octicons-link-external-16:](https://pgbackrest.org/command.html) to use as the data source when restoring backup to a new cluster.
@@ -269,7 +301,7 @@ The port number for PostgreSQL.
 
 ### `expose.annotations`
 
-The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL.
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -277,7 +309,7 @@ The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/d
 
 ### `expose.labels`
 
-Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL Service.
+Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -285,13 +317,45 @@ Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/ove
 
 ### `expose.type`
 
-Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL.
+Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
 
 ### `expose.loadBalancerSourceRanges`
+
+The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"10.0.0.0/8"` |
+
+#  exposeReplicas.annotations`
+
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `my-annotation: value1` |
+
+### `exposeReplicas.labels`
+
+Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `my-label: value2` |
+
+### `exposeReplicas.type`
+
+Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `LoadBalancer` |
+
+### `exposeReplicas.loadBalancerSourceRanges`
 
 The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
 
@@ -415,6 +479,14 @@ The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernet
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `high-priority` |
+
+### 'instances.securityContext'
+
+A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-text-long: subdoc      | <pre>fsGroup: 1001<br>runAsUser: 1001<br>runAsNonRoot: true<br>fsGroupChangePolicy: "OnRootMismatch"<br>runAsGroup: 1001<br>seLinuxOptions:<br>  type: spc_t<br>  level: s0:c123,c456<br>seccompProfile:<br>  type: Localhost<br>  localhostProfile: localhost/profile.json<br>supplementalGroups:<br>- 1001<br>sysctls:<br>- name: net.ipv4.tcp_keepalive_time<br>  value: "600"<br>- name: net.ipv4.tcp_keepalive_intvl<br>  value: "60"</pre> |
 
 ### `instances.walVolumeClaimSpec.accessModes`
 
@@ -566,7 +638,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 
 ### `backups.pgbackrest.jobs.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -574,7 +646,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -582,7 +654,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.operator`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -590,11 +662,19 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.value`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `connection-poolers` |
+
+### 'backups.pgbackrest.jobs.securityContext'
+
+A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-text-long: subdoc      | <pre>fsGroup: 1001<br>runAsUser: 1001<br>runAsNonRoot: true<br>fsGroupChangePolicy: "OnRootMismatch"<br>runAsGroup: 1001<br>seLinuxOptions:<br>  type: spc_t<br>  level: s0:c123,c456<br>seccompProfile:<br>  type: Localhost<br>  localhostProfile: localhost/profile.json<br>supplementalGroups:<br>- 1001<br>sysctls:<br>- name: net.ipv4.tcp_keepalive_time<br>  value: "600"<br>- name: net.ipv4.tcp_keepalive_intvl<br>  value: "60"</pre> |
 
 ### `backups.pgbackrest.global`
 
@@ -651,6 +731,47 @@ The Label selector for the [Kubernetes Pod Topology Spread Constraints :octicons
 | Value type | Example |
 | ---------- | ------- |
 | :material-text-long: subdoc | |
+
+### `backups.pgbackrest.repoHost.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `backups.pgbackrest.repoHost.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `backups.pgbackrest.repoHost.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `backups.pgbackrest.repoHost.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
+
+### 'backups.pgbackrest.repoHost.securityContext'
+
+A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-text-long: subdoc      | <pre>fsGroup: 1001<br>runAsUser: 1001<br>runAsNonRoot: true<br>fsGroupChangePolicy: "OnRootMismatch"<br>runAsGroup: 1001<br>seLinuxOptions:<br>  type: spc_t<br>  level: s0:c123,c456<br>seccompProfile:<br>  type: Localhost<br>  localhostProfile: localhost/profile.json<br>supplementalGroups:<br>- 1001<br>sysctls:<br>- name: net.ipv4.tcp_keepalive_time<br>  value: "600"<br>- name: net.ipv4.tcp_keepalive_intvl<br>  value: "60"</pre> |
 
 ### `backups.pgbackrest.manual.repoName`
 
@@ -750,6 +871,38 @@ Name of the [Azure Blob Storage container :octicons-link-external-16:](https://d
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `my-container` |
+
+### `backups.restore.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `backups.restore.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `backups.restore.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `backups.restore.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
 
 ## PMM section
 
@@ -880,6 +1033,7 @@ The range of client IP addresses from which the load balancer should be reachabl
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `"10.0.0.0/8"` |
+
 ### `proxy.pgBouncer.affinity.podAntiAffinity`
 
 [Pod anti-affinity](constraints.md#affinity-and-anti-affinity), allows setting the standard Kubernetes affinity constraints of any complexity.
@@ -887,6 +1041,14 @@ The range of client IP addresses from which the load balancer should be reachabl
 | Value type | Example |
 | ---------- | ------- |
 | :material-text-long: subdoc | |
+
+### 'proxy.pgBouncer.securityContext'
+
+A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-text-long: subdoc      | <pre>fsGroup: 1001<br>runAsUser: 1001<br>runAsNonRoot: true<br>fsGroupChangePolicy: "OnRootMismatch"<br>runAsGroup: 1001<br>seLinuxOptions:<br>  type: spc_t<br>  level: s0:c123,c456<br>seccompProfile:<br>  type: Localhost<br>  localhostProfile: localhost/profile.json<br>supplementalGroups:<br>- 1001<br>sysctls:<br>- name: net.ipv4.tcp_keepalive_time<br>  value: "600"<br>- name: net.ipv4.tcp_keepalive_intvl<br>  value: "60"</pre> |
 
 ### `proxy.pgBouncer.config`
 
@@ -962,6 +1124,22 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 The `patroni` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/).
 
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `3` |
+
+### `patroni.syncPeriodSeconds`
+
+How often to perform [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `3` |
+
+### `patroni.leaderLeaseDurationSeconds`
+
+Initial delay for [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+
 ### `patroni.dynamicConfiguration`
 
 Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.
@@ -1030,6 +1208,14 @@ The [AWS region :octicons-link-external-16:](https://docs.aws.amazon.com/general
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `eu-central-1` |
+
+### `extensions.storage.endpoint`
+
+The [S3 endpoint :octicons-link-external-16:](https://docs.aws.amazon.com/general/latest/gr/s3.html) to use.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `s3.eu-central-1.amazonaws.com` |
 
 ### `extensions.storage.secret.name`
 
