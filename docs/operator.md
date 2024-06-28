@@ -269,7 +269,7 @@ The port number for PostgreSQL.
 
 ### `expose.annotations`
 
-The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL.
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -277,7 +277,7 @@ The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/d
 
 ### `expose.labels`
 
-Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL Service.
+Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -285,13 +285,45 @@ Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/ove
 
 ### `expose.type`
 
-Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL.
+Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL primary.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
 
 ### `expose.loadBalancerSourceRanges`
+
+The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"10.0.0.0/8"` |
+
+#  exposeReplicas.annotations`
+
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `my-annotation: value1` |
+
+### `exposeReplicas.labels`
+
+Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for the PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `my-label: value2` |
+
+### `exposeReplicas.type`
+
+Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://kubernetes.io/docs/concepts/services-networking/service/#publishing-services-service-types) for PostgreSQL replicas.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `LoadBalancer` |
+
+### `exposeReplicas.loadBalancerSourceRanges`
 
 The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
 
