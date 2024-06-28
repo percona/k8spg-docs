@@ -68,7 +68,7 @@ the example of the Operator deployed in the OpenShift environment.
         ```
 
     You can find correct names and SHA digests in the
-    [current list of the Operator-related images officially certified by Percona](images.md#custom-registry-images).
+    [current list of the Operator-related images officially certified by Percona](images.md).
 
 5. The following method can push an image to the custom registry for the example
     OpenShift `pg` project:

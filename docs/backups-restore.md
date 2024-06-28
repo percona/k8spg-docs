@@ -6,8 +6,7 @@ restore a cluster:
 
 * restore to a new cluster using the [dataSource.postgresCluster](operator.md#datasourcepostgresclusterclustername)
 subsection,
-* restore in-place to an existing cluster (note that this is destructive) using
-the [backups.restore](operator.md#backups-restore-enabled) subsection.
+* restore in-place to an existing cluster (note that this is destructive).
 
 ## Restore to a new PostgreSQL cluster
 

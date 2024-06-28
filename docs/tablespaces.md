@@ -18,7 +18,7 @@ slower but cheaper storage for lesser-used database objects. The classic example
 would be using an SSD for heavily-used indexes and using a large slow HDD for
 archive data.
 
-Of course, the Operator [already provides](constraints.md#operator-constraints) you with
+Of course, the Operator [already provides](constraints.md) you with
 [traditional Kubernetes approaches](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/)
 to achieve this on a per-Pod basis (Tolerations, etc.). But if you would like to
 go deeper and make such differentiation at the level of your database objects
@@ -44,7 +44,7 @@ Providing a new tablespace for your database in Kubernetes involves two parts:
 
 The first part is done in the traditional way of Percona Operators, by modifying
 Custom Resource via the `deploy/cr.yaml` configuration file. It has a special
-[spec.tablespaceStorages](operator.md#operator-tablespacestorages-section) section
+[spec.tablespaceStorages](operator.md#instancestablespacevolumesname) section
 for tablespaces.
 
 The example already present in `deploy/cr.yaml` shows how to create tablespace

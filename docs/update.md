@@ -61,7 +61,7 @@ Considering the Operator uses `postgres-operator` namespace, upgrade to the vers
 3. Now you should [apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
     to your deployment, supplying necessary image name with a newer version
     tag. You can find the proper
-    image name for the current Operator release [in the list of certified images](images.md#custom-registry-images).
+    image name for the current Operator release [in the list of certified images](images.md).
     updating to the `{{ release }}` version should look as follows:
 
     ``` {.bash data-prompt="$" }
@@ -132,7 +132,7 @@ Upgrading Percona Distribution for PostgreSQL minor version can be done as follo
         to upgrade the Operator and CRD, if needed.
 
     Patching Custom Resource is done with the `kubectl patch pg` command.
-    Actual image names can be found [in the list of certified images](images.md#custom-registry-images).
+    Actual image names can be found [in the list of certified images](images.md).
     For example, updating `cluster1` cluster to the `{{ release }}` version
     should look as follows:
 

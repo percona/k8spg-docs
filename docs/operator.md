@@ -622,7 +622,7 @@ Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/ove
 
 ### `backups.pgbackrest.image`
 
-The Docker image for [pgBackRest](backups.md#backups-pgbackrest).
+The Docker image for [pgBackRest](backups.md#backup-repositories).
 
 | Value type | Example |
 | ---------- | ------- |
