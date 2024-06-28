@@ -35,6 +35,8 @@ Apply your modifications as usual:
 $ kubectl apply -f deploy/cr.yaml
 ```
 
+Obviously, you cannot name your sidecar container by duplicating an already existing container name in the Pod. Use `kubectl describe pod` command to check which names are already in use. For example, PostgreSQL instance Pods cannot have custom sidecar containers named as `database`, `pgbackrest`, `pgbackrest-config`, and `replication-cert-copy`.
+
 !!! note
 
     More options suitable for the `sidecars` subsection can be found in the [Custom Resource options reference](operator.md).
