@@ -8,19 +8,19 @@ of storage classes, hostPath, and NFS.
 
 The Operator {{ release }} is developed, tested and based on:
 
-* PostgreSQL 12.17, 13.13, 14.10, 15.5, and 16.1 as the database. Other versions may also work but have not been tested. 
-* pgBouncer 1.21.0 for connection pooling
-* Patroni 3.1.0 for high-availability.
+* PostgreSQL 12.19, 13.15, 14.12, 15.7, and 16.3 as the database. Other versions may also work but have not been tested. 
+* pgBouncer 1.22.1 for connection pooling
+* Patroni 3.3.0 for high-availability.
 
 ## Supported platforms
 
 The following platforms were tested and are officially supported by the Operator
 {{ release }}:
 
-* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.24 - 1.28
-* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.24 - 1.28
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.11.55 - 4.14.6
-* [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.32
+* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.27 - 1.29
+* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.27 - 1.30
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.12.59 - 4.15.18
+* [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.33.1
 
 Other Kubernetes platforms may also work but have not been tested.
 
