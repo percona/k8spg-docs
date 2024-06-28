@@ -25,18 +25,6 @@ Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
 
     Editing this section and applying it is causing Pods restart.
 
-The actual list of built-in extensions for a specific Operator release can be done by examining the `/usr/pgsql-16/share/extension/` directory of the PostgreSQL instance Pod `database` container. For example, if you have got a `cluster1-instance1-c9bn-0` Pod name from the `kubectl get pods` command, you can do it as follows:
-
-``` {.bash data-prompt="$"}
-$ kubectl exec -ti cluster1-instance1-c9bn-0 -c database -- ls -l /usr/pgsql-16/share/extension/
-total 1240
--rw-r--r-- 1 postgres postgres   274 May  9 09:06 adminpack--1.0--1.1.sql
--rw-r--r-- 1 postgres postgres  1535 May  9 09:06 adminpack--1.0.sql
--rw-r--r-- 1 postgres postgres  1682 May  9 09:06 adminpack--1.1--2.0.sql
--rw-r--r-- 1 postgres postgres   595 May  9 09:06 adminpack--2.0--2.1.sql
-...
-```
-
 ## Adding custom extensions
 
 Custom extensions are downloaded by the Operator from the cloud storage. 
