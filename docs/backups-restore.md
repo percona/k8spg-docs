@@ -102,6 +102,8 @@ steps:
     ...
     ```
 
+    The "Backup Name" status field will contain needed backup label.
+
 2. Now use a *backup restore* configuration file with additional
     `--set=<backup_label>` pgBackRest option. For example, the following yaml
     file will result in restoring to a backup labeled `20240628-074416F`:
