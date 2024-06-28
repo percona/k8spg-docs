@@ -1,10 +1,8 @@
 # Standby cluster deployment based on streaming replication
 
-The pgBackRest repo-based standby is the simplest one. The following is the architecture diagram:
+The following diagram explains how the standby based on streaming replication works:
 
 ![image](assets/images/dr-stream.svg)
-
-## pgBackrest repo based standby
 
 1. This solution describes two Kubernetes clusters in different regions, clouds, data centers or even two namespaces, or running in hybrid mode (on-premises and cloud). One cluster is Main site, and the other is Disaster Recovery site (DR)
 
@@ -54,6 +52,7 @@ The pgBackRest repo-based standby is the simplest one. The following is the arch
 To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user `_crunchyrepl` will be used.
 
 In the simplest case you can copy the certificates from the Main cluster. You need to look out for two files:
+
 * main-cluster-cert
 * main-replication-cert 
 

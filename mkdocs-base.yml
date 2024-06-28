@@ -214,7 +214,7 @@ nav:
           - "Install the database with customized parameters": custom-install.md
           - Deploy a standby cluster for Disaster Recovery:
             - "Introduction": standby.md
-            - "Deploy standby cluster based on backups": standby-backups.md
+            - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
           - "Deploy a standby cluster for Disaster Recovery": standby.md
