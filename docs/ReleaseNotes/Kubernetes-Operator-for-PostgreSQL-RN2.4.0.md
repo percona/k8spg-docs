@@ -73,7 +73,7 @@ spec:
 
 * {{ k8spgjira(259) }}: Users can now change the default level for log messages for pgBackRest to simplify fixing backup and restore issues
 * {{ k8spgjira(542) }}: Documentation now includes HowTo on [creating a disaster recovery cluster using streaming replication](../standby-streaming.md)
-* {{ k8spgjira(506) }}: The `pg-backup` objects now have a new `backupName` status field, which allows users to [obtain the backup](..//backups-restore.mdl#specifying-which-backup-to-restore) name for restore simpler
+* {{ k8spgjira(506) }}: The `pg-backup` objects now have a new `backupName` status field, which allows users to [obtain the backup](..//backups-restore.md#specifying-which-backup-to-restore) name for restore simpler
 * {{ k8spgjira(514) }}: The new `securityContext` Custom Resource subsections allow to configure securityContext for PostgreSQL instances, pgBouncer, and pgBackRest Pods
 * {{ k8spgjira(518) }}: The `kubectl get pg-backup` command now shows the latest restorable time to make it easier to pick a point-in-time recovery target
 * {{ k8spgjira(519) }}: The new `extensions.storage.endpoint` Custom Resource option allows specifying a custom S3 object storage endpoint for installing custom extensions
@@ -97,7 +97,7 @@ spec:
 
 ## Deprecation and removal
 
-* The `plpythonu` extension was removed from the list of built-in PostgreSQL extensions; users who still need it can enable it for their databases via [custom extensions functionality](custom-extensions.md)
+* The `plpythonu` extension was removed from the list of built-in PostgreSQL extensions; users who still need it can enable it for their databases via [custom extensions functionality](../custom-extensions.md)
 
 ## Supported platforms
 

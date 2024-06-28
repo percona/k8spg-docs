@@ -4,7 +4,7 @@ The Operator supports the ability to perform a full restore on a PostgreSQL
 cluster as well as a point-in-time-recovery. There are two ways to
 restore a cluster:
 
-* restore to a new cluster using the [dataSource.postgresCluster](operator.md#datasource-postgrescluster-clustername)
+* restore to a new cluster using the [dataSource.postgresCluster](operator.md#datasourcepostgresclusterclustername)
 subsection,
 * restore in-place to an existing cluster (note that this is destructive) using
 the [backups.restore](operator.md#backups-restore-enabled) subsection.
@@ -21,7 +21,7 @@ scenarios where using this technique is helpful:
     the current cluster.
 
 To create a new PostgreSQL cluster from either the active one, or a former cluster
-whose pgBackRest repository still exists, use the [dataSource.postgresCluster](operator.md#datasource-postgrescluster-clustername) subsection options. The content of this subsection
+whose pgBackRest repository still exists, use the [dataSource.postgresCluster](operator.md#datasourcepostgresclusterclustername) subsection options. The content of this subsection
 should copy the `backups` keys of the original cluster - ones needed to carry on
 the restore:
 
