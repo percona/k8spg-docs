@@ -106,7 +106,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                     pgbackrest:
                       image: percona/percona-postgresql-operator:{{ release }}-ppg16-pgbackrest
                       global:
-                        repo1-s3-key-type: web-id
+                        repo2-s3-key-type: web-id
                 ```
 
         === ":simple-amazons3: S3-compatible storage"
