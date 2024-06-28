@@ -148,14 +148,67 @@ pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
 
 * set `--type` option to `time`,
 * set `--target` to a specific time you would like to restore to. You can use
-the typical string formatted as `<YYYY-MM-DD HH:MM:DD>`, optionally followed
-by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
-example means UTC),
-* optional `--set` argument allows you to choose the backup which will be the
-starting point for point-in-time recovery. You can look through the available backups
-with the `kubectl get pg-backup` command to find out the proper backup name.
-This option must be specified if the target is one or more backups away from the
-current moment.
+    the typical string formatted as `<YYYY-MM-DD HH:MM:DD>`, optionally followed
+    by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` in the above
+    example means UTC),
+* optional `--set` argument followed with a pgBackRest backup ID allows you to
+    choose the backup which will be the starting point for point-in-time
+    recovery. This option must be specified if the target is one or more backups
+    away from the current moment. You can look through the available backups with the 
+    [pgBackRest info :octicons-link-external-16:](https://pgbackrest.org/command.html#command-info)
+    command to find out the proper backup ID.
+
+    ??? example "pgBackRest backup ID example"
+
+        After obtaining the Pod name with `kubectl get pods` command, you can
+        run `pgbackrest --stanza=db info` command on the appropriate Pod as
+        follows:
+
+        ``` {.bash data-prompt="$" }
+        $ kubectl -n pgo exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
+        ```
+        
+        Then find ID of the needed backup in the output:
+        
+        ```{.text .no-copy hl_lines="8"}
+        stanza: db
+            status: ok
+            cipher: none
+        
+            db (prior)
+                wal archive min/max (16): 0000000F000000000000001C/0000002000000036000000C5
+        
+                full backup: 20240401-173403F
+                    timestamp start/stop: 2024-04-01 17:34:03+00 / 2024-04-01 17:36:57+00
+                    wal start/stop: 000000120000000000000022 / 000000120000000000000024
+                    database size: 31MB, database backup size: 31MB
+                    repo1: backup set size: 4.1MB, backup size: 4.1MB
+        
+                incr backup: 20240401-173403F_20240415-201250I
+                    timestamp start/stop: 2024-04-15 20:12:50+00 / 2024-04-15 20:14:19+00
+                    wal start/stop: 00000019000000000000005C / 00000019000000000000005D
+                    database size: 46.0MB, database backup size: 25.7MB
+                    repo1: backup set size: 6.1MB, backup size: 3.8MB
+                    backup reference list: 20240401-173403F
+
+                incr backup: 20240401-173403F_20240415-201430I
+        ...
+        ```
+        
+        Now you can put this backup ID to the *backup restore* configuration
+        file as follows:
+
+        ```yaml hl_lines="9"
+        apiVersion: pgv2.percona.com/v2
+        kind: PerconaPGRestore
+        metadata:
+          name: restore1
+        spec:
+          pgCluster: cluster1
+          repoName: repo1
+          options:
+          - --set="20240401-173403F"
+        ```
 
 The example may look as follows:
 
