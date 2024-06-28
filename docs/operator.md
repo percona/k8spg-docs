@@ -1124,6 +1124,13 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 The `patroni` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/).
 
+### `patroni.syncPeriodSeconds`
+
+How often to perform a [liveness/readiness probe  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+
+### `patroni.leaderLeaseDurationSeconds`
+
+
 ### `patroni.dynamicConfiguration`
 
 Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.
