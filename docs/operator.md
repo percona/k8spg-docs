@@ -1124,12 +1124,21 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 The `patroni` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options to customize the PostgreSQL high-availability implementation based on [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/).
 
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `3` |
+
 ### `patroni.syncPeriodSeconds`
 
-How often to perform a [liveness/readiness probe  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+How often to perform [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `3` |
 
 ### `patroni.leaderLeaseDurationSeconds`
 
+Initial delay for [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
 
 ### `patroni.dynamicConfiguration`
 
