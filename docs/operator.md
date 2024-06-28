@@ -178,6 +178,38 @@ The pgBackRest command-line options for the pgBackRest restore command.
 | ---------- | ------- |
 | :material-code-string: string | |
 
+### `dataSource.postgresCluster.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.postgresCluster.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.postgresCluster.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.postgresCluster.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for data migration jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
 ### `dataSource.pgbackrest.stanza`
 
 Name of the [pgBackRest stanza :octicons-link-external-16:](https://pgbackrest.org/command.html) to use as the data source when restoring backup to a new cluster.
@@ -606,7 +638,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 
 ### `backups.pgbackrest.jobs.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -614,7 +646,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -622,7 +654,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.operator`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -630,7 +662,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.pgbackrest.jobs.tolerations.value`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a pgBackRest job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for a backup job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -699,6 +731,39 @@ The Label selector for the [Kubernetes Pod Topology Spread Constraints :octicons
 | Value type | Example |
 | ---------- | ------- |
 | :material-text-long: subdoc | |
+
+### `backups.pgbackrest.repoHost.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `backups.pgbackrest.repoHost.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `backups.pgbackrest.repoHost.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `backups.pgbackrest.repoHost.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
 
 ### 'backups.pgbackrest.repoHost.securityContext'
 
@@ -806,6 +871,38 @@ Name of the [Azure Blob Storage container :octicons-link-external-16:](https://d
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `my-container` |
+
+### `backups.restore.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `backups.restore.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `backups.restore.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `backups.restore.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the backup restore job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
 
 ## PMM section
 
