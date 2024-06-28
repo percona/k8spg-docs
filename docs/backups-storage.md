@@ -97,7 +97,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
                 ```yaml
                 spec:
-                  crVersion: 2.3.1
+                  crVersion: {{ release }}
                   metadata:
                     annotations:
                       eks.amazonaws.com/role-arn: arn:aws:iam::1191:role/role-pgbackrest-access-s3-bucket
