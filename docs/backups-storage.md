@@ -91,6 +91,24 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                     region: "<YOUR_AWS_S3_REGION>"
             ```
 
+            ??? note "Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on [IAM roles](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) for Service Accounts with no need to specify the S3 credentials explicitly."
+
+               To use this feature, add annotation to the spec part of the Custom Resource and also add pgBackRest custom configuration option to the backup subsection as follows:
+
+                ```yaml
+                spec:
+                  crVersion: 2.3.1
+                  metadata:
+                    annotations:
+                      eks.amazonaws.com/role-arn: arn:aws:iam::1191:role/role-pgbackrest-access-s3-bucket
+                  ...
+                  backups:
+                    pgbackrest:
+                      image: percona/percona-postgresql-operator:{{ release }}-ppg16-pgbackrest
+                      global:
+                        repo1-s3-key-type: web-id
+                ```
+
         === ":simple-amazons3: S3-compatible storage"
 
             For example, the S3-compatible storage for the `repo2` repository looks as follows:
