@@ -44,20 +44,17 @@ The pgBackRest tool used for backups [supports different log verbosity levels :o
 
 Log verbosity is controlled by pgBackRest [--log-level-stderr :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-log/option-log-level-stderr) option.
 
-You can add it to the `backups.pgbackrest.global` subsection of Custom Resource via the `deploy/cr.yaml` configuration file as follows:
+You can add it to the `deploy/backup.yaml` file to use it with [on-demand backups](backups-ondemand.md) as follows:
 
 ```yaml
-...
-backups:
-  pgbackrest:
-    ...
-    global:
-      log-level-stderr=info
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGBackup
+metadata:
+  name: backup1
+spec:
+  pgCluster: cluster1
+  repoName: repo1
+  options:
+  - --log-level-stderr=debug
 ```
-
-Don't forget to apply the changes after editing it (replace the `<namespace>` placeholder with your value):
-
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
-    ```
 
