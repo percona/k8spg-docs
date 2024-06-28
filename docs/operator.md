@@ -1064,6 +1064,14 @@ The [AWS region :octicons-link-external-16:](https://docs.aws.amazon.com/general
 | ---------- | ------- |
 | :material-code-string: string | `eu-central-1` |
 
+### `extensions.storage.endpoint`
+
+The [S3 endpoint :octicons-link-external-16:](https://docs.aws.amazon.com/general/latest/gr/s3.html) to use.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `s3.eu-central-1.amazonaws.com` |
+
 ### `extensions.storage.secret.name`
 
 The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys.
