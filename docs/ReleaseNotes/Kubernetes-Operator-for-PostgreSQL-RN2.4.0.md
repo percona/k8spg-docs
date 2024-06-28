@@ -59,6 +59,7 @@ spec:
       image: percona/percona-postgresql-operator:2.4.0-ppg16-pgbackrest
       global:
         repo1-s3-key-type: web-id
+        ...
 ```
 
 ## New features
