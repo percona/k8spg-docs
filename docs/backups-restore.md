@@ -225,6 +225,14 @@ spec:
   - --target="2022-11-30 15:12:11+03"
 ```
 
+    !!! note
+
+        <a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the `kubectl get pg-backup` command has a "Latest restorable time" information field handy when selecting a backup to restore. You can easily query the backup for this information as follows:
+   
+        ``` {.bash data-prompt="$" }
+        $ kubectl get pg-backup <backup_name> -o jsonpath='{.status.latestRestorableTime}'
+        ```
+
 After setting these options in the *backup restore* configuration file,
 start the restoration process:
 
