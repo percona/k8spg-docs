@@ -97,7 +97,7 @@ metadata:
   name: cluster1-15-to-16
 spec:
   postgresClusterName: cluster1
-  image: perconalab/percona-postgresql-operator:main-upgrade
+  image: percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
 ```
