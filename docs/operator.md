@@ -965,7 +965,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 | ---------- | ------- |
 | :material-code-string: string | `connection-poolers` |
 
-### 'backups.pgbackrest.jobs.securityContext'
+### `backups.pgbackrest.jobs.securityContext`
 
 A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
 
