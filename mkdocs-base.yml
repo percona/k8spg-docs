@@ -52,6 +52,7 @@ theme:
     - content.action.edit
     - content.action.view
     - content.code.copy
+    - toc.follow
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
@@ -89,8 +90,7 @@ markdown_extensions:
   pymdownx.smartsymbols: {}
   pymdownx.tilde: {}
   pymdownx.superfences: {}
-  pymdownx.tabbed:
-    alternate_style: true
+  pymdownx.tabbed: {}
   pymdownx.tasklist:
     custom_checkbox: true
   pymdownx.snippets:

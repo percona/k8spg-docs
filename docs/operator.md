@@ -180,7 +180,7 @@ The pgBackRest command-line options for the pgBackRest restore command.
 
 ### `dataSource.postgresCluster.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for data migration jobs.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for data migration.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -188,7 +188,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `dataSource.postgresCluster.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for data migration jobs.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for data migration.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -196,7 +196,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `dataSource.postgresCluster.tolerations.operator`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for data migration jobs.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for data migration.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -204,7 +204,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `dataSource.postgresCluster.tolerations.value`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for data migration jobs.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for data migration.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -266,6 +266,230 @@ The [AWS region :octicons-link-external-16:](https://docs.aws.amazon.com/general
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `"ca-central-1"` |
+
+### `dataSource.pgbackrest.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for pgBackRest at data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.pgbackrest.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for pgBackRest at data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.pgbackrest.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for pgBackRest at data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.pgbackrest.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for pgBackRest at data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
+### `dataSource.volumes.pgDataVolume.pvcName`
+
+The PostgreSQL data volume name for the [Persistent Volume Claim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgDataVolume.directory`
+
+The mount point for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgDataVolume.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.volumes.pgDataVolume.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.volumes.pgDataVolume.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.volumes.pgDataVolume.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
+### `dataSource.volumes.pgDataVolume.annotations`
+
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-annotation: value` |
+
+### `dataSource.volumes.pgDataVolume.labels`
+
+The [Kubernetes labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL data volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-label: value` |
+
+### `dataSource.volumes.pgWALVolume.pvcName`
+
+The PostgreSQL write-ahead logs volume name for the [Persistent Volume Claim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgWALVolume.directory`
+
+The mount point for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgWALVolume.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.volumes.pgWALVolume.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.volumes.pgWALVolume.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.volumes.pgWALVolume.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
+### `dataSource.volumes.pgWALVolume.annotations`
+
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-annotation: value` |
+
+### `dataSource.volumes.pgWALVolume.labels`
+
+The [Kubernetes labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for PostgreSQL write-ahead logs volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-label: value` |
+
+### `dataSource.volumes.pgBackRestVolume.pvcName`
+
+The pgBackRest volume name for the [Persistent Volume Claim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgBackRestVolume.directory`
+
+The mount point for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1` |
+
+### `dataSource.volumes.pgBackRestVolume.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `dataSource.volumes.pgBackRestVolume.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `dataSource.volumes.pgBackRestVolume.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `dataSource.volumes.pgBackRestVolume.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
+### `dataSource.volumes.pgBackRestVolume.annotations`
+
+The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-annotation: value` |
+
+### `dataSource.volumes.pgBackRestVolume.labels`
+
+The [Kubernetes labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest volume used for data migration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-label-outline: label | `test-label: value` |
 
 ### `image`
 
@@ -331,7 +555,7 @@ The range of client IP addresses from which the load balancer should be reachabl
 | ---------- | ------- |
 | :material-code-string: string | `"10.0.0.0/8"` |
 
-#  exposeReplicas.annotations`
+### `exposeReplicas.annotations`
 
 The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL replicas.
 
@@ -407,6 +631,22 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `4Gi` |
+
+### `instances.containers.replicaCertCopy.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `replica-cert-copy` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `instances.containers.replicaCertCopy.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `replica-cert-copy` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
 
 ### `instances.topologySpreadConstraints.maxSkew`
 
@@ -628,6 +868,39 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | ---------- | ------- |
 | :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
 
+
+### `backups.pgbackrest.containers.pgbackrest.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `backups.pgbackrest.containers.pgbackrest.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
+
+### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
+
 ### `backups.pgbackrest.configuration.secret.name`
 
 Name of the [Kubernetes Secret object :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) with custom pgBackRest configuration, which will be added to the pgBackRest configuration generated by the Operator.
@@ -692,7 +965,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 | ---------- | ------- |
 | :material-code-string: string | `connection-poolers` |
 
-### 'backups.pgbackrest.jobs.securityContext'
+### `backups.pgbackrest.jobs.securityContext`
 
 A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
 
@@ -1025,6 +1298,22 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `128Mi` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbouncer-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbouncer-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
 
 ### `proxy.pgBouncer.expose.type`
 
