@@ -89,8 +89,7 @@ markdown_extensions:
   pymdownx.smartsymbols: {}
   pymdownx.tilde: {}
   pymdownx.superfences: {}
-  pymdownx.tabbed:
-    alternate_style: true
+  pymdownx.tabbed: {}
   pymdownx.tasklist:
     custom_checkbox: true
   pymdownx.snippets:
