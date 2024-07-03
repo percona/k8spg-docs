@@ -632,6 +632,22 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `4Gi` |
 
+### `instances.containers.replicaCertCopy.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `replica-cert-copy` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `instances.containers.replicaCertCopy.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `replica-cert-copy` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
+
 ### `instances.topologySpreadConstraints.maxSkew`
 
 The degree to which Pods may be unevenly distributed under the [Kubernetes Pod Topology Spread Constraints :octicons-link-external-16:](https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/).
@@ -851,6 +867,39 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
+
+
+### `backups.pgbackrest.containers.pgbackrest.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `backups.pgbackrest.containers.pgbackrest.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
+
+### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
 
 ### `backups.pgbackrest.configuration.secret.name`
 
@@ -1249,6 +1298,22 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `128Mi` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbouncer-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbouncer-config` sidecar container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1Gi` |
 
 ### `proxy.pgBouncer.expose.type`
 
