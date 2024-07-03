@@ -555,7 +555,7 @@ The range of client IP addresses from which the load balancer should be reachabl
 | ---------- | ------- |
 | :material-code-string: string | `"10.0.0.0/8"` |
 
-#  exposeReplicas.annotations`
+### `exposeReplicas.annotations`
 
 The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata for PostgreSQL replicas.
 
