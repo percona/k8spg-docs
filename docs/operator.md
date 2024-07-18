@@ -513,7 +513,7 @@ The major version of PostgreSQL to use.
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-numeric-1-box: int | `14` |
+| :material-numeric-1-box: int | `16` |
 
 ### `port`
 

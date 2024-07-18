@@ -88,6 +88,18 @@ Versions earlier than 2.4 support only minor versions upgrade.
 
     Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
 
+    Also, currently the major version upgrade only works for the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
+
+    ```yaml
+    ...
+    image: percona/percona-postgresql-operator:2.4.0-ppg15-postgres
+    postgresVersion: 15
+    ...
+    ```
+    
+    It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
+
+
 Upgrade is triggered by applying the YAML file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
 
 ```yaml
@@ -104,16 +116,28 @@ spec:
 
 After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` command, the actual upgrade takes place as follows:
 
-1. The cluster is paused for a while,
+1. The Operator pauses the cluster, so the cluster will be unavailable for the duration of the upgrade,
 2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,
 3. Jobs are created to migrate the data,
 4. The cluster starts up after the upgrade finishes.
 
-During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
-
 !!! note
 
-    If the upgrade process meets problems and cannot proceed, the cluster will remain paused. In this case you should delete `PerconaPGUpgrade` object with `kubectl delete` command and [resume the cluster](pause.md) manually to check what went wrong with upgrade.
+    If the upgrade fails for some reason, the cluster will stay in paused mode. Resume the cluster [manually](pause.md) to check what went wrong with upgrade (it will start with the old version). You can check the PerconaPGUpgrade resource with `kubectl get perconapgupgrade -o yaml` command, and [check the logs](debug-logs.md) of the upgraded Pods to debug the issue.
+
+During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
+You can remove data at your discretion by [executing into containers](debug-shell.md) and running the following commands (example for PostgreSQL 15):
+
+``` {.bash data-prompt="$" }
+$ rm -rf /pgdata/pg15
+$ rm -rf /pgdata/pg15_wal
+```
+
+You can also delete the `PerconaPGUpgrade` resource (this will clean up the jobs and Pods created during the upgrade):
+
+``` {.bash data-prompt="$" }
+$ kubectl delete perconapgupgrade cluster1-15-to-16
+```
 
 If there are [custom PostgreSQL extensions](custom-extensions.md) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
 
