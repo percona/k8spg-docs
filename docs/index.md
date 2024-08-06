@@ -3,10 +3,8 @@
 !!! note
 
     This is version {{ release }} of the Percona Operator for PostgreSQL. 
-    **The Operator 1.x is now in maintenance mode. We strongly recommend to use**
+    **The Operator 1.x is end-of-life since June 30, 2024. We strongly recommend to use**
     [Percona Operator for PostgreSQL 2.x](https://docs.percona.com/percona-operator-for-postgresql/2.0/index.html).
-
-
 
 Kubernetes have added a way to manage containerized systems, including database
 clusters. This management is achieved by controllers, declared in configuration
