@@ -73,6 +73,12 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     ``` {.bash data-prompt="$" }
     $ kubectl rollout status deployments percona-postgresql-operator
     ```
+    
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        deployment "percona-postgresql-operator" successfully rolled out
+        ```
 
 ## Upgrading Percona Distribution for PostgreSQL
 
@@ -101,9 +107,9 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
     $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
        "spec": {
           "crVersion":"{{ release }}",
-          "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-postgres",
-          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-pgbouncer" } },
-          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-pgbackrest" } },
+          "image": "percona/percona-postgresql-operator:{{ release }}-ppg16.3-postgres",
+          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg16.3-pgbouncer1.22.1" } },
+          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg16.3-pgbackrestt2.51-1" } },
           "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
        }}'
     ```
@@ -116,14 +122,22 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-postgres",
-              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-pgbouncer" } },
-              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg15-pgbackrest" } }
+              "image": "percona/percona-postgresql-operator:{{ release }}-ppg16-postgres",
+              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg16-pgbouncer" } },
+              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg16-pgbackrest" } }
            }}'
         ```
 
 The deployment rollout will be automatically triggered by the applied patch.
 The update process is successfully finished when all Pods have been restarted.
+
+``` {.bash data-prompt="$" }
+$ kubectl get pods -n postgres-operator
+```
+
+???+ example "Expected output"
+
+    --8<-- "kubectl-get-pods-response.txt"
 
 ### Major version upgrade
 

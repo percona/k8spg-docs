@@ -47,18 +47,7 @@ $ kubectl get pods
 
 ???+ example "Expected output"
 
-    ``` {.text .no-copy}
-    NAME                                           READY   STATUS      RESTARTS   AGE
-    cluster1-backup-4vwt-p5d9j                     0/1     Completed   0          97m
-    cluster1-instance1-b5mr-0                      4/4     Running     0          99m
-    cluster1-instance1-b8p7-0                      4/4     Running     0          99m
-    cluster1-instance1-w7q2-0                      4/4     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-62xlk            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9g4cb            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9nrmd            2/2     Running     0          99m
-    cluster1-repo-host-0                           2/2     Running     0          99m
-    percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          120m
-    ```
+    --8<-- "kubectl-get-pods-response.txt"
 
 The above command provides the following insights:
 
