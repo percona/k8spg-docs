@@ -118,7 +118,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
     
     * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
     * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbouncerrecommended }}`,
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}`,
     * `percona/pmm-client:{{ pmm2recommended }}`.
 
     !!! warning
