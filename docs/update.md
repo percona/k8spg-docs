@@ -27,9 +27,9 @@ than one, make several incremental updates sequentially. For example, to upgrade
 the Operator and CRD from the version 2.3.0 to 2.4.1, you need to do the
 following sequence of upgrades:
 
-* upgrading the Operator and CRD from 2.3.0 to 2.3.1,
-* upgrading from 2.3.1 to 2.4.0,
-* upgrading from 2.4.0 to 2.4.1.
+1. upgrading the Operator and CRD from 2.3.0 to 2.3.1,
+2. upgrading from 2.3.1 to 2.4.0,
+3. upgrading from 2.4.0 to 2.4.1.
 
 !!! note
 
@@ -109,7 +109,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
           "crVersion":"{{ release }}",
           "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
           "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbouncerrecommended }}" } },
+          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
           "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
        }}'
     ```
@@ -131,7 +131,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
               "crVersion":"{{ release }}",
               "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
               "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbouncerrecommended }}" } }
+              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
            }}'
         ```
 
