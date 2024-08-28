@@ -7,15 +7,16 @@ to newer 2.x versions.
 
     Upgrading from the 1.x branch of the Operator to 2.x versions ca be done 
     [in several ways](update.md#upgrade-from-the-operator-version-1x-to-version-2x)
-    and is different from the normal upgrade scenario.
+    and is completely different from the normal upgrade scenario due to
+    substantial changes in the architecture.
 
 Upgrading the Operator to a newer version typically involves two steps:
 
-* Upgrading the Operator and [Custom Resource Definition (CRD)](operator.md),
-* Upgrading the Database Management System (Percona Distribution for PostgreSQL).
+1. Upgrading the Operator and [Custom Resource Definition (CRD) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/),
+2. Upgrading the Database Management System (Percona Distribution for PostgreSQL).
 
-Alternatively, it is also possible to upgrade a minor Percona Distribution for
-PostgreSQL *without* the Operator upgrade.
+Alternatively, it is also possible to carry on minor version upgrades of Percona
+Distribution for PostgreSQL *without* the Operator upgrade.
 
 ## Upgrading the Operator and CRD
 
@@ -42,9 +43,8 @@ following sequence of upgrades:
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading to the version {{ release }}.
 
-1. First update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-    for the Operator, taking it from the official repository on Github, and do
-    the same for the Role-based access control:
+1. First update the CRD for the Operator, taking it from the official repository
+    on Github, and do the same for the Role-based access control:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
