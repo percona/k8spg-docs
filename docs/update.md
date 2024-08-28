@@ -116,10 +116,10 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
 
     The following image names in the above example were taken from the [list of certified images](images.md):
     
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbouncerrecommended }}`
-    * `percona/pmm-client:{{ pmm2recommended }}`
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`,
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbouncerrecommended }}`,
+    * `percona/pmm-client:{{ pmm2recommended }}`.
 
     !!! warning
 
@@ -142,7 +142,7 @@ The update process is successfully finished when all Pods have been restarted.
 $ kubectl get pods -n postgres-operator
 ```
 
-???+ example "Expected output"
+??? example "Expected output"
 
     --8<-- "kubectl-get-pods-response.txt"
 
