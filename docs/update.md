@@ -84,6 +84,10 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
 Before the Operator version 2.4, you could upgrade Percona Distribution for PostgreSQL from one minor version to another (such as upgrading from 15.5 to 15.7, or from 16.1 to 16.3). Starting from the Operator 2.4 you can also upgrade from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3). Minor version upgrade and major version upgrade are technically different tasks with different scenarios.
 
+!!! note
+
+    Upgrading a PostgreSQL cluster upgrade may result in downtime, as well as [failover](change-primary.md) caused by updating the primary instance.
+
 ### Minor version upgrade
 
 Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 to 16.3) can be done as follows:
