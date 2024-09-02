@@ -31,6 +31,8 @@ following sequence of upgrades:
 2. upgrading from 2.3.1 to 2.4.0,
 3. upgrading from 2.4.0 to 2.4.1.
 
+You can find Operator versions [listed here](docs/ReleaseNotes/index.md).
+
 !!! note
 
     The Operator supports **last 3 versions of the CRD**, so it is technically
