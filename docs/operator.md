@@ -752,6 +752,14 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 | ---------- | ------- |
 | :material-code-string: string | `ReadWriteOnce` |
 
+### `instances.dataVolumeClaimSpec.storageClassName`
+
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `premium-rwo` |
+
 ### `instances.dataVolumeClaimSpec.resources.requests.storage`
 
 The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
@@ -1117,6 +1125,15 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `ReadWriteOnce` |
+
+
+### `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName`
+
+Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PosgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `premium-rwo` |
 
 ### `backups.pgbackrest.repos.volume.volumeClaimSpec.resources.requests.storage`
 
