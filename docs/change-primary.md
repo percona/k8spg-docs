@@ -30,6 +30,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
+2. Now update the following options in the `partoni.switchover` subsection of the Custom Resource:
 
     ```yaml 
     patroni:
@@ -53,13 +54,13 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
     }'
     ```
 
-5. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
+3. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 
     ```{.bash data-prompt="$"}
     $ kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
     ```
 
-6. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
+4. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
     ```{.bash data-prompt="$"}
     $ kubectl get pg cluster1 -o yaml -n <namespace>
@@ -77,7 +78,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
               "patroni":{"switchover":{"enabled":true,"targetInstance":"cluster1-instance1-bmdp"}},}
         ```
 
-7. Now, check instances of your cluster once again to make sure the switchover took place:
+5. Now, check instances of your cluster once again to make sure the switchover took place:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
