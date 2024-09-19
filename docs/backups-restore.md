@@ -24,7 +24,7 @@ whose pgBackRest repository still exists, use the [dataSource.postgresCluster](o
 should copy the `backups` keys of the original cluster - ones needed to carry on
 the restore:
 
-* `dataSource.postgresCluster.clusterName` should contain the new cluster name,
+* `dataSource.postgresCluster.clusterName` should contain the source cluster name,
 * `dataSource.postgresCluster.options` allow you to set the needed pgBackRest
     command line options,
 * `dataSource.postgresCluster.repoName` should contain the name of the
