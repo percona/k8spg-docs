@@ -38,15 +38,14 @@ You can find Operator versions [listed here](ReleaseNotes/index.md).
     The Operator supports **last 3 versions of the CRD**, so it is technically
     possible to skip upgrading the CRD and just upgrade the Operator. If the CRD
     is older than the new Operator version *by no more than three releases*, you
-    will be able to continue using the old CRD and even carry on Percona Distribution
-    for PostgreSQL minor version upgrades with it. But the recommended way is to
-    update the Operator *and* CRD.
+    should be able to continue using the old CRD and even carry on Percona Distribution
+    for PostgreSQL minor version upgrades with it. But updating the Operator *and* CRD
+    is the **recommended path** and is thoroughly tested on every release.
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading to the version {{ release }}.
 
-1. First update the CRD for the Operator, taking it from the official repository
-    on Github, and do the same for the Role-based access control:
+1. First [update :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the CRD for the Operator, taking it from the official repository on Github (it is important to use `--server-side` flag when applying `deploy/crd.yaml`), and do the same for the Role-based access control:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
