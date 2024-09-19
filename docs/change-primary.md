@@ -30,7 +30,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-2. Now update the following options in the `partoni.switchover` subsection of the Custom Resource:
+2. Now update the following options in the `patroni.switchover` subsection of the Custom Resource:
 
     ```yaml 
     patroni:
