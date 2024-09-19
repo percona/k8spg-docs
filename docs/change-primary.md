@@ -30,7 +30,6 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-3. Now update the following options in the `partoni.switchover` subsection of the Custom Resource:
 
     ```yaml 
     patroni:
@@ -43,10 +42,15 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
     ```{.bash data-prompt="$"}
     $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
-    "spec": {
-       "patroni": { "switchover": { "enabled": "true" } },
-       "patroni": { "switchover": { "targetInstance": "cluster1-instance1-bmdp" } }
-    }}'
+      "spec": {
+        "patroni": {
+          "switchover": {
+            "enabled": true,
+            "targetInstance": "cluster1-instance1-dcg5"
+          }
+        }
+      }
+    }'
     ```
 
 5. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
