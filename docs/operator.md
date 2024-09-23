@@ -1246,6 +1246,14 @@ Address of the PMM Server to collect data from the cluster.
 | ---------- | ------- |
 | :material-code-string: string | `monitoring-service` |
 
+### `pmm.querySource`
+
+Query source to track PostgreSQL statistics. Either pg_stat_monitor (`pgstatmonitor`, the default value) or pg_stat_statements (`pgstatstatements`) can be used.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgstatmonitor` |
+
 ## Proxy section
 
 The `proxy` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
