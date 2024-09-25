@@ -10,7 +10,23 @@
 
 ## Release Highlights
 
-Major versions upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images of PostgreSQL and, optionally, some other components of the database cluster. The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names (`toPostgresImage` is required, while `toPgBouncerImage` and `toPgBackRestImage` are optional). The resulting manifest may look as follows:
+## Automated storage scaling
+
+Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches certain threshold, and trigger the PVC resize. Such autoscaling needs the "auto-growable disk" feature turned on when deploying the Operator.
+This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
+
+```yaml
+- name: PGO_FEATURE_GATES
+  value: "AutoGrowVolumes=true"
+```
+
+When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up.
+
+See [official documentation](../scaling.md#scale-storage) for more details and limitations of the feature.
+
+## Major versions upgrade improvements
+
+Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images of PostgreSQL and, optionally, some other components of the database cluster. The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names (`toPostgresImage` is required, while `toPgBouncerImage` and `toPgBackRestImage` are optional). The resulting manifest may look as follows:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -31,13 +47,13 @@ spec:
 
 * [Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for MysQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage.md#__tabbed_1_2)
 
-## Major versions upgrade improvements
+
 
 
 ## New features
 
 * {{ k8spgjira(227) }} and {{ k8spgjira(157) }}: Add support for the [Azure Kubernetes Service (AKS)](../aks.md) platform and allow [using Azure Blob Storage](../backups-storage.md#__tabbed_1_2) for backups
-* {{ k8spgjira(244) }}: Automated storage scaling - track storage size
+* {{ k8spgjira(244) }}: [Automated storage scaling](../scaling.md#scale-storage) is now supported
 
 ## Improvements
 
@@ -55,12 +71,8 @@ spec:
 * {{ k8spgjira(629) }}: Fix a bug where Operator was not deleting backup Pods when cleaning outdated backups according to the retention policy
 * {{ k8spgjira(587) }}: Fix a bug where restore with wrong pgBackRest argument was putting the cluster in a broken state
 * {{ k8spgjira(577) }}: A new `pmm.querySource` Custom Resource option allows to set PMM query source **IMPROVEMENT**
-* {{ k8spgjira(499) }}: Fix a bug whre cluster was getting stuck in the init state if pgBackRest secret didn't exist
-* {{ k8spgjira(446) }}: Fix a bug due to which dots were not allowed in the s3 bucket name
-
-## Deprecation and removal
-
-* The `plpythonu` extension was removed from the list of built-in PostgreSQL extensions; users who still need it can enable it for their databases via [custom extensions functionality](../custom-extensions.md)
+* {{ k8spgjira(499) }}: Fix a bug where cluster was getting stuck in the init state if pgBackRest secret didn't exist
+* {{ k8spgjira(446) }}: Fix a bug due to which dots were not allowed in the S3 bucket name
 
 ## Supported platforms
 
@@ -72,6 +84,7 @@ The following platforms were tested and are officially supported by the Operator
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.27 - 1.29
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.27 - 1.30
 * [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.12.59 - 4.15.18
+* [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.28-1.30
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.33.1
 
 This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.
