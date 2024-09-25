@@ -10,9 +10,29 @@
 
 ## Release Highlights
 
+Major versions upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images of PostgreSQL and, optionally, some other components of the database cluster. The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names (`toPostgresImage` is required, while `toPgBouncerImage` and `toPgBackRestImage` are optional). The resulting manifest may look as follows:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGUpgrade
+metadata:
+  name: cluster1-15-to-16
+spec:
+  postgresClusterName: cluster1
+  image: percona/percona-postgresql-operator:2.4.1-upgrade
+  fromPostgresVersion: 15
+  toPostgresVersion: 16
+  toPostgresImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-postgres
+  toPgBouncerImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-pgbouncer1.22.1
+  toPgBackRestImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-pgbackrest2.51-1
+```
+
 ## Azure Kubernetes Service and Azure Blob Storage support
 
 * [Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for MysQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage.md#__tabbed_1_2)
+
+## Major versions upgrade improvements
+
 
 ## New features
 
@@ -21,22 +41,20 @@
 
 ## Improvements
 
-* {{ k8spgjira(445) }}: Confgiure storageClass in CR / volumeClaimSpec
-* {{ k8spgjira(630) }}: Add a field to let users disable latest restorable time tracking
-* {{ k8spgjira(605) }}: Add information about helm upgrade
-* {{ k8spgjira(598) }}: Support custom images in major upgrade
-* {{ k8spgjira(593) }}: DOC Task: Document the usage of databaseinitSQL commands
-* {{ k8spgjira(588) }}: Operator must stop WAL watcher if namespace or cluster does not exist
-* {{ k8spgjira(560) }}: Add pg-restore CR for initial restoration using the dataSource field
+* {{ k8spgjira(630) }}: A new `backups.trackLatestRestorableTime` Custom Resource option allows to disable latest restorable time tracking for users who need reducing S3 API calls usage
+* {{ k8spgjira(605) }} and {{ k8spgjira(593) }}: Documentation now includes information about [upgrading the Operator via Helm](../update.md#upgrade-via-helm) and [using databaseInitSQL commands](../debug-logs.md#use-databaseinitsql-commands)
+* {{ k8spgjira(598) }}: Database major version upgrade now [supports custom images](../update.md#major-version-upgrade)
+* {{ k8spgjira(588) }}: The Operator didn't stop WAL watcher if the namespace and/or cluster were deleted **BUG FIX?**
+* {{ k8spgjira(560) }}: A `pg-restore` Custom Resource is now automatically created at [bootstrapping a new cluster from an existing backup](../backups-restore.md#restore-to-a-new-postgresql-cluster)
 * {{ k8spgjira(555) }}: The Operator now creates separate Secret with CA certificate for each cluster
-* {{ k8spgjira(553) }}: Allow provision [of a custom root CA certificate](../TLS.md#provide-custom-root-ca-certificate-to-the-operator) to the Operator
-* {{ k8spgjira(454) }}: Cluster status must be ready only if all statefulsets are up to date
+* {{ k8spgjira(553) }}: Provision [of a custom root CA certificate](../TLS.md#provide-custom-root-ca-certificate-to-the-operator) to the Operator is now possible
+* {{ k8spgjira(454) }}: Cluster status obtained with kubectl get pg` command is now "ready" not only when all Pods are ready, but also takes into account if all StatefulSets are up to date
 
 ## Bugs Fixed
 
 * {{ k8spgjira(629) }}: Fix a bug where Operator was not deleting backup Pods when cleaning outdated backups according to the retention policy
 * {{ k8spgjira(587) }}: Fix a bug where restore with wrong pgBackRest argument was putting the cluster in a broken state
-* {{ k8spgjira(577) }}: A new `pmm.querySource` Custom Resource option allows to set PMM query source
+* {{ k8spgjira(577) }}: A new `pmm.querySource` Custom Resource option allows to set PMM query source **IMPROVEMENT**
 * {{ k8spgjira(499) }}: Fix a bug whre cluster was getting stuck in the init state if pgBackRest secret didn't exist
 * {{ k8spgjira(446) }}: Fix a bug due to which dots were not allowed in the s3 bucket name
 
