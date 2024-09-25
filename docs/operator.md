@@ -245,7 +245,7 @@ Name of the pgBackRest repository.
 ### `dataSource.pgbackrest.repo.s3.bucket`
 
 The [Amazon S3 bucket :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) or [Google Cloud Storage bucket :octicons-link-external-16:](https://cloud.google.com/storage/docs/key-terms#buckets)
-name used for backups.
+name used for backups. Bucket name should follow [Amazon naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) or [Google naming rules](https://cloud.google.com/storage/docs/buckets), and additionally, it can't contain dots.
 
 | Value type | Example |
 | ---------- | ------- |
