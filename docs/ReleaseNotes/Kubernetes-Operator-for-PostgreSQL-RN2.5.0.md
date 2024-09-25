@@ -36,7 +36,7 @@ spec:
 
 ## New features
 
-* {{ k8spxcjira(227) }} and {{ k8spxcjira(157) }}: Add support for the [Azure Kubernetes Service (AKS)](../aks.md) platform and allow [using Azure Blob Storage](../backups-storage.md#__tabbed_1_2) for backups
+* {{ k8spgjira(227) }} and {{ k8spgjira(157) }}: Add support for the [Azure Kubernetes Service (AKS)](../aks.md) platform and allow [using Azure Blob Storage](../backups-storage.md#__tabbed_1_2) for backups
 * {{ k8spgjira(244) }}: Automated storage scaling - track storage size
 
 ## Improvements
