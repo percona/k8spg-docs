@@ -28,8 +28,8 @@
 * {{ k8spgjira(593) }}: DOC Task: Document the usage of databaseinitSQL commands
 * {{ k8spgjira(588) }}: Operator must stop WAL watcher if namespace or cluster does not exist
 * {{ k8spgjira(560) }}: Add pg-restore CR for initial restoration using the dataSource field
-* {{ k8spgjira(555) }}: Root CA should be generated per cluster
-* {{ k8spgjira(553) }}: Allow setting root CA manually
+* {{ k8spgjira(555) }}: The Operator now creates separate Secret with CA certificate for each cluster
+* {{ k8spgjira(553) }}: Allow provision [of a custom root CA certificate](../TLS.md#provide-custom-root-ca-certificate-to-the-operator) to the Operator
 * {{ k8spgjira(454) }}: Cluster status must be ready only if all statefulsets are up to date
 
 ## Bugs Fixed
