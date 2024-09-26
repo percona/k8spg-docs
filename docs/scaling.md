@@ -54,10 +54,7 @@ $ kubectl describe sc <storage class name> | grep AllowVolumeExpansion
     ```
 
 The Operator versions 2.5.0 and higher will automatically expand such storage
-for you when needed.  the
-`replsets.<NAME>.volumeSpec.persistentVolumeClaim.resources.requests.storage`
-and/or `configsvrReplSet.volumeSpec.persistentVolumeClaim.resources.requests.storage`
-options in the Custom Resource.
+for you when you change the appropriate options in the Custom Resource.
 
 For example, you can do it by editing and applying the `deploy/cr.yaml` file:
 
