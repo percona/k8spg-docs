@@ -12,7 +12,7 @@
 
 ## Automated storage scaling
 
-Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches certain threshold, and trigger the PVC resize. Such autoscaling needs the "auto-growable disk" feature turned on when deploying the Operator.
+Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs the "auto-growable disk" feature turned on when deploying the Operator.
 This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
 
 ```yaml
@@ -20,7 +20,7 @@ This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy
   value: "AutoGrowVolumes=true"
 ```
 
-When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up.
+When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up. 
 
 See [official documentation](../scaling.md#scale-storage) for more details and limitations of the feature.
 
