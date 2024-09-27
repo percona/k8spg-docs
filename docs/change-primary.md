@@ -57,8 +57,10 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 3. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 
     ```{.bash data-prompt="$"}
-    $ kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
+    $ kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
     ```
+
+    The `--overwrite` flag in the above command allows you to overwrite the annotation if it already exists (useful if that's not the first switchover you do).
 
 4. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
@@ -93,5 +95,19 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         cluster1-instance1-fm7w-0             4/4     Running     0          24m   cluster1-instance1-fm7w   replica
         cluster1-instance1-ttm9-0             4/4     Running     0          23m   cluster1-instance1-ttm9   replica
         ```
+
+6. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
+
+    ``{.bash data-prompt="$"}
+    $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
+      "spec": {
+        "patroni": {
+          "switchover": {
+            "enabled": false
+          }
+        }
+      }
+    }'
+    ```
 
 The primary now should be changed to `cluster1-instance1-bmdp`.
