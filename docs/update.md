@@ -10,7 +10,7 @@ to newer 2.x versions.
     and is completely different from the normal upgrade scenario due to
     substantial changes in the architecture.
 
-Upgrading the Operator to a newer version typically involves two steps:
+Upgrading to a newer version typically involves two steps:
 
 1. Upgrading the Operator and [Custom Resource Definition (CRD) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/),
 2. Upgrading the Database Management System (Percona Distribution for PostgreSQL).
@@ -41,6 +41,8 @@ You can find Operator versions [listed here](ReleaseNotes/index.md).
     will be able to continue using the old CRD and even carry on Percona Distribution
     for PostgreSQL minor version upgrades with it. But the recommended way is to
     update the Operator *and* CRD.
+
+### Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading to the version {{ release }}.
@@ -81,6 +83,44 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         ``` {.text .no-copy}
         deployment "percona-postgresql-operator" successfully rolled out
         ```
+
+### Upgrade via Helm
+
+If you have [installed the Operator using Helm](helm.md), you can upgrade the
+Operator with the `helm upgrade` command.
+
+1. In case if you installed the Operator with no [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), the upgrade can be done as follows: 
+
+    ``` {.bash data-prompt="$" }
+    $ helm upgrade my-operator percona/pg-operator --version {{ release }}
+    ```
+
+    The `my-operator` parameter in the above example is the name of a [release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
+    which which you have chosen for the Operator when installing its Helm chart.
+
+    If the Operator was installed with some [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), you should list these options in the upgrade command.
+    
+    
+    !!! note
+    
+        You can get list of used options in YAML format with the `helm get values my-operator -a > my-values.yaml` command, and this file can be directly passed to the upgrade command as follows:
+
+        ``` {.bash data-prompt="$" }
+        $ helm upgrade my-operator percona/pxc-operator --version {{ release }} -f my-values.yaml
+        ```
+
+2. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+    for the Operator, taking it from the official repository on Github, and do
+    the same for the Role-based access control:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
+    ```
+
+!!! note
+
+    You can use `helm upgrade` to upgrade the Operator. But the database management system (Percona Distribution for PostgreSQL) should be upgraded in the same way whether you used Helm to install it or not.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
