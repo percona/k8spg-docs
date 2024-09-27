@@ -79,7 +79,7 @@ $ kubectl apply -f cr.yaml
 
 The Operator 2.5.0 and newer is able to detect if the storage usage on the PVC
 reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs
-the "auto-growable disk" feature turned on when deploying the Operator.
+the upstream "auto-growable disk" feature turned on when deploying the Operator.
 This is done via the `PGO_FEATURE_GATES` environment variable set in the
 `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
 
@@ -98,9 +98,10 @@ spec:
 ...
 ```
 
-When the support for auto-growable disks is turned on, the
-`spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource
-option sets the maximum value available for the Operator to scale up:
+When the support for auto-growable disks is turned on, the auto grow
+will be working automatically if the maximum value available for the Operator to
+scale up is set in the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage`
+Custom Resource option:
 
 ``` {.text .no-copy}
 spec:
