@@ -188,7 +188,7 @@ spec:
   toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
 ```
 
-As you can see, the manifest includes image names of the components you are going to upgrade. The `toPostgresImage` field is required, while the `toPgBouncerImage` and `toPgBackRestImage` fields are optional.
+As you can see, the manifest includes image names of the components you are going to upgrade: the `toPostgresImage` field is required, while the `toPgBouncerImage` and `toPgBackRestImage` fields are optional. You can find image names and version tags for these database cluster components [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
 
 After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/upgrade.yaml` command), the actual upgrade takes place:
 
