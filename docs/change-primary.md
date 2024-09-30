@@ -8,7 +8,7 @@ Primary instance is re-elected during the automatic failover (Patroni's "leader 
 
 In Percona Operator, the primary instance election can be controlled by the `patroni.switchover` section of the Custom Resource manifest. It allows you to enable switchover targeting a specific PostgreSQL instance as the new primary, or just running a failover if PostgreSQL cluster has entered a bad state.
 
-This document provides instructions how to change the primary instance manually. 
+This document provides instructions how to change the primary instance manually.
 
 For the following steps, we assume that you have the PostgreSQL cluster up and running. The cluster name is `cluster1`. 
 
@@ -31,7 +31,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 2. Now update the following options in the `patroni.switchover` subsection of the Custom Resource:
 
-    ```yaml 
+    ```yaml
     patroni:
       switchover:
         enabled: true
@@ -97,7 +97,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 6. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
 
-    ``{.bash data-prompt="$"}
+    ```{.bash data-prompt="$"}
     $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
       "spec": {
         "patroni": {
