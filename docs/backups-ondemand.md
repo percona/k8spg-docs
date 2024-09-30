@@ -34,7 +34,7 @@ Here's a sequence of steps to follow:
         perconapgbackup.pgv2.percona.com/backup1 created
         ```
 
-5. Making a backup up takes time. You can track the process with `kubectl get pg-backup` command. When finished, backup should obtain the `Succeeded` status:
+5. Making a backup takes time. You can track the process with `kubectl get pg-backup` command. When finished, backup should obtain the `Succeeded` status:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg-backup backup1 -n postgres-operator
