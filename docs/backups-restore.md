@@ -86,10 +86,10 @@ The following keys are the most important ones:
     already configured in the `backups.pgbackrest.repos` subsection,
 * `options` passes through any [pgBackRest command line options :octicons-link-external-16:](https://pgbackrest.org/configuration.html).
 
-To start the restoration process, run the following command:
+To start the restoration process, run the following command (modify the `-n postgres-operator` parameter if your database cluster resides in a different namespace):
 
 ``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml
+$ kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 ### Specifying which backup to restore
@@ -150,7 +150,7 @@ steps:
 3. Start the restoration process, as usual:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/restore.yaml
+    $ kubectl apply -f deploy/restore.yaml -n postgres-operator
     ```
 
 ## Restore the cluster with point-in-time recovery
@@ -187,7 +187,7 @@ pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
         follows:
 
         ``` {.bash data-prompt="$" }
-        $ kubectl -n pgo exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
+        $ kubectl -n postgres-operator exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
         ```
         
         Then find ID of the needed backup in the output:
@@ -252,14 +252,14 @@ spec:
         <a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the `kubectl get pg-backup` command has a "Latest restorable time" information field handy when selecting a backup to restore. You can easily query the backup for this information as follows:
    
         ``` {.bash data-prompt="$" }
-        $ kubectl get pg-backup <backup_name> -o jsonpath='{.status.latestRestorableTime}'
+        $ kubectl get pg-backup <backup_name> -n postgres-operator -o jsonpath='{.status.latestRestorableTime}'
         ```
 
 After setting these options in the *backup restore* configuration file,
 start the restoration process:
 
 ``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml
+$ kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 !!! note
