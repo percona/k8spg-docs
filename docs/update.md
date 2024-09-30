@@ -171,7 +171,7 @@ Major version upgrade allows you to jump from one PostgreSQL major version to an
     
     It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
 
-The upgrade is triggered by applying the YAML file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
+The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
