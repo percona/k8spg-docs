@@ -154,13 +154,13 @@ $ kubectl get pods -n postgres-operator
 
 ### Major version upgrade
 
-Major version upgrade allows you to jump from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3), and optionally add pgBouncer and gpBackRest versions to this upgrade.
+Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3).
 
 !!! note
 
     Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
 
-    Also, currently the major version upgrade only works for the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
+    Also, currently the major version upgrade only works if the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
 
     ```yaml
     ...
@@ -188,7 +188,7 @@ spec:
   toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
 ```
 
-As you can see, the manifest includes image names of the components you are going to upgrade: the `toPostgresImage` field is required, while the `toPgBouncerImage` and `toPgBackRestImage` fields are optional. You can find image names and version tags for these database cluster components [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
+As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
 
 After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/upgrade.yaml` command), the actual upgrade takes place:
 
