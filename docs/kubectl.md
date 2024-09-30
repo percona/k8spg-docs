@@ -39,7 +39,7 @@ Here's a sequence of steps to follow:
         namespace/postgres-operator was created
         ```
 
-    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands. 
+    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands.
 
 2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
@@ -67,7 +67,7 @@ Here's a sequence of steps to follow:
         perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
-4. Check the Operator and replica set Pods status. 
+4. Check the Operator and replica set Pods status.
    
     ``` {.bash data-prompt="$" }
     $ kubectl get pg -n postgres-operator

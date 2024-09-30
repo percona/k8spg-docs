@@ -30,7 +30,7 @@ for PostgreSQL on Minikube.
     ```
 
     This command downloads needed virtualized images, then initializes and runs the
-    cluster. 
+    cluster.
 
 3. After Minikube is successfully started, you can optionally run the
     Kubernetes dashboard, which visually represents the state of your cluster.
@@ -39,10 +39,24 @@ for PostgreSQL on Minikube.
 
 ## Deploy the Percona Operator for PostgreSQL {.power-number}
 
-1. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
+1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let's name it `postgres-operator`:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace postgres-operator
+    ```
+
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        namespace/postgres-operator was created
+        ```
+
+    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands.
+
+2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
     ```{.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
+    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -51,10 +65,10 @@ for PostgreSQL on Minikube.
 
     As the result you have the Operator Pod up and running.
 
-2. Deploy Percona Distribution for PostgreSQL:
+3. Deploy Percona Distribution for PostgreSQL:
 
     ```{.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yamlv -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -79,10 +93,10 @@ for PostgreSQL on Minikube.
         file as follows:
 
         ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml
+        $ kubectl apply -f deploy/cr.yaml  -n postgres-operator
         ```
 
-3. The creation process may take some time. When the process is over your
+4. The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
    
