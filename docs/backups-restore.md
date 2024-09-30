@@ -28,7 +28,7 @@ cluster - ones needed to carry on the restore:
 * `dataSource.postgresCluster.clusterName` should contain the source cluster name,
 * `dataSource.postgresCluster.clusterNamespace` should contain the namespace of
     the source cluster (it is needed if the new cluster will be created in a
-    different namespace, and **it will work only if the Operator was deployed** [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide)),
+    different namespace, and **it will work only if the Operator was deployed [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide))**,
 * `dataSource.postgresCluster.options` allow you to set the needed pgBackRest
     command line options,
 * `dataSource.postgresCluster.repoName` should contain the name of the
@@ -40,7 +40,8 @@ cluster - ones needed to carry on the restore:
 The following example bootstraps a new cluster from a backup, which was made
 on the `cluster1` cluster deployed in `percona-db-1` namespace. For simplicity,
 this backup uses `repo1` repository from the [Persistent Volume backup storage example](backups-storage.html#__tabbed_1_4), which needs no cloud credentials. The resulting
-`deploy/cr.yaml` manifest for the *new* cluster should contain following lines:
+`deploy/cr.yaml` manifest for the *new* cluster should contain the following
+lines:
 
 ```yaml
 ...
