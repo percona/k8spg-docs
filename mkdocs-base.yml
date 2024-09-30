@@ -153,6 +153,7 @@ extra: # Used in main.html template and can't be externalized
   pmm2recommended: 2.42.0
   commandName: 'kubectl'
   postgresrecommended: 16.3
+  postgres16recommended: 16.3
   certmanagerrecommended: '1.8.0'
   pgbouncerrecommended: '1.22.1'
   pgbackrestrecommended: '2.51-1'
