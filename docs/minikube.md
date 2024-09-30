@@ -47,20 +47,7 @@ for PostgreSQL on Minikube.
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/crunchybridgeclusters.postgres-operator.crunchydata.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgupgrades.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/pgadmins.postgres-operator.crunchydata.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/pgupgrades.postgres-operator.crunchydata.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
-        serviceaccount/percona-postgresql-operator serverside-applied
-        role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
-        rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
-        deployment.apps/percona-postgresql-operator serverside-applied
-        ```
+        --8<-- "kubectl-apply-bundle-response.txt"
 
     As the result you have the Operator Pod up and running.
 
