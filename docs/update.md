@@ -73,7 +73,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     `kubectl rollout status` command with the name of your cluster:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl rollout status deployments percona-postgresql-operator
+    $ kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
     ```
     
     ??? example "Expected output"
