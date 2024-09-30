@@ -154,7 +154,7 @@ $ kubectl get pods -n postgres-operator
 
 ### Major version upgrade
 
-Major version upgrade allows you to jump from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3), and optionally add pgBouncer and gpBackRest versions to this upgrade.
+Major version upgrade allows you to jump from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3), and optionally add pgBouncer and pgBackRest versions to this upgrade.
 
 !!! note
 
