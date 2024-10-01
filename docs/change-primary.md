@@ -46,7 +46,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         "patroni": {
           "switchover": {
             "enabled": true,
-            "targetInstance": "cluster1-instance1-dcg5"
+            "targetInstance": "cluster1-instance1-bmdp"
           }
         }
       }
