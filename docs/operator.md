@@ -164,7 +164,7 @@ Name of an existing cluster to use as the data source when restoring backup to a
 
 ## `dataSource.postgresCluster.clusterNamespace`
 
-Namespace of an existing cluster used as a data source (is needed if the new cluster will be created in a different namespace, and needs the Operator deployed [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide)).
+Namespace of an existing cluster used as a data source (is needed if the new cluster will be created in a different namespace; needs the Operator deployed [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide)).
 
 | Value type | Example |
 | ---------- | ------- |
