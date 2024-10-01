@@ -901,7 +901,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
-### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.cpu`
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
 
@@ -909,7 +909,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `1.0` |
 
-### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.memory`
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.limits.memory`
 
 The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
 
