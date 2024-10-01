@@ -168,7 +168,7 @@ Namespace of an existing cluster used as a data source (is needed if the new clu
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `cluster1` |
+| :material-code-string: string | `cluster1-namespace` |
 
 ### `dataSource.postgresCluster.repoName`
 
