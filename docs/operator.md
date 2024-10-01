@@ -760,6 +760,14 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
+### `instances.dataVolumeClaimSpec.resources.limits.storage`
+
+The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `5Gi` |
+
 ### `instances.tablespaceVolumes.name`
 
 Name for the custom [tablespace volume](tablespaces.md).
