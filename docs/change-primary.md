@@ -109,4 +109,3 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
     }'
     ```
 
-The primary now should be changed to `cluster1-instance1-bmdp`.
