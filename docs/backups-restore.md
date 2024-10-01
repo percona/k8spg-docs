@@ -19,12 +19,16 @@ scenarios where using this technique is helpful:
 * Restore to a point-in-time and inspect the state of the data without affecting
     the current cluster.
 
-To create a new PostgreSQL cluster from either the active one, or a former cluster
-whose pgBackRest repository still exists, use the [dataSource.postgresCluster](operator.md#datasourcepostgresclusterclustername) subsection options. The content of this subsection
-should copy the `backups` keys of the original cluster - ones needed to carry on
-the restore:
+To create a new PostgreSQL cluster from either an active one, or a former cluster
+whose pgBackRest repository still exists, edit the [dataSource.postgresCluster](operator.md#datasourcepostgresclusterclustername) subsection options in the
+Custom Resource manifest of the *new cluster* (the one you are going to create).
+The content of this subsection should copy the `backups` keys of the original
+cluster - ones needed to carry on the restore:
 
-* `dataSource.postgresCluster.clusterName` should contain the new cluster name,
+* `dataSource.postgresCluster.clusterName` should contain the source cluster name,
+* `dataSource.postgresCluster.clusterNamespace` should contain the namespace of
+    the source cluster (it is needed if the new cluster will be created in a
+    different namespace, and **you will need the Operator deployed [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) to make such cross-namespace restore**),
 * `dataSource.postgresCluster.options` allow you to set the needed pgBackRest
     command line options,
 * `dataSource.postgresCluster.repoName` should contain the name of the
@@ -32,7 +36,30 @@ the restore:
     repository should be placed into `dataSource.pgbackrest.repo` subsection,
 * `dataSource.pgbackrest.configuration.secret.name` should contain the name of
     a Kubernetes Secret with credentials needed to access cloud storage, if any.
-    
+
+The following example bootstraps a new cluster from a backup, which was made
+on the `cluster1` cluster deployed in `percona-db-1` namespace. For simplicity,
+this backup uses `repo1` repository from the [Persistent Volume backup storage example](backups-storage.html#__tabbed_1_4), which needs no cloud credentials. The resulting
+`deploy/cr.yaml` manifest for the *new* cluster should contain the following
+lines:
+
+```yaml
+...
+dataSource:
+  postgresCluster:
+    clusterName: cluster1
+    repoName: repo1
+    clusterNamespace: percona-db-1
+...
+```
+
+Creating the new cluster in its namespace (for example, `percona-db-2`) with
+such a manifest will initiate the restoration process:
+
+``` {.bash data-prompt="$" }
+$ kubectl apply -f deploy/cr.yaml -n percona-db-2
+```
+
 ## Restore to an existing PostgreSQL cluster
 
 To restore the previously saved backup, use a *backup restore*
@@ -59,10 +86,10 @@ The following keys are the most important ones:
     already configured in the `backups.pgbackrest.repos` subsection,
 * `options` passes through any [pgBackRest command line options :octicons-link-external-16:](https://pgbackrest.org/configuration.html).
 
-To start the restoration process, run the following command:
+To start the restoration process, run the following command (modify the `-n postgres-operator` parameter if your database cluster resides in a different namespace):
 
 ``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml
+$ kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 ### Specifying which backup to restore
@@ -123,7 +150,7 @@ steps:
 3. Start the restoration process, as usual:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/restore.yaml
+    $ kubectl apply -f deploy/restore.yaml -n postgres-operator
     ```
 
 ## Restore the cluster with point-in-time recovery
@@ -160,7 +187,7 @@ pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
         follows:
 
         ``` {.bash data-prompt="$" }
-        $ kubectl -n pgo exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
+        $ kubectl -n postgres-operator exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
         ```
         
         Then find ID of the needed backup in the output:
@@ -225,14 +252,14 @@ spec:
         <a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the `kubectl get pg-backup` command has a "Latest restorable time" information field handy when selecting a backup to restore. You can easily query the backup for this information as follows:
    
         ``` {.bash data-prompt="$" }
-        $ kubectl get pg-backup <backup_name> -o jsonpath='{.status.latestRestorableTime}'
+        $ kubectl get pg-backup <backup_name> -n postgres-operator -o jsonpath='{.status.latestRestorableTime}'
         ```
 
 After setting these options in the *backup restore* configuration file,
 start the restoration process:
 
 ``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml
+$ kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 !!! note
