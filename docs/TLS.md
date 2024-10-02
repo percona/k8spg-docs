@@ -159,7 +159,7 @@ $ kubectl create secret generic -n postgres-operator cluster1-ca-cert \
   --from-file=tls.key=my_tls.key
 ```
 
-You also need to specify details about this secret in your `deploy/cr.yaml` manifest *before* deploying the cluster:
+You also need to specify details about this secret in your `deploy/cr.yaml` manifest:
 
 ```yaml
 ...
