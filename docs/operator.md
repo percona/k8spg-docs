@@ -995,7 +995,7 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-text-long: subdoc | `/pgbackrest/postgres-operator/hippo/repo1` |
+| :material-text-long: subdoc | `repo1-path: /pgbackrest/postgres-operator/cluster1/repo1` |
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 

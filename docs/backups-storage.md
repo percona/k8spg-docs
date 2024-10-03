@@ -69,7 +69,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         ```     
 
     4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
-       Also, if your S3-compatible storage requires additional [repository options :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository) for the pgBackRest tool, you can specify these parameters in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection (use standard pgBackRest option names prefixed with the repository name).
+
+        Provide pgBackRest the directory path for backup on the storage. You can pass it in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection via the pgBackRest `path` option (prefix it's name with the repository name, for example `repo1-path`). Also, if your S3-compatible storage requires additional [repository options :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-repository) for the pgBackRest tool, you can specify these parameters in the same `backups.pgbackrest.global` subsection with standard pgBackRest option names, also prefixed with the repository name.
 
         === ":fontawesome-brands-aws: Amazon S3 storage"
 
@@ -83,6 +84,9 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                 configuration:
                   - secret:
                       name: cluster1-pgbackrest-secrets
+                ...
+                global:
+                  repo2-path: /pgbackrest/postgres-operator/cluster1/repo2
                 ...
                 repos:
                 - name: repo2
@@ -219,11 +223,11 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
-    5. Update your `deploy/cr.yaml` configuration. Specify your GCS credentials
-        Secret in the `backups.pgbackrest.configuration` subsection, and put GCS
-        bucket name into the `bucket` option 
-        in the `backups.pgbackrest.repos` subsection. The repository name must be the same as the name you specified when you created the `gcs.conf` file. For example, GCS storage configuration
-        for the `repo3` repository would look as follows:    
+    5. Update your `deploy/cr.yaml` configuration. Specify your GCS credentials Secret in the `backups.pgbackrest.configuration` subsection, and put GCS bucket name into the `bucket` option in the `backups.pgbackrest.repos` subsection. The repository name must be the same as the name you specified when you created the `gcs.conf` file. 
+
+        Also, provide pgBackRest the directory path for backup on the storage. You can pass it in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection via the pgBackRest `path` option (prefix it's name with the repository name, for example `repo3-path`).
+
+        For example, GCS storage configuration for the `repo3` repository would look as follows:
 
         ```yaml
         ...
@@ -233,6 +237,9 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
             configuration:
               - secret:
                   name: cluster1-pgbackrest-secrets
+            ...
+            global:
+              repo3-path: /pgbackrest/postgres-operator/cluster1/repo3
             ...
             repos:
             - name: repo3
@@ -301,11 +308,11 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
         $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
-    4. Update your deploy/cr.yaml configuration. Specify the Secret file you have created in the previous step in the `backups.pgbackrest.configuration` subsection. Put Azure
-        container name in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1. 
+    4. Update your deploy/cr.yaml configuration. Specify the Secret file you have created in the previous step in the `backups.pgbackrest.configuration` subsection. Put Azure container name in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded Azure credentials on step 1.
 
-        For example, the Azure storage
-        for the `repo1` repository looks as follows.    
+        Also, provide pgBackRest the directory path for backup on the storage. You can pass it in the [backups.pgbackrest.global](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global) subsection via the pgBackRest `path` option (prefix it's name with the repository name, for example `repo4-path`).
+
+        For example, the Azure storage for the `repo4` repository looks as follows.
 
         ```yaml
         ...
@@ -315,6 +322,9 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
             configuration:
               - secret:
                   name: cluster1-pgbackrest-secrets
+            ...
+            global:
+              repo4-path: /pgbackrest/postgres-operator/cluster1/repo4
             ...
             repos:
             - name: repo4
@@ -332,6 +342,14 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
     Percona Operator for PostgreSQL uses [Kubernetes Persistent Volumes](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the `backups.pgbackrest.repos` section of the `cr.yaml` file under the `repo1` name:
 
     ```yaml
+            ...
+backups:
+  pgbackrest:
+    ...
+    global:
+      repo1-path: /pgbackrest/postgres-operator/cluster1/repo1
+    ...
+    repos:
     - name: repo1
         volume:
           volumeClaimSpec:
