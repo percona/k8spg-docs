@@ -106,7 +106,7 @@ Operator with the `helm upgrade` command.
         You can get list of used options in YAML format with the `helm get values my-operator -a > my-values.yaml` command, and this file can be directly passed to the upgrade command as follows:
 
         ``` {.bash data-prompt="$" }
-        $ helm upgrade my-operator percona/pxc-operator --version {{ release }} -f my-values.yaml
+        $ helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
         ```
 
 2. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
