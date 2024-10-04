@@ -269,3 +269,14 @@ $ kubectl apply -f deploy/restore.yaml -n postgres-operator
     All relevant write-ahead log files must be successfully pushed before you
     make the restore.
 
+## Fix the cluster if the restore fails
+
+The restore process changes database files, and therefore restoring wrong information or causing restore fail by misconfiguring can put the database cluster in non-operational state.
+
+For example, adding wrong pgBackRest arguments to [`PerconaGPRestore` custom resource](#restore-to-an-existing-postgresql-cluster) breaks existing database installation while the restore hangs.
+
+In this case it’s possible to remove restore annotation from CR or remove CR & apply it again to recover the cluster existing before restore
+
+The second possibility - corrupted backup repository/missing files. It helps to remove CR, delete startup PVC and create it again.
+
+ 
