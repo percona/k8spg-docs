@@ -110,8 +110,10 @@ spec:
     ...
     dataVolumeClaimSpec:
       resources:
+        requests:
+          storage: 1Gi
         limits:
-          storage: <MAXIMUM STORAGE SIZE>
+          storage: 5Gi
 ```
 
 ## High availability
