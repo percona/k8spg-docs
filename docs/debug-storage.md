@@ -137,7 +137,7 @@ $ kubectl get pv pvc-2d20abb7-5350-4810-a098-fbdfbffda041 -oyaml
 
 Fields to check if there are any issues in binding with PVC, are the `claimRef` and `nodeAffinity`.
 
-The `claimRef` one indicates to which PVC this volume is bound to. This means that if by any chance PVC is deleted by the appropriate finalizer, this section needs to be modified so that it can bind to the new PVC.
+The `claimRef` one indicates to which PVC this volume is bound to. This means that if by any chance PVC is deleted (e.g. by the appropriate finalizer), this section needs to be modified so that it can bind to a new PVC.
 
 The `spec.nodeAffinity` field may influence the PV availability as well: for example, it can make Volume accessed in one availability zone only.
 

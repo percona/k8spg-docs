@@ -283,6 +283,4 @@ $ kubectl annotate -n postgres-operator pg cluster1 postgres-operator.crunchydat
 
 Alternatively, you can temporarily delete the database cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster) (check the [`finalizers.percona.com/delete-pvc` finalizer](operator.md#finalizers-delete-pvc) is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running `kubectl apply -f deploy/cr.yaml -n postgres-operator` command you have used to deploy the it previously.
 
-The second possibility - corrupted backup repository/missing files. It helps to remove CR, delete startup PVC and create it again.
-
- 
+One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster), [find the startup PVC](debug-storage.md#check-the-pvc) to delete it and recreate again. 
