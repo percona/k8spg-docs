@@ -215,6 +215,7 @@ nav:
           - "Monitor the database with PMM": monitoring.md
     - How-to:
           - "Install the database with customized parameters": custom-install.md
+          - "Run Initialization SQL commands at cluster creation time":initsql.md
           - Deploy a standby cluster for Disaster Recovery:
             - "Introduction": standby.md
             - "Deploy standby cluster based on backups": standby-backup.md
