@@ -26,7 +26,11 @@ Use our reference documentation for the [Custom Resource options](operator.md) f
 
 ## High availability
 
-Percona Operator allows you to deploy highly-available PostgreSQL clusters.
+Percona Operator allows you to deploy highly-available PostgreSQL clusters. High-availability implementation based on the Patroni template, so the cluster includes a number of replicas, one of which is primary PostgreSQL instance, which is available for writes, and streams write-ahead logs (WAL) records to other replicas. Streaming replication used in this configuration is asynchronous by default, which makes a small delay between committing a transaction in the primary and the changes becoming visible on other replicas. If the primary server crashes then some transactions that were committed may not have been replicated to the standby server, causing data loss. The amount of data loss is proportional to the replication delay at the time of failover.
+
+Synchronous replication offers the ability to confirm that all changes made by a transaction have been transferred to one or more synchronous standby servers. This extends that standard level of durability offered by a transaction commit. When requesting synchronous replication, each commit of a write transaction will wait until confirmation is received that the commit has been written to the write-ahead log on disk of both the primary and standby server. The only possibility that data can be lost is if both the primary and the standby suffer crashes at the same time. 
+
+
 There are two ways how to control replicas in your HA cluster:
 
 1. Through changing `spec.instances.replicas` value
