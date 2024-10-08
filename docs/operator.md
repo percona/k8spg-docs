@@ -892,6 +892,14 @@ The `backup` section in the
 file contains the following configuration options for the regular
 Percona Distribution for PostgreSQL backups.
 
+### `backups.trackLatestRestorableTime`
+
+Enables or disables [tracking the latest restorable time](backups-restore.md#backups-latest-restorable-time) for latest successful backup (on by default). It can be turned off to reduced S3 API usage.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
 ### `backups.pgbackrest.metadata.labels`
 
 Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods.
@@ -1199,7 +1207,7 @@ The [AWS region :octicons-link-external-16:](https://docs.aws.amazon.com/general
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-toggle-switch-outline: boolean | `"ca-central-1"` |
+| :material-code-string: string | `"ca-central-1"` |
 
 ### `backups.pgbackrest.repos.gcs.bucket`
 
