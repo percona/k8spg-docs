@@ -2,7 +2,7 @@
 
 * **Date**
 
-    September 30, 2024
+    October 08, 2024
 
 * **Installation**
 
@@ -12,21 +12,20 @@
 
 ## Automated storage scaling
 
-Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs the "auto-growable disk" feature turned on when deploying the Operator.
-This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
+Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs the upstream [auto-growable disk :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/latest/guides/autogrowable-disk) feature turned on when deploying the Operator. This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
 
 ```yaml
 - name: PGO_FEATURE_GATES
   value: "AutoGrowVolumes=true"
 ```
 
-When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up. 
+When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up.
 
 See [official documentation](../scaling.md#scale-storage) for more details and limitations of the feature.
 
 ## Major versions upgrade improvements
 
-Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images of PostgreSQL and, optionally, some other components of the database cluster. The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names (`toPostgresImage` is required, while `toPgBouncerImage` and `toPgBackRestImage` are optional). The resulting manifest may look as follows:
+Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names. The resulting manifest may look as follows:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -38,17 +37,14 @@ spec:
   image: percona/percona-postgresql-operator:2.4.1-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
-  toPostgresImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-postgres
-  toPgBouncerImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-pgbouncer1.22.1
-  toPgBackRestImage: percona/percona-postgresql-operator:2.4.1-ppg16.3-pgbackrest2.51-1
+  toPostgresImage: percona/percona-postgresql-operator:2.5.0-ppg16.4-postgres
+  toPgBouncerImage: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1
+  toPgBackRestImage: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1
 ```
 
 ## Azure Kubernetes Service and Azure Blob Storage support
 
-* [Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for MysQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage.md#__tabbed_1_2)
-
-
-
+[Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for PostgreSQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage.md#__tabbed_1_2).
 
 ## New features
 
@@ -58,21 +54,20 @@ spec:
 ## Improvements
 
 * {{ k8spgjira(630) }}: A new `backups.trackLatestRestorableTime` Custom Resource option allows to disable latest restorable time tracking for users who need reducing S3 API calls usage
-* {{ k8spgjira(605) }} and {{ k8spgjira(593) }}: Documentation now includes information about [upgrading the Operator via Helm](../update.md#upgrade-via-helm) and [using databaseInitSQL commands](../debug-logs.md#use-databaseinitsql-commands)
+* {{ k8spgjira(605) }} and {{ k8spgjira(593) }}: Documentation now includes information about [upgrading the Operator via Helm](../update.md#upgrade-via-helm) and [using databaseInitSQL commands](../initsql.md)
 * {{ k8spgjira(598) }}: Database major version upgrade now [supports custom images](../update.md#major-version-upgrade)
-* {{ k8spgjira(588) }}: The Operator didn't stop WAL watcher if the namespace and/or cluster were deleted **BUG FIX?**
 * {{ k8spgjira(560) }}: A `pg-restore` Custom Resource is now automatically created at [bootstrapping a new cluster from an existing backup](../backups-restore.md#restore-to-a-new-postgresql-cluster)
 * {{ k8spgjira(555) }}: The Operator now creates separate Secret with CA certificate for each cluster
-* {{ k8spgjira(553) }}: Provision [of a custom root CA certificate](../TLS.md#provide-custom-root-ca-certificate-to-the-operator) to the Operator is now possible
-* {{ k8spgjira(454) }}: Cluster status obtained with kubectl get pg` command is now "ready" not only when all Pods are ready, but also takes into account if all StatefulSets are up to date
+* {{ k8spgjira(553) }}: Users can provide the Operator with their own [root CA certificate](../TLS.md#provide-custom-root-ca-certificate-to-the-operator)
+* {{ k8spgjira(454) }}: Cluster status obtained with `kubectl get pg` command is now "ready" not only when all Pods are ready, but also takes into account if all StatefulSets are up to date
+* {{ k8spgjira(577) }}: A new `pmm.querySource` Custom Resource option allows to set PMM query source
 
 ## Bugs Fixed
 
-* {{ k8spgjira(629) }}: Fix a bug where Operator was not deleting backup Pods when cleaning outdated backups according to the retention policy
-* {{ k8spgjira(587) }}: Fix a bug where restore with wrong pgBackRest argument was putting the cluster in a broken state
-* {{ k8spgjira(577) }}: A new `pmm.querySource` Custom Resource option allows to set PMM query source **IMPROVEMENT**
+* {{ k8spgjira(629) }}: Fix a bug where the Operator was not deleting backup Pods when cleaning outdated backups according to the retention policy
 * {{ k8spgjira(499) }}: Fix a bug where cluster was getting stuck in the init state if pgBackRest secret didn't exist
-* {{ k8spgjira(446) }}: Fix a bug due to which dots were not allowed in the S3 bucket name
+* {{ k8spgjira(588) }}: Fix a bug where the Operator didn't stop WAL watcher if the namespace and/or cluster were deleted
+* {{ k8spgjira(644) }}: Fix a bug in the `pg-db` Helm chart which prevented from setting more than one Toleration
 
 ## Supported platforms
 
