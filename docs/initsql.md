@@ -6,21 +6,7 @@ psql interactive terminal [will execute :octicons-link-external-16:](https://www
 
 To set SQL initialization sequence you need creating a special [ConfigMap :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap) with it, and reference this ConfigMap in the `databaseInitSQL` subsection of your Custom Resource options.
 
-The following example uses SQL commands from the [insert data tutorial](data-insert.md) to automate creation of a sample table `Library`:
-
-```sql
-CREATE SCHEMA demo;
-CREATE TABLE LIBRARY(
-   ID INTEGER NOT NULL,
-   NAME TEXT,
-   SHORT_DESCRIPTION TEXT,
-   AUTHOR TEXT,
-   DESCRIPTION TEXT,
-   CONTENT TEXT,
-   LAST_UPDATED DATE,
-   CREATED DATE
-);
-```
+The following example uses initialization SQL command to add a new role to a PostgreSQL database cluster:
 
 1. Create YAML manifest for the ConfigMap as follows:
 
@@ -31,7 +17,7 @@ CREATE TABLE LIBRARY(
       name: cluster1-init-sql
       namespace: postgres-operator
     data:
-      init.sql: CREATE SCHEMA demo; CREATE TABLE LIBRARY( ID INTEGER NOT NULL, NAME TEXT, SHORT_DESCRIPTION TEXT, AUTHOR TEXT, DESCRIPTION TEXT, CONTENT TEXT, LAST_UPDATED DATE, CREATED DATE );
+      init.sql: CREATE ROLE someonenew WITH createdb superuser login password 'someonenew'; 
     ```
 
     The `namespace` field should point to the namespace of your database cluster, and the `init.sql` key contains the sequence of commands, which will be passed to the psql.
@@ -55,7 +41,7 @@ CREATE TABLE LIBRARY(
     Now, SQL commands will be executed when you create the cluster by apply the manifest:
     
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml
+    $ kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
 The psql command is executed the standard input and the file flag (`psql -f -`). If the command returns `0` exit code, SQL will not be run again. When psql returns with an error exit code, the Operator will continue attempting to execute it as part of its reconcile loop until success. You can fix errors in the SQL sequence, for example by interactive `kubectl edit configmap cluster1-init-sql -n postgres-namespace` command.
