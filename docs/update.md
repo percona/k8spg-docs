@@ -20,6 +20,8 @@ Distribution for PostgreSQL *without* the Operator upgrade.
 
 ## Upgrading the Operator and CRD
 
+### Manual upgrade
+
 The Operator supports only the incremental update to its nearest version (such
 as updating the Operator from 2.4.0 to 2.4.1).
 To update to a newer version, which differs from the current version by more
@@ -73,7 +75,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     `kubectl rollout status` command with the name of your cluster:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl rollout status deployments percona-postgresql-operator
+    $ kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
     ```
     
     ??? example "Expected output"
@@ -81,6 +83,16 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         ``` {.text .no-copy}
         deployment "percona-postgresql-operator" successfully rolled out
         ```
+
+### Upgrade via Operator Lifecycle Manager (OLM)
+
+If you have [installed the Operator on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can upgrade the Operator within it.
+
+1. List installed Operators for your Namespace to see if there are upgradable items.
+
+    ![image](assets/images/olm4.svg)
+
+2. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
@@ -154,11 +166,13 @@ $ kubectl get pods -n postgres-operator
 
 ### Major version upgrade
 
+Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3).
+
 !!! note
 
     Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
 
-    Also, currently the major version upgrade only works for the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
+    Also, currently the major version upgrade only works if the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
 
     ```yaml
     ...
@@ -169,8 +183,7 @@ $ kubectl get pods -n postgres-operator
     
     It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
 
-
-Upgrade is triggered by applying the YAML file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
+The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -182,9 +195,14 @@ spec:
   image: percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
+  toPostgresImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
+  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}
+  toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
 ```
 
-After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` command, the actual upgrade takes place as follows:
+As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
+
+After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/upgrade.yaml` command), the actual upgrade takes place:
 
 1. The Operator pauses the cluster, so the cluster will be unavailable for the duration of the upgrade,
 2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,

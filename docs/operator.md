@@ -12,7 +12,7 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters :octic
 
 * <a name="finalizers-delete-ssl"></a> `finalizers.percona.com/delete-ssl` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) after the cluster deletion event (off by default).
 
-* `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
+* <a name="finalizers-delete-pvc"></a> `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
 
 ## Toplevel `spec` elements
 
@@ -162,6 +162,14 @@ Name of an existing cluster to use as the data source when restoring backup to a
 | ---------- | ------- |
 | :material-code-string: string | `cluster1` |
 
+## `dataSource.postgresCluster.clusterNamespace`
+
+Namespace of an existing cluster used as a data source (is needed if the new cluster will be created in a different namespace; needs the Operator deployed [in multi-namespace/cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide)).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1-namespace` |
+
 ### `dataSource.postgresCluster.repoName`
 
 Name of the pgBackRest repository in the source cluster that contains the backup to be restored to a new cluster.
@@ -245,7 +253,7 @@ Name of the pgBackRest repository.
 ### `dataSource.pgbackrest.repo.s3.bucket`
 
 The [Amazon S3 bucket :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) or [Google Cloud Storage bucket :octicons-link-external-16:](https://cloud.google.com/storage/docs/key-terms#buckets)
-name used for backups.
+name used for backups. Bucket name should follow [Amazon naming rules](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucketnamingrules.html) or [Google naming rules](https://cloud.google.com/storage/docs/buckets), and additionally, it can't contain dots.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -752,6 +760,14 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 | ---------- | ------- |
 | :material-code-string: string | `ReadWriteOnce` |
 
+### `instances.dataVolumeClaimSpec.storageClassName`
+
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `premium-rwo` |
+
 ### `instances.dataVolumeClaimSpec.resources.requests.storage`
 
 The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
@@ -893,7 +909,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
-### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.cpu`
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
 
@@ -901,7 +917,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `1.0` |
 
-### `backups.pgbackrest.containers.pgbouncerConfig.resources.limits.memory`
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.limits.memory`
 
 The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
 
@@ -1125,6 +1141,15 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `ReadWriteOnce` |
+
+
+### `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName`
+
+Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PosgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `premium-rwo` |
 
 ### `backups.pgbackrest.repos.volume.volumeClaimSpec.resources.requests.storage`
 
