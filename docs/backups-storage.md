@@ -6,7 +6,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
 === ":simple-amazons3: S3-compatible backup storage"
 
-    To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
+    <a name="configuring-the-s3-compatible-backup-storage"></a> To use [Amazon S3 :octicons-link-external-16:](https://aws.amazon.com/s3/) or any [S3-compatible storage :octicons-link-external-16:](https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services) for backups, you need to have the following S3-related information:
 
     * The name of S3 bucket;
     * The region - the location of the bucket
@@ -151,7 +151,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
 === ":simple-googlecloud: Google Cloud Storage"
 
-    To use [Google Cloud Storage (GCS) :octicons-link-external-16:](https://cloud.google.com/storage) as
+    <a name="use-google-cloud-storage-for-backups"></a> To use [Google Cloud Storage (GCS) :octicons-link-external-16:](https://cloud.google.com/storage) as
     an object store for backups, you need the following information:
 
     * a proper GCS bucket name. Pass the bucket name to `pgBackRest` via the

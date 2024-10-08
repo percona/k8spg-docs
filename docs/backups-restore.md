@@ -39,7 +39,7 @@ cluster - ones needed to carry on the restore:
 
 The following example bootstraps a new cluster from a backup, which was made
 on the `cluster1` cluster deployed in `percona-db-1` namespace. For simplicity,
-this backup uses `repo1` repository from the [Persistent Volume backup storage example](backups-storage.html#__tabbed_1_4), which needs no cloud credentials. The resulting
+this backup uses `repo1` repository from the [Persistent Volume backup storage example](backups-storage.md#__tabbed_1_4), which needs no cloud credentials. The resulting
 `deploy/cr.yaml` manifest for the *new* cluster should contain the following
 lines:
 
