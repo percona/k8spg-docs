@@ -3,7 +3,7 @@ const selectBox = document.getElementById('versionSelect');
 if (selectBox) {
     // Populate the select box with options based on the versionMap
     const versionMap = {
-        '2.4.1': '/2.0/',  
+        '2.5.0': '/2.0/',  
         '1.6.0': '/1.0/',
         // Add new versions here as needed
     };
