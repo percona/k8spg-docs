@@ -11,7 +11,7 @@ To install and deploy the Operator, you need the following:
 
 1. [Helm v3 :octicons-link-external-16:](https://docs.helm.sh/using_helm/#installing-helm).
 2. [kubectl :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/) command line utility.
-3. A Kubernetes environment. You can deploy it locally on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
+3. A Kubernetes environment. You can deploy it locally on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#supported-platforms).
 
     !!! note "See also"
 

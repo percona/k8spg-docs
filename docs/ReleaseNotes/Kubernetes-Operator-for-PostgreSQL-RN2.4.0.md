@@ -68,7 +68,7 @@ spec:
 * {{ k8spgjira(254) }}: Now the Operator [automates](../update.md#major-version-upgrade) upgrading PostgreSQL major versions
 * {{ k8spgjira(459) }}: PostgreSQL tablespaces [are now supported](../tablespaces.md) by the Operator
 * {{ k8spgjira(479) }} and {{ k8spgjira(492) }}: It is now possible to specify  tolerations for the  [backup restore jobs](../operator.md#backupsrestoretolerationseffect) as well as for the [data move jobs](../operator.md#datasourcepostgresclustertolerationseffect) created when the Operator 1.x is upgraded to 2.x; this is useful in environments with dedicated Kubernetes worker nodes protected by taints
-* {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the sidecar containers](../operator.md#instancescontainersresourceslimitscpu) of database instance Pods
+* {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the sidecar containers](../operator.md#instancescontainersreplicacertcopyresourceslimitscpu) of database instance Pods
 
 ## Improvements
 
