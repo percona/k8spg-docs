@@ -41,7 +41,7 @@ Here's a sequence of steps to follow:
 3. Install the Percona Operator for PostgreSQL:
 
     ``` {.bash data-prompt="$" }
-    $ helm install my-operator percona/pg-operator --namespace <my-namespace> 
+    $ helm install my-operator percona/pg-operator --namespace <my-namespace>
     ```
 
     The `my-namespace` is the name of your namespace. The `my-operator` parameter is the name of [a new release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
