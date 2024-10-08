@@ -6,6 +6,8 @@ Scaling can be vertical and horizontal. Vertical scaling adds more compute or st
 
 ## Vertical scaling
 
+### Scale compute
+
 There are multiple components that Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, etc. To add or reduce CPU or Memory you need to edit corresponding sections in the Custom Resource. We follow the structure for requests and limits that Kubernetes [provides :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
 
 To add more resources to your PostgreSQL instances edit the following section in the Custom Resource:
@@ -23,6 +25,96 @@ spec:
 ```
 
 Use our reference documentation for the [Custom Resource options](operator.md) for more details about other components.
+
+### Scale storage
+
+Kubernetes manages storage with a PersistentVolume (PV), a segment of
+storage supplied by the administrator, and a PersistentVolumeClaim
+(PVC), a request for storage from a user. In Kubernetes v1.11 the
+feature was added to allow a user to increase the size of an existing
+PVC object (considered stable since Kubernetes v1.24).
+The user cannot shrink the size of an existing PVC object.
+
+#### Scaling with Volume Expansion capability
+
+Certain volume types support PVCs expansion (exact details about
+PVCs and the supported volume types can be found in [Kubernetes
+documentation  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims)).
+
+You can run the following command to check if your storage supports the expansion capability:
+
+``` {.bash data-prompt="$" }
+$ kubectl describe sc <storage class name> | grep AllowVolumeExpansion
+```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    AllowVolumeExpansion: true
+    ```
+
+The Operator versions 2.5.0 and higher will automatically expand such storage
+for you when you change the appropriate options in the Custom Resource.
+
+For example, you can do it by editing and applying the `deploy/cr.yaml` file:
+
+``` {.text .no-copy}
+spec:
+  ...
+  instances:
+    ...
+    dataVolumeClaimSpec:
+      resources:
+        requests:
+          storage: <NEW STORAGE SIZE>
+```
+
+Apply changes as usual:
+
+``` {.bash data-prompt="$" }
+$ kubectl apply -f cr.yaml
+```
+
+#### Automated scaling with auto-growable disk
+
+The Operator 2.5.0 and newer is able to detect if the storage usage on the PVC
+reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs
+the upstream "auto-growable disk" feature turned on when deploying the Operator.
+This is done via the `PGO_FEATURE_GATES` environment variable set in the
+`deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
+
+```yaml
+...
+subjects:
+- kind: ServiceAccount
+  name: percona-postgresql-operator
+  namespace: pg-operator
+...
+spec:
+  containers:
+  - env:
+    - name: PGO_FEATURE_GATES
+      value: "AutoGrowVolumes=true"
+...
+```
+
+When the support for auto-growable disks is turned on, the auto grow
+will be working automatically if the maximum value available for the Operator to
+scale up is set in the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage`
+Custom Resource option:
+
+``` {.text .no-copy}
+spec:
+  ...
+  instances:
+    ...
+    dataVolumeClaimSpec:
+      resources:
+        requests:
+          storage: 1Gi
+        limits:
+          storage: 5Gi
+```
 
 ## High availability
 
