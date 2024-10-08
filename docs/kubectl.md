@@ -21,6 +21,7 @@ To install Percona Distribution for PostgreSQL, you need the following:
         * [Set up Minikube](minikube.md#set-up-minikube)
         * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
         * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
+        * [Create and configure the AKS cluster](aks.md)
 
 ## Procedure 
 
