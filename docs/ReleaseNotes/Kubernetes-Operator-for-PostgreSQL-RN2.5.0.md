@@ -10,7 +10,7 @@
 
 ## Release Highlights
 
-## Automated storage scaling
+### Automated storage scaling
 
 Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs the upstream [auto-growable disk :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/latest/guides/autogrowable-disk) feature turned on when deploying the Operator. This is done via the `PGO_FEATURE_GATES` environment variable set in the `deploy/operator.yaml` manifest (or in the appropriate part of `deploy/bundle.yaml`):
 
@@ -23,7 +23,7 @@ When the support for auto-growable disks is turned on, the `spec.instances[].dat
 
 See [official documentation](../scaling.md#scale-storage) for more details and limitations of the feature.
 
-## Major versions upgrade improvements
+### Major versions upgrade improvements
 
 Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names. The resulting manifest may look as follows:
 
@@ -42,7 +42,7 @@ spec:
   toPgBackRestImage: percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1
 ```
 
-## Azure Kubernetes Service and Azure Blob Storage support
+### Azure Kubernetes Service and Azure Blob Storage support
 
 [Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for PostgreSQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage.md#__tabbed_1_2).
 
