@@ -10,7 +10,7 @@ to newer 2.x versions.
     and is completely different from the normal upgrade scenario due to
     substantial changes in the architecture.
 
-Upgrading the Operator to a newer version typically involves two steps:
+Upgrading to a newer version typically involves two steps:
 
 1. Upgrading the Operator and [Custom Resource Definition (CRD) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/),
 2. Upgrading the Database Management System (Percona Distribution for PostgreSQL).
@@ -41,6 +41,8 @@ You can find Operator versions [listed here](ReleaseNotes/index.md).
     will be able to continue using the old CRD and even carry on Percona Distribution
     for PostgreSQL minor version upgrades with it. But the recommended way is to
     update the Operator *and* CRD.
+
+### Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading to the version {{ release }}.
@@ -73,7 +75,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     `kubectl rollout status` command with the name of your cluster:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl rollout status deployments percona-postgresql-operator
+    $ kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
     ```
     
     ??? example "Expected output"
@@ -81,6 +83,54 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         ``` {.text .no-copy}
         deployment "percona-postgresql-operator" successfully rolled out
         ```
+
+### Upgrade via Helm
+
+If you have [installed the Operator using Helm](helm.md), you can upgrade the
+Operator with the `helm upgrade` command.
+
+1. In case if you installed the Operator with no [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), the upgrade can be done as follows: 
+
+    ``` {.bash data-prompt="$" }
+    $ helm upgrade my-operator percona/pg-operator --version {{ release }}
+    ```
+
+    The `my-operator` parameter in the above example is the name of a [release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
+    which which you have chosen for the Operator when installing its Helm chart.
+
+    If the Operator was installed with some [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), you should list these options in the upgrade command.
+    
+    
+    !!! note
+    
+        You can get list of used options in YAML format with the `helm get values my-operator -a > my-values.yaml` command, and this file can be directly passed to the upgrade command as follows:
+
+        ``` {.bash data-prompt="$" }
+        $ helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
+        ```
+
+2. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+    for the Operator, taking it from the official repository on Github, and do
+    the same for the Role-based access control:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
+    ```
+
+!!! note
+
+    You can use `helm upgrade` to upgrade the Operator. But the database management system (Percona Distribution for PostgreSQL) should be upgraded in the same way whether you used Helm to install it or not.
+
+### Upgrade via Operator Lifecycle Manager (OLM)
+
+If you have [installed the Operator on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can upgrade the Operator within it.
+
+1. List installed Operators for your Namespace to see if there are upgradable items.
+
+    ![image](assets/images/olm4.svg)
+
+2. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
 
 ## Upgrading Percona Distribution for PostgreSQL
 
@@ -154,11 +204,13 @@ $ kubectl get pods -n postgres-operator
 
 ### Major version upgrade
 
+Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3).
+
 !!! note
 
     Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
 
-    Also, currently the major version upgrade only works for the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
+    Also, currently the major version upgrade only works if the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
 
     ```yaml
     ...
@@ -169,8 +221,7 @@ $ kubectl get pods -n postgres-operator
     
     It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
 
-
-Upgrade is triggered by applying the YAML file with the information about the existing and desired major versions, with an example present in `deploy/upgrade.yaml`:
+The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 
 ```yaml
 apiVersion: pgv2.percona.com/v2
@@ -182,9 +233,14 @@ spec:
   image: percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
+  toPostgresImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
+  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}
+  toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
 ```
 
-After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` command, the actual upgrade takes place as follows:
+As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
+
+After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/upgrade.yaml` command), the actual upgrade takes place:
 
 1. The Operator pauses the cluster, so the cluster will be unavailable for the duration of the upgrade,
 2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,

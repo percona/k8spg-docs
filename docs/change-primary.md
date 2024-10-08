@@ -8,12 +8,11 @@ Primary instance is re-elected during the automatic failover (Patroni's "leader 
 
 In Percona Operator, the primary instance election can be controlled by the `patroni.switchover` section of the Custom Resource manifest. It allows you to enable switchover targeting a specific PostgreSQL instance as the new primary, or just running a failover if PostgreSQL cluster has entered a bad state.
 
-This document provides instructions how to change the primary instance manually. 
+This document provides instructions how to change the primary instance manually.
 
 For the following steps, we assume that you have the PostgreSQL cluster up and running. The cluster name is `cluster1`. 
 
-1. Check the information about the [cluster instances](operator.md#operator-instances-section). Cluster instances are defined in the `spec.instances` Custom Resource section. By default you have one cluster instance named `instance1` with 3 PostgreSQL instances in it.
-    You can check which cluster instances you have. Do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
+1. Check the information about the [cluster instances](operator.md#operator-instances-section). Cluster instances are defined in the `spec.instances` Custom Resource section. By default you have one cluster instance named `instance1` with 3 PostgreSQL instances in it. You can check which cluster instances you have. Do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
@@ -30,9 +29,9 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-3. Now update the following options in the `partoni.switchover` subsection of the Custom Resource:
+2. Now update the following options in the `patroni.switchover` subsection of the Custom Resource:
 
-    ```yaml 
+    ```yaml
     patroni:
       switchover:
         enabled: true
@@ -43,19 +42,26 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
     ```{.bash data-prompt="$"}
     $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
-    "spec": {
-       "patroni": { "switchover": { "enabled": "true" } },
-       "patroni": { "switchover": { "targetInstance": "cluster1-instance1-bmdp" } }
-    }}'
+      "spec": {
+        "patroni": {
+          "switchover": {
+            "enabled": true,
+            "targetInstance": "cluster1-instance1-bmdp"
+          }
+        }
+      }
+    }'
     ```
 
-5. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
+3. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 
     ```{.bash data-prompt="$"}
-    $ kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
+    $ kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
     ```
 
-6. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
+    The `--overwrite` flag in the above command allows you to overwrite the annotation if it already exists (useful if that's not the first switchover you do).
+
+4. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
     ```{.bash data-prompt="$"}
     $ kubectl get pg cluster1 -o yaml -n <namespace>
@@ -73,7 +79,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
               "patroni":{"switchover":{"enabled":true,"targetInstance":"cluster1-instance1-bmdp"}},}
         ```
 
-7. Now, check instances of your cluster once again to make sure the switchover took place:
+5. Now, check instances of your cluster once again to make sure the switchover took place:
 
     ```{.bash data-prompt="$"}
     $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
@@ -89,4 +95,17 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         cluster1-instance1-ttm9-0             4/4     Running     0          23m   cluster1-instance1-ttm9   replica
         ```
 
-The primary now should be changed to `cluster1-instance1-bmdp`.
+6. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
+      "spec": {
+        "patroni": {
+          "switchover": {
+            "enabled": false
+          }
+        }
+      }
+    }'
+    ```
+
