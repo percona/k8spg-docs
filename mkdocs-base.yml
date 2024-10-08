@@ -153,6 +153,7 @@ extra: # Used in main.html template and can't be externalized
   pmm2recommended: 2.42.0
   commandName: 'kubectl'
   postgresrecommended: 16.3
+  postgres16recommended: 16.3
   certmanagerrecommended: '1.8.0'
   pgbouncerrecommended: '1.22.1'
   pgbackrestrecommended: '2.51-1'
@@ -184,6 +185,7 @@ nav:
           - "Install with Everest": everest.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on Microsoft Azure Kubernetes Service (AKS)": aks.md
           - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
@@ -230,6 +232,7 @@ nav:
           - "Use PostGIS extension": postgis.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
+          - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
     - Reference:

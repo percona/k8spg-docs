@@ -21,6 +21,7 @@ To install Percona Distribution for PostgreSQL, you need the following:
         * [Set up Minikube](minikube.md#set-up-minikube)
         * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
         * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
+        * [Create and configure the AKS cluster](aks.md)
 
 ## Procedure 
 
@@ -39,7 +40,7 @@ Here's a sequence of steps to follow:
         namespace/postgres-operator was created
         ```
 
-    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands. 
+    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands.
 
 2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
@@ -50,16 +51,7 @@ Here's a sequence of steps to follow:
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
-        serviceaccount/percona-postgresql-operator serverside-applied
-        role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
-        rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
-        deployment.apps/percona-postgresql-operator serverside-applied
-        ```
+        --8<-- "kubectl-apply-bundle-response.txt"
 
     At this point, the Operator Pod is up and running.
 
@@ -76,7 +68,7 @@ Here's a sequence of steps to follow:
         perconapgcluster.pgv2.percona.com/cluster1 created
         ```
 
-4. Check the Operator and replica set Pods status. 
+4. Check the Operator and replica set Pods status.
    
     ``` {.bash data-prompt="$" }
     $ kubectl get pg -n postgres-operator
