@@ -269,3 +269,18 @@ $ kubectl apply -f deploy/restore.yaml -n postgres-operator
     All relevant write-ahead log files must be successfully pushed before you
     make the restore.
 
+## Fix the cluster if the restore fails
+
+The restore process changes database files, and therefore restoring wrong information or causing restore fail by misconfiguring can put the database cluster in non-operational state.
+
+For example, adding wrong pgBackRest arguments to [`PerconaGPRestore` custom resource](#restore-to-an-existing-postgresql-cluster) breaks existing database installation while the restore hangs.
+
+In this case it’s possible to remove the *restore annotation* from the Custom Resource correspondent to your cluster. Supposing that your cluster `cluster1` was deployed in `postgres-operator` namespace, you can do it with the following command:
+
+``` {.bash data-prompt="$" }
+$ kubectl annotate -n postgres-operator pg cluster1 postgres-operator.crunchydata.com/pgbackrest-restore-
+```
+
+Alternatively, you can temporarily delete the database cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster) (check the [`finalizers.percona.com/delete-pvc` finalizer](operator.md#finalizers-delete-pvc) is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running `kubectl apply -f deploy/cr.yaml -n postgres-operator` command you have used to deploy the it previously.
+
+One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster), [find the startup PVC](debug-storage.md#check-the-pvc) to delete it and recreate again. 
