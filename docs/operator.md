@@ -66,6 +66,22 @@ Name of the pgBackRest repository in the primary cluster this standby cluster co
 | ---------- | ------- |
 | :material-code-string: string | `repo1` |
 
+### `secrets.customRootCATLSSecret.name`
+
+Name of the secret with the custom root CA certificate and key for secure connections to the PostgreSQL server, see [Transport Layer Security (TLS)](TLS.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster1-ca-cert` |
+
+### `secrets.customRootCATLSSecret.items`
+ 
+ Key-value pairs of the `key` (a key from the `secrets.customRootCATLSSecret.name` secret) and the `path` (name on the file system) for the custom root certificate and key. See [Transport Layer Security (TLS)](TLS.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc      | <pre>- key: "tls.crt"<br>  path: "root.crt"<br>- key: "tls.key"<br>  path: "root.key"</pre> |
+
 ### `secrets.customTLSSecret.name`
 
 A secret with TLS certificate generated for *external* communications, see [Transport Layer Security (TLS)](TLS.md) for details.
