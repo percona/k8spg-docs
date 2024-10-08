@@ -153,6 +153,7 @@ extra: # Used in main.html template and can't be externalized
   pmm2recommended: 2.43.1
   commandName: 'kubectl'
   postgresrecommended: 16.4
+  postgres16recommended: 16.4
   certmanagerrecommended: '1.15.3'
   pgbouncerrecommended: '1.23.1'
   pgbackrestrecommended: '2.53-1'
@@ -184,6 +185,7 @@ nav:
           - "Install with Everest": everest.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on Microsoft Azure Kubernetes Service (AKS)": aks.md
           - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
@@ -215,6 +217,7 @@ nav:
           - "Monitor the database with PMM": monitoring.md
     - How-to:
           - "Install the database with customized parameters": custom-install.md
+          - "Run Initialization SQL commands at cluster creation time": initsql.md
           - Deploy a standby cluster for Disaster Recovery:
             - "Introduction": standby.md
             - "Deploy standby cluster based on backups": standby-backup.md
@@ -230,6 +233,7 @@ nav:
           - "Use PostGIS extension": postgis.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
+          - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
     - Reference:
