@@ -23,7 +23,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Operator upgrade |         :white_check_mark:          |         :white_check_mark:         |  white_check_mark:      |    :white_check_mark:   |  :white_check_mark:           |
 | Database upgrade |            Automated and safe       |          Automated and safe        |          Manual         |          Manual         |              Manual           |
 | Compute scaling  | Horizontal and vertical             | Horizontal and vertical            | Horizontal and vertical | Horizontal and vertical |    Horizontal and vertical    |
-| Storage scaling  |          Manual                     |          Manual                    |          Manual         |          Manual         | Manual, automated for AWS EBS |
+| Storage scaling  |          Automatic                     |          Manual                    |          Manual         |          Manual         | Manual, automated for AWS EBS |
 
 ## PostgreSQL topologies
 
