@@ -101,7 +101,7 @@ Operator with the `helm upgrade` command.
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
     ```
 
-2. In case if you installed the Operator with no [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), the upgrade can be done as follows: 
+2. If you installed the Operator with no [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), the upgrade can be done as follows: 
 
     ``` {.bash data-prompt="$" }
     $ helm upgrade my-operator percona/pg-operator --version {{ release }}
