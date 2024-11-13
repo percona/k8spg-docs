@@ -6,7 +6,7 @@ Percona Operator for PostgreSQL:
 | Image                                                                | Digest                                                           |
 |:---------------------------------------------------------------------|:-----------------------------------------------------------------|
 | percona/percona-postgresql-operator:2.5.0 (x86_64)                   | bebe17db0f2a33a23424b67c5d41654c16e546b6545a8cb4c2b9af1f4d73bd7b |
-| percona/percona-postgresql-operator:2.5.0 (x86_64)                   | d22b19c5ab0cd7267bb013f98b40465bc8669a533aeb571a98899c233b92e9e4 |
+| percona/percona-postgresql-operator:2.5.0 (ARM64)                    | d22b19c5ab0cd7267bb013f98b40465bc8669a533aeb571a98899c233b92e9e4 |
 | percona/percona-postgresql-operator:2.5.0-ppg12.20-postgres          | f053767e38a5889ed3b5cbb07ccb1c05d81f63faaa4b648d61373b6d57e6fe0c |
 | percona/percona-postgresql-operator:2.5.0-ppg13.16-postgres          | 8e1b90876038fdc2301f20996aa7d35eb299c85597d7025489aa3ca47ec6f9d4 |
 | percona/percona-postgresql-operator:2.5.0-ppg14.13-postgres          | 69d6c44b89399fc89384125392228c3992267a930802ec2c4e57f9ce03a0719f |
