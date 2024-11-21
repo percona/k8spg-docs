@@ -9,7 +9,7 @@ Still, starting from the Operator version 2.3 there is an alternative way to ext
 
 ## Enabling or disabling built-in extensions
 
-Built-in extensions are enabled by default, but can be easily disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. you need to explicitly set the corresponding option to `false`. Enabling means setting the option to `true` or simply omitting it:
+Built-in extensions are enabled by default, but can be easily disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true` or simply omitting it:
 
 ```yaml
 extensions:
