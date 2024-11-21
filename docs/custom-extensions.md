@@ -9,21 +9,21 @@ Still, starting from the Operator version 2.3 there is an alternative way to ext
 
 ## Enabling or disabling built-in extensions
 
-Built-in extensions can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file as follows:
+Built-in extensions are enabled by default, but can be easily disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true` or simply omitting it:
 
 ```yaml
 extensions:
   ...
   builtin:
-    pg_stat_monitor: true
-    pg_audit: true
+    pg_stat_monitor: false
+    pg_audit: false
 ```
 
 Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
 
 !!! note
 
-    Editing this section and applying it is causing Pods restart.
+    Editing this section and applying it will cause the Pods to restart.
 
 ## Adding custom extensions
 
