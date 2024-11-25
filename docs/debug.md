@@ -4,7 +4,7 @@ Percona Operator for PostgreSQL uses [Custom Resources :octicons-link-external-1
 
 * `PerconaPGCluster` Custom Resource with Percona PostgreSQL Cluster options (it has handy `pg` shortname also),
 
-* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for Percona XtraBackup used to backup Percona XtraDB Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
+* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for pgBackRest used to backup PostgreSQL Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
 
 
 The first thing you can check for the Custom Resource is to query it with `kubectl get` command:
