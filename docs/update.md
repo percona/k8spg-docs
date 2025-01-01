@@ -263,7 +263,49 @@ You can also delete the `PerconaPGUpgrade` resource (this will clean up the jobs
 $ kubectl delete perconapgupgrade cluster1-15-to-16
 ```
 
-If there are [custom PostgreSQL extensions](custom-extensions.md) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
+#### Upgrading PostgreSQL extensions
+
+If there are [custom PostgreSQL extensions](custom-extensions.md#adding-custom-extensions) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
+
+The only [built-in extension](custom-extensions.md#enabling-or-disabling-built-in-extensions) which demands special treatment after the database upgrade is `pg_stat_monitor` one. It is used to provide query analytics for Percona Monitoring and Management (PMM), if enabled in the Custom Resource (`deploy/cr.yaml` manifest):
+
+```yaml
+extensions:
+  ...
+  builtin:
+    pg_stat_monitor: true
+    ...
+
+If you need it, do the following after the database uprgade:
+
+1. Find the primary instance of your PostgreSQL cluster. You can do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
+
+    ```{.bash data-prompt="$"}
+    $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
+        -L postgres-operator.crunchydata.com/instance \
+        -L postgres-operator.crunchydata.com/role | grep instance1
+    ```
+
+    ???+ example "Sample output" 
+
+        ```{.text .no-copy hl_lines="3"}
+        cluster1-instance1-bmdp-0             4/4     Running   0          2m23s   cluster1-instance1-bmdp   replica
+        cluster1-instance1-fm7w-0             4/4     Running   0          2m22s   cluster1-instance1-fm7w   replica
+        cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   cluster1-instance1-ttm9   master
+        ```
+    PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
+
+2.  Login to a primary instance (`cluster1-instance1-ttm9-0` in the above example) as an administrative user:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl exec -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
+    ```
+
+3. Execute the following SQL statement:
+
+    ``` {.sql data-prompt="postgres=#" }
+    postgres=# drop extension pg_stat_monitor; create extension pg_stat_monitor;
+    ```
 
 ## Upgrade from the Operator version 1.x to version 2.x
 
