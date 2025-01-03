@@ -263,7 +263,7 @@ You can also delete the `PerconaPGUpgrade` resource (this will clean up the jobs
 $ kubectl delete perconapgupgrade cluster1-15-to-16
 ```
 
-#### Upgrading PostgreSQL extensions
+### Upgrading PostgreSQL extensions
 
 If there are [custom PostgreSQL extensions](custom-extensions.md#adding-custom-extensions) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
 
@@ -275,6 +275,7 @@ extensions:
   builtin:
     pg_stat_monitor: true
     ...
+```
 
 If you need it, do the following after the database uprgade:
 
