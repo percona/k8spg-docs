@@ -1609,7 +1609,7 @@ The key-value pairs which enable or disable [Percona Distribution for PostgreSQL
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-label-outline: label | `pg_stat_monitor: true` |
+| :material-text-long: subdoc | <pre>pg_stat_monitor: true<br>pg_audit: true</pre> |
 
 ### `extensions.custom.name`
 
