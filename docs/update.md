@@ -299,7 +299,7 @@ If you need it, do the following after the database uprgade:
 2.  Login to a primary instance (`cluster1-instance1-ttm9-0` in the above example) as an administrative user:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl exec -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
+    $ kubectl exec  -n <namespace> -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
     ```
 
 3. Execute the following SQL statement:
