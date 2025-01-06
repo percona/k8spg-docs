@@ -305,7 +305,7 @@ If you need it, do the following after the database uprgade (this manual step wi
 3. Execute the following SQL statement:
 
     ``` {.sql data-prompt="postgres=#" }
-    postgres=# drop extension pg_stat_monitor; create extension pg_stat_monitor;
+    postgres=# alter extension pg_stat_monitor update;
     ```
 
 ## Upgrade from the Operator version 1.x to version 2.x
