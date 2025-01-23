@@ -344,21 +344,21 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     ```yaml
             ...
-backups:
-  pgbackrest:
-    ...
-    global:
-      repo1-path: /pgbackrest/postgres-operator/cluster1/repo1
-    ...
-    repos:
-    - name: repo1
-        volume:
-          volumeClaimSpec:
-            accessModes:
-            - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
+    backups:
+      pgbackrest:
+        ...
+        global:
+          repo1-path: /pgbackrest/postgres-operator/cluster1/repo1
+        ...
+        repos:
+        - name: repo1
+            volume:
+              volumeClaimSpec:
+                accessModes:
+                - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 1Gi
     ```
 
     This configuration is sufficient to make a backup.
