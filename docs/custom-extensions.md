@@ -81,13 +81,14 @@ $ tar -czf pg_cron-pg15-1.6.1.tar.gz usr/
 
 When the extension is packaged, it should be uploaded to the cloud storage
 (for now, Amazon S3 is the only supported storage type). When the upload is done,
-the storage and extension details should be specified in the Custom Resource
-to make the Operator download and install it.
+the needed access credentials for the cloud storage should be placed in a Secret,
+and both the storage and extension details should be specified in the Custom
+Resource to make the Operator download and install it.
 
-1. The Operator will need the following data to access extensions stored on the
-    Amazon S3:
+1. Create the Secrets file with the credentials, which the Operator will
+    need to access extensions stored on the Amazon S3:
     
-    * the `metadata.name` key is the name which you wll further use to refer
+    * the `metadata.name` key is the name which you will further use to refer
         your Kubernetes Secret,
     * the `data.AWS_ACCESS_KEY_ID` and `data.AWS_SECRET_ACCESS_KEY` keys are
         base64-encoded credentials used to access the storage (obviously these
