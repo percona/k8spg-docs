@@ -61,7 +61,7 @@ extra_css:
   - css/nocopy.css
   - css/osano.css
   - css/operators.css
-  - сss/extra.css
+  - css/extra.css
 
 extra_javascript:
   - js/promptremover.js
@@ -73,7 +73,7 @@ extra_javascript:
 
 #Copyright
 copyright: >
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2024 — <a href="#__consent">Cookie Consent</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#__consent">Cookie Consent</a>
 
 #Extensions
 markdown_extensions:
