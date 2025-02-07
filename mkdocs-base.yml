@@ -170,6 +170,7 @@ nav:
           - "Percona Operator for PostgreSQL": index.md
           - "Comparison with other solutions": compare.md
           - "Design and architecture": architecture.md
+    - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
           - 1 Quick install:
