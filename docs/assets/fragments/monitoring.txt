@@ -1,22 +1,21 @@
-In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html). 
+In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/client/postgresql.html). 
  
 !!! note
 
     Only PMM 2.x versions are supported by the Operator.
 
-PMM is a client/server application. It includes the [PMM Server :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-server) and the number of [PMM Clients :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) running on each node with the
+PMM is a client/server application. It includes the [PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-server) and the number of [PMM Clients :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-client) running on each node with the
 database you wish to monitor.
 
 A PMM Client collects needed metrics and sends gathered data
 to the PMM Server. As a user, you connect to the PMM Server to see database metrics on
-a [number :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instances-overview.html) [of :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instance-summary.html) [dashboards :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instances-compare.html).
-
+a [number](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instances-overview.html) [of](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instance-summary.html) [dashboards](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instances-compare.html).
 PMM Server and PMM Client are installed separately.
 
 ## Install PMM Server
 
 You must have PMM server up and running. You can run PMM Server as a *Docker image*, a *virtual appliance*, or on an *AWS instance*.
-Please refer to the [official PMM documentation :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/server/index.html)
+Please refer to the [official PMM documentation :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/server/index.html)
 for the installation instructions.
 
 ## Install PMM Client
@@ -24,11 +23,11 @@ for the installation instructions.
 To install PMM Client as a side-car container in your Kubernetes-based environment, do the following:
 {.power-number}
 
-1. [Get the PMM API key from PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication). The API key must have the role "Admin". You need this key to authorize PMM Client within PMM Server. 
+1. [Get the PMM API key from PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/api.html#api-keys-and-authentication). The API key must have the role "Admin". You need this key to authorize PMM Client within PMM Server. 
 
     === ":material-view-dashboard-variant: From PMM UI" 
 
-        [Generate the PMM API key :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/details/api.html#api-keys-and-authentication){.md-button} 
+        [Generate the PMM API key :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/api.html#api-keys-and-authentication){.md-button} 
 
     === ":material-console: From command line"
 

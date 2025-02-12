@@ -32,7 +32,7 @@ To check available configuration options, see [deploy/cr.yaml :octicons-link-ext
     `--set key=value[,key=value]` argument.
 
     The following example deploys a PostgreSQL {{postgresrecommended}} based cluster
-    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html):
+    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/index.html):
 
     ``` {.bash data-prompt="$" }
     $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace \
