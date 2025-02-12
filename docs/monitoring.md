@@ -1,24 +1,24 @@
 # Monitoring
 
 Percona Monitoring and Management (PMM) [provides an excellent
-solution](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html)
+solution](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/client/postgresql.html)
 to monitor Percona Distribution for PostgreSQL.
 
 !!! note
 
     Only PMM 2.x versions are supported by the Operator.
 
-PMM is a client/server application. [PMM Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) runs on each node with the
+PMM is a client/server application. [PMM Client](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-client) runs on each node with the
 database you wish to monitor: it collects needed metrics and sends gathered data
-to [PMM Server](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-server). As a user, you connect to PMM Server to see database metrics on
-a [number](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instances-overview.html) [of](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instance-summary.html) [dashboards](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/dashboards/dashboard-postgresql-instances-compare.html).
+to [PMM Server](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-server). As a user, you connect to PMM Server to see database metrics on
+a [number](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instances-overview.html) [of](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instance-summary.html) [dashboards](https://docs.percona.com/percona-monitoring-and-management/2/details/dashboards/dashboard-postgresql-instances-compare.html).
 
 That’s why PMM Server and PMM Client need to be installed separately.
 
 ## Installing the PMM Server
 
 PMM Server runs as a *Docker image*, a *virtual appliance*, or on an *AWS instance*.
-Please refer to the [official PMM documentation](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/server/index.html)
+Please refer to the [official PMM documentation](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/server/index.html)
 for the installation instructions.
 
 ## Installing the PMM Client
@@ -37,7 +37,7 @@ Kubernetes-based environment:
         (it should be resolvable and reachable from within your cluster)
     * check that  the `pmm.serverUser` key contains your PMM Server user name
         (`admin` by default),
-    * make sure the `password` key in the        
+    * make sure the `password` key in the
         [deploy/pmm-secret.yaml](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/pmm-secret.yaml)
         secrets file contains the password specified for the PMM Server during its
         installation.

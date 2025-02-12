@@ -61,7 +61,7 @@ Custom options can be passed to a `helm install` command as a
 any of the Operator’s [Custom Resource options](operator.md#operator-custom-resource-options).
 
 The following example will deploy a Percona Distribution for PostgreSQL Cluster
-in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html)
+in the `pgdb` namespace, with enabled [Percona Monitoring and Management (PMM)](https://docs.percona.com/percona-monitoring-and-management/2/index.html)
 and 20 Gi storage for a Primary PostgreSQL node:
 
 ``` {.bash data-prompt="$" }
