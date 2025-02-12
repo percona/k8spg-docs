@@ -453,12 +453,12 @@ file contains configuration options for Percona Monitoring and Management.
 | **Key**         | {{ optionlink('pmm.enabled') }} |
 | **Value**       | boolean |
 | **Example**     | `false` |
-| **Description** | Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html) |
+| **Description** | Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/client/postgresql.html) |
 |                 | |
 | **Key**         | {{ optionlink('pmm.image') }} |
 | **Value**       | string |
 | **Example**     | `percona/pmm-client:{{ pmm2recommended }}` |
-| **Description** | [Percona Monitoring and Management (PMM) Client](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image |
+| **Description** | [Percona Monitoring and Management (PMM) Client](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-client) Docker image |
 |                 | |
 | **Key**         | {{ optionlink('pmm.serverHost') }} |
 | **Value**       | string |
@@ -468,7 +468,7 @@ file contains configuration options for Percona Monitoring and Management.
 | **Key**         | {{ optionlink('pmm.serverUser') }} |
 | **Value**       | string |
 | **Example**     | `admin` |
-| **Description** | The [PMM Server User](https://www.percona.com/doc/percona-monitoring-and-management/glossary.option.html). The PMM Server password should be configured using Secrets |
+| **Description** | The PMM Server User. The PMM Server password should be configured using Secrets |
 |                 | |
 | **Key**         | {{ optionlink('pmm.pmmSecret') }} |
 | **Value**       | string |
