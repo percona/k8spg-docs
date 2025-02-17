@@ -149,15 +149,16 @@ plugins:
 extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.5.0
-  pmm2recommended: 2.43.1
+  release: 2.6.0
+  pmm2recommended: 2.44.0
   commandName: 'kubectl'
-  postgresrecommended: 16.4
-  postgres16recommended: 16.4
-  certmanagerrecommended: '1.15.3'
+  postgresrecommended: 17.2
+  postgres16recommended: 16.6
+  certmanagerrecommended: '1.17.0'
   pgbouncerrecommended: '1.23.1'
-  pgbackrestrecommended: '2.53-1'
-  gkerecommended: '1.30'
+  pgbackrestrecommended: '2.54-0'
+  gkerecommended: '1.31'
+  postgisrecommended: 3.3.7
   version:
     provider: mike
   k8s_monitor_tag: 'v0.1.1'
