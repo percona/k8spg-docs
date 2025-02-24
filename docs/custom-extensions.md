@@ -9,7 +9,7 @@ Still, starting from the Operator version 2.3 there is an alternative way to ext
 
 ## Enabling or disabling built-in extensions
 
-Built-in extensions are enabled by default, but can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true`. Check the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) manifest to find out which built-in extensions are enabled by default.
+Built-in extensions can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true`. Check the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) manifest to find out which built-in extensions are enabled by default.
 
 ```yaml
 extensions:
