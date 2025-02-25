@@ -13,28 +13,27 @@
 
 ## New features
 
-* {{ k8spgjira(628) }}: Need a feature for controlling the restore_command
-* {{ k8spgjira(619) }}: Need a fature to retry backup in the backup pod for a specified number of times before abandoing the pod
-* {{ k8spgjira(648) }}: Add PostgreSQL17 support
+* {{ k8spgjira(628) }}: The custom `restore_command` [can be now passed](../backups-restore.md#use-custom-restore-command) to pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option
+* {{ k8spgjira(619) }}: New `backups.pgbackrest.jobs.backoffLimit` and `backups.pgbackrest.jobs.restartPolicy` Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one
+* {{ k8spgjira(648) }}: PostgreSQL 17 is now supported by the Operator
 
 ## Improvements
 
-* {{ k8spgjira(487) }}: Enable global labels and annotation setting for all the k8s objects created by the Operator
-* {{ k8spgjira(511) }}: Review required field
-* {{ k8spgjira(554) }}: Users should be able to enforce TLS
-* {{ k8spgjira(586) }}: Add global delete-backup finalizer that removes all the backups on cluster deletion
+* {{ k8spgjira(487) }}: New `spec.metadata.labels` and `spec.metadata.annotations` Custom Resource options allow setting labels and annotation globally for all Kubernetes objects created by the Operator
+* {{ k8spgjira(554) }}: New `tlsOnly` Custom Resource option allows the user to enforce TLS connections for the database cluster
+* {{ k8spgjira(586) }}: The new experimental `finalizers.delete-backups` finalizer (off by default) removes all backups of the cluster at cluster deletion event
 * {{ k8spgjira(594) }}: Run DROP EXTENSION on extension deletion
-* {{ k8spgjira(634) }}: Automatically create per-user schemas
+* {{ k8spgjira(634) }}: The new `autoCreateUserSchema` Custom Resource option enhances the declarative user management,  Automatically create per-user schemas 
 * {{ k8spgjira(639) }}: Add section on how to use walVolumeClaimSpec functionality.
 * {{ k8spgjira(652) }}: Use ubi9 for all PG images
 * {{ k8spgjira(653) }}: Add --force-conflicts option to kubectl apply --server-side when upgrade using Helm
 * {{ k8spgjira(689) }}: Document 2.5.0-cw (cluster-wide variant) availability in OpenShift Marketplace
 * {{ k8spgjira(692) }}: Add support for patroni v4
-* {{ k8spgjira(699) }}: Add support for pgvector in our image
+* {{ k8spgjira(699) }}: The `pgvector` extension is now included within the PostgreSQL image used by the Operator
 * {{ k8spgjira(701) }}: Make spec.extensions.image optional
 * {{ k8spgjira(702) }}: Fix pod exec failing intermittently with retry logic
 * {{ k8spgjira(710) }}: Allow disabling backups
-* {{ k8spgjira(711) }}: Add README.md how to build product images for PG operator
+* {{ k8spgjira(711) }}: The new [README.md  :octicons-link-external-16:](https://github.com/percona/percona-docker/blob/main/postgresql-containers/README.md) explains how to build your own images for the PostgreSQL cluster components used by the Operator
 
 ## Bugs Fixed
 
