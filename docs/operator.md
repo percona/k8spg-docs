@@ -1029,7 +1029,7 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-text-long: subdoc | `repo1-path: /pgbackrest/postgres-operator/cluster1/repo1` |
+| :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
