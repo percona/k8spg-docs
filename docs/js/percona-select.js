@@ -5,6 +5,7 @@ if (selectBox) {
     const versionMap = {
         '2.5.0': '/2.0/',  
         '1.6.0': '/1.0/',
+        'old releases': '/old/',
         // Add new versions here as needed
     };
 
@@ -34,7 +35,10 @@ if (selectBox) {
     selectBox.addEventListener('change', function() {
         const selectedVersion = this.value;
         const currentSegment = getCurrentVersionFromUrl();
-        if (selectedVersion !== currentSegment) { // Only redirect if the selected version is different
+        if (selectedVersion == '/old/') {
+            window.location.href = 'https://docs.percona.com/legacy-documentation/';
+        }
+        else if (selectedVersion !== currentSegment) { // Only redirect if the selected version is different
             const newUrl = window.location.href.replace(currentSegment, selectedVersion);
             window.location.href = newUrl;
         }
