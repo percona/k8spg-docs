@@ -14,7 +14,7 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters :octic
 
 * <a name="finalizers-delete-pvc"></a> `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
 
-* <a name="finalizers-delete-backups"></a> `finalizers.percona.com/delete-backups` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes all the [backups](backups.md) of the database cluster from all configured repos on cluster deletion event (off by default).
+* <a name="finalizers-delete-backups"></a> `finalizers.percona.com/delete-backups` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes all the [backups](backups.md) of the database cluster from all configured repos on cluster deletion event (off by default). **`delete-backups` finalizer is in tech preview state, and it is not yet recommended for production environments.**
 
 ## Toplevel `spec` elements
 
