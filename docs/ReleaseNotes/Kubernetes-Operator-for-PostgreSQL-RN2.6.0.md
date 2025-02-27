@@ -23,27 +23,22 @@
 * {{ k8spgjira(554) }}: New `tlsOnly` Custom Resource option allows the user to enforce TLS connections for the database cluster
 * {{ k8spgjira(586) }}: The new experimental `finalizers.delete-backups` finalizer (off by default) removes all backups of the cluster at cluster deletion event
 * {{ k8spgjira(594) }}: Run DROP EXTENSION on extension deletion
-* {{ k8spgjira(634) }}: The new `autoCreateUserSchema` Custom Resource option enhances the declarative user management,  Automatically create per-user schemas 
-* {{ k8spgjira(639) }}: Add section on how to use walVolumeClaimSpec functionality.
-* {{ k8spgjira(652) }}: Use ubi9 for all PG images
-* {{ k8spgjira(653) }}: Add --force-conflicts option to kubectl apply --server-side when upgrade using Helm
+* {{ k8spgjira(634) }}: The new `autoCreateUserSchema` Custom Resource option enhances the declarative user management by automatically creating per-user schemas 
+* {{ k8spgjira(652) }}: Improve security and meet compliance requirements by using PostgreSQL images built based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8
 * {{ k8spgjira(689) }}: Document 2.5.0-cw (cluster-wide variant) availability in OpenShift Marketplace
-* {{ k8spgjira(692) }}: Add support for patroni v4
+* {{ k8spgjira(692) }}: Patroni versions 4.x are now supported by the Operator in addition to versions 3.x
 * {{ k8spgjira(699) }}: The `pgvector` extension is now included within the PostgreSQL image used by the Operator
-* {{ k8spgjira(701) }}: Make spec.extensions.image optional
-* {{ k8spgjira(702) }}: Fix pod exec failing intermittently with retry logic
-* {{ k8spgjira(710) }}: Allow disabling backups
+* {{ k8spgjira(701) }}: The `extensions.image` Custom Resource option is now optional, and can be omitted for builtin PostgreSQL extensions
+* {{ k8spgjira(702) }}: A retry logic was implemented to fix intermittent Pod exec failures caused by timeouts (Thanks to dcaputo-harmoni for contribution)
+* {{ k8spgjira(710) }}: It is now possible to completely disable backup functionality
 * {{ k8spgjira(711) }}: The new [README.md  :octicons-link-external-16:](https://github.com/percona/percona-docker/blob/main/postgresql-containers/README.md) explains how to build your own images for the PostgreSQL cluster components used by the Operator
 
 ## Bugs Fixed
 
-* {{ k8spgjira(637) }}: Restore fails with "waiting for another restore to finish" if manually delete the pg-restore object
-* {{ k8spgjira(638) }}: Handle "WALWatcher get latest backup" errors on cluster init
-* {{ k8spgjira(641) }}: Add retention options into PG documentation
-* {{ k8spgjira(645) }}: Sidecars for pgbouncer do not work
-* {{ k8spgjira(693) }}: Documentation mentions that any operator versions could work with 3 previous versions of CRD and it's better to use current CRD and support last 3 versions of the operator instead
-* {{ k8spgjira(679) }}: Fix typo in README.md
-* {{ k8spgjira(681) }}: LatestRestorableTime does not appear
+* {{ k8spgjira(637) }}: Fix a bug where restore was failing with "waiting for another restore to finish" if the pg-restore object of a previous unfinished restore was manually deleted
+* {{ k8spgjira(638) }}: Fix a bug that caused flooding the logs with no completed backups found error at cluster initialization.
+* {{ k8spgjira(645) }}: Fix a bug where creating sidecar containers for pgBouncer did not work
+ {{ k8spgjira(681) }}: Fixed a bug where the "Last Recoverable Time" information field was missing from the output of the `kubectl get pg-backup` command due to misdetection cases
 
 ## Deprecation, Change, Rename and Removal
 
