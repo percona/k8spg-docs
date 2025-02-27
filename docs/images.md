@@ -29,3 +29,4 @@ Percona Operator for PostgreSQL:
 | percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1   | d636aa73c6f74075d8c2b9bbf51892db94e8d698e66d23ce2b1f612df5a0ddde |
 | percona/pmm-client:2.43.1                                            | aad0a51ec5dadc80b1821964045a67c367dc0e75c17885961b5a4937f409490c |
 
+For images certified to be used with previous Operator releases, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/).
