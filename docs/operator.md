@@ -28,7 +28,7 @@ Version of the Operator the Custom Resource belongs to.
 
 ### `tlsOnly`
 
-Enforece the Operator to use only Transport Layer Security (TLS) for both internal and external communications.
+Enforce the Operator to use only Transport Layer Security (TLS) for both internal and external communications.
 
 | Value type | Example |
 | ---------- | ------- |
