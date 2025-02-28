@@ -17,8 +17,9 @@ TLS security can be configured in following ways:
 
 !!! note 
 
-    Additionally, you can *enforce* encryption for both internal and external
-    communications by setting the `tlsOnly` Custom Resource option to `true`.
+    Additionally, you can *force* your database cluster to use only encrypted
+    channels for both internal and external communications. This effect is
+    achieved by setting the `tlsOnly` Custom Resource option to `true`.
 
 ## Allow the Operator to generate certificates automatically
 
