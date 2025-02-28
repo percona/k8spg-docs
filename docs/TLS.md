@@ -15,8 +15,10 @@ TLS security can be configured in following ways:
     creation time,
 * you can generate certificates manually.
 
-The following subsections explain how to configure TLS security with the
-Operator yourself, as well as how to temporarily disable it if needed.
+!!! note 
+
+    Additionally, you can *enforce* encryption for both internal and external
+    communications by setting the `tlsOnly` Custom Resource option to `true`.
 
 ## Allow the Operator to generate certificates automatically
 
