@@ -959,6 +959,22 @@ Name of the [Kubernetes Secret object :octicons-link-external-16:](https://kuber
 | ---------- | ------- |
 | :material-code-string: string | `cluster1-pgbackrest-secrets` |
 
+### `backups.pgbackrest.jobs.backoffLimit`
+
+The number of retries to make a backup with incremental pauses of 10 seconds, 20 seconds, etc. between retries. By default it's `0`, which means that pgBackRest job Pod fails after first unsuccessful attempt (causing creation of a new Pod on failure).
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-numeric-1-box: int     | `2` |
+
+### `backups.pgbackrest.jobs.restartPolicy`
+
+The [Kuberentes Pod restart policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) for pgBackRest jobs.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `OnFailure` |
+
 ### `backups.pgbackrest.jobs.priorityClassName`
 
 The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs.
