@@ -15,6 +15,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Open-source license    |          Apache 2.0         |            AGPL 3           | Apache 2.0, but images are under Developer Program  |          Apache 2.0         |   MIT   |
 | PostgreSQL versions    |          12 - 16            |            14 - 16          |                      13 - 16                        |     12 - 16                 | 11 - 15 |
 | Kubernetes conformance | Various versions are tested | Various versions are tested |             Various versions are tested             | Various versions are tested | AWS EKS |
+| Web-based GUI          |[Percona Everest](https://docs.percona.com/everest/index.html)|[Admin UI](https://stackgres.io/doc/latest/administration/adminui/)|:no_entry_sign:|:no_entry_sign:| [Postgres Operator UI](https://github.com/zalando/postgres-operator/blob/master/docs/operator-ui.md)|
 
 ## Maintenance
 
