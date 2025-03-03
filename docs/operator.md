@@ -1603,13 +1603,30 @@ The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/c
 | ---------- | ------- |
 | :material-code-string: string | `cluster1-extensions-secret` |
 
-### `extensions.builtin`
+### `extensions.builtin.pg_stat_monitor`
 
-The key-value pairs which enable or disable [Percona Distribution for PostgreSQL builtin extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/16/).
+Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension.
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-text-long: subdoc | <pre>pg_stat_monitor: true<br>pg_audit: true</pre> |
+| :material-toggle-switch-outline: boolean | `true` |
+
+### `extensions.builtin.pg_audit`
+
+
+Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
+### `extensions.builtin.pgvector`
+
+Enable or disable [pgvector :octicons-link-external-16:](https://github.com/pgvector/pgvector) PostgreSQL extension. **This extension is not compatible with PostgreSQL 12!**
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
 
 ### `extensions.custom.name`
 
