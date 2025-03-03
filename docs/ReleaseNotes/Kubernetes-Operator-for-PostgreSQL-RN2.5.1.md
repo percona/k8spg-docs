@@ -12,7 +12,7 @@
 ## Release highlights
 
 
-This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/), vulnerability in the libpq PostgreSQL client library, which made images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. For now, the fix includes the image of PostgreSQL 16.8  and other database cluster images based on PostgreSQL 16.8.
+This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/), vulnerability in the libpq PostgreSQL client library, which made images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. For now, the fix includes the image of PostgreSQL 16.8 and other database cluster images based on PostgreSQL 16.8. Fixed images for other PostgreSQL versions are to follow.
 
 ## Supported platforms
 
