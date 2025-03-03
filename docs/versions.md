@@ -6,6 +6,7 @@ Cluster components:
 
 | Operator | [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/) | [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) | [pgBouncer :octicons-link-external-16:](http://pgbouncer.github.io/) |
 |:---------|:--------|:-----|:-------|
+| [2.5.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md) | 16      | 2.54.2 | 1.24.0 |
 | [2.5.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md) | 12 - 16 | 2.53-1 | 1.23.1 |
 | [2.4.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md) | 12 - 16 | 2.51   | 1.22.1 |
 | [2.4.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md) | 12 - 16 | 2.51   | 1.22.1 |
@@ -27,6 +28,7 @@ Platforms:
 
 | Operator | [GKE :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine)         | [EKS :octicons-link-external-16:](https://aws.amazon.com)         | [Openshift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) | [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) | [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube)                          |
 |:--------|:------------|:------------|:------------|:------------|:----------------------------------|
+| [2.5.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md) | 1.28 - 1.30 | 1.28 - 1.30 | 4.13.46 - 4.16.7 | 1.28 - 1.30 | 1.33.1 |
 | [2.5.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md) | 1.28 - 1.30 | 1.28 - 1.30 | 4.13.46 - 4.16.7 | 1.28 - 1.30 | 1.33.1 |
 | [2.4.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md) | 1.27 - 1.29 | 1.27 - 1.30 | 4.12.59 - 4.15.18| -           | 1.33.1 |
 | [2.4.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md) | 1.27 - 1.29 | 1.27 - 1.30 | 4.12.59 - 4.15.18| -           | 1.33.1 |
