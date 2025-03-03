@@ -9,16 +9,16 @@
     [Installing Percona Operator for PostgreSQL](../System-Requirements.md#installation-guidelines) 
 
 
-## Bugs Fixed
+## Release highlights
 
-* {{ k8spgjira(629) }}: Fix [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/) vulnerability which made images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting
+
+This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/), vulnerability in the libpq PostgreSQL client library, which made images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. For now, the fix includes the image of PostgreSQL 16.8  and other database cluster images based on PostgreSQL 16.8.
 
 ## Supported platforms
 
 The Operator was developed and tested with PostgreSQL versions 12.20, 13.16, 14.13, 15.8, 16.4, and 16.8. Other options may also work but have not been tested. The Operator 2.5.1 provides connection pooling based on pgBouncer 1.23.1 and high-availability implementation based on Patroni 3.3.2.
 
-The following platforms were tested and are officially supported by the Operator
-2.5.0:
+The following platforms were tested and are officially supported by the Operator 2.5.1:
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.28 - 1.30
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.28 - 1.30
