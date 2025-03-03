@@ -32,11 +32,27 @@ To install PMM Client as a side-car container in your Kubernetes-based environme
     === ":material-console: From command line"
 
         You can query your PMM Server installation for the API
-        Key using `curl` and `jq` utilities. Replace `<login>:<password>@<server_host>` placeholders with your real PMM Server login, password, and hostname in the following command:
-        
-        ``` {.bash data-prompt="$" }
-        $ API_KEY=$(curl --insecure -X POST -H "Content-Type: application/json" -d '{"name":"operator", "role": "Admin"}' "https://<login>:<password>@<server_host>/graph/api/auth/keys" | jq .key)
+        Key using `curl` and `jq` utilities. 
+
+        Retrieve the user credentials from the PMM Server:
+
+        ```.bash
+        PMM_AUTH=$(echo -n admin:$(kubectl get secret pmm-secret -o jsonpath='{.data.PMM_ADMIN_PASSWORD}' | base64 --decode) | base64)
         ```
+
+        Replace the `$PMM_SERVER_IP` placeholder with your real PMM Server hostname in the following command:
+        
+        ```.bash 
+        export API_KEY=$(curl --insecure -X POST -H "Authorization: Basic $PMM_AUTH" -H 'Content-Type: application/json'  -d '{"name":"operator", "role": "Admin"}' "https://$PMM_SERVER_IP/graph/api/auth/keys" | jq .key)
+        ```
+
+        To get the API_KEY value, run:
+
+        ```.bash
+        echo $API_KEY
+        ```
+
+        The output shows the base64 encoded API key. 
 
     !!! note
 
