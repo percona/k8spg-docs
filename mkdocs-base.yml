@@ -247,6 +247,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
           - "Percona Operator for PostgreSQL 2.5.0 (2024-10-08)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md
           - "Percona Operator for PostgreSQL 2.4.1 (2024-08-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md
           - "Percona Operator for PostgreSQL 2.4.0 (2024-06-24)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md
