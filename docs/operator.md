@@ -26,6 +26,14 @@ Version of the Operator the Custom Resource belongs to.
 | ---------- | ------- |
 | :material-code-string: string | `{{ release }}` |
 
+### `tlsOnly`
+
+Enforce the Operator to use only Transport Layer Security (TLS) for both internal and external communications.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `standby.enabled`
 
 Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).
