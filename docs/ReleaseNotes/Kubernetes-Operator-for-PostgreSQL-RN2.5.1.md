@@ -14,9 +14,11 @@
 
 This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/), vulnerability in the libpq PostgreSQL client library, which made images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. For now, the fix includes the image of PostgreSQL 16.8 and other database cluster images based on PostgreSQL 16.8. Fixed images for other PostgreSQL versions are to follow in the upcoming days.
 
+*Update from March 04, 2025*: images of PostgreSQL 15.12 and other database cluster components based on PostgreSQL 15.12 were added. 
+
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL version 16.8. Other options may also work but have not been tested. The Operator 2.5.1 provides connection pooling based on pgBouncer 1.24.0 and high-availability implementation based on Patroni 3.3.2.
+The Operator was developed and tested with PostgreSQL versions 15.12 and 16.8. Other options may also work but have not been tested. The Operator 2.5.1 provides connection pooling based on pgBouncer 1.24.0 and high-availability implementation based on Patroni 3.3.2.
 
 The following platforms were tested and are officially supported by the Operator 2.5.1:
 
