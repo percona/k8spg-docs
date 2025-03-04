@@ -6,7 +6,7 @@ Cluster components:
 
 | Operator | [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/) | [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) | [pgBouncer :octicons-link-external-16:](http://pgbouncer.github.io/) |
 |:---------|:--------|:-----|:-------|
-| [2.5.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md) | 16      | 2.54.2 | 1.24.0 |
+| [2.5.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md) | 15 - 16 | 2.54.2 | 1.24.0 |
 | [2.5.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md) | 12 - 16 | 2.53-1 | 1.23.1 |
 | [2.4.1](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md) | 12 - 16 | 2.51   | 1.22.1 |
 | [2.4.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md) | 12 - 16 | 2.51   | 1.22.1 |
