@@ -18,9 +18,11 @@ This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.p
 
 *Update from March 06, 2025*: images of PostgreSQL 14.17 and other database cluster components based on PostgreSQL 14.17 were added. 
 
+*Update from March 07, 2025*: images of PostgreSQL 13.20 and other database cluster components based on PostgreSQL 13.20 were added.
+
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 14.17, 15.12, and 16.8. Other options may also work but have not been tested. The Operator 2.5.1 provides connection pooling based on pgBouncer 1.24.0 and high-availability implementation based on Patroni 3.3.2.
+The Operator was developed and tested with PostgreSQL versions 12.20, 13.20, 14.17, 15.12, and 16.8. Other options may also work but have not been tested. The Operator 2.5.1 provides connection pooling based on pgBouncer 1.24.0 and high-availability implementation based on Patroni 3.3.2.
 
 The following platforms were tested and are officially supported by the Operator 2.5.1:
 
