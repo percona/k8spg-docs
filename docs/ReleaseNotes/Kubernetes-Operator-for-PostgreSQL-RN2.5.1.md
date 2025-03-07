@@ -18,7 +18,7 @@ This release fixes the [CVE-2025-1094 :octicons-link-external-16:](https://www.p
 
 *Update from March 06, 2025*: images of PostgreSQL 14.17 and other database cluster components based on PostgreSQL 14.17 were added. 
 
-*Update from March 07, 2025*: images of PostgreSQL 12.20 and 13.20  were added, as well as other database cluster components based on these PostgreSQL versions. 
+*Update from March 07, 2025*: images of PostgreSQL 13.20 and other database cluster components based on PostgreSQL 13.20 were added.
 
 ## Supported platforms
 
