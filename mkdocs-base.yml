@@ -234,6 +234,7 @@ nav:
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
     - Troubleshooting:
+          - "Environment troubleshooting": environment-troubleshoot.md
           - "Initial troubleshooting": debug.md
           - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
