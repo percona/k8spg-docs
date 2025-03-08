@@ -8,11 +8,12 @@ based on it results in expiring of all these incremental backups.
 
 You can control backup retention by the following `pgBackRest` options:
 
-* `--<repo name>-retention-full` how much full backups to retain,
-* `--<repo name>-retention-diff` how much differential backups to retain.
+* `--<repo name>-retention-full` number of full backups to retain,
+* `--<repo name>-retention-diff` number of differential backups to retain.
 
-Backup retention type can be either `count` (the number of backups to keep) or
-`time` (the number of days to keep a backup for).
+You can also specify retention type for full backups as `<repo name>-retention-full-type`,
+setting it to either `count` (the number of full backups to keep) or `time`
+(the number of days to keep a backup for).
 
 You can set both backup type and retention policy for each of 4 repositories
 as follows.
@@ -24,5 +25,16 @@ backups:
       global:
         repo1-retention-full: "14"
         repo1-retention-full-type: time
+        ...
+```
+
+Differential retention can be set in a similar way:
+
+```yaml
+backups:
+    pgbackrest:
+...
+      global:
+        repo1-retention-diff: "3"
         ...
 ```
