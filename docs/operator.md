@@ -14,6 +14,8 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters :octic
 
 * <a name="finalizers-delete-pvc"></a> `finalizers.percona.com/delete-pvc` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods after the deletion event (off by default).
 
+* <a name="finalizers-delete-backups"></a> `finalizers.percona.com/delete-backups` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes all the [backups](backups.md) of the database cluster from all configured repos on cluster deletion event (off by default). **`delete-backups` finalizer is in tech preview state, and it is not yet recommended for production environments.**
+
 ## Toplevel `spec` elements
 
 The spec part of the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
@@ -1036,7 +1038,7 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-text-long: subdoc | `repo1-path: /pgbackrest/postgres-operator/cluster1/repo1` |
+| :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
