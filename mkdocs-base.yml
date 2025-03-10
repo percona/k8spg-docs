@@ -5,7 +5,7 @@ site_description: Documentation
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
 copyright: 
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2024 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -132,7 +132,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Operator for PostgreSQL documentation"
-    cover_subtitle: 2.5.0 (October 08, 2024)
+    cover_subtitle: 2.5.1 (March 03, 2025)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/PerconaLogostackedlightbackground.svg
     custom_template_path: _resource/templates
@@ -149,14 +149,14 @@ plugins:
 extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.5.0
-  pmm2recommended: 2.43.1
+  release: 2.5.1
+  pmm2recommended: 2.44.0
   commandName: 'kubectl'
-  postgresrecommended: 16.4
-  postgres16recommended: 16.4
+  postgresrecommended: 16.8
+  postgres16recommended: 16.8
   certmanagerrecommended: '1.15.3'
-  pgbouncerrecommended: '1.23.1'
-  pgbackrestrecommended: '2.53-1'
+  pgbouncerrecommended: '1.24.0'
+  pgbackrestrecommended: '2.54.2'
   gkerecommended: '1.30'
   version:
     provider: mike
@@ -247,6 +247,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
           - "Percona Operator for PostgreSQL 2.5.0 (2024-10-08)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md
           - "Percona Operator for PostgreSQL 2.4.1 (2024-08-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md
           - "Percona Operator for PostgreSQL 2.4.0 (2024-06-24)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md
