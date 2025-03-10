@@ -64,10 +64,11 @@ kind: PerconaPGCluster
 ...
 spec:
   ...
-  annotations:
-    my-global-annotation: value1
-  labels:
-    my-global-label: value2
+  metadata:
+    annotations:
+      my-global-annotation: value1
+    labels:
+      my-global-label: value2
   ...
 ```
 
