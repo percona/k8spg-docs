@@ -26,6 +26,22 @@ Version of the Operator the Custom Resource belongs to.
 | ---------- | ------- |
 | :material-code-string: string | `{{ release }}` |
 
+### `metadata.annotations`
+
+The [Kubernetes annotations  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata to be set at a global level for all resources created by the Operator.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-label-outline: label    | `example-annotation: value` |
+
+### `metadata.labels`
+
+The [Kubernetes labels  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) metadata to be set at a global level for all resources created by the Operator.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-label-outline: label       | `example-label: value` |
+
 ### `standby.enabled`
 
 Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).

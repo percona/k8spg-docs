@@ -54,6 +54,24 @@ spec:
     ...
 ```
 
+You can also use the top-level spec `metadata.annotations` and `metadata.labels`
+options to set annotations and labels at a global level, for all resources
+created by the Operator:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+...
+spec:
+  ...
+  metadata:
+    annotations:
+      my-global-annotation: value1
+    labels:
+      my-global-label: value2
+  ...
+```
+
 The easiest way to check which labels are attached to a specific object with is
 using the additional `--show-labels` option of the `kubectl get` command.
 Checking the annotations is not much more difficult: it can be done as in the
