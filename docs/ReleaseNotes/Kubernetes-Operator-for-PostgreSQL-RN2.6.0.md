@@ -10,6 +10,9 @@
 
 ## Release Highlights
 
+### PostgreSQL 17 support
+
+PostgreSQL 17 is now supported by the Operator in addition to 13 - 16 versions. The appropriate images are now included into the [list of Percona-certified images](../images.md). See these blogposts ([1](https://www.percona.com/blog/encrypt-postgresql-data-at-rest-on-kubernetes/), [2](https://www.percona.com/blog/the-powerful-features-released-in-postgresql-17-beta-2/), [3](https://www.percona.com/blog/postgresql-17-two-small-improvements-that-will-have-a-major-impact/)) for details about the latest PostgreSQL 17 features with the added security and functionality improvements.
 
 ## New features
 
