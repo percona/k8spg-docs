@@ -786,7 +786,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `instances.dataVolumeClaimSpec.storageClassName`
 
-Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL storage.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1273,7 +1273,7 @@ file contains configuration options for Percona Monitoring and Management.
 
 ### `pmm.enabled`
 
-Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/setting-up/client/postgresql.html).
+Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/client/postgresql.html).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1281,7 +1281,7 @@ Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with
 
 ### `pmm.image`
 
-[Percona Monitoring and Management (PMM) Client :octicons-link-external-16:](https://www.percona.com/doc/percona-monitoring-and-management/2.x/details/architecture.html#pmm-client) Docker image.
+[Percona Monitoring and Management (PMM) Client :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-client) Docker image.
 
 | Value type | Example |
 | ---------- | ------- |
