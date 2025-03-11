@@ -2,7 +2,7 @@
 
 * **Date**
 
-    February XX, 2025
+    March 12, 2025
 
 * **Installation**
 
