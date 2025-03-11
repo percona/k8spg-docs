@@ -8,19 +8,21 @@
 
     [Installing Percona Operator for PostgreSQL](../System-Requirements.md#installation-guidelines) 
 
-## Release Highlights
+## **Release Highlights**
 
-### Backup improvements
+### **Backup improvements**
 
-A bunch of backup/restore process improvements were implemented in this release. First, a new `finalizers.delete-backups` finalizer was implemented, to remove all backups automatically when deleting the cluster. This finalizer is off by default. Also, it's experimental and is therefore not recommended for production environments.
+This release implemented several improvements to the backup/restore process:
 
-Also, backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one, which should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new `backups.pgbackrest.jobs.backoffLimit` and `backups.pgbackrest.jobs.restartPolicy` Custom Resource options.
+* A new [delete-backups](http://../operator.html#finalizers-delete-backups) finalizer was implemented to automatically remove all backups when deleting the cluster. This finalizer is off by default. It's experimental and, therefore, not recommended for production environments.
 
-Finally, there is now a possibility to overwrite the default restore command for pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option. Particulaly, this allows to control and filter files restored to pg_wal directory without editing these files in the backup repository storage.
+* Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new [backups.pgbackrest.jobs.backoffLimit](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backupspgbackrestjobsbackofflimit) and [backups.pgbackrest.jobs.restartPolicy](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backupspgbackrestjobsrestartpolicy) Custom Resource options.
+
+* You can now [overwrite](https://docs.percona.com/percona-operator-for-postgresql/2.0/backups-restore.html#use-custom-restore-command) the default restore command for `pgBackRest` via the [patroni.dynamicConfiguration](https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#patronidynamicconfiguration) Custom Resource option. Particularly, this allows to control and filter files restored to `pg_wal` directory without editing these files in the backup repository storage.
 
 ### PostgreSQL 17 support
 
-PostgreSQL 17 is now supported by the Operator in addition to 13 - 16 versions. The appropriate images are now included into the [list of Percona-certified images](../images.md). See these blogposts ([1](https://www.percona.com/blog/encrypt-postgresql-data-at-rest-on-kubernetes/), [2](https://www.percona.com/blog/the-powerful-features-released-in-postgresql-17-beta-2/), [3](https://www.percona.com/blog/postgresql-17-two-small-improvements-that-will-have-a-major-impact/)) for details about the latest PostgreSQL 17 features with the added security and functionality improvements.
+PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. The appropriate images are now included in the [list of Percona-certified images](../images.md). See these blogposts ([1](https://www.percona.com/blog/encrypt-postgresql-data-at-rest-on-kubernetes/), [2](https://www.percona.com/blog/the-powerful-features-released-in-postgresql-17-beta-2/), [3](https://www.percona.com/blog/postgresql-17-two-small-improvements-that-will-have-a-major-impact/)) for details about the latest PostgreSQL 17 features with the added security and functionality improvements. PostgreSQL 17 is currently not recommended for production environments due to the [known limitation](#known-limitations).
 
 ## New features
 
@@ -61,13 +63,13 @@ PostgreSQL 17 is now supported by the Operator in addition to 13 - 16 versions. 
 
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 13.18, 14.15, 15.10, 16.6, and 17.2. Other options may also work but have not been tested. The Operator 2.6.0 provides connection pooling based on pgBouncer 1.23.1 and high-availability implementation based on Patroni 4.0.3.
+The Operator was developed and tested with PostgreSQL versions 13.18, 14.15, 15.10, 16.6, and 17.2. Other options may also work but have not been tested. The Operator 2.6.0 provides connection pooling based on pgBouncer 1.24 and high-availability implementation based on Patroni 4.0.4.
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.6.0:
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.29 - 1.31
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.29 - 1.32
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.14.46 - 4.17.15
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.14.48 - 4.17.19
 * [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.29 - 1.31
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.35.0 with Kubernetes 1.32.0
 

@@ -132,7 +132,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Operator for PostgreSQL documentation"
-    cover_subtitle: 2.6.0 (February XX, 2025)
+    cover_subtitle: 2.6.0 (March 12, 2025)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/PerconaLogostackedlightbackground.svg
     custom_template_path: _resource/templates
@@ -155,7 +155,7 @@ extra: # Used in main.html template and can't be externalized
   postgresrecommended: 17.2
   postgres16recommended: 16.6
   certmanagerrecommended: '1.17.0'
-  pgbouncerrecommended: '1.23.1'
+  pgbouncerrecommended: '1.24'
   pgbackrestrecommended: '2.54-0'
   gkerecommended: '1.31'
   postgisrecommended: 3.3.7
