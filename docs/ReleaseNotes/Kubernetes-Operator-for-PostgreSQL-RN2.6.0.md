@@ -63,7 +63,7 @@ PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. 
 
 ## Supported platforms
 
-The Operator was developed and tested with PostgreSQL versions 13.18, 14.15, 15.10, 16.6, and 17.2. Other options may also work but have not been tested. The Operator 2.6.0 provides connection pooling based on pgBouncer 1.24 and high-availability implementation based on Patroni 4.0.4.
+The Operator was developed and tested with PostgreSQL versions 13.18, 14.15, 15.10, 16.6, and 17.2. Other options may also work but have not been tested. The Operator 2.6.0 provides connection pooling based on pgBouncer 1.23.1 and high-availability implementation based on Patroni 4.0.3.
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.6.0:
 
