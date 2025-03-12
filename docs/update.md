@@ -49,9 +49,9 @@ in one Kubernetes cluster, where each Operator controls a database cluster in
 its own namespace. In this case upgrading Operator deployments will look as follows:
 
 * upgrading the CRD (not 3 minor versions far from the oldest Operator
-    installation in the Kubernetes cluster) first 
+   installation in the Kubernetes cluster) first 
 * upgrading Operators in each namespace as soon as you ready incrementally to
-    nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
+   nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
 
