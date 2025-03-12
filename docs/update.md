@@ -24,7 +24,7 @@ The Operator version includes three numbers: `major`, `minor`, and `patch` (for
 example, the Operator version `2.6.0` has major version `2`, 
 minor version `6`, and patch version `0`). Only the incremental update to a
 nearest `major.minor` version of the Operator is supported. To update to a newer
-version, which differs from the current `minor.major` version by more than one,
+version, which differs from the current `major.minor` version by more than one,
 make several incremental updates sequentially.
 
 For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0,
