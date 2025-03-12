@@ -46,8 +46,7 @@ Using newer CRD with older Operator is also limited to the last two previous ver
 (CRD for the Operator N is compatible with the Operator N-1 and N-2). This is
 useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
 in one Kubernetes cluster, where each Operator controls a database cluster in
-its own namespace. In this case upgrading these Operator deployments will look
-as follows:
+its own namespace. In this case upgrading Operator deployments will look as follows:
 
 * upgrading the CRD (not 3 minor versions far from the oldest Operator
     installation in the Kubernetes cluster) first 
