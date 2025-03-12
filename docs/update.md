@@ -20,27 +20,39 @@ Distribution for PostgreSQL *without* the Operator upgrade.
 
 ## Upgrading the Operator and CRD
 
-The Operator supports only the incremental update to its nearest version (such
-as updating the Operator from 2.4.0 to 2.4.1).
-To update to a newer version, which differs from the current version by more
-than one, make several incremental updates sequentially. For example, to upgrade
-the Operator and CRD from the version 2.3.0 to 2.4.1, you need to do the
-following sequence of upgrades:
+The Operator version includes three numbers: `major`, `minor`, and `patch` (for
+example, the Operator version `2.6.0` has major version `2`, 
+minor version `6`, and patch version `0`). Only the incremental update to a
+nearest `major.minor` version of the Operator is supported. To update to a newer
+version, which differs from the current `minor.major` version by more than one,
+make several incremental updates sequentially.
 
-1. upgrading the Operator and CRD from 2.3.0 to 2.3.1,
-2. upgrading from 2.3.1 to 2.4.0,
-3. upgrading from 2.4.0 to 2.4.1.
+For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0,
+the following sequence of upgrades will be the shortest recommended path:
+
+1. upgrading the CRD and Operator from 2.4.0 to 2.5.1,
+2. upgrading from 2.5.1 to 2.6.0.
 
 You can find Operator versions [listed here](ReleaseNotes/index.md).
 
-!!! note
+The Operator supports **last 3 versions of the CRD**, so it is technically
+possible to skip upgrading the CRD and just upgrade the Operator. If the CRD
+is older than the new Operator version *by no more than three releases*, you
+should be able to continue using the old CRD and even carry on Percona Distribution
+for PostgreSQL patch version upgrades with it. But updating the CRD *and* Operator 
+is the **recommended path**. 
 
-    The Operator supports **last 3 versions of the CRD**, so it is technically
-    possible to skip upgrading the CRD and just upgrade the Operator. If the CRD
-    is older than the new Operator version *by no more than three releases*, you
-    should be able to continue using the old CRD and even carry on Percona Distribution
-    for PostgreSQL minor version upgrades with it. But updating the Operator *and* CRD
-    is the **recommended path**.
+Using newer CRD with older Operator is also limited to the last two previous versions
+(CRD for the Operator N is compatible with the Operator N-1 and N-2). This is
+useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
+in one Kubernetes cluster, where each Operator controls a database cluster in
+its own namespace. In this case upgrading these Operator deployments will look
+as follows:
+
+* upgrading the CRD (not 3 minor versions far from the oldest Operator
+    installation in the Kubernetes cluster)
+* upgradin Operators in each namespace as soon as you ready incrementally to
+    nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
 
