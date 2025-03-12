@@ -50,8 +50,8 @@ its own namespace. In this case upgrading these Operator deployments will look
 as follows:
 
 * upgrading the CRD (not 3 minor versions far from the oldest Operator
-    installation in the Kubernetes cluster)
-* upgradin Operators in each namespace as soon as you ready incrementally to
+    installation in the Kubernetes cluster) first 
+* upgrading Operators in each namespace as soon as you ready incrementally to
     nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
