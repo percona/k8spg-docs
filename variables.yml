@@ -8,7 +8,7 @@ postgres16recommended: 16.6
 certmanagerrecommended: '1.17.0'
 pgbouncerrecommended: '1.24.0'
 pgbouncer17recommended: '1.23.1'
-pgbackrestrecommended: '2.54-2'
+pgbackrestrecommended: '2.54.2'
 pgbackrest17recommended: '2.54-0'
 gkerecommended: '1.31'
 postgisrecommended: 3.3.8
