@@ -35,22 +35,21 @@ the following sequence of upgrades will be the shortest recommended path:
 
 You can find Operator versions [listed here](ReleaseNotes/index.md).
 
-The Operator supports **last 3 versions of the CRD**, so it is technically
-possible to skip upgrading the CRD and just upgrade the Operator. If the CRD
-is older than the new Operator version *by no more than three releases*, you
-should be able to continue using the old CRD and even carry on Percona Distribution
-for PostgreSQL patch version upgrades with it. But updating the CRD *and* Operator 
-is the **recommended path**. 
+CRD for the current Operator version is supported by last two previous versions (CRD for the operator N is supported by operator N-1 and N-2).  It 
 
-Using newer CRD with older Operator is also limited to the last two previous versions
-(CRD for the Operator N is compatible with the Operator N-1 and N-2). This is
-useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
+CRD supports **last 3 versions of the Operator**, which means it is compatible with the
+newest Operator version and the two older versions. If the Operator
+is older than the CRD *by no more than two releases*, you
+should be able to continue using the old Operator version.
+But updating the CRD *and* Operator is the **recommended path**. 
+
+Using newer CRD with older Operator is useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
 in one Kubernetes cluster, where each Operator controls a database cluster in
 its own namespace. In this case upgrading Operator deployments will look as follows:
 
 * upgrading the CRD (not 3 minor versions far from the oldest Operator
    installation in the Kubernetes cluster) first 
-* upgrading Operators in each namespace as soon as you ready incrementally to
+* upgrading Operators in each namespace incrementally to
    nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
