@@ -37,9 +37,9 @@ You can find Operator versions [listed here](ReleaseNotes/index.md).
 
 CRD for the current Operator version is supported by last two previous versions (CRD for the operator N is supported by operator N-1 and N-2).  It 
 
-CRD supports **last 3 versions of the Operator**, which means it is compatible with the
-newest Operator version and the two older versions. If the Operator
-is older than the CRD *by no more than two releases*, you
+CRD supports **last 3 minor versions of the Operator**, which means it is
+compatible with the newest Operator version and the two older versions.
+If the Operator is older than the CRD *by no more than two versions*, you
 should be able to continue using the old Operator version.
 But updating the CRD *and* Operator is the **recommended path**. 
 
@@ -47,10 +47,10 @@ Using newer CRD with older Operator is useful to upgrade multiple [single-namesp
 in one Kubernetes cluster, where each Operator controls a database cluster in
 its own namespace. In this case upgrading Operator deployments will look as follows:
 
-* upgrading the CRD (not 3 minor versions far from the oldest Operator
+* upgrade the CRD (not 3 minor versions far from the oldest Operator
    installation in the Kubernetes cluster) first 
-* upgrading Operators in each namespace incrementally to
-   nearest version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
+* upgrade the Operators in each namespace incrementally to
+   nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
 
