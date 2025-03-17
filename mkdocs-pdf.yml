@@ -116,6 +116,7 @@ nav:
           - index.md
           - compare.md
           - architecture.md
+    - get-help.md
     - Quickstart guide:
           - quickstart.md
           - 1 Quick install:
@@ -158,6 +159,7 @@ nav:
             - backup-encryption.md
             - async-archiving.md
             - backup-retention.md
+            - backups-delete.md
           - scaling.md
           - sidecar.md
           - pause.md
