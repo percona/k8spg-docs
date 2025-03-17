@@ -744,7 +744,7 @@ The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernet
 | ---------- | ------- |
 | :material-code-string: string | `high-priority` |
 
-### 'instances.securityContext'
+### `instances.securityContext`
 
 A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) to be used instead of the default one.
 
@@ -762,12 +762,11 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `instances.walVolumeClaimSpec.storageClassName`
 
-Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL Write-ahead Log storage.
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the PostgreSQL Write-ahead Log storage [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims).
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `standard` |
-
 
 ### `instances.walVolumeClaimSpec.resources.requests.storage`
 
@@ -833,7 +832,7 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
-## instances.sidecars subsection
+## `instances.sidecars` subsection
 
 The `instances.sidecars` subsection in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
 file contains configuration options for [custom sidecar containers](sidecar.md) which can be added to PostgreSQL Pods.
