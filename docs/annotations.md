@@ -54,6 +54,24 @@ spec:
     ...
 ```
 
+You can also use the top-level spec `metadata.annotations` and `metadata.labels`
+options to set annotations and labels at a global level, for all resources
+created by the Operator:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+...
+spec:
+  ...
+  metadata:
+    annotations:
+      my-global-annotation: value1
+    labels:
+      my-global-label: value2
+  ...
+```
+
 The easiest way to check which labels are attached to a specific object with is
 using the additional `--show-labels` option of the `kubectl get` command.
 Checking the annotations is not much more difficult: it can be done as in the
@@ -86,4 +104,32 @@ spec:
         ...
 ```
 
+## Special annotations
 
+Metadata can be used as an additional way to influence the Operator behavior by setting special annotations.
+
+### Customizing Patroni version
+
+Starting from the Operator 2.6.0, Percona distribution for PostgreSQL comes with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions. To maintain backward compatibility, the Operator needs to detect the Patroni version used in the image. For this, it runs a temporary Pod named `cluster_name-patroni-version-check` with the following default resources:
+
+```yaml
+Resources:
+   Requests:
+     memory: 32Mi
+     cpu: 50m
+   Limits:
+     memory: 64Mi
+     cpu: 100m
+```
+
+User can disable this auto-detection feature by manually setting the Patroni version via the following annotation in the metadata part of the Custom Resource (it should contain "4" for Patroni 4.x or "3" for Patroni 3.x):
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+metadata:
+  name: cluster1
+  annotations:
+    pgv2.percona.com/custom-patroni-version: "4"
+  ...
+```
