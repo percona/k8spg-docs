@@ -34,7 +34,7 @@ if (selectBox) {
     selectBox.addEventListener('change', function() {
         const selectedVersion = this.value;
         const currentSegment = getCurrentVersionFromUrl();
-        else if (selectedVersion !== currentSegment) { // Only redirect if the selected version is different
+        if (selectedVersion !== currentSegment) { // Only redirect if the selected version is different
             const newUrl = window.location.href.replace(currentSegment, selectedVersion);
             window.location.href = newUrl;
         }
