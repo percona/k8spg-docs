@@ -277,7 +277,7 @@ extensions:
     ...
 ```
 
-If you need it, do the following after the database uprgade (this manual step will be not required for the Operator versions 2.6.0 and newer):
+If you need it, do the following after the database uprgade (this manual step is not required for the Operator versions 2.6.0 and newer):
 
 1. Find the primary instance of your PostgreSQL cluster. You can do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
