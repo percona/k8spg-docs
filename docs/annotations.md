@@ -104,4 +104,32 @@ spec:
         ...
 ```
 
+## Special annotations
 
+Metadata can be used as an additional way to influence the Operator behavior by setting special annatations.
+
+### Customizing Patroni version
+
+Statring from the Operator 2.6.0, Percona distribution for PostgreSQL comes with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions. To maintain backward compatibility, the Operator needs to detect the Patroni version used in the image. For this, it runs a temporary Pod named `cluster_name-patroni-version-check` with the following default resources:
+
+```yaml
+Resources:
+   Requests:
+     memory: 32Mi
+     cpu: 50m
+   Limits:
+     memory: 64Mi
+     cpu: 100m
+```
+
+User can disable this auto-detection feature by manually setting the Patroni version via the following annotation in the metadata part of the Custom Resource (it should contain "4" for Patroni 4.x or "3" for Patroni 3.x):
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGCluster
+metadata:
+  name: cluster1
+  annotations:
+    pgv2.percona.com/custom-patroni-version: "4"
+  ...
+```
