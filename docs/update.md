@@ -35,8 +35,6 @@ the following sequence of upgrades will be the shortest recommended path:
 
 You can find Operator versions [listed here](ReleaseNotes/index.md).
 
-CRD for the current Operator version is supported by last two previous versions (CRD for the operator N is supported by operator N-1 and N-2).  It 
-
 CRD supports **last 3 minor versions of the Operator**, which means it is
 compatible with the newest Operator version and the two older versions.
 If the Operator is older than the CRD *by no more than two versions*, you
@@ -63,6 +61,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
     $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
     ```
+    
     !!! note
 
         In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
