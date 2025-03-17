@@ -14,7 +14,7 @@ This release implemented several improvements to the backup/restore process:
 
 * Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new [backups.pgbackrest.jobs.backoffLimit](../operator.md#backupspgbackrestjobsbackofflimit) and [backups.pgbackrest.jobs.restartPolicy](../operator.md#backupspgbackrestjobsrestartpolicy) Custom Resource options.
 
-* You can now [overwrite](../backups-restore.md#use-custom-restore-command) the default restore command for `pgBackRest` via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option. Particularly, this allows to control and filter files restored to `pg_wal` directory without editing these files in the backup repository storage.
+* You can now [overwrite](../backups-restore.md#providing-pgbackrest-with-a-custom-restore-command) the default restore command for `pgBackRest` via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option. Particularly, this allows to control and filter files restored to `pg_wal` directory without editing these files in the backup repository storage.
 
 ### PostgreSQL 17 support
 
