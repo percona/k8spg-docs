@@ -33,7 +33,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 ## New features
 
-* {{ k8spgjira(628) }}: The custom `restore_command` [can be now passed](../backups-restore.md#use-custom-restore-command) to pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option
+* {{ k8spgjira(628) }}: The custom `restore_command` [can be now passed](../backups-restore.md#providing-pgbackrest-with-a-custom-restore-command) to pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option
 * {{ k8spgjira(619) }}: New `backups.pgbackrest.jobs.backoffLimit` and `backups.pgbackrest.jobs.restartPolicy` Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one
 * {{ k8spgjira(648) }}: PostgreSQL 17 is now supported by the Operator
 
