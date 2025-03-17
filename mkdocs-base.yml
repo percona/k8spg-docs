@@ -99,8 +99,8 @@ markdown_extensions:
         - snippets
         - docs/assets/code
         - docs/assets/fragments
-      auto_append:
-        - services-banner.md
+#      auto_append:
+#        - services-banner.md
   pymdownx.highlight:
     use_pygments: true
   pymdownx.emoji:
@@ -132,7 +132,7 @@ plugins:
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
     cover_title: "Operator for PostgreSQL documentation"
-    cover_subtitle: 2.5.1 (March 03, 2025)
+    cover_subtitle: 2.6.0 (March 17, 2025)
     author: "Percona Technical Documentation Team"
     cover_logo: docs/assets/images/PerconaLogostackedlightbackground.svg
     custom_template_path: _resource/templates
@@ -149,18 +149,8 @@ plugins:
 extra: # Used in main.html template and can't be externalized
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.5.1
-  pmm2recommended: 2.44.0
-  commandName: 'kubectl'
-  postgresrecommended: 16.8
-  postgres16recommended: 16.8
-  certmanagerrecommended: '1.15.3'
-  pgbouncerrecommended: '1.24.0'
-  pgbackrestrecommended: '2.54.2'
-  gkerecommended: '1.30'
   version:
     provider: mike
-  k8s_monitor_tag: 'v0.1.1'
   
 
 # Common navigation for percona.com, render.com and PDF
@@ -246,6 +236,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md
           - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
           - "Percona Operator for PostgreSQL 2.5.0 (2024-10-08)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md
           - "Percona Operator for PostgreSQL 2.4.1 (2024-08-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md

@@ -6,8 +6,9 @@
 <img src="assets/images/PerconaLogostackedlightbackground.svg" />
 </p>
 
-<h1>Operator for PostgreSQL 2.5.1</h1>
-<h2>(March 03, 2025)</h2>
+<h1>Operator for PostgreSQL 2.6.0</h1>
+<h2>(March 17, 2025)</h2>
+
 <!--<h3>Percona Technical Documentation Team</h3>-->
 
 {% if config.site_description %}
