@@ -15,8 +15,11 @@ TLS security can be configured in following ways:
     creation time,
 * you can generate certificates manually.
 
-The following subsections explain how to configure TLS security with the
-Operator yourself, as well as how to temporarily disable it if needed.
+!!! note 
+
+    Additionally, you can *force* your database cluster to use only encrypted
+    channels for both internal and external communications. This effect is
+    achieved by setting the `tlsOnly` Custom Resource option to `true`.
 
 ## Allow the Operator to generate certificates automatically
 

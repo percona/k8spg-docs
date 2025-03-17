@@ -1,7 +1,7 @@
 # Percona certified images
 
-Following table presents Percona's certified docker images to be used with the
-Percona Operator for PostgreSQL:
+Following table presents Percona’s certified docker images to be used with the
+Percona Operator for PostgreSQL version {{ release }}:
 
 | Image                                                                | Digest                                                           |
 |:---------------------------------------------------------------------|:-----------------------------------------------------------------|
@@ -28,8 +28,6 @@ Percona Operator for PostgreSQL:
 | percona/percona-postgresql-operator:2.6.0-ppg14.17-pgbackrest2.54.2  | 95e904ed80ee3f28519bdb7b0375d4c41421f80fc3631285e3a5cf2ed5a6e67a |
 | percona/percona-postgresql-operator:2.6.0-ppg13.20-pgbackrest2.54.2  | 0d4978fdcd22eeec3e7773b11bd6cb20f6df246c3fb8ad73b85f672940b104bb |
 | percona/pmm-client:2.44.0 (x86_64)                                   | 19a07dfa8c12a0554308cd11d7d38494ea02a14cfac6c051ce8ff254b7d0a4a7 |
-| percona/pmm-client:2.44.0 (ARM64)                                   | 43a542f24bdbd11d0c363c1d5002244b0b4840961a8e219a56df1becad77b068 |
+| percona/pmm-client:2.44.0 (ARM64)                                    | 43a542f24bdbd11d0c363c1d5002244b0b4840961a8e219a56df1becad77b068 |
 
-
-
-       
+For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
