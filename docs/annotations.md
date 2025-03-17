@@ -106,7 +106,7 @@ spec:
 
 ## Special annotations
 
-Metadata can be used as an additional way to influence the Operator behavior by setting special annatations.
+Metadata can be used as an additional way to influence the Operator behavior by setting special annotations.
 
 ### Customizing Patroni version
 
