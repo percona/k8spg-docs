@@ -193,6 +193,7 @@ nav:
     - Release Notes:
           - ReleaseNotes/index.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md
