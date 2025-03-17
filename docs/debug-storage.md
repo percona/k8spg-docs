@@ -66,6 +66,13 @@ $ kubectl get pvc cluster1-instance1-4xkv-pgdata -n postgres-operator -oyaml # o
       phase: Bound
     ```
 
+You can use a number of Custom Resource options to tweaking PVC for the components of your cluster:
+
+* options under `instances.walVolumeClaimSpec` allow you to set [access modes](operator.md#instanceswalvolumeclaimspecaccessmodes) and [requested storage size](operator.md#instanceswalvolumeclaimspecresourcesrequestsstorage) for PostgreSQL Write-ahead Log storage,
+* options under `instances.dataVolumeClaimSpec` allow you to set [access modes](operator.md#instancesdatavolumeclaimspecaccessmodes) and also [requests](operator.md#instancesdatavolumeclaimspecresourcesrequestsstorage) and [limits](operator.md#instancesdatavolumeclaimspecresourceslimitsstorage) for PostgreSQL database storage,
+* options under `instances.tablespaceVolumes.dataVolumeClaimSpec` allow you to set [access modes](operator.md#instancestablespacevolumesdatavolumeclaimspecaccessmodes) and [requested storage size](operator.md#instancestablespacevolumesdatavolumeclaimspecresourcesrequestsstorage) for PostgreSQL [tablespace](tablespaces.md) volumes,
+* options under `backups.pgbackrest.repos.volume.volumeClaimSpec` allow you to set [access modes](operator.md#backupspgbackrestreposvolumevolumeclaimspecaccessmodes) and [requested storage size](operator.md#backupspgbackrestreposvolumevolumeclaimspecresourcesrequestsstorage) for the pgBackRest storage.
+
 ## Check the PV
 
 It is important to remember that PV is a cluster-scoped Object. If you see any issues with attaching a Volume to a Pod, PV and PVC might be looked upon.
@@ -146,7 +153,9 @@ The `spec.nodeAffinity` field may influence the PV availability as well: for exa
 
 StorageClass is also a cluster-scoped object, and it indicates what type of underlying storage is used for the Volumes.
 
-Check all the storage class present in the Kubernetes cluster, and check which storage class is the default one:
+You can set StorageClass in `instances.dataVolumeClaimSpec.storageClassName`, `instances.walVolumeClaimSpec.storageClassName`, and `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName` Custom Resource options.
+
+The following command checks all the storage class present in the Kubernetes cluster, and allows to see which storage class is the default one:
 
 ``` {.bash data-prompt="$" }
 $ kubectl get sc
@@ -195,3 +204,11 @@ Important things to observe here are the following ones:
 
 * Check if the provisioner and parameters are indicating the type of storage you intend to provision.
 * Check the [volumeBindingMode :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode) especially if the storage cannot be accessed across availability zones. “WaitForFirstConsumer” volumeBindingMode ensures volume is provisioned only after a Pod requesting the Volume is created.
+* If you are going to rely on the Operator [storage scaling functionality](scaling.md#scaling-with-volume-expansion-capability), ensure the storage class supports PVC expansion (it should have  `allowVolumeExpansion: true` in the output of the above command).
+
+You can set PVC storage class with the following Custom Resource options:
+
+* `instances.walVolumeClaimSpec.storageClassName` allows you to set storage class for PostgreSQL Write-ahead Log storage,
+* `instances.dataVolumeClaimSpec.storageClassName` allows you to set storage class for PostgreSQL database storage,
+* `instances.tablespaceVolumes.dataVolumeClaimSpec.storageClassName` allows you to set storage class for PostgreSQL [tablespace](tablespaces.md) volumes,
+* `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName` allows you to set storage class for the pgBackRest storage.

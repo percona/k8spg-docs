@@ -269,6 +269,22 @@ $ kubectl apply -f deploy/restore.yaml -n postgres-operator
     All relevant write-ahead log files must be successfully pushed before you
     make the restore.
 
+## Providing pgBackRest with a custom restore command
+
+There may be cases where it is needed to control what files are restored from the backup and apply fine-grained filtering to them. For such scenarios there is a possibility to overwrite the [restore_command used in PosgreSQL archive recovery :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY). You can do it in the `patroni.dynamicConfiguration` subsection of the Custom Resource as follows:
+
+```yaml
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      parameters:
+        restore_command: "pgbackrest --stanza=db archive-get %f \"%p\""
+```
+
+The `%f` template in the above example is replaced by the name of the file to
+retrieve from the archive, and `%p` is replaced by the copy destination path
+name on the server. See [PostgreSQL official documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY) for more low-level details about this feature.
+
 ## Fix the cluster if the restore fails
 
 The restore process changes database files, and therefore restoring wrong information or causing restore fail by misconfiguring can put the database cluster in non-operational state.
