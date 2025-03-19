@@ -57,8 +57,9 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 * {{ k8spgjira(638) }}: Fix a bug that caused flooding the logs with no completed backups found error at cluster initialization.
 * {{ k8spgjira(645) }}: Fix a bug where creating sidecar containers for pgBouncer did not work
 * {{ k8spgjira(681) }}: Fixed a bug where the "Last Recoverable Time" information field was missing from the output of the `kubectl get pg-backup` command due to misdetection cases
-* {{ k8spgjira(713) }}: Fix a bug where The cluster not found errors were appearing in the Operator logs on cluster deletion
-
+* {{ k8spgjira(713) }}: Fix a bug where the cluster not found errors were appearing in the Operator logs on cluster deletion
+* {{ k8spgjira(377) }}: Fix a bug where the Operator didn't make full update of the `pg_stat_monitor` builtin PostgreSQL extension on database upgrade, requiring manual operations from the end user
+  
 ## Deprecation, Change, Rename and Removal
 
 * The new versions of Percona distribution for PostgreSQL used by the Operator come with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions.  
