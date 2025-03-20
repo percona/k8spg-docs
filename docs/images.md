@@ -22,7 +22,7 @@ Percona Operator for PostgreSQL version {{ release }}:
 | percona/percona-postgresql-operator:2.6.0-ppg15.12-pgbouncer1.24.0   | 9ef6204ebf626ee85d2a2afd405ee44ebb5e252bb1ac07ebaed44fa658bfb5f0 |
 | percona/percona-postgresql-operator:2.6.0-ppg14.17-pgbouncer1.24.0   | 6ffc19f626b738b096635a0b1a2e4fbb28f800723759c58bd8491e9857b2fc19 |
 | percona/percona-postgresql-operator:2.6.0-ppg13.20-pgbouncer1.24.0   | a1c25e9834fbc8ad58477fc47ef868ccf3c696bd488114efc8c7f61c66961356 |
-| percona/percona-postgresql-operator:2.6.0-ppg17.2-pgbackrest2.54.2   | a3641d58a49fe4f771f3638c9fa18c71dd2f9aba1054e5693d3756134676cb3e |
+| percona/percona-postgresql-operator:2.6.0-ppg17.2-pgbackrest2.54.0   | a3641d58a49fe4f771f3638c9fa18c71dd2f9aba1054e5693d3756134676cb3e |
 | percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbackrest2.54.2   | eca4f0153fd75c87bb35e54e5358da458a502bcc7671a798ddf60f6a87246ba8 |
 | percona/percona-postgresql-operator:2.6.0-ppg15.12-pgbackrest2.54.2	 | 9d33160904b7862d03c1018e4bf80247ea175918b7b0b4d4907e175045ddf4d1 |
 | percona/percona-postgresql-operator:2.6.0-ppg14.17-pgbackrest2.54.2  | 95e904ed80ee3f28519bdb7b0375d4c41421f80fc3631285e3a5cf2ed5a6e67a |
