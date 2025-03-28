@@ -4,7 +4,8 @@ site_name: Percona Operator for PostgreSQL
 site_description: Documentation
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
-copyright: Percona LLC and/or its affiliates, &#169; 2009 - 2024
+copyright: 
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -12,30 +13,31 @@ edit_uri: edit/2.0/docs/
 
 theme:
   name: material
-  logo: assets/images/percona-logo.svg
-  favicon: assets/images/percona-favicon.ico
+  logo: assets/operators-mark.svg
+  favicon: assets/operators-fav.svg
   custom_dir: _resource/overrides/
   font:
     text: Roboto
     code: Roboto Mono
   palette:
-    # Light mode
-    - media: "(prefers-color-scheme: percona-light)"
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Color theme set to Automatic. Click to change
+    - media: "(prefers-color-scheme: light)"
       scheme: percona-light
       primary: custom
       accent: custom
       toggle:
-        icon: material/toggle-switch-off-outline
-        name: Switch to light mode
-
-    # Dark mode 
-    - media: "(prefers-color-scheme: percona-dark)"
-      scheme: slate
+        icon: material/brightness-7
+        name: Color theme set to Light Mode. Click to change
+    - media: "(prefers-color-scheme: dark)"
+      scheme: percona-dark
       primary: custom
       accent: custom
       toggle:
-        icon: material/toggle-switch
-        name: Switch to dark mode
+        icon: material/brightness-4
+        name: Color theme set to Dark Mode. Click to change
 
 # Theme features
 
@@ -50,23 +52,28 @@ theme:
     - content.action.edit
     - content.action.view
     - content.code.copy
+    - toc.follow
 
 extra_css:
   - https://unicons.iconscout.com/release/v3.0.3/css/line.css
   - https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css
-  - css/percona.css
   - css/design.css
   - css/nocopy.css
+  - css/osano.css
+  - css/operators.css
+  - css/extra.css
 
 extra_javascript:
   - js/promptremover.js
+  - js/consent.js
+  - js/percona-select.js
 #  - js/version-select.js
 #  - js/toctree.js
 #  - js/lightgallery.min.js
 
 #Copyright
 copyright: >
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2024 — <a href="#__consent">Cookie Consent</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#__consent">Cookie Consent</a>
 
 #Extensions
 markdown_extensions:
@@ -92,8 +99,8 @@ markdown_extensions:
         - snippets
         - docs/assets/code
         - docs/assets/fragments
-      auto_append:
-        - services-banner.md
+#      auto_append:
+#        - services-banner.md
   pymdownx.highlight:
     use_pygments: true
   pymdownx.emoji:
@@ -124,38 +131,24 @@ plugins:
   # https://github.com/orzih/mkdocs-with-pdf
   with-pdf:
     output_path: "_pdf/PerconaOperatorPostgreSQL.pdf"
-    cover_title: "Percona Operator for PostgreSQL documentation"
-    cover_subtitle: 2.3.1 (January 23, 2024)
+    cover_title: "Operator for PostgreSQL documentation"
+    cover_subtitle: 2.6.0 (March 17, 2025)
     author: "Percona Technical Documentation Team"
-    cover_logo: docs/assets/images/percona_kubernetes_icon.png
+    cover_logo: docs/assets/images/PerconaLogostackedlightbackground.svg
     custom_template_path: _resource/templates
     enabled_if_env: ENABLE_PDF_EXPORT
   # Check links - but extends build time significantly
   # https://pypi.org/project/mkdocs-htmlproofer-plugin/
   #    htmlproofer: {}
   mike:
-    version_selector: true
+    version_selector: false
     css_dir: css
     javascript_dir: js
     canonical_version: null
 
 extra: # Used in main.html template and can't be externalized
-  homepage:
-    https://docs.percona.com
-  consent:
-    title: Cookie consent
-    description: >- 
-      We use cookies to recognize your repeated visits and preferences, as well
-      as to measure the effectiveness of our documentation and whether users
-      find what they're searching for. With your consent, you're helping us to
-      make our documentation better. Read more about <a class="reference external" href="https://www.percona.com/20180524-cookie-policy" target="_blank">Percona Cookie Policy</a>.
   edit_page_text: '<i class="uil uil-pen"></i> <b>Edit this page</b>'
   updated_text: '<i class="uil uil-refresh"></i> Page updated'
-  release: 2.3.1
-  pmm2recommended: 2.41.0
-  commandName: 'kubectl'
-  postgresrecommended: 16
-  certmanagerrecommended: '1.8.0'
   version:
     provider: mike
   
@@ -167,6 +160,7 @@ nav:
           - "Percona Operator for PostgreSQL": index.md
           - "Comparison with other solutions": compare.md
           - "Design and architecture": architecture.md
+    - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
           - 1 Quick install:
@@ -180,8 +174,10 @@ nav:
     - Installation:
           - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
+          - "Install with Everest": everest.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
+          - "Install on Microsoft Azure Kubernetes Service (AKS)": aks.md
           - "Install on OpenShift": openshift.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
@@ -201,26 +197,35 @@ nav:
           - Back up and restore: 
             - "About backups": backups.md
             - "Configure storage for backups": backups-storage.md
-            - "Backup encryption": backup-encryption.md
             - "Make scheduled backups": backups-schedule.md
             - "Make on-demand backup": backups-ondemand.md
-            - "Backup retention": backup-retention.md
             - "Restore from a backup": backups-restore.md
+            - "Backup encryption": backup-encryption.md
+            - "Speed up backups": async-archiving.md
+            - "Backup retention": backup-retention.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
-    - HowTo:
+    - How-to:
           - "Install the database with customized parameters": custom-install.md
-          - "Deploy a standby cluster for Disaster Recovery": standby.md
+          - "Run Initialization SQL commands at cluster creation time": initsql.md
+          - Deploy a standby cluster for Disaster Recovery:
+            - "Introduction": standby.md
+            - "Deploy standby cluster based on backups": standby-backup.md
+            - "Deploy standby cluster based on streaming replication": standby-streaming.md
+            - "Failover": standby-failover.md
+          - "Change PostgreSQL primary instance": change-primary.md
           - "How to use private registry": custom-registry.md
           - "Add custom PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
+          - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
+          - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
     - Reference:
@@ -231,9 +236,14 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md
+          - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
+          - "Percona Operator for PostgreSQL 2.5.0 (2024-10-08)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md
+          - "Percona Operator for PostgreSQL 2.4.1 (2024-08-06)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md
+          - "Percona Operator for PostgreSQL 2.4.0 (2024-06-24)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md
           - "Percona Operator for PostgreSQL 2.3.1 (2024-01-23)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md
           - "Percona Operator for PostgreSQL 2.3.0 (2023-12-21)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md
           - "Percona Operator for PostgreSQL 2.2.0 (2023-06-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md
           - "Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md
           - "Percona Operator for PostgreSQL 2.0.0 Tech preview (2022-12-30)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md
-    - Join K8S Squad: https://www.percona.com/k8s
+    - "Old releases (documentation archive)": https://docs.percona.com/legacy-documentation/

@@ -20,7 +20,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     be created from the `deploy/crd.yaml` file. Custom Resource Definition
     extends the standard set of resources which Kubernetes “knows” about with
     the new items (in our case ones which are the core of the Operator).
-    [Apply it](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
+    [Apply it :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
     ``` {.bash data-prompt="$" }
@@ -39,7 +39,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
     !!! note
 
-        To use different namespace, specify other name instead of
+        To use a different namespace, specify another name instead of
         `postgres-operator` in the above command, and modify the 
         `-n postgres-operator` parameter with it in the following two steps.
         You can also omit this parameter completely to deploy everything in the
@@ -49,7 +49,7 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
     is configured with the `deploy/rbac.yaml` file. Role-based access is based
     on defined roles and the available actions which correspond to each role.
     The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in [Kubernetes documentation](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
+    Further details about users and roles can be found in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/rbac.yaml -n postgres-operator
@@ -98,8 +98,8 @@ Percona Distribution for PostgreSQL in a Kubernetes-based environment.
 
 ## Verifying the cluster operation
 
-When creation process is over, `kubectl get pg` command will show you the
-cluster status as `ready`, and you can try to connect to the cluster.
+When creation process is over, the output of the `kubectl get pg` command shows the
+cluster status as `ready`. You can now try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 

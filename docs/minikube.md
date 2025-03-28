@@ -1,6 +1,6 @@
 # Install Percona Distribution for PostgreSQL on Minikube
 
-Installing the Percona Operator for PostgreSQL on [Minikube](https://github.com/kubernetes/minikube)
+Installing the Percona Operator for PostgreSQL on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube)
 is the easiest way to try it locally without a cloud provider. 
 
 Minikube runs
@@ -14,7 +14,7 @@ for PostgreSQL on Minikube.
 
 ## Set up Minikube {.power-number}
 
-1. [Install Minikube](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
+1. [Install Minikube :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/install-minikube/), using a way recommended for your system. This includes the installation of the following three components:
 
     1. kubectl tool,
 
@@ -30,7 +30,7 @@ for PostgreSQL on Minikube.
     ```
 
     This command downloads needed virtualized images, then initializes and runs the
-    cluster. 
+    cluster.
 
 3. After Minikube is successfully started, you can optionally run the
     Kubernetes dashboard, which visually represents the state of your cluster.
@@ -39,31 +39,36 @@ for PostgreSQL on Minikube.
 
 ## Deploy the Percona Operator for PostgreSQL {.power-number}
 
-1. Deploy the Operator [using](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
+1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let's name it `postgres-operator`:
 
-    ```{.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml
+    ``` {.bash data-prompt="$" }
+    $ kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
-        serviceaccount/percona-postgresql-operator serverside-applied
-        role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
-        rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
-        deployment.apps/percona-postgresql-operator serverside-applied
+        ``` {.text .no-copy}
+        namespace/postgres-operator was created
         ```
+
+    We will use this namespace further on in this document. If you used another name, make sure to replace it in the following commands.
+
+2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
+
+    ```{.bash data-prompt="$" }
+    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    ```
+
+    ??? example "Expected output"
+
+        --8<-- "kubectl-apply-bundle-response.txt"
 
     As the result you have the Operator Pod up and running.
 
-2. Deploy Percona Distribution for PostgreSQL:
+3. Deploy Percona Distribution for PostgreSQL:
 
     ```{.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml
+    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -74,8 +79,8 @@ for PostgreSQL on Minikube.
 
     !!! note 
 
-        This deploys default Percona Distribution for PostgreSQL configuration.
-        Please see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
+        This deploys the default Percona Distribution for PostgreSQL configuration.
+        Please see [deploy/cr.yaml :octicons-link-external-16:](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml)
         and [Custom Resource Options](operator.md) for the configuration
         options. You can clone the repository with all manifests and source code
         by executing the following command:
@@ -88,10 +93,10 @@ for PostgreSQL on Minikube.
         file as follows:
 
         ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml
+        $ kubectl apply -f deploy/cr.yaml  -n postgres-operator
         ```
 
-3. The creation process may take some time. When the process is over your
+4. The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
    
@@ -105,7 +110,7 @@ for PostgreSQL on Minikube.
 
 ## Verify the Percona Distribution for PostgreSQL cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, the output of the `kubectl get pg` command shows the cluster status as `ready`. You can try to connect to the cluster.
 
 {% include 'assets/fragments/connectivity.txt' %}
 

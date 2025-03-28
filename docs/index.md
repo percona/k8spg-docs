@@ -1,6 +1,6 @@
 # Percona Operator for PostgreSQL documentation
 
-The [Percona Operator for PostgreSQL](https://github.com/percona/percona-postgresql-operator) 
+The [Percona Operator for PostgreSQL :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator) 
 automates the creation, modification, or deletion of items in your Percona
 Distribution for PostgreSQL environment. The Operator contains the necessary
 Kubernetes settings to maintain a consistent PostgreSQL cluster.

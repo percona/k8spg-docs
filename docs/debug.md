@@ -1,10 +1,10 @@
 # Initial troubleshooting
 
-Percona Operator for PostgreSQL uses [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to manage options for the various components of the cluster.
+Percona Operator for PostgreSQL uses [Custom Resources :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to manage options for the various components of the cluster.
 
 * `PerconaPGCluster` Custom Resource with Percona PostgreSQL Cluster options (it has handy `pg` shortname also),
 
-* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for Percona XtraBackup used to backup Percona XtraDB Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
+* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for pgBackRest used to backup PostgreSQL Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
 
 
 The first thing you can check for the Custom Resource is to query it with `kubectl get` command:
@@ -47,18 +47,7 @@ $ kubectl get pods
 
 ???+ example "Expected output"
 
-    ``` {.text .no-copy}
-    NAME                                           READY   STATUS      RESTARTS   AGE
-    cluster1-backup-4vwt-p5d9j                     0/1     Completed   0          97m
-    cluster1-instance1-b5mr-0                      4/4     Running     0          99m
-    cluster1-instance1-b8p7-0                      4/4     Running     0          99m
-    cluster1-instance1-w7q2-0                      4/4     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-62xlk            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9g4cb            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9nrmd            2/2     Running     0          99m
-    cluster1-repo-host-0                           2/2     Running     0          99m
-    percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          120m
-    ```
+    --8<-- "kubectl-get-pods-response.txt"
 
 The above command provides the following insights:
 
@@ -68,9 +57,9 @@ The above command provides the following insights:
     of the Pod should be ready.
 * `STATUS` indicates the current status of the Pod. The Pod should be in a
     `Running` state to confirm that the application is working as expected. You
-    can find out other possible states in the [official Kubernetes documentation](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase).
+    can find out other possible states in the [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#pod-phase).
 * `RESTARTS` indicates how many times containers of Pod were restarted. This is
-    impacted by the [Container Restart Policy](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy).
+    impacted by the [Container Restart Policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy).
     In an ideal world, the restart count would be zero, meaning no issues from
     the beginning. If the restart count exceeds zero, it may be reasonable to
     check why it happens.

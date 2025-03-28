@@ -35,6 +35,7 @@ Users and databases can be customized in `spec.users` section in the Custom Reso
 - Similarly, to prevent accidental data loss Operator does not automatically drop databases (see how to actually drop a database [here](users.md#deleting-users-and-databases)).
 - Role attributes are not automatically dropped if you remove them. You need to set the inverse attribute to actually drop them (e.g. `NOSUPERUSER`).
 - The special `postgres` user can be added as one of the custom users; however, the privileges of this user cannot be adjusted.
+- If the top-level `autoCreateUserSchema` option is set to `true` (defalt value), each user will have have automatically created schemas in the cluster for all databases listed for this user under the `users.databases`.
 
 ### Creating a New User
 
@@ -68,7 +69,7 @@ If you inspect the `<clusterName>-pguser-perconapg` Secret after applying the ch
 
 ### Adjusting privileges
 
-You can set role privileges by using the standard [role attributes](https://www.postgresql.org/docs/current/role-attributes.html) that PostgreSQL provides and adding them to the `spec.users.options` subsection in the Custom Resource. 
+You can set role privileges by using the standard [role attributes :octicons-link-external-16:](https://www.postgresql.org/docs/current/role-attributes.html) that PostgreSQL provides and adding them to the `spec.users.options` subsection in the Custom Resource. 
 The following example will make the `perconapg` a superuser. You can add the following to the spec in your `deploy/cr.yaml`:
 
 ```yaml
@@ -156,4 +157,4 @@ $ kubectl patch secret <clusterName>-pguser-<userName> -p '{"stringData":{"passw
 
 For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. You can connect through `primary` service (read more in [exposure documentation](expose.md)).
 
-Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxy-pgbouncer-exposesuperusers) Custom Resource option to enable superusers connection via pgBouncer.
+Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxypgbouncerexposesuperusers) Custom Resource option to enable superusers connection via pgBouncer.

@@ -38,3 +38,23 @@ In the following examples we will access containers of the `cluster1-instance1-b
     $ kubectl logs cluster1-instance1-b5mr-0 --container database --previous
     ```
 
+## Increase pgBackRest log verbosity
+
+The pgBackRest tool used for backups [supports different log verbosity levels :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-log/option-log-level-stderr). By default, it logs warnings and errors, but sometimes fixing backup/restore issues can be simpler when you get more debugging information from it.
+
+Log verbosity is controlled by pgBackRest [--log-level-stderr :octicons-link-external-16:](https://pgbackrest.org/configuration.html#section-log/option-log-level-stderr) option.
+
+You can add it to the `deploy/backup.yaml` file to use it with [on-demand backups](backups-ondemand.md) as follows:
+
+```yaml
+apiVersion: pgv2.percona.com/v2
+kind: PerconaPGBackup
+metadata:
+  name: backup1
+spec:
+  pgCluster: cluster1
+  repoName: repo1
+  options:
+  - --log-level-stderr=debug
+```
+

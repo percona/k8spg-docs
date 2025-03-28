@@ -1,15 +1,15 @@
 # Add custom PostgreSQL extensions
 
-One of the specific PostgreSQL features is the ability to provide it with additional functionality via [Extensions](https://www.postgresql.org/download/products/6-postgresql-extensions/). Percona Distribution for PostgreSQL [supports a number of extensions](https://docs.percona.com/postgresql/16/), making this list available for the database cluster managed by the Operator as well.
+One of the specific PostgreSQL features is the ability to provide it with additional functionality via [Extensions :octicons-link-external-16:](https://www.postgresql.org/download/products/6-postgresql-extensions/). Percona Distribution for PostgreSQL [supports a number of extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/16/), making this list available for the database cluster managed by the Operator as well.
 
 Still there are cases when the needed extension is not in this list, or when it's a custom extension developed by the end-user. 
-Adding more extensions is not an easy task in case of a containerized database in Kubernetes-based environment, as normally it would make the user to build a custom PostgreSQL image. 
+Adding more extensions is not an easy task in case of a containerized database in Kubernetes-based environment, as normally it would make the user build a custom PostgreSQL image. 
 
 Still, starting from the Operator version 2.3 there is an alternative way to extend Percona Distribution for PostgreSQL by downloading prepackaged extensions from an external storage on the fly, as defined in the `extensions` section of the Operator Custom Resource.
 
 ## Enabling or disabling built-in extensions
 
-Percona Distribution for PostgreSQL [built-in extensions](https://docs.percona.com/postgresql/16/) can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file as follows:
+Built-in extensions can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true`. Check the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) manifest to find out which built-in extensions are enabled by default.
 
 ```yaml
 extensions:
@@ -17,13 +17,14 @@ extensions:
   builtin:
     pg_stat_monitor: true
     pg_audit: true
+    pgvector: false
 ```
 
 Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
 
 !!! note
 
-    Editing this section and applying it is causing Pods restart.
+    Editing this section and applying it will cause the Pods to restart.
 
 ## Adding custom extensions
 
@@ -81,13 +82,14 @@ $ tar -czf pg_cron-pg15-1.6.1.tar.gz usr/
 
 When the extension is packaged, it should be uploaded to the cloud storage
 (for now, Amazon S3 is the only supported storage type). When the upload is done,
-the storage and extension details should be specified in the Custom Resource
-to make the Operator download and install it.
+the needed access credentials for the cloud storage should be placed in a Secret,
+and both the storage and extension details should be specified in the Custom
+Resource to make the Operator download and install it.
 
-1. The Operator will need the following data to access extensions stored on the
-    Amazon S3:
+1. Create the Secrets file with the credentials, which the Operator will
+    need to access extensions stored on the Amazon S3:
     
-    * the `metadata.name` key is the name which you wll further use to refer
+    * the `metadata.name` key is the name which you will further use to refer
         your Kubernetes Secret,
     * the `data.AWS_ACCESS_KEY_ID` and `data.AWS_SECRET_ACCESS_KEY` keys are
         base64-encoded credentials used to access the storage (obviously these
@@ -144,6 +146,7 @@ to make the Operator download and install it.
         type: s3
         bucket: pg-extensions
         region: eu-central-1
+        endpoint: s3.eu-central-1.amazonaws.com
         secret:
           name: cluster1-extensions-secret
     ```
@@ -180,4 +183,5 @@ patroni:
       parameters:
         shared_preload_libraries: pg_cron
         ...
- ```
+```
+

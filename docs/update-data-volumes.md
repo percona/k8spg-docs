@@ -13,7 +13,7 @@ Also, you can only reverse such migration by restoring the old cluster from the 
 
 ## Prepare version 1.x cluster for the migration {.power-number}
 
-1. Remove all Replicas from the cluster, keeping only primary running. It is required to assure that Volume of the primary [PVC](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) does not change. The `deploy/cr.yaml` configuration file should have it as follows:
+1. Remove all Replicas from the cluster, keeping only primary running. It is required to assure that Volume of the primary [PVC :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) does not change. The `deploy/cr.yaml` configuration file should have it as follows:
     
     ```yaml
     ...

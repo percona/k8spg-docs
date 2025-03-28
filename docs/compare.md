@@ -2,11 +2,11 @@
 
 There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we will focus on comparing the following open source solutions:
 
-* [Crunchy Data PostgreSQL Operator (PGO)](https://github.com/CrunchyData/postgres-operator)
-* [CloudNative PG](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
-* [Stackgres](https://github.com/ongres/stackgres) from OnGres
-* [Zalando Postgres Operator](https://github.com/zalando/postgres-operator)
-* [Percona Operator for PostgreSQL](https://github.com/percona/percona-postgresql-operator/)
+* [Crunchy Data PostgreSQL Operator (PGO) :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator)
+* [CloudNative PG :octicons-link-external-16:](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
+* [Stackgres :octicons-link-external-16:](https://github.com/ongres/stackgres) from OnGres
+* [Zalando Postgres Operator :octicons-link-external-16:](https://github.com/zalando/postgres-operator)
+* [Percona Operator for PostgreSQL :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/)
 
 ## Generic
 
@@ -15,6 +15,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Open-source license    |          Apache 2.0         |            AGPL 3           | Apache 2.0, but images are under Developer Program  |          Apache 2.0         |   MIT   |
 | PostgreSQL versions    |          12 - 16            |            14 - 16          |                      13 - 16                        |     12 - 16                 | 11 - 15 |
 | Kubernetes conformance | Various versions are tested | Various versions are tested |             Various versions are tested             | Various versions are tested | AWS EKS |
+| Web-based GUI          |[Percona Everest](https://docs.percona.com/everest/index.html)|[Admin UI](https://stackgres.io/doc/latest/administration/adminui/)|:no_entry_sign:|:no_entry_sign:| [Postgres Operator UI](https://github.com/zalando/postgres-operator/blob/master/docs/operator-ui.md)|
 
 ## Maintenance
 
@@ -53,10 +54,11 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 ## Miscellaneous
 
-| Feature/Product                    | Percona Operator for PostgreSQL |       Stackgres       |      CrunchyData      |  CloudNativePG (EDB)  |        Zalando        |
-|------------------------------------|:-------------------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
-| Customize PostgreSQL configuration |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
-| Helm                               |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
-| Transport encryption               |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
-| Data-at-rest encryption            |      Through storage class      | Through storage class | Through storage class | Through storage class | Through storage class |
-| Create users/roles                 |           :white_check_mark:    |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |       limited     |
+| Feature/Product                      | Percona Operator for PostgreSQL |       Stackgres       |      CrunchyData      |  CloudNativePG (EDB)  |        Zalando        |
+|--------------------------------------|:-------------------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
+| Customize PostgreSQL configuration   |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
+| Sidecar containers for customization |             :white_check_mark:             |        :no_entry_sign:        |        :white_check_mark:        |        :no_entry_sign:          |        :white_check_mark:        |
+| Helm                                 |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
+| Transport encryption                 |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
+| Data-at-rest encryption              |      Through storage class      | Through storage class | Through storage class | Through storage class | Through storage class |
+| Create users/roles                   |           :white_check_mark:    |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |       limited     |

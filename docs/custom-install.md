@@ -2,7 +2,7 @@
 
 You can customize the configuration of Percona Distribution for PostgreSQL and install it with customized parameters.
 
-To check available configuration options, see [deploy/cr.yaml](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml) and [Custom Resource Options](operator.md). 
+To check available configuration options, see [deploy/cr.yaml :octicons-link-external-16:](https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml) and [Custom Resource Options](operator.md). 
 
 === ":simple-kubernetes: kubectl"
 
@@ -20,7 +20,7 @@ To check available configuration options, see [deploy/cr.yaml](https://raw.githu
          $ kubectl apply -f deploy/cr.yaml -n postgres-operator        
          ```
 
-=== ":simple-helm: Helm"    
+=== ":simple-helm: Helm"
 
     To install Percona Distribution for PostgreSQL with custom parameters using Helm, use the following command:
     
@@ -28,11 +28,11 @@ To check available configuration options, see [deploy/cr.yaml](https://raw.githu
     $ helm install --set key=value
     ```
 
-    You can pass any of the Operator’s [Custom Resource options](operator.md#operator-custom-resource-options) as a
+    You can pass any of the Operator’s [Custom Resource options](operator.md) as a
     `--set key=value[,key=value]` argument.
 
     The following example deploys a PostgreSQL {{postgresrecommended}} based cluster
-    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM)](https://www.percona.com/doc/percona-monitoring-and-management/2.x/index.html):
+    in the `my-namespace` namespace, with enabled [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/index.html):
 
     ``` {.bash data-prompt="$" }
     $ helm install my-db percona/pg-db --version {{ release }} --namespace my-namespace \

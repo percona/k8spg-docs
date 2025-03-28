@@ -6,7 +6,7 @@ monitoring solutions, etc.
 
 !!! note
 
-    Custom sidecar containers [can easily access other components of your cluster](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication).
+    Custom sidecar containers [can easily access other components of your cluster :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication).
 Therefore they should be used carefully and by experienced users only.
 
 ## Adding a sidecar container
@@ -34,6 +34,8 @@ Apply your modifications as usual:
 ``` {.bash data-prompt="$" }
 $ kubectl apply -f deploy/cr.yaml
 ```
+
+Obviously, you cannot name your sidecar container by duplicating an already existing container name in the Pod. Use `kubectl describe pod` command to check which names are already in use. For example, PostgreSQL instance Pods cannot have custom sidecar containers named as `database`, `pgbackrest`, `pgbackrest-config`, and `replication-cert-copy`.
 
 !!! note
 

@@ -35,7 +35,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 
 1. To restore from the S3 or Google Cloud Storage for backups (GCS) repository, you should first configure the `spec.backups.pgbackrest.repos`
     subsection in your version 2.x cluster Custom Resource to point to the backup storage system. Just follow the repository documentation instruction for
-    [S3](backups.md#configuring-the-s3-compatible-backup-storage) or [GCS](backups.md#use-google-cloud-storage-for-backups).
+    [S3](backups-storage.md#configuring-the-s3-compatible-backup-storage) or [GCS](backups-storage.md#use-google-cloud-storage-for-backups).
     For example, for GCS you can define the repository similar to the following:
 
     ```yaml
@@ -70,7 +70,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
           repoName: repo1
     ```
 
-    You can also provide other pgBackRest restore options, e.g. if you wish to restore to a specific [point-in-time (PITR)](backups.md#restore-the-cluster-with-point-in-time-recovery).
+    You can also provide other pgBackRest restore options, e.g. if you wish to restore to a specific [point-in-time (PITR)](backups-restore.md#restore-the-cluster-with-point-in-time-recovery).
 
 5. Create the version 2.x cluster:
 
