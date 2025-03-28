@@ -77,6 +77,8 @@ Here's a sequence of steps to follow:
 
 You have successfully installed and deployed the Operator with default parameters. You can check them in the [Custom Resource options reference](operator.md).
 
+You can find in the documentation for the charts which [Operator :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart) and [database :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-db#installing-the-chart) parameters can be customized during installation.
+
 ## Next steps
 
 [Connect to PostgreSQL :material-arrow-right:](connect.md){.md-button}
