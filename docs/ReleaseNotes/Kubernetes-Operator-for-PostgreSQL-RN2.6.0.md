@@ -26,6 +26,8 @@ PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. 
 
 PostgreSQL 17 is currently not recommended for production environments due to the [known limitation](#known-limitations).
 
+_Update from March 31, 2025_: PostgreSQL 17.4 image and database cluster components based on PostgreSQL 17.4 were added.
+
 ### `pgvector` is added to the PostgreSQL image
 
 To support you with your AI journey, we've added the `pgvector` extension to the PostgreSQL images shipped with our Operator. Now, you can easily use Percona Distribution for PostgreSQL as a vector database by simply enabling it in your [Custom Resource options](../operator.md#extensionsbuiltinpgvector). No more [custom extension installations :octicons-link-external-16:](https://www.percona.com/blog/create-an-ai-expert-with-open-source-tools-and-pgvector/) needed.
@@ -73,22 +75,25 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 ## Known limitations
 
-PostgreSQL 17.2 image and images for other database cluster components based on PostgreSQL 17 contain the known [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/) - a vulnerability in the libpq PostgreSQL client library, which makes images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. Images for PostgreSQL 17 will be available soon, while images for other PosgreSQL versions have already been fixed.
+* PostgreSQL 17.2 image and images for other database cluster components based on PostgreSQL 17 contain the known [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/) - a vulnerability in the libpq PostgreSQL client library, which makes images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. Images for PostgreSQL 17 will be available soon, while images for other PosgreSQL versions have already been fixed.
+
+* PostgreSQL 17.4 image includes the fix for [CVE-2025-1094 :octicons-link-external-16:](https://www.postgresql.org/support/security/CVE-2025-1094/), which closed a vulnerability in the `libpq` PostgreSQL client library but introduced a regression related to string handling for non-null terminated strings. The error would be visible based on how a PostgreSQL client implemented this behavior. 
 
 ## Supported platforms
 
 The Operator {{ release }} is developed, tested and based on:
 
-* PostgreSQL 13.18, 14.15, 15.10, 16.6, and 17.2 as the database. Other versions may also work but have not been tested. 
+* PostgreSQL 13.18, 14.15, 15.10, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. 
 * pgBouncer for connection pooling:
 
     * version 1.23.1 - for PostgreSQL 17.2  
-    * version 1.24.0 - for PostgreSQL 13.18, 14.15, 15.10, 16.6 
+    * version 1.24.0 - for PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.4
 
 * Patroni for high-availability:
 
+    * version 4.0.5 - for PostgreSQL 17.4
     * version 4.0.3 - for PostgreSQL 17.2  
-    * version 4.0.4 - for PostgreSQL 13.18, 14.15, 15.10, 16.6 
+    * version 4.0.4 - for PostgreSQL 13.20, 14.17, 15.12, 16.8 
 
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 

@@ -203,6 +203,7 @@ nav:
             - "Backup encryption": backup-encryption.md
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
+            - backups-delete.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
