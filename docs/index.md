@@ -68,6 +68,10 @@ environment is key.
 
 * [Restart or pause the cluster](pause.md)
 
+* [Replica reinitialization](reinit.md)
+
+* [Troubleshooting](troubleshooting.md)
+
 # HOWTOs
 
 * [How to deploy a standby cluster for Disaster Recovery](standby.md)
