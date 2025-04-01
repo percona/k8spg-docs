@@ -155,6 +155,8 @@ nav:
           - "Horizontal and vertical scaling": scaling.md
           - "Monitor with Percona Monitoring and Management (PMM)": monitoring.md
           - "Restart or pause the cluster": pause.md
+          - "Troubleshooting": troubleshooting.md
+          - "Replica reinitialization": reinit.md
           
     - How to:
           - "Deploy a standby cluster for Disaster Recovery": standby.md
