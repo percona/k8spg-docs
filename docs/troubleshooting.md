@@ -2,21 +2,47 @@
 
 ## Disabling health check probes for maintenance
 
-Sometimes it's necessary to take manual control over postgres process for maintenance. For this you can create `sleep-forever` file in data directory to disable liveness probes.
+Sometimes it's necessary to take manual control over postgres process for maintenance, but Kubernetes probes will interfere during maintenance period. You can create `sleep-forever` file in `/pgdata` directory to prevent liveness probe to restart `database` container.
 
 For example:
 ```
-kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/pg17/sleep-forever
+$ kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/sleep-forever
 ```
 
-Then you can delete the pod:
+Then you can stop PostgreSQL:
+
 ```
-kubectl delete pod cluster1-instance1-24b8-0
+$ kubectl exec cluster1-instance1-24b8-0 -- patronictl pause
+Success: cluster management is paused
+
+$ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 stop
+waiting for server to shut down.... done
+server stopped
 ```
 
-After pod is restarted, it won't start PostgreSQL. You can start it manually.
+Or you can delete the pod:
+```
+$ kubectl delete pod cluster1-instance1-24b8-0
+```
 
-TODO: I need to test sleep-forever changes to complete these instructions.
+After pod is restarted, it won't start PostgreSQL.
+
+```
+$ kubectl logs cluster1-instance1-24b8-0 database
+The pgdata/sleep-forever file is detected, node entered an infinite sleep
+If you want to exit from the infinite sleep, remove the pgdata/sleep-forever file
+```
+
+You can start PostgreSQL manually:
+
+```
+$ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 start
+waiting for server to start....2025-04-01 16:27:41.850 UTC [1434] LOG:  pgaudit extension initialized
+2025-04-01 16:27:42.075 UTC [1434] LOG:  redirecting log output to logging collector process
+2025-04-01 16:27:42.075 UTC [1434] HINT:  Future log output will appear in directory "log".
+ done
+server started
+```
 
 ## Putting cluster into unmanaged mode
 
