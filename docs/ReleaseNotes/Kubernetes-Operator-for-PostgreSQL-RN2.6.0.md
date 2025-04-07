@@ -102,7 +102,7 @@ Our release process includes targeted testing and validation on major cloud prov
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.29 - 1.31
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.29 - 1.32
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.14.48 - 4.18.7
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.14 - 4.18
 * [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.29 - 1.31
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.35.0 with Kubernetes 1.32.0
 
