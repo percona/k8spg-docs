@@ -1382,7 +1382,7 @@ Docker image for the [pgBouncer :octicons-link-external-16:](http://pgbouncer.gi
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbouncer` |
+| :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-pgbouncer` |
 
 ### `proxy.pgBouncer.exposeSuperusers`
 

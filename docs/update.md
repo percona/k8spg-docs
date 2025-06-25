@@ -171,7 +171,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
        "spec": {
           "crVersion":"{{ release }}",
           "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
+          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}" } },
           "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
           "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
        }}'
@@ -180,7 +180,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
     The following image names in the above example were taken from the [list of certified images](images.md):
     
     * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`,
+    * `percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}`,
     * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}`,
     * `percona/pmm-client:{{ pmm2recommended }}`.
 
@@ -193,7 +193,7 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
            "spec": {
               "crVersion":"{{ release }}",
               "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
+              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
            }}'
         ```
@@ -241,7 +241,7 @@ spec:
   fromPostgresVersion: 15
   toPostgresVersion: 16
   toPostgresImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
-  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}
+  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}
   toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
 ```
 
