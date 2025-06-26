@@ -126,11 +126,18 @@ For manual backups, you need a backup configuration file.
     $ kubectl apply -f deploy/backup.yaml -n <namespace>
     ```
 
-3. List the backup
+3. To make a backup takes a while. Track the backup progress:
 
     ``` {.bash data-prompt="$" }
     $ kubectl get pg-backup -n <namespace>
     ```
+
+    ??? example "Expected output"
+
+        ``` {.text .no-copy}
+        NAME      CLUSTER    REPO    DESTINATION   STATUS      TYPE   COMPLETED   AGE
+        backup1                      cluster1   repo2   s3://pg-operator-testing   Succeeded   full   3m14s       4m46s
+        ```
 
 Congratulations! You have made the first backup manually. Want to learn more about backups? See the [Backup and restore section](backups.md) for details like types, retention and how to [automatically make backups according to the schedule](backups-schedule.md).
 

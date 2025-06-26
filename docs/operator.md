@@ -1178,6 +1178,14 @@ The on-demand backup command-line options which will be passed to pgBackRest for
 | ---------- | ------- |
 | :material-code-string: string | `--type=full` |
 
+### `backups.pgbackrest.manual.initialDelaySeconds`
+
+The time to delay a backup start after the backup Pod is scheduled. The backup process wait for the defined time before it connectsto the API server to start a backup.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `120` | 
+
 ### `backups.pgbackrest.repos.name`
 
 Name of the pgBackRest repository for backups.
