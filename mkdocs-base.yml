@@ -188,6 +188,7 @@ nav:
           - "Labels and annotations": annotations.md
           - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
+          - reconciliation-concurrency.md
     - Management:
           - "Upgrade PostgreSQL and the Operator": update.md
           - Upgrade from version 1 to version 2:
