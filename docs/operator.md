@@ -1073,6 +1073,23 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
 
+### `backups.pgbackrest.repoHost.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `200m` |
+
+### `backups.pgbackrest.repoHost.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `128Mi` |
+
+
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
 The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo.
