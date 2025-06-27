@@ -1347,6 +1347,14 @@ Address of the PMM Server to collect data from the cluster.
 | ---------- | ------- |
 | :material-code-string: string | `monitoring-service` |
 
+### pmm.customClusterName
+
+A custom name to define for a cluster. PMM Server uses this name to properly parse the metrics and display them on dashboards. Using a custom name is useful for clusters deployed in different data centers - PMM Server connects them and monitors them as one deployment. Another use case is for clusters deployed with the same name in different namespaces - PMM treats each cluster separately.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `postgresql-cluster` |
+
 ### `pmm.querySource`
 
 Query source to track PostgreSQL statistics. Either pg_stat_monitor (`pgstatmonitor`, the default value) or pg_stat_statements (`pgstatstatements`) can be used.
