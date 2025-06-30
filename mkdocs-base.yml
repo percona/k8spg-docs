@@ -204,6 +204,7 @@ nav:
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
             - backups-delete.md
+            - backups-disable.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
