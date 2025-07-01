@@ -1355,6 +1355,14 @@ Query source to track PostgreSQL statistics. Either pg_stat_monitor (`pgstatmoni
 | ---------- | ------- |
 | :material-code-string: string | `pgstatmonitor` |
 
+### `pmm.postgresParams`
+
+Additional parameters which will be passed to the `pmm-admin add postgresql` command for PostgreSQL Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string |  |
+
 ## Proxy section
 
 The `proxy` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
