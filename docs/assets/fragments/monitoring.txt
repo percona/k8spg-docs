@@ -63,7 +63,7 @@ PMM Client is installed as a side-car container in the database Pods in your Kub
 
 ### Create a secret
 
-Now you must pass the credentials to the Operation. To do so, create a Secret object.
+Now you must pass the credentials to the Operator. To do so, create a Secret object.
 
 1. Create a Secret configuration file. You can use the [deploy/secrets.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/secrets.yaml) secrets file.
 
