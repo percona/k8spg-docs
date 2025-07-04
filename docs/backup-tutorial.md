@@ -106,7 +106,7 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 For manual backups, you need a backup configuration file.
 {.power-number}
 
-1. Edit the example backup configuration file [deploy/backup.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/backup.yaml). Specify your cluster name and the `repo` name.
+1. Edit the example backup configuration file [deploy/backup.yaml :octicons-link-external-16:] (https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/backup.yaml). Specify your cluster name and the `repo` name.
 
     ```yaml
     apiVersion: pgv2.percona.com/v2
