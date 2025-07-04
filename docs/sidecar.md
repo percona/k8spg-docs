@@ -26,7 +26,7 @@ You can add sidecar containers to these Pods:
 
 To add a sidecar container, use the `instances.sidecars` or `proxy.pgBouncer.sidecars` subsection in the `deploy/cr.yaml` configuration file.  Specify this minimum required information in this subsection:
 
-* the container name. 
+* the container name
 * the container image 
 * a command to run
 
