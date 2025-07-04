@@ -4,10 +4,10 @@ Sidecar containers are extra containers that run alongside the main container in
 
 The Operator uses a set of "predefined" sidecar containers to manage the cluster operation:
 
-* `replicaCertCopy` - is responsible for copying TLS certificates needed for replication between PostgreSQL instances
-* `pgbouncerConfig` - handles configuration management for `pgBouncer`
-* `pgBackrest` - runs the main backup/restore agent
-* `pgbackrestConfig` - handles configuration management for `pgBackRest`
+* `replica-cert-copy` - is responsible for copying TLS certificates needed for replication between PostgreSQL instances
+* `pgbouncer-config` - handles configuration management for `pgBouncer`
+* `pgbackrest` - runs the main backup/restore agent
+* `pgbackrest-config` - handles configuration management for `pgBackRest`
 
 The Operator allows you to deploy your own sidecar containers to
 the Pod. You can use this feature to run debugging tools, some specific
@@ -30,7 +30,7 @@ To add a sidecar container, use the `instances.sidecars` or `proxy.pgBouncer.sid
 * the container image 
 * a command to run
 
-Note that you cannot reuse the name of the predefined sidecar containers. For example, PostgreSQL instance Pods cannot have custom sidecar containers named as `database`, `pgbackrest`, `pgbackrestConfig`, and `replicaCertCopy`.
+Note that you cannot reuse the name of the predefined containers. For example, PostgreSQL instance Pods cannot have custom sidecar containers named as `database`, `pgbackrest`, `pgbackrest-config`, and `replica-cert-copy`.
 
 Use the `kubectl describe pod` command to check which names are already in use.
 
