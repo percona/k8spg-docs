@@ -1331,7 +1331,7 @@ This option is used to set the [policy :octicons-link-external-16:](https://kube
 | ---------- | ------- |
 | :material-code-string: string | `IfNotPresent` |
 
-### `pmm.Secret`
+### `pmm.secret`
 
 Name of the [Kubernetes Secret object :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password.
 
