@@ -1,16 +1,16 @@
-# Reinitializing replicas
+# Reinitialize replicas
 
-When you create a new Percona PostgreSQL cluster, the Operator uses the `basebackup` to create replicas for it. After the database instances are ready, the Operator automatically creates a full backup. Once this backup finishes successfully, the `pgBackRest` is **prepended** (put as the first method) in the `create_replica_methods` list in Patroni configuration so that new replicas are created using it.
+When you create a new Percona PostgreSQL cluster, the Operator uses the `basebackup` method to create replicas for it. After the database instances are ready, the Operator automatically creates a full backup. Once this backup finishes successfully, the Operator updates the Patroni configuration and **prepends** (puts as the first method)  `pgBackRest` in the `create_replica_methods` list so that new replicas are created using it.
 
 !!! warning
 
-    The Operator doesn't run `patronictl reload` in old replicas even if Patroni instance configurations are updated to put `pgBackRest` as the first method in the `create_replica_methods` list.
+    The Operator doesn't run `patronictl reload` in old replicas even if Patroni instance configurations are updated to put `pgBackRest` as the first method in the `create_replica_methods` list. For this configuration to run into force, you need to either restart the Pods or manually run `patronictl reload <cluster_name>` on all old replicas.
 
-You may need to reinitialize cluster replicas. For example, if the data on the replica becomes corrupted or inconsistent with the primary node, reinitialization ensures the replica is rebuilt with the correct data. Or, if the replica falls significantly behind the primary or encounters issues that prevent successful synchronization, reinitialization can reset the replica to match the current state of the primary.
+You may need to reinitialize cluster replicas. For example, if the data on the replica becomes corrupted or inconsistent with the primary node. Reinitialization ensures the replica is rebuilt with the correct data. Or, if the replica falls significantly behind the primary or encounters issues that prevent successful synchronization, reinitialization can reset the replica to match the current state of the primary.
 
 This document provides the ways how to do it.
 
-## Reinitializing by deleting replica Pod and its PersistentVolumeClaim
+## Reinitialize by deleting replica Pod and its PersistentVolumeClaim
 
 You can force reinitialization by deleting the Pod and its PersistentVolumeClaim:
 
@@ -39,9 +39,9 @@ $ kubectl get cm cluster1-instance1-24b8-config
     cluster1-instance1-24b8-config   1      95m
     ```
 
-## Reinitializing by `patronictl reinit`
+## Reinitialize with `patronictl reinit`
 
-You can reinitialize a replica using the `patronictl reinit` command. Note that configuration in ConfigMap might not have applied to a running Patroni instance. The recommended approach is to first run `patronictl reload` and then run `patronictl reinit`.
+You can reinitialize a replica using the `patronictl reinit` command. Note that configuration in ConfigMap might not have been applied to a running Patroni instance. The recommended approach is to first run `patronictl reload <cluster_name>` and then run `patronictl reinit`.
 
 For example:
 
@@ -51,7 +51,25 @@ For example:
     $ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_instance.yaml
     ```
 
-2. Reload the configuration:
+2. Find the cluster name:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
+    ```
+
+    ??? example "Expected output"
+        
+        ```{.text .no-copy}
+        Cluster: cluster1-ha (7523193408153182293) -------------------------+---------+-----------+----+-----------+
+        | Member                    | Host                                    | Role    | State     | TL | Lag in MB |
+        +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+        | cluster1-instance1-24b8-0 | cluster1-instance1-bw58-0.cluster1-pods | Replica | streaming |  3 |         0 |
+        | cluster1-instance1-84xm-0 | cluster1-instance1-tmqj-0.cluster1-pods | Leader  | running   |  3 |           |
+        | cluster1-instance1-nv28-0 | cluster1-instance1-xf85-0.cluster1-pods | Replica | streaming |  3 |         0 |
+        +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+        ```
+
+3. Reload the configuration:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl reload cluster1-ha cluster1-instance1-24b8-0
@@ -59,17 +77,17 @@ For example:
     
     ??? example "Expected output"
 
-    ```{text .no-copy}
-    + Cluster: cluster1-ha (7487948770079264836) -------------------------+---------+-----------+----+-----------+
-    | Member                    | Host                                    | Role    | State     | TL | Lag in MB |
-    +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
-    | cluster1-instance1-24b8-0 | cluster1-instance1-24b8-0.cluster1-pods | Replica | streaming |  1 |         0 |
-    | cluster1-instance1-84xm-0 | cluster1-instance1-84xm-0.cluster1-pods | Leader  | running   |  1 |           |
-    | cluster1-instance1-nv28-0 | cluster1-instance1-nv28-0.cluster1-pods | Replica | streaming |  1 |         0 |
-    +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
-    Are you sure you want to reload members cluster1-instance1-24b8-0? [y/N]: y
-    Reload request received for member cluster1-instance1-24b8-0 and will be processed within 10 seconds
-    ```
+        ```{text .no-copy}
+        + Cluster: cluster1-ha (7487948770079264836) -------------------------+---------+-----------+----+-----------+
+        | Member                    | Host                                    | Role    | State     | TL | Lag in MB |
+        +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+        | cluster1-instance1-24b8-0 | cluster1-instance1-24b8-0.cluster1-pods | Replica | streaming |  1 |         0 |
+        | cluster1-instance1-84xm-0 | cluster1-instance1-84xm-0.cluster1-pods | Leader  | running   |  1 |           |
+        | cluster1-instance1-nv28-0 | cluster1-instance1-nv28-0.cluster1-pods | Replica | streaming |  1 |         0 |
+        +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+        Are you sure you want to reload members cluster1-instance1-24b8-0? [y/N]: y
+        Reload request received for member cluster1-instance1-24b8-0 and will be processed within 10 seconds
+        ```
 
 3. Reinitialize the replica:
 
@@ -91,7 +109,7 @@ For example:
     Success: reinitialize for member cluster1-instance1-24b8-0
     ```
 
-## Configuring `create_replica_methods` 
+## Configure `create_replica_methods` 
 
 The Operator uses `basebackup` and `pgBackRest` methods to create replicas by default. These methods are defined within the `create_replica_methods` configuration block of a Patroni instance.
 
@@ -116,8 +134,7 @@ Apply this configuration:
 $ kubectl apply -f deploy/cr.yaml
 ```
 
-
-The Operator update Patroni instances' ConfigMaps. You can check their configuration with this command:
+The Operator updates Patroni instances' ConfigMaps. You can check their configuration with this command:
 
 ```{.bash data-prompt="$"}
 $ kubectl get configmap cluster1-instance1-24b8-config -o yaml
@@ -184,3 +201,5 @@ $ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-opera
     restapi: {}
     tags: {}
     ```
+
+Though the Operator updates the ConfigMaps, it doesn't automatically apply the new configuration for Patroni. To make Patroni aware of the changes, reload its configuration on every instance with the `patronictl reload <cluster_name> <pod-name>` command. 

@@ -2,11 +2,17 @@
 
 The purpose of the Operator is to automate database management tasks for you. However, you may need to manage the database cluster manually. For example, to troubleshoot issues or for maintenance. 
 
-Use the following sections to 
+The following sections explain how you can manage your cluster manually. 
 
-## Disabling health check probes for maintenance
+## Disable health check probes for maintenance
 
 Probes are tasks Kubernetes runs to gather information about the health and status of containers running within Pods. They serve as a mechanism to ensure the system is running smoothly by periodically checking the state of applications and services.
+
+Kubernetes has various types of probes:
+
+* Startup probe verifies whether the application within a container is started
+* Liveness probe determines when to restart a Pod
+* Readiness probe checks that the container is ready to start accepting traffic
 
 Sometimes it's necessary to take a manual control over the `postgres` process for maintenance. This means you need to disable a Kubernetes liveness probe so that it doesn't restart the database container during the maintenance period.
 
@@ -15,10 +21,10 @@ Here's what you need to do:
 1. Create a `sleep-forever` file in the data directory with the following command:
 
     ```{.bash data-prompt="$"}
-    $ kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/pg17/sleep-forever
+    $ kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/sleep-forever
     ```
 
-2. Now you can stop PostgreSQL:
+2. Now you can pause Patroni:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec cluster1-instance1-24b8-0 -- patronictl pause
@@ -29,6 +35,10 @@ Here's what you need to do:
         ```{text .no-copy}
         Success: cluster management is paused
         ```
+
+    Patroni is now running in a paused mode, not changing the state of PostgreSQL.
+
+3. Stop PostgreSQL:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 stop
@@ -69,18 +79,24 @@ Here's what you need to do:
     ??? example "Expected output"
 
         ```{text .no-copy}
-        waiting for server to start....2025-04-01 16:27:41.850 UTC [1434] LOG:  pgaudit extension initialized
+        2025-04-01 16:27:41.850 UTC [1434] LOG:  pgaudit extension initialized
         2025-04-01 16:27:42.075 UTC [1434] LOG:  redirecting log output to logging collector process
         2025-04-01 16:27:42.075 UTC [1434] HINT:  Future log output will appear in directory "log".
          done
         server started
         ```
 
-## Putting a cluster into an unmanaged mode
+5. When you are done with the maintenance, remove the `sleep-forever` file to reenable the liveness probe.
+
+    ```{.bash data-prompt="$"}
+    kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
+    ```
+
+## Stop reconciliation by putting a cluster into an unmanaged mode
 
 The Operator reconciles the database cluster to ensure its current state doesn't differ from the state defined in the configuration. It can automatically install, update, or repair the cluster when needed.
 
-By doing this, the Operator might interfere with your operations during  maintenance. Therefore, you can put a cluster in an unmanaged mode to stop the Operator from reconciling the cluster at all.
+By doing this, the Operator might interfere with your operations during the maintenance. Therefore, you can put a cluster in an unmanaged mode to stop the Operator from reconciling the cluster at all.
 
 Edit the `deploy/cr.yaml` Custom Resource manifest and set the `spec.unmanaged` option to `true`:
 
@@ -102,14 +118,15 @@ $ kubectl apply -f deploy/cr.yaml -n <namespace>
 
 !!! warning
 
-    Putting a cluster in an unmanaged mode doesn't disable any of the health check probes already configured for containers. The Operator is only responsible for configuring the probes, not for running them. Refer to the [Disabling health check probes for maintenance](#disabling-health-check-probes-for-maintenance) section for the steps.
+    Putting a cluster in an unmanaged mode doesn't disable any of the health check probes already configured for containers. The Operator is only responsible for configuring the probes, not for running them. Refer to the [Disabling health check probes for maintenance](#disable-health-check-probes-for-maintenance) section for the steps.
 
-## Overriding Patroni configuration
+## Override Patroni configuration
 
+### For a whole cluster
 
-### Overriding a cluster configuration
+The Operator creates a ConfigMap called `<cluster-name>-config` to store a Patroni cluster configuration. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in this ConfigMap and keep the changes, you need to annotate it using a special annotation `pgv2.percona.com/override-config`. 
 
-The Operator creates a ConfigMap called `<cluster-name>-config` to store Patroni cluster configuration. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in this ConfigMap and keep the changes, you need to annotate it using a special annotation:
+Here is the example command for the cluster named `cluster1`:
 
 ```{.bash data-prompt="$"}
 $ kubectl annotate cm cluster1-config pgv2.percona.com/override-config=true
@@ -121,11 +138,13 @@ $ kubectl annotate cm cluster1-config pgv2.percona.com/override-config=true
     configmap/cluster1-config annotated
     ```
 
-As long as the ConfigMap has the `pgv2.percona.com/override-config` annotation, the Operator doesn't rewrite your changes. You can edit the ConfigMap's contents however you want.
+As long as the ConfigMap has this `pgv2.percona.com/override-config` annotation, the Operator doesn't rewrite your changes. You can edit the ConfigMap's contents however you want.
 
-!!! warning 
+!!! warning
 
-    The Operator doesn't validate your changes in configuration. Consult with [Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/patroni_configuration.html) to ensure the configuration you define is correct and you don't face problems if you apply an invalid configuration.
+    The Operator does not validate your configuration changes.
+    
+    Before applying any changes, consult the [Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/patroni_configuration.html) to ensure your configuration is correct. This will help you avoid issues caused by invalid settings.
 
 It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers. For example:
 
@@ -133,15 +152,21 @@ It takes some time for your changes of ConfigMap to propagate to running contain
 $ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
 ```
 
-Operator doesn't apply a new configuration automatically. You must run `patronictl reload` to apply it after your changes are propagated to the container.
+Operator doesn't apply a new configuration for Patroni automatically. You must run `patronictl reload <cluster_name> <pod-name>` to apply it after your changes are propagated to the container.
 
 !!! warning 
 
-    Don't forget to remove this annotation once you finished. It's not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won't touch the ConfigMap and you might have problems with your cluster.
+    Don't forget to remove this annotation once you've finished. It's not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won't touch the ConfigMap and you might have problems with your cluster.
 
-### Overriding an instance configuration
+    To remove the annotation, use the following command:
 
-Operator creates a ConfigMap called `<pod-name>-config` to store Patroni instance configuration for each Pod.  If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in these ConfigMaps and keep the changes, you need to annotate them using a special annotation:
+    ```{.bash data-prompt="$"}
+    $ kubectl annotate cm cluster1-config pgv2.percona.com/override-config-
+    ```
+
+### For an individual Pod
+
+Operator creates a ConfigMap called `<pod-name>-config` to store Patroni instance configuration for each Pod. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in these ConfigMaps and keep the changes, you need to annotate them using a special annotation:
 
 ```{.bash data-prompt="$"}
 $ kubectl annotate cm cluster1-instance1-24b8-config pgv2.percona.com/override-config=true
@@ -155,24 +180,50 @@ $ kubectl annotate cm cluster1-instance1-24b8-config pgv2.percona.com/override-c
 
 As long as the ConfigMap has the `pgv2.percona.com/override-config` annotation, the Operator doesn't rewrite your changes. You can edit the ConfigMap's contents however you want.
 
-!!! warning 
+!!! warning
 
-    The Operator doesn't validate your changes in configuration. Consult with [Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/patroni_configuration.html) to ensure the configuration you define is correct and you don't face problems if you apply an invalid configuration.
+    The Operator does not validate your configuration changes.
+    
+    Before applying any changes, consult the [Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/patroni_configuration.html) to ensure your configuration is correct. This will help you avoid problems caused by invalid settings.
 
-
-It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers. For example:
+It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers for a Pod. For example:
 
 ```{.bash data-prompt="$"}
 $ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
 ```
 
-Operator doesn't apply a new configuration automatically. You must run `patronictl reload` to apply it after your changes are propagated to the container.
+Operator doesn't apply a new configuration automatically. You must run `patronictl reload <cluster_name> <pod_name>` to apply it after your changes are propagated to the container. 
+
+To find the cluster name, run:
+
+```{.bash data-prompt="$"}
+$ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
+```
+
+??? example "Expected output"
+    
+    ```{.text .no-copy}
+    Cluster: cluster1-ha (7523193408153182293) -------------------------+---------+-----------+----+-----------+
+    | Member                    | Host                                    | Role    | State     | TL | Lag in MB |
+    +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+    | cluster1-instance1-24b8-0 | cluster1-instance1-bw58-0.cluster1-pods | Replica | streaming |  3 |         0 |
+    | cluster1-instance1-tmqj-0 | cluster1-instance1-tmqj-0.cluster1-pods | Leader  | running   |  3 |           |
+    | cluster1-instance1-xf85-0 | cluster1-instance1-xf85-0.cluster1-pods | Replica | streaming |  3 |         0 |
+    +---------------------------+-----------------------------------------+---------+-----------+----+-----------+
+    ```
+
 
 !!! warning 
 
-    Don't forget to remove this annotation once you finished. It's not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won't touch the ConfigMap and you might have problems with your cluster.
+    Don't forget to remove this annotation once you've finished. It's not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won't touch the ConfigMap and you might have problems with your cluster.
 
-## Overriding PostgreSQL parameters
+    To remove the annotation, use the following command:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl annotate cm cluster1-instance1-24b8-0 pgv2.percona.com/override-config-
+    ```
+
+## Override PostgreSQL parameters
 
 Use the `patronictl show-config` command to print PostgreSQL parameters used in the cluster. For example:
 
@@ -267,9 +318,9 @@ $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg shar
 
 !!! warning
 
-    If you update any object controlled by operator, it'll reconcile the cluster and your configuration changes will be reverted. You can [put the cluster in an unmanaged mode](putting-a-cluster-into-an-unmanaged-mode) to prevent this.
+    If you update any object controlled by the Operator, it'll reconcile the cluster and your configuration changes will be reverted. You can [put the cluster in an unmanaged mode](#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode) to prevent this.
 
-## Overriding `pg_hba` entries
+## Override `pg_hba` entries
 
 You may want to append entries to `pg_hba`. You can use the `spec.patroni.postgresl.pg_hba` field to add your rules. 
 
@@ -293,4 +344,4 @@ $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --set pos
 
 !!! warning
 
-    If you update any object controlled by operator, it'll reconcile the cluster and your configuration changes will be reverted. You can [put the cluster in an unmanaged mode](putting-a-cluster-into-an-unmanaged-mode) to prevent this.
+    If you update any object controlled by the Operator, it'll reconcile the cluster and your configuration changes will be reverted. You can [put the cluster in an unmanaged mode](#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode) to prevent this.
