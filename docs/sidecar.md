@@ -6,7 +6,7 @@ The Operator uses a set of "predefined" sidecar containers to manage the cluster
 
 * `replicaCertCopy` - is responsible for copying TLS certificates needed for replication between PostgreSQL instances
 * `pgbouncerConfig` - handles configuration management for `pgBouncer`
-* `pgBackrest` - runs the main backup/restore agent.
+* `pgBackrest` - runs the main backup/restore agent
 * `pgbackrestConfig` - handles configuration management for `pgBackRest`
 
 The Operator allows you to deploy your own sidecar containers to
