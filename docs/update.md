@@ -1,14 +1,43 @@
 # Upgrade Database and Operator
 
-Starting from the version 2.2.0 Percona Operator for PostgreSQL allows upgrades
+Starting from the version 2.2.0, you can upgrade Percona Operator for PostgreSQL 
 to newer 2.x versions.
 
 !!! note
 
-    Upgrading from the 1.x branch of the Operator to 2.x versions ca be done 
-    [in several ways](update.md#upgrade-from-the-operator-version-1x-to-version-2x)
-    and is completely different from the normal upgrade scenario due to
-    substantial changes in the architecture.
+    Upgrades from the Operator version 1.x to 2.x are completely different from the upgrades within 2.x versions due to
+    substantial changes in the architecture. Check [available methods for 1.x to 2.x upgrade](update.md#upgrade-from-the-operator-version-1x-to-version-2x)
+
+The upgrade process consists of these steps:
+
+* Upgrade the Operator  
+* Upgrade the database (Percona Distribution for PostgreSQL).
+
+## Update scenarios
+
+You can either upgrade both the Operator and the database, or you can upgrade only the database. To decide which scenario to choose, read on.
+
+### Full upgrade (CRD, Operator, and the database)
+
+When to use this scenario:
+
+* The new Operator version has changes that are required for new features of the database to work
+* The Operator has new features or fixes that enhance automation and management.
+* Compatibility improvements between the Operator and the database require synchronized updates.
+
+When going on with this scenario, make sure to test it in a staging or testing environment first. Upgrading the Operator may cause performance degradation.
+
+### Upgrade only the database
+
+When to use this scenario:
+
+* The new version of the database has new features or fixes that are not related to the Operator or other components of your infrastructure
+* You have updated the Operator earlier and now want to proceed with the database update.
+
+When choosing this scenario, consider the following:
+
+* Check that the current Operator version supports the new database version.
+* Some features may require an Operator upgrade later for full functionality.
 
 Upgrading to a newer version typically involves two steps:
 
@@ -20,42 +49,38 @@ Distribution for PostgreSQL *without* the Operator upgrade.
 
 ## Upgrading the Operator and CRD
 
-The Operator version includes three numbers: `major`, `minor`, and `patch` (for
-example, the Operator version `2.6.0` has major version `2`, 
-minor version `6`, and patch version `0`). Only the incremental update to a
-nearest `major.minor` version of the Operator is supported. To update to a newer
-version, which differs from the current `major.minor` version by more than one,
-make several incremental updates sequentially.
+### Considerations
 
-For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0,
-the following sequence of upgrades will be the shortest recommended path:
+1. The Operator version has three digits separated by a dot (`.`) in the format `major.minor.patch`. Here's how you can understand the version `2.6.0`:
 
-1. upgrading the CRD and Operator from 2.4.0 to 2.5.1,
-2. upgrading from 2.5.1 to 2.6.0.
+    * `2` - major version
+    * `6` - minor version
+    * `0` - patch version
 
-You can find Operator versions [listed here](ReleaseNotes/index.md).
+    You can only upgrade the Operator to the nearest `major.minor` version. For example, from 2.6.0 to 2.7.0. To upgrade to a newer version, which differs from the current `minor.major` version by more than one, you need to make several incremental upgrades sequentially. 
+    
+    For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.5.1 to 2.6.0.
 
-CRD supports **last 3 minor versions of the Operator**, which means it is
-compatible with the newest Operator version and the two older versions.
-If the Operator is older than the CRD *by no more than two versions*, you
-should be able to continue using the old Operator version.
-But updating the CRD *and* Operator is the **recommended path**. 
+    Patch versions don't influence the upgrade, so you can safely move from `2.5.0` to `2.5.1`.
 
-Using newer CRD with older Operator is useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
+2. CRD supports **the last 3 minor versions of the Operator**. This means it is compatible with the newest Operator version and the two previous minor versions. If the Operator is older than the CRD by no more than two versions, you should be able to continue using the old Operator version. But updating the CRD and Operator is the recommended path.
+
+3. Using newer CRD with older Operator is useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
 in one Kubernetes cluster, where each Operator controls a database cluster in
 its own namespace. In this case upgrading Operator deployments will look as follows:
 
-* upgrade the CRD (not 3 minor versions far from the oldest Operator
-   installation in the Kubernetes cluster) first 
-* upgrade the Operators in each namespace incrementally to
-   nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
+    * upgrade the CRD (not 3 minor versions far from the oldest Operator installation in the Kubernetes cluster) first 
+    * upgrade the Operators in each namespace incrementally to the nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
 ### Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
-`postgres-operator` namespace, and you are upgrading to the version {{ release }}.
+`postgres-operator` namespace, and you are upgrading it to the version {{ release }}.
 
-1. First update the CRD for the Operator, taking it from the official repository on Github (it is important to use `--server-side` flag when applying `deploy/crd.yaml`), and do the same for the Role-based access control. Applying the new CRD manifest must be done with [server-side :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) flag (otherwise you can encounter a number of errors caused by applying the CRD client-side: the command may fail, the built-in PosgreSQL extensions can be lost during such upgrade, etc.).
+1. Update the CRD for the Operator and the Role-based access control. You must use the [server-side :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) flag when you update the CRD. Otherwise you can encounter a number of errors caused by applying the CRD client-side: the command may fail, the built-in PostgreSQL extensions can be lost during such upgrade, etc.
+
+    Take the latest versions of the CRD and Role-based access control manifest from the official repository on GitHub with the following commands:
+
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
@@ -66,15 +91,10 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
         In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
 
-2. Now you should [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
-    to your deployment, supplying necessary image name with a newer version tag.
-    You can find the proper image names and version tags for the current Operator version [in the list of certified images](images.md).
-    For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
-    
-    Updating to the `{{ release }}` version should look as follows:
+2. Next, update the Percona Distribution for PostgreSQL. Find the image name for the current Operator release [in the list of certified images](images.md). Then [apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to the Operator Deployment and specify the image name and version. Use the following command to update the Operator Deployment to the `{{ release }}` version:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
+    $ kubectl patch deployment percona-postgresql-operator -n postgres-operator \
        -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"percona/percona-postgresql-operator:{{ release }}"}]}}}}'
     ```
 
@@ -139,75 +159,80 @@ If you have [installed the Operator on the OpenShift platform using OLM](openshi
 
 2. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
 
-## Upgrading Percona Distribution for PostgreSQL
+## Upgrade Percona Distribution for PostgreSQL
 
-Before the Operator version 2.4, you could upgrade Percona Distribution for PostgreSQL from one minor version to another (such as upgrading from 15.5 to 15.7, or from 16.1 to 16.3). Starting from the Operator 2.4 you can also upgrade from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3). Minor version upgrade and major version upgrade are technically different tasks with different scenarios.
+### Considerations
 
-!!! note
+1. Starting from the Operator 2.4.0 you can do a *minor* upgrade (for example, from 15.5 to 15.7, or from 16.1 to 16.3) and a *major* upgrade (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3) of Percona Distribution for PostgreSQL. Before the Operator version 2.4.0, you could only do a minor upgrade of Percona Distribution for PostgreSQL. 
 
-    Upgrading a PostgreSQL cluster upgrade may result in downtime, as well as [failover](change-primary.md) caused by updating the primary instance.
+2. Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different `glibc` version and this introduces a collation mismatch in PostgreSQL. Therefore, you need to identify and reindex objects, affected by the collation mismatch.
+
+3. Upgrading a PostgreSQL cluster may result in downtime, as well as [failover](change-primary.md) caused by updating the primary instance.
 
 ### Minor version upgrade
 
-Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 to 16.3) can be done as follows:
+To make a minor upgrade of Percona Distribution for PostgreSQL (for example, from 16.1 to 16.3) , do the following:
+{.power-number}
 
-1. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/)
-    to your Custom Resource, setting necessary Custom Resource version and image
-    names with a newer version tag.
-
-    !!! note
-
-        Check the version of the Operator you have in your Kubernetes
-        environment. Please refer to [the Operator upgrade guide](update.md#upgrading-the-operator-and-crd)
-        to upgrade the Operator and CRD first, if needed.
-
-    Patching Custom Resource is done with the `kubectl patch pg` command.
-    Actual image names can be found [in the list of certified images](images.md).
-    For example, updating `cluster1` cluster to the `{{ release }}` version
-    should look as follows:
-
+1. Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the [Operator upgrade guide](#upgrading-the-operator-and-crd)
+2. Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Use the following command:
+   
     ``` {.bash data-prompt="$" }
-    $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
-       "spec": {
-          "crVersion":"{{ release }}",
-          "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
-          "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
-       }}'
+    $ curl <https://check.percona.com/versions/v1/pg-operator/2.6.0> |jq -r '.versions[].matrix'
     ```
 
-    The following image names in the above example were taken from the [list of certified images](images.md):
-    
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}`,
-    * `percona/pmm-client:{{ pmm2recommended }}`.
+    You can also find this information in the [Versions compatibility matrix](versions.md).
 
-    !!! warning
+3. Update the database, the backup and PMM Client image names with a newer version tag. Find the image names [in the list of certified images](images.md).
 
-        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
-    
+    We recommend to update the PMM Server **before** the upgrade of PMM Client. If you haven't done it yet, exclude PMM Client from the list of images to update.
+
+    Since this is a working cluster, the way to update the Custom Resource is to [apply a patch  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) with the `kubectl patch pg` command.
+
+    This example command updates the cluster with the name `cluster1` in the namespace `postgres-operator` to the `{{ release }}` version:
+
+    === "With PMM Client"
+
         ``` {.bash data-prompt="$" }
-        $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
+        $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
+              "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres",
+              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
+              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
+              "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
            }}'
         ```
 
-The deployment rollout will be automatically triggered by the applied patch.
-The update process is successfully finished when all Pods have been restarted.
+    === "Without PMM Client"
 
-``` {.bash data-prompt="$" }
-$ kubectl get pods -n postgres-operator
-```
+        ``` {.bash data-prompt="$" }
+        $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
+           "spec": {
+              "crVersion":"{{ release }}",
+              "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres",
+              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
+              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
+           }}'
+        ```
 
-??? example "Expected output"
+    The following image names in the above example were taken from the [list of certified images](images.md):
+    
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres`,
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}`,
+    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}`,
+    * `percona/pmm-client:{{ pmm2recommended }}`.
 
-    --8<-- "kubectl-get-pods-response.txt"
+
+
+4. After you applied the patch, the deployment rollout will be triggered automatically.
+   The update process is successfully finished when all Pods have been restarted.
+
+    ??? example "Expected output"
+
+        --8<-- "kubectl-get-pods-response.txt"
+
+--8<-- "collation.txt"
 
 ### Major version upgrade
 
@@ -253,6 +278,8 @@ After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/
 2. The cluster is specially annotated with `pgv2.percona.com/allow-upgrade`: `<PerconaPGUpgrade.Name>` annotation,
 3. Jobs are created to migrate the data,
 4. The cluster starts up after the upgrade finishes.
+
+--8<-- "collation.txt"
 
 !!! note
 
