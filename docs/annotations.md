@@ -89,7 +89,7 @@ Use **Annotations** when:
 | `postgres-operator.crunchydata.com/pgbackrest-volume` | PVCs     | Indicates a PVC for a pgBackRest repo volume.                |
 | `postgres-operator.crunchydata.com/pgbackrest-cronjob` | CronJobs                 | Indicates a resource is a pgBackRest CronJob.                      |
 | `postgres-operator.crunchydata.com/pgbackrest-restore` | Jobs, Pods               | Indicates a Job/Pod for a pgBackRest restore.                   |
-| `postgres-operator.crunchydata.com/pgbackrest-restore-config` | ConfigMaps, Secrets      | Indicates a a configuration resource (e.g. a ConfigMap or Secret) for pgBackRest restore.         |
+| `postgres-operator.crunchydata.com/pgbackrest-restore-config` | ConfigMaps, Secrets      | Indicates a configuration resource (e.g. a ConfigMap or Secret) for pgBackRest restore.         |
 | `postgres-operator.crunchydata.com/crunchy-postgres-exporter` | Pods                     | Added to Pods running the exporter container for Prometheus discovery. |
 | `postgres-operator.crunchydata.com/pguser`        | Secrets, Users           | Identifies the PostgreSQL user an object is for/about.                     | Username |
 | `postgres-operator.crunchydata.com/startup-instance` | Pods, Jobs               | Indicates the startup instance associated with a resource.  |
