@@ -18,7 +18,7 @@ The following example deploys two pgBouncer nodes exposed through a LoadBalancer
 proxy:
   pgBouncer:
     replicas: 2
-    image: percona/percona-postgresql-operator:{{ release }}-pgbouncer
+    image: percona/percona-pgbouncer:{{pgbouncerrecommended}}
     expose:
       type: LoadBalancer
 ```

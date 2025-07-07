@@ -958,7 +958,7 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
+| :material-code-string: string | `percona/percona-pgbackrest:{{pgbackrestrecommended}}` |
 
 
 ### `backups.pgbackrest.containers.pgbackrest.resources.limits.cpu`
@@ -1382,7 +1382,7 @@ Docker image for the [pgBouncer :octicons-link-external-16:](http://pgbouncer.gi
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-pgbouncer` |
+| :material-code-string: string | `percona/percona-pgbouncer:{{pgbouncerrecommended}}` |
 
 ### `proxy.pgBouncer.exposeSuperusers`
 

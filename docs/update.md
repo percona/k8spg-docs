@@ -171,8 +171,8 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
        "spec": {
           "crVersion":"{{ release }}",
           "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}" } },
-          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
+          "proxy": { "pgBouncer": { "image": "percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
+          "backups": { "pgbackrest":  { "image": "percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } },
           "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
        }}'
     ```
@@ -180,21 +180,21 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
     The following image names in the above example were taken from the [list of certified images](images.md):
     
     * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
-    * `percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}`,
+    * `percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
+    * `percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
     * `percona/pmm-client:{{ pmm2recommended }}`.
 
     !!! warning
 
-        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
+        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
     
         ``` {.bash data-prompt="$" }
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
               "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}" } },
-              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
+              "proxy": { "pgBouncer": { "image": "percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
+              "backups": { "pgbackrest":  { "image": "percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } }
            }}'
         ```
 
@@ -241,8 +241,8 @@ spec:
   fromPostgresVersion: 15
   toPostgresVersion: 16
   toPostgresImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
-  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-pgbouncer{{ pgbouncerrecommended }}
-  toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
+  toPgBouncerImage: percona/percona-pgbouncer:{{ pgbouncerrecommended }}
+  toPgBackRestImage: percona/percona-pgbackrest:{{ pgbackrestrecommended }}
 ```
 
 As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
