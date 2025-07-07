@@ -1592,7 +1592,7 @@ Defines available replica creation methods and the order of executing them durin
 
 By default, `pg_basebackup` is used to create replicas during a new cluster deployment. After the Operator makes an initial backup, it updates the Patroni ConfigMap assing the `pgBackRest` as the first item in the list. This configuration is not propagated to Patroni itself until you restart the database instance Pods or manually reload Patroni configuration.
 
-In the same way, after you define the replica set methods and apply the configuration, the Operator updates the Patroni ConfigMap. You must manually reload Patroni configuration on every database instance to make Patroni aware of the changes.
+In the same way, after you define the replica set methods and apply the configuration, the Operator updates the Patroni ConfigMap. You must manually reload Patroni configuration of every database instance to make Patroni aware of the changes. Read more about setting replica methods in the [Configure create_replica_methods](reinit.md#configure-create_replica_methods) section.
 
 | Value type | Example |
 | ---------- | ------- |
