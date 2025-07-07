@@ -14,7 +14,7 @@ Before you proceed with disabling backups, here's what you need to know and care
 
 1. Without backups you have no way to restore data. If by mistake you drop a table, that data is lost as you have no option to recover it.
 2. You cannot clone a cluster when you [deploy a standby cluster for disaster recovery](standby-streaming.md). This is because cloning is based on restoring a backup on a new cluster.
-3. When you run a cluster without backups, `pgBackRest` metrics are unavailable
+3. When you run a cluster without backups, `pgBackRest` metrics are unavailable.
 
 ## Start a new cluster with disabled backups
 
@@ -44,46 +44,53 @@ To deploy a new cluster without backups, do the following:
 
 Before you start, read the [considerations](#key-considerations-before-disabling-backups) carefully. 
 
-To disable backups for a running cluster, edit the `deploy/cr.yaml` Custom Resource as follows:
+To disable backups for a running cluster, update the `deploy/cr.yaml` Custom Resource manifest with the following configuration:
 
 * Set the `backups.enabled` option to `false`
-* Add the annotation `pgv2.percona.com/authorizeBackupRemoval="true"`
+* Add the annotation `pgv2.percona.com/authorizeBackupRemoval:"true"`
 
-    ```yaml
-    metadata:
-      annotations: 
-         pgv2.percona.com/authorizeBackupRemoval: "true"
-    ....
-    spec:
-      backups:
-        enabled: false
-    ```
-
-Apply the Custom Resource to apply the new configuration:
+Since it is a running cluster, we will use the `kubectl patch` command to update its configuration:
 
 ```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml -n <namespace>
+$ kubectl patch pg cluster1 --type merge \
+  -p '{
+    "metadata": {
+      "annotations": {
+        "pgv2.percona.com/authorizeBackupRemoval": "true"
+      }
+    },
+    "spec": {
+      "backups": {
+        "enabled": false
+      }
+    }
+  }' -n <namespace>
 ```
 
 !!! warning
 
     After you apply this configuration and disable backups, the Operator deletes the `repo-host` PVC. Thus, all data that was stored in that PVC will be deleted too. The backups stored on the cloud backup storage remain. 
 
-### Reenable backups 
+### Re-enable backups 
 
-To re-enable backups for a running cluster, edit the `deploy/cr.yaml` Custom Resource as follows:
+To re-enable backups for a running cluster, do the following:
 
-* Set the `backups.enabled` option to `true`
-* Remove the annotation `pgv2.percona.com/authorizeBackupRemoval="true"`
+1. Remove the annotation `pgv2.percona.com/authorizeBackupRemoval:"true"`
 
-    ```yaml
-    spec:
-      backups:
-        enabled: false
+    ```{.bash data-prompt="$"}
+    $ kubectl annotate pg cluster1 pgv2.percona.com/authorizeBackupRemoval-
     ```
 
-Apply the configuration for the changes to take effect: 
+2. Apply the patch to your running cluster and enable backups:
 
-```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml -n <namespace>
-```
+    ```{.bash data-prompt="$"}
+    $ kubectl patch pg cluster1 --type merge \
+      -p '{
+        "spec": {
+          "backups": {
+            "enabled": true
+          }
+        }
+      }'
+    ```
+
