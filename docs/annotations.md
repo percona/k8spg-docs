@@ -57,7 +57,7 @@ Use **Annotations** when:
 * The information is used for debugging
 * The data is used for monitoring configuration
 
-## Labels and annotations used by Percona Operator for MySQL
+## Labels and annotations used by Percona Operator for PostgreSQL
 
 ### Labels
 
@@ -66,7 +66,7 @@ Use **Annotations** when:
 | `pgv2.percona.com/version`  | CustomResourceDefinition          | Specifies the version of the Percona Operator for PostgreSQL. | {{release}} |
 | `app.kubernetes.io/instance`  | Services, StatefulSets, Deployments | Identifies a specific instance of the application | cluster1 |
 | `app.kubernetes.io/managed-by`| Services, StatefulSets           | Indicates the controller managing the object    | percona-postgresql-operator |
-| `app.kubernetes.io/component`| Services, StatefulSets           | Specifies the component within the application  | mysql, haproxy, router                  |
+| `app.kubernetes.io/component`| Services, StatefulSets           | Specifies the component within the application  | postgres, pgbouncer, pgbackrest                 |
 | `app.kubernetes.io/part-of`   | Services, StatefulSets           | Indicates the higher-level application the object belongs to | percona-postgresql                          |
 | `app.kubernetes.io/name`| Services, StatefulSets, Deployments, etc. | Specifies the name of the application | percona-postgresql | 
 | `postgres-operator.crunchydata.com/cluster`      | StatefulSets, Deployments, Services, PVCs | Specifies the name of the application          | cluster1  |
@@ -106,7 +106,7 @@ Use **Annotations** when:
 | `postgres-operator.crunchydata.com/pgbackrest-backup-job-completion`         | Restore, PVC | Added to restore jobs, pvcs, and VolumeSnapshots that are involved in the volume snapshot creation process. The annotation holds a RFC3339 formatted timestamp that corresponds to the completion time of the associated backup job. | timestamp                  |
 | `postgres-operator.crunchydata.com/pgbackrest-hash`         | Custom Resource | Specifies the hash value associated with a repo configuration as needed to detect configuration changes that invalidate running Jobs (and therefore must be recreated) |                   |
 | `postgres-operator.crunchydata.com/pgbackrest-restore`         | Custom Resource | Initiates an in-place restore|  timestamp|
-| `postgres-operator.crunchydata.com/pgbackrest-ip-version`         | Custom Resource | Indicates whether to use an IPv6 wildcard address for the pgBackRest "tls-server-address". Set the value "IPv6" to use an IPv6 addresses. If the annoutation is not present of has a value other than IPv6, it defaults to IPv4 (0.0.0.0). |  0.0.0.0 |
+| `postgres-operator.crunchydata.com/pgbackrest-ip-version`         | Custom Resource | Indicates whether to use an IPv6 wildcard address for the pgBackRest "tls-server-address". Set the value "IPv6" to use an IPv6 addresses. If the annotation is not present of has a value other than IPv6, it defaults to IPv4 (0.0.0.0). |  0.0.0.0 |
 | `postgres-operator.crunchydata.com/postgres-exporter-collectors` | Pods                 | Specifies which collectors to enable for the exporter. The value "None" disables all postgres_exporter defaults. Disabling the defaults may cause errors in dashboards.    | `database,table`  |
 | `postgres-operator.crunchydata.com/adopt-bridge-cluster`    | CrunchyBridgeCluster Custom Resource    | Allows users to "adopt" or take control over an existing Bridge Cluster with a CrunchyBridgeCluster Custom Resource. Essentially, if a CrunchyBridgeCluster Custom Resource does not have a status.ID, but the name matches the name of an existing bridge cluster, the user must add this annotation to the Custom Resource to allow it to take control of the Bridge Cluster. The Value assigned to the annotation must be the ID of existing cluster.             | existing cluster ID                       |
 | `postgres-operator.crunchydata.com/autoCreateUserSchema`    | Custom Resource         | Controls if the Operator should create schemas for the users defined in `spec.users` for all of the databases listed for that user| `true`|
@@ -279,46 +279,6 @@ metadata:
   ...
 ```
 
-## <a name="annotations-ignore"></a>Specifying labels and annotations ignored by the Operator
-
-Sometimes various Kubernetes flavors can add their own annotations to the
-objects managed by the Operator.
-
-The Operator keeps track of all changes to its objects and can remove
-annotations that it didn't create.
-
-If there are no annotations or labels in the Custom Resource, the Operator does
-nothing if a new label or an annotation is added to the object.
-
-If there is an annotation or a label specified in the Custom Resource, the
-Operator starts to manage annotations and labels. In this case it removes
-unknown annotations and labels.
-
-A cloud provider can add own labels and annotations. Or you may have custom automation tools that add own labels or annotations and you need to keep them. To do this, you can specify which annotations and labels the Operator should ignore by listing them in the `spec.ignoreAnnotations` or
-`spec.ignoreLabels` keys of the `deploy/cr.yaml`, as follows:
-
-```yaml
-spec:
-  ignoreAnnotations:
-    - some.custom.cloud.annotation/smth
-  ignoreLabels:
-    - some.custom.cloud.label/smth
-...
-```
-
-The Operator will ignore any annotation and label which keys **starts** with the
-mentioned above examples. For example, the following annotations and labels will
-be ignored after applying the above `cr.yaml` fragment:
-
-```yaml
-annotations:
-  some.custom.cloud.annotation/smth: somethinghere
-labels:
-  some.custom.cloud.label/smth: somethinghere
-```
-
-The Operator will ignore specified annotations and labels for all objects: Pods,
-Services, etc.
 
 
 
