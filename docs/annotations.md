@@ -149,7 +149,7 @@ spec:
     ...
 ```
 
-### Set Set labels and annotations for Services
+### Set labels and annotations for Services
 
 For PostgreSQL and pgBouncer Services, use `expose.annotations`/`expose.labels` or
 `proxy.pgbouncer.expose.annotations`/`proxy.pgbouncer.expose.labels` keys as
