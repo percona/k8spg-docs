@@ -676,6 +676,26 @@ The number of Replicas to create for the PostgreSQL instance.
 | ---------- | ------- |
 | :material-numeric-1-box: int | `3` |
 
+### `instances.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1.0` |
+
+### `instances.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `3Gi` |
+
 ### `instances.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance.
@@ -692,13 +712,33 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `4Gi` |
 
+### `instances.containers.replicaCertCopy.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `replica-cert-copy` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `100m` |
+
+### `instances.containers.replicaCertCopy.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `replica-cert-copy` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
+
 ### `instances.containers.replicaCertCopy.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `replica-cert-copy` sidecar container.
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `1.0` |
+| :material-code-string: string | `200m` |
 
 ### `instances.containers.replicaCertCopy.resources.limits.memory`
 
@@ -706,7 +746,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `1Gi` |
+| :material-code-string: string | `128Mi` |
 
 ### `instances.topologySpreadConstraints.maxSkew`
 
@@ -960,6 +1000,26 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | ---------- | ------- |
 | :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-pgbackrest` |
 
+### `backups.pgbackrest.containers.pgbackrest.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgBackRest` container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `backups.pgbackrest.containers.pgbackrest.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgBackRest` container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
+
 
 ### `backups.pgbackrest.containers.pgbackrest.resources.limits.cpu`
 
@@ -977,6 +1037,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
+
 ### `backups.pgbackrest.containers.pgbackrestConfig.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for `pgbackrest-config` sidecar container.
@@ -992,6 +1053,26 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
+
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgbackrest-config` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `backups.pgbackrest.containers.pgbackrestConfig.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgbackrest-config` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
 
 ### `backups.pgbackrest.configuration.secret.name`
 
@@ -1024,6 +1105,26 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `128Mi` |
+
+### `backups.pgbackrest.jobs.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest job. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+|Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `backups.pgbackrest.jobs.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for pgBackRest job. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
 
 ### `backups.pgbackrest.jobs.tolerations.effect`
 
@@ -1072,6 +1173,43 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 | Value type | Example |
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
+
+### `backups.pgbackrest.repoHost.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repo. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+|Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `backups.pgbackrest.repoHost.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for pgBackRest repo. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
+
+### `backups.pgbackrest.repoHost.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `200` |
+
+### `backups.pgbackrest.repoHost.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repo.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `128Mi` |
+
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
@@ -1331,7 +1469,7 @@ This option is used to set the [policy :octicons-link-external-16:](https://kube
 | ---------- | ------- |
 | :material-code-string: string | `IfNotPresent` |
 
-### `pmm.pmmSecret`
+### `pmm.secret`
 
 Name of the [Kubernetes Secret object :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/#using-imagepullsecrets) for the PMM Server password.
 
@@ -1346,6 +1484,43 @@ Address of the PMM Server to collect data from the cluster.
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `monitoring-service` |
+
+### `pmm.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM Client container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+|Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `pmm.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for PMM Client container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
+
+### `pmm.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM Client container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `200` |
+
+### `pmm.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM Client container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `128Mi` |
+
 
 ### `pmm.querySource`
 
@@ -1392,6 +1567,26 @@ Enables or disables [exposing superuser user through pgBouncer](users.md#superus
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `proxy.pgBouncer.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `proxy.pgBouncer.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+ Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
+
 ### `proxy.pgBouncer.resources.limits.cpu`
 
 [Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container.
@@ -1423,6 +1618,26 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgbouncer-config` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+ Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150m` |
+
+### `proxy.pgBouncer.containers.pgbouncerConfig.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgbouncer-config` sidecar container. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+ Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `120Mi` |
 
 ### `proxy.pgBouncer.expose.type`
 
