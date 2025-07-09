@@ -51,26 +51,9 @@ Here's what you need to do:
         server stopped
         ```
 
-3. Optionally, you can delete the Pod:
+3. You can now do your maintenance tasks.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl delete pod cluster1-instance1-24b8-0
-    ```
-
-4. After the Pod restarts, it won't start PostgreSQL. You can check it with the following command:
-
-   ```{.bash data-prompt="$"}
-   $ kubectl logs cluster1-instance1-24b8-0 database
-   ```
-
-   ??? example "Expected output"
-
-        ```{text .no-copy}
-        The pgdata/sleep-forever file is detected, node entered an infinite sleep
-        If you want to exit from the infinite sleep, remove the pgdata/sleep-forever file
-        ```
-
-4. Now you can start PostgreSQL manually:
+4. When you finished, you can start PostgreSQL manually:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 start
@@ -86,7 +69,7 @@ Here's what you need to do:
         server started
         ```
 
-5. When you are done with the maintenance, remove the `sleep-forever` file to reenable the liveness probe.
+5. Remove the `sleep-forever` file to reenable the liveness probe.
 
     ```{.bash data-prompt="$"}
     kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
