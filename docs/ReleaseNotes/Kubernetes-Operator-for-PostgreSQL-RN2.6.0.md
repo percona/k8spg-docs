@@ -83,7 +83,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 The Operator {{ release }} is developed, tested and based on:
 
-* PostgreSQL 13.18, 14.15, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. 
+* PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. 
 * pgBouncer for connection pooling:
 
     * version 1.23.1 - for PostgreSQL 17.2  
