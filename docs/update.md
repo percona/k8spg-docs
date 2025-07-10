@@ -95,39 +95,52 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 ### Upgrade via Helm
 
 If you have [installed the Operator using Helm](helm.md), you can upgrade the
-Operator with the `helm upgrade` command.
+Operator deployment with the `helm upgrade` command.
 
-!!! note
+The `helm upgrade` command updates only the Operator deployment. The update flow  for the database management system (Percona Distribution for PostgreSQL) is the same for all installation methods, whether it was installed via Helm or `kubectl`.
 
-    You can use `helm upgrade` to upgrade the Operator. But the database management system (Percona Distribution for PostgreSQL) should be upgraded in the same way whether you used Helm to install it or not.
+1. You must have the compatible version of the Custom Resource Definition. Starting with version 2.7.0, you can check it using the following command:
 
-1. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
-    for the Operator, taking it from the official repository on Github, and do
-    the same for the Role-based access control:
+    ``` {.bash data-prompt="$" }
+    $ kubectl get crd perconapgclusters.pgv2.percona.com --show-labels
+    ```
+    
+2. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
+    for the Operator, taking it from the official repository on Github.
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply --server-side --force-conflicts -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
     ```
 
-2. If you installed the Operator with no [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), the upgrade can be done as follows: 
+3. Upgrade the Operator deployment
 
-    ``` {.bash data-prompt="$" }
-    $ helm upgrade my-operator percona/pg-operator --version {{ release }}
-    ```
+    === "With default parameters"
 
-    The `my-operator` parameter in the above example is the name of a [release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
-    which which you have chosen for the Operator when installing its Helm chart.
-
-    If the Operator was installed with some [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), you should list these options in the upgrade command.   
-    
-    !!! note
-    
-        You can get list of used options in YAML format with the `helm get values my-operator -a > my-values.yaml` command, and this file can be directly passed to the upgrade command as follows:
+        To upgrade the OPerator installed with default parameters, use the following command: 
 
         ``` {.bash data-prompt="$" }
-        $ helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
+        $ helm upgrade my-operator percona/pg-operator --version {{ release }}
         ```
+
+        The `my-operator` parameter in the above example is the name of a [release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
+        which which you have chosen for the Operator when installing its Helm chart.
+
+    === "With customized parameters"
+
+        If you installed the Operator with some [customized parameters :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart), list these options in the upgrade command.   
+    
+        1. Get the list of used options in YAML format :
+        
+            ```{.bash data-prompt="$" }
+            $ helm get values my-operator -a > my-values.yaml
+            ``` 
+        
+        2. Pass these options to the upgrade command as follows:
+
+            ``` {.bash data-prompt="$" }
+            $ helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
+            ```
+    During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, repeat step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
 
 ### Upgrade via Operator Lifecycle Manager (OLM)
 
