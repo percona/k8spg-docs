@@ -205,6 +205,8 @@ Images released with the Operator version {{release}}:
 | percona/percona-pgbouncer:1.24.1 (ARM64)                               | 6d63e3bd41f35ff49febac33151ce893272b74bd982b140546f2360b9f30510b |
 | percona/percona-pgbackrest:2.55.0                                      | 034a29072d912581dd93d5ccd5aca58500ece8694a633c8b08c2e4c5c4ac852c |
 | percona/percona-pgbackrest:2.55.0 (ARM64)                              | 05e63f79d9029d3fc66c8a334509013b4c0298fde92be619d169a0bafe812e5e |
+| percona/pmm-client:2.44.1                                               | 8b2eaddffd626f02a2d5318ffebc0c277fe8457da6083b8cfcada9b6e6168616 |
+| percona/pmm-client:2.44.1 (ARM64)                                     | 337fecd4afdb3f6daf2caa2b341b9fe41d0418a0e4ec76980c7f29be9d08b5ea |
 | percona/pmm-client:3.2.0                                               | 7b1d1798b6446d6c3d5e4005fd9c07be9f4be5859ac2fae908be387cf7b0f50c |
 | percona/pmm-client:3.2.0 (ARM64)                                       | 1a36eb47e39dcd275c5ed62da8415c862e560933f48790bbf9b78f41cd3dfd10 |
 
