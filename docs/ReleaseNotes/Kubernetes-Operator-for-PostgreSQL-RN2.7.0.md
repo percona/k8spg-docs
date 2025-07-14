@@ -103,7 +103,7 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 
 * [K8SPG-744](https://perconadev.atlassian.net/browse/K8SPG-744) - Improve Contributing guide  with the steps how to build the Operator for development purposes
 
-* [K8SPG-717](https://perconadev.atlassian.net/browse/K8SPG-717), [K8SPG-750](https://perconadev.atlassian.net/browse/K8SPG-750) -  Added the ability to define a custom cluster name for pmm-admin component
+* [K8SPG-717](https://perconadev.atlassian.net/browse/K8SPG-717), [K8SPG-750](https://perconadev.atlassian.net/browse/K8SPG-750) -  Added the ability to define a custom cluster name for PMM for filtering
 
 * [K8SPG-753](https://perconadev.atlassian.net/browse/K8SPG-753) - Added the ability to enable `pg_stat_statements` instead of `pg_stat_monitor`
 
@@ -135,7 +135,7 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 
 * [K8SPG-792](https://perconadev.atlassian.net/browse/K8SPG-792) - Add the ability to configure and use images defined in environment variables when starting a cluster (Thank you Jakub Jaruszewski for reporting this issue)
 
-* [K8SPG-799](https://perconadev.atlassian.net/browse/K8SPG-799) - Fixed teh issue with the cluster being blocked due to inability to pull the image fot the Patroni Version Detector Pod if imagePullSecrets in configured. The issue is fixed by respecting the configuration for the patroni version check pod. (Thank you Baptiste Balmon for reporting this issue)
+* [K8SPG-799](https://perconadev.atlassian.net/browse/K8SPG-799) - Fixed the issue with the cluster being blocked due to inability to pull the image fot the Patroni Version Detector Pod if imagePullSecrets in configured. The issue is fixed by respecting the configuration for the patroni version check pod. (Thank you Baptiste Balmon for reporting this issue)
 
 * [K8SPG-804](https://perconadev.atlassian.net/browse/K8SPG-804) - Fixed an issue where outdated cluster state could cause a duplicate backup job to be created, blocking new backups. The issue was fixed by ensuring `reconcileManualBackup` fetches the latest postgrescluster state.
 
