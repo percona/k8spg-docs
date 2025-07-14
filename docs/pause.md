@@ -2,7 +2,7 @@
 
 ## Pause and resume
 
-Sometimes you may need to temporarily pause your cluster and restart it later, such as during maintenance.
+Sometimes you may need to temporarily shut down (pause) your cluster and restart it later, such as during maintenance.
 
 The `deploy/cr.yaml` file contains a special `spec.pause` key for this.
 Setting it to `true` gracefully stops the cluster:
