@@ -329,8 +329,8 @@ You may want to append entries to `pg_hba`. You can use the `spec.patroni.postgr
     dynamicConfiguration:
       postgresql:
         pg_hba:
-          local all all trust
-          reject all all all
+        - local all all trust
+        - reject all all all
 ```
 
 The order of parameters matters in `pg_hba.conf`, so consider overriding the list completely. For this, you can use the `patronictl edit-config` command:
