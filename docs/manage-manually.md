@@ -24,21 +24,7 @@ Here's what you need to do:
     $ kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/sleep-forever
     ```
 
-2. Now you can pause Patroni:
-
-    ```{.bash data-prompt="$"}
-    $ kubectl exec cluster1-instance1-24b8-0 -- patronictl pause
-    ```
-
-    ??? example "Expected output"
-
-        ```{text .no-copy}
-        Success: cluster management is paused
-        ```
-
-    Patroni is now running in a paused mode, not changing the state of PostgreSQL.
-
-3. Stop PostgreSQL:
+2. Stop PostgreSQL:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 stop
@@ -51,16 +37,31 @@ Here's what you need to do:
         server stopped
         ```
 
-3. You can now do your maintenance tasks.
+3. Optionally, you can delete the Pod:
 
-4. When you finished, you can start PostgreSQL manually:
+     ```{.bash data-prompt="$"}
+    kubectl delete pod cluster1-instance1-24b8-0
+    ```
+
+4. After the Pod restarts, it won't start PostgreSQL. You can check it with the following command:
+
+   ```{.bash data-prompt="$"}
+   $ kubectl logs cluster1-instance1-24b8-0 database
+   ```
+
+   ??? example "Expected output"
+        ```{text .no-copy}
+        The pgdata/sleep-forever file is detected, node entered an infinite sleep
+        If you want to exit from the infinite sleep, remove the pgdata/sleep-forever file
+        ```
+
+4. Now you can start PostgreSQL manually:
 
     ```{.bash data-prompt="$"}
     $ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 start
     ```
 
     ??? example "Expected output"
-
         ```{text .no-copy}
         2025-04-01 16:27:41.850 UTC [1434] LOG:  pgaudit extension initialized
         2025-04-01 16:27:42.075 UTC [1434] LOG:  redirecting log output to logging collector process
@@ -69,10 +70,10 @@ Here's what you need to do:
         server started
         ```
 
-5. Remove the `sleep-forever` file to reenable the liveness probe.
+5. When you are done with the maintenance, remove the `sleep-forever` file to reenable the liveness probe.
 
     ```{.bash data-prompt="$"}
-    kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
+    $ kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
     ```
 
 ## Stop reconciliation by putting a cluster into an unmanaged mode
