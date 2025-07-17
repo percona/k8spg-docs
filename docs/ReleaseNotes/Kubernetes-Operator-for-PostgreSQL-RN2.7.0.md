@@ -75,19 +75,19 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 
 ### Improvements
 
-* [K8SPG-571](https://perconadev.atlassian.net/browse/K8SPG-571) - Add ability to access to a public schema for a non-superuser custom user for every database listed for them. 
+* [K8SPG-571](https://perconadev.atlassian.net/browse/K8SPG-571) - Added the ability to access to a public schema for a non-superuser custom user for every database listed for them. 
 
-* [K8SPG-612](https://perconadev.atlassian.net/browse/K8SPG-612) - Use official `percona-pgbouncer` Docker image
+* [K8SPG-612](https://perconadev.atlassian.net/browse/K8SPG-612) - Updated the `pgBouncer` image to use the official `percona-pgbouncer` Docker image
 
-* [K8SPG-613](https://perconadev.atlassian.net/browse/K8SPG-613) - Use official `percona-pgbackrest` Docker image
+* [K8SPG-613](https://perconadev.atlassian.net/browse/K8SPG-613) - Updated the `pgBackRest` image to use the official `percona-pgbackrest` Docker image
 
-* [K8SPG-654](https://perconadev.atlassian.net/browse/K8SPG-654) - Added ability to add custom parameters in the Custom Resource and pass them to PMM.
+* [K8SPG-654](https://perconadev.atlassian.net/browse/K8SPG-654) - Added the ability to add custom parameters in the Custom Resource and pass them to PMM.
 
-* [K8SPG-675](https://perconadev.atlassian.net/browse/K8SPG-675) - Added ability to define resource requests for CPU and memory
+* [K8SPG-675](https://perconadev.atlassian.net/browse/K8SPG-675) - Added the ability to define resource requests for CPU and memory
 
-* [K8SPG-704](https://perconadev.atlassian.net/browse/K8SPG-704) - Add the ability to configure  `create_replica_methods` for Patroni
+* [K8SPG-704](https://perconadev.atlassian.net/browse/K8SPG-704) - Added the ability to configure  `create_replica_methods` for Patroni
 
-* [K8SPG-710](https://perconadev.atlassian.net/browse/K8SPG-710) - Add the ability to disable backups
+* [K8SPG-710](https://perconadev.atlassian.net/browse/K8SPG-710) - Added the ability to disable backups
 
 * [K8SPG-715](https://perconadev.atlassian.net/browse/K8SPG-715) - Improved custom-extensions e2e test by adding `pgvector` 
 
@@ -101,13 +101,15 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 
 * [K8SPG-743](https://perconadev.atlassian.net/browse/K8SPG-743) - Disabled client-side rate limiting in the Kubernetes Go client to avoid throttling errors when managing multiple clusters with a single operator. This change leverages Kubernetes' server-side Priority and Fairness mechanisms introduced in v1.20 and later. (Thank you Joshua Sierles for contributing to this issue)
 
-* [K8SPG-744](https://perconadev.atlassian.net/browse/K8SPG-744) - Improve Contributing guide  with the steps how to build the Operator for development purposes
+* [K8SPG-744](https://perconadev.atlassian.net/browse/K8SPG-744) - Improved Contributing guide  with the steps how to build the Operator for development purposes
 
 * [K8SPG-717](https://perconadev.atlassian.net/browse/K8SPG-717), [K8SPG-750](https://perconadev.atlassian.net/browse/K8SPG-750) -  Added the ability to define a custom cluster name for PMM for filtering
 
 * [K8SPG-753](https://perconadev.atlassian.net/browse/K8SPG-753) - Added the ability to enable `pg_stat_statements` instead of `pg_stat_monitor`
 
-* [K8SPG-761](https://perconadev.atlassian.net/browse/K8SPG-761) - Add the ability to add concurrent reconciliation workers
+* [K8SPG-761](https://perconadev.atlassian.net/browse/K8SPG-761) - Added the ability to add concurrent reconciliation workers
+
+* [K*SPG-828](https://perconadev.atlassian.net/browse/K8SPG-828) - Added registry name to images due to Openshift 4.19 changes
 
 ## Bugs Fixed
 
@@ -146,6 +148,19 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 * New repositories for `pgBouncer` and `pgBackRest`
 
    Now the Operator uses the official Percona Docker images for `pgBouncer` and `pgBackRest` components. Pay attention to the new image repositories when you [upgrade the Operator and the database](update.md). Check the [Percona certified images](images.md) for exact image names.
+
+* Changes in image pulling on OpenShift
+
+   Starting with OpenShift version 4.19, the way Operator images are pulled has changed. Now the registry name must be specified for image paths to ensure the images are pulled successfully. 
+
+   All Custom Resource manifests now include the registry name in image paths. This enables you to successfully install the Operator using the default manifests from Git repositories. If you upgrade the Operator and the database cluster via the command line interface, add the `docker.io` registry name to image paths for all components in the format:
+
+   ```
+   "docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres"
+   ```
+
+   Follow our [upgrade documentation](../update.md) for update guidelines.
+
 
 
 ## Supported software
