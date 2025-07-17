@@ -1,7 +1,7 @@
 # Variables used across the documentation
 
 release: 2.7.0
-pmm2recommended: 3.2.0
+pmm2recommended: 3.3.0
 commandName: 'kubectl'
 postgresrecommended: 17.5.2
 postgres16recommended: 16.9
