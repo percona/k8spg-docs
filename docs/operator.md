@@ -1501,6 +1501,14 @@ Address of the PMM Server to collect data from the cluster.
 | ---------- | ------- |
 | :material-code-string: string | `monitoring-service` |
 
+### pmm.customClusterName
+
+A custom name to define for a cluster. PMM Server uses this name to properly parse the metrics and display them on dashboards. Using a custom name is useful for clusters deployed in different data centers - PMM Server connects them and monitors them as one deployment. Another use case is for clusters deployed with the same name in different namespaces - PMM treats each cluster separately.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `postgresql-cluster` |
+
 ### `pmm.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PMM Client container. It must not exceed the limit.
@@ -1536,7 +1544,6 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `128Mi` |
-
 
 ### `pmm.querySource`
 
