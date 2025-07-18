@@ -1016,6 +1016,14 @@ The `backup` section in the
 file contains the following configuration options for the regular
 Percona Distribution for PostgreSQL backups.
 
+### `backups.enabled`
+
+Enables to turn on/off backups for the cluster. Use this option with caution. Read more in [Disable backups](backups-disable.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `true` |
+
 ### `backups.trackLatestRestorableTime`
 
 Enables or disables [tracking the latest restorable time](backups-restore.md#backups-latest-restorable-time) for latest successful backup (on by default). It can be turned off to reduced S3 API usage.
