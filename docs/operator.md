@@ -919,7 +919,7 @@ Image for the [custom sidecar container](sidecar.md) for PostgreSQL Pods.
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `mycontainer1:latest` |
+| :material-code-string: string | `busybox:latest` |
 
 ### `instances.sidecars.name`
 
