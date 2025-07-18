@@ -8,9 +8,18 @@ Scaling can be vertical and horizontal. Vertical scaling adds more compute or st
 
 ### Scale compute
 
-There are multiple components that Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, etc. To add or reduce CPU or Memory you need to edit corresponding sections in the Custom Resource. We follow the structure for requests and limits that Kubernetes [provides :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+There are multiple components that the Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others (See [Architecture](architecture.md) for the full list of components.)
 
-To add more resources to your PostgreSQL instances edit the following section in the Custom Resource:
+You can manage compute resources for a specific component using the corresponding section in the Custom Resource manifest. We follow the structure for [requests and limits  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) that Kubernetes provides.
+
+The most common resources to specify are CPU and memory (RAM).
+
+You can specify a **request** for CPU or memory for a component's Pod. In this case, the Kubernetes scheduler uses these values to decide on which Kubernetes node to place the Pod, ensuring the node has at least the requested resources available. The Pod will only be scheduled on a node that can satisfy all its resource requests.
+
+If you specify a **limit** for the resources, this is the maximum amount of CPU or memory the container is allowed to use. If the container tries to use more than the limit, it may be throttled (for CPU) or terminated (for memory).
+
+You can set both `requests` and `limits` in the `resources` section of your Custom Resource. For example:
+
 
 ```yaml
 spec:
@@ -19,10 +28,15 @@ spec:
   - name: instance1
     replicas: 3
     resources:
+      requests:
+        cpu: 1.0
+        memory: 2Gi
       limits:
         cpu: 2.0
         memory: 4Gi
 ```
+
+If you only set `limits` and omit `requests`, Kubernetes will default the request to the limit value.
 
 Use our reference documentation for the [Custom Resource options](operator.md) for more details about other components.
 
