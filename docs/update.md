@@ -75,7 +75,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
     ``` {.bash data-prompt="$" }
     $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
-       -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"percona/percona-postgresql-operator:{{ release }}"}]}}}}'
+       -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{ release }}"}]}}}}'
     ```
 
 3. The deployment rollout will be automatically triggered by the applied patch.
@@ -143,7 +143,9 @@ If you have [installed the Operator on the OpenShift platform using OLM](openshi
 
 Before the Operator version 2.4, you could upgrade Percona Distribution for PostgreSQL from one minor version to another (such as upgrading from 15.5 to 15.7, or from 16.1 to 16.3). Starting from the Operator 2.4 you can also upgrade from one PostgreSQL major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3). Minor version upgrade and major version upgrade are technically different tasks with different scenarios.
 
-!!! note
+1. Starting from the Operator 2.4.0 you can do a *minor* upgrade (for example, from 15.5 to 15.7, or from 16.1 to 16.3) and a *major* upgrade (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3) of Percona Distribution for PostgreSQL. Before the Operator version 2.4.0, you could only do a minor upgrade of Percona Distribution for PostgreSQL. 
+
+2. Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library `glibc` and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
 
     Upgrading a PostgreSQL cluster upgrade may result in downtime, as well as [failover](change-primary.md) caused by updating the primary instance.
 
@@ -170,31 +172,31 @@ Upgrading Percona Distribution for PostgreSQL minor version (for example, 16.1 t
     $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
        "spec": {
           "crVersion":"{{ release }}",
-          "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-          "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-          "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } },
-          "pmm": { "image": "percona/pmm-client:{{ pmm2recommended }}" }
+          "image": "docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
+          "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
+          "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } },
+          "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm2recommended }}" }
        }}'
     ```
 
     The following image names in the above example were taken from the [list of certified images](images.md):
     
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}`,
-    * `percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}`,
-    * `percona/pmm-client:{{ pmm2recommended }}`.
+    * `docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres`,
+    * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
+    * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
+    * `docker.io/percona/pmm-client:{{ pmm2recommended }}`.
 
     !!! warning
 
-        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
+        The above command upgrades various components of the cluster including PMM Client. It is [highly recommended :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html) to upgrade PMM Server **before** upgrading PMM Client. If it wasn't done and you would like to avoid PMM Client upgrade, remove it from the list of images, reducing the last of two patch commands as follows:
     
         ``` {.bash data-prompt="$" }
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
-              "proxy": { "pgBouncer": { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbouncer{{ pgbouncerrecommended }}" } },
-              "backups": { "pgbackrest":  { "image": "percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-pgbackrest{{ pgbackrestrecommended }}" } }
+              "image": "docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres",
+              "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
+              "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } }
            }}'
         ```
 
@@ -221,7 +223,7 @@ Major version upgrade allows you to jump from one database major version to anot
 
     ```yaml
     ...
-    image: percona/percona-postgresql-operator:2.4.0-ppg15-postgres
+    image: docker.io/percona/percona-postgresql-operator:{{release}}-ppg15-postgres
     postgresVersion: 15
     ...
     ```
@@ -237,12 +239,12 @@ metadata:
   name: cluster1-15-to-16
 spec:
   postgresClusterName: cluster1
-  image: percona/percona-postgresql-operator:{{ release }}-upgrade
+  image: docker.io/percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
-  toPostgresImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
-  toPgBouncerImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbouncer{{ pgbouncerrecommended }}
-  toPgBackRestImage: percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-pgbackrest{{ pgbackrestrecommended }}
+  toPostgresImage: docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
+  toPgBouncerImage: docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}
+  toPgBackRestImage: docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}
 ```
 
 As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them [in the list of certified images](images.md) for the current Operator release. For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
