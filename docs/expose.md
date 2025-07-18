@@ -46,7 +46,7 @@ use the Cluster IP Service type in `proxy.pgBouncer.expose.type`, which is the
 default. In this case to connect to the database use the internal domain name -
 `cluster1-pgbouncer.<namespace>.svc.cluster.local`.
 
-## Exposing the cluster without PgBouncer
+## Exposing the cluster without `pgBouncer`
 
 You can connect to the cluster without a proxy.
 
