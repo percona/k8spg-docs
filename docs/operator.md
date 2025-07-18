@@ -684,6 +684,38 @@ The number of Replicas to create for the PostgreSQL instance.
 | ---------- | ------- |
 | :material-numeric-1-box: int | `3` |
 
+### `instances.initContainer.image`
+
+Defines an image for an init container to run before the main container in the Pod. The init container is typically used for setup tasks such as initializing filesystems, setting permissions, or preparing configuration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `perconalab/percona-postgresql-operator:{{release}}` |
+
+### `instances.initContainer.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for an init container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `2.0` |
+
+### `instances.initContainer.resources.limits.memory`
+
+The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for an init container.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `4Gi` |
+
+### `instances.initContainer.securityContext`
+
+Security settings for the init container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-text-long: subdoc     | <pre>runAsUser: 1001<br>runAsGroup: 1001<br>runAsNonRoot: true <br>privileged: false<br>allowPrivilegeEscalation: false<br>readOnlyRootFilesystem: true </pre> |
+
 ### `instances.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a PostgreSQL instance. It must not exceed the limit.
