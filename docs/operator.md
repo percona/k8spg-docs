@@ -1809,6 +1809,18 @@ The name of the Pod that should be [set as the new primary](change-primary.md). 
 | ---------- | ------- |
 | :material-code-string: string |  |
 
+### `patroni.createReplicaMethods`
+
+Defines available replica creation methods and the order of executing them during a cluster start or reinitialisation. Patroni will stop on the first one that returns 0. 
+
+By default, `pg_basebackup` is used to create replicas during a new cluster deployment. After the Operator makes an initial backup, it updates the Patroni ConfigMap assing the `pgBackRest` as the first item in the list. This configuration is not propagated to Patroni itself until you restart the database instance Pods or manually reload Patroni configuration.
+
+In the same way, after you define the replica set methods and apply the configuration, the Operator updates the Patroni ConfigMap. You must manually reload Patroni configuration of every database instance to make Patroni aware of the changes. Read more about setting replica methods in the [Configure create_replica_methods](reinit.md#configure-create_replica_methods) section.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | - pgbackrest <br> - basebackup |
+
 ## Custom extensions Section
 
 The `extensions` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
