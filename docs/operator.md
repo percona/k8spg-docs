@@ -1970,6 +1970,14 @@ Enable or disable [pgvector :octicons-link-external-16:](https://github.com/pgve
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `extensions.builtin.pg_repack`
+
+Enable or disable [pg_repack :octicons-link-external-16:](https://github.com/reorg/pg_repack) PostgreSQL extension. 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `extensions.custom.name`
 
 Name of the PostgreSQL custom extension.
