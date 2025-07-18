@@ -7,7 +7,7 @@ Percona Operator for PostgreSQL version {{ release }}:
 |:---------------------------------------------------------------------|:-----------------------------------------------------------------|
 | percona/percona-postgresql-operator:2.6.0 (x86_64)                   | fb1b6b08e986a21b30ce5e538c54e92e5fd978cd62abf17856c74582a237e931 |
 | percona/percona-postgresql-operator:2.6.0 (ARM64)                    | 4e545bebaa66e43c1c0707bb576b4047ca5dd6fc0f4fb326b553cba744b337ae |
-|percona/percona-postgresql-operator:2.6.0-ppg17.4-postgres           | 142ea1573c67fdb60a197352c576a1d01da247eee3b3fc0f09e86dd4c916cc82 |
+| percona/percona-postgresql-operator:2.6.0-ppg17.4-postgres           | 142ea1573c67fdb60a197352c576a1d01da247eee3b3fc0f09e86dd4c916cc82 |
 | percona/percona-postgresql-operator:2.6.0-ppg17.2-postgres           | acb876c29ddcb8ca3d157a83e2b0e8410dabbd0c4c35257fa8f66a9f0b981fda |
 | percona/percona-postgresql-operator:2.6.0-ppg16.8-postgres           | 7ecc5320ae341778140dd90e1e628ab3552f12cd4fb07e93070b034dc9e6c776 |
 | percona/percona-postgresql-operator:2.6.0-ppg15.12-postgres          | db6d09dcb2e6f4c3a10de521fe0b008df0675741ee062fdbcaabfd4a466200d1 |
@@ -28,7 +28,7 @@ Percona Operator for PostgreSQL version {{ release }}:
 | percona/percona-postgresql-operator:2.6.0-ppg17.4-pgbackrest2.54.2   | 6b4648e00f0cd187ef7d20542d8df93f0a4d2f79df3946343e57bce40ee119aa |
 | percona/percona-postgresql-operator:2.6.0-ppg17.2-pgbackrest2.54.0   | a3641d58a49fe4f771f3638c9fa18c71dd2f9aba1054e5693d3756134676cb3e |
 | percona/percona-postgresql-operator:2.6.0-ppg16.8-pgbackrest2.54.2   | eca4f0153fd75c87bb35e54e5358da458a502bcc7671a798ddf60f6a87246ba8 |
-| percona/percona-postgresql-operator:2.6.0-ppg15.12-pgbackrest2.54.2	 | 9d33160904b7862d03c1018e4bf80247ea175918b7b0b4d4907e175045ddf4d1 |
+| percona/percona-postgresql-operator:2.6.0-ppg15.12-pgbackrest2.54.2  | 9d33160904b7862d03c1018e4bf80247ea175918b7b0b4d4907e175045ddf4d1 |
 | percona/percona-postgresql-operator:2.6.0-ppg14.17-pgbackrest2.54.2  | 95e904ed80ee3f28519bdb7b0375d4c41421f80fc3631285e3a5cf2ed5a6e67a |
 | percona/percona-postgresql-operator:2.6.0-ppg13.20-pgbackrest2.54.2  | 0d4978fdcd22eeec3e7773b11bd6cb20f6df246c3fb8ad73b85f672940b104bb |
 | percona/pmm-client:2.44.0 (x86_64)                                   | 19a07dfa8c12a0554308cd11d7d38494ea02a14cfac6c051ce8ff254b7d0a4a7 |
