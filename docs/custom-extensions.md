@@ -1,6 +1,6 @@
 # Add custom PostgreSQL extensions
 
-One of the specific PostgreSQL features is the ability to provide it with additional functionality via [Extensions :octicons-link-external-16:](https://www.postgresql.org/download/products/6-postgresql-extensions/). Percona Distribution for PostgreSQL [supports a number of extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/16/), making this list available for the database cluster managed by the Operator as well.
+One of the specific PostgreSQL features is the ability to provide it with additional functionality via [Extensions :octicons-link-external-16:](https://www.postgresql.org/download/products/6-postgresql-extensions/). Percona Distribution for PostgreSQL [supports a number of extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/extensions.html), making this list available for the database cluster managed by the Operator as well.
 
 Still there are cases when the needed extension is not in this list, or when it's a custom extension developed by the end-user. 
 Adding more extensions is not an easy task in case of a containerized database in Kubernetes-based environment, as normally it would make the user build a custom PostgreSQL image. 
@@ -9,7 +9,7 @@ Still, starting from the Operator version 2.3 there is an alternative way to ext
 
 ## Enabling or disabling built-in extensions
 
-Built-in extensions can be easily enabled or disabled in the `extensions.builtin` subsection of the `deploy/cr.yaml` configuration file. To disable a built-in extension, you need to explicitly set the apporpriate option to `false`. Enabling means setting the option to `true`. Check the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) manifest to find out which built-in extensions are enabled by default.
+You can enable or disable built-in extensions in the `extensions.builtin` section of your `deploy/cr.yaml` file. Set an option to `true` to enable an extension, or to `false` to disable it. To see which extensions are enabled by default, check the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/v{{ release }}/deploy/cr.yaml) Custom Resource manifest.
 
 ```yaml
 extensions:
@@ -18,13 +18,11 @@ extensions:
     pg_stat_monitor: true
     pg_audit: true
     pgvector: false
+    pg_repack: false
 ```
 
-Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command.
+Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command. This causes the Operator to restart the Pods of your cluster. 
 
-!!! note
-
-    Editing this section and applying it will cause the Pods to restart.
 
 ## Adding custom extensions
 
