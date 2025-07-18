@@ -12,9 +12,9 @@ The Operator is natively integrated with PMM 3, enabling you to monitor the heal
 
 Note that the Operator supports both PMM2 and PMM3. The decision on what PMM version is used depends on the authentication method you provide in the Operator configuration: PMM2 uses API keys while PMM3 uses service account token. If the Operator configuration contains both authentication methods with non-empty values, PMM3 takes the priority.
 
-To use PMM, ensure that the PMM client image is compatible with the PMM Server version. Check [Percona certified images](image.md) for the correct client image.
+To use PMM, ensure that the PMM client image is compatible with the PMM Server version. Check [Percona certified images](../images.md) for the correct client image.
 
-For how to configure monitoring with PMM see the [documentation](monitoring-tutorial.md).
+For how to configure monitoring with PMM see the [documentation](../monitoring-tutorial.md).
 
 ### Improved monitoring for clusters in multi-region or multi-namespace deployments in PMM
 
@@ -56,7 +56,7 @@ patroni:
 
 Note that after you apply this configuration, the Operator updates the Patroni ConfigMap, but it doesn't apply this configuration to Patroni. You must manually reload the Patroni configuration of every database instance for it to come into force.
 
-Read more about these troubleshooting methods in the [documentation](manage-manually.md#override-patroni-configuration)
+Read more about these troubleshooting methods in the [documentation](../manage-manually.md#override-patroni-configuration).
 
 ## Changelog
 
@@ -147,19 +147,19 @@ Read more about these troubleshooting methods in the [documentation](manage-manu
 
 * New repositories for `pgBouncer` and `pgBackRest`
 
-   Now the Operator uses the official Percona Docker images for `pgBouncer` and `pgBackRest` components. Pay attention to the new image repositories when you [upgrade the Operator and the database](update.md). Check the [Percona certified images](images.md) for exact image names.
+    Now the Operator uses the official Percona Docker images for `pgBouncer` and `pgBackRest` components. Pay attention to the new image repositories when you [upgrade the Operator and the database](update.md). Check the [Percona certified images](images.md) for exact image names.
 
 * Changes in image pulling on OpenShift
 
-   Starting with OpenShift version 4.19, the way Operator images are pulled has changed. Now the registry name must be specified for image paths to ensure the images are pulled successfully from DockerHub. 
+    Starting with OpenShift version 4.19, the way Operator images are pulled has changed. Now the registry name must be specified for image paths to ensure the images are pulled successfully from DockerHub. 
 
-   All Custom Resource manifests now include the registry name in image paths. This enables you to successfully install the Operator using the default manifests from Git repositories. If you upgrade the Operator and the database cluster via the command line interface, add the `docker.io` registry name to image paths for all components in the format:
+    All Custom Resource manifests now include the registry name in image paths. This enables you to successfully install the Operator using the default manifests from Git repositories. If you upgrade the Operator and the database cluster via the command line interface, add the `docker.io` registry name to image paths for all components in the format:
 
-   ```
-   "docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres"
-   ```
+    ```
+    "docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres"
+    ```
 
-   Follow our [upgrade documentation](../update.md) for update guidelines.
+    Follow our [upgrade documentation](../update.md) for update guidelines.
 
 
 
