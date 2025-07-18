@@ -292,21 +292,9 @@ You can also delete the `PerconaPGUpgrade` resource (this will clean up the jobs
 $ kubectl delete perconapgupgrade cluster1-15-to-16
 ```
 
-### Upgrading PostgreSQL extensions
+### Upgrade `pg_stat_monitor` (for Operator earlier than 2.6.0)
 
-If there are [custom PostgreSQL extensions](custom-extensions.md#adding-custom-extensions) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
-
-The only [built-in extension](custom-extensions.md#enabling-or-disabling-built-in-extensions) which demands special treatment after the database upgrade is `pg_stat_monitor` one. It is used to provide query analytics for Percona Monitoring and Management (PMM), if enabled in the Custom Resource (`deploy/cr.yaml` manifest):
-
-```yaml
-extensions:
-  ...
-  builtin:
-    pg_stat_monitor: true
-    ...
-```
-
-If you need it, do the following after the database uprgade (this manual step is not required for the Operator versions 2.6.0 and newer):
+`pg_stat_monitor` is the built-in extension, which is used to provide query analytics for Percona Monitoring and Management (PMM). If you [enabled it](custom-extensions.md#enabling-or-disabling-built-in-extensions) in the Custom Resource (`deploy/cr.yaml` manifest), you need to manually update it *after the database upgrade* (this manual step is not required for the Operator versions 2.6.0 and newer):
 
 1. Find the primary instance of your PostgreSQL cluster. You can do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
@@ -316,7 +304,7 @@ If you need it, do the following after the database uprgade (this manual step is
         -L postgres-operator.crunchydata.com/role | grep instance1
     ```
 
-    ???+ example "Sample output" 
+    ???+ example "Sample output"
 
         ```{.text .no-copy hl_lines="3"}
         cluster1-instance1-bmdp-0             4/4     Running   0          2m23s   cluster1-instance1-bmdp   replica
@@ -325,10 +313,10 @@ If you need it, do the following after the database uprgade (this manual step is
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-2.  Login to a primary instance (`cluster1-instance1-ttm9-0` in the above example) as an administrative user:
+2. Log in to a primary instance (`cluster1-instance1-ttm9-0` in the above example) as an administrative user:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl exec  -n <namespace> -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
+    kubectl exec  -n <namespace> -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
     ```
 
 3. Execute the following SQL statement:
@@ -336,6 +324,11 @@ If you need it, do the following after the database uprgade (this manual step is
     ``` {.sql data-prompt="postgres=#" }
     postgres=# alter extension pg_stat_monitor update;
     ```
+
+### Upgrading PostgreSQL extensions
+
+If there are [custom PostgreSQL extensions](custom-extensions.md#adding-custom-extensions) installed in the cluster, they need to be taken into account: you need to build and package each custom extension for the new PostgreSQL major version. During the  upgrade the Operator will install extensions into the upgrade container.
+
 
 ## Upgrade from the Operator version 1.x to version 2.x
 
