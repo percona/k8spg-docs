@@ -174,6 +174,14 @@ The custom name of the user's Secret; if not specified, the default `<clusterNam
 | ---------- | ------- |
 | :material-code-string: string | `"rhino-credentials"` |
 
+### `users.grantPublicSchemaAccess`
+
+Grants access to the `public` schema to the user for all databases associated with this user. 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `false` |
+
 ### `databaseInitSQL.key`
 
 Data key for the [Custom configuration options ConfigMap :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/configmap/) with the init SQL file, which will be executed at cluster creation time.
