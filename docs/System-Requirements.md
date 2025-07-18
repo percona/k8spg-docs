@@ -8,14 +8,14 @@ of storage classes, hostPath, and NFS.
 
 The Operator {{ release }} is developed, tested and based on:
 
---8<-- "sw-versions.txt"
+--8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:software"
 
 ## Supported platforms
 
 The following platforms were tested and are officially supported by the Operator
 {{ release }}:
 
---8<-- "supported-platforms.txt"
+--8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:platforms"
 
 Other Kubernetes platforms may also work but have not been tested.
 

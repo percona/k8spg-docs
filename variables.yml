@@ -1,19 +1,19 @@
 # Variables used across the documentation
 
-release: 2.6.0
-pmm2recommended: 2.44.0
+release: 2.7.0
+pmm2recommended: 3.3.0
 commandName: 'kubectl'
-postgresrecommended: 17.4
-postgres16recommended: 16.8
-certmanagerrecommended: '1.17.0'
-pgbouncerrecommended: '1.24.0'
-pgbouncer17_2recommended: '1.23.1'
-pgbackrestrecommended: '2.54.2'
-pgbackrest17_2recommended: '2.54.0'
-gkerecommended: '1.31'
+postgresrecommended: 17.5.2
+postgres16recommended: 16.9
+certmanagerrecommended: '1.18.2'
+pgbouncerrecommended: '1.24.1'
+pgbackrestrecommended: '2.55.0'
+gkerecommended: '1.32'
 postgisrecommended: 3.3.8
+patronirecommended: 4.0.5
 k8s_monitor_tag: 'v0.1.1'
 
 
 date:
+  2_7_0: "2025-07-18"
   2_6_0: "2025-03-17"
