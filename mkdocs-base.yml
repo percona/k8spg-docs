@@ -25,14 +25,14 @@ theme:
         icon: material/brightness-auto
         name: Color theme set to Automatic. Click to change
     - media: "(prefers-color-scheme: light)"
-      scheme: percona-light
+      scheme: default
       primary: custom
       accent: custom
       toggle:
         icon: material/brightness-7
         name: Color theme set to Light Mode. Click to change
     - media: "(prefers-color-scheme: dark)"
-      scheme: percona-dark
+      scheme: slate
       primary: custom
       accent: custom
       toggle:
@@ -89,7 +89,11 @@ markdown_extensions:
   pymdownx.mark: {}
   pymdownx.smartsymbols: {}
   pymdownx.tilde: {}
-  pymdownx.superfences: {}
+  pymdownx.superfences: 
+    custom_fences:
+      - name: mermaid
+        class: mermaid
+        format: !!python/name:pymdownx.superfences.fence_code_format
   pymdownx.tabbed:
     alternate_style: true
   pymdownx.tasklist:
@@ -188,6 +192,7 @@ nav:
           - "Labels and annotations": annotations.md
           - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
+          - reconciliation-concurrency.md
     - Management:
           - "Upgrade PostgreSQL and the Operator": update.md
           - Upgrade from version 1 to version 2:
@@ -204,10 +209,12 @@ nav:
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
             - backups-delete.md
+            - backups-disable.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
+
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md
@@ -224,13 +231,19 @@ nav:
           - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
+
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
           - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
+          - "Manage a database manually": manage-manually.md
+          - reinit.md
     - Reference:
           - "Custom Resource options": operator.md
+          - "Backup resource options": backup-resource-options.md
+          - "Restore options": restore-options.md
+          - "Secrets options": secret-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md

@@ -2,11 +2,13 @@
 
 The next step after [connecting to the cluster](connect.md) is to insert some sample data to PostgreSQL.
 
-## Create a schema
+When you start a PostgreSQL container and connect to the database, a user is created with the username that matches the name of your cluster. Also, a database and a schema named after the name of this user are created so that you can [create a table](#create-a-table) right away.
 
-Every database in PostgreSQL has a default schema called `public`. A schema stores database objects like tables, views, indexes and allows organizing them into logical groups. 
+## Create a schema (for Operator version earlier than 2.6.0)
 
-When you create a table, it ends up in the `public` schema by default. In recent PostgreSQL versions (starting from PostgreSQL 15), non-database owners cannot access the `public` schema. Therefore, you need to create a new schema to insert the data.
+In Operator versions earlier than 2.6.0, you must create a new schema to insert the data. This is because your user cannot access the default schema called `public` due to PostgreSQL restrictions (instroduced starting with PostgreSQL 15).
+
+A schema stores database objects like tables, views, indexes and allows organizing them into logical groups.
 
 Use the following statement to create a schema
 
