@@ -231,6 +231,9 @@ nav:
           - "Check the logs": debug-logs.md
     - Reference:
           - "Custom Resource options": operator.md
+          - "Backup resource options": backup-resource-options.md
+          - "Restore options": restore-options.md
+          - "Secrets options": secret-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md
