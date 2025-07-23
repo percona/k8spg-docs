@@ -500,9 +500,51 @@ The Operator automatically updates the automatically-generated certificates to e
 
 You can update only custom certificates for external and / or internal communication and keep the same root CA certificate. 
 
-To do this, specify new values for the Secrets that you defined in the `spec.customTLSSecret` and / or `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. 
+You can update only the values for the existing Secrets referenced as `spec.customTLSSecret` and / or `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. The Operator applies the changes without restarting the database cluster. This is called hot reload. 
 
-If you create new Secrets with new names and values, update the `spec.customTLSSecret` and `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. This causes the Operator to restart the cluster. 
+This example shows how you can do it. Let's say you have the following certificates and Secrets:
+
+* `server.pem` / `server-key.pem` and the `cluster1-cert` Secret for external communication,
+* `replica.pem` / `replica-key.pem` and `cluster1-replication-cert` Secret for internal communication 
+* `ca.pem` / `ca-key.pem` is the existing CA root certificate that you keep
+
+Your cluster is deployed in the `postgres-operator` namespace.
+
+1. Set the context for the cluster:
+   
+    ```{.bash data-prompt="$"}
+    $ export NAMESPACE=postgres-operator
+    ```
+
+2. Create a YAML manifest for the `cluster1-cert` Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):
+
+    ```{.bash data-prompt="$"}
+    $ kubectl create secret generic cluster1-cert \
+       --from-file=tls.crt=server.pem \
+       --from-file=tls.key=server-key.pem \
+       --from-file=ca.crt=ca.pem \
+       -n "$NAMESPACE" \
+       --dry-run=client -o yaml > cluster1-cert.yaml
+    ```
+
+3. Create a YAML manifest for the `cluster1-replication-cert` Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):
+
+    ```{.bash data-prompt="$"}
+    $ kubectl create secret generic cluster1-replication-cert \
+       --from-file=tls.crt=replica.pem \
+       --from-file=tls.key=replica-key.pem \
+       --from-file=ca.crt=ca.pem \
+       -n "$NAMESPACE" \
+       --dry-run=client -o yaml > cluster1-replication-cert.yaml
+    ```
+
+4. Apply the manifests to update the Secrets:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f cluster1-cert.yaml -f cluster1-replication-cert.yaml -n "$NAMESPACE"
+    ```
+
+If you create new Secrets with new names and values, update the `spec.customTLSSecret` and `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. When you apply the new configuration,this causes the Operator to restart the cluster. 
 
 ### Update a custom root CA certificate
 
