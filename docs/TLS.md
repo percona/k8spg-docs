@@ -294,7 +294,7 @@ Here's how to do it:
 
             ``` {.text .no-copy}  
             Certificate:
-                  Data:
+                 Data:
                       Version: 3 (0x2)
                       Serial Number:
                           31:1b:1e:ca:06:e6:98:4d:7e:de:6d:1b:68:d8:53:0e
@@ -533,15 +533,15 @@ To update a custom root CA certificate, do the following:
     ```{.bash data-prompt="$"}
     $ kubectl create secret generic -n postgres-operator cluster1-tls \
       --from-file=ca.crt=ca.pem \
-      --from-file=tls.key=server.pem \
-      --from-file=tls.crt=server-key.pem
+      --from-file=tls.key=server-key.pem \
+      --from-file=tls.crt=server.pem
     ```
 
     ```{.bash data-prompt="$"}
     $ kubectl create secret generic -n postgres-operator cluster1-replication-tls \
       --from-file=ca.crt=ca.pem \
-      --from-file=tls.key=replication.pem \
-      --from-file=tls.crt=replication-key.pem
+      --from-file=tls.key=replication-key.pem \
+      --from-file=tls.crt=replication.pem
     ```
     
 5. Pause the cluster to prevent the Operator to restart the Pods mid-update.
