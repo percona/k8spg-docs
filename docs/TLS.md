@@ -500,7 +500,7 @@ The Operator automatically updates the automatically-generated certificates to e
 
 You can update only custom certificates for external and / or internal communication and keep the same root CA certificate. 
 
-You can update only the values for the existing Secrets referenced as `spec.customTLSSecret` and / or `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. The Operator applies the changes without restarting the database cluster. This is called hot reload. 
+You can update the contents of your existing Secrets referenced in the `spec.customTLSSecret` and/or `spec.customReplicationTLSSecret` fields in `deploy/cr.yaml` without changing their names. In this case, the Operator detects the updated certificate data and applies the changes to the running cluster without restarting it. Such update is called hot reload.
 
 This example shows how you can do it. Let's say you have the following certificates and Secrets:
 
@@ -595,10 +595,10 @@ To update a custom root CA certificate, do the following:
       --namespace postgres-operator
     ```
 
-6. Specify details about new custom certificates in the `deploy/cr.yaml`. Since this is a running cluster, apply the patch as follows:
+6. Specify details about new custom certificates in the `deploy/cr.yaml`. Since this is a provisioned cluster, apply the patch as follows:
 
     ```{.bash data-prompt="$"}
-    $ kubectl patch pg custer1 \
+    $ kubectl patch pg cluster1 \
         --type merge \
         --patch '{
             "spec": {
