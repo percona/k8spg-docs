@@ -7,6 +7,7 @@ need to remove some (or all) of the following objects:
 * Percona Distribution for PosgreSQL cluster managed by the Operator
 * Percona Operator for PostgreSQL itself
 * Custom Resource Definition deployed with the Operator
+* Resources like PVCs and Secrets
 
 ## Delete a database cluster
 
@@ -17,8 +18,8 @@ Operator by deleting the appropriate Custom Resource.
 
     There are two [finalizers :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) defined in the Custom Resource, which define whether TLS-related objects and data volumes should be deleted or preserved when the cluster is deleted.
 
-    * `finalizers.percona.com/delete-ssl`: if present, [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) are deleted when the cluster deletion occurs.
-    * `finalizers.percona.com/delete-pvc`: if present, [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods are deleted when the cluster deletion occurs.
+    * `finalizers.percona.com/delete-ssl`: if present, deletes [objects, created for SSL](TLS.md) (Secret, certificate, and issuer) when the cluster deletion occurs.
+    * `finalizers.percona.com/delete-pvc`: if present, deletes [Persistent Volume Claims :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for the database cluster Pods and user Secrets when the cluster deletion occurs.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
@@ -160,3 +161,61 @@ You can delete CRD as follows:
         customresourcedefinition.apiextensions.k8s.io "perconapgclusters.pgv2.percona.com" deleted
         customresourcedefinition.apiextensions.k8s.io "perconapgrestores.pgv2.percona.com" deleted
         ```
+
+## Clean up resources
+
+By default, TLS-related objects and data volumes remain in Kubernetes environment after you delete the cluster to allow you to recreate it without losing the data.
+
+You can automate resource cleanup by turning on `percona.com/delete-pvc` and/or `percona.com/delete-ssl` [finalizers](operator.md#metadata-name)). You can also delete TLS-related objects and PVCs manually.
+
+To manually clean up resources, do the following:
+{.power-number}
+
+1. Delete Persistent Volume Claims.
+   
+    1. List PVCs. Replace the `<namespace>` placeholder with your namespace:
+
+        ```{.bash data-prompt="$"}
+        $ kubectl get pvc -n <namespace>
+        ```    
+
+        ??? example "Sample output"
+
+            ```{.text .no-copy}
+            NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
+            cluster1-instance1-mkwh-pgdata   Bound    pvc-c22220e9-c5e9-40b8-91b5-3d437b40bdec   1Gi        RWO            standard-rwo   <unset>                 4m17s
+            cluster1-instance1-nvh4-pgdata   Bound    pvc-61a64aca-5165-4d25-b055-efc455d545b8   1Gi        RWO            standard-rwo   <unset>                 4m17s
+            cluster1-instance1-qknb-pgdata   Bound    pvc-87bc6549-ee49-47f5-9f5e-83a315f78fd9   1Gi        RWO            standard-rwo   <unset>                 4m18s
+            cluster1-repo1                   Bound    pvc-380e1100-b679-4716-ae8f-78372448b5f0   1Gi        RWO            standard-rwo   <unset>                 4m15s
+            ```
+        
+    2. Delete PVCs related to your cluster. The following command deletes PVCs for the `cluster1` cluster:
+
+        ```{.bash data-prompt="$"}
+        kubectl delete pvc cluster1-instance1-mkwh-pgdata cluster1-instance1-nvh4-pgdata cluster1-instance1-qknb-pgdata cluster1-repo1 -n <namespace>
+        ```
+
+        ??? example "Sample output"
+
+            ```{.text .no-copy}
+            persistentvolumeclaim "cluster1-instance1-mkwh-pgdata" deleted
+            persistentvolumeclaim "cluster1-instance1-nvh4-pgdata" deleted
+            persistentvolumeclaim "cluster1-instance1-qknb-pgdata" deleted
+            persistentvolumeclaim "cluster1-repo1" deleted
+            ```
+
+         Note that if your Custom Resource manifest includes the `percona.com/delete-pvc` finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.
+
+    2. Delete the Secrets
+
+        1. List Secrets:
+
+            ```{.bash data-prompt="$"}
+            $ kubectl get secrets -n <namespace>
+            ```    
+
+        2. Delete the Secret:
+        
+            ```{.bash data-prompt="$"}
+            $ kubectl delete secret <secret_name> -n <namespace>
+            ```
