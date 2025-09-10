@@ -1,0 +1,53 @@
+name: Build Percona Operator for PostgreSQL docs
+on:
+  push:
+    branches: 
+      - 2.0
+      - CLOUD-928-Implement-version-switcher-pg
+     
+jobs:
+  build:
+    name: Deploy docs
+    runs-on: ubuntu-latest
+
+    steps: 
+      #Pull the latest changes
+      - name: Checkout code
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0  # fetch all commits/branches
+      #Prepare the env
+      - name: Set up Python
+        uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: '3.x'
+      
+      #Configure git
+      - name: Configure git
+        env:
+          ROBOT_TOKEN: ${{ secrets.ROBOT_TOKEN }}
+        run: |
+          git config --global url."https://percona-platform-robot:${ROBOT_TOKEN}@github.com".insteadOf "https://github.com"
+          git config user.name "GitHub Action"
+          git config user.email "github-action@users.noreply.github.com"
+          git config user.password "${ROBOT_TOKEN}"
+          echo "GIT_USER=percona-platform-robot:${ROBOT_TOKEN}" >> $GITHUB_ENV
+
+      #Set up MkDocs
+      - name: Install MkDocs
+        run: |
+          python -m pip install --upgrade pip
+          pip install wheel
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+     
+     # Deploy docs
+      - name: Deploy docs
+        run: |
+          mike deploy $NEW_VERSION -b publish -p
+          mike set-default $NEW_VERSION -b publish -p
+        #  mike delete $PRUNED_VERSION -b publish -p
+        env:
+          NEW_VERSION: 2.7.0
+        #  PRUNED_VERSION: 2.7.0
+
