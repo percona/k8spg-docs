@@ -33,6 +33,16 @@ jobs:
           git config user.password "${ROBOT_TOKEN}"
           echo "GIT_USER=percona-platform-robot:${ROBOT_TOKEN}" >> $GITHUB_ENV
 
+
+      #Extract release from YAML
+      - name: Extract release from variables
+        run: |
+          RELEASE=$(grep '^release:' variables.yml | awk '{print $2}' )
+          echo "RELEASE=$RELEASE" >> $GITHUB_ENV
+          PRUNED_VERSION=$(grep '^pruned_version:' variables.yml | awk '{print $2}' )
+          echo "PRUNED_VERSION"=$"PRUNED_VERSION" >> $GITHUB_ENV
+
+      
       #Set up MkDocs
       - name: Install MkDocs
         run: |
@@ -44,11 +54,7 @@ jobs:
      # Deploy docs
       - name: Deploy docs
         run: |
-          mike deploy $NEW_VERSION -b publish -p
-          mike set-default $NEW_VERSION -b publish -p
-          mike retitle $NEW_VERSION "$NEW_VERSION" -b publish -p
-        #  mike delete $PRUNED_VERSION -b publish -p
-        env:
-          NEW_VERSION: 2.7.0
-        #  PRUNED_VERSION: 2.7.0
-
+          mike deploy $RELEASE -u latest -b publish -p
+          mike set-default latest -b publish -p
+          mike delete $PRUNED_VERSION -b publish -p
+        

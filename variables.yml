@@ -1,6 +1,10 @@
 # Variables used across the documentation
 
-release: 2.7.0
+release: 2.7.2
+pruned_version: $(grep/
+
+# Supported software
+
 pmm2recommended: 3.3.0
 commandName: 'kubectl'
 postgresrecommended: 17.5.2
