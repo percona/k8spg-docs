@@ -49,6 +49,6 @@ jobs:
           mike retitle $NEW_VERSION "$NEW_VERSION" -b publish -p
         #  mike delete $PRUNED_VERSION -b publish -p
         env:
-          NEW_VERSION: 2.7.1
+          NEW_VERSION: 2.7.0
         #  PRUNED_VERSION: 2.7.0
 

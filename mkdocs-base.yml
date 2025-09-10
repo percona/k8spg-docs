@@ -134,11 +134,6 @@ plugins:
     glob:
       - "setting-up/client/docker.md"
   # https://github.com/orzih/mkdocs-with-pdf
-  mike:
-    version_selector: false
-    css_dir: css
-    javascript_dir: js
-    canonical_version: null
   print-site:
     add_to_navigation: false
     print_page_title: 'Percona Operator for PostgreSQL 2.7.0 documentation'
