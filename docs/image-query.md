@@ -17,7 +17,7 @@ $ curl https://check.percona.com/versions/v1/pg-operator/<operator-version>/<pg-
 where:
 
 * **`<operator-version>`** is the version of the Percona Operator for PostgreSQL you are using.
-* **`<pg-version>`** is the version of PostgreSQL you want to get images for. This part is optional and helps filter the results. It can be a specific PostgresQL version (e.g.16.3), a recommended version (e.g. 16-recommended), or the latest available version (e.g. 16-latest).
+* **`<pg-version>`** is the version of PostgreSQL you want to get images for. This part is optional and helps filter the results. It can be a specific PostgreSQL version (e.g.16.3), a recommended version (e.g. 16-recommended), or the latest available version (e.g. 16-latest).
 
 For example, to retrieve the list of images for Operator version `2.4.0` for PostgreSQL version `16.3`, use the following command:
 
@@ -93,3 +93,19 @@ To narrow down the results to the recommended version of PostgreSQL 16, you can 
 ```{.bash data-prompt="$"}
 $ curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16-recommended | jq -r '.versions[].matrix'
 ```
+
+This command helps you retrieve the PostgreSQL images available for a specific Operator version (`2.4.0` in the following example):
+
+```{.bash data-prompt="$"}
+$ curl -s https://check.percona.com/versions/v1/pg-operator/2.4.0 | jq -r '.versions[0].matrix.postgresql | to_entries[] | "\(.key)\t\(.value.imagePath)\t\(.value.status)"'
+```
+
+??? example "Sample output"
+ 
+    ```{.text .no-copy}
+    12.19   percona/percona-postgresql-operator:2.4.0-ppg12.19-postgres recommended
+    13.15   percona/percona-postgresql-operator:2.4.0-ppg13.15-postgres recommended
+    14.12   percona/percona-postgresql-operator:2.4.0-ppg14.12-postgres recommended
+    15.7    percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres  recommended
+    16.3    percona/percona-postgresql-operator:2.4.0-ppg16.3-postgres  recommended
+    ```
