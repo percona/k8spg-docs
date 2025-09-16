@@ -218,6 +218,11 @@ nav:
             - "Backup retention": backup-retention.md
             - backups-delete.md
             - backups-disable.md
+          - Deploy a standby cluster for Disaster Recovery:
+            - "Introduction": standby.md
+            - "Deploy standby cluster based on backups": standby-backup.md
+            - "Deploy standby cluster based on streaming replication": standby-streaming.md
+            - "Failover": standby-failover.md
           - "High availability and scaling": scaling.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
@@ -226,19 +231,15 @@ nav:
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md
-          - Deploy a standby cluster for Disaster Recovery:
-            - "Introduction": standby.md
-            - "Deploy standby cluster based on backups": standby-backup.md
-            - "Deploy standby cluster based on streaming replication": standby-streaming.md
-            - "Failover": standby-failover.md
           - "Change PostgreSQL primary instance": change-primary.md
           - "How to use private registry": custom-registry.md
           - "Add custom PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md
-          - "Delete the Operator": delete.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
+          - "Delete the Operator": delete.md
+          - "Retrieve Percona certified images": image-query.md
 
     - Troubleshooting:
           - "Initial troubleshooting": debug.md
