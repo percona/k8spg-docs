@@ -115,8 +115,7 @@ Use **Annotations** when:
 | `pgv2.percona.com/cluster-bootstrap-restore`                | Custom Resource       | Marks that the cluster was bootstrapped from a restore.                      | `2024-07-01T12:34:56Z`       |
 | `pgv2.percona.com/patroni-version`                          | Pods, StatefulSets         | The Patroni version running in the Pod or StatefulSet.                       | `3.3.0`                      |
 | `pgv2.percona.com/custom-patroni-version`                   | Pods, StatefulSets         | Custom Patroni version specified by the user.                                | `3.3.0-percona`              |
-| `kubectl.kubernetes.io/default-container` | Pods | Defines a default container used when the
-`-c` flag is not passed when executing to a Pod.|
+| `kubectl.kubernetes.io/default-container` | Pods | Defines a default container used when the `-c` flag is not passed when executing to a Pod.|
 
 ## Setting labels and annotations in the Custom Resource
 
