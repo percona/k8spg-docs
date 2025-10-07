@@ -49,7 +49,7 @@ theme:
     #- navigation.sections
     - navigation.tracking
     - content.tabs.link
-    - content.action.edit
+    #- content.action.edit
     - content.action.view
     - content.code.copy
     - toc.follow
