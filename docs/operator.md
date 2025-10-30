@@ -1953,6 +1953,22 @@ The [S3 endpoint :octicons-link-external-16:](https://docs.aws.amazon.com/genera
 | ---------- | ------- |
 | :material-code-string: string | `s3.eu-central-1.amazonaws.com` |
 
+### `extensions.storage.forcePathStyle`
+
+When set to `true`, enforces path-style access method of constructing S3 URLs, where the bucket name appears in the path portion of the URL. Default `false` value means the Operator uses the virtual-hosted-style for accessing S3 storage, where the bucket name is part of the domain name.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.storage.disableSSL`
+
+When set to `true`, instructs the Operator to skip TLS verification when accessing the storage. Can be used if your storage endpoint uses self-signed certificates or doesn’t support TLS to allow successful downloads.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `extensions.storage.secret.name`
 
 The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys.
@@ -1969,8 +1985,15 @@ Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.per
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
 
-### `extensions.builtin.pg_audit`
+### `extensions.builtin.pg_stat_statements`
 
+Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.postgresql.org/docs/current/pgstatstatements.html) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.builtin.pg_audit`
 
 Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
 
