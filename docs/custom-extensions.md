@@ -183,3 +183,23 @@ patroni:
         ...
 ```
 
+## Update custom extensions
+
+To update your custom extension inside the Operator, do the following:
+
+1. Prepare the `*.tar` archive of the extension's new version. See the [Package custom extension](#packaging-custom-extensions) section for the archive's structure and naming format
+2. Reference the new version of the extension in the Custom Resource. For example, you update `pg_cron` extension to version 2.0.1. Then your configuration looks like this:
+
+    ```yaml
+    extensions:
+      ...
+      custom:
+      - name: pg_cron
+        version: 1.6.1
+    ```
+
+3. Apply the configuration for the changes to come into place:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
