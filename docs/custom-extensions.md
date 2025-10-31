@@ -32,7 +32,7 @@ Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command. This
 The Operator downloads custom extensions from a cloud storage.
 You are responsible for properly packaging the extension and uploading it to the storage.
 
-Understanding which files are required for a given extension may not be easy. One option to figure this out is to spin up virtual machine with Percona Distribution for PostgreSQL and build and install the extension from source there. Then copy all the installed files to the archive.
+Understanding which files are required for a given extension may not be easy. One option to figure this out is to spin up a virtual machine with Percona Distribution for PostgreSQL and build and install the extension from source there. Then copy all the installed files to the archive.
 
 ### Packaging custom extensions
 
