@@ -195,7 +195,7 @@ To update your custom extension inside the Operator, do the following:
       ...
       custom:
       - name: pg_cron
-        version: 1.6.1
+        version: 2.0.1
     ```
 
 3. Apply the configuration for the changes to come into place:
