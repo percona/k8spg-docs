@@ -52,7 +52,7 @@ stringData:
   pgbouncer: pgbouncer_password
   postgres: postgres_password
   primaryuser: primaryuser_password
- pguser: pguser_password
+  pguser: pguser_password
 ```
 
 The example above matches what is shipped in the [deploy/secrets.yaml](https://github.com/percona/percona-postgresql-operator/blob/1.x/deploy/users-secret.yaml)

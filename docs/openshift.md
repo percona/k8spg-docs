@@ -34,7 +34,7 @@ Percona Distribution for PostgreSQL on OpenShift.
         the `namespace: pgo` line in both `deploy/cr.yaml` and
         `deploy/operator.yaml` configuration files.
 
-3. If you are going to use the operator with anyuid <https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html> security context constraint
+3. If you are going to use the operator with [anyuid](https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html) security context constraint
     please execute the following command:
 
     ``` {.bash data-prompt="$" }

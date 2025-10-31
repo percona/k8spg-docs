@@ -31,7 +31,7 @@ the following steps:
     used later for access control. The `storageClass` option is needed if you
     are using the special [Kubernetes Storage Class](https://kubernetes.io/docs/concepts/storage/storage-classes/)
     for backups. Otherwise, this setting may be omitted. You may also notice the
-    `MINIO_REGION` value which is may not be used within a private cloud. Use
+    `MINIO_REGION` value which may not be used within a private cloud. Use
     the same region value here and on later steps (`us-east-1` is a good default
     choice).
 

@@ -173,5 +173,5 @@ tolerations:
 ```
 
 The [Kubernetes Taints and
-Toleratins](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+Tolerations](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 contains more examples on this topic.

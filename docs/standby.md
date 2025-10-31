@@ -40,8 +40,8 @@ use the *standby cluster* name.
     $ export primary_cluster_name=cluster1
     $ export standby_cluster_name=cluster2
     $ export secrets="${primary_cluster_name}-users"
-    $ kubectl get secret/$secrets -o yaml \
-    yq eval 'del(.metadata.creationTimestamp)' - \
+    $ kubectl get secret/$secrets -o yaml | \
+    yq eval 'del(.metadata.creationTimestamp)' - | \
     yq eval 'del(.metadata.uid)' - \
     yq eval 'del(.metadata.selfLink)' - \
     yq eval 'del(.metadata.resourceVersion)' - \

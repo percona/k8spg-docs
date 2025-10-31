@@ -58,7 +58,7 @@ The result should display the *cert-manager* and webhook active and running.
 ### Turning automatic generation of certificates on
 
 When you have already installed *cert-manager*, the operator is able to request a
-certificate from it. To make this happend, uncomment `sslCA`, `sslSecretName`,
+certificate from it. To make this happen, uncomment `sslCA`, `sslSecretName`,
 and `sslReplicationSecretName` options in the `deploy/cr.yaml` configuration
 file:
 
@@ -80,8 +80,8 @@ available.
 
 To generate certificates manually, follow these steps:
 
-1. Provision a  to generate TLS certificates,
-2. Generate a  key and certificate file with the server details,
+1. Provision a CA certificate to generate TLS certificates,
+2. Generate a private key and certificate file with the server details,
 3. Create the server TLS certificates using the keys, certs, and server details.
 
 The set of commands generates certificates with the following attributes:

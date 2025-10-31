@@ -253,7 +253,7 @@ command:
 $ kubectl exec <name-of-backrest-shared-repo-pod>  -it -- pgbackrest info
 ```
 
-You can find out the appropriate Pod name using the \`\` kubectl get pods\`\`
+You can find out the appropriate Pod name using the `kubectl get pods`
 command, as usual. Here is an example of the backups list:
 
 ``` {.bash data-prompt="$" }
@@ -340,7 +340,7 @@ whose pgBackRest repository still exists,  use the [pgDataSource.restoreFrom](op
 option.
 
 The following example will create a new cluster named `cluster2` from an
-existing one named\`\`cluster1\`\`.
+existing one named `cluster1`.
 
 1. First, create the `cluster2-config-secrets.yaml` configuration file with
 the following content:
