@@ -35,7 +35,7 @@ Rest assured! Learn more about our security features designed to protect your va
 
 ### :material-backup-restore: Backup management { .title }
 
-Learn what you can do to maintain regular backups of your PostgrgeSQL cluster.
+Learn what you can do to maintain regular backups of your PostgreSQL cluster.
 
 [Backup management :material-arrow-right:](backups.md){ .md-button }
 

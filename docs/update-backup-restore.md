@@ -10,7 +10,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
 ## Prepare the backup {.power-number}
 
 1. Create the backup on the version 1.x cluster, following the [official guide for manual (on-demand) backups](https://docs.percona.com/percona-operator-for-postgresql/1.0/backups.html#making-on-demand-backup).
-    This involves preparing the manifest in YAML and applying it in the ususal way:
+    This involves preparing the manifest in YAML and applying it in the usual way:
 
     ```{.bash data-prompt="$"}
     $ kubectl apply -f deploy/backup/backup.yaml

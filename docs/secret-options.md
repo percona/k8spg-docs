@@ -16,7 +16,7 @@ Contains the metadata about the resource, such as its name.
 
 ## `type`
 
-Defines the type of data stored within the Secret resource. `Opague` type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.
+Defines the type of data stored within the Secret resource. `Opaque` type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.
 
 ## `stringData`
 
