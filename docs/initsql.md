@@ -1,8 +1,8 @@
 # How to run initialization SQL commands at cluster creation time
 
-The Operator can execute a custom sequence of PostgreSQL commands when creating the databse cluster. This sequence can include both SQL commands and meta-commands of the PostgreSQL interactive shell (psql). This feature may be useful to push any customizations to the cluster: modify user roles, change error handling, set and use variables, etc.
+The Operator can execute a custom sequence of PostgreSQL commands when creating the database cluster. This sequence can include both SQL commands and meta-commands of the PostgreSQL interactive shell (psql). This feature may be useful to push any customizations to the cluster: modify user roles, change error handling, set and use variables, etc.
 
-psql interactive terminal [will execute :octicons-link-external-16:](https://www.postgresql.org/docs/current/app-psql.html#APP-PSQL-OPTION-FILE) these initialization statements when the cluster is created, [after creating custom users and databases](users.md#application-users) specifed in the Custom Resource.
+psql interactive terminal [will execute :octicons-link-external-16:](https://www.postgresql.org/docs/current/app-psql.html#APP-PSQL-OPTION-FILE) these initialization statements when the cluster is created, [after creating custom users and databases](users.md#application-users) specified in the Custom Resource.
 
 To set SQL initialization sequence you need creating a special [ConfigMap :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/#create-a-configmap) with it, and reference this ConfigMap in the `databaseInitSQL` subsection of your Custom Resource options.
 

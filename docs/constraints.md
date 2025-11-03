@@ -93,5 +93,5 @@ tolerations:
   value: connection-poolers
 ```
 
-The [Kubernetes Taints and Toleratins :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
+The [Kubernetes Taints and Tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 contains more examples on this topic.

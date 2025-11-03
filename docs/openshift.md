@@ -23,7 +23,7 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 
     ![image](assets/images/olm1.svg)
 
-    Then click "Contiune", and "Install".
+    Then click "Continue", and "Install".
 
 2. A new page will allow you to choose the Operator version and the Namespace / OpenShift project you would like to install the Operator into.
 
@@ -31,7 +31,7 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 
     !!! note
 
-        If you are going to install the Operator in [multi-namespace (cluster-wide) mode](cluster-wide.md), please choose values with `-cw` suffix for the update channel and version, and select the "All namespaces on the cluster" radio button for the installation mode instead of chosing a specific Namespace:
+        If you are going to install the Operator in [multi-namespace (cluster-wide) mode](cluster-wide.md), please choose values with `-cw` suffix for the update channel and version, and select the "All namespaces on the cluster" radio button for the installation mode instead of choosing a specific Namespace:
 
         ![image](assets/images/olm-cw.svg)
 
