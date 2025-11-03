@@ -127,7 +127,7 @@ Resource so the Operator can download and install it.
       AWS_SECRET_ACCESS_KEY: <base64 encoded secret>
     ```
 
-3. Create the Secrets object from this file:
+2. Create the Secrets object from this file:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f extensions-secret.yaml
