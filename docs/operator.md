@@ -1238,6 +1238,38 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
 
+### `backups.pgbackrest.repoHost.sidecars.name`
+
+The name of a [custom sidecar container](sidecar.md) for pgBackRest Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `testcontainer` |
+
+### `backups.pgbackrest.repoHost.sidecars.image`
+
+The image used to deploy a [custom sidecar container](sidecar.md) for pgBackRest Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `busybox:latest` |
+
+### `backups.pgbackrest.repoHost.sidecars.command`
+
+The command to use inside a custom sidecar container for pgBackRest Pods
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `["sleep", "30d"]` |
+
+### `backups.pgbackrest.repoHost.sidecars.securityContext`
+
+Security settings for the sifecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `{}` |
+
 ### `backups.pgbackrest.repoHost.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repo. It must not exceed the limit.
