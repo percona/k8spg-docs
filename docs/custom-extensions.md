@@ -160,7 +160,7 @@ Resource so the Operator can download and install it.
            version: 1.6.1
        ```
 
-5. Some extensions (such as `pg_cron` in our example) may require access additional shared memory. If this is the case, you need to configure PostgreSQL to preload it at startup:
+5. Some extensions (such as `pg_cron` in our example) may require additional shared memory. If this is the case, you need to configure PostgreSQL to preload it at startup:
 
     ```yaml
     ...
