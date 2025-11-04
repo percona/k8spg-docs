@@ -2,10 +2,14 @@
 
 One of the specific PostgreSQL features is the ability to provide it with additional functionality via [Extensions :octicons-link-external-16:](https://www.postgresql.org/download/products/6-postgresql-extensions/). Percona Distribution for PostgreSQL [supports a number of extensions :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/extensions.html), making this list available for the database cluster managed by the Operator as well.
 
-Still there are cases when the needed extension is not in this list, or when it's a custom extension developed by the end-user. 
-Adding more extensions is not an easy task in case of a containerized database in Kubernetes-based environment, as normally it would make the user build a custom PostgreSQL image. 
+However, there are cases when the needed extension is not in this list, or when it's a custom extension developed by the end-user.
+Adding more extensions is not straightforward in a containerized database in a Kubernetes environment. It requires building a custom PostgreSQL image.
 
-Still, starting from the Operator version 2.3 there is an alternative way to extend Percona Distribution for PostgreSQL by downloading prepackaged extensions from an external storage on the fly, as defined in the `extensions` section of the Operator Custom Resource.
+The Operator version 2.3 and above provides an alternative way to extend Percona Distribution for PostgreSQL by downloading pre-packaged extensions from external storage on the fly, which you configure in the `extensions` section of the Custom Resource.
+
+!!! warning "Advanced configuration"
+
+    Custom extensions configuration is an advanced feature that requires careful consideration. Adding custom extensions may violate the immutability of Pod images, which can lead to unexpected behavior and maintenance challenges. Use this feature only if you are certain what you are doing and understand the implications. Or [reach out to our experts](get-help.md#percona-experts) for assistance with adding custom extensions in your infrastructure.
 
 ## Enabling or disabling built-in extensions
 
@@ -21,25 +25,26 @@ extensions:
     pg_repack: false
 ```
 
-Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command. This causes the Operator to restart the Pods of your cluster. 
-
+Apply changes after editing with `kubectl apply -f deploy/cr.yaml` command. This causes the Operator to restart the Pods of your cluster.
 
 ## Adding custom extensions
 
-Custom extensions are downloaded by the Operator from the cloud storage. 
-User is in charge for properly packaging extension and uploading it to the storage.
+The Operator downloads custom extensions from a cloud storage.
+You are responsible for properly packaging the extension and uploading it to the storage.
 
-### Packaging custom extensions 
+Understanding which files are required for a given extension may not be easy. One option to figure this out is to spin up a virtual machine with Percona Distribution for PostgreSQL and build and install the extension from source there. Then copy all the installed files to the archive.
 
-Custom extension needs specific packaging to make the Operator able using it.
-The package must be a `.tar.gz` archive with all required files in a the correct
+### Packaging custom extensions
+
+Custom extensions require specific packaging for the Operator to use them.
+The package must be a `.tar.gz` archive with all required files in the correct
 directory structure.
 
 1. Control file must be in `SHAREDIR/extension` directory
 2. All required SQL script files must be in `SHAREDIR/extension` directory (there must be at least one SQL script)
-3. Any shared library must be in `LIBDIR` 
+3. Any shared library must be in `LIBDIR`
 
-!!! note 
+!!! note
 
     In case of Percona Distribution for PostgreSQL images, `SHAREDIR` corresponds to `/usr/pgsql-${PG_MAJOR}/share` and `LIBDIR` to `/usr/pgsql-${PG_MAJOR}/lib`.
 
@@ -65,51 +70,33 @@ $ tree ~/pg_cron-1.6.1/
                 └── pg_cron.control
 ```
 
-The archive must be created with `usr` at the root and the name must conform `${EXTENSION}-pg${PG_MAJOR}-${EXTENSION_VERSION}`:
+The archive must be created with `usr` at the root, and the name must be in the format  `${EXTENSION}-pg${PG_MAJOR}-${EXTENSION_VERSION}`:
 
 ``` {.bash data-prompt="$" }
 $ cd pg_cron-1.6.1/
 $ tar -czf pg_cron-pg15-1.6.1.tar.gz usr/
 ```
-
-!!! note
-
-    To understand which files are required for given extension could be not an easy task. One of the option to figure this out would be  building and installing the extension from source on a virtual machine with Percona Distribution for PostgreSQL and copy all the installed files to the archive.
-
-## Configuring custom extension loading
-
-When the extension is packaged, it should be uploaded to the cloud storage
-(for now, Amazon S3 is the only supported storage type). When the upload is done,
-the needed access credentials for the cloud storage should be placed in a Secret,
-and both the storage and extension details should be specified in the Custom
-Resource to make the Operator download and install it.
-
-1. Create the Secrets file with the credentials, which the Operator will
-    need to access extensions stored on the Amazon S3:
     
-    * the `metadata.name` key is the name which you will further use to refer
-        your Kubernetes Secret,
-    * the `data.AWS_ACCESS_KEY_ID` and `data.AWS_SECRET_ACCESS_KEY` keys are
-        base64-encoded credentials used to access the storage (obviously these
-        keys should contain proper values to make the access possible).
+## Upload a custom extension to the cloud storage
 
-    Create the Secrets file with these base64-encoded keys as follows:
+After packaging the extension, upload it to a cloud storage. For now, Amazon S3 is the only supported storage type. 
 
-    ```yaml title="extensions-secret.yaml"
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: cluster1-extensions-secret
-    type: Opaque
-    data:
-      AWS_ACCESS_KEY_ID: <base64 encoded secret>
-      AWS_SECRET_ACCESS_KEY: <base64 encoded secret>
-    ```
+## Configure the Operator to load and install the custom extension 
 
-    !!! note
+After the upload is complete,
+place the access credentials for the cloud storage in a Secret,
+and specify both the storage and extension details in the Custom
+Resource so the Operator can download and install it.
 
-        You can use the following command to get a base64-encoded string
-        from a plain text one:
+1. Create a Secrets file with the credentials that the Operator needs
+    to access extensions stored on Amazon S3:
+
+    * The `metadata.name` key is the name you will use to refer to
+        your Kubernetes Secret.
+    * The `data.AWS_ACCESS_KEY_ID` and `data.AWS_SECRET_ACCESS_KEY` keys contain
+        base64-encoded credentials used to access the storage. 
+        
+        To encode credentials, use this command:
 
         === "in Linux"
 
@@ -127,59 +114,87 @@ Resource to make the Operator download and install it.
             $ echo -n 'plain-text-string' | base64
             ```
 
-    Once the editing is over, create the Kubernetes Secret object as follows:
+     Here's the example Secrets file `extensions-secret.yaml`:
+     
+    ```yaml title="extensions-secret.yaml"
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: cluster1-extensions-secret
+    type: Opaque
+    data:
+      AWS_ACCESS_KEY_ID: <base64 encoded secret>
+      AWS_SECRET_ACCESS_KEY: <base64 encoded secret>
+    ```
+
+2. Create the Secrets object from this file:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f extensions-secret.yaml
     ```
 
-2. Storage credentials are specified in the Custom Resource
-    `extensions.storage` subsection. The appropriate fragment of the
-    `deploy/cr.yaml` configuration file should look as follows:
+4. Configure the Custom Resource. In the `extensions.storage` subsection of the Custom Resource, specify the following information:
 
-    ```yaml
-    extensions:
-      ...
-      storage:
-        type: s3
-        bucket: pg-extensions
-        region: eu-central-1
-        endpoint: s3.eu-central-1.amazonaws.com
-        secret:
-          name: cluster1-extensions-secret
-    ```
+    * storage details such as the bucket where your extension resides, region and endpoint to access the storage
+    * the Secret name with the storage credentials that you created before.
 
-3. When the storage is configured, and the archive with the extension is already
-    present in the appropriate bucket, the extension itself can be specified
-    to the Operator in the Custom Resource via the `deploy/cr.yaml`
-    configuration file as in the following example:
-
-    ```yaml
-    extensions:
-      ...
-      custom:
-      - name: pg_cron
-        version: 1.6.1
-    ```
-
-The installed extension will not be enabled by default. Enabling it in can be
-done for desired databases using the `CREATE EXTENSION` statement:
-
-```sql
-CREATE EXTENSION pg_cron;
-```
-
-Also, some extensions (such as `pg_cron`) can be used only if added to
-`shared_preload_libraries`. Users can do it via the `deploy/cr.yaml`
-configuration file as follows:
-
-```yaml
-...
-patroni:
-  dynamicConfiguration:
-    postgresql:
-      parameters:
-        shared_preload_libraries: pg_cron
+      ```yaml
+      extensions:
         ...
-```
+        storage:
+          type: s3
+          bucket: pg-extensions
+          region: eu-central-1
+          endpoint: s3.eu-central-1.amazonaws.com
+          secret:
+            name: cluster1-extensions-secret
+      ```
+    
+    * In the `extensions.custom` subsection, specify the extension name and version:
 
+       ```yaml
+       extensions:
+         ...
+         custom:
+         - name: pg_cron
+           version: 1.6.1
+       ```
+
+5. Some extensions (such as `pg_cron` in our example) may require additional shared memory. If this is the case, you need to configure PostgreSQL to preload it at startup:
+
+    ```yaml
+    ...
+    patroni:
+      dynamicConfiguration:
+        postgresql:
+          parameters:
+            shared_preload_libraries: pg_cron
+            ...
+
+6. Apply the configuration: 
+    
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
+
+    This causes the Operator to restart the Pods of your cluster.
+
+## Enable custom extension in PostgreSQL
+
+The installed extension is not enabled by default. You need to explicitly enable it in PostgreSQL for all databases where you want to use it.
+
+Here's how to do it:
+
+1. Connect to the primary Pod:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl exec -it cluster1-instance1-69r8-0 -c database -n pgo -- bash
+    ```
+
+2. Connect to the required database in PostgreSQL and create the extension for this database using the `CREATE EXTENSION` statement:
+
+    ```sql
+    CREATE EXTENSION pg_cron;
+    ```
+
+3. Repeat step 2 for all databases where you want to use your extension.
