@@ -49,7 +49,7 @@ Here's what you need to know:
     - If you include at least one database in `spec.users.databases` for the user, the Secret will include connection credentials for the **first** database in the list (`dbname` and `uri`).
 
 - You can add a special `postgres` user as one of the custom users. This user is granted access to the `postgres` database, but its privileges cannot be changed.
-- By default, the the top-level `autoCreateUserSchema` option is set to `true`. This means each user will have automatically-created schemas in all databases listed for this user under `users.databases`.
+- By default, the top-level `autoCreateUserSchema` option is set to `true`. This means each user will have automatically-created schemas in all databases listed for this user under `users.databases`.
 - By default, users without superuser privileges do not have access to the `public` schema. To allow a non-superuser to create and update tables in the `public` schema, set the `grantPublicSchemaAccess` option to `true`. This gives the user permission to create and update tables in the `public` schema of every database they own.
 - Your custom superusers automatically have access to the `public` schema for their assigned databases.
 - If multiple users are granted access to the `public` schema in the same database, each can only access tables they themselves have created. If you want one user to access tables created by another user, the table owner must explicitly grant privileges via PostgreSQL.
@@ -71,7 +71,7 @@ spec:
     - name: perconapg
 ```
 
-After you apply such changes with the usual `kubctl apply -f deploy/cr.yaml` command, the Operator will create the new user as follows:
+After you apply such changes with the usual `kubectl apply -f deploy/cr.yaml` command, the Operator will create the new user as follows:
 
 - The credentials of this user are populated in the `<clusterName>-pguser-perconapg` secret. There are no connection credentials.
 - The user is unprivileged.
@@ -105,6 +105,8 @@ For example, to generate a new password for the user `cluster1` in the PostgreSQ
 ```bash
 kubectl patch secret -n postgres-operator cluster1-pguser-cluster1 -p '{"data":{"password":""}}'
 ```
+
+Replace the namespace and the secret name with your values to reuse this command.
 
 #### Custom passwords
 
