@@ -201,7 +201,7 @@ Here's how to set a custom password within a Secret with a custom name:
     kubectl get secret cat-credentials -o yaml -n $NAMESPACE
     ```
 
-4. Verify that the user is created by [connecting to the database](connect.md) as your custom user. 
+5. Verify that the user is created by [connecting to the database](connect.md) as your custom user. 
 
 #### Password rotation
 
