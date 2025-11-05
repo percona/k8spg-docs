@@ -157,7 +157,7 @@ Here's how to set a custom password within a Secret with a custom name:
         secret/cat-credentials created
         ```
 
-2. Add a user and reference the Secret for them in the Custom Resource:
+3. Add a user and reference the Secret for them in the Custom Resource:
 
     === "via cr.yaml"
 
