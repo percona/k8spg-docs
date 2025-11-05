@@ -195,7 +195,7 @@ Here's how to set a custom password within a Secret with a custom name:
         }' 
         ```
 
-3. After you update the cluster, the Operator updates the Secret with the login credentials and connection information. View the Secret object to verify this with this command:
+4. After you update the cluster, the Operator updates the Secret with the login credentials and connection information. View the Secret object to verify this with this command:
 
     ```bash
     kubectl get secret cat-credentials -o yaml -n $NAMESPACE
