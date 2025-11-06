@@ -196,7 +196,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 2. Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Use the following command:
    
     ``` {.bash data-prompt="$" }
-    $ curl <https://check.percona.com/versions/v1/pg-operator/2.6.0> |jq -r '.versions[].matrix'
+    $ curl https://check.percona.com/versions/v1/pg-operator/{{release}} |jq -r '.versions[].matrix'
     ```
 
     You can also find this information in the [Versions compatibility matrix](versions.md).
