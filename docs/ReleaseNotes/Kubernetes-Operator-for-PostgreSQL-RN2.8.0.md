@@ -71,7 +71,7 @@ This change eliminates ambiguity and ensures your cluster is deployed with a mod
 
 * [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Allowed setting `loadBalancerClass` service type and using a custom implementation of a load balancer rather than the cloud provider default one.
 
-INTERNAL TASK [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Introduced a mechanism to prevent excessive logging caused by continuous pod annotation updates for suggested volume sizing. The Operator now skips updating the Pod annotation with the suggested volume size unless the auto-growable disk feature is explicitly configured. This significantly reduces redundant logs and unnecessary load on both the Kubernetes API and the logging pipeline.
+* [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Introduced a mechanism to prevent excessive logging caused by continuous pod annotation updates for suggested volume sizing. The Operator now skips updating the Pod annotation with the suggested volume size unless the auto-growable disk feature is explicitly configured. This significantly reduces redundant logs and unnecessary load on both the Kubernetes API and the logging pipeline.
 
 * [K8SPG-832](https://perconadev.atlassian.net/browse/K8SPG-832) - Users can now specify custom sidecar containers for the `repo-host` Pod, enabling seamless integration with external tools, storage systems, or observability agents. This enhances flexibility in backup workflows without modifying the Operator’s core logic.
 
@@ -99,8 +99,6 @@ INTERNAL TASK [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Int
 
 ### Fixed bugs
 
-??? Open - [K8SPG-688](https://perconadev.atlassian.net/browse/K8SPG-688): The operator no longer crashes when updated without first upgrading its Custom Resource Definition (CRD).
-
 - [K8SPG-724](https://perconadev.atlassian.net/browse/K8SPG-724) - Fixed the issue with upgrading custom extension versions. The Operator now correctly uninstalls old versions and installs new ones automatically.
 
 - [K8SPG-777](https://perconadev.atlassian.net/browse/K8SPG-777) - Custom Resource `crVersion` is now automatically assigned if not explicitly defined.
@@ -113,7 +111,7 @@ INTERNAL TASK [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Int
 - [K8SPG-844](https://perconadev.atlassian.net/browse/K8SPG-844) - Fixed the issue with the Operator overriding user configuration with archive commands when the latest restorable time tracking disabled by fully respecting user configuration.
 - [K8SPG-869](https://perconadev.atlassian.net/browse/K8SPG-869) - A backup repository is no longer required when configuring a cluster with disabled backups.
 - [K8SPG-872](https://perconadev.atlassian.net/browse/K8SPG-872) - Updated DNS records used in certificates to no longer include a trailing period to comply with updated validation standards.
-??? In progress - [K8SPG-876](https://perconadev.atlassian.net/browse/K8SPG-876): Fixed an issue where PostgreSQL clusters remained in an "Initialized" state after restoring an S3 backup.
+* [K8SPG-876](https://perconadev.atlassian.net/browse/K8SPG-876): Fixed an issue where PostgreSQL clusters remained in an "Initialized" state after restoring a backup from S3 storage.
 - [K8SPG-879](https://perconadev.atlassian.net/browse/K8SPG-879) - Clusters can now be created successfully on Kubernetes version 1.34.
 
 * [K8SPG-883](https://perconadev.atlassian.net/browse/K8SPG-883): Patroni version information is now displayed in the `status.patroni.version` field instead of `status.patroniVersion `.
@@ -130,6 +128,10 @@ INTERNAL TASK [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Int
 
 ## Deprecation, Change, Rename and Removal
 
+* New repository for `postgresql` image.
+
+   Now the Operator uses the official Percona Docker images for PosgreSQL. Pay attention to the new image path when you [upgrade the Operator and the database](../update.md). Check the [Percona certified images](../images.md) for exact image names.
+   
 * The `patroni.patroniVersion` field in Custom Resource Definition is deprecated and will be removed in future releases. Starting with version 2.8.0, the Operator uses the `patroni.version` field in Custom Resource Definition to populate Patroni version.
 
    ```yaml
@@ -190,9 +192,8 @@ This list only includes the platforms that the Percona Operators are specificall
 
 ## Percona certified images
 
-Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
+Find Percona's certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
 
-Images released with the Operator version {{release}}: 
 
 --8<-- [start:images]
 

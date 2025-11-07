@@ -197,8 +197,7 @@ This list only includes the platforms that the Percona Operators are specificall
 ## Percona certified images
 
 Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
-
-Images released with the Operator version {{release}}: 
+ 
 
 --8<-- [start:images]
 
