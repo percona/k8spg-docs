@@ -12,7 +12,6 @@ gkerecommended: '1.32'
 postgisrecommended: 3.3.8
 patronirecommended: 4.0.5
 k8s_monitor_tag: 'v0.1.1'
-postgisrecommended: 3.3.8
 
 
 date:
