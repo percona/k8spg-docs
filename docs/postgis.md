@@ -79,7 +79,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
       name: cluster1
     spec:
       ...
-      image: docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres-gis
+      image: docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgresrecommended }}-postgres-gis{{postgisrecommended}}
       ...
     ```
 
