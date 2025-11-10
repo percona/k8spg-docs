@@ -118,7 +118,7 @@ Now you must pass the credentials to the Operator. To do so, create a Secret obj
      ```yaml
        pmm:
          enabled: true
-         image: percona/pmm-client:{{pmm2recommended}}
+         image: percona/pmm-client:{{pmm3recommended}}
      #    imagePullPolicy: IfNotPresent
          secret: cluster1-pmm-secret
          serverHost: monitoring-service
