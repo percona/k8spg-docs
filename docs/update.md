@@ -216,7 +216,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "docker.io/percona-distribution-postgresql:{{ postgresrecommended }}",
+              "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }},
               "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } },
               "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm2recommended }}" }
@@ -225,7 +225,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 
         The following image names in the above example were taken from the [list of certified images](images.md):
     
-        * `docker.io/docker.io/percona-distribution-postgresql:{{ postgresrecommended }}`,
+        * `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
         * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
         * `docker.io/percona/pmm-client:{{ pmm2recommended }}`.
@@ -236,7 +236,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
         $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "docker.io/percona-distribution-postgresql:{{ postgresrecommended }}",
+              "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}",
               "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } }
            }}'
@@ -244,7 +244,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 
         The following image names in the above example were taken from the [list of certified images](images.md):
     
-        * `docker.io/percona-distribution-postgresql:{{ postgresrecommended }}`,
+        * `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
         * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`
 
@@ -269,12 +269,12 @@ Major version upgrade allows you to jump from one database major version to anot
 
     ```yaml
     ...
-    image: docker.io/percona-distribution-postgresql:15
+    image: docker.io/percona/percona-distribution-postgresql:15
     postgresVersion: 15
     ...
     ```
     
-    It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
+    It will not work for images specified like `docker.io/percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
 
 The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 
@@ -288,7 +288,7 @@ spec:
   image: docker.io/percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
-  toPostgresImage: docker.io/percona-distribution-postgresql:{{ postgres16recommended }}
+  toPostgresImage: docker.io/percona/percona-distribution-postgresql:{{ postgres16recommended }}
   toPgBouncerImage: docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}
   toPgBackRestImage: docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}
 ```
