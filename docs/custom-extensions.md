@@ -32,7 +32,7 @@ Starting with version 2.3, the Operator provides an alternative way to extend Pe
 Here's how it works:
 
 1. You build and package a custom extension. The package must have a strict structure. See [Packaging requirements](#packaging-requirements) for details.
-2. You upload the extension to a cloud storage. Only AWS S3 is currently supported.
+2. You upload the extension to a cloud storage. 
 3. In the `extensions` section of the Custom Resource, specify the storage configuration and the extension information.
 4. The Operator downloads the extension and installs it.
 5. In PostgreSQL, you create the extension for every database where you want to use it.
@@ -285,7 +285,7 @@ Run the following commands as the root user or with `sudo` privileges.
 
 ### Upload a custom extension to the cloud storage
 
-After packaging the extension, upload it to a cloud storage. For now, Amazon S3 is the only supported storage type. You can upload the extension via the Amazon web interface or using the `aws` command line tool as shown below:
+After packaging the extension, upload it to a cloud storage. In our example we use AWS S3 storage. You can upload the extension via the Amazon web interface or using the `aws` command line tool as shown below:
 
 1. Export the AWS S3 access credentials as the environment variables:
     
