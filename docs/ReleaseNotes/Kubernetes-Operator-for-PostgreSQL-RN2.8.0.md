@@ -49,7 +49,7 @@ extensions:
       disableSSL: false
 ```
 
-These options give you greater control and flexibility when configuring access to an S3 storage for using custom extensions.
+This improvement enables you to use a wider range of S3-compatible storage services with the Operator for storing custom extensions.
 
 ### Changed Patroni version management
 
@@ -165,8 +165,8 @@ The Operator {{ release }} is developed, tested and based on:
 
 --8<-- [start:software]
 
-* PostgreSQL 13.22, 14.19, 15.14, 16.10, 17.6 as the database. Other versions may also work but have not been tested.
-* pgBouncer 1.24.1 for connection pooling
+* PostgreSQL 13.22-1, 14.19-1, 15.14-1, 16.10-1,17.6-1 as the database. Other versions may also work but have not been tested.
+* pgBouncer 1.24.1-1 for connection pooling
 * Patroni version 4.6.0 for high-availability
 * PostGIS version 3.3.8
 
@@ -199,25 +199,24 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 
 | Image                                                                 | Digest                                                           |
 |:----------------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:2.7.0 (x86_64)                    | 96e4e3d7e4bcbd4880adebc5ccb958c0f4385298f0becdef2eb14b81fab407e5 |
-| percona/percona-postgresql-operator:2.7.0 (ARM64)                     | 055da3233a7765f22b318c97223909c20ecbbc9f34c6a8f7845d04ade51364ca |
-| percona/percona-postgresql-operator:2.7.0-ppg17.5.2-postgres           | cfb99ebeec00ab6efb4fca4a8da2b8c3b489dd792bd2f907848197ba09bc9553 |
-| percona/percona-postgresql-operator:2.7.0-ppg16.9-postgres             | 0787088575b4e4fec368acbcf4dd7aea49620ec4524451e3b44ed424fb0eeebb |
-| percona/percona-postgresql-operator:2.7.0-ppg15.13-postgres            | c93f52ea1d6ec955a368c4539b843a9c57ee4a5acc907f0dfb59ae3018560d1b |
-| percona/percona-postgresql-operator:2.7.0-ppg14.18-postgres            | a24059edd9864f7dc9607c3e2964844f417718a5b9f471ceb98c0a0d774a4bca |
-| percona/percona-postgresql-operator:2.7.0-ppg13.21-postgres            | 2c9a05399b34cfe79698bdaab66db8fdaece0db7b1fa34441124cccdbe375255 |
-| percona/percona-postgresql-operator:2.7.0-ppg17.5.2-postgres-gis3.3.8  | 860ccc180c1ac6be3c34c354d6ba9148b00330e183ba5913954e34d49c95d22f |
-| percona/percona-postgresql-operator:2.7.0-ppg16.9-postgres-gis3.3.8    | ca50f560bc7b3e18ec3360dc1a6b8c860e0346472af051cb0d2aec2a7a45d8b3 |
-| percona/percona-postgresql-operator:2.7.0-ppg15.13-postgres-gis3.3.8   | bb6707fd12ea430708e2eb22f6c7dadf3ab4258fcfd31e86f1f78c66ba211742 |
-| percona/percona-postgresql-operator:2.7.0-ppg14.18-postgres-gis3.3.8   | c3b55d1394d8f0a476cea29340442313c9c08dcd8c83f31ccfc66afdbde42488 |
-| percona/percona-postgresql-operator:2.7.0-ppg13.21-postgres-gis3.3.8   | 3df44c1089563b42198ef929e27b9797ef2b04d92736293952163fa7541c0068 |
-| percona/percona-pgbouncer:1.24.1                                       | 451431afa3cd288ecda92b6446bec8833fbf376fbd1b7c7e314fc42f3355255f |
-| percona/percona-pgbouncer:1.24.1 (ARM64)                               | 479aa893e55c5afe8b97852c90d7551dc55d3fc526773a5a7d992876bbf54cb0 |
-| percona/percona-pgbackrest:2.55.0                                      | b0d2defbc7a07cf395b1fa6c6e13d9d3267c3a2d3c52362ac440db26ea4a4bad |
-| percona/percona-pgbackrest:2.55.0 (ARM64)                              | bc15d058e7820499bf67ccec2fe51c583fe67a6e3ed55ec28adf3e252828924a |
-| percona/pmm-client:2.44.1                                               | 8b2eaddffd626f02a2d5318ffebc0c277fe8457da6083b8cfcada9b6e6168616 |
-| percona/pmm-client:2.44.1 (ARM64)                                     | 337fecd4afdb3f6daf2caa2b341b9fe41d0418a0e4ec76980c7f29be9d08b5ea |
-| percona/pmm-client:3.3.0                                               | 0f4ef6a814946f83ef1ed26cf3526ff606fc7815007f84995492d3e4eaa15a0e |
-| percona/pmm-client:3.3.0 (ARM64)                                       | c03aa678d26faf783c3598b3a139a8f3154e5bf1bc9f5a3c9abf0533922f79d6 |
+| percona/percona-postgresql-operator:2.8.0  (x86_64)  | 0a4f8eddb87746c0749fe198ec97046f0ba7d8d845face9d3bc1001729fd7013 |
+| percona/percona-postgresql-operator:2.8.0 (ARM64)  | 38d8ad1ffd41347c43b35f0696a060e28b743c83f17d6277339941c9bc587d10 |
+| percona/percona-distribution-postgresql:17.6-1   | ce91a339a511d91d9f1946708d7ca326572796b642d2a022a1d52a2adff8a08b |
+| percona/percona-distribution-postgresql:16.10-1    | ba1aede456a938f85c9614bb70c50ce264ec68b659917a3a0847112e42bc9259 |
+| percona/percona-distribution-postgresql:15.14-1       | 8280ba2410235e8266761004a2f180fe3999203e69772eb822959cf1849bd967 |
+| percona/percona-distribution-postgresql:14.19-1    | 052e7fd765b790ad2321675e8f2b273fe705512afda5004c4d2a4da78489bfb0 |
+| percona/percona-distribution-postgresql:13.22-1     | 2989dcc4919c8381dc970b2286dadec45c8a53067b48f2bcfff7c7c042b3a654 |
+| percona/percona-postgresql-operator:2.8.0-ppg17.6-postgres-gis3.3.8   | 3322136e6e54214255601586be8f610677fe51a494d3a002cabfacd233258fab |
+| percona/percona-postgresql-operator:2.8.0-ppg16.10-postgres-gis3.3.8  | 2d5f9ac5a84129e81b9ab8df25abce712223c358847afed3637fb7063a3e4a8f |
+| percona/percona-postgresql-operator:2.8.0-ppg15.14-postgres-gis3.3.8  | e7f5fda3cf7d2fab028b3fb70636c9b3b11fe6b89a9f31970d2792bd8f48d8ca |
+| percona/percona-postgresql-operator:2.8.0-ppg14.19-postgres-gis3.3.8  | 3f69534a0df0b608d68808df04618222e4a20c1d1567462e4482f07b86349806 |
+| percona/percona-postgresql-operator:2.8.0-ppg13.22-postgres-gis3.3.8  | cd5a2a1057708fac5dda28d0ce47006cdbf865e6ffef1ac2df74065b95258fd3 |
+| percona/percona-pgbouncer:1.24.1-1 (x86_64)  | 39bd093ec83ca4eaeb93b43b286d39daae4cc4b3b32956d627d242d30a5ad6f5 |
+| percona/percona-pgbouncer:1.24.1-1 (ARM64)    | 84d34843180d852182790ce6175f1407a0438b3a415a21741212701706808ac0 |
+| percona/percona-pgbackrest:2.56.0-1  (x86_64)   | 387469090be8e009e17cc07903aa28aa1c748ce1cc385bd69e88de3762657877 |
+| percona/percona-pgbackrest:2.56.0-1 (ARM64)   | 29290808bdeb17a49c90f2ce3ccc75f3bfab43e96e160320baf16cb557d165ee |
+| percona/pmm-client:2.44.1-1         | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
+| percona/pmm-client:3.4.1 (x86_64)   | 1c59d7188f8404e0294f4bfb3d2c3600107f808a023668a170a6b8036c56619b |
+| percona/pmm-client:3.4.1 (ARM64)    | 2d23ba3e6f0ae88201be15272c5038d7c38f382ad8222cd93f094b5a20b854a5 |
 
 --8<-- [end:images]

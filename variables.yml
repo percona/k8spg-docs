@@ -3,11 +3,12 @@
 release: 2.8.0
 pmm3recommended: 3.4.1
 commandName: 'kubectl'
-postgresrecommended: 17.6
-postgres16recommended: 16.10
+postgresrecommended: '17.6-1'
+postgres16recommended: '16.10-1'
+pgversiongis: 17.6
 certmanagerrecommended: '1.19.1'
-pgbouncerrecommended: '1.24.1'
-pgbackrestrecommended: '2.56.0'
+pgbouncerrecommended: '1.24.1-1'
+pgbackrestrecommended: '2.56.0-1'
 gkerecommended: '1.33'
 postgisrecommended: 3.3.8
 patronirecommended: 4.6.0
