@@ -4,7 +4,7 @@ Percona Operator for PostgreSQL uses [Custom Resources :octicons-link-external-1
 
 * `PerconaPGCluster` Custom Resource with Percona PostgreSQL Cluster options (it has handy `pg` shortname also),
 
-* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for Percona XtraBackup used to backup Percona XtraDB Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
+* `PerconaPGBackup` and `PerconaPGRestore` Custom Resources contain options for pgBackRest used to backup PostgreSQL Cluster and to restore it from backups (`pg-backup` and `pg-restore` shortnames are available for them).
 
 
 The first thing you can check for the Custom Resource is to query it with `kubectl get` command:
@@ -47,18 +47,7 @@ $ kubectl get pods
 
 ???+ example "Expected output"
 
-    ``` {.text .no-copy}
-    NAME                                           READY   STATUS      RESTARTS   AGE
-    cluster1-backup-4vwt-p5d9j                     0/1     Completed   0          97m
-    cluster1-instance1-b5mr-0                      4/4     Running     0          99m
-    cluster1-instance1-b8p7-0                      4/4     Running     0          99m
-    cluster1-instance1-w7q2-0                      4/4     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-62xlk            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9g4cb            2/2     Running     0          99m
-    cluster1-pgbouncer-79bbf55c45-9nrmd            2/2     Running     0          99m
-    cluster1-repo-host-0                           2/2     Running     0          99m
-    percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          120m
-    ```
+    --8<-- "kubectl-get-pods-response.txt"
 
 The above command provides the following insights:
 

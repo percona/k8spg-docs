@@ -45,7 +45,7 @@ Also, you need to configure AWS CLI with your credentials according to the
 
     !!! note
 
-        CSI driver is needed for the Operator to work propely, and is not included by default starting from the Amazon EKS version 1.22. Therefore servers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
+        CSI driver is needed for the Operator to work properly, and is not included by default starting from the Amazon EKS version 1.22. Therefore servers with existing EKS cluster based on the version 1.22 or earlier need to install CSI driver before updating the EKS cluster to 1.23 or above.
 
 ## Install the Operator and Percona Distribution for PostgreSQL
 
@@ -83,16 +83,7 @@ your Kubernetes environment:
 
     ??? example "Expected output"
 
-        ```{.text .no-copy}
-        customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
-        customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
-        serviceaccount/percona-postgresql-operator serverside-applied
-        role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
-        rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
-        deployment.apps/percona-postgresql-operator serverside-applied
-        ```
+        --8<-- "kubectl-apply-bundle-response.txt"
 
     As the result you will have the Operator Pod up and running.
 

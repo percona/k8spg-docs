@@ -11,7 +11,7 @@ To install and deploy the Operator, you need the following:
 
 1. [Helm v3 :octicons-link-external-16:](https://docs.helm.sh/using_helm/#installing-helm).
 2. [kubectl :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/) command line utility.
-3. A Kubernetes environment. You can deploy it locally on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#officially-supported-platforms).
+3. A Kubernetes environment. You can deploy it locally on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#supported-platforms).
 
     !!! note "See also"
 
@@ -41,7 +41,7 @@ Here's a sequence of steps to follow:
 3. Install the Percona Operator for PostgreSQL:
 
     ``` {.bash data-prompt="$" }
-    $ helm install my-operator percona/pg-operator --namespace <my-namespace> 
+    $ helm install my-operator percona/pg-operator --namespace <my-namespace>
     ```
 
     The `my-namespace` is the name of your namespace. The `my-operator` parameter is the name of [a new release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -75,7 +75,9 @@ Here's a sequence of steps to follow:
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ``` 
 
-You have successfully installed and deployed the Operator with default parameters. You can check them in the [Custom Resource options reference](operator.md#operator-custom-resource-options).
+You have successfully installed and deployed the Operator with default parameters. You can check them in the [Custom Resource options reference](operator.md).
+
+You can find in the documentation for the charts which [Operator :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart) and [database :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-db#installing-the-chart) parameters can be customized during installation.
 
 ## Next steps
 

@@ -36,7 +36,7 @@ One of great features of PostgreSQL is support for [Extensions :octicons-link-ex
 * {{ k8spgjira(332) }}:  Creating backups and [pausing the cluster](../pause.md) do not interfere with each other: the Operator either postpones the pausing until the active backup ends, or postpones the scheduled backup on the paused cluster
 * {{ k8spgjira(370) }}:  [Logging management](../debug-logs.md) is now aligned with other Percona Operators, allowing to use structured logging and to control log level
 * {{ k8spgjira(372) }}:  The multi-namespace (cluster-wide) mode of the Operator was improved, making it possible to customize the list of Kubernetes namespaces under the Operator's control
-* {{ k8spgjira(400) }}:  The documentation now explains how to allow application users to connect to a database cluster [without TLS](../TLS.md#connect-to-the-database-cluster-without-tls) (for example, for testing or demonstration purposes)
+* {{ k8spgjira(400) }}:  The documentation now explains how to allow application users to connect to a database cluster [without TLS](../TLS.md) (for example, for testing or demonstration purposes)
 * {{ k8spgjira(410) }}:  Scheduled backups now create `pg-backup` object to simplify backup management and tracking
 * {{ k8spgjira(416) }}:   PostgreSQL custom configuration is now supported in the Helm chart
 * {{ k8spgjira(422) }} and {{ k8spgjira(447) }}: The user can now see backup type and status in the output of `kubectl get pg-backup` and `kubectl get pg-restore` commands

@@ -39,21 +39,21 @@ In addition to that:
 
 * Run up to 4 pgBackrest repositories
 * [Bootstrap the cluster](../backups.md) from the existing backup through Custom Resource
-* [Azure Blob Storage support](../operator.md#use-azure-blob-storage-for-backups)
+* [Azure Blob Storage support](../backups-storage.md)
 
 ## Operations
 
 Deploying complex topologies in Kubernetes is not possible without affinity and anti-affinity rules. In version 1.x there were various limitations and issues, whereas this version comes with substantial [improvements](../constraints.md) that enables users to craft the topology of their choice. 
 
-Within the same cluster users can deploy [multiple instances](../operator.md#instances-name). These instances are going to have the same data, but can have different configuration and resources. This can be useful if you plan to migrate to new hardware or need to test the new topology.
+Within the same cluster users can deploy [multiple instances](../operator.md#instancesname). These instances are going to have the same data, but can have different configuration and resources. This can be useful if you plan to migrate to new hardware or need to test the new topology.
 
-Each postgreSQL node can have [sidecar containers](../operator.md#instances-sidecars-image) now to provide integration with your existing tools or expand the capabilities of the cluster.
+Each postgreSQL node can have [sidecar containers](../operator.md#instancessidecarsimage) now to provide integration with your existing tools or expand the capabilities of the cluster.
 
 ## Try it out now
 
 Excited with what you read above?
 
-* We encourage you to install the Operator following [our documentation](../index.md#quickstart-guides).
+* We encourage you to install the Operator following [our documentation](../quickstart.md).
 * Feel free to share feedback with us on the [forum :octicons-link-external-16:](https://forums.percona.com/c/postgresql/percona-kubernetes-operator-for-postgresql/68) or raise a bug or feature request in [JIRA :octicons-link-external-16:](https://jira.percona.com/projects/K8SPG/issues).
 * See the source code in our [Github repository :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator).
 

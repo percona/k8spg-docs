@@ -7,6 +7,7 @@ Operator provides a feature to manage users and databases in your PostgreSQL clu
 When you create a PostgreSQL cluster with the Operator and do not specify any additional users or databases, the Operator will do the following:
 
 - Create a database that matches the name of your PostgreSQL cluster.
+- Create a schema for that database that matches the name of your PostgreSQL cluster.
 - Create an unprivileged PostgreSQL user with the name of the cluster. This user has access to the database created in the previous step.
 - Create a Secret with the login credentials and connection details for the PostgreSQL user which is in relation to the database. This is stored in a Secret named `<clusterName>-pguser-<clusterName>`. These credentials include:
     - `user`: The name of the user account.
@@ -20,23 +21,28 @@ When you create a PostgreSQL cluster with the Operator and do not specify any ad
 As an example, using our `cluster1` PostgreSQL cluster, we would see the following created:
 
 - A database named `cluster1`.
+- A schema named `cluster1` for the database `cluster1`
 - A PostgreSQL user named `cluster1`.
 - A Secret named `cluster1-pguser-cluster1` that contains the user credentials and connection information.
 
 ## <a name="application-users"></a> Custom Users and Databases
 
-Users and databases can be customized in `spec.users` section in the Custom Resource. Section can be changed at the cluster creation time and adjusted over time. Note the following:
+You can customize users and databases using the `spec.users` section in the Custom Resource. This section can be changed at the cluster creation time and adjusted over time. Note the following:
 
 - If `spec.users` is set during the cluster creation, the Operator will not create any default users or databases except for PostgreSQL. If you want additional databases, you will need to specify them.
-- For each user added in `spec.users`, the Operator will create a Secret of the `<clusterName>-pguser-<userName>` format (such default Secret naming can be altered for the user with the `spec.users.secretName` option). This Secret will contain the user credentials.
-- If no databases are specified, `dbname` and `uri` will not be present in the Secret.
+- For each user added in `spec.users`, the Operator will create a Secret of the `<clusterName>-pguser-<userName>` format (you can alter such default Secret naming for the user with the `spec.users.secretName` option). This Secret will contain the user credentials.
+- If no databases are specified, `dbname` and `uri` will not be present in the Secret. Such a user cannot access any database. You can assign the database for them later.
 - If at least one option under the `spec.users.databases` is specified, the first database in the list will be populated into the connection credentials.
 - The Operator does not automatically drop users in case of removed Custom Resource options to prevent accidental data loss.
 - Similarly, to prevent accidental data loss Operator does not automatically drop databases (see how to actually drop a database [here](users.md#deleting-users-and-databases)).
 - Role attributes are not automatically dropped if you remove them. You need to set the inverse attribute to actually drop them (e.g. `NOSUPERUSER`).
-- The special `postgres` user can be added as one of the custom users; however, the privileges of this user cannot be adjusted.
+- The special `postgres` user can be added as one of the custom users. Such a user is granted access to the `postgres` database. However, the privileges of this user cannot be adjusted. 
+- If the top-level `autoCreateUserSchema` option is set to `true` (default value), each user will have have automatically created schemas in the cluster for all databases listed for this user under the `users.databases`.
+- By default, users with non-superuser  privileges do not have access to the `public` schema. If you want a non-superuser to be able to create and update tables in the `public` schema, you can enable this by setting the `grantPublicSchemaAccess` option to `true`. This grants the user permission to create tables and update in the `public` schema of every database they own.
+- If multiple users are granted access to the `public` schema in the same database, each user can only access the tables they have created themselves. If you want one user to access tables created by another user in the `public` schema, the owner of those tables must connect to PostgreSQL and explicitly grant the necessary privileges to the other user.
+- Your custom superusers have access to the `public` schema for the databases assigned to them by default.
 
-### Creating a New User
+### Creating a new user
 
 Change `PerconaPGCluster` Custom Resource (e.g. by editing your YAML manifest in the `deploy/cr.yaml` configuration file):
 
@@ -47,9 +53,8 @@ spec:
     - name: perconapg
 ```
 
-Apply the changes (e.g. with the usual `kubctl apply -f deploy/cr.yaml' command) will create the new user:
+After you apply the changes with the usual `kubctl apply -f deploy/cr.yaml` command, the Operator will create the new user:
 
-- The user will only be able to connect to the default `postgres` database.
 - The credentials of this user are populated in the `<clusterName>-pguser-perconapg` secret. There are no connection credentials.
 - The user is unprivileged.
 
@@ -69,6 +74,7 @@ If you inspect the `<clusterName>-pguser-perconapg` Secret after applying the ch
 ### Adjusting privileges
 
 You can set role privileges by using the standard [role attributes :octicons-link-external-16:](https://www.postgresql.org/docs/current/role-attributes.html) that PostgreSQL provides and adding them to the `spec.users.options` subsection in the Custom Resource. 
+
 The following example will make the `perconapg` a superuser. You can add the following to the spec in your `deploy/cr.yaml`:
 
 ```yaml
@@ -118,7 +124,7 @@ spec:
     - name: postgres
 ```
 
-This will create a Secret named `<clusterName>-pguser-postgres` that contains the credentials of the `postgres` account. 
+This will create a Secret named `<clusterName>-pguser-postgres` that contains the credentials of the `postgres` user. The Operator creates a user `postgres` who can access the `postgres` database.
 
 ### Deleting users and databases
 
@@ -156,4 +162,4 @@ $ kubectl patch secret <clusterName>-pguser-<userName> -p '{"stringData":{"passw
 
 For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. You can connect through `primary` service (read more in [exposure documentation](expose.md)).
 
-Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxy-pgbouncer-exposesuperusers) Custom Resource option to enable superusers connection via pgBouncer.
+Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxypgbouncerexposesuperusers) Custom Resource option to enable superusers connection via pgBouncer.

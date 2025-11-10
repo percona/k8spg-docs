@@ -1,33 +1,55 @@
 # Using sidecar containers
 
-The Operator allows you to deploy additional (so-called *sidecar*) containers to
+Sidecar containers are extra containers that run alongside the main container in a Pod. They are often used for logging, proxying, or monitoring.
+
+The Operator uses a set of "predefined" sidecar containers to manage the cluster operation:
+
+* `replica-cert-copy` - is responsible for copying TLS certificates needed for replication between PostgreSQL instances
+* `pgbouncer-config` - handles configuration management for `pgBouncer`
+* `pgbackrest` - runs the main backup/restore agent
+* `pgbackrest-config` - handles configuration management for `pgBackRest`
+
+The Operator allows you to deploy your own sidecar containers to
 the Pod. You can use this feature to run debugging tools, some specific
 monitoring solutions, etc.
 
 !!! note
 
-    Custom sidecar containers [can easily access other components of your cluster :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication).
-Therefore they should be used carefully and by experienced users only.
+    Custom sidecar containers [can easily access other components of your cluster :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/#resource-sharing-and-communication). Therefore use them with caution, only when you are sure what you are doing.
 
-## Adding a sidecar container
+## Adding a custom sidecar container
 
-You can add sidecar containers to PostgreSQL instance and pgBouncer
-Pods. Just use `sidecars` subsection in the `instances` or `proxy.pgBouncer`
-Custom Resource section in the `deploy/cr.yaml` configuration file. In this
-subsection, you should specify at least the name and image of your container,
-and possibly a command to run:
+You can add sidecar containers to these Pods: 
+
+* a PostgreSQL instance Pod 
+* a pgBouncer Pod
+
+To add a sidecar container, use the `instances.sidecars` or `proxy.pgBouncer.sidecars` subsection in the `deploy/cr.yaml` configuration file.  Specify this minimum required information in this subsection:
+
+* the container name
+* the container image 
+* a command to run
+
+Note that you cannot reuse the name of the predefined containers. For example, PostgreSQL instance Pods cannot have custom sidecar containers named as `database`, `pgbackrest`, `pgbackrest-config`, and `replica-cert-copy`.
+
+Use the `kubectl describe pod` command to check which names are already in use.
+
+Here is the sample configuration of a sidecar container for a PostgreSQL instance Pod:
 
 ```yaml
 spec:
   instances:
+  - name: instance1
     ....
     sidecars:
-    - image: busybox
-      command: ["/bin/sh"]
+    - image: busybox:latest
+      command: ["sleep", "30d"]
       args: ["-c", "while true; do echo echo $(date -u) 'test' >> /dev/null; sleep 5; done"]
       name: my-sidecar-1
     ....
 ```
+
+Find additional options suitable for the `sidecars` subsection in the [Custom Resource options reference](operator.md) and the [Kubernetes Workload API reference :octicons-link-external-16:](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#container-v1-core)
 
 Apply your modifications as usual:
 
@@ -35,16 +57,13 @@ Apply your modifications as usual:
 $ kubectl apply -f deploy/cr.yaml
 ```
 
-!!! note
-
-    More options suitable for the `sidecars` subsection can be found in the [Custom Resource options reference](operator.md).
-
 Running `kubectl describe` command for the appropriate Pod can bring you the
 information about the newly created container:
 
 ``` {.bash data-prompt="$" }
 $ kubectl describe pod cluster1-instance1
 ```
+
 ??? example "Expected output"
 
     ``` {.text .no-copy}
@@ -52,24 +71,23 @@ $ kubectl describe pod cluster1-instance1
     ....
     Containers:
     ....
-    my-sidecar-1:
-      Container ID:  docker://f0c3437295d0ec819753c581aae174a0b8d062337f80897144eb8148249ba742
-      Image:         busybox
-      Image ID:      docker-pullable://busybox@sha256:139abcf41943b8bcd4bc5c42ee71ddc9402c7ad69ad9e177b0a9bc4541f14924
-      Port:          <none>
-      Host Port:     <none>
-      Command:
-        /bin/sh
-      Args:
-        -c
-        while true; do echo echo $(date -u) 'test' >> /dev/null; sleep 5; done
-      State:          Running
-        Started:      Thu, 11 Nov 2021 10:38:15 +0300
-      Ready:          True
-      Restart Count:  0
-      Environment:    <none>
-      Mounts:
-        /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-fbrbn (ro)
+    testcontainer:
+    Container ID:  containerd://c2a9dc1057ba30ac25d73e1856d99c04e49fd0942a03501405904510bc15cf5b
+    Image:         nginx:latest
+    Image ID:      docker.io/library/nginx@sha256:dc53c8f25a10f9109190ed5b59bda2d707a3bde0e45857ce9e1efaa32ff9cbc1
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sleep
+      30d
+    State:          Running
+      Started:      Thu, 26 Jun 2025 18:13:05 +0200
+    Ready:          True
+    Restart Count:  0
+    Environment:    <none>
+    Mounts:
+      /tmp from tmp (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-5l57g (ro)
     ....
     ```
 
@@ -78,6 +96,6 @@ $ kubectl describe pod cluster1-instance1
 You can login to your sidecar container as follows:
 
 ``` {.bash data-prompt="$" }
-$ kubectl exec -it cluster1-instance1n8v4-0 -c my-sidecar-1 -- sh
+$ kubectl exec -it cluster1-instance1n8v4-0 -c testcontainer -- sh
 / #
 ```

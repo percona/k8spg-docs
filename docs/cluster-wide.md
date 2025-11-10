@@ -103,6 +103,13 @@ the following information there:
     **only the namespace it runs in**, which would be the same as
     [single-namespace deployment](cluster-wide.md#namespace-scope).
 
+!!! note
+
+    Installing the Operator cluster-wide on OpenShift via the the Operator
+    Lifecycle Manager (OLM) requires
+    [making different selections in the OLM web-based UI](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm)
+    instead of patching YAML files.
+
 The following simple example shows how to install Operator cluster-wide on
 Kubernetes.
 
@@ -113,11 +120,12 @@ Kubernetes.
     $ cd percona-postgresql-operator
     ```
 
-2. Let’s suppose that Operator’s namespace should be the `pg-operator` one.
-    Create it as follows:
+2. Let’s say you will use `pg-operator` namespace for the Operator, and `percona-db-1`
+    namespace for the cluster. Create these namespaces, if needed:
 
     ``` {.bash data-prompt="$" }
     $ kubectl create namespace pg-operator
+    $ kubectl create namespace percona-db-1
     ```
 
 3. Edit the ``deploy/cw-bundle.yaml`` configuration file to make sure it
@@ -130,25 +138,24 @@ Kubernetes.
       name: percona-postgresql-operator
       namespace: pg-operator
     ...
+    spec:
+      containers:
+      - env:
+        - name: WATCH_NAMESPACE
+          value: "pg-operator,percona-db-1"
+    ...
     ```
 
 4. Apply the `deploy/cw-bundle.yaml` file with the following command:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cw-bundle.yaml -n pg-operator
+    $ kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
     ```
 
     Right now the operator deployed in cluster-wide mode will monitor all
     namespaces in the cluster, either already existing or newly created ones.
 
-5. Create the namespace you have chosen for the cluster, if needed. let's call
-    it `percona-db-1` for example:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace percona-db-1
-    ```
-    
-6.  Deploy the cluster in the namespace of your choice:
+5. Deploy the cluster in the namespace of your choice:
 
     ``` {.bash data-prompt="$" }
     $ kubectl apply -f deploy/cr.yaml -n percona-db-1

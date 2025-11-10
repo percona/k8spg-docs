@@ -10,7 +10,7 @@ actual schedule that you specify in crontab format.
 1. Before you start, make sure you have [configured a backup storage](backups-storage.md).
 
 2. Configure backup schedule in the `deploy/cr.yaml` file. The schedule is specified in crontab format as explained in
-   [Custom Resource options](operator.md#backups-pgbackrest-repos-schedules-full). The repository name must be the same as the one you defined in the [backup storage configuration](backups-storage.md). The following example shows the schedule for `repo1` repository:
+   [Custom Resource options](operator.md#backupspgbackrestreposschedulesfull). The repository name must be the same as the one you defined in the [backup storage configuration](backups-storage.md). The following example shows the schedule for `repo1` repository:
 
    ```yaml
    ...
