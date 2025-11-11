@@ -63,13 +63,28 @@ However, if your Custom Resource is still at version 2.7.0, the Operator 2.8.0 w
 
 This change eliminates ambiguity and ensures your cluster is deployed with a modern high-availability implementation.
 
+### Official Docker image for PostgreSQL images
+
+The Operator now uses the official Percona Docker images for Percona Distribution for PostgreSQL, with the image path `percona/percona-distribution-postgresql:<postgresql-version>`. 
+
+Becaus of this transition, the Operator is compatible with and supports only the following specific PostgreSQL versions:
+
+* Percona Distribution for PostgreSQL 17.5.2, 17.6.2
+* Percona Distribution for PostgreSQL 16.10
+* Percona Distribution for PostgreSQL 15.14
+* Percona Distribution for PostgreSQL 14.19
+* Percona Distribution for PostgreSQL 13.22
+
+Attempting to use the Operator with other PostgreSQL versions or custom images is not supported.
+
+
 ## Changelog
 
 ### New features
 
 * [K8SPG-730](https://perconadev.atlassian.net/browse/K8SPG-730) - Added the  `status.observedGeneration` field to the Custom Resource Definition to improve observability and ensure the controller successfully reconciled the latest changes to the cluster.
 
-* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Allowed setting `loadBalancerClass` service type and using a custom implementation of a load balancer rather than the cloud provider default one.
+* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Added the ability to use a custom implementation of a load balancer rather than the cloud provider default one via the `loadBalancerClass` service type.
 
 * [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Introduced a mechanism to prevent excessive logging caused by continuous pod annotation updates for suggested volume sizing. The Operator now skips updating the Pod annotation with the suggested volume size unless the auto-growable disk feature is explicitly configured. This significantly reduces redundant logs and unnecessary load on both the Kubernetes API and the logging pipeline.
 
