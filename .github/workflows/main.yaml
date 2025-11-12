@@ -39,8 +39,8 @@ jobs:
         run: |
           RELEASE=$(grep '^release:' variables.yml | awk '{print $2}' )
           echo "RELEASE=$RELEASE" >> $GITHUB_ENV
-          PRUNED_VERSION=$(grep '^pruned_version:' variables.yml | awk '{print $2}' )
-          echo "PRUNED_VERSION"=$"PRUNED_VERSION" >> $GITHUB_ENV
+#          PRUNED_VERSION=$(grep '^pruned_version:' variables.yml | awk '{print $2}' )
+#          echo "PRUNED_VERSION"=$"PRUNED_VERSION" >> $GITHUB_ENV
 
       
       #Set up MkDocs
@@ -56,5 +56,5 @@ jobs:
         run: |
           mike deploy $RELEASE -u latest -b publish -p
           mike set-default latest -b publish -p
-          mike delete $PRUNED_VERSION -b publish -p
+#          mike delete $PRUNED_VERSION -b publish -p
         
