@@ -3,7 +3,7 @@ on:
   push:
     branches: 
       - 2.0
-      - CLOUD-928-Implement-version-switcher-pg
+
      
 jobs:
   build:

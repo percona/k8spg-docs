@@ -1,6 +1,6 @@
 # Variables used across the documentation
 
-release: 2.8.0
+release: 2.7.0
 #pruned_version: 
 
 # Supported software
@@ -19,6 +19,5 @@ k8s_monitor_tag: 'v0.1.1'
 
 
 date:
-  2_8_0: "2025-11-13"
   2_7_0: "2025-07-18"
   2_6_0: "2025-03-17"
