@@ -6,13 +6,15 @@
 
 This release provides the following features and improvements:
 
-### Custom PostgreSQL user credentials now fully respected by the Operator
+### Custom PostgreSQL user credentials are now fully respected by the Operator
 
 You no longer have to define full login and connection information within a Secret to have the Operator use it. Now you can set only the password. The Operator generates the missing details that it needs automatically using the values from the Custom Resource. Also, if you name your Secret in the format that the Operator expects such as `<clusterName>-pguser-<userName>` — the Operator will automatically detect and use it without needing an explicit reference in the Custom Resource.  
 
 However, if you choose a custom name for the Secret, you must still reference it explicitly in the Custom Resource under the `users[].secretName` field. This ensures the Operator can locate and apply it correctly.
 
-This enhancement makes the management of user credentials more straightforward.
+Read more about managing user passwords in the [documentation](../users.md#managing-user-passwords).
+
+This enhancement makes the management of user credentials more straightforward. 
 
 ### Ability to use huge pages
 
@@ -28,7 +30,7 @@ spec:
           memory: 4Gi
 ```
 
-This improvement leads to a more efficient memory utilization and improved performance.
+This improvement leads to a more efficient memory utilization and improved performance. Learn more about huge pages and their use in the [Huge pages](../huge-pages.md) chapter.
 
 ### Expanded S3 compatibility for custom extensions 
 
@@ -67,7 +69,7 @@ This change eliminates ambiguity and ensures your cluster is deployed with a mod
 
 The Operator now uses the official Percona Docker images for Percona Distribution for PostgreSQL, with the image path `percona/percona-distribution-postgresql:<postgresql-version>`. 
 
-Becaus of this transition, the Operator is compatible with and supports only the following specific PostgreSQL versions:
+Because of this transition, the Operator is compatible with and supports only the following specific PostgreSQL versions:
 
 * Percona Distribution for PostgreSQL 17.5.2, 17.6.2
 * Percona Distribution for PostgreSQL 16.10
@@ -84,7 +86,7 @@ Attempting to use the Operator with other PostgreSQL versions or custom images i
 
 * [K8SPG-730](https://perconadev.atlassian.net/browse/K8SPG-730) - Added the  `status.observedGeneration` field to the Custom Resource Definition to improve observability and ensure the controller successfully reconciled the latest changes to the cluster.
 
-* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Added the ability to use a custom implementation of a load balancer rather than the cloud provider default one via the `loadBalancerClass` service type.
+* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Allowed setting loadBalancerClass service type and use a custom implementation of a load balancer rather than the cloud provider default one.
 
 * [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Introduced a mechanism to prevent excessive logging caused by continuous pod annotation updates for suggested volume sizing. The Operator now skips updating the Pod annotation with the suggested volume size unless the auto-growable disk feature is explicitly configured. This significantly reduces redundant logs and unnecessary load on both the Kubernetes API and the logging pipeline.
 
@@ -104,8 +106,6 @@ Attempting to use the Operator with other PostgreSQL versions or custom images i
 * [K8SPG-718](https://perconadev.atlassian.net/browse/K8SPG-718) - Improved Patroni observability by sending Patroni metrics to PMM.
 
 * [K8SPG-748](https://perconadev.atlassian.net/browse/K8SPG-748) - The PerconaPGCluster status now provides more comprehensive details, including persistent volume resizing and pgBackRest backup conditions.
-
-* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752)- Allowed setting loadBalancerClass service type and use a custom implementation of a load balancer rather than the cloud provider default one.
 
 * [K8SPG-757](https://perconadev.atlassian.net/browse/K8SPG-757): The Percona PostgreSQL Operator now successfully deploys in environments where `readOnlyRootFilesystem` is enforced.
 * [K8SPG-874](https://perconadev.atlassian.net/browse/K8SPG-874)- Improved logging to no longer contain backup-related information when backups are disabled.
