@@ -615,6 +615,14 @@ Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://k
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
 
+### `expose.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
+
 ### `expose.loadBalancerSourceRanges`
 
 The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
@@ -646,6 +654,14 @@ Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://k
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
+
+### `exposeReplicas.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
 
 ### `exposeReplicas.loadBalancerSourceRanges`
 
@@ -1822,6 +1838,14 @@ Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/ove
 | Value type | Example |
 | ---------- | ------- |
 | :material-label-outline: label | `pg-cluster-label: cluster1` |
+
+### `proxy.pgBouncer.expose.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
 
 ### `proxy.pgBouncer.expose.loadBalancerSourceRanges`
 
