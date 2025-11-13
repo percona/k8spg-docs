@@ -196,7 +196,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 2. Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Use the following command:
    
     ``` {.bash data-prompt="$" }
-    $ curl <https://check.percona.com/versions/v1/pg-operator/{{release}}> |jq -r '.versions[].matrix'
+    $ curl https://check.percona.com/versions/v1/pg-operator/{{release}} |jq -r '.versions[].matrix'
     ```
 
     You can also find this information in the [Versions compatibility matrix](versions.md).
@@ -216,10 +216,10 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
         $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }},
+              "image": "docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}",
               "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } },
-              "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm2recommended }}" }
+              "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm3recommended }}" }
            }}'
         ```
 
@@ -228,7 +228,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
         * `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
         * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
-        * `docker.io/percona/pmm-client:{{ pmm2recommended }}`.
+        * `docker.io/percona/pmm-client:{{ pmm3recommended }}`.
 
     === "Without PMM Client"
 
@@ -262,7 +262,6 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.x to PostgreSQL 16.x).
 
 Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
-
 
 The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 

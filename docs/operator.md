@@ -1628,7 +1628,7 @@ Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `percona/pmm-client:{{ pmm2recommended }}` |
+| :material-code-string: string | `percona/pmm-client:{{ pmm3recommended }}` |
 
 ### `pmm.imagePullPolicy`
 
