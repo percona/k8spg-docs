@@ -119,6 +119,10 @@ plugins:
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
+  git-committers:
+    enabled: !ENV [CI, false]
+    repository: percona/k8spg-docs
+    branch: "2.0"
   section-index: {}
   meta-descriptions:
     export_csv: false
@@ -168,13 +172,14 @@ extra: # Used in main.html template and can't be externalized
 # Common navigation for percona.com, render.com and PDF
 nav:
 
-    - About:
-          - "Percona Operator for PostgreSQL": index.md
+    - Home: index.md
+    - Discover the Operator:
           - "Comparison with other solutions": compare.md
           - "Design and architecture": architecture.md
     - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
+          - "System requirements": System-Requirements.md
           - 1 Quick install:
             - "With kubectl": kubectl.md
             - "With Helm": helm.md
@@ -184,7 +189,6 @@ nav:
           - 5 Monitor the database with PMM: monitoring-tutorial.md
           - What's next: what-next.md
     - Installation:
-          - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
           - "Install with Everest": everest.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
@@ -265,6 +269,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md
           - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
