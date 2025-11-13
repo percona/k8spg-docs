@@ -684,6 +684,31 @@ The number of Replicas to create for the PostgreSQL instance.
 | ---------- | ------- |
 | :material-numeric-1-box: int | `3` |
 
+### `instances.env.name`
+
+Name of an environment variable for PostgreSQL Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `instances.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `instances.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for PostgreSQL Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `instance-env-secret` |
+
+
 ### `instances.initContainer.image`
 
 Defines an image for an init container to run before the main container in the Pod. The init container is typically used for setup tasks such as initializing filesystems, setting permissions, or preparing configuration.
@@ -1047,6 +1072,30 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}` |
+
+### `backups.pgbackrest.env.name`
+
+Name of an environment variable for pgBackRest Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `backups.pgbackrest.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `backups.pgbackrest.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `repo-host-env-secret` |
 
 ### `backups.pgbackrest.containers.pgbackrest.resources.requests.cpu`
 
@@ -1646,6 +1695,30 @@ Docker image for the [pgBouncer :octicons-link-external-16:](http://pgbouncer.gi
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}` |
 
+### `proxy.pgBouncer.env.name`
+
+Name of an environment variable for pgBouncer Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `proxy.pgBouncer.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `proxy.pgBouncer.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgbouncer-env-secret` |
+
 ### `proxy.pgBouncer.exposeSuperusers`
 
 Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer).
@@ -1892,7 +1965,7 @@ The name of the Pod that should be [set as the new primary](change-primary.md). 
 
 Defines available replica creation methods and the order of executing them during a cluster start or reinitialisation. Patroni will stop on the first one that returns 0. 
 
-By default, `pg_basebackup` is used to create replicas during a new cluster deployment. After the Operator makes an initial backup, it updates the Patroni ConfigMap assing the `pgBackRest` as the first item in the list. This configuration is not propagated to Patroni itself until you restart the database instance Pods or manually reload Patroni configuration.
+By default, `pg_basebackup` is used to create replicas during a new cluster deployment. After the Operator makes an initial backup, it updates the Patroni ConfigMap assign the `pgBackRest` as the first item in the list. This configuration is not propagated to Patroni itself until you restart the database instance Pods or manually reload Patroni configuration.
 
 In the same way, after you define the replica set methods and apply the configuration, the Operator updates the Patroni ConfigMap. You must manually reload Patroni configuration of every database instance to make Patroni aware of the changes. Read more about setting replica methods in the [Configure create_replica_methods](reinit.md#configure-create_replica_methods) section.
 
@@ -1953,6 +2026,22 @@ The [S3 endpoint :octicons-link-external-16:](https://docs.aws.amazon.com/genera
 | ---------- | ------- |
 | :material-code-string: string | `s3.eu-central-1.amazonaws.com` |
 
+### `extensions.storage.forcePathStyle`
+
+When set to `true`, enforces path-style access method of constructing S3 URLs, where the bucket name appears in the path portion of the URL. Default `false` value means the Operator uses the virtual-hosted-style for accessing S3 storage, where the bucket name is part of the domain name.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.storage.disableSSL`
+
+When set to `true`, instructs the Operator to skip TLS verification when accessing the storage. Can be used if your storage endpoint uses self-signed certificates or doesn’t support TLS to allow successful downloads.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `extensions.storage.secret.name`
 
 The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys.
@@ -1969,8 +2058,15 @@ Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.per
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
 
-### `extensions.builtin.pg_audit`
+### `extensions.builtin.pg_stat_statements`
 
+Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.postgresql.org/docs/current/pgstatstatements.html) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.builtin.pg_audit`
 
 Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
 

@@ -19,6 +19,10 @@ The following platforms were tested and are officially supported by the Operator
 
 Other Kubernetes platforms may also work but have not been tested.
 
+## Huge pages
+
+We strongly recommend [enabling huge pages](https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/) on worker nodes for better stability and performance.
+
 ## Installation guidelines
 
 Choose how you wish to install Percona Operator for PostgreSQL:

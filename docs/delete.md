@@ -106,7 +106,7 @@ related to it.
 
 If you are not just deleting the Operator and PostgreSQL cluster from a specific
 namespace, but want to clean up your entire Kubernetes environment,
-you can also delete the [CustomRecourceDefinitions (CRDs) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
+you can also delete the [CustomResourceDefinitions (CRDs) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions). 
 
 !!! warning 
 
