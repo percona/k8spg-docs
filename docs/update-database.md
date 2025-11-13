@@ -87,22 +87,9 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 
 ## Major version upgrade
 
-Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3).
+Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.x to PostgreSQL 16.x).
 
-!!! note
-
-    Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
-
-    Also, currently the major version upgrade only works if the images in Custom Resource (`deploy/cr.yaml` manifest) are specified without minor version numbers:
-
-    ```yaml
-    ...
-    image: docker.io/percona/percona-postgresql-operator:{{release}}-ppg15-postgres
-    postgresVersion: 15
-    ...
-    ```
-    
-    It will not work for images specified like `percona/percona-postgresql-operator:2.4.0-ppg15.7-postgres`.
+Major version upgrades feature is currently a **tech preview**, and it is **not recommended for production environments.**
 
 The upgrade is triggered by applying the YAML file which refers to the special *Operator upgrade image* and contains the information about the existing and desired major versions. An example of this file is present in `deploy/upgrade.yaml`:
 
@@ -116,7 +103,7 @@ spec:
   image: docker.io/percona/percona-postgresql-operator:{{ release }}-upgrade
   fromPostgresVersion: 15
   toPostgresVersion: 16
-  toPostgresImage: docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ postgres16recommended }}-postgres
+  toPostgresImage: docker.io/percona/percona-distribution-postgresql:{{ postgres16recommended }}
   toPgBouncerImage: docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}
   toPgBackRestImage: docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}
 ```
