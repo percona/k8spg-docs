@@ -684,6 +684,31 @@ The number of Replicas to create for the PostgreSQL instance.
 | ---------- | ------- |
 | :material-numeric-1-box: int | `3` |
 
+### `instances.env.name`
+
+Name of an environment variable for PostgreSQL Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `instances.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `instances.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for PostgreSQL Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `instance-env-secret` |
+
+
 ### `instances.initContainer.image`
 
 Defines an image for an init container to run before the main container in the Pod. The init container is typically used for setup tasks such as initializing filesystems, setting permissions, or preparing configuration.
@@ -1047,6 +1072,30 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}` |
+
+### `backups.pgbackrest.env.name`
+
+Name of an environment variable for pgBackRest Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `backups.pgbackrest.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `backups.pgbackrest.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `repo-host-env-secret` |
 
 ### `backups.pgbackrest.containers.pgbackrest.resources.requests.cpu`
 
@@ -1645,6 +1694,30 @@ Docker image for the [pgBouncer :octicons-link-external-16:](http://pgbouncer.gi
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}` |
+
+### `proxy.pgBouncer.env.name`
+
+Name of an environment variable for pgBouncer Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `proxy.pgBouncer.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `proxy.pgBouncer.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgbouncer-env-secret` |
 
 ### `proxy.pgBouncer.exposeSuperusers`
 
