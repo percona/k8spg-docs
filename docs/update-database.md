@@ -47,7 +47,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
               "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }},
               "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } },
-              "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm2recommended }}" }
+              "pmm": { "image": "docker.io/percona/pmm-client:{{ pmm3recommended }}" }
            }}'
         ```
 
@@ -56,7 +56,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
         * `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
         * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
-        * `docker.io/percona/pmm-client:{{ pmm2recommended }}`.
+        * `docker.io/percona/pmm-client:{{ pmm3recommended }}`.
 
     === "Without PMM Client"
 
