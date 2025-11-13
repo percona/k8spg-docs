@@ -88,7 +88,7 @@ Set to `true` if the cluster is being deployed on OpenShift, set to `false` othe
 
 ### `autoCreateUserSchema`
 
-If set to `true`, the cluster will have automatically created schemas for the [custom user](users.md#application-users) defined in the `spec.users` subsection for all of the databases listed for this specific user.
+If set to `true`, the cluster will have automatically created schemas for the [custom user](users.md#custom-users-and-databases) defined in the `spec.users` subsection for all of the databases listed for this specific user.
 
 | Value type | Example |
 | ---------- | ------- |
