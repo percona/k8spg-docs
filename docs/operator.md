@@ -18,7 +18,7 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters :octic
 
 * <a name="finalizers-delete-backups"></a> `finalizers.percona.com/delete-backups` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes all the [backups](backups.md) of the database cluster from all configured repos on cluster deletion event (off by default). **`delete-backups` finalizer is in tech preview state, and it is not yet recommended for production environments.**
 
-## Toplevel `spec` elements
+## Top level `spec` elements
 
 The spec part of the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
 
@@ -80,7 +80,7 @@ Port number used by a standby copy to connect to the primary cluster.
 
 ### `openshift`
 
-Set to `true` if the cluster is being deployed on OpenShift, set to `false` otherwise, or  unset it for autodetection.
+Set to `true` if the cluster is being deployed on OpenShift, set to `false` otherwise, or  unset it for auto-detection.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -895,7 +895,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `instances.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -943,7 +943,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `instances.dataVolumeClaimSpec.storageClassName`
 
-Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL storage.
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PostgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL storage.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1205,7 +1205,7 @@ The number of retries to make a backup with incremental pauses of 10 seconds, 20
 
 ### `backups.pgbackrest.jobs.restartPolicy`
 
-The [Kuberentes Pod restart policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) for pgBackRest jobs.
+The [Kubernetes Pod restart policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) for pgBackRest jobs.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1213,7 +1213,7 @@ The [Kuberentes Pod restart policy :octicons-link-external-16:](https://kubernet
 
 ### `backups.pgbackrest.jobs.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1374,7 +1374,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1520,7 +1520,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName`
 
-Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PosgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
+Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PostgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1861,7 +1861,7 @@ The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/d
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-label-outline: label | `pg-cluster-annot: cluster1` |
+| :material-label-outline: label | `my-annotation: value1` |
 
 ### `proxy.pgBouncer.expose.labels`
 

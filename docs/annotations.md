@@ -113,8 +113,8 @@ Use **Annotations** when:
 | `pgv2.percona.com/monitor-user-secret-hash`                 | Custom Resource       | Hash of the monitor user secret, used to detect changes and trigger updates. | `b6e1a2c3...` |
 | `pgv2.percona.com/backup-in-progress`                       | Custom Resource        | Indicates a backup that is currently running for the cluster.                     | `true`                       |
 | `pgv2.percona.com/cluster-bootstrap-restore`                | Custom Resource       | Marks that the cluster was bootstrapped from a restore.                      | `2024-07-01T12:34:56Z`       |
-| `pgv2.percona.com/patroni-version`                          | Pods, StatefulSets         | The Patroni version running in the Pod or StatefulSet.                       | `3.3.0`                      |
-| `pgv2.percona.com/custom-patroni-version`                   | Pods, StatefulSets         | Custom Patroni version specified by the user.                                | `3.3.0-percona`              |
+| `pgv2.percona.com/patroni-version`                          | Pods, StatefulSets         | The Patroni version running in the Pod or StatefulSet.                       | `{{patronirecommended}}`                      |
+| `pgv2.percona.com/custom-patroni-version`                   | Pods, StatefulSets         | Custom Patroni version specified by the user. Deprecated and ignored starting with version 2.8.0 | `3.3.0-percona`              |
 | `kubectl.kubernetes.io/default-container` | Pods | Defines a default container used when the `-c` flag is not passed when executing to a Pod.|
 
 ## Setting labels and annotations in the Custom Resource
@@ -250,7 +250,11 @@ kubectl get service cluster1-instance1-xvbt-0 -o jsonpath='{.metadata.annotation
 
 Metadata can be used as an additional way to influence the Operator behavior by setting special annotations.
 
-### Customizing Patroni version
+### Customizing Patroni version (for the Operator version 2.6.0 - 2.7.0)
+
+!!! note 
+
+    This behavior is deprecated and the annotation is ignored starting with version 2.8.0.
 
 Starting from the Operator 2.6.0, Percona distribution for PostgreSQL comes with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions. To maintain backward compatibility, the Operator needs to detect the Patroni version used in the image. For this, it runs a temporary Pod named `cluster_name-patroni-version-check` with the following default resources:
 
