@@ -206,11 +206,6 @@ nav:
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
     - Management:
-          - "Upgrade PostgreSQL and the Operator": update.md
-          - Upgrade from version 1 to version 2:
-            - "Using data volumes": update-data-volumes.md
-            - "Using backup and restore": update-backup-restore.md
-            - "Using standby": update-standby.md
           - Back up and restore: 
             - "About backups": backups.md
             - "Configure storage for backups": backups-storage.md
@@ -233,7 +228,16 @@ nav:
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
-
+    
+    - Upgrade:
+          - About upgrades: update.md
+          - "Upgrade the Operator": update-operator.md
+          - "Upgrade the database": update-database.md
+          - "Upgrade PostgreSQL extensions": update-extensions.md
+          - Upgrade from version 1 to version 2:
+              - "Using data volumes": update-data-volumes.md
+              - "Using backup and restore": update-backup-restore.md
+              - "Using standby": update-standby.md
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md
