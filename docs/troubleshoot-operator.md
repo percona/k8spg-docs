@@ -45,7 +45,13 @@ If you are still running into issues, check with your Kubernetes cluster adminis
 
 ## Troubleshoot Operator installation issues 
 
-1. Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.
+1. Check the Operator logs
+
+    ```bash
+    kubectl logs deploy/<operator-deployment-name>
+    ``` 
+
+2. Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.
 
     To verify that you have the necessary privileges, run the following script:
 
@@ -74,7 +80,7 @@ If you are still running into issues, check with your Kubernetes cluster adminis
 
     If you have insufficient permissions, the script will show you which ones are missing for installing a particular Operator. In this case, contact the Kubernetes cluster administrator.
 
-2. If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.
+3. If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.
 
     ```bash
     kubectl get events --sort-by=".lastTimestamp"
@@ -82,11 +88,6 @@ If you are still running into issues, check with your Kubernetes cluster adminis
 
     Events provide good information about affinity issues, resource issues etc.
 
-3. Check the Operator logs 
-
-    ```bash
-    kubectl logs deploy/<operator-deployment-name>
-    ```  
 
 ## Troubleshooting database cluster issues
 
@@ -103,6 +104,12 @@ If you are still running into issues, check with your Kubernetes cluster adminis
     ```  
     
     The cluster should typically be in the `Running` state. It may briefly enter the `initializing` state while reconciling changes. If the cluster remains in the `initializing` state for an extended period, investigate further to identify any underlying issues.
+
+    Additionally, you can describe the database cluster and search for the information in the `State` and `State Description` fields:
+
+    ```bash
+    kubectl describe pg <database-cluster-name>
+    ```
 
 3. Check the Operator logs
 
@@ -144,7 +151,19 @@ If you are still running into issues, check with your Kubernetes cluster adminis
     kubectl logs <proxy-pod-name> -c postgres-startup
     ```    
 
-7. To run commands inside a container, use the `kubectl exec` command:
+7. Check for error details. Run the `kubectl describe` command:
+
+   ```bash
+   kubectl describe <database-pod-name>
+    ```  
+
+    ```bash
+    kubectl describe <proxy-pod-name>
+    ```  
+    
+    Check the information in the `Status` section. The `State` and `State Description` fields explain why the Pod reports errors.
+
+8. To run commands inside a container, use the `kubectl exec` command:
 
     ```bash
     kubectl exec <pod-name> -- <command>
