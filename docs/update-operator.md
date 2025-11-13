@@ -24,11 +24,15 @@
     * `6` - minor version
     * `0` - patch version
 
-    You can only upgrade the Operator to the nearest `major.minor` version. For example, from 2.6.0 to 2.7.0. To upgrade to a newer version, which differs from the current `minor.major` version by more than one, you need to make several incremental upgrades sequentially. 
-    
-    For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.5.1 to 2.6.0.
+    You can upgrade the Operator only to the nearest `major.minor.patch` version. For example, if the next version is 2.7.1, you can go directly from 2.6.0 to 2.7.1 without any intermediate steps.
 
-    Patch versions don't influence the upgrade, so you can safely move from `2.5.0` to `2.5.1`.
+    To upgrade to a newer version, which differs from the current
+    `minor.major` version by more than one, you need to make several
+    incremental upgrades sequentially. 
+    
+    For example, to upgrade the CRD and Operator from the version 2.4.
+    0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.
+    5.1 to 2.6.0.
 
 2. CRD supports **the last 3 minor versions of the Operator**. This means it is compatible with the newest Operator version and the two previous minor versions. If the Operator is older than the CRD by no more than two versions, you should be able to continue using the old Operator version. But updating the CRD and Operator is the recommended path.
 
@@ -60,7 +64,8 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 2. Next, update the Percona Distribution for PostgreSQL Operator Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/operator.yaml -n postgres-operator
+    $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
+    -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}}]}}}}'
     ```
 
 3. The deployment rollout will be automatically triggered by the applied patch.
