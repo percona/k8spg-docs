@@ -1,6 +1,11 @@
 # Variables used across the documentation
 
+
 release: 2.8.0
+#pruned_version: 
+
+# Supported software
+
 pmm3recommended: 3.4.1
 commandName: 'kubectl'
 postgresrecommended: '17.6-1'
