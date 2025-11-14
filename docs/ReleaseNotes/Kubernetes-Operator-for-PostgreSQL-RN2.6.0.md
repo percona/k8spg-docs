@@ -14,7 +14,7 @@ This release implemented several improvements to the backup/restore process:
 
 * Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new [backups.pgbackrest.jobs.backoffLimit](../operator.md#backupspgbackrestjobsbackofflimit) and [backups.pgbackrest.jobs.restartPolicy](../operator.md#backupspgbackrestjobsrestartpolicy) Custom Resource options.
 
-* You can now [overwrite](../backups-restore.md#use-custom-restore-command) the default restore command for `pgBackRest` via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option. Particularly, this allows to control and filter files restored to `pg_wal` directory without editing these files in the backup repository storage.
+* You can now [overwrite](../backups-restore.md#providing-pgbackrest-with-a-custom-restore-command) the default restore command for `pgBackRest` via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option. Particularly, this allows to control and filter files restored to `pg_wal` directory without editing these files in the backup repository storage.
 
 ### PostgreSQL 17 support
 
@@ -35,7 +35,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 ## New features
 
-* {{ k8spgjira(628) }}: The custom `restore_command` [can be now passed](../backups-restore.md#use-custom-restore-command) to pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option
+* {{ k8spgjira(628) }}: The custom `restore_command` [can be now passed](../backups-restore.md#providing-pgbackrest-with-a-custom-restore-command) to pgBackRest via the [patroni.dynamicConfiguration](../operator.md#patronidynamicconfiguration) Custom Resource option
 * {{ k8spgjira(619) }}: New `backups.pgbackrest.jobs.backoffLimit` and `backups.pgbackrest.jobs.restartPolicy` Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one
 * {{ k8spgjira(648) }}: PostgreSQL 17 is now supported by the Operator
 
@@ -65,7 +65,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 * The new versions of Percona distribution for PostgreSQL used by the Operator come with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions.  
 
-    To maintain backward compatibility, the Operator detects the Patroni version used in the image. It is also possible to disable this auto-detection feature by manually setting the Patroni version via the [following annotation set in the metadata part](../annotations.md#customizing-patroni-version) of the Custom Resource:   
+    To maintain backward compatibility, the Operator detects the Patroni version used in the image. It is also possible to disable this auto-detection feature by manually setting the Patroni version via the [following annotation set in the metadata part](../annotations.md#customizing-patroni-version-for-the-operator-version-260---270 of the Custom Resource:   
 
     ```
     pgv2.percona.com/custom-patroni-version: "4"

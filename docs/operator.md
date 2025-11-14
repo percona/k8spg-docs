@@ -18,7 +18,7 @@ for PostgreSQL Cluster; it should include only [URL-compatible characters :octic
 
 * <a name="finalizers-delete-backups"></a> `finalizers.percona.com/delete-backups` if present, activates the [Finalizer :octicons-link-external-16:](https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers) which deletes all the [backups](backups.md) of the database cluster from all configured repos on cluster deletion event (off by default). **`delete-backups` finalizer is in tech preview state, and it is not yet recommended for production environments.**
 
-## Toplevel `spec` elements
+## Top level `spec` elements
 
 The spec part of the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains the following:
 
@@ -80,7 +80,7 @@ Port number used by a standby copy to connect to the primary cluster.
 
 ### `openshift`
 
-Set to `true` if the cluster is being deployed on OpenShift, set to `false` otherwise, or  unset it for autodetection.
+Set to `true` if the cluster is being deployed on OpenShift, set to `false` otherwise, or  unset it for auto-detection.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -88,7 +88,7 @@ Set to `true` if the cluster is being deployed on OpenShift, set to `false` othe
 
 ### `autoCreateUserSchema`
 
-If set to `true`, the cluster will have automatically created schemas for the [custom user](users.md#application-users) defined in the `spec.users` subsection for all of the databases listed for this specific user.
+If set to `true`, the cluster will have automatically created schemas for the [custom user](users.md#custom-users-and-databases) defined in the `spec.users` subsection for all of the databases listed for this specific user.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -615,6 +615,14 @@ Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://k
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
 
+### `expose.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
+
 ### `expose.loadBalancerSourceRanges`
 
 The range of client IP addresses from which the load balancer should be reachable (if not set, there is no limitations).
@@ -646,6 +654,14 @@ Specifies the type of [Kubernetes Service :octicons-link-external-16:](https://k
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `LoadBalancer` |
+
+### `exposeReplicas.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
 
 ### `exposeReplicas.loadBalancerSourceRanges`
 
@@ -683,6 +699,31 @@ The number of Replicas to create for the PostgreSQL instance.
 | Value type | Example |
 | ---------- | ------- |
 | :material-numeric-1-box: int | `3` |
+
+### `instances.env.name`
+
+Name of an environment variable for PostgreSQL Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `instances.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `instances.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for PostgreSQL Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `instance-env-secret` |
+
 
 ### `instances.initContainer.image`
 
@@ -854,7 +895,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `instances.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for PostgreSQL instance Pods.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -902,7 +943,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `instances.dataVolumeClaimSpec.storageClassName`
 
-Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PosgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL storage.
+Set the [Kubernetes storage class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with PostgreSQL Cluster [PersistentVolumeClaim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/#persistentvolumeclaims) for the PostgreSQL storage.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1048,6 +1089,30 @@ The Docker image for [pgBackRest](backups.md#backup-repositories).
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}` |
 
+### `backups.pgbackrest.env.name`
+
+Name of an environment variable for pgBackRest Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `backups.pgbackrest.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `backups.pgbackrest.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `repo-host-env-secret` |
+
 ### `backups.pgbackrest.containers.pgbackrest.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a `pgBackRest` container. It must not exceed the limit.
@@ -1140,7 +1205,7 @@ The number of retries to make a backup with incremental pauses of 10 seconds, 20
 
 ### `backups.pgbackrest.jobs.restartPolicy`
 
-The [Kuberentes Pod restart policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) for pgBackRest jobs.
+The [Kubernetes Pod restart policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle/#restart-policy) for pgBackRest jobs.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1148,7 +1213,7 @@ The [Kuberentes Pod restart policy :octicons-link-external-16:](https://kubernet
 
 ### `backups.pgbackrest.jobs.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest jobs.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1238,6 +1303,38 @@ Settings, which are to be included in the `global` section of the pgBackRest con
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>repo1-retention-full: "14"<br>repo1-retention-full-type: time<br>repo1-path: /pgbackrest/postgres-operator/cluster1/repo1<br>repo1-cipher-type: aes-256-cbc<br>repo1-s3-uri-style: path<br>repo2-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo2<br>repo3-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo3<br>repo4-path: /pgbackrest/postgres-operator/cluster1-multi-repo/repo4</pre> |
 
+### `backups.pgbackrest.repoHost.sidecars.name`
+
+The name of a [custom sidecar container](sidecar.md) for pgBackRest Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `testcontainer` |
+
+### `backups.pgbackrest.repoHost.sidecars.image`
+
+The image used to deploy a [custom sidecar container](sidecar.md) for pgBackRest Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `busybox:latest` |
+
+### `backups.pgbackrest.repoHost.sidecars.command`
+
+The command to use inside a custom sidecar container for pgBackRest Pods
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `["sleep", "30d"]` |
+
+### `backups.pgbackrest.repoHost.sidecars.securityContext`
+
+Security settings for the sifecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `{}` |
+
 ### `backups.pgbackrest.repoHost.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBackRest repo. It must not exceed the limit.
@@ -1277,7 +1374,7 @@ The [Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io
 
 ### `backups.pgbackrest.repoHost.priorityClassName`
 
-The [Kuberentes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo.
+The [Kubernetes Pod priority class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/pod-priority-preemption/#priorityclass) for pgBackRest repo.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1423,7 +1520,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName`
 
-Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PosgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
+Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PostgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1531,7 +1628,7 @@ Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-code-string: string | `percona/pmm-client:{{ pmm2recommended }}` |
+| :material-code-string: string | `percona/pmm-client:{{ pmm3recommended }}` |
 
 ### `pmm.imagePullPolicy`
 
@@ -1646,6 +1743,30 @@ Docker image for the [pgBouncer :octicons-link-external-16:](http://pgbouncer.gi
 | ---------- | ------- |
 | :material-code-string: string | `docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}` |
 
+### `proxy.pgBouncer.env.name`
+
+Name of an environment variable for pgBouncer Pods. Read more about defining environment variables in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/inject-data-application/define-environment-variable-container/).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `proxy.pgBouncer.env.value`
+
+The value for an environment variable.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `1000` |
+
+### `proxy.pgBouncer.envFrom.secretRefName`
+
+Name of a Secret or a ConfigMap, key/values of which are used as environment variables for pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgbouncer-env-secret` |
+
 ### `proxy.pgBouncer.exposeSuperusers`
 
 Enables or disables [exposing superuser user through pgBouncer](users.md#superuser-and-pgbouncer).
@@ -1740,7 +1861,7 @@ The [Kubernetes annotations :octicons-link-external-16:](https://kubernetes.io/d
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-label-outline: label | `pg-cluster-annot: cluster1` |
+| :material-label-outline: label | `my-annotation: value1` |
 
 ### `proxy.pgBouncer.expose.labels`
 
@@ -1749,6 +1870,14 @@ Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/ove
 | Value type | Example |
 | ---------- | ------- |
 | :material-label-outline: label | `pg-cluster-label: cluster1` |
+
+### `proxy.pgBouncer.expose.loadBalancerClass`
+
+Define the implementation of the load balancer you want to use. This setting enables you to select a custom or specific load balancer class instead of the default one provided by the cloud provider.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `eks.amazonaws.com/nlb`|
 
 ### `proxy.pgBouncer.expose.loadBalancerSourceRanges`
 
@@ -1953,6 +2082,22 @@ The [S3 endpoint :octicons-link-external-16:](https://docs.aws.amazon.com/genera
 | ---------- | ------- |
 | :material-code-string: string | `s3.eu-central-1.amazonaws.com` |
 
+### `extensions.storage.forcePathStyle`
+
+When set to `true`, enforces path-style access method of constructing S3 URLs, where the bucket name appears in the path portion of the URL. Default `false` value means the Operator uses the virtual-hosted-style for accessing S3 storage, where the bucket name is part of the domain name.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.storage.disableSSL`
+
+When set to `true`, instructs the Operator to skip TLS verification when accessing the storage. Can be used if your storage endpoint uses self-signed certificates or doesn’t support TLS to allow successful downloads.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `extensions.storage.secret.name`
 
 The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/) for the custom extensions storage. It should contain `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` keys.
@@ -1969,8 +2114,15 @@ Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.per
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
 
-### `extensions.builtin.pg_audit`
+### `extensions.builtin.pg_stat_statements`
 
+Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.postgresql.org/docs/current/pgstatstatements.html) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.builtin.pg_audit`
 
 Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
 

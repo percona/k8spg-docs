@@ -418,4 +418,23 @@ Here's how to do it:
     CREATE EXTENSION pg_cron;
     ```
 
-3. Repeat step 2 for all databases where you want to use your extension.
+## Update custom extensions
+
+To update your custom extension inside the Operator, do the following:
+
+1. Prepare the `*.tar` archive of the extension's new version. See the [Packaging requirements](#packaging-requirements) section for the archive's structure and naming format
+2. Reference the new version of the extension in the Custom Resource. For example, you update `pg_cron` extension to version 1.6.8. Then your configuration looks like this:
+
+    ```yaml
+    extensions:
+      ...
+      custom:
+      - name: pg_cron
+        version: 1.6.8
+    ```
+
+3. Apply the configuration for the changes to come into place:
+
+    ```{.bash data-prompt="$"}
+    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```

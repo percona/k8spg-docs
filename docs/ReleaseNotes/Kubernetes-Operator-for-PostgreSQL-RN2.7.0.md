@@ -109,7 +109,7 @@ Read more about these troubleshooting methods in the [documentation](../manage-m
 
 * [K8SPG-761](https://perconadev.atlassian.net/browse/K8SPG-761) - Added the ability to add concurrent reconciliation workers
 
-* [K*SPG-828](https://perconadev.atlassian.net/browse/K8SPG-828) - Added registry name to images due to Openshift 4.19 changes
+* [K8SPG-828](https://perconadev.atlassian.net/browse/K8SPG-828) - Added registry name to images due to Openshift 4.19 changes
 
 ## Bugs Fixed
 
@@ -147,7 +147,7 @@ Read more about these troubleshooting methods in the [documentation](../manage-m
 
 * New repositories for `pgBouncer` and `pgBackRest`
 
-    Now the Operator uses the official Percona Docker images for `pgBouncer` and `pgBackRest` components. Pay attention to the new image repositories when you [upgrade the Operator and the database](update.md). Check the [Percona certified images](images.md) for exact image names.
+    Now the Operator uses the official Percona Docker images for `pgBouncer` and `pgBackRest` components. Pay attention to the new image repositories when you [upgrade the Operator and the database](../update.md). Check the [Percona certified images](../images.md) for exact image names.
 
 * Changes in image pulling on OpenShift
 
@@ -197,8 +197,7 @@ This list only includes the platforms that the Percona Operators are specificall
 ## Percona certified images
 
 Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
-
-Images released with the Operator version {{release}}: 
+ 
 
 --8<-- [start:images]
 

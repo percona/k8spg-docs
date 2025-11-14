@@ -119,6 +119,10 @@ plugins:
   search: 
     separator: '[\s\-,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
   git-revision-date: {}
+  git-committers:
+    enabled: !ENV [CI, false]
+    repository: percona/k8spg-docs
+    branch: "2.0"
   section-index: {}
   meta-descriptions:
     export_csv: false
@@ -163,13 +167,14 @@ extra: # Used in main.html template and can't be externalized
 # Common navigation for percona.com, render.com and PDF
 nav:
 
-    - About:
-          - "Percona Operator for PostgreSQL": index.md
+    - Home: index.md
+    - Discover the Operator:
           - "Comparison with other solutions": compare.md
           - "Design and architecture": architecture.md
     - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
+          - "System requirements": System-Requirements.md
           - 1 Quick install:
             - "With kubectl": kubectl.md
             - "With Helm": helm.md
@@ -179,7 +184,6 @@ nav:
           - 5 Monitor the database with PMM: monitoring-tutorial.md
           - What's next: what-next.md
     - Installation:
-          - "System requirements": System-Requirements.md
           - "Install on Minikube": minikube.md
           - "Install with Everest": everest.md
           - "Install on Google Kubernetes Engine (GKE)": gke.md
@@ -197,11 +201,6 @@ nav:
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
     - Management:
-          - "Upgrade PostgreSQL and the Operator": update.md
-          - Upgrade from version 1 to version 2:
-            - "Using data volumes": update-data-volumes.md
-            - "Using backup and restore": update-backup-restore.md
-            - "Using standby": update-standby.md
           - Back up and restore: 
             - "About backups": backups.md
             - "Configure storage for backups": backups-storage.md
@@ -218,11 +217,22 @@ nav:
             - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
-          - "High availability and scaling": scaling.md
+          - "Scale your cluster": scaling.md
+          - "High-availability": ha-deploy.md
+          - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
-
+    
+    - Upgrade:
+          - About upgrades: update.md
+          - "Upgrade the Operator": update-operator.md
+          - "Upgrade the database": update-database.md
+          - "Upgrade PostgreSQL extensions": update-extensions.md
+          - Upgrade from version 1 to version 2:
+              - "Using data volumes": update-data-volumes.md
+              - "Using backup and restore": update-backup-restore.md
+              - "Using standby": update-standby.md
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md
@@ -237,6 +247,7 @@ nav:
           - "Retrieve Percona certified images": image-query.md
 
     - Troubleshooting:
+          - "Troubleshoot Operator installation issues": troubleshoot-operator.md
           - "Initial troubleshooting": debug.md
           - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
@@ -254,6 +265,7 @@ nav:
           - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md
           - "Percona Operator for PostgreSQL 2.5.1 (2025-03-03)": ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md
