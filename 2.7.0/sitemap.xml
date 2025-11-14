@@ -1,347 +1,351 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/index.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/index.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/System-Requirements.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/System-Requirements.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/TLS.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/TLS.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/aks.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/aks.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/annotations.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/annotations.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/architecture.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/architecture.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/async-archiving.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/async-archiving.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backup-encryption.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backup-encryption.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backup-resource-options.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backup-resource-options.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backup-retention.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backup-retention.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backup-tutorial.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backup-tutorial.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-delete.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-delete.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-disable.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-disable.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-ondemand.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-ondemand.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-restore.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-restore.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-schedule.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-schedule.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups-storage.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups-storage.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/backups.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/backups.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/change-primary.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/change-primary.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/cluster-wide.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/cluster-wide.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/compare.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/compare.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/connect.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/connect.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/constraints.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/constraints.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/copyright.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/copyright.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/custom-extensions.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/custom-extensions.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/custom-install.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/custom-install.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/custom-registry.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/custom-registry.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/data-insert.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/data-insert.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/debug-logs.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/debug-logs.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/debug-shell.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/debug-shell.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/debug-storage.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/debug-storage.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/debug.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/debug.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/delete.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/delete.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/eks.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/eks.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/everest.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/everest.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/expose.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/expose.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/get-help.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/get-help.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/gke.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/gke.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/helm.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/helm.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/images.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/image-query.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/initsql.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/images.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/kubectl.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/initsql.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/kubernetes.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/kubectl.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/manage-manually.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/kubernetes.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/minikube.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/manage-manually.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/monitor-kubernetes.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/minikube.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/monitoring-tutorial.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/monitor-kubernetes.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/monitoring.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/monitoring-tutorial.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/openshift.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/monitoring.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/operator.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/openshift.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/options.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/operator.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/pause.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/options.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/postgis.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/pause.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/quickstart.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/postgis.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/reconciliation-concurrency.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/quickstart.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/reinit.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/reconciliation-concurrency.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/restore-options.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/reinit.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/scaling.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/restore-options.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/secret-options.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/scaling.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/sidecar.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/secret-options.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/standby-backup.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/sidecar.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/standby-failover.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/standby-backup.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/standby-streaming.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/standby-failover.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/standby.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/standby-streaming.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/tablespaces.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/standby.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/telemetry.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/tablespaces.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/trademark-policy.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/telemetry.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/update-backup-restore.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/trademark-policy.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/update-data-volumes.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/update-backup-restore.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/update-standby.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/update-data-volumes.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/update.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/update-standby.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/users.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/update.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/versions.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/users.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/what-next.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/versions.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/index.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/what-next.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/index.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
     <url>
-         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.7.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html</loc>
-         <lastmod>2025-09-11</lastmod>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html</loc>
+         <lastmod>2025-11-14</lastmod>
     </url>
 </urlset>
