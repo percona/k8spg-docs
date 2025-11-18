@@ -27,21 +27,21 @@ Here's a sequence of steps to follow:
 1. Add the Percona’s Helm charts repository and make your Helm client up to
     date with it:
 
-    ``` {.bash data-prompt="$" }
-    $ helm repo add percona https://percona.github.io/percona-helm-charts/
-    $ helm repo update
+    ```bash
+    helm repo add percona https://percona.github.io/percona-helm-charts/
+    helm repo update
     ```
 
 2. It is a good practice to isolate workloads in Kubernetes via namespaces. Create a namespace:
 
-    ```{.bash data-prompt="$" }
-    $ kubectl create namespace <my-namespace>
+    ```bash
+    kubectl create namespace <my-namespace>
     ```
 
 3. Install the Percona Operator for PostgreSQL:
 
-    ``` {.bash data-prompt="$" }
-    $ helm install my-operator percona/pg-operator --namespace <my-namespace>
+    ```bash
+    helm install my-operator percona/pg-operator --namespace <my-namespace>
     ```
 
     The `my-namespace` is the name of your namespace. The `my-operator` parameter is the name of [a new release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -50,8 +50,8 @@ Here's a sequence of steps to follow:
 
 3. Install Percona Distribution for PostgreSQL:
 
-    ```{.bash data-prompt="$" }
-    $ helm install cluster1 percona/pg-db -n <my-namespace>
+    ```bash
+    helm install cluster1 percona/pg-db -n <my-namespace>
     ```
 
     The `cluster1` parameter is the name of [a new release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -60,8 +60,8 @@ Here's a sequence of steps to follow:
 
 4. Check the Operator and replica set Pods status. 
    
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg -n <my-namespace>
+    ```bash
+    kubectl get pg -n <my-namespace>
     ```
 
     The creation process is over when both the

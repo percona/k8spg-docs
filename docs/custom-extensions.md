@@ -57,8 +57,8 @@ The `SHAREDIR` corresponds to `/usr/pgsql-${PG_MAJOR}/share` and `LIBDIR` to `/u
 
 For example, the directory for `pg_cron` extension should look as follows:
 
-``` {.bash data-prompt="$" }
-$ tree ~/pg_cron-1.6.7/
+```bash
+tree ~/pg_cron-1.6.7/
 /home/user/pg_cron-1.6.7/
 └── usr
     └── pgsql-17
@@ -164,9 +164,9 @@ Run the following commands as the root user or with `sudo` privileges.
   
 2. Install basic tools:
 
-   ```bash
-   dnf install git make 'dnf-command(config-manager)'
-   ```
+    ```bash
+    dnf install git make 'dnf-command(config-manager)'
+    ```
 
 3. Install additional PostgreSQL packages:
 
@@ -247,10 +247,10 @@ Run the following commands as the root user or with `sudo` privileges.
 
 2. Navigate to the cloned extension and switch to the desired version. In this example we use version `1.6.7`:
 
-   ```bash
-   cd pg_cron
-   git checkout v1.6.7
-   ```
+    ```bash
+    cd pg_cron
+    git checkout v1.6.7
+    ```
 
 3. Ensure `pg_config` is in your path:
 
@@ -318,16 +318,16 @@ After the upload is complete, place the access credentials for the cloud storage
 
             For GNU/Linux:
 
-            ``` {.bash data-prompt="$" }
-            $ echo -n 'plain-text-string' | base64 --wrap=0
+            ```bash
+            echo -n 'plain-text-string' | base64 --wrap=0
             ```
 
         === "in macOS"
 
             For Apple macOS:
 
-            ``` {.bash data-prompt="$" }
-            $ echo -n 'plain-text-string' | base64
+            ```bash
+            echo -n 'plain-text-string' | base64
             ```
 
      Here's the example Secrets file `extensions-secret.yaml`:
@@ -394,8 +394,8 @@ Resource so the Operator can download and install it.
 
 4. Apply the configuration: 
     
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
     ```
 
     This causes the Operator to restart the Pods of your cluster.
@@ -408,8 +408,8 @@ Here's how to do it:
 
 1. Connect to the primary Pod:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec -it cluster1-instance1-69r8-0 -c database -n <namespace> -- bash
+    ```bash
+    kubectl exec -it cluster1-instance1-69r8-0 -c database -n <namespace> -- bash
     ```
 
 2. Connect to the required database in PostgreSQL and create the extension for this database using the `CREATE EXTENSION` statement:
@@ -435,6 +435,6 @@ To update your custom extension inside the Operator, do the following:
 
 3. Apply the configuration for the changes to come into place:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
     ```

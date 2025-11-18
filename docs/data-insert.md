@@ -72,4 +72,4 @@ Now your cluster has some data in it.
 
 ## Next steps
 
-[:simple-amazons3: Make a backup :material-arrow-right:](backup-tutorial.md){.md-button}
+[:fontawesome-brands-amazon: Make a backup :material-arrow-right:](backup-tutorial.md){.md-button}

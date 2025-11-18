@@ -28,8 +28,8 @@ To create your Kubernetes cluster, you will need the following data:
 You can create your cluster via command line using `az aks create` command.
 The following command will create a 3-node cluster named ` cluster1` within some [already existing :octicons-link-external-16:](https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli#create-a-resource-group) resource group named `my-resource-group`:
 
-``` {.bash data-prompt="$" }
-$ az aks create --resource-group my-resource-group --name  cluster1 --enable-managed-identity --node-count 3 --node-vm-size Standard_B4ms --node-osdisk-size 30 --network-plugin kubenet  --generate-ssh-keys --outbound-type loadbalancer
+```bash
+az aks create --resource-group my-resource-group --name  cluster1 --enable-managed-identity --node-count 3 --node-vm-size Standard_B4ms --node-osdisk-size 30 --network-plugin kubenet  --generate-ssh-keys --outbound-type loadbalancer
 ```
 
 Other parameters in the above example specify that we are creating a cluster
@@ -42,7 +42,7 @@ You may wait a few minutes for the cluster to be generated.
 Now you should configure the command-line access to your newly created cluster
 to make `kubectl` be able to use it.
 
-``` {.bash data-prompt="$" } 
+```bash 
 az aks get-credentials --resource-group my-resource-group --name  cluster1
 ```
 
@@ -50,8 +50,8 @@ az aks get-credentials --resource-group my-resource-group --name  cluster1
 
 1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let's name it `postgres-operator`:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
@@ -64,8 +64,8 @@ az aks get-credentials --resource-group my-resource-group --name  cluster1
 
 2. Deploy the Operator[using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -85,8 +85,8 @@ az aks get-credentials --resource-group my-resource-group --name  cluster1
 
 3. The operator has been started, and you can deploy Percona Distribution for PostgreSQL:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -103,23 +103,23 @@ az aks get-credentials --resource-group my-resource-group --name  cluster1
         options. You can clone the repository with all manifests and source code
         by executing the following command:
 
-        ```{.bash data-prompt="$" }
-        $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+        ```bash
+        git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
         ```
 
         After editing the needed options, apply your modified `deploy/cr.yaml`
         file as follows:
 
-        ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n postgres-operator
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n postgres-operator
         ```
 
     The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg
+    ```bash
+    kubectl get pg
     ```
 
     ??? example "Expected output"
@@ -144,8 +144,8 @@ To delete your cluster, you will need the following data:
 You can clean up the cluster with the `az aks delete` command as follows (with
 real names instead of `<resource group>` and `<cluster name>` placeholders):
 
-``` {.bash data-prompt="$" }
-$ az aks delete --name <cluster name> --resource-group <resource group> --yes --no-wait
+```bash
+az aks delete --name <cluster name> --resource-group <resource group> --yes --no-wait
 ```
 
 It may take ten minutes to get the cluster actually deleted after executing this command.

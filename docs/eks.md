@@ -56,8 +56,8 @@ your Kubernetes environment:
 1. Create the Kubernetes namespace for your cluster if needed (for example,
    let's name it `postgres-operator`):
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
@@ -77,8 +77,8 @@ your Kubernetes environment:
 2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -90,8 +90,8 @@ your Kubernetes environment:
 2. The operator has been started, and you can deploy your Percona Distribution
     for PostgreSQL cluster:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -108,23 +108,23 @@ your Kubernetes environment:
         options. You can clone the repository with all manifests and source code
         by executing the following command:
 
-        ```{.bash data-prompt="$" }
-        $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+        ```bash
+        git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
         ```
 
         After editing the needed options, apply your modified `deploy/cr.yaml`
         file as follows:
 
-        ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n postgres-operator
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n postgres-operator
         ```
 
     The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg
+    ```bash
+    kubectl get pg
     ```
 
     ??? example "Expected output"
@@ -152,8 +152,8 @@ To delete your Kubernetes cluster in EKS, you will need the following data:
 You can clean up the cluster with the `eksctl` command as follows (with
 real names instead of `<region>` and `<cluster name>` placeholders):
 
-``` {.bash data-prompt="$" }
-$ eksctl delete cluster --region=<region> --name="<cluster name>"
+```bash
+eksctl delete cluster --region=<region> --name="<cluster name>"
 ```
 
 The cluster deletion may take time.

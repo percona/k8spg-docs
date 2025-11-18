@@ -64,9 +64,9 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
     Take the latest versions of the CRD and Role-based access control manifest from the official repository on GitHub with the following commands:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/rbac.yaml -n postgres-operator
     ```
     
     !!! note
@@ -75,8 +75,8 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
 2. Next, update the Percona Distribution for PostgreSQL Operator Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl -n postgres-operator patch deployment percona-postgresql-operator \
+    ```bash
+    kubectl -n postgres-operator patch deployment percona-postgresql-operator \
     -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}}]}}}}'
     ```
 
@@ -84,8 +84,8 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
     You can track the rollout process in real time with the
     `kubectl rollout status` command with the name of your cluster:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
+    ```bash
+    kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
     ```
     
     ??? example "Expected output"
@@ -103,8 +103,8 @@ Operator deployment with the `helm upgrade` command.
 
 1. You must have the compatible version of the Custom Resource Definition (CRD) in all namespaces that the Operator manages. Starting with version 2.7.0, you can check it using the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get crd perconapgclusters.pgv2.percona.com --show-labels
+    ```bash
+    kubectl get crd perconapgclusters.pgv2.percona.com --show-labels
     ```
     
 2. Update the [Custom Resource Definition :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/)
@@ -112,8 +112,8 @@ Operator deployment with the `helm upgrade` command.
 
     Refer to the [compatibility between CRD and the Operator](#upgrading-the-operator-and-crd) and how you can update the CRD if it is too old. Use the following command and replace the version to the required one until you are safe to update to the latest CRD version.
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side --force-conflicts -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
+    ```bash
+    kubectl apply --server-side --force-conflicts -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/crd.yaml
     ```
     
     If you already have the latest CRD version in one of namespaces, don't re-run intermediate upgrades for it.
@@ -124,8 +124,8 @@ Operator deployment with the `helm upgrade` command.
 
         To upgrade the Operator installed with default parameters, use the following command: 
 
-        ``` {.bash data-prompt="$" }
-        $ helm upgrade my-operator percona/pg-operator --version {{ release }}
+        ```bash
+        helm upgrade my-operator percona/pg-operator --version {{ release }}
         ```
 
         The `my-operator` parameter in the above example is the name of a [release object :octicons-link-external-16:](https://helm.sh/docs/intro/using_helm/#three-big-concepts)
@@ -137,14 +137,14 @@ Operator deployment with the `helm upgrade` command.
     
         1. Get the list of used options in YAML format :
         
-            ```{.bash data-prompt="$" }
-            $ helm get values my-operator -a > my-values.yaml
+            ```bash
+            helm get values my-operator -a > my-values.yaml
             ``` 
         
         2. Pass these options to the upgrade command as follows:
 
-            ``` {.bash data-prompt="$" }
-            $ helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
+            ```bash
+            helm upgrade my-operator percona/pg-operator --version {{ release }} -f my-values.yaml
             ```
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.

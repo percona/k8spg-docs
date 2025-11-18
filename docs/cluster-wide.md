@@ -22,28 +22,28 @@ Let’s say you will use a Kubernetes Namespace called `percona-db-1`.
 
 1. Clone `percona-postgresql-operator` repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
 2. Create your `percona-db-1` Namespace (if it doesn't yet exist) as follows:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace percona-db-1
+    ```bash
+    kubectl create namespace percona-db-1
     ```
 
 3. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-1
+    ```bash
+    kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-1
     ```
 
 4. Once Operator is up and running, deploy the database cluster itself:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n percona-db-1
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n percona-db-1
     ```
 
 You can deploy multiple clusters in this namespace.
@@ -54,20 +54,20 @@ What if there is a need to deploy clusters in another namespace? The solution fo
 
 1. Create your `percona-db-2` namespace (if it doesn't yet exist) as follows:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace percona-db-2
+    ```bash
+    kubectl create namespace percona-db-2
     ```
 
 2. Deploy the Operator:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-2
+    ```bash
+    kubectl apply --server-side -f deploy/bundle.yaml -n percona-db-2
     ```
 
 3. Once Operator is up and running deploy the database cluster itself:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n percona-db-2
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n percona-db-2
     ```
 
     !!! note
@@ -115,17 +115,17 @@ Kubernetes.
 
 1. Clone `percona-postgresql-operator` repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
 2. Let’s say you will use `pg-operator` namespace for the Operator, and `percona-db-1`
     namespace for the cluster. Create these namespaces, if needed:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace pg-operator
-    $ kubectl create namespace percona-db-1
+    ```bash
+    kubectl create namespace pg-operator
+    kubectl create namespace percona-db-1
     ```
 
 3. Edit the ``deploy/cw-bundle.yaml`` configuration file to make sure it
@@ -148,8 +148,8 @@ Kubernetes.
 
 4. Apply the `deploy/cw-bundle.yaml` file with the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
+    ```bash
+    kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
     ```
 
     Right now the operator deployed in cluster-wide mode will monitor all
@@ -157,8 +157,8 @@ Kubernetes.
 
 5. Deploy the cluster in the namespace of your choice:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n percona-db-1
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n percona-db-1
     ```
 
 ## Verifying the cluster operation

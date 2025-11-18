@@ -11,8 +11,8 @@ It is important to remember that PVC is namespace-scoped, but PV and Storage Cla
 
 You can check all the PVC with the following command (use different namespace name instead of `postgres-operator`, if needed):
 
-``` {.bash data-prompt="$" }
-$ kubectl get pvc -n postgres-operator
+```bash
+kubectl get pvc -n postgres-operator
 ```
 
 ???+ example "Expected output"
@@ -35,8 +35,8 @@ $ kubectl get pvc -n postgres-operator
 
 Now you can check a specific PVC for more details using its name as follows:
 
-``` {.bash data-prompt="$" }
-$ kubectl get pvc cluster1-instance1-4xkv-pgdata -n postgres-operator -oyaml # output stripped for brevity, name of PVC may vary
+```bash
+kubectl get pvc cluster1-instance1-4xkv-pgdata -n postgres-operator -oyaml # output stripped for brevity, name of PVC may vary
 ```
 
 ???+ example "Expected output"
@@ -79,8 +79,8 @@ It is important to remember that PV is a cluster-scoped Object. If you see any i
 
 Check all the PV present in the Kubernetes cluster as follows:
 
-``` {.bash data-prompt="$" }
-$ kubectl get pv
+```bash
+kubectl get pv
 ```
 
 ???+ example "Expected output"
@@ -95,8 +95,8 @@ $ kubectl get pv
 
 Now you can check a specific PV for more details using its name as follows:
 
-``` {.bash data-prompt="$" }
-$ kubectl get pv pvc-2d20abb7-5350-4810-a098-fbdfbffda041 -oyaml
+```bash
+kubectl get pv pvc-2d20abb7-5350-4810-a098-fbdfbffda041 -oyaml
 ```
 
 ???+ example "Expected output"
@@ -157,8 +157,8 @@ You can set StorageClass in `instances.dataVolumeClaimSpec.storageClassName`, `i
 
 The following command checks all the storage class present in the Kubernetes cluster, and allows to see which storage class is the default one:
 
-``` {.bash data-prompt="$" }
-$ kubectl get sc
+```bash
+kubectl get sc
 ```
 
 ???+ example "Expected output"
@@ -174,8 +174,8 @@ If some PVC does not refer any storage class explicitly, it means that the defau
 
 You can check a specific storage class as follows:
 
-``` {.bash data-prompt="$" }
-$ kubectl get sc standard -oyaml
+```bash
+kubectl get sc standard -oyaml
 ```
 
 ???+ example "Expected output"

@@ -24,8 +24,8 @@ The following example uses initialization SQL command to add a new role to a Pos
 
     Create the ConfigMap by applying your manifest:
     
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f my_init.yaml
+    ```bash
+    kubectl apply -f my_init.yaml
     ```
 
 2. Update the `databaseInitSQL` part of the `deploy/cr.yaml` Custom Resource manifest as follows:
@@ -40,8 +40,8 @@ The following example uses initialization SQL command to add a new role to a Pos
     
     Now, SQL commands will be executed when you create the cluster by apply the manifest:
     
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
 The psql command is executed the standard input and the file flag (`psql -f -`). If the command returns `0` exit code, SQL will not be run again. When psql returns with an error exit code, the Operator will continue attempting to execute it as part of its reconcile loop until success. You can fix errors in the SQL sequence, for example by interactive `kubectl edit configmap cluster1-init-sql -n postgres-namespace` command.

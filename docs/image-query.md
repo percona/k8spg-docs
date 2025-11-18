@@ -10,8 +10,8 @@ The **Version Service** is a centralized repository that the Percona Operator fo
 
 You can manually query the Version Service using the `curl` command. The basic syntax is:
 
-```{.bash data-prompt="$"}
-$ curl https://check.percona.com/versions/v1/pg-operator/<operator-version>/<pg-version> | jq -r '.versions[].matrix'
+```bash
+curl https://check.percona.com/versions/v1/pg-operator/<operator-version>/<pg-version> | jq -r '.versions[].matrix'
 ```
 
 where:
@@ -21,8 +21,8 @@ where:
 
 For example, to retrieve the list of images for Operator version `2.4.0` for PostgreSQL version `16.3`, use the following command:
 
-```{.bash data-prompt="$"}
-$ curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16.3 | jq -r '.versions[].matrix'
+```bash
+curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16.3 | jq -r '.versions[].matrix'
 ```
 
 ??? example "Sample output"
@@ -90,14 +90,14 @@ $ curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16.3 | jq -r '.ve
 
 To narrow down the results to the recommended version of PostgreSQL 16, you can use:
 
-```{.bash data-prompt="$"}
-$ curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16-recommended | jq -r '.versions[].matrix'
+```bash
+curl https://check.percona.com/versions/v1/pg-operator/2.4.0/16-recommended | jq -r '.versions[].matrix'
 ```
 
 This command helps you retrieve the PostgreSQL images available for a specific Operator version (`2.4.0` in the following example):
 
-```{.bash data-prompt="$"}
-$ curl -s https://check.percona.com/versions/v1/pg-operator/2.4.0 | jq -r '.versions[0].matrix.postgresql | to_entries[] | "\(.key)\t\(.value.imagePath)\t\(.value.status)"'
+```bash
+curl -s https://check.percona.com/versions/v1/pg-operator/2.4.0 | jq -r '.versions[0].matrix.postgresql | to_entries[] | "\(.key)\t\(.value.imagePath)\t\(.value.status)"'
 ```
 
 ??? example "Sample output"

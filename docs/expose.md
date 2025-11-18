@@ -25,8 +25,8 @@ proxy:
 
 The Service will be called `<clusterName>-pgbouncer`:
 
-``` {.bash data-prompt="$" }
-$ kubectl get service
+```bash
+kubectl get service
 ```
 
 ???+ example "Expected output"
@@ -54,8 +54,8 @@ You can connect to the cluster without a proxy.
 
 For that use `<clusterName>-ha` Service object:
 
-``` {.bash data-prompt="$" }
-$ kubectl get service
+```bash
+kubectl get service
 ```
 
 ???+ example "Expected output"

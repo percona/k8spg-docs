@@ -18,17 +18,17 @@ If you would like to use *your local shell*, install the following:
 
 2. [kubectl :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine/docs/quickstart#choosing_a_shell). This is the Kubernetes command-line tool you will use to manage and deploy applications. To install the tool, run the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ gcloud auth login
-    $ gcloud components install kubectl
+    ```bash
+    gcloud auth login
+    gcloud components install kubectl
     ```
 
 ## Create and configure the GKE cluster
 
 You can configure the settings using the `gcloud` tool. You can run it either in the [Cloud Shell :octicons-link-external-16:](https://cloud.google.com/shell/docs/quickstart) or in your local shell (if you have installed Google Cloud SDK locally on the previous step). The following command creates a cluster named `cluster-1`:
 
-``` {.bash data-prompt="$" }
-$ gcloud container clusters create cluster-1 --project <project ID> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
+```bash
+gcloud container clusters create cluster-1 --project <project ID> --zone us-central1-a --cluster-version {{ gkerecommended }} --machine-type n1-standard-4 --num-nodes=3
 ```
 
 !!! note
@@ -51,15 +51,15 @@ shown on the above image. You will see the connect statement which configures
 the command-line access. After you have edited the statement, you may run the
 command in your local shell:
 
-``` {.bash data-prompt="$" }
-$ gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project <project name>
+```bash
+gcloud container clusters get-credentials cluster-1 --zone us-central1-a --project <project name>
 ```
 Finally, use your [Cloud Identity and Access Management (Cloud IAM) :octicons-link-external-16:](https://cloud.google.com/iam)
 to control access to the cluster. The following command will give you the
 ability to create Roles and RoleBindings:
 
-``` {.bash data-prompt="$" }
-$ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value core/account)
+```bash
+kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-admin --user $(gcloud config get-value core/account)
 ```
 
 ??? example "Expected output"
@@ -72,16 +72,16 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
 1. First of all, use the following `git clone` command to download the correct branch of the percona-postgresql-operator repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
 2. Create the Kubernetes namespace for your cluster if needed (for example,
    let's name it `postgres-operator`):
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
@@ -101,8 +101,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 3. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/bundle.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -113,8 +113,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
 
 4. Deploy Percona Distribution for PostgreSQL:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -127,8 +127,8 @@ $ kubectl create clusterrolebinding cluster-admin-binding --clusterrole cluster-
     cluster will obtain the `ready` status. You can check it with the following
     command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg -n postgres-operator
+    ```bash
+    kubectl get pg -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -158,8 +158,8 @@ Also, there are several ways that you can delete your Kubernetes cluster in GKE.
 
 You can clean up the cluster with the `gcloud` command as follows:
 
-``` {.bash data-prompt="$" }
-$ gcloud container clusters delete <cluster name> --zone us-central1-a --project <project ID>
+```bash
+gcloud container clusters delete <cluster name> --zone us-central1-a --project <project ID>
 ```
 
 The return statement requests your confirmation of the deletion. Type `y` to confirm.

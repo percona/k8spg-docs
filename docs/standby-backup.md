@@ -44,8 +44,8 @@ The pgBackRest repo-based standby is the simplest one. The following is the arch
 
 3. Once configured, apply the custom resource:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml 
+    ```bash
+    kubectl apply -f deploy/cr.yaml 
     ```
 
     ??? example "Expected output"
@@ -84,8 +84,8 @@ spec:
 
 Deploy the standby cluster by applying the manifest:
 
-```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml
+```bash
+kubectl apply -f deploy/cr.yaml
 ```
 
 ??? example "Expected output"

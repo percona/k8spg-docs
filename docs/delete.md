@@ -29,8 +29,8 @@ Here's a sequence of steps to follow:
 1. List Custom Resources, replacing the `<namespace>` placeholder with your
     namespace.
     
-    ``` {.bash data-prompt="$"}
-    $ kubectl get pg -n <namespace>
+    ```bash
+    kubectl get pg -n <namespace>
     ```
 
     ??? example "Sample output"
@@ -40,8 +40,8 @@ Here's a sequence of steps to follow:
 2. Delete the Custom Resource with the name of your cluster (for example, let's
     use the default `cluster1` name).
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl delete pg cluster1 -n <namespace>
+    ```bash
+    kubectl delete pg cluster1 -n <namespace>
     ```
 
     ??? example "Sample output"
@@ -53,8 +53,8 @@ Here's a sequence of steps to follow:
 3. Check that the cluster is deleted by listing the available Custom Resources
     once again.
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl get pg -n <namespace>
+    ```bash
+    kubectl get pg -n <namespace>
     ``` 
 
     ??? example "Sample output"
@@ -72,8 +72,8 @@ related to it.
 1. List the deployments. Replace the `<namespace>` placeholder with your
     namespace.
     
-    ``` {.bash data-prompt="$"}
-    $ kubectl get deploy -n <namespace>
+    ```bash
+    kubectl get deploy -n <namespace>
     ```
 
     ??? example "Sample output"
@@ -85,15 +85,15 @@ related to it.
 
 2. Delete the `percona-*` deployment
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl delete deploy percona-postgresql-operator -n <namespace>
+    ```bash
+    kubectl delete deploy percona-postgresql-operator -n <namespace>
     ```
 
 3. Check that the Operator is deleted by listing the Pods. As a result you
     should have no Pods related to it.
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl get pods -n <namespace>
+    ```bash
+    kubectl get pods -n <namespace>
     ``` 
 
     ??? example "Sample output"
@@ -119,8 +119,8 @@ You can delete CRD as follows:
 
 1. List the CRDs:
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl get crd
+    ```bash
+    kubectl get crd
     ```
 
     ??? example "Sample output"
@@ -150,8 +150,8 @@ You can delete CRD as follows:
 
 2. Now delete the `percona*.pgv2.percona.com` CRDs:
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl delete crd perconapgbackups.pgv2.percona.com perconapgclusters.pgv2.percona.com perconapgrestores.pgv2.percona.com
+    ```bash
+    kubectl delete crd perconapgbackups.pgv2.percona.com perconapgclusters.pgv2.percona.com perconapgrestores.pgv2.percona.com
     ```
 
     ??? example "Sample output"
@@ -175,8 +175,8 @@ To manually clean up resources, do the following:
    
     1. List PVCs. Replace the `<namespace>` placeholder with your namespace:
 
-        ```{.bash data-prompt="$"}
-        $ kubectl get pvc -n <namespace>
+        ```bash
+        kubectl get pvc -n <namespace>
         ```    
 
         ??? example "Sample output"
@@ -191,7 +191,7 @@ To manually clean up resources, do the following:
         
     2. Delete PVCs related to your cluster. The following command deletes PVCs for the `cluster1` cluster:
 
-        ```{.bash data-prompt="$"}
+        ```bash
         kubectl delete pvc cluster1-instance1-mkwh-pgdata cluster1-instance1-nvh4-pgdata cluster1-instance1-qknb-pgdata cluster1-repo1 -n <namespace>
         ```
 
@@ -210,12 +210,12 @@ To manually clean up resources, do the following:
 
         1. List Secrets:
 
-            ```{.bash data-prompt="$"}
-            $ kubectl get secrets -n <namespace>
+            ```bash
+            kubectl get secrets -n <namespace>
             ```    
 
         2. Delete the Secret:
         
-            ```{.bash data-prompt="$"}
-            $ kubectl delete secret <secret_name> -n <namespace>
+            ```bash
+            kubectl delete secret <secret_name> -n <namespace>
             ```

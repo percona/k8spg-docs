@@ -15,9 +15,9 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
 
 1. Clone the percona-postgresql-operator repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
     !!! note
@@ -32,15 +32,15 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     [Apply it :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f deploy/crd.yaml
+    ```bash
+    kubectl apply --server-side -f deploy/crd.yaml
     ```
 
 3. Create the Kubernetes namespace for your cluster if needed (for example,
     let's name it `postgres-operator`):
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
 4. The role-based access control (RBAC) for Percona Distribution for PostgreSQL
@@ -49,8 +49,8 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     The role and actions are defined for Kubernetes resources in the yaml file.
     Further details about users and roles can be found in [Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings).
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/rbac.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/rbac.yaml -n postgres-operator
     ```
 
     !!! note
@@ -65,8 +65,8 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
 
 5.  Start the Operator within Kubernetes:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/operator.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/operator.yaml -n postgres-operator
     ```
 
 6. After the Operator is started, modify the `deploy/cr.yaml` configuration
@@ -86,16 +86,16 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     When done, Percona Distribution for PostgreSQL cluster can be created at any
     time with the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n postgres-operator
     ```
 
     The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg -n postgres-operator
+    ```bash
+    kubectl get pg -n postgres-operator
     ```
 
     ??? example "Expected output"

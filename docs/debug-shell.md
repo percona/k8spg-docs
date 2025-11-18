@@ -6,8 +6,8 @@ In the following examples we will access the container `database` of the `cluste
 
 * Run `date` command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- date
+    ```bash
+    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- date
     ```
 
     ??? example "Expected output"
@@ -27,15 +27,15 @@ In the following examples we will access the container `database` of the `cluste
 
 * Print log files to a terminal:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
+    ```bash
+    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
     ```
 
 * Similarly, opening an Interactive terminal, executing a pair of commands in
     the container, and exiting it may look as follows:
 
-    ```{.bash data-prompt="$" data-prompt-second="bash-4.4$"}
-    $ kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
+    ```bash
+    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
     bash-4.4$ hostname
     cluster1-pxc-0
     bash-4.4$ ls /pgdata/pg16/log/

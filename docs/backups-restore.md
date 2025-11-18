@@ -56,8 +56,8 @@ dataSource:
 Creating the new cluster in its namespace (for example, `percona-db-2`) with
 such a manifest will initiate the restoration process:
 
-``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/cr.yaml -n percona-db-2
+```bash
+kubectl apply -f deploy/cr.yaml -n percona-db-2
 ```
 
 ## Restore to an existing PostgreSQL cluster
@@ -88,8 +88,8 @@ The following keys are the most important ones:
 
 To start the restoration process, run the following command (modify the `-n postgres-operator` parameter if your database cluster resides in a different namespace):
 
-``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml -n postgres-operator
+```bash
+kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 ### Specifying which backup to restore
@@ -149,8 +149,8 @@ steps:
 
 3. Start the restoration process, as usual:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/restore.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/restore.yaml -n postgres-operator
     ```
 
 ## Restore the cluster with point-in-time recovery
@@ -186,8 +186,8 @@ pgBackRest with few additional `spec.options` fields in `deploy/restore.yaml`:
         run `pgbackrest --stanza=db info` command on the appropriate Pod as
         follows:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl -n postgres-operator exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
+        ```bash
+        kubectl -n postgres-operator exec -it cluster1-instance1-hcgr-0 -c database -- pgbackrest --stanza=db info
         ```
         
         Then find ID of the needed backup in the output:
@@ -251,15 +251,15 @@ spec:
 
     <a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the `kubectl get pg-backup` command has a "Latest restorable time" information field handy when selecting a backup to restore. Tracking latest restorable time is [turned on by default](operator.md#backupstracklatestrestorabletime), and you can easily query the backup for this information as follows:
    
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg-backup <backup_name> -n postgres-operator -o jsonpath='{.status.latestRestorableTime}'
+    ```bash
+    kubectl get pg-backup <backup_name> -n postgres-operator -o jsonpath='{.status.latestRestorableTime}'
     ```
 
 After setting these options in the *backup restore* configuration file,
 start the restoration process:
 
-``` {.bash data-prompt="$" }
-$ kubectl apply -f deploy/restore.yaml -n postgres-operator
+```bash
+kubectl apply -f deploy/restore.yaml -n postgres-operator
 ```
 
 !!! note
@@ -293,8 +293,8 @@ For example, adding wrong pgBackRest arguments to [`PerconaGPRestore` custom res
 
 In this case it’s possible to remove the *restore annotation* from the Custom Resource correspondent to your cluster. Supposing that your cluster `cluster1` was deployed in `postgres-operator` namespace, you can do it with the following command:
 
-``` {.bash data-prompt="$" }
-$ kubectl annotate -n postgres-operator pg cluster1 postgres-operator.crunchydata.com/pgbackrest-restore-
+```bash
+kubectl annotate -n postgres-operator pg cluster1 postgres-operator.crunchydata.com/pgbackrest-restore-
 ```
 
 Alternatively, you can temporarily delete the database cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster) (check the [`finalizers.percona.com/delete-pvc` finalizer](operator.md#finalizers-delete-pvc) is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running `kubectl apply -f deploy/cr.yaml -n postgres-operator` command you have used to deploy the it previously.

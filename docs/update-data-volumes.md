@@ -24,20 +24,20 @@ Also, you can only reverse such migration by restoring the old cluster from the 
 
 2. Apply the Custom Resource in a usual way:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml
+    ```bash
+    kubectl apply -f deploy/cr.yaml
     ```
 
 3. When all Replicas are gone, proceed with removing the cluster. Double check that `spec.keepData` is in place, otherwise the Operator will delete the volumes!
 
-    ```{.bash data-prompt="$"}
-    $ kubectl delete perconapgcluster cluster1
+    ```bash
+    kubectl delete perconapgcluster cluster1
     ```
 
 4. Find PVC for the Primary and `pgBackRest`:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
+    ```bash
+    kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
     ```
 
     ??? example "Expected output"
@@ -78,8 +78,8 @@ Also, you can only reverse such migration by restoring the old cluster from the 
     
     Apply it as follows:
     
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f chown-pod.yaml -n pgo
+    ```bash
+    kubectl apply -f chown-pod.yaml -n pgo
     ```
 
 ## Execute the migration to version 2.x
@@ -91,8 +91,8 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
 
 2. Run the following command to show the names of PVC belonging to the old cluster:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
+    ```bash
+    kubectl get pvc --selector=pg-cluster=cluster1 -n pgo
     ```
 
     ??? example "Expected output"
@@ -133,8 +133,8 @@ The old cluster is shut down, and Volumes are ready to be used to provision the 
 
 5. Apply the manifest:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml
+    ```bash
+    kubectl apply -f deploy/cr.yaml
     ```
 
 The new cluster will be provisioned shortly using the volume of the version 1.x cluster. You should remove the `spec.datasource.volumes` section from your manifest.

@@ -24,8 +24,8 @@ If you're pausing the cluster when there is a running backup, the Operator won't
 
 You can also put the cluster into a [standby :octicons-link-external-16:](https://www.postgresql.org/docs/current/warm-standby.html) (read-only) mode instead of completely shutting it down. This is done by a special `spec.standby` key. Set it to `true` for read-only state. To resume the normal cluster operation, set it to `false`.
 
-    ```yaml
-    spec:
-      .......
-      standby: false
-    ```
+```yaml
+spec:
+  .......
+  standby: false
+```

@@ -59,8 +59,8 @@ documentation  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/
 
 You can run the following command to check if your storage supports the expansion capability:
 
-``` {.bash data-prompt="$" }
-$ kubectl describe sc <storage class name> | grep AllowVolumeExpansion
+```bash
+kubectl describe sc <storage class name> | grep AllowVolumeExpansion
 ```
 
 ??? example "Expected output"
@@ -87,8 +87,8 @@ spec:
 
 Apply changes as usual:
 
-``` {.bash data-prompt="$" }
-$ kubectl apply -f cr.yaml
+```bash
+kubectl apply -f cr.yaml
 ```
 
 #### Automated scaling with auto-growable disk

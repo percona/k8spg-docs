@@ -40,8 +40,8 @@ spawn a new `pg-client` container, which includes the needed command and can be
 used for the check (use your real cluster name instead of the `<cluster-name>`
 placeholder):
 
-``` {.bash data-prompt="$" }
-$ cat <<EOF | kubectl apply -f -
+```bash
+cat <<EOF | kubectl apply -f -
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -82,15 +82,15 @@ Now get shell access to the newly created container, and launch the PostgreSQL
 interactive terminal to check connectivity over the encrypted channel (please
 use real cluster-name, [PostgreSQL user login and password](users.md)):
 
-``` {.bash data-prompt="$" data-prompt-second="[postgres@pg-client /]$"}
-$ kubectl exec -it deployment/pg-client -- bash -il
+```bash
+kubectl exec -it deployment/pg-client -- bash -il
 [postgres@pg-client /]$ PGSSLMODE=verify-ca PGSSLROOTCERT=/tmp/tls/ca.crt psql postgres://<postgresql-user>:<postgresql-password>@<cluster-name>-pgbouncer.<namespace>.svc.cluster.local
 ```
 
 Now you should see the prompt of PostgreSQL interactive terminal:
 
-``` {.bash data-prompt="$" data-prompt-second="pgdb=>"}
-$ psql ({{ postgresrecommended }})
+```bash
+psql ({{ postgresrecommended }})
 Type "help" for help.
 cluster1=>
 ```
@@ -114,8 +114,8 @@ Note that you cannot use only one custom set of certificates. If you provide a c
 
 For example, you have files named `ca.crt`, `my_tls.key`, and `my_tls.crt`. Run the following command to create a custom TLS Secret named `cluster1-tls`:
 
-``` {.bash data-prompt="$"}
-$ kubectl create secret generic -n postgres-operator cluster1-tls \
+```bash
+kubectl create secret generic -n postgres-operator cluster1-tls \
   --from-file=ca.crt=ca.crt \
   --from-file=tls.key=my_tls.key \
   --from-file=tls.crt=my_tls.crt
@@ -144,8 +144,8 @@ spec:
 
 Now you can create a cluster with your custom certificates:
 
-``` {.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml
+```bash
+kubectl apply -f deploy/cr.yaml
 ```
 
 ### Provide a pre-existing custom root CA certificate to the Operator
@@ -157,8 +157,8 @@ To make the Operator use a custom root certificate, create a separate secret wit
 For example, if you have files named `my_tls.key` and `my_tls.crt` stored on your local machine, you could run the following command to create a
 Secret named `cluster1-ca-cert` in the `postgres-operator` namespace:
 
-``` {.bash data-prompt="$"}
-$ kubectl create secret generic -n postgres-operator cluster1-ca-cert \
+```bash
+kubectl create secret generic -n postgres-operator cluster1-ca-cert \
   --from-file=tls.crt=my_tls.crt \
   --from-file=tls.key=my_tls.key
 ```
@@ -193,8 +193,8 @@ Here's how to do it:
 
 1. Check the secrets created by the Operator:
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl get secrets
+    ```bash
+    kubectl get secrets
     ```
 
     ??? example "Expected output"
@@ -215,8 +215,8 @@ Here's how to do it:
         
 2. You can examine the auto-generated CA certificate (`ca.crt`) as follows:
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -text -noout
+    ```bash
+    kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -text -noout
     ```
 
     ??? example "Expected output"
@@ -242,8 +242,8 @@ Here's how to do it:
 
     === "External communication"
 
-        ``` {.bash data-prompt="$"}
-        $ kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -text -noout
+        ```bash
+        kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -text -noout
         ```
 
         ??? example "Expected output"
@@ -286,8 +286,8 @@ Here's how to do it:
 
     === "Internal communication"
 
-        ``` {.bash data-prompt="$"}
-        $ kubectl get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -text -noout
+        ```bash
+        kubectl get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -text -noout
         ```
 
         ??? example "Expected output"
@@ -342,15 +342,15 @@ Let's say that your cluster name is `cluster1` and the desired namespace is
 
 1. Set cluster context
 
-    ``` {.bash data-prompt="$" }
-    $ export CLUSTER_NAME=cluster1
-    $ export NAMESPACE=postgres-operator
+    ```bash
+    export CLUSTER_NAME=cluster1
+    export NAMESPACE=postgres-operator
     ```
 
 2. Generate the root CA certificate:
 
-    ``` {.bash data-prompt="$" }
-    $ cat <<EOF | cfssl gencert -initca - | cfssljson -bare ca
+    ```bash
+    cat <<EOF | cfssl gencert -initca - | cfssljson -bare ca
       {
         "CN": "*",
         "key": {
@@ -379,8 +379,8 @@ Let's say that your cluster name is `cluster1` and the desired namespace is
 
 3. Define the CA signing policy for certificates signed by the CA.
 
-    ```{.bash data-prompt="$" }
-    $ cat <<EOF > ca-config.json
+    ```bash
+    cat <<EOF > ca-config.json
       {
          "signing": {
            "default": {
@@ -403,8 +403,8 @@ Let's say that your cluster name is `cluster1` and the desired namespace is
 
 4. Generate the custom TLS certificates for external communication and sign them using the previously created CA certificate.  These certificates have the Common Name (CN) `cluster1-primary.postgres-operator.svc.cluster.local`
 
-     ```{.bash data-prompt="$" }
-     $ cat <<EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server
+     ```bash
+     cat <<EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server
        {
           "hosts": [
             "localhost",
@@ -433,8 +433,8 @@ Let's say that your cluster name is `cluster1` and the desired namespace is
     
 5. Generate the custom TLS certificates for internal communication and sign them using the previously created CA certificate. These certificates have the Common Name (CN) `_crunchyrepl`.
 
-    ```{.bash data-prompt="$" }
-    $ cat <<EOF | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replication
+    ```bash
+    cat <<EOF | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replication
       {
         "CN": "_crunchyrepl",
         "key": {
@@ -457,8 +457,8 @@ Refer to the [Provide pre-existing custom certificates](#provide-pre-existing-cu
 
 ## Check your certificates for expiration
 
-``` {.bash data-prompt="$" }
-$ kubectl get secrets
+```bash
+kubectl get secrets
 ```
 
 1. First, check the necessary secrets names (`cluster1-cluster-cert` and `cluster1-replication-cert` by default):
@@ -476,8 +476,8 @@ $ kubectl get secrets
 2. Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:
 
-    ``` {.bash data-prompt="$" }
-    $ {
+    ```bash
+    {
       kubectl get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -noout -dates
       kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -noout -dates
       }
@@ -512,14 +512,14 @@ Your cluster is deployed in the `postgres-operator` namespace.
 
 1. Set the context for the cluster:
    
-    ```{.bash data-prompt="$"}
-    $ export NAMESPACE=postgres-operator
+    ```bash
+    export NAMESPACE=postgres-operator
     ```
 
 2. Create a YAML manifest for the `cluster1-cert` Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):
 
-    ```{.bash data-prompt="$"}
-    $ kubectl create secret generic cluster1-cert \
+    ```bash
+    kubectl create secret generic cluster1-cert \
        --from-file=tls.crt=server.pem \
        --from-file=tls.key=server-key.pem \
        --from-file=ca.crt=ca.pem \
@@ -529,8 +529,8 @@ Your cluster is deployed in the `postgres-operator` namespace.
 
 3. Create a YAML manifest for the `cluster1-replication-cert` Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):
 
-    ```{.bash data-prompt="$"}
-    $ kubectl create secret generic cluster1-replication-cert \
+    ```bash
+    kubectl create secret generic cluster1-replication-cert \
        --from-file=tls.crt=replica.pem \
        --from-file=tls.key=replica-key.pem \
        --from-file=ca.crt=ca.pem \
@@ -540,8 +540,8 @@ Your cluster is deployed in the `postgres-operator` namespace.
 
 4. Apply the manifests to update the Secrets:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f cluster1-cert.yaml -f cluster1-replication-cert.yaml -n "$NAMESPACE"
+    ```bash
+    kubectl apply -f cluster1-cert.yaml -f cluster1-replication-cert.yaml -n "$NAMESPACE"
     ```
 
 If you create new Secrets with new names and values, update the `spec.customTLSSecret` and `spec.customReplicationTLSSecret` fields in the `deploy/cr.yaml`. When you apply the new configuration,this causes the Operator to restart the cluster. 
@@ -564,23 +564,23 @@ To update a custom root CA certificate, do the following:
 
 3. Create a new Secret object for the new root CA certificate and define the new CA certificate and key within. Let's name it `cluster1-ca-cert-new`.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl create secret generic -n postgres-operator cluster1-ca-cert-new \
+    ```bash
+    kubectl create secret generic -n postgres-operator cluster1-ca-cert-new \
       --from-file=ca.crt=new-ca.pem \
       --from-file=ca.key=new-ca-key.pem
     ```
 
 4. Create new Secrets for external and internal communications, named `cluster1-tls` and `cluster1-replication-tls` respectively
 
-    ```{.bash data-prompt="$"}
-    $ kubectl create secret generic -n postgres-operator cluster1-tls \
+    ```bash
+    kubectl create secret generic -n postgres-operator cluster1-tls \
       --from-file=ca.crt=ca.pem \
       --from-file=tls.key=server-key.pem \
       --from-file=tls.crt=server.pem
     ```
 
-    ```{.bash data-prompt="$"}
-    $ kubectl create secret generic -n postgres-operator cluster1-replication-tls \
+    ```bash
+    kubectl create secret generic -n postgres-operator cluster1-replication-tls \
       --from-file=ca.crt=ca.pem \
       --from-file=tls.key=replication-key.pem \
       --from-file=tls.crt=replication.pem
@@ -588,8 +588,8 @@ To update a custom root CA certificate, do the following:
     
 5. Pause the cluster to prevent the Operator to restart the Pods mid-update.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl patch pg cluster1 \
+    ```bash
+    kubectl patch pg cluster1 \
       --type merge \
       --patch '{"spec": {"pause": true}}' \
       --namespace postgres-operator
@@ -597,8 +597,8 @@ To update a custom root CA certificate, do the following:
 
 6. Specify details about new custom certificates in the `deploy/cr.yaml`. Since this is a provisioned cluster, apply the patch as follows:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl patch pg cluster1 \
+    ```bash
+    kubectl patch pg cluster1 \
         --type merge \
         --patch '{
             "spec": {
@@ -630,8 +630,8 @@ To update a custom root CA certificate, do the following:
 
 7. Unpause the cluster to resume the Operator control:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl patch pg cluster1 \
+    ```bash
+    kubectl patch pg cluster1 \
       --type merge \
       --patch '{"spec": {"pause": false}}' \
       --namespace postgres-operator

@@ -23,8 +23,8 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 1. Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the [Operator upgrade guide](#upgrading-the-operator-and-crd)
 2. Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Replace the Operator version with your value in the following command:
    
-    ``` {.bash data-prompt="$" }
-    $ curl https://check.percona.com/versions/v1/pg-operator/2.6.0 |jq -r '.versions[].matrix'
+    ```bash
+    curl https://check.percona.com/versions/v1/pg-operator/2.6.0 |jq -r '.versions[].matrix'
     ```
 
     You can also find this information in the [Versions compatibility matrix](versions.md).
@@ -40,8 +40,8 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 
     === "With PMM Client"
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
+        ```bash
+        kubectl -n postgres-operator patch pg cluster1 --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
               "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }},
@@ -60,8 +60,8 @@ To make a minor upgrade of Percona Distribution for PostgreSQL (for example, fro
 
     === "Without PMM Client"
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
+        ```bash
+        kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
               "image": "docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}",
@@ -127,13 +127,13 @@ After you apply the YAML manifest as usual (by running `kubectl apply -f deploy/
 During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
 You can remove data at your discretion by [executing into containers](debug-shell.md) and running the following commands (example for PostgreSQL 15):
 
-``` {.bash data-prompt="$" }
-$ rm -rf /pgdata/pg15
-$ rm -rf /pgdata/pg15_wal
+```bash
+rm -rf /pgdata/pg15
+rm -rf /pgdata/pg15_wal
 ```
 
 You can also delete the `PerconaPGUpgrade` resource (this will clean up the jobs and Pods created during the upgrade):
 
-``` {.bash data-prompt="$" }
-$ kubectl delete perconapgupgrade cluster1-15-to-16
+```bash
+kubectl delete perconapgupgrade cluster1-15-to-16
 ```
