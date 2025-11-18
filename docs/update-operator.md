@@ -1,6 +1,10 @@
 # Upgrading the Operator and CRD
 
-## Considerations for Kubernetes Cluster versions and upgrades
+Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.
+
+## Considerations
+
+### Considerations for Kubernetes Cluster versions and upgrades
 
 1. Before upgrading the Kubernetes cluster, have a disaster recovery plan in place. Ensure that a backup is taken prior to the upgrade.
 
@@ -16,7 +20,7 @@
 
 5. Regardless of the upgrade approach, pods will be rescheduled or recycled. Plan your Kubernetes cluster upgrade accordingly to minimize downtime and service disruption.
 
-## Considerations for the Operator upgrades
+### Considerations for the Operator upgrades
 
 1. The Operator version has three digits separated by a dot (`.`) in the format `major.minor.patch`. Here's how you can understand the version `2.6.0`:
 
@@ -43,7 +47,15 @@ its own namespace. In this case upgrading Operator deployments will look as foll
     * upgrade the CRD (not 3 minor versions far from the oldest Operator installation in the Kubernetes cluster) first 
     * upgrade the Operators in each namespace incrementally to the nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
-## Manual upgrade
+## Upgrade guides
+
+Choose the upgrade instructions below based on how you originally deployed the Operator:
+
+[Manual upgrade](#manual-upgrade){.md-button}
+[Upgrade via Helm](#upgrade-via-helm){.md-button}
+[Upgrade on OpenShift](update-openshift.md)(.md-button)
+
+### Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading it to the version {{ release }}.
@@ -137,12 +149,6 @@ Operator deployment with the `helm upgrade` command.
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
 
-## Upgrade via Operator Lifecycle Manager (OLM)
+## Next steps
 
-If you have [installed the Operator on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can upgrade the Operator within it.
-
-1. List installed Operators for your Namespace to see if there are upgradable items.
-
-    ![image](assets/images/olm4.svg)
-
-2. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
+[Upgrade the database](update-database.md){.md-button}
