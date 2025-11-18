@@ -153,8 +153,8 @@ If you are still running into issues, check with your Kubernetes cluster adminis
 
 7. Check for error details. Run the `kubectl describe` command:
 
-   ```bash
-   kubectl describe <database-pod-name>
+    ```bash
+    kubectl describe <database-pod-name>
     ```  
 
     ```bash

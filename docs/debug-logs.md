@@ -16,26 +16,26 @@ In the following examples we will access containers of the `cluster1-instance1-b
 
 * Check logs of the `database` container:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 --container database
+    ```bash
+    kubectl logs cluster1-instance1-b5mr-0 --container database
     ```
 
 * Check logs of the `pgbackrest` container:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 --container pgbackrest
+    ```bash
+    kubectl logs cluster1-instance1-b5mr-0 --container pgbackrest
     ```
 
 * Filter logs of the `database` container which are not older than 600 seconds:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 --container database --since=600s
+    ```bash
+    kubectl logs cluster1-instance1-b5mr-0 --container database --since=600s
     ```
 
 * Check logs of a previous instantiation of the `database` container, if any:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl logs cluster1-instance1-b5mr-0 --container database --previous
+    ```bash
+    kubectl logs cluster1-instance1-b5mr-0 --container database --previous
     ```
 
 ## Increase pgBackRest log verbosity

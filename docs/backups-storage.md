@@ -27,8 +27,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
         === ":simple-linux: Linux"
 
-            ``` {.bash data-prompt="$" }
-            $ cat <<EOF | base64 --wrap=0
+            ```bash
+            cat <<EOF | base64 --wrap=0
             [global]
             repo2-s3-key=<YOUR_AWS_S3_KEY>
             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -37,8 +37,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
         === ":simple-apple: macOS"
 
-            ``` {.bash data-prompt="$" }
-            $ cat <<EOF | base64
+            ```bash
+            cat <<EOF | base64
             [global]
             repo2-s3-key=<YOUR_AWS_S3_KEY>
             repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -64,8 +64,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     3. Create the Secrets object from this YAML file. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
+        ```bash
+        kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```     
 
     4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
@@ -113,7 +113,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                         repo2-s3-key-type: web-id
                 ```
 
-        === ":simple-amazons3: S3-compatible storage"
+        === ":simple-minio: S3-compatible storage"
 
             For example, the S3-compatible storage for the `repo2` repository looks as follows:
 
@@ -145,8 +145,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n <namespace>
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 
 === ":simple-googlecloud: Google Cloud Storage"
@@ -220,8 +220,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     4. Create the Secrets object from the Secret configuration file. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
+        ```bash
+        kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
     5. Update your `deploy/cr.yaml` configuration. Specify your GCS credentials Secret in the `backups.pgbackrest.configuration` subsection, and put GCS bucket name into the `bucket` option in the `backups.pgbackrest.repos` subsection. The repository name must be the same as the name you specified when you created the `gcs.conf` file. 
@@ -250,8 +250,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     6. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n <namespace>
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 
 === ":material-microsoft-azure: Azure Blob Storage (tech preview)"
@@ -268,8 +268,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
         === ":simple-linux: Linux"    
 
-            ``` {.bash data-prompt="$" }
-            $ cat <<EOF | base64 --wrap=0
+            ```bash
+            cat <<EOF | base64 --wrap=0
             [global]
             repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
             repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
@@ -278,8 +278,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
         === ":simple-apple: macOS"    
 
-            ``` {.bash data-prompt="$" }
-            $ cat <<EOF | base64
+            ```bash
+            cat <<EOF | base64
             [global]
             repo4-azure-account=<AZURE_STORAGE_ACCOUNT_NAME>
             repo4-azure-key=<AZURE_STORAGE_ACCOUNT_KEY>
@@ -305,8 +305,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     3. Create the Secrets object from this yaml file. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
+        ```bash
+        kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
         ```    
 
     4. Update your deploy/cr.yaml configuration. Specify the Secret file you have created in the previous step in the `backups.pgbackrest.configuration` subsection. Put Azure container name in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded Azure credentials on step 1.
@@ -335,8 +335,8 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
     5. Create or update the cluster. Replace the `<namespace>` placeholder with your value:
 
-        ``` {.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml -n <namespace>
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n <namespace>
         ```
 === ":octicons-database-16: Persistent Volume"
 
@@ -365,6 +365,6 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
 
 ## Next steps
 
-* [Make an on-demand backup](backups-ondemand.md)
-* [Make a scheduled backup](backups-schedule.md)
+* [Make an on-demand backup](backups-ondemand.md){.md-button}
+* [Make a scheduled backup](backups-schedule.md){.md-button}
 

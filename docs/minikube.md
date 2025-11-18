@@ -25,8 +25,8 @@ for PostgreSQL on Minikube.
     
 2. After the installation, initialize and start the Kubernetes cluster. The parameters we pass for the following command increase the virtual machine limits for the CPU cores, memory, and disk, to ensure stable work of the Operator:
 
-    ```{.bash data-prompt="$"}
-    $ minikube start --memory=5120 --cpus=4 --disk-size=30g
+    ```bash
+    minikube start --memory=5120 --cpus=4 --disk-size=30g
     ```
 
     This command downloads needed virtualized images, then initializes and runs the
@@ -41,8 +41,8 @@ for PostgreSQL on Minikube.
 
 1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let's name it `postgres-operator`:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
@@ -55,8 +55,8 @@ for PostgreSQL on Minikube.
 
 2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/) the following command:
 
-    ```{.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -67,8 +67,8 @@ for PostgreSQL on Minikube.
 
 3. Deploy Percona Distribution for PostgreSQL:
 
-    ```{.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -85,23 +85,23 @@ for PostgreSQL on Minikube.
         options. You can clone the repository with all manifests and source code
         by executing the following command:
 
-        ```{.bash data-prompt="$" }
-        $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+        ```bash
+        git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
         ```
 
         After editing the needed options, apply your modified `deploy/cr.yaml`
         file as follows:
 
-        ```{.bash data-prompt="$" }
-        $ kubectl apply -f deploy/cr.yaml  -n postgres-operator
+        ```bash
+        kubectl apply -f deploy/cr.yaml  -n postgres-operator
         ```
 
 4. The creation process may take some time. When the process is over your
     cluster will obtain the `ready` status. You can check it with the following
     command:
    
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg -n postgres-operator
+    ```bash
+    kubectl get pg -n postgres-operator
     ```
     
     ??? example "Expected output"
@@ -127,13 +127,13 @@ steps to remove it.
 1. Stop the Minikube cluster:
 
     ```
-    $ minikube stop
+    minikube stop
     ```
 
 2. Delete the cluster 
 
     ```
-    $ minikube delete
+    minikube delete
     ```
 
     This command deletes the virtual machines, and removes all associated files.

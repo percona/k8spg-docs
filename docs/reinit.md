@@ -14,8 +14,8 @@ This document provides the ways how to do it.
 
 You can force reinitialization by deleting the Pod and its PersistentVolumeClaim:
 
-```{.bash data-prompt="$"}
-$ kubectl delete pvc/cluster1-instance1-24b8-pgdata pod/cluster1-instance1-24b8-0
+```bash
+kubectl delete pvc/cluster1-instance1-24b8-pgdata pod/cluster1-instance1-24b8-0
 ```
 
 ??? example "Expected output"
@@ -28,8 +28,8 @@ $ kubectl delete pvc/cluster1-instance1-24b8-pgdata pod/cluster1-instance1-24b8-
 The Operator will reinitialize a replica using the method configured in this instance's Patroni configuration. This configuration is stored within the ConfigMap for the instance. Use the following command to find it: 
 
 
-```{.bash data-prompt="$"}
-$ kubectl get cm cluster1-instance1-24b8-config
+```bash
+kubectl get cm cluster1-instance1-24b8-config
 ```
 
 ??? example "Expected output"
@@ -47,14 +47,14 @@ For example:
 
 1. List and verify Patroni configuration:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_instance.yaml
+    ```bash
+    kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_instance.yaml
     ```
 
 2. Find the cluster name:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
+    ```bash
+    kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
     ```
 
     ??? example "Expected output"
@@ -71,8 +71,8 @@ For example:
 
 3. Reload the configuration:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl reload cluster1-ha cluster1-instance1-24b8-0
+    ```bash
+    kubectl exec -it cluster1-instance1-24b8-0 -- patronictl reload cluster1-ha cluster1-instance1-24b8-0
     ```
     
     ??? example "Expected output"
@@ -91,8 +91,8 @@ For example:
 
 3. Reinitialize the replica:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl reinit cluster1-ha cluster1-instance1-24b8-0
+    ```bash
+    kubectl exec -it cluster1-instance1-24b8-0 -- patronictl reinit cluster1-ha cluster1-instance1-24b8-0
     ```
 
     ??? example "Expected output"
@@ -130,14 +130,14 @@ spec:
 
 Apply this configuration:
 
-```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml
+```bash
+kubectl apply -f deploy/cr.yaml
 ```
 
 The Operator updates Patroni instances' ConfigMaps. You can check their configuration with this command:
 
-```{.bash data-prompt="$"}
-$ kubectl get configmap cluster1-instance1-24b8-config -o yaml
+```bash
+kubectl get configmap cluster1-instance1-24b8-config -o yaml
 ```
 
 ??? example "Expected output"
@@ -173,8 +173,8 @@ $ kubectl get configmap cluster1-instance1-24b8-config -o yaml
 
 After the ConfigMap is updated, it takes some time for changes to appear in mounted files in containers. You can verify the updates by manually checking the file:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_instance.yaml
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_instance.yaml
 ```
 
 ??? example "Expected output"

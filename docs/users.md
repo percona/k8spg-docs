@@ -210,13 +210,13 @@ corresponding Secret: the Operator will immediately generate a new password
 and save it to the appropriate Secret. You can remove the old password with the
 `kubectl patch secret` command:
 
-``` {.bash data-prompt="$" }
+```bash
 kubectl patch secret <clusterName>-pguser-<userName> -p '{"data":{"password":""}}'
 ```
 
 In the same way you can update a password with your custom one for the user. Do it as follows:
 
-``` {.bash data-prompt="$" }
+```bash
 kubectl patch secret <clusterName>-pguser-<userName> -p '{"stringData":{"password":"<custom_password>", "verifier":""}}'
 ```
 

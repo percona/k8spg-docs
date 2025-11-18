@@ -27,13 +27,13 @@ actual schedule that you specify in crontab format.
 
 3. Update the cluster:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml
+    ```bash
+    kubectl apply -f deploy/cr.yaml
     ```
 
 ## Next steps
 
-[Restore from a backup](backups-restore.md)
+[Restore from a backup](backups-restore.md){.md-button}
 
 ## Useful links
 

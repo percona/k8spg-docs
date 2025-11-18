@@ -88,6 +88,6 @@ patroni:
 
 The changes will be applied after you update Custom Resource in a usual way:
 
-``` {.bash data-prompt="$" }
-$  kubectl apply -f deploy/cr.yaml
+```bash
+kubectl apply -f deploy/cr.yaml
 ```

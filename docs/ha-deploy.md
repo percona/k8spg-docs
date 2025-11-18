@@ -53,7 +53,7 @@ spec:
 
 ...and applying the Custom Resource:
 
-``` {.bash data-prompt="$" }
+```bash
 kubectl apply -f deploy/cr.yaml
 ```
 

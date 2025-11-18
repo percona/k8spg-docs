@@ -31,8 +31,8 @@ The following diagram explains how the standby based on streaming replication wo
 
 3. Once configured, apply the custom resource:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n main-pg
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n main-pg
     ```
 
     ??? example "Expected output"
@@ -87,8 +87,8 @@ Apart from setting certificates correctly, you should also set standby configura
 
 Deploy the standby cluster by applying the manifest:
 
-```{.bash data-prompt="$"}
-$ kubectl apply -f dr-cr.yaml -n dr-pg
+```bash
+kubectl apply -f dr-cr.yaml -n dr-pg
 ```
 
 ??? example "Expected output"

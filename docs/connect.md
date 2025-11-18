@@ -11,8 +11,8 @@ To connect to PostgreSQL, do the following:
 
 1. List the Secrets objects
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get secrets -n <namespace>
+    ```bash
+    kubectl get secrets -n <namespace>
     ```
 
     The Secrets object we target is named as
@@ -29,20 +29,20 @@ To connect to PostgreSQL, do the following:
 
 2. Retrieve the pgBouncer URI from your secret, decode and pass it as the `PGBOUNCER_URI` environment variable. Replace the `<secret>`, `<namespace>` placeholders with your Secret object and namespace accordingly:
 
-    ``` {.bash data-prompt="$" }
-    $ PGBOUNCER_URI=$(kubectl get secret <secret> --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
+    ```bash
+    PGBOUNCER_URI=$(kubectl get secret <secret> --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
     ```
 
     The following example shows how to pass the pgBouncer URI from the default Secret object `cluster1-pguser-cluster1`:
 
-    ``` {.bash data-prompt="$" }
-    $ PGBOUNCER_URI=$(kubectl get secret cluster1-pguser-cluster1 --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
+    ```bash
+    PGBOUNCER_URI=$(kubectl get secret cluster1-pguser-cluster1 --namespace <namespace> -o jsonpath='{.data.pgbouncer-uri}' | base64 --decode)
     ```
 
 3. Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod `pg-client` and connects you to the `cluster1` database:
 
-    ``` {.bash data-prompt="$"}
-    $ kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:16 --restart=Never -- psql $PGBOUNCER_URI
+    ```bash
+    kubectl run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:16 --restart=Never -- psql $PGBOUNCER_URI
     ```
 
     It may take some time to create the Pod and connect to the database. As the result, you should see the following sample output: 

@@ -22,8 +22,8 @@ The general recommendation is to set the number of concurrent workers equal to t
 
 1. Check the index of the `PGO_WORKERS` environment variable using the following command: 
     
-    ```{bash data-prompt="$"}
-    $ kubectl get deployment percona-postgresql-operator -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="PGO_WORKERS")].value}'
+    ```bash
+    kubectl get deployment percona-postgresql-operator -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="PGO_WORKERS")].value}'
     ```
 
     ??? example "Sample output"
@@ -71,8 +71,8 @@ The general recommendation is to set the number of concurrent workers equal to t
 
 2. List deployments to find the right one:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get deployment
+    ```bash
+    kubectl get deployment
     ```
    
     ??? example "Sample output"
@@ -85,8 +85,8 @@ The general recommendation is to set the number of concurrent workers equal to t
 
 3. To set a new value, run the following command to patch the deployment:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl patch deployment percona-postgresql-operator \
+    ```bash
+    kubectl patch deployment percona-postgresql-operator \
       --type='json' \
       -p='[{"op": "replace", "path": "/spec/template/spec/containers/0/env/5", "value": {"name": "PGO_WORKERS", "value": "2"}}]'
     ```
@@ -102,8 +102,8 @@ The value can be set to any number greater than 0.
 
 To verify that the change has been applied, run the following command:
 
-```{.bash data-prompt="$"}
-$ kubectl get deployment percona-postgresql-operator -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="PGO_WORKERS")].value}'
+```bash
+kubectl get deployment percona-postgresql-operator -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="PGO_WORKERS")].value}'
 ```
 
 The output should be `2`.

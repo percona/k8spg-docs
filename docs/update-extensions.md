@@ -6,8 +6,8 @@
 
 1. Find the primary instance of your PostgreSQL cluster. You can do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
+    ```bash
+    kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
         -L postgres-operator.crunchydata.com/instance \
         -L postgres-operator.crunchydata.com/role | grep instance1
     ```
@@ -23,7 +23,7 @@
 
 2. Log in to a primary instance (`cluster1-instance1-ttm9-0` in the above example) as an administrative user:
 
-    ``` {.bash data-prompt="$" }
+    ```bash
     kubectl exec  -n <namespace> -ti cluster1-instance1-ttm9-0 -c database -- psql postgres
     ```
 

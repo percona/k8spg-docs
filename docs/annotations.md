@@ -215,7 +215,7 @@ To check which **labels** are attached to a specific object, use the additional 
 
 For example, to see the Operator version associated with a Custom Resource Definition, use the following command:
 
-```{.bash data-prompt="$"}
+```bash
 kubectl get crd perconapgclusters.pgv2.percona.com --show-labels
 ```
 
@@ -228,13 +228,13 @@ perconapgclusters.pgv2.percona.com   2025-07-01T13:13:36Z   pgv2.percona.com/ver
 
 To check **annotations** associated with an object, use the following command:
 
-``` {.bash data-prompt="$" }
+```bash
 kubectl get <resource> <resource-name> -o jsonpath='{.metadata.annotations}'
 ```
 
 For example, this command lists annotations assigned to a `cluster1-pgbouncer` Service:
 
-``` {.bash data-prompt="$" }
+```bash
 kubectl get service cluster1-instance1-xvbt-0 -o jsonpath='{.metadata.annotations}'
 ```
 
