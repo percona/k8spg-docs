@@ -1,6 +1,10 @@
 # Upgrading the Operator and CRD
 
-## Considerations for Kubernetes Cluster versions and upgrades
+Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.
+
+## Considerations
+
+### Considerations for Kubernetes Cluster versions and upgrades
 
 1. Before upgrading the Kubernetes cluster, have a disaster recovery plan in place. Ensure that a backup is taken prior to the upgrade.
 
@@ -16,7 +20,7 @@
 
 5. Regardless of the upgrade approach, pods will be rescheduled or recycled. Plan your Kubernetes cluster upgrade accordingly to minimize downtime and service disruption.
 
-## Considerations for the Operator upgrades
+### Considerations for the Operator upgrades
 
 1. The Operator version has three digits separated by a dot (`.`) in the format `major.minor.patch`. Here's how you can understand the version `2.6.0`:
 
@@ -43,7 +47,15 @@ its own namespace. In this case upgrading Operator deployments will look as foll
     * upgrade the CRD (not 3 minor versions far from the oldest Operator installation in the Kubernetes cluster) first 
     * upgrade the Operators in each namespace incrementally to the nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
-## Manual upgrade
+## Upgrade guides
+
+Choose the upgrade instructions below based on how you originally deployed the Operator:
+
+[Manual upgrade](#manual-upgrade){.md-button}
+[Upgrade via Helm](#upgrade-via-helm){.md-button}
+[Upgrade on OpenShift](update-openshift.md)(.md-button)
+
+### Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading it to the version {{ release }}.
@@ -137,47 +149,6 @@ Operator deployment with the `helm upgrade` command.
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
 
-## Upgrade via Operator Lifecycle Manager (OLM)
+## Next steps
 
-You can upgrade the Operator for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager.
-
-### Before you start
-
-You must manually update the `initContainer.image` Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.
-
-Follow these steps to upgrade the `initContainer.image`:
-
-1. Retrieve the current Operator installation image used for `initContainer` by running:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl get deploy percona-postgresql-operator -o yaml
-    ```
-
-    Find the `image` value in the relevant section of the output, for example:
-
-    ```yaml
-    ...
-    initContainers:
-      - name: percona-postgresql-init
-        image: registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2
-    ...
-    ```
-
-2. Update your PostgreSQL cluster's Custom Resource with the image you found above, replacing `cluster1` with your cluster name:
-
-    ``` {.bash data-prompt="$" }
-    $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
-        "spec": {
-          "initContainer": { "image": "<IMAGE_FROM_STEP_1>" }
-        }}'
-    ```
-
-    Repeat this command for each cluster managed by the Operator.
-
-### Upgrade the Operator
-
-1. Log in to the OpenShift web console and check the list of installed Operators in your namespace to see if upgrades are available.
-
-    ![image](assets/images/olm4.svg)
-
-2. Click the "Upgrade available" link to review details, click "Preview InstallPlan," and then click "Approve" to upgrade the Operator.
+[Upgrade the database](update-database.md){.md-button}
