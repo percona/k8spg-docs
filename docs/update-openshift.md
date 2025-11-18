@@ -25,11 +25,7 @@ Follow these steps to upgrade the `initContainer.image`:
     Find the `image` value in the relevant section of the output, for example:
 
     ```yaml
-    ...
-    initContainers:
-      - name: percona-postgresql-init
-        image: registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0
-    ...
+    registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0
     ```
 
 3. Update your PostgreSQL cluster's Custom Resource with the image you found above, replacing `cluster1` with your cluster name:
@@ -37,7 +33,7 @@ Follow these steps to upgrade the `initContainer.image`:
     ```bash
     kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
         "spec": {
-          "initContainer": { "image": "<IMAGE_FROM_STEP_1>" }
+          "initContainer": { "image": "<IMAGE_FROM_STEP_2>" }
         }}'
     ```
 
@@ -64,7 +60,7 @@ Follow these steps to upgrade the `initContainer.image`:
 1. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
 
     ```
-    kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o jsonpath='{.spec.template.spec.containers[*].image}'
+    kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o yaml
     ```
 
     ??? example "Expected output"
