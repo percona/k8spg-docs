@@ -3993,8 +3993,8 @@ separate PostgreSQL Distribution images with it.</p>
 <ol>
 <li>
 <p>Clone the percona-postgresql-operator repository:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4009,13 +4009,13 @@ code on this step. Please be careful.</p>
     the new items (in our case ones which are the core of the Operator).
     <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">Apply it <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
     as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/crd.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/crd.yaml
 </code></pre></div>
 </li>
 <li>
 <p>Create the Kubernetes namespace for your cluster if needed (for example,
     let&rsquo;s name it <code>postgres-operator</code>):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
 <li>
@@ -4024,7 +4024,7 @@ code on this step. Please be careful.</p>
     on defined roles and the available actions which correspond to each role.
     The role and actions are defined for Kubernetes resources in the yaml file.
     Further details about users and roles can be found in <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings">Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4037,7 +4037,7 @@ grant user needed privileges with the following command:</p>
 </li>
 <li>
 <p>Start the Operator within Kubernetes:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
 <li>
@@ -4054,12 +4054,12 @@ grant user needed privileges with the following command:</p>
 </code></pre></div>
 <p>When done, Percona Distribution for PostgreSQL cluster can be created at any
 time with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <p>The creation process may take some time. When the process is over your
 cluster will obtain the <code>ready</code> status. You can check it with the following
 command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4097,7 +4097,7 @@ as well as in this <a href="https://www.percona.com/blog/working-with-postgresql
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>

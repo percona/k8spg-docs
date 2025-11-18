@@ -3966,7 +3966,7 @@
 <ol>
 <li>
 <p>List the Secrets objects</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <p>The Secrets object we target is named as
 <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code>. The <code>&lt;cluster_name&gt;</code> value is
@@ -3984,15 +3984,15 @@ the <a href="operator.html#metadata-name">name of your Percona Distribution for 
 </li>
 <li>
 <p>Retrieve the pgBouncer URI from your secret, decode and pass it as the <code>PGBOUNCER_URI</code> environment variable. Replace the <code>&lt;secret&gt;</code>, <code>&lt;namespace&gt;</code> placeholders with your Secret object and namespace accordingly:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 <p>The following example shows how to pass the pgBouncer URI from the default Secret object <code>cluster1-pguser-cluster1</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod <code>pg-client</code> and connects you to the <code>cluster1</code> database:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:16<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$PGBOUNCER_URI</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:16<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$PGBOUNCER_URI</span>
 </code></pre></div>
 <p>It may take some time to create the Pod and connect to the database. As the result, you should see the following sample output: </p>
 <details class="example">
@@ -4013,7 +4013,7 @@ cluster1=&gt;
   <small>
     
       Last update:
-      2024-03-19
+      2025-11-18
     
   </small>
 </div>

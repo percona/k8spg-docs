@@ -3998,22 +3998,22 @@ logs with the <code>kubectl logs</code> command:</p>
 <ul>
 <li>
 <p>Check logs of the <code>database</code> container:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database
 </code></pre></div>
 </li>
 <li>
 <p>Check logs of the <code>pgbackrest</code> container:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>pgbackrest
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>pgbackrest
 </code></pre></div>
 </li>
 <li>
 <p>Filter logs of the <code>database</code> container which are not older than 600 seconds:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database<span class="w"> </span>--since<span class="o">=</span>600s
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database<span class="w"> </span>--since<span class="o">=</span>600s
 </code></pre></div>
 </li>
 <li>
 <p>Check logs of a previous instantiation of the <code>database</code> container, if any:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database<span class="w"> </span>--previous
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database<span class="w"> </span>--previous
 </code></pre></div>
 </li>
 </ul>
@@ -4036,7 +4036,7 @@ logs with the <code>kubectl logs</code> command:</p>
   <small>
     
       Last update:
-      2024-06-28
+      2025-11-18
     
   </small>
 </div>

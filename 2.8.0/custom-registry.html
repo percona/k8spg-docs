@@ -3970,12 +3970,12 @@ the example of the Operator deployed in the OpenShift environment.</p>
 <ol>
 <li>
 <p>First of all login to the OpenShift and create project.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>oc<span class="w"> </span>login
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>login
 Authentication<span class="w"> </span>required<span class="w"> </span><span class="k">for</span><span class="w"> </span>https://192.168.1.100:8443<span class="w"> </span><span class="o">(</span>openshift<span class="o">)</span>
 Username:<span class="w"> </span>admin
 Password:
 Login<span class="w"> </span>successful.
-$<span class="w"> </span>oc<span class="w"> </span>new-project<span class="w"> </span>pg
+oc<span class="w"> </span>new-project<span class="w"> </span>pg
 Now<span class="w"> </span>using<span class="w"> </span>project<span class="w"> </span><span class="s2">&quot;pg&quot;</span><span class="w"> </span>on<span class="w"> </span>server<span class="w"> </span><span class="s2">&quot;https://192.168.1.100:8443&quot;</span>.
 </code></pre></div>
 </li>
@@ -3990,18 +3990,18 @@ Now<span class="w"> </span>using<span class="w"> </span>project<span class="w"> 
 </li>
 </ul>
 <p>The token can be found with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>oc<span class="w"> </span>whoami<span class="w"> </span>-t
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>whoami<span class="w"> </span>-t
 ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s
 </code></pre></div>
 <p>And the following one tells you the registry IP address:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>services/docker-registry<span class="w"> </span>-n<span class="w"> </span>default
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>services/docker-registry<span class="w"> </span>-n<span class="w"> </span>default
 NAME<span class="w">              </span>TYPE<span class="w">        </span>CLUSTER-IP<span class="w">       </span>EXTERNAL-IP<span class="w">   </span>PORT<span class="o">(</span>S<span class="o">)</span><span class="w">    </span>AGE
 docker-registry<span class="w">   </span>ClusterIP<span class="w">   </span><span class="m">172</span>.30.162.173<span class="w">   </span>&lt;none&gt;<span class="w">        </span><span class="m">5000</span>/TCP<span class="w">   </span>1d
 </code></pre></div>
 </li>
 <li>
 <p>Use the user token and the registry IP address to login to the registry:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s<span class="w"> </span><span class="m">172</span>.30.162.173:5000
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>login<span class="w"> </span>-u<span class="w"> </span>admin<span class="w"> </span>-p<span class="w"> </span>ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s<span class="w"> </span><span class="m">172</span>.30.162.173:5000
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4011,7 +4011,7 @@ docker-registry<span class="w">   </span>ClusterIP<span class="w">   </span><spa
 </li>
 <li>
 <p>Use the Docker commands to pull the needed image by its SHA digest:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>pull<span class="w"> </span>docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>pull<span class="w"> </span>docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4027,15 +4027,15 @@ Status: Image is up to date for docker.io/perconalab/percona-postgresql-operator
 <li>
 <p>The following method can push an image to the custom registry for the example
     OpenShift <code>pg</code> project:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>docker<span class="w"> </span>tag<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>tag<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span><span class="m">172</span>.30.162.173:5000/psmdb/percona-postgresql-operator:17.6-1
-$<span class="w"> </span>docker<span class="w"> </span>push<span class="w"> </span><span class="m">172</span>.30.162.173:5000/pg/percona-postgresql-operator:17.6-1
+docker<span class="w"> </span>push<span class="w"> </span><span class="m">172</span>.30.162.173:5000/pg/percona-postgresql-operator:17.6-1
 </code></pre></div>
 </li>
 <li>
 <p>Verify the image is available in the OpenShift registry with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>oc<span class="w"> </span>get<span class="w"> </span>is
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>is
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4066,7 +4066,7 @@ percona-postgresql-operator       docker-registry.default.svc:5000/pg/percona-po
   <small>
     
       Last update:
-      2024-06-29
+      2025-11-18
     
   </small>
 </div>

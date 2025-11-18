@@ -4179,8 +4179,8 @@ its own namespace. In this case upgrading Operator deployments will look as foll
 <li>
 <p>Update the CRD for the Operator and the Role-based access control. You must use the <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">server-side <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> flag when you update the CRD. Otherwise you can encounter a number of errors caused by applying the CRD client-side: the command may fail, the built-in PostgreSQL extensions can be lost during such upgrade, etc.</p>
 <p>Take the latest versions of the CRD and Role-based access control manifest from the official repository on GitHub with the following commands:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/crd.yaml
-$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/crd.yaml
+kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4189,7 +4189,7 @@ $<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </
 </li>
 <li>
 <p>Next, update the Percona Distribution for PostgreSQL Operator Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release <a href="images.html">in the list of certified images</a>. Use the following command to update the Operator to the <code>2.8.0</code> version:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
 -p<span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;operator&quot;,&quot;image&quot;:&quot;docker.io/percona/percona-postgresql-operator:2.8.0}]}}}}&#39;</span>
 </code></pre></div>
 </li>
@@ -4197,7 +4197,7 @@ $<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </
 <p>The deployment rollout will be automatically triggered by the applied patch.
     You can track the rollout process in real time with the
     <code>kubectl rollout status</code> command with the name of your cluster:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployments<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployments<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4213,14 +4213,14 @@ Operator deployment with the <code>helm upgrade</code> command.</p>
 <ol>
 <li>
 <p>You must have the compatible version of the Custom Resource Definition (CRD) in all namespaces that the Operator manages. Starting with version 2.7.0, you can check it using the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>--show-labels
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>--show-labels
 </code></pre></div>
 </li>
 <li>
 <p>Update the <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Custom Resource Definition <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
     for the Operator, taking it from the official repository on GitHub. </p>
 <p>Refer to the <a href="#upgrading-the-operator-and-crd">compatibility between CRD and the Operator</a> and how you can update the CRD if it is too old. Use the following command and replace the version to the required one until you are safe to update to the latest CRD version.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/crd.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>--force-conflicts<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/crd.yaml
 </code></pre></div>
 <p>If you already have the latest CRD version in one of namespaces, don&rsquo;t re-run intermediate upgrades for it.</p>
 </li>
@@ -4230,7 +4230,7 @@ Operator deployment with the <code>helm upgrade</code> command.</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>To upgrade the Operator installed with default parameters, use the following command: </p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>my-operator<span class="w"> </span>percona/pg-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>my-operator<span class="w"> </span>percona/pg-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0
 </code></pre></div>
 <p>The <code>my-operator</code> parameter in the above example is the name of a <a href="https://helm.sh/docs/intro/using_helm/#three-big-concepts">release object <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
 which you have chosen for the Operator when installing its Helm chart.</p>
@@ -4240,12 +4240,12 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <ol>
 <li>
 <p>Get the list of used options in YAML format :</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>helm<span class="w"> </span>get<span class="w"> </span>values<span class="w"> </span>my-operator<span class="w"> </span>-a<span class="w"> </span>&gt;<span class="w"> </span>my-values.yaml
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>get<span class="w"> </span>values<span class="w"> </span>my-operator<span class="w"> </span>-a<span class="w"> </span>&gt;<span class="w"> </span>my-values.yaml
 </code></pre></div>
 </li>
 <li>
 <p>Pass these options to the upgrade command as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>helm<span class="w"> </span>upgrade<span class="w"> </span>my-operator<span class="w"> </span>percona/pg-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span>-f<span class="w"> </span>my-values.yaml
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>my-operator<span class="w"> </span>percona/pg-operator<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span>-f<span class="w"> </span>my-values.yaml
 </code></pre></div>
 </li>
 </ol>

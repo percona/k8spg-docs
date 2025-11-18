@@ -4011,7 +4011,7 @@
 <p>It is important to remember that PVC is namespace-scoped, but PV and Storage Class are cluster-scoped.</p>
 <h2 id="check-the-pvc">Check the PVC<a class="headerlink" href="#check-the-pvc" title="Permanent link">&para;</a></h2>
 <p>You can check all the PVC with the following command (use different namespace name instead of <code>postgres-operator</code>, if needed):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4034,7 +4034,7 @@ cluster1-repo1                   Bound    pvc-b2e0bac3-993d-499e-b311-3aa7b9851b
 <li><strong>ACCESS MODES</strong>: <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes">Access mode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> indicates how Volume is used with the Pods. Access modes should have write permission if the application needs to write data, which is obviously true in case of databases.</li>
 </ul>
 <p>Now you can check a specific PVC for more details using its name as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-4xkv-pgdata<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-oyaml<span class="w"> </span><span class="c1"># output stripped for brevity, name of PVC may vary</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-4xkv-pgdata<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-oyaml<span class="w"> </span><span class="c1"># output stripped for brevity, name of PVC may vary</span>
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4072,7 +4072,7 @@ cluster1-repo1                   Bound    pvc-b2e0bac3-993d-499e-b311-3aa7b9851b
 <h2 id="check-the-pv">Check the PV<a class="headerlink" href="#check-the-pv" title="Permanent link">&para;</a></h2>
 <p>It is important to remember that PV is a cluster-scoped Object. If you see any issues with attaching a Volume to a Pod, PV and PVC might be looked upon.</p>
 <p>Check all the PV present in the Kubernetes cluster as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4084,7 +4084,7 @@ pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            Delete     
 </code></pre></div>
 </details>
 <p>Now you can check a specific PV for more details using its name as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span>pvc-2d20abb7-5350-4810-a098-fbdfbffda041<span class="w"> </span>-oyaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span>pvc-2d20abb7-5350-4810-a098-fbdfbffda041<span class="w"> </span>-oyaml
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4135,7 +4135,7 @@ pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            Delete     
 <p>StorageClass is also a cluster-scoped object, and it indicates what type of underlying storage is used for the Volumes.</p>
 <p>You can set StorageClass in <code>instances.dataVolumeClaimSpec.storageClassName</code>, <code>instances.walVolumeClaimSpec.storageClassName</code>, and <code>backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName</code> Custom Resource options.</p>
 <p>The following command checks all the storage class present in the Kubernetes cluster, and allows to see which storage class is the default one:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>sc
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4147,7 +4147,7 @@ standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsume
 </details>
 <p>If some PVC does not refer any storage class explicitly, it means that the default storage class is used. Ensure there is only one default Storage class.</p>
 <p>You can check a specific storage class as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>sc<span class="w"> </span>standard<span class="w"> </span>-oyaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc<span class="w"> </span>standard<span class="w"> </span>-oyaml
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4188,7 +4188,7 @@ standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsume
   <small>
     
       Last update:
-      2025-03-17
+      2025-11-18
     
   </small>
 </div>

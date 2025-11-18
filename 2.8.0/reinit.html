@@ -4012,7 +4012,7 @@
 <p>This document provides the ways how to do it.</p>
 <h2 id="reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim">Reinitialize by deleting replica Pod and its PersistentVolumeClaim<a class="headerlink" href="#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim" title="Permanent link">&para;</a></h2>
 <p>You can force reinitialization by deleting the Pod and its PersistentVolumeClaim:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc/cluster1-instance1-24b8-pgdata<span class="w"> </span>pod/cluster1-instance1-24b8-0
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc/cluster1-instance1-24b8-pgdata<span class="w"> </span>pod/cluster1-instance1-24b8-0
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4021,7 +4021,7 @@ pod &quot;cluster1-instance1-24b8-0&quot; deleted
 </code></pre></div>
 </details>
 <p>The Operator will reinitialize a replica using the method configured in this instance&rsquo;s Patroni configuration. This configuration is stored within the ConfigMap for the instance. Use the following command to find it: </p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-config
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-config
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4035,12 +4035,12 @@ cluster1-instance1-24b8-config   1      95m
 <ol>
 <li>
 <p>List and verify Patroni configuration:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_instance.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_instance.yaml
 </code></pre></div>
 </li>
 <li>
 <p>Find the cluster name:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4056,7 +4056,7 @@ cluster1-instance1-24b8-config   1      95m
 </li>
 <li>
 <p>Reload the configuration:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>reload<span class="w"> </span>cluster1-ha<span class="w"> </span>cluster1-instance1-24b8-0
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>reload<span class="w"> </span>cluster1-ha<span class="w"> </span>cluster1-instance1-24b8-0
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4074,7 +4074,7 @@ Reload request received for member cluster1-instance1-24b8-0 and will be process
 </li>
 <li>
 <p>Reinitialize the replica:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>reinit<span class="w"> </span>cluster1-ha<span class="w"> </span>cluster1-instance1-24b8-0
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>reinit<span class="w"> </span>cluster1-ha<span class="w"> </span>cluster1-instance1-24b8-0
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4106,10 +4106,10 @@ Success: reinitialize for member cluster1-instance1-24b8-0
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 <p>Apply this configuration:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>The Operator updates Patroni instances&rsquo; ConfigMaps. You can check their configuration with this command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>cluster1-instance1-24b8-config<span class="w"> </span>-o<span class="w"> </span>yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>configmap<span class="w"> </span>cluster1-instance1-24b8-config<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4142,7 +4142,7 @@ Success: reinitialize for member cluster1-instance1-24b8-0
 </code></pre></div>
 </details>
 <p>After the ConfigMap is updated, it takes some time for changes to appear in mounted files in containers. You can verify the updates by manually checking the file:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_instance.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_instance.yaml
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4174,7 +4174,7 @@ Success: reinitialize for member cluster1-instance1-24b8-0
   <small>
     
       Last update:
-      2025-07-18
+      2025-11-18
     
   </small>
 </div>

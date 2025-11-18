@@ -4672,7 +4672,7 @@ before <a href="kubernetes.html">applying it during the installation</a>. This w
 <h2 id="querying-labels-and-annotations">Querying labels and annotations<a class="headerlink" href="#querying-labels-and-annotations" title="Permanent link">&para;</a></h2>
 <p>To check which <strong>labels</strong> are attached to a specific object, use the additional <code>--show-labels</code> option of the <code>kubectl get</code> command.</p>
 <p>For example, to see the Operator version associated with a Custom Resource Definition, use the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>--show-labels
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>--show-labels
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4682,10 +4682,10 @@ NAME                                 CREATED AT             LABELS</p>
 <p>perconapgclusters.pgv2.percona.com   2025-07-01T13:13:36Z   pgv2.percona.com/version=v2.8.0
     ```</p>
 <p>To check <strong>annotations</strong> associated with an object, use the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>&lt;resource&gt;<span class="w"> </span>&lt;resource-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>&lt;resource&gt;<span class="w"> </span>&lt;resource-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
 </code></pre></div>
 <p>For example, this command lists annotations assigned to a <code>cluster1-pgbouncer</code> Service:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>cluster1-instance1-xvbt-0<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>cluster1-instance1-xvbt-0<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4724,7 +4724,7 @@ NAME                                 CREATED AT             LABELS</p>
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>

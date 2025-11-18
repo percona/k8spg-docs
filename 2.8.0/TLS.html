@@ -4295,7 +4295,7 @@ interactive terminal-based frontend to PostgreSQL. The following command will
 spawn a new <code>pg-client</code> container, which includes the needed command and can be
 used for the check (use your real cluster name instead of the <code>&lt;cluster-name&gt;</code>
 placeholder):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -f -</span>
 <span class="s">apiVersion: apps/v1</span>
 <span class="s">kind: Deployment</span>
 <span class="s">metadata:</span>
@@ -4334,11 +4334,11 @@ placeholder):</p>
 <p>Now get shell access to the newly created container, and launch the PostgreSQL
 interactive terminal to check connectivity over the encrypted channel (please
 use real cluster-name, <a href="users.html">PostgreSQL user login and password</a>):</p>
-<div class="highlight" data-prompt="$" data-prompt-second="[postgres@pg-client /]$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>deployment/pg-client<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>deployment/pg-client<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
 <span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGSSLMODE</span><span class="o">=</span>verify-ca<span class="w"> </span><span class="nv">PGSSLROOTCERT</span><span class="o">=</span>/tmp/tls/ca.crt<span class="w"> </span>psql<span class="w"> </span>postgres://&lt;postgresql-user&gt;:&lt;postgresql-password&gt;@&lt;cluster-name&gt;-pgbouncer.&lt;namespace&gt;.svc.cluster.local
 </code></pre></div>
 <p>Now you should see the prompt of PostgreSQL interactive terminal:</p>
-<div class="highlight" data-prompt="$" data-prompt-second="pgdb=>"><pre><span></span><code>$<span class="w"> </span>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
 Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">cluster1</span><span class="o">=</span>&gt;
 </code></pre></div>
@@ -4357,7 +4357,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 <p>Note that you cannot use only one custom set of certificates. If you provide a custom TLS Secret, you <strong>must</strong> also provide a custom replication TLS Secret, and both must contain the same <code>ca.crt</code>.</p>
 <h3 id="provide-pre-existing-custom-certificates">Provide pre-existing custom certificates<a class="headerlink" href="#provide-pre-existing-custom-certificates" title="Permanent link">&para;</a></h3>
 <p>For example, you have files named <code>ca.crt</code>, <code>my_tls.key</code>, and <code>my_tls.crt</code>. Run the following command to create a custom TLS Secret named <code>cluster1-tls</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>my_tls.key<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>my_tls.crt
@@ -4380,14 +4380,14 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 <p>Now you can create a cluster with your custom certificates:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <h3 id="provide-a-pre-existing-custom-root-ca-certificate-to-the-operator">Provide a pre-existing custom root CA certificate to the Operator<a class="headerlink" href="#provide-a-pre-existing-custom-root-ca-certificate-to-the-operator" title="Permanent link">&para;</a></h3>
 <p>You can also provide a custom root CA certificate to the Operator. In this case the Operator will not generate one itself, but will use the user-provided CA certificate. This can be useful if you would like to have several database clusters with certificates generated by the Operator based on the same root CA.</p>
 <p>To make the Operator use a custom root certificate, create a separate secret with this certificate and specify this secret in the Custom Resource options <strong>before</strong> you deploy a cluster.</p>
 <p>For example, if you have files named <code>my_tls.key</code> and <code>my_tls.crt</code> stored on your local machine, you could run the following command to create a
 Secret named <code>cluster1-ca-cert</code> in the <code>postgres-operator</code> namespace:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-ca-cert<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-ca-cert<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>my_tls.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>my_tls.key
 </code></pre></div>
@@ -4414,7 +4414,7 @@ Secret named <code>cluster1-ca-cert</code> in the <code>postgres-operator</code>
 <ol>
 <li>
 <p>Check the secrets created by the Operator:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4433,7 +4433,7 @@ cluster1-replication-cert       Opaque   3      143m
 </li>
 <li>
 <p>You can examine the auto-generated CA certificate (<code>ca.crt</code>) as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4459,7 +4459,7 @@ cluster1-replication-cert       Opaque   3      143m
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">External communication</label><label for="__tabbed_1_2">Internal communication</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4500,7 +4500,7 @@ cluster1-replication-cert       Opaque   3      143m
 </details>
 </div>
 <div class="tabbed-block">
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4554,13 +4554,13 @@ external communications, and another set is for internal ones!</strong></p>
 <ol>
 <li>
 <p>Set cluster context</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAME</span><span class="o">=</span>cluster1
-$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAME</span><span class="o">=</span>cluster1
+<span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
 </code></pre></div>
 </li>
 <li>
 <p>Generate the root CA certificate:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -initca - | cfssljson -bare ca</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -initca - | cfssljson -bare ca</span>
 <span class="s">  {</span>
 <span class="s">    &quot;CN&quot;: &quot;*&quot;,</span>
 <span class="s">    &quot;key&quot;: {</span>
@@ -4588,7 +4588,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </li>
 <li>
 <p>Define the CA signing policy for certificates signed by the CA.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; ca-config.json</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; ca-config.json</span>
 <span class="s">  {</span>
 <span class="s">     &quot;signing&quot;: {</span>
 <span class="s">       &quot;default&quot;: {</span>
@@ -4614,7 +4614,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </li>
 <li>
 <p>Generate the custom TLS certificates for external communication and sign them using the previously created CA certificate.  These certificates have the Common Name (CN) <code>cluster1-primary.postgres-operator.svc.cluster.local</code></p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server</span>
 <span class="s">  {</span>
 <span class="s">     &quot;hosts&quot;: [</span>
 <span class="s">       &quot;localhost&quot;,</span>
@@ -4643,7 +4643,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 </li>
 <li>
 <p>Generate the custom TLS certificates for internal communication and sign them using the previously created CA certificate. These certificates have the Common Name (CN) <code>_crunchyrepl</code>.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replication</span>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replication</span>
 <span class="s">  {</span>
 <span class="s">    &quot;CN&quot;: &quot;_crunchyrepl&quot;,</span>
 <span class="s">    &quot;key&quot;: {</span>
@@ -4663,7 +4663,7 @@ $<span class="w"> </span><span class="nb">export</span><span class="w"> </span><
 <p>You can find more on generating certificates this way in <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/">official Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <p>Refer to the <a href="#provide-pre-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p>
 <h2 id="check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
 </code></pre></div>
 <ol>
 <li>
@@ -4679,7 +4679,7 @@ cluster1-replication-cert       Opaque   3      11m
 <li>
 <p>Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span><span class="o">{</span>
+<div class="highlight"><pre><span></span><code><span class="o">{</span>
 <span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
 <span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
 <span class="w">  </span><span class="o">}</span>
@@ -4707,12 +4707,12 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <ol>
 <li>
 <p>Set the context for the cluster:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
 </code></pre></div>
 </li>
 <li>
 <p>Create a YAML manifest for the <code>cluster1-cert</code> Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-cert<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-cert<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
@@ -4722,7 +4722,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Create a YAML manifest for the <code>cluster1-replication-cert</code> Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-replication-cert<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-replication-cert<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replica.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replica-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
@@ -4732,7 +4732,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Apply the manifests to update the Secrets:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span>
 </code></pre></div>
 </li>
 </ol>
@@ -4756,19 +4756,19 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Create a new Secret object for the new root CA certificate and define the new CA certificate and key within. Let&rsquo;s name it <code>cluster1-ca-cert-new</code>.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-ca-cert-new<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-ca-cert-new<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>new-ca.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.key<span class="o">=</span>new-ca-key.pem
 </code></pre></div>
 </li>
 <li>
 <p>Create new Secrets for external and internal communications, named <code>cluster1-tls</code> and <code>cluster1-replication-tls</code> respectively</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem
 </code></pre></div>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-replication-tls<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-replication-tls<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replication-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replication.pem
@@ -4776,7 +4776,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Pause the cluster to prevent the Operator to restart the Pods mid-update.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: true}}&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
@@ -4784,7 +4784,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Specify details about new custom certificates in the <code>deploy/cr.yaml</code>. Since this is a provisioned cluster, apply the patch as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">        &quot;spec&quot;: {</span>
@@ -4816,7 +4816,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 <li>
 <p>Unpause the cluster to resume the Operator control:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: false}}&#39;</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
@@ -4831,7 +4831,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
   <small>
     
       Last update:
-      2025-07-29
+      2025-11-18
     
   </small>
 </div>

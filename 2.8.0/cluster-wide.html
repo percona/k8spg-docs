@@ -4057,24 +4057,24 @@ create one during the installation (like it is shown in the
 <ol>
 <li>
 <p>Clone <code>percona-postgresql-operator</code> repository:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
 </code></pre></div>
 </li>
 <li>
 <p>Create your <code>percona-db-1</code> Namespace (if it doesn&rsquo;t yet exist) as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
 </code></pre></div>
 </li>
 <li>
 <p>Deploy the Operator <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">using <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
     the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
 </code></pre></div>
 </li>
 <li>
 <p>Once Operator is up and running, deploy the database cluster itself:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
 </code></pre></div>
 </li>
 </ol>
@@ -4084,17 +4084,17 @@ $<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>perco
 <ol>
 <li>
 <p>Create your <code>percona-db-2</code> namespace (if it doesn&rsquo;t yet exist) as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-2
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-2
 </code></pre></div>
 </li>
 <li>
 <p>Deploy the Operator:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
 </code></pre></div>
 </li>
 <li>
 <p>Once Operator is up and running deploy the database cluster itself:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4138,15 +4138,15 @@ Kubernetes.</p>
 <ol>
 <li>
 <p>Clone <code>percona-postgresql-operator</code> repository:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
-$<span class="w"> </span><span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
 </code></pre></div>
 </li>
 <li>
 <p>Let’s say you will use <code>pg-operator</code> namespace for the Operator, and <code>percona-db-1</code>
     namespace for the cluster. Create these namespaces, if needed:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pg-operator
-$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pg-operator
+kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
 </code></pre></div>
 </li>
 <li>
@@ -4168,14 +4168,14 @@ $<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> <
 </li>
 <li>
 <p>Apply the <code>deploy/cw-bundle.yaml</code> file with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/cw-bundle.yaml<span class="w"> </span>-n<span class="w"> </span>pg-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/cw-bundle.yaml<span class="w"> </span>-n<span class="w"> </span>pg-operator
 </code></pre></div>
 <p>Right now the operator deployed in cluster-wide mode will monitor all
 namespaces in the cluster, either already existing or newly created ones.</p>
 </li>
 <li>
 <p>Deploy the cluster in the namespace of your choice:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
 </code></pre></div>
 </li>
 </ol>
@@ -4196,13 +4196,13 @@ user has the same login name as the cluster name.</p>
 <li>
 <p>Use the
     following command to get the password of this user. Replace the <code>&lt;cluster_name&gt;</code> and <code>&lt;namespace&gt;</code> placeholders with your values:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
 </code></pre></div>
 </li>
 <li>
 <p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
     <code>pg-client</code>:</p>
-<p><div class="highlight" data-prompt="$" data-prompt-second="[postgres@pg-client /]$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.6-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.6-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
 </code></pre></div>
 Executing it may require some time to deploy the corresponding Pod.</p>
 </li>
@@ -4211,11 +4211,11 @@ Executing it may require some time to deploy the corresponding Pod.</p>
     terminal. 
     The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight" data-prompt="$" data-prompt-second="[postgres@pg-client /]$"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="highlight" data-prompt="$" data-prompt-second="pgdb=>"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
 SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
 Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">pgdb</span><span class="o">=</span>&gt;
@@ -4228,7 +4228,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
   <small>
     
       Last update:
-      2025-03-17
+      2025-11-18
     
   </small>
 </div>

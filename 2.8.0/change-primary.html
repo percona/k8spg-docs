@@ -3903,7 +3903,7 @@ Primary instance is re-elected during the automatic failover (Patroni&rsquo;s &l
 <ol>
 <li>
 <p>Check the information about the <a href="operator.html#operator-instances-section">cluster instances</a>. Cluster instances are defined in the <code>spec.instances</code> Custom Resource section. By default you have one cluster instance named <code>instance1</code> with 3 PostgreSQL instances in it. You can check which cluster instances you have. Do this using Kubernetes Labels as follows (replace the <code>&lt;namespace&gt;</code> placeholder with your value):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\ </span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\ </span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/instance<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instance1
 </code></pre></div>
@@ -3924,7 +3924,7 @@ cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   clust
 <span class="w">    </span><span class="nt">targetInstance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;instance-name&gt;</span>
 </code></pre></div>
 <p>You can do it with <code>kubectl patch</code> command, specifying the name of the instance that you want to be the new primary. For example, let&rsquo;s set the <code>cluster1-instance1-bmdp</code> as a new PostgreSQL primary:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">  &quot;spec&quot;: {</span>
 <span class="s1">    &quot;patroni&quot;: {</span>
 <span class="s1">      &quot;switchover&quot;: {</span>
@@ -3938,13 +3938,13 @@ cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   clust
 </li>
 <li>
 <p>Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
 </code></pre></div>
 <p>The <code>--overwrite</code> flag in the above command allows you to overwrite the annotation if it already exists (useful if that&rsquo;s not the first switchover you do).</p>
 </li>
 <li>
 <p>Verify that the cluster was annotated (replace the <code>&lt;namespace&gt;</code> placeholder with your value, as usual):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -3960,7 +3960,7 @@ metadata:
 </li>
 <li>
 <p>Now, check instances of your cluster once again to make sure the switchover took place:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\ </span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\ </span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/instance<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instance1
 </code></pre></div>
@@ -3974,7 +3974,7 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
 </li>
 <li>
 <p>Set <code>patroni.switchover.enabled</code> Custom Resource option to <code>false</code> once the switchover is done:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">  &quot;spec&quot;: {</span>
 <span class="s1">    &quot;patroni&quot;: {</span>
 <span class="s1">      &quot;switchover&quot;: {</span>
@@ -3991,7 +3991,7 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
   <small>
     
       Last update:
-      2025-11-03
+      2025-11-18
     
   </small>
 </div>

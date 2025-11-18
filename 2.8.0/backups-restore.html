@@ -4136,7 +4136,7 @@ lines:</p>
 </code></pre></div>
 <p>Creating the new cluster in its namespace (for example, <code>percona-db-2</code>) with
 such a manifest will initiate the restoration process:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
 </code></pre></div>
 <h2 id="restore-to-an-existing-postgresql-cluster">Restore to an existing PostgreSQL cluster<a class="headerlink" href="#restore-to-an-existing-postgresql-cluster" title="Permanent link">&para;</a></h2>
 <p>To restore the previously saved backup, use a <em>backup restore</em>
@@ -4161,7 +4161,7 @@ configuration file. The example of the backup configuration file is
 <li><code>options</code> passes through any <a href="https://pgbackrest.org/configuration.html">pgBackRest command line options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
 </ul>
 <p>To start the restoration process, run the following command (modify the <code>-n postgres-operator</code> parameter if your database cluster resides in a different namespace):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <h3 id="specifying-which-backup-to-restore">Specifying which backup to restore<a class="headerlink" href="#specifying-which-backup-to-restore" title="Permanent link">&para;</a></h3>
 <p>When there are multiple backups, the Operator will restore the latest full
@@ -4215,7 +4215,7 @@ Status:
 </li>
 <li>
 <p>Start the restoration process, as usual:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
 </ol>
@@ -4249,7 +4249,7 @@ pgBackRest with few additional <code>spec.options</code> fields in <code>deploy/
 <p>After obtaining the Pod name with <code>kubectl get pods</code> command, you can
 run <code>pgbackrest --stanza=db info</code> command on the appropriate Pod as
 follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-hcgr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-hcgr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
 </code></pre></div>
 <p>Then find ID of the needed backup in the output:</p>
 <div class="no-copy highlight"><pre><span></span><code>stanza: db
@@ -4305,12 +4305,12 @@ file as follows:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the <code>kubectl get pg-backup</code> command has a &ldquo;Latest restorable time&rdquo; information field handy when selecting a backup to restore. Tracking latest restorable time is <a href="operator.html#backupstracklatestrestorabletime">turned on by default</a>, and you can easily query the backup for this information as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
 </code></pre></div>
 </div>
 <p>After setting these options in the <em>backup restore</em> configuration file,
 start the restoration process:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4334,7 +4334,7 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
 <p>The restore process changes database files, and therefore restoring wrong information or causing restore fail by misconfiguring can put the database cluster in non-operational state.</p>
 <p>For example, adding wrong pgBackRest arguments to <a href="#restore-to-an-existing-postgresql-cluster"><code>PerconaGPRestore</code> custom resource</a> breaks existing database installation while the restore hangs.</p>
 <p>In this case it’s possible to remove the <em>restore annotation</em> from the Custom Resource correspondent to your cluster. Supposing that your cluster <code>cluster1</code> was deployed in <code>postgres-operator</code> namespace, you can do it with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
 </code></pre></div>
 <p>Alternatively, you can temporarily delete the database cluster <a href="delete.html#delete-a-database-cluster">by removing the Custom Resource</a> (check the <a href="operator.html#finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running <code>kubectl apply -f deploy/cr.yaml -n postgres-operator</code> command you have used to deploy the it previously.</p>
 <p>One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster <a href="delete.html#delete-a-database-cluster">by removing the Custom Resource</a>, <a href="debug-storage.html#check-the-pvc">find the startup PVC</a> to delete it and recreate again. </p>
@@ -4343,7 +4343,7 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
   <small>
     
       Last update:
-      2025-03-17
+      2025-11-18
     
   </small>
 </div>

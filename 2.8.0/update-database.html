@@ -4052,7 +4052,7 @@
 <li>Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the <a href="#upgrading-the-operator-and-crd">Operator upgrade guide</a></li>
 <li>
 <p>Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Replace the Operator version with your value in the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.6.0<span class="w"> </span><span class="p">|</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.6.0<span class="w"> </span><span class="p">|</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
 </code></pre></div>
 <p>You can also find this information in the <a href="versions.html">Versions compatibility matrix</a>.</p>
 </li>
@@ -4064,7 +4064,7 @@
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">With PMM Client</label><label for="__tabbed_1_2">Without PMM Client</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">   &quot;spec&quot;: {</span>
 <span class="s1">      &quot;crVersion&quot;:&quot;2.8.0&quot;,</span>
 <span class="s1">      &quot;image&quot;: &quot;docker.io/percona/percona-distribution-postgresql:17.6-1,</span>
@@ -4082,7 +4082,7 @@
 </ul>
 </div>
 <div class="tabbed-block">
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">   &quot;spec&quot;: {</span>
 <span class="s1">      &quot;crVersion&quot;:&quot;2.8.0&quot;,</span>
 <span class="s1">      &quot;image&quot;: &quot;docker.io/percona/percona-distribution-postgresql:17.6-1&quot;,</span>
@@ -4254,11 +4254,11 @@ oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallow
 </div>
 <p>During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
 You can remove data at your discretion by <a href="debug-shell.html">executing into containers</a> and running the following commands (example for PostgreSQL 15):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15
-$<span class="w"> </span>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15_wal
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15
+rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15_wal
 </code></pre></div>
 <p>You can also delete the <code>PerconaPGUpgrade</code> resource (this will clean up the jobs and Pods created during the upgrade):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgupgrade<span class="w"> </span>cluster1-15-to-16
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgupgrade<span class="w"> </span>cluster1-15-to-16
 </code></pre></div>
 <hr>
 <div class="md-source-file">

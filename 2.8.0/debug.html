@@ -3969,7 +3969,7 @@
 </li>
 </ul>
 <p>The first thing you can check for the Custom Resource is to query it with <code>kubectl get</code> command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -3981,7 +3981,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can check which Percona’s Custom Resources are present and get some information about them as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>api-resources<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>percona
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>api-resources<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-i<span class="w"> </span>percona
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -3994,7 +3994,7 @@ perconapgrestores         pg-restore   pgv2.percona.com/v2            true      
 <h2 id="check-the-pods">Check the Pods<a class="headerlink" href="#check-the-pods" title="Permanent link">&para;</a></h2>
 <p>If Custom Resource is not getting <code>Ready</code> status, it makes sense to check
 individual Pods. You can do it as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4029,7 +4029,7 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </ul>
 <p>You can find more details about a specific Pod using the
 <code>kubectl describe pods &lt;pod-name&gt;</code> command.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>$<span class="w"> </span>kubectl<span class="w"> </span>describe<span class="w"> </span>pods<span class="w"> </span>cluster1-instance1-b5mr-0
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pods<span class="w"> </span>cluster1-instance1-b5mr-0
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4066,7 +4066,7 @@ and also events. So, describe output should be checked to see any abnormalities.
   <small>
     
       Last update:
-      2024-11-25
+      2025-11-18
     
   </small>
 </div>

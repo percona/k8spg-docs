@@ -3967,10 +3967,10 @@ Older backups are automatically deleted. </p>
 <p>Manual deleting of a previously saved backup requires not more than the backup
 name. This name can be taken from the list of available backups returned
 by the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup
 </code></pre></div>
 <p>When the name is known, backup can be deleted as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>pg-backup/&lt;backup-name&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg-backup/&lt;backup-name&gt;
 </code></pre></div>
 <h2 id="delete-backups-on-cluster-deletion">Delete backups on cluster deletion<a class="headerlink" href="#delete-backups-on-cluster-deletion" title="Permanent link">&para;</a></h2>
 <p>You can enable <a href="operator.html#finalizers-delete-backups"><code>percona.com/delete-backups</code> finalizer</a> in the Custom Resource (turned off by default) to ensure that all backups are removed when the cluster is deleted.
@@ -3984,7 +3984,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
   <small>
     
       Last update:
-      2025-07-18
+      2025-11-18
     
   </small>
 </div>

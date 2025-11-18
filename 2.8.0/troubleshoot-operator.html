@@ -4119,17 +4119,12 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 </li>
 <li>
 <p>Check for error details. Run the <code>kubectl describe</code> command:</p>
-</li>
-</ol>
-<p><code>bash
-   kubectl describe &lt;database-pod-name&gt;</code>  </p>
-<div class="highlight"><pre><span></span><code>```bash
-kubectl describe &lt;proxy-pod-name&gt;
-```
-
-Check the information in the `Status` section. The `State` and `State Description` fields explain why the Pod reports errors.
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;database-pod-name&gt;
 </code></pre></div>
-<ol>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;proxy-pod-name&gt;
+</code></pre></div>
+<p>Check the information in the <code>Status</code> section. The <code>State</code> and <code>State Description</code> fields explain why the Pod reports errors.</p>
+</li>
 <li>
 <p>To run commands inside a container, use the <code>kubectl exec</code> command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>&lt;command&gt;
@@ -4148,7 +4143,7 @@ Check the information in the `Status` section. The `State` and `State Descriptio
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>

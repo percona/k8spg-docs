@@ -4118,17 +4118,17 @@
 <ol>
 <li>
 <p>Create a <code>sleep-forever</code> file in the data directory with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/pgdata/sleep-forever
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>touch<span class="w"> </span>/pgdata/sleep-forever
 </code></pre></div>
 </li>
 <li>
 <p>Delete the Pod:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>cluster1-instance1-24b8-0
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>cluster1-instance1-24b8-0
 </code></pre></div>
 </li>
 <li>
 <p>After the Pod restarts, it won&rsquo;t start PostgreSQL. You can check it with the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>database
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>database
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4139,7 +4139,7 @@ If you want to exit from the infinite sleep, remove the pgdata/sleep-forever fil
 </li>
 <li>
 <p>Now you can start PostgreSQL manually:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>pg_ctl<span class="w"> </span>-D<span class="w"> </span>/pgdata/pg17<span class="w"> </span>start
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>pg_ctl<span class="w"> </span>-D<span class="w"> </span>/pgdata/pg17<span class="w"> </span>start
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4153,7 +4153,7 @@ server started
 </li>
 <li>
 <p>When you are done with the maintenance, remove the <code>sleep-forever</code> file to re-enable the liveness probe.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>rm<span class="w"> </span>/pgdata/sleep-forever
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>rm<span class="w"> </span>/pgdata/sleep-forever
 </code></pre></div>
 </li>
 </ol>
@@ -4170,7 +4170,7 @@ server started
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 <p>Apply the changes:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -4180,7 +4180,7 @@ server started
 <h3 id="for-a-whole-cluster">For a whole cluster<a class="headerlink" href="#for-a-whole-cluster" title="Permanent link">&para;</a></h3>
 <p>The Operator creates a ConfigMap called <code>&lt;cluster-name&gt;-config</code> to store a Patroni cluster configuration. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in this ConfigMap and keep the changes, you need to annotate it using a special annotation <code>pgv2.percona.com/override-config</code>. </p>
 <p>Here is the example command for the cluster named <code>cluster1</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4194,19 +4194,19 @@ server started
 <p>Before applying any changes, consult the <a href="https://patroni.readthedocs.io/en/latest/patroni_configuration.html">Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to ensure your configuration is correct. This will help you avoid issues caused by invalid settings.</p>
 </div>
 <p>It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers. For example:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_cluster.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_cluster.yaml
 </code></pre></div>
 <p>Operator doesn&rsquo;t apply a new configuration for Patroni automatically. You must run <code>patronictl reload &lt;cluster_name&gt; &lt;pod-name&gt;</code> to apply it after your changes are propagated to the container.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Don&rsquo;t forget to remove this annotation once you&rsquo;ve finished. It&rsquo;s not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won&rsquo;t touch the ConfigMap and you might have problems with your cluster.</p>
 <p>To remove the annotation, use the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config-
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config-
 </code></pre></div>
 </div>
 <h3 id="for-an-individual-pod">For an individual Pod<a class="headerlink" href="#for-an-individual-pod" title="Permanent link">&para;</a></h3>
 <p>Operator creates a ConfigMap called <code>&lt;pod-name&gt;-config</code> to store Patroni instance configuration for each Pod. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in these ConfigMaps and keep the changes, you need to annotate them using a special annotation:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4220,11 +4220,11 @@ server started
 <p>Before applying any changes, consult the <a href="https://patroni.readthedocs.io/en/latest/patroni_configuration.html">Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to ensure your configuration is correct. This will help you avoid problems caused by invalid settings.</p>
 </div>
 <p>It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers for a Pod. For example:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_cluster.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/etc/patroni/~postgres-operator_cluster.yaml
 </code></pre></div>
 <p>Operator doesn&rsquo;t apply a new configuration automatically. You must run <code>patronictl reload &lt;cluster_name&gt; &lt;pod_name&gt;</code> to apply it after your changes are propagated to the container. </p>
 <p>To find the cluster name, run:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4241,12 +4241,12 @@ server started
 <p class="admonition-title">Warning</p>
 <p>Don&rsquo;t forget to remove this annotation once you&rsquo;ve finished. It&rsquo;s not recommended to use this feature to permanently override Patroni configuration. As long as this annotation exists, the Operator won&rsquo;t touch the ConfigMap and you might have problems with your cluster.</p>
 <p>To remove the annotation, use the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>pgv2.percona.com/override-config-
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>pgv2.percona.com/override-config-
 </code></pre></div>
 </div>
 <h2 id="override-postgresql-parameters">Override PostgreSQL parameters<a class="headerlink" href="#override-postgresql-parameters" title="Permanent link">&para;</a></h2>
 <p>Use the <code>patronictl show-config</code> command to print PostgreSQL parameters used in the cluster. For example:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>show-config
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>show-config
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4285,7 +4285,7 @@ ttl: 30
 </details>
 <p>Use the <code>patronictl edit-config</code> command to change any PostgreSQL parameter.</p>
 <p>For example, run the following command to change the <code>restore_command</code> parameter:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">restore_command</span><span class="o">=</span>/bin/true
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">restore_command</span><span class="o">=</span>/bin/true
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4305,7 +4305,7 @@ Apply these changes? [y/N]:
 </code></pre></div>
 </details>
 <p>This command changes the <code>shared_preload_libraries</code> parameter:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">shared_preload_libraries</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">shared_preload_libraries</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4337,7 +4337,7 @@ Apply these changes? [y/N]:
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reject all all all</span>
 </code></pre></div>
 <p>The order of parameters matters in <code>pg_hba.conf</code>, so consider overriding the list completely. For this, you can use the <code>patronictl edit-config</code> command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--set<span class="w"> </span>postgresql.pg_hba<span class="o">=</span><span class="s1">&#39;[</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--set<span class="w"> </span>postgresql.pg_hba<span class="o">=</span><span class="s1">&#39;[</span>
 <span class="s1">  &quot;local all all trust&quot;,</span>
 <span class="s1">  &quot;reject all all all&quot;</span>
 <span class="s1">]&#39;</span>
@@ -4351,7 +4351,7 @@ Apply these changes? [y/N]:
   <small>
     
       Last update:
-      2025-07-18
+      2025-11-18
     
   </small>
 </div>

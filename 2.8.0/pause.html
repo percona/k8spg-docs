@@ -3995,18 +3995,16 @@ key to <code>false</code>.</p>
 <p>If you&rsquo;re pausing the cluster when there is a running backup, the Operator won&rsquo;t pause it for you. It will print a warning about running backups. In this case delete a running backup job and retry.</p>
 <h2 id="put-in-standby-mode">Put in standby mode<a class="headerlink" href="#put-in-standby-mode" title="Permanent link">&para;</a></h2>
 <p>You can also put the cluster into a <a href="https://www.postgresql.org/docs/current/warm-standby.html">standby <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> (read-only) mode instead of completely shutting it down. This is done by a special <code>spec.standby</code> key. Set it to <code>true</code> for read-only state. To resume the normal cluster operation, set it to <code>false</code>.</p>
-<div class="highlight"><pre><span></span><code>```yaml
-spec:
-  .......
-  standby: false
-```
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">.......</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">standby</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      2025-07-15
+      2025-11-18
     
   </small>
 </div>

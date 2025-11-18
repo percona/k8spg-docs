@@ -4004,7 +4004,7 @@
 </li>
 <li>
 <p>Make a backup with the following command (modify the <code>-n postgres-operator</code> parameter if your database cluster resides in a different namespace):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4014,7 +4014,7 @@
 </li>
 <li>
 <p>Making a backup takes time. Use the <code>kubectl get pg-backup</code> command to track the backup progress. When finished, backup should obtain the <code>Succeeded</code> status:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>backup1<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>backup1<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example" open="open">
 <summary>Expected output</summary>
@@ -4027,11 +4027,11 @@ backup1   cluster1   repo1                 Succeeded   incr   3m38s       3m53s
 <div class="admonition tip">
 <p class="admonition-title">Tip</p>
 <p>To list available backups, run:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 </div>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<p><a href="backups-restore.html">Restore from a backup</a></p>
+<p><a class="md-button" href="backups-restore.html">Restore from a backup</a></p>
 <h2 id="useful-links">Useful links<a class="headerlink" href="#useful-links" title="Permanent link">&para;</a></h2>
 <p><a href="backup-retention.html">Backup retention</a></p>
 <hr>
@@ -4039,7 +4039,7 @@ backup1   cluster1   repo1                 Succeeded   incr   3m38s       3m53s
   <small>
     
       Last update:
-      2025-07-18
+      2025-11-18
     
   </small>
 </div>

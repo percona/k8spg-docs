@@ -4409,10 +4409,10 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 corresponding Secret: the Operator will immediately generate a new password
 and save it to the appropriate Secret. You can remove the old password with the
 <code>kubectl patch secret</code> command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;data&quot;:{&quot;password&quot;:&quot;&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;data&quot;:{&quot;password&quot;:&quot;&quot;}}&#39;</span>
 </code></pre></div>
 <p>In the same way you can update a password with your custom one for the user. Do it as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;stringData&quot;:{&quot;password&quot;:&quot;&lt;custom_password&gt;&quot;, &quot;verifier&quot;:&quot;&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;stringData&quot;:{&quot;password&quot;:&quot;&lt;custom_password&gt;&quot;, &quot;verifier&quot;:&quot;&quot;}}&#39;</span>
 </code></pre></div>
 <h3 id="adjusting-privileges">Adjusting privileges<a class="headerlink" href="#adjusting-privileges" title="Permanent link">&para;</a></h3>
 <p>You can set role privileges by using the standard <a href="https://www.postgresql.org/docs/current/role-attributes.html">role attributes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that PostgreSQL provides and adding them to the <code>spec.users.options</code> subsection in the Custom Resource. </p>
@@ -4470,7 +4470,7 @@ and save it to the appropriate Secret. You can remove the old password with the
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>

@@ -4053,7 +4053,7 @@ Operator by deleting the appropriate Custom Resource.</p>
 <li>
 <p>List Custom Resources, replacing the <code>&lt;namespace&gt;</code> placeholder with your
     namespace.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4065,7 +4065,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <li>
 <p>Delete the Custom Resource with the name of your cluster (for example, let&rsquo;s
     use the default <code>cluster1</code> name).</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4076,7 +4076,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <li>
 <p>Check that the cluster is deleted by listing the available Custom Resources
     once again.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4092,7 +4092,7 @@ related to it.</p>
 <li>
 <p>List the deployments. Replace the <code>&lt;namespace&gt;</code> placeholder with your
     namespace.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4103,13 +4103,13 @@ percona-postgresql-operator   1/1     1            1           13m
 </li>
 <li>
 <p>Delete the <code>percona-*</code> deployment</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 </li>
 <li>
 <p>Check that the Operator is deleted by listing the Pods. As a result you
     should have no Pods related to it.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4132,7 +4132,7 @@ Operator and database cluster in some namespace.</p>
 <ol>
 <li>
 <p>List the CRDs:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>crd
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4161,7 +4161,7 @@ volumesnapshots.snapshot.storage.k8s.io              2023-09-07T14:15:52Z
 </li>
 <li>
 <p>Now delete the <code>percona*.pgv2.percona.com</code> CRDs:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>crd<span class="w"> </span>perconapgbackups.pgv2.percona.com<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>perconapgrestores.pgv2.percona.com
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>crd<span class="w"> </span>perconapgbackups.pgv2.percona.com<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>perconapgrestores.pgv2.percona.com
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4182,7 +4182,7 @@ customresourcedefinition.apiextensions.k8s.io &quot;perconapgrestores.pgv2.perco
 <ol>
 <li>
 <p>List PVCs. Replace the <code>&lt;namespace&gt;</code> placeholder with your namespace:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4196,7 +4196,7 @@ cluster1-repo1                   Bound    pvc-380e1100-b679-4716-ae8f-78372448b5
 </li>
 <li>
 <p>Delete PVCs related to your cluster. The following command deletes PVCs for the <code>cluster1</code> cluster:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-mkwh-pgdata<span class="w"> </span>cluster1-instance1-nvh4-pgdata<span class="w"> </span>cluster1-instance1-qknb-pgdata<span class="w"> </span>cluster1-repo1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-mkwh-pgdata<span class="w"> </span>cluster1-instance1-nvh4-pgdata<span class="w"> </span>cluster1-instance1-qknb-pgdata<span class="w"> </span>cluster1-repo1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -4213,12 +4213,12 @@ persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
 <ol>
 <li>
 <p>List Secrets:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 </li>
 <li>
 <p>Delete the Secret:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>&lt;secret_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>&lt;secret_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 </li>
 </ol>
@@ -4231,7 +4231,7 @@ persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
   <small>
     
       Last update:
-      2025-11-03
+      2025-11-18
     
   </small>
 </div>

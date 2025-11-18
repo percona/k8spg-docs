@@ -3901,25 +3901,25 @@
 <ol>
 <li>
 <p>Clone the repository with all manifests and source code by executing the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
 </code></pre></div>
 </li>
 <li>
 <p>Edit the required options and apply your modified <code>deploy/cr.yaml</code> file as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w">        </span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w">        </span>
 </code></pre></div>
 </li>
 </ol>
 </div>
 <div class="tabbed-block">
 <p>To install Percona Distribution for PostgreSQL with custom parameters using Helm, use the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>--set<span class="w"> </span><span class="nv">key</span><span class="o">=</span>value
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>--set<span class="w"> </span><span class="nv">key</span><span class="o">=</span>value
 </code></pre></div>
 <p>You can pass any of the Operator’s <a href="operator.html">Custom Resource options</a> as a
 <code>--set key=value[,key=value]</code> argument.</p>
 <p>The following example deploys a PostgreSQL 17.6-1 based cluster
 in the <code>my-namespace</code> namespace, with enabled <a href="https://docs.percona.com/percona-monitoring-and-management/2/index.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>helm<span class="w"> </span>install<span class="w"> </span>my-db<span class="w"> </span>percona/pg-db<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span>--namespace<span class="w"> </span>my-namespace<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>my-db<span class="w"> </span>percona/pg-db<span class="w"> </span>--version<span class="w"> </span><span class="m">2</span>.8.0<span class="w"> </span>--namespace<span class="w"> </span>my-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span><span class="nv">postgresVersion</span><span class="o">=</span><span class="m">17</span>.6-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>pmm.enabled<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
@@ -3931,7 +3931,7 @@ in the <code>my-namespace</code> namespace, with enabled <a href="https://docs.p
   <small>
     
       Last update:
-      2025-02-13
+      2025-11-18
     
   </small>
 </div>

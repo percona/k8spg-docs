@@ -4026,17 +4026,17 @@ Also, you can only reverse such migration by restoring the old cluster from the 
 </li>
 <li>
 <p>Apply the Custom Resource in a usual way:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 </li>
 <li>
 <p>When all Replicas are gone, proceed with removing the cluster. Double check that <code>spec.keepData</code> is in place, otherwise the Operator will delete the volumes!</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1
 </code></pre></div>
 </li>
 <li>
 <p>Find PVC for the Primary and <code>pgBackRest</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>--selector<span class="o">=</span>pg-cluster<span class="o">=</span>cluster1<span class="w"> </span>-n<span class="w"> </span>pgo
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>--selector<span class="o">=</span>pg-cluster<span class="o">=</span>cluster1<span class="w"> </span>-n<span class="w"> </span>pgo
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4072,7 +4072,7 @@ cluster1-pgbr-repo   Bound    pvc-afb00490-5a45-45cb-a1cb-10af8e48bb13   1Gi    
 <span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backrestrepo</span>
 </code></pre></div>
 <p>Apply it as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>chown-pod.yaml<span class="w"> </span>-n<span class="w"> </span>pgo
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>chown-pod.yaml<span class="w"> </span>-n<span class="w"> </span>pgo
 </code></pre></div>
 </li>
 </ol>
@@ -4084,7 +4084,7 @@ cluster1-pgbr-repo   Bound    pvc-afb00490-5a45-45cb-a1cb-10af8e48bb13   1Gi    
 </li>
 <li>
 <p>Run the following command to show the names of PVC belonging to the old cluster:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>--selector<span class="o">=</span>pg-cluster<span class="o">=</span>cluster1<span class="w"> </span>-n<span class="w"> </span>pgo
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>--selector<span class="o">=</span>pg-cluster<span class="o">=</span>cluster1<span class="w"> </span>-n<span class="w"> </span>pgo
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4123,7 +4123,7 @@ cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi    
 </li>
 <li>
 <p>Apply the manifest:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 </li>
 </ol>
@@ -4133,7 +4133,7 @@ cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi    
   <small>
     
       Last update:
-      2025-11-03
+      2025-11-18
     
   </small>
 </div>

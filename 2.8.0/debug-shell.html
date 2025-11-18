@@ -3897,7 +3897,7 @@
 <ul>
 <li>
 <p>Run <code>date</code> command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -3913,13 +3913,13 @@ would show the following result:</p>
 </li>
 <li>
 <p>Print log files to a terminal:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/pgdata/pg16/log/postgresql-*.log
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/pgdata/pg16/log/postgresql-*.log
 </code></pre></div>
 </li>
 <li>
 <p>Similarly, opening an Interactive terminal, executing a pair of commands in
     the container, and exiting it may look as follows:</p>
-<div class="highlight" data-prompt="$" data-prompt-second="bash-4.4$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
 bash-4.4$<span class="w"> </span>hostname
 cluster1-pxc-0
 bash-4.4$<span class="w"> </span>ls<span class="w"> </span>/pgdata/pg16/log/
@@ -3935,7 +3935,7 @@ $
   <small>
     
       Last update:
-      2023-12-21
+      2025-11-18
     
   </small>
 </div>

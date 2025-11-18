@@ -3993,7 +3993,7 @@
 <li>
 <p>Create the backup on the version 1.x cluster, following the <a href="https://docs.percona.com/percona-operator-for-postgresql/1.0/backups.html#making-on-demand-backup">official guide for manual (on-demand) backups</a>.
     This involves preparing the manifest in YAML and applying it in the usual way:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup/backup.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup/backup.yaml
 </code></pre></div>
 </li>
 <li>
@@ -4002,7 +4002,7 @@
 <p class="admonition-title">Warning</p>
 <p>Before deleting the cluster, make sure that the <a href="https://docs.percona.com/percona-operator-for-postgresql/1.0/operator.html#spec-keepbackups">spec.keepBackups</a> Custom Resource option is set to <code>true</code>.
 When it&rsquo;s set, local backups will be kept after the cluster deletion, so you can proceed with deleting your cluster as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1
 </code></pre></div>
 </div>
 </li>
@@ -4048,7 +4048,7 @@ When it&rsquo;s set, local backups will be kept after the cluster deletion, so y
 </li>
 <li>
 <p>Create the version 2.x cluster:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cr.yaml
 </code></pre></div>
 </li>
 </ol>
@@ -4057,7 +4057,7 @@ When it&rsquo;s set, local backups will be kept after the cluster deletion, so y
   <small>
     
       Last update:
-      2025-11-03
+      2025-11-18
     
   </small>
 </div>

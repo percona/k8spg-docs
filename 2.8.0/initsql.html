@@ -3909,7 +3909,7 @@
 </code></pre></div>
 <p>The <code>namespace</code> field should point to the namespace of your database cluster, and the <code>init.sql</code> key contains the sequence of commands, which will be passed to the psql.</p>
 <p>Create the ConfigMap by applying your manifest:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>my_init.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>my_init.yaml
 </code></pre></div>
 </li>
 <li>
@@ -3921,7 +3921,7 @@
 <span class="nn">...</span>
 </code></pre></div>
 <p>Now, SQL commands will be executed when you create the cluster by apply the manifest:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
 </ol>
@@ -3938,7 +3938,7 @@
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>

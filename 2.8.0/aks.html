@@ -4075,7 +4075,7 @@ platform. For more information on the AKS, see the <a href="https://azure.micros
 </ul>
 <p>You can create your cluster via command line using <code>az aks create</code> command.
 The following command will create a 3-node cluster named <code>cluster1</code> within some <a href="https://docs.microsoft.com/en-us/azure/aks/learn/quick-kubernetes-deploy-cli#create-a-resource-group">already existing <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> resource group named <code>my-resource-group</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>az<span class="w"> </span>aks<span class="w"> </span>create<span class="w"> </span>--resource-group<span class="w"> </span>my-resource-group<span class="w"> </span>--name<span class="w">  </span>cluster1<span class="w"> </span>--enable-managed-identity<span class="w"> </span>--node-count<span class="w"> </span><span class="m">3</span><span class="w"> </span>--node-vm-size<span class="w"> </span>Standard_B4ms<span class="w"> </span>--node-osdisk-size<span class="w"> </span><span class="m">30</span><span class="w"> </span>--network-plugin<span class="w"> </span>kubenet<span class="w">  </span>--generate-ssh-keys<span class="w"> </span>--outbound-type<span class="w"> </span>loadbalancer
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>aks<span class="w"> </span>create<span class="w"> </span>--resource-group<span class="w"> </span>my-resource-group<span class="w"> </span>--name<span class="w">  </span>cluster1<span class="w"> </span>--enable-managed-identity<span class="w"> </span>--node-count<span class="w"> </span><span class="m">3</span><span class="w"> </span>--node-vm-size<span class="w"> </span>Standard_B4ms<span class="w"> </span>--node-osdisk-size<span class="w"> </span><span class="m">30</span><span class="w"> </span>--network-plugin<span class="w"> </span>kubenet<span class="w">  </span>--generate-ssh-keys<span class="w"> </span>--outbound-type<span class="w"> </span>loadbalancer
 </code></pre></div>
 <p>Other parameters in the above example specify that we are creating a cluster
 with machine type of <a href="https://azureprice.net/vm/Standard_B4ms">Standard_B4ms <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
@@ -4084,13 +4084,13 @@ cluster creation options in the <a href="https://docs.microsoft.com/en-us/cli/az
 <p>You may wait a few minutes for the cluster to be generated.</p>
 <p>Now you should configure the command-line access to your newly created cluster
 to make <code>kubectl</code> be able to use it.</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>az<span class="w"> </span>aks<span class="w"> </span>get-credentials<span class="w"> </span>--resource-group<span class="w"> </span>my-resource-group<span class="w"> </span>--name<span class="w">  </span>cluster1
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>aks<span class="w"> </span>get-credentials<span class="w"> </span>--resource-group<span class="w"> </span>my-resource-group<span class="w"> </span>--name<span class="w">  </span>cluster1
 </code></pre></div>
 <h2 id="install-the-operator-and-deploy-your-postgresql-cluster">Install the Operator and deploy your PostgreSQL cluster<a class="headerlink" href="#install-the-operator-and-deploy-your-postgresql-cluster" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
 <p>Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let&rsquo;s name it <code>postgres-operator</code>:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4101,7 +4101,7 @@ to make <code>kubectl</code> be able to use it.</p>
 </li>
 <li>
 <p>Deploy the Operator<a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">using <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4119,7 +4119,7 @@ deployment.apps/percona-postgresql-operator serverside-applied
 </li>
 <li>
 <p>The operator has been started, and you can deploy Percona Distribution for PostgreSQL:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.0/deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4133,17 +4133,17 @@ Please see <a href="https://raw.githubusercontent.com/percona/percona-postgresql
 and <a href="operator.html">Custom Resource Options</a> for the configuration
 options. You can clone the repository with all manifests and source code
 by executing the following command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
 </code></pre></div>
 <p>After editing the needed options, apply your modified <code>deploy/cr.yaml</code>
 file as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
 </code></pre></div>
 </div>
 <p>The creation process may take some time. When the process is over your
 cluster will obtain the <code>ready</code> status. You can check it with the following
 command:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>pg
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4172,13 +4172,13 @@ user has the same login name as the cluster name.</p>
 <li>
 <p>Use the
     following command to get the password of this user. Replace the <code>&lt;cluster_name&gt;</code> and <code>&lt;namespace&gt;</code> placeholders with your values:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
 </code></pre></div>
 </li>
 <li>
 <p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
     <code>pg-client</code>:</p>
-<p><div class="highlight" data-prompt="$" data-prompt-second="[postgres@pg-client /]$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.6-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.6-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
 </code></pre></div>
 Executing it may require some time to deploy the corresponding Pod.</p>
 </li>
@@ -4187,11 +4187,11 @@ Executing it may require some time to deploy the corresponding Pod.</p>
     terminal. 
     The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight" data-prompt="$" data-prompt-second="[postgres@pg-client /]$"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="highlight" data-prompt="$" data-prompt-second="pgdb=>"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.6-1<span class="o">)</span>
 SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
 Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">pgdb</span><span class="o">=</span>&gt;
@@ -4207,7 +4207,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 </ul>
 <p>You can clean up the cluster with the <code>az aks delete</code> command as follows (with
 real names instead of <code>&lt;resource group&gt;</code> and <code>&lt;cluster name&gt;</code> placeholders):</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>az<span class="w"> </span>aks<span class="w"> </span>delete<span class="w"> </span>--name<span class="w"> </span>&lt;cluster<span class="w"> </span>name&gt;<span class="w"> </span>--resource-group<span class="w"> </span>&lt;resource<span class="w"> </span>group&gt;<span class="w"> </span>--yes<span class="w"> </span>--no-wait
+<div class="highlight"><pre><span></span><code>az<span class="w"> </span>aks<span class="w"> </span>delete<span class="w"> </span>--name<span class="w"> </span>&lt;cluster<span class="w"> </span>name&gt;<span class="w"> </span>--resource-group<span class="w"> </span>&lt;resource<span class="w"> </span>group&gt;<span class="w"> </span>--yes<span class="w"> </span>--no-wait
 </code></pre></div>
 <p>It may take ten minutes to get the cluster actually deleted after executing this command.</p>
 <div class="admonition warning">
@@ -4219,7 +4219,7 @@ real names instead of <code>&lt;resource group&gt;</code> and <code>&lt;cluster 
   <small>
     
       Last update:
-      2024-10-08
+      2025-11-18
     
   </small>
 </div>

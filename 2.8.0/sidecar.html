@@ -4024,11 +4024,11 @@ monitoring solutions, etc.</p>
 </code></pre></div>
 <p>Find additional options suitable for the <code>sidecars</code> subsection in the <a href="operator.html">Custom Resource options reference</a> and the <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#container-v1-core">Kubernetes Workload API reference <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
 <p>Apply your modifications as usual:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>Running <code>kubectl describe</code> command for the appropriate Pod can bring you the
 information about the newly created container:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>cluster1-instance1
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>cluster1-instance1
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -4058,7 +4058,7 @@ Mounts:
 </details>
 <h2 id="getting-shell-access-to-a-sidecar-container">Getting shell access to a sidecar container<a class="headerlink" href="#getting-shell-access-to-a-sidecar-container" title="Permanent link">&para;</a></h2>
 <p>You can login to your sidecar container as follows:</p>
-<div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1n8v4-0<span class="w"> </span>-c<span class="w"> </span>testcontainer<span class="w"> </span>--<span class="w"> </span>sh
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1n8v4-0<span class="w"> </span>-c<span class="w"> </span>testcontainer<span class="w"> </span>--<span class="w"> </span>sh
 /<span class="w"> </span><span class="c1">#</span>
 </code></pre></div>
 <hr>
@@ -4066,7 +4066,7 @@ Mounts:
   <small>
     
       Last update:
-      2025-07-18
+      2025-11-18
     
   </small>
 </div>
