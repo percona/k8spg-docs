@@ -229,6 +229,7 @@ nav:
           - "Upgrade the Operator": update-operator.md
           - "Upgrade the database": update-database.md
           - "Upgrade PostgreSQL extensions": update-extensions.md
+          - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
           - Upgrade from version 1 to version 2:
               - "Using data volumes": update-data-volumes.md
               - "Using backup and restore": update-backup-restore.md
