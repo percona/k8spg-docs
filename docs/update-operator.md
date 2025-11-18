@@ -139,10 +139,51 @@ Operator deployment with the `helm upgrade` command.
 
 ## Upgrade via Operator Lifecycle Manager (OLM)
 
-If you have [installed the Operator on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can upgrade the Operator within it.
+You can upgrade the Operator for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager.
 
-1. List installed Operators for your Namespace to see if there are upgradable items.
+### Before you start
+
+You must manually update the `initContainer.image` Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.
+
+Follow these steps to upgrade the `initContainer.image`:
+
+1. Retrieve the current Operator installation image used for `initContainer` by running:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl get deploy percona-postgresql-operator -o yaml
+    ```
+
+    Find the `image` value in the relevant section of the output, for example:
+
+    ```yaml
+    ...
+    initContainers:
+      - name: percona-postgresql-init
+        image: registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2
+    ...
+    ```
+
+2. Update your PostgreSQL cluster's Custom Resource with the image you found above, replacing `cluster1` with your cluster name:
+
+    ``` {.bash data-prompt="$" }
+    $ kubectl patch deployment percona-postgresql-operator -n postgres-operator --type=merge --patch '{
+        "spec": {
+          "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" }
+        }}'
+    ```
+
+    Repeat this command for each cluster managed by the Operator.
+
+### Upgrade the Operator
+
+1. Log in to the OpenShift web console and check the list of installed Operators in your namespace to see if upgrades are available.
 
     ![image](assets/images/olm4.svg)
 
-2. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
+2. Find the Operator, click the "Upgrade available" link to review details, click "Preview InstallPlan," and then click "Approve" to upgrade the Operator.
+
+3. List installed Operators for your Namespace to see if there are upgradable items.
+
+    ![image](assets/images/olm4.svg)
+
+4. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
