@@ -166,9 +166,9 @@ Follow these steps to upgrade the `initContainer.image`:
 2. Update your PostgreSQL cluster's Custom Resource with the image you found above, replacing `cluster1` with your cluster name:
 
     ``` {.bash data-prompt="$" }
-    $ kubectl patch deployment percona-postgresql-operator -n postgres-operator --type=merge --patch '{
+    $ kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
         "spec": {
-          "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" }
+          "initContainer": { "image": "<IMAGE_FROM_STEP_1>" }
         }}'
     ```
 
@@ -180,10 +180,4 @@ Follow these steps to upgrade the `initContainer.image`:
 
     ![image](assets/images/olm4.svg)
 
-2. Find the Operator, click the "Upgrade available" link to review details, click "Preview InstallPlan," and then click "Approve" to upgrade the Operator.
-
-3. List installed Operators for your Namespace to see if there are upgradable items.
-
-    ![image](assets/images/olm4.svg)
-
-4. Click the "Upgrade available" link to see upgrade details, then click "Preview InstallPlan" button, and finally "Approve" to upgrade the Operator.
+2. Click the "Upgrade available" link to review details, click "Preview InstallPlan," and then click "Approve" to upgrade the Operator.
