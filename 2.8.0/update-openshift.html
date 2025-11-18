@@ -9,37 +9,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Installation">
+        <meta name="description" content="Documentation">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.0/update-openshift.html">
       
       
-        <link rel="prev" href="Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html">
+        <link rel="prev" href="update-extensions.html">
       
       
-        <link rel="next" href="Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html">
+        <link rel="next" href="update-data-volumes.html">
       
       
         
       
       
-      <link rel="icon" href="../assets/operators-fav.svg">
+      <link rel="icon" href="assets/operators-fav.svg">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>Percona Operator for PostgreSQL 2.6.0 (2025-03-17) - Percona Operator for PostgreSQL</title>
+        <title>Upgrade on Percona Operator for PostgreSQL on OpenShift - Percona Operator for PostgreSQL</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -58,25 +58,25 @@
       
     
     
-      <link rel="stylesheet" href="../css/print-site.css">
+      <link rel="stylesheet" href="css/print-site.css">
     
-      <link rel="stylesheet" href="../css/print-site-material.css">
+      <link rel="stylesheet" href="css/print-site-material.css">
     
       <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.3/css/line.css">
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     
-      <link rel="stylesheet" href="../css/design.css">
+      <link rel="stylesheet" href="css/design.css">
     
-      <link rel="stylesheet" href="../css/nocopy.css">
+      <link rel="stylesheet" href="css/nocopy.css">
     
-      <link rel="stylesheet" href="../css/osano.css">
+      <link rel="stylesheet" href="css/osano.css">
     
-      <link rel="stylesheet" href="../css/operators.css">
+      <link rel="stylesheet" href="css/operators.css">
     
-      <link rel="stylesheet" href="../css/extra.css">
+      <link rel="stylesheet" href="css/extra.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -98,7 +98,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Percona Operator for PostgreSQL 2.6.0 (2025-03-17)" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Upgrade on Percona Operator for PostgreSQL on OpenShift" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -128,7 +128,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#percona-operator-for-postgresql-260-2025-03-17" class="md-skip">
+        <a href="#upgrade-the-operator-and-the-database-on-openshift" class="md-skip">
           Skip to content
         </a>
       
@@ -171,10 +171,10 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
 
     <!-- Link to home -->
-    <a href="../index.html" title="Percona Operator for PostgreSQL"
+    <a href="index.html" title="Percona Operator for PostgreSQL"
       class="md-header__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-mark.svg" alt="logo">
+  <img src="assets/operators-mark.svg" alt="logo">
 
     </a>
 
@@ -195,7 +195,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Percona Operator for PostgreSQL 2.6.0 (2025-03-17)
+            Upgrade on Percona Operator for PostgreSQL on OpenShift
             
           </span>
         </div>
@@ -331,9 +331,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
+    <a href="index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-mark.svg" alt="logo">
+  <img src="assets/operators-mark.svg" alt="logo">
 
     </a>
     Percona Operator for PostgreSQL
@@ -360,7 +360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
+      <a href="index.html" class="md-nav__link">
         
   
   
@@ -434,7 +434,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare.html" class="md-nav__link">
+      <a href="compare.html" class="md-nav__link">
         
   
   
@@ -462,7 +462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture.html" class="md-nav__link">
+      <a href="architecture.html" class="md-nav__link">
         
   
   
@@ -497,7 +497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../get-help.html" class="md-nav__link">
+      <a href="get-help.html" class="md-nav__link">
         
   
   
@@ -571,7 +571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quickstart.html" class="md-nav__link">
+      <a href="quickstart.html" class="md-nav__link">
         
   
   
@@ -599,7 +599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../System-Requirements.html" class="md-nav__link">
+      <a href="System-Requirements.html" class="md-nav__link">
         
   
   
@@ -674,7 +674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubectl.html" class="md-nav__link">
+      <a href="kubectl.html" class="md-nav__link">
         
   
   
@@ -702,7 +702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm.html" class="md-nav__link">
+      <a href="helm.html" class="md-nav__link">
         
   
   
@@ -738,7 +738,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../connect.html" class="md-nav__link">
+      <a href="connect.html" class="md-nav__link">
         
   
   
@@ -766,7 +766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../data-insert.html" class="md-nav__link">
+      <a href="data-insert.html" class="md-nav__link">
         
   
   
@@ -794,7 +794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-tutorial.html" class="md-nav__link">
+      <a href="backup-tutorial.html" class="md-nav__link">
         
   
   
@@ -822,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring-tutorial.html" class="md-nav__link">
+      <a href="monitoring-tutorial.html" class="md-nav__link">
         
   
   
@@ -850,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-next.html" class="md-nav__link">
+      <a href="what-next.html" class="md-nav__link">
         
   
   
@@ -932,7 +932,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../minikube.html" class="md-nav__link">
+      <a href="minikube.html" class="md-nav__link">
         
   
   
@@ -960,7 +960,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../everest.html" class="md-nav__link">
+      <a href="everest.html" class="md-nav__link">
         
   
   
@@ -988,7 +988,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gke.html" class="md-nav__link">
+      <a href="gke.html" class="md-nav__link">
         
   
   
@@ -1016,7 +1016,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eks.html" class="md-nav__link">
+      <a href="eks.html" class="md-nav__link">
         
   
   
@@ -1044,7 +1044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../aks.html" class="md-nav__link">
+      <a href="aks.html" class="md-nav__link">
         
   
   
@@ -1072,7 +1072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../openshift.html" class="md-nav__link">
+      <a href="openshift.html" class="md-nav__link">
         
   
   
@@ -1100,7 +1100,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubernetes.html" class="md-nav__link">
+      <a href="kubernetes.html" class="md-nav__link">
         
   
   
@@ -1182,7 +1182,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../users.html" class="md-nav__link">
+      <a href="users.html" class="md-nav__link">
         
   
   
@@ -1210,7 +1210,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../expose.html" class="md-nav__link">
+      <a href="expose.html" class="md-nav__link">
         
   
   
@@ -1238,7 +1238,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../options.html" class="md-nav__link">
+      <a href="options.html" class="md-nav__link">
         
   
   
@@ -1266,7 +1266,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../constraints.html" class="md-nav__link">
+      <a href="constraints.html" class="md-nav__link">
         
   
   
@@ -1294,7 +1294,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../annotations.html" class="md-nav__link">
+      <a href="annotations.html" class="md-nav__link">
         
   
   
@@ -1322,7 +1322,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TLS.html" class="md-nav__link">
+      <a href="TLS.html" class="md-nav__link">
         
   
   
@@ -1350,7 +1350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../telemetry.html" class="md-nav__link">
+      <a href="telemetry.html" class="md-nav__link">
         
   
   
@@ -1378,7 +1378,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reconciliation-concurrency.html" class="md-nav__link">
+      <a href="reconciliation-concurrency.html" class="md-nav__link">
         
   
   
@@ -1507,7 +1507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups.html" class="md-nav__link">
+      <a href="backups.html" class="md-nav__link">
         
   
   
@@ -1535,7 +1535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage.html" class="md-nav__link">
+      <a href="backups-storage.html" class="md-nav__link">
         
   
   
@@ -1563,7 +1563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-schedule.html" class="md-nav__link">
+      <a href="backups-schedule.html" class="md-nav__link">
         
   
   
@@ -1591,7 +1591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-ondemand.html" class="md-nav__link">
+      <a href="backups-ondemand.html" class="md-nav__link">
         
   
   
@@ -1619,7 +1619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore.html" class="md-nav__link">
+      <a href="backups-restore.html" class="md-nav__link">
         
   
   
@@ -1647,7 +1647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-encryption.html" class="md-nav__link">
+      <a href="backup-encryption.html" class="md-nav__link">
         
   
   
@@ -1675,7 +1675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../async-archiving.html" class="md-nav__link">
+      <a href="async-archiving.html" class="md-nav__link">
         
   
   
@@ -1703,7 +1703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-retention.html" class="md-nav__link">
+      <a href="backup-retention.html" class="md-nav__link">
         
   
   
@@ -1731,7 +1731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-delete.html" class="md-nav__link">
+      <a href="backups-delete.html" class="md-nav__link">
         
   
   
@@ -1759,7 +1759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-disable.html" class="md-nav__link">
+      <a href="backups-disable.html" class="md-nav__link">
         
   
   
@@ -1842,7 +1842,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby.html" class="md-nav__link">
+      <a href="standby.html" class="md-nav__link">
         
   
   
@@ -1870,7 +1870,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-backup.html" class="md-nav__link">
+      <a href="standby-backup.html" class="md-nav__link">
         
   
   
@@ -1898,7 +1898,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-streaming.html" class="md-nav__link">
+      <a href="standby-streaming.html" class="md-nav__link">
         
   
   
@@ -1926,7 +1926,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-failover.html" class="md-nav__link">
+      <a href="standby-failover.html" class="md-nav__link">
         
   
   
@@ -1962,7 +1962,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling.html" class="md-nav__link">
+      <a href="scaling.html" class="md-nav__link">
         
   
   
@@ -1990,7 +1990,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ha-deploy.html" class="md-nav__link">
+      <a href="ha-deploy.html" class="md-nav__link">
         
   
   
@@ -2018,7 +2018,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../huge-pages.html" class="md-nav__link">
+      <a href="huge-pages.html" class="md-nav__link">
         
   
   
@@ -2046,7 +2046,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidecar.html" class="md-nav__link">
+      <a href="sidecar.html" class="md-nav__link">
         
   
   
@@ -2074,7 +2074,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pause.html" class="md-nav__link">
+      <a href="pause.html" class="md-nav__link">
         
   
   
@@ -2102,7 +2102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring.html" class="md-nav__link">
+      <a href="monitoring.html" class="md-nav__link">
         
   
   
@@ -2134,18 +2134,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
@@ -2166,7 +2168,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2184,7 +2186,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update.html" class="md-nav__link">
+      <a href="update.html" class="md-nav__link">
         
   
   
@@ -2212,7 +2214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-operator.html" class="md-nav__link">
+      <a href="update-operator.html" class="md-nav__link">
         
   
   
@@ -2240,7 +2242,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-database.html" class="md-nav__link">
+      <a href="update-database.html" class="md-nav__link">
         
   
   
@@ -2268,7 +2270,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-extensions.html" class="md-nav__link">
+      <a href="update-extensions.html" class="md-nav__link">
         
   
   
@@ -2293,10 +2295,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../update-openshift.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade on Percona Operator for PostgreSQL on OpenShift
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="update-openshift.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2312,6 +2341,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-the-operator-via-operator-lifecycle-manager-olm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade the Operator via Operator Lifecycle Manager (OLM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrade the Operator via Operator Lifecycle Manager (OLM)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#upgrade-the-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade the Operator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-percona-distribution-for-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade Percona Distribution for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2371,7 +2492,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-data-volumes.html" class="md-nav__link">
+      <a href="update-data-volumes.html" class="md-nav__link">
         
   
   
@@ -2399,7 +2520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-backup-restore.html" class="md-nav__link">
+      <a href="update-backup-restore.html" class="md-nav__link">
         
   
   
@@ -2427,7 +2548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-standby.html" class="md-nav__link">
+      <a href="update-standby.html" class="md-nav__link">
         
   
   
@@ -2517,7 +2638,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-install.html" class="md-nav__link">
+      <a href="custom-install.html" class="md-nav__link">
         
   
   
@@ -2545,7 +2666,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../initsql.html" class="md-nav__link">
+      <a href="initsql.html" class="md-nav__link">
         
   
   
@@ -2573,7 +2694,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../change-primary.html" class="md-nav__link">
+      <a href="change-primary.html" class="md-nav__link">
         
   
   
@@ -2601,7 +2722,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-registry.html" class="md-nav__link">
+      <a href="custom-registry.html" class="md-nav__link">
         
   
   
@@ -2629,7 +2750,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-extensions.html" class="md-nav__link">
+      <a href="custom-extensions.html" class="md-nav__link">
         
   
   
@@ -2657,7 +2778,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cluster-wide.html" class="md-nav__link">
+      <a href="cluster-wide.html" class="md-nav__link">
         
   
   
@@ -2685,7 +2806,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tablespaces.html" class="md-nav__link">
+      <a href="tablespaces.html" class="md-nav__link">
         
   
   
@@ -2713,7 +2834,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitor-kubernetes.html" class="md-nav__link">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
         
   
   
@@ -2741,7 +2862,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../postgis.html" class="md-nav__link">
+      <a href="postgis.html" class="md-nav__link">
         
   
   
@@ -2769,7 +2890,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../delete.html" class="md-nav__link">
+      <a href="delete.html" class="md-nav__link">
         
   
   
@@ -2797,7 +2918,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../image-query.html" class="md-nav__link">
+      <a href="image-query.html" class="md-nav__link">
         
   
   
@@ -2879,7 +3000,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshoot-operator.html" class="md-nav__link">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
         
   
   
@@ -2907,7 +3028,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
@@ -2935,7 +3056,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-storage.html" class="md-nav__link">
+      <a href="debug-storage.html" class="md-nav__link">
         
   
   
@@ -2963,7 +3084,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-shell.html" class="md-nav__link">
+      <a href="debug-shell.html" class="md-nav__link">
         
   
   
@@ -2991,7 +3112,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-logs.html" class="md-nav__link">
+      <a href="debug-logs.html" class="md-nav__link">
         
   
   
@@ -3019,7 +3140,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../manage-manually.html" class="md-nav__link">
+      <a href="manage-manually.html" class="md-nav__link">
         
   
   
@@ -3047,7 +3168,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reinit.html" class="md-nav__link">
+      <a href="reinit.html" class="md-nav__link">
         
   
   
@@ -3129,7 +3250,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator.html" class="md-nav__link">
+      <a href="operator.html" class="md-nav__link">
         
   
   
@@ -3157,7 +3278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-resource-options.html" class="md-nav__link">
+      <a href="backup-resource-options.html" class="md-nav__link">
         
   
   
@@ -3185,7 +3306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../restore-options.html" class="md-nav__link">
+      <a href="restore-options.html" class="md-nav__link">
         
   
   
@@ -3213,7 +3334,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secret-options.html" class="md-nav__link">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -3241,7 +3362,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../images.html" class="md-nav__link">
+      <a href="images.html" class="md-nav__link">
         
   
   
@@ -3269,7 +3390,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../versions.html" class="md-nav__link">
+      <a href="versions.html" class="md-nav__link">
         
   
   
@@ -3297,7 +3418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../copyright.html" class="md-nav__link">
+      <a href="copyright.html" class="md-nav__link">
         
   
   
@@ -3325,7 +3446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../trademark-policy.html" class="md-nav__link">
+      <a href="trademark-policy.html" class="md-nav__link">
         
   
   
@@ -3357,20 +3478,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
           <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
@@ -3391,7 +3510,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3409,7 +3528,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href="ReleaseNotes/index.html" class="md-nav__link">
         
   
   
@@ -3437,7 +3556,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
         
   
   
@@ -3465,7 +3584,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
         
   
   
@@ -3490,37 +3609,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Percona Operator for PostgreSQL 2.6.0 (2025-03-17)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link">
         
   
   
@@ -3536,142 +3628,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#release-highlights" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Release Highlights
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Release Highlights">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#backup-improvements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup improvements
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#postgresql-17-support" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PostgreSQL 17 support
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pgvector-is-added-to-the-postgresql-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        pgvector is added to the PostgreSQL image
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#new-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        New features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#improvements" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Improvements
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bugs Fixed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deprecation-change-rename-and-removal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deprecation, Change, Rename and Removal
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#known-limitations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Known limitations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported platforms
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -3684,7 +3640,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
         
   
   
@@ -3712,7 +3668,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
         
   
   
@@ -3740,7 +3696,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link">
         
   
   
@@ -3768,7 +3724,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
         
   
   
@@ -3796,7 +3752,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
         
   
   
@@ -3824,7 +3780,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
         
   
   
@@ -3852,7 +3808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
         
   
   
@@ -3880,7 +3836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
         
   
   
@@ -3908,7 +3864,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
         
   
   
@@ -3982,7 +3938,7 @@
                   <div class="md-sidebar__inner">
                     <div data-banner="data-banner">
     <div class="actions">
-        <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md" title="Edit this page on GitHub" class="edit-page-link">
+        <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/update-openshift.md" title="Edit this page on GitHub" class="edit-page-link">
             <span class="edit-page-icon">
                 
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4020,22 +3976,22 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#release-highlights" class="md-nav__link">
+  <a href="#upgrade-the-operator-via-operator-lifecycle-manager-olm" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Release Highlights
+        Upgrade the Operator via Operator Lifecycle Manager (OLM)
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Release Highlights">
+    <nav class="md-nav" aria-label="Upgrade the Operator via Operator Lifecycle Manager (OLM)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#backup-improvements" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Backup improvements
+        Before you start
       
     </span>
   </a>
@@ -4043,21 +3999,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#postgresql-17-support" class="md-nav__link">
+  <a href="#upgrade-the-operator" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PostgreSQL 17 support
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#pgvector-is-added-to-the-postgresql-image" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        pgvector is added to the PostgreSQL image
+        Upgrade the Operator
       
     </span>
   </a>
@@ -4070,10 +4015,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#new-features" class="md-nav__link">
+  <a href="#upgrade-percona-distribution-for-postgresql" class="md-nav__link">
     <span class="md-ellipsis">
       
-        New features
+        Upgrade Percona Distribution for PostgreSQL
       
     </span>
   </a>
@@ -4081,10 +4026,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#improvements" class="md-nav__link">
+  <a href="#before-you-start_1" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Improvements
+        Before you start
       
     </span>
   </a>
@@ -4092,43 +4037,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
+  <a href="#upgrade-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bugs Fixed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#deprecation-change-rename-and-removal" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Deprecation, Change, Rename and Removal
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#known-limitations" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Known limitations
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported platforms
+        Upgrade steps
       
     </span>
   </a>
@@ -4161,126 +4073,149 @@
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/update-openshift.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="percona-operator-for-postgresql-260-2025-03-17">Percona Operator for PostgreSQL 2.6.0 (2025-03-17)<a class="headerlink" href="#percona-operator-for-postgresql-260-2025-03-17" title="Permanent link">&para;</a></h1>
-<p><a class="md-button" href="../System-Requirements.html#installation-guidelines">Installation</a> </p>
-<h2 id="release-highlights"><strong>Release Highlights</strong><a class="headerlink" href="#release-highlights" title="Permanent link">&para;</a></h2>
-<p>This release provides the following features and improvements:</p>
-<h3 id="backup-improvements"><strong>Backup improvements</strong><a class="headerlink" href="#backup-improvements" title="Permanent link">&para;</a></h3>
-<p>This release implemented several improvements to the backup/restore process:</p>
-<ul>
+<h1 id="upgrade-the-operator-and-the-database-on-openshift">Upgrade the Operator and the database on OpenShift<a class="headerlink" href="#upgrade-the-operator-and-the-database-on-openshift" title="Permanent link">&para;</a></h1>
+<h2 id="upgrade-the-operator-via-operator-lifecycle-manager-olm">Upgrade the Operator via Operator Lifecycle Manager (OLM)<a class="headerlink" href="#upgrade-the-operator-via-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
+<p>You can upgrade the Operator for PostgreSQL that was <a href="openshift.html#install-the-operator-via-the-operator-lifecycle-manager-olm">installed on the OpenShift platform using OLM</a> directly through the Operator Lifecycle Manager.</p>
+<h3 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h3>
+<p>You must manually update the <code>initContainer.image</code> Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.</p>
+<p>Follow these steps to upgrade the <code>initContainer.image</code>:</p>
+<ol>
 <li>
-<p>A new <a href="../operator.html#finalizers-delete-backups">delete-backups</a> finalizer was implemented to automatically remove all backups when deleting the cluster. This finalizer is off by default. It&rsquo;s experimental and, therefore, is not recommended for production environments.</p>
-</li>
-<li>
-<p>Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new <a href="../operator.html#backupspgbackrestjobsbackofflimit">backups.pgbackrest.jobs.backoffLimit</a> and <a href="../operator.html#backupspgbackrestjobsrestartpolicy">backups.pgbackrest.jobs.restartPolicy</a> Custom Resource options.</p>
-</li>
-<li>
-<p>You can now <a href="../backups-restore.html#providing-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
-</li>
-</ul>
-<h3 id="postgresql-17-support">PostgreSQL 17 support<a class="headerlink" href="#postgresql-17-support" title="Permanent link">&para;</a></h3>
-<p>PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. The appropriate images are now included in the <a href="../images.html">list of Percona-certified images</a>. See these blogposts for details about the latest PostgreSQL 17 features with the added security and functionality improvements:</p>
-<ul>
-<li><a href="https://www.percona.com/blog/encrypt-postgresql-data-at-rest-on-kubernetes/">Encrypt PostgreSQL Data at Rest on Kubernetes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> by Ege Gunes</li>
-<li><a href="https://www.percona.com/blog/the-powerful-features-released-in-postgresql-17-beta-2/">The Powerful Features Released in PostgreSQL 17 Beta 2 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> by Shivam Dhapatkar</li>
-<li><a href="https://www.percona.com/blog/postgresql-17-two-small-improvements-that-will-have-a-major-impact/">PostgreSQL 17: Two Small Improvements That Will Have a Major Impact <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> by David Stokes.</li>
-</ul>
-<p>PostgreSQL 17 is currently not recommended for production environments due to the <a href="#known-limitations">known limitation</a>.</p>
-<p><em>Update from April 1, 2025</em>: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the <a href="../update.html#minor-version-upgrade">upgrade instructions</a> for steps</p>
-<h3 id="pgvector-is-added-to-the-postgresql-image"><code>pgvector</code> is added to the PostgreSQL image<a class="headerlink" href="#pgvector-is-added-to-the-postgresql-image" title="Permanent link">&para;</a></h3>
-<p>To support you with your AI journey, we&rsquo;ve added the <code>pgvector</code> extension to the PostgreSQL images shipped with our Operator. Now, you can easily use Percona Distribution for PostgreSQL as a vector database by simply enabling it in your <a href="../operator.html#extensionsbuiltinpgvector">Custom Resource options</a>. No more <a href="https://www.percona.com/blog/create-an-ai-expert-with-open-source-tools-and-pgvector/">custom extension installations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> needed.</p>
-<h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="../backups-restore.html#providing-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-619">K8SPG-619</a>: New <code>backups.pgbackrest.jobs.backoffLimit</code> and <code>backups.pgbackrest.jobs.restartPolicy</code> Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-648">K8SPG-648</a>: PostgreSQL 17 is now supported by the Operator</li>
-</ul>
-<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-487">K8SPG-487</a>: New <code>spec.metadata.labels</code> and <code>spec.metadata.annotations</code> Custom Resource options allow setting labels and annotation globally for all Kubernetes objects created by the Operator</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-554">K8SPG-554</a>: New <code>tlsOnly</code> Custom Resource option allows the user to enforce TLS connections for the database cluster</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-586">K8SPG-586</a>: The new experimental <code>finalizers.delete-backups</code> finalizer (off by default) removes all backups of the cluster at cluster deletion event</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-634">K8SPG-634</a>: The new <code>autoCreateUserSchema</code> Custom Resource option enhances the declarative user management by automatically creating per-user schemas </li>
-<li><a href="https://jira.percona.com/browse/K8SPG-652">K8SPG-652</a>: Improve security and meet compliance requirements by using PostgreSQL images built based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-692">K8SPG-692</a>: Patroni versions 4.x are now supported by the Operator in addition to versions 3.x</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-699">K8SPG-699</a>: The <code>pgvector</code> extension is now included within the PostgreSQL image used by the Operator</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-701">K8SPG-701</a>: The <code>extensions.image</code> Custom Resource option is now optional, and can be omitted for builtin PostgreSQL extensions</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-702">K8SPG-702</a>: A retry logic was implemented to fix intermittent Pod exec failures caused by timeouts (Thanks to dcaputo-harmoni for contribution)</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-711">K8SPG-711</a>: The new <a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/README.md">README.md  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> explains how to build your own images for the PostgreSQL cluster components used by the Operator</li>
-</ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-594">K8SPG-594</a>: Fix a bug where extension was still appearing in pg_extension table after being removed from Custom Resource and physically deleted by the Operator</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-637">K8SPG-637</a>: Fix a bug where restore was failing with &ldquo;waiting for another restore to finish&rdquo; if the pg-restore object of a previous unfinished restore was manually deleted</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-638">K8SPG-638</a>: Fix a bug that caused flooding the logs with no completed backups found error at cluster initialization.</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-645">K8SPG-645</a>: Fix a bug where creating sidecar containers for pgBouncer did not work</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-681">K8SPG-681</a>: Fixed a bug where the &ldquo;Last Recoverable Time&rdquo; information field was missing from the output of the <code>kubectl get pg-backup</code> command due to misdetection cases</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-713">K8SPG-713</a>: Fix a bug where The cluster not found errors were appearing in the Operator logs on cluster deletion</li>
-</ul>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">&para;</a></h2>
-<ul>
-<li>
-<p>The new versions of Percona distribution for PostgreSQL used by the Operator come with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions.  </p>
-<p>To maintain backward compatibility, the Operator detects the Patroni version used in the image. It is also possible to disable this auto-detection feature by manually setting the Patroni version via the [following annotation set in the metadata part](../annotations.md#customizing-patroni-version-for-the-operator-version-260&mdash;270 of the Custom Resource:   </p>
-<div class="highlight"><pre><span></span><code>pgv2.percona.com/custom-patroni-version: &quot;4&quot;
+<p>Export the namespace as environment variable</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
 </code></pre></div>
 </li>
 <li>
-<p>PostgreSQL 12 is no longer supported by the Operator 2.6.0 and newer versions.</p>
-</li>
-</ul>
-<h2 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">&para;</a></h2>
-<ul>
-<li>
-<p>PostgreSQL 17.2 image and images for other database cluster components based on PostgreSQL 17 contain the known <a href="https://www.postgresql.org/support/security/CVE-2025-1094/">CVE-2025-1094 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> - a vulnerability in the libpq PostgreSQL client library, which makes images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. Images for PostgreSQL 17 will be available soon, while images for other PosgreSQL versions have already been fixed.</p>
-</li>
-<li>
-<p>PostgreSQL 17.4 image includes the fix for <a href="https://www.postgresql.org/support/security/CVE-2025-1094/">CVE-2025-1094 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, which closed a vulnerability in the <code>libpq</code> PostgreSQL client library but introduced a regression related to string handling for non-null terminated strings. The error would be visible based on how a PostgreSQL client implemented this behavior. </p>
-</li>
-</ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
-<p>The Operator 2.8.0 is developed, tested and based on:</p>
-<ul>
-<li>PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. </li>
-<li>
-<p>pgBouncer for connection pooling:</p>
-<ul>
-<li>version 1.23.1 - for PostgreSQL 17.2  </li>
-<li>version 1.24.0 - for PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.4</li>
-</ul>
+<p>Retrieve the current Operator installation image used for <code>initContainer</code> by running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.template.spec.containers[*].image}&#39;</span>
+</code></pre></div>
+<p>Find the <code>image</code> value in the relevant section of the output, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0</span>
+</code></pre></div>
 </li>
 <li>
-<p>Patroni for high-availability:</p>
-<ul>
-<li>version 4.0.5 - for PostgreSQL 17.4</li>
-<li>version 4.0.3 - for PostgreSQL 17.2  </li>
-<li>version 4.0.4 - for PostgreSQL 13.20, 14.17, 15.12, 16.8 </li>
-</ul>
+<p>Update your PostgreSQL cluster&rsquo;s Custom Resource with the image you found above, replacing <code>cluster1</code> with your cluster name:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;spec&quot;: {</span>
+<span class="s1">      &quot;initContainer&quot;: { &quot;image&quot;: &quot;&lt;IMAGE_FROM_STEP_2&gt;&quot; }</span>
+<span class="s1">    }}&#39;</span>
+</code></pre></div>
+<p>Repeat this command for each cluster managed by the Operator.</p>
 </li>
-</ul>
-<p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Kubernetes distributions. </p>
-<p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.8.0:</p>
-<ul>
-<li><a href="https://cloud.google.com/kubernetes-engine">Google Kubernetes Engine (GKE) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.29 - 1.31</li>
-<li><a href="https://aws.amazon.com">Amazon Elastic Container Service for Kubernetes (EKS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.29 - 1.32</li>
-<li><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">OpenShift <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 4.14 - 4.18</li>
-<li><a href="https://azure.microsoft.com/en-us/services/kubernetes-service/">Azure Kubernetes Service (AKS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.29 - 1.31</li>
-<li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.35.0 with Kubernetes 1.32.0</li>
-</ul>
-<p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
+</ol>
+<h3 id="upgrade-the-operator">Upgrade the Operator<a class="headerlink" href="#upgrade-the-operator" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Log in to the OpenShift web console and check the list of installed Operators in your namespace to see if upgrades are available.</p>
+<p><img alt="image" src="assets/images/olm4.svg" /></p>
+</li>
+<li>
+<p>Click the &ldquo;Upgrade available&rdquo; link to review details, click &ldquo;Preview InstallPlan,&rdquo; and then click &ldquo;Approve&rdquo; to upgrade the Operator.</p>
+</li>
+</ol>
+<h2 id="upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h2>
+<h2 id="before-you-start_1">Before you start<a class="headerlink" href="#before-you-start_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</p>
+</li>
+<li>
+<p>If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</p>
+</li>
+</ol>
+<h2 id="upgrade-steps">Upgrade steps<a class="headerlink" href="#upgrade-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Find the <strong>new</strong> initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the <code>kubectl get deploy</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o yaml
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;initContainer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="err">...</span>
+<span class="w">  </span><span class="nt">&quot;proxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pgBouncer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="err">...</span>
+<span class="w">  </span><span class="nt">&quot;backups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pgbackrest&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="err">....</span>
+<span class="w">  </span><span class="nt">&quot;pmm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/">Apply a patch <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to update your cluster&rsquo;s Custom Resource. Set the <code>crVersion</code> field to match the Operator version and update the images as needed. </p>
+</li>
+</ol>
+<p>Depending if you already updated the PMM client, include its image in the list of images to update in your patch command. Otherwise,  exclude the PMM client image from the patch.</p>
+<p>If your cluster is named <code>cluster1</code>, use the following command as an example:</p>
+<p>=== &ldquo;With PMM Client&rdquo;</p>
+<div class="highlight"><pre><span></span><code>   ```bash
+   kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch &#39;{
+   &quot;spec&quot;: {
+   &quot;crVersion&quot;:&quot;2.8.0&quot;,
+   &quot;initContainer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot; },
+   &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;,
+   &quot;proxy&quot;: { &quot;pgBouncer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot; } },
+   &quot;backups&quot;: { &quot;pgbackrest&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot; } },
+   &quot;pmm&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805&quot; }
+   }}&#39;
+   ```
+
+=== &quot;Without PMM Client&quot;
+
+   ```bash
+   kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch &#39;{
+   &quot;spec&quot;: {
+   &quot;crVersion&quot;:&quot;2.8.0&quot;,
+   &quot;initContainer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot; },
+   &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;,
+   &quot;proxy&quot;: { &quot;pgBouncer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot; } },
+   &quot;backups&quot;: { &quot;pgbackrest&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot; } }
+   }}&#39;
+   ```
+</code></pre></div>
+<ol>
+<li>
+<p>The deployment rollout will be automatically triggered by the applied patch.
+    You can track the rollout process in real time with the
+    <code>kubectl rollout status</code> command with the name of your cluster:</p>
+<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployments<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>deployment &quot;percona-postgresql-operator&quot; successfully rolled out
+</code></pre></div>
+</details>
+</li>
+</ol>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>
@@ -4388,17 +4323,17 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
       
-        <script src="../js/print-site.js"></script>
+        <script src="js/print-site.js"></script>
       
-        <script src="../js/promptremover.js"></script>
+        <script src="js/promptremover.js"></script>
       
-        <script src="../js/consent.js"></script>
+        <script src="js/consent.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>

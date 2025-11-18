@@ -2303,6 +2303,34 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="update-openshift.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade on Percona Operator for PostgreSQL on OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -2312,10 +2340,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_6" >
         
           
-          <label class="md-nav__link" for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8_6" id="__nav_8_6_label" tabindex="0">
             
   
   
@@ -2333,8 +2361,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4553,7 +4581,18 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-8-5" class="md-nav__link">
+  <a href="#update-openshift" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade on Percona Operator for PostgreSQL on OpenShift
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-8-6" class="md-nav__link">
     <span class="md-ellipsis">
       
         Upgrade from version 1 to version 2
@@ -10678,7 +10717,9 @@ to newer 2.x versions.</p>
 </tr>
 </tbody>
 </table></section><section class="print-page" id="update-operator" heading-number="8.2"><h1 id="update-operator-upgrading-the-operator-and-crd">Upgrading the Operator and CRD<a class="headerlink" href="#update-operator-upgrading-the-operator-and-crd" title="Permanent link">&para;</a></h1>
-<h2 id="update-operator-considerations-for-kubernetes-cluster-versions-and-upgrades">Considerations for Kubernetes Cluster versions and upgrades<a class="headerlink" href="#update-operator-considerations-for-kubernetes-cluster-versions-and-upgrades" title="Permanent link">&para;</a></h2>
+<p>Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.</p>
+<h2 id="update-operator-considerations">Considerations<a class="headerlink" href="#update-operator-considerations" title="Permanent link">&para;</a></h2>
+<h3 id="update-operator-considerations-for-kubernetes-cluster-versions-and-upgrades">Considerations for Kubernetes Cluster versions and upgrades<a class="headerlink" href="#update-operator-considerations-for-kubernetes-cluster-versions-and-upgrades" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Before upgrading the Kubernetes cluster, have a disaster recovery plan in place. Ensure that a backup is taken prior to the upgrade.</p>
@@ -10698,7 +10739,7 @@ to newer 2.x versions.</p>
 <p>Regardless of the upgrade approach, pods will be rescheduled or recycled. Plan your Kubernetes cluster upgrade accordingly to minimize downtime and service disruption.</p>
 </li>
 </ol>
-<h2 id="update-operator-considerations-for-the-operator-upgrades">Considerations for the Operator upgrades<a class="headerlink" href="#update-operator-considerations-for-the-operator-upgrades" title="Permanent link">&para;</a></h2>
+<h3 id="update-operator-considerations-for-the-operator-upgrades">Considerations for the Operator upgrades<a class="headerlink" href="#update-operator-considerations-for-the-operator-upgrades" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>The Operator version has three digits separated by a dot (<code>.</code>) in the format <code>major.minor.patch</code>. Here&rsquo;s how you can understand the version <code>2.6.0</code>:</p>
@@ -10728,7 +10769,12 @@ its own namespace. In this case upgrading Operator deployments will look as foll
 </ul>
 </li>
 </ol>
-<h2 id="update-operator-manual-upgrade">Manual upgrade<a class="headerlink" href="#update-operator-manual-upgrade" title="Permanent link">&para;</a></h2>
+<h2 id="update-operator-upgrade-guides">Upgrade guides<a class="headerlink" href="#update-operator-upgrade-guides" title="Permanent link">&para;</a></h2>
+<p>Choose the upgrade instructions below based on how you originally deployed the Operator:</p>
+<p><a class="md-button" href="#update-operator-manual-upgrade">Manual upgrade</a>
+<a class="md-button" href="#update-operator-upgrade-via-helm">Upgrade via Helm</a>
+<a href="#update-openshift">Upgrade on OpenShift</a>(.md-button)</p>
+<h3 id="update-operator-manual-upgrade">Manual upgrade<a class="headerlink" href="#update-operator-manual-upgrade" title="Permanent link">&para;</a></h3>
 <p>You can upgrade the Operator and CRD as follows, considering the Operator uses
 <code>postgres-operator</code> namespace, and you are upgrading it to the version 2.8.0.</p>
 <ol>
@@ -10811,17 +10857,8 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <p>During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.</p>
 </li>
 </ol>
-<h2 id="update-operator-upgrade-via-operator-lifecycle-manager-olm">Upgrade via Operator Lifecycle Manager (OLM)<a class="headerlink" href="#update-operator-upgrade-via-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
-<p>If you have <a href="#openshift-install-the-operator-via-the-operator-lifecycle-manager-olm">installed the Operator on the OpenShift platform using OLM</a>, you can upgrade the Operator within it.</p>
-<ol>
-<li>
-<p>List installed Operators for your Namespace to see if there are upgradable items.</p>
-<p><img alt="image" src="assets/images/olm4.svg" /></p>
-</li>
-<li>
-<p>Click the &ldquo;Upgrade available&rdquo; link to see upgrade details, then click &ldquo;Preview InstallPlan&rdquo; button, and finally &ldquo;Approve&rdquo; to upgrade the Operator.</p>
-</li>
-</ol></section><section class="print-page" id="update-database" heading-number="8.3"><h1 id="update-database-upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#update-database-upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
+<h2 id="update-operator-next-steps">Next steps<a class="headerlink" href="#update-operator-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#update-database">Upgrade the database</a></p></section><section class="print-page" id="update-database" heading-number="8.3"><h1 id="update-database-upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#update-database-upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
 <h2 id="update-database-considerations">Considerations<a class="headerlink" href="#update-database-considerations" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -11088,11 +11125,140 @@ cluster1-instance1-fm7w-0             4/4     Running   0          2m22s   clust
 </ol>
 <h2 id="update-extensions-upgrade-custom-postgresql-extensions">Upgrade custom PostgreSQL extensions<a class="headerlink" href="#update-extensions-upgrade-custom-postgresql-extensions" title="Permanent link">&para;</a></h2>
 <p>If you have installed <a href="#custom-extensions-adding-custom-extensions">custom PostgreSQL extensions</a>, you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container. </p>
-<p>Refer to the <a href="#custom-extensions-update-custom-extensions">Update custom extensions</a> section for step-by-step instructions.</p></section>
-                    <section class='print-page md-section' id='section-8-5' heading-number='8.5'>
-                        <h1>Upgrade from version 1 to version 2<a class='headerlink' href='#section-8-5' title='Permanent link'></a>
+<p>Refer to the <a href="#custom-extensions-update-custom-extensions">Update custom extensions</a> section for step-by-step instructions.</p></section><section class="print-page" id="update-openshift" heading-number="8.5"><h1 id="update-openshift-upgrade-the-operator-and-the-database-on-openshift">Upgrade the Operator and the database on OpenShift<a class="headerlink" href="#update-openshift-upgrade-the-operator-and-the-database-on-openshift" title="Permanent link">&para;</a></h1>
+<h2 id="update-openshift-upgrade-the-operator-via-operator-lifecycle-manager-olm">Upgrade the Operator via Operator Lifecycle Manager (OLM)<a class="headerlink" href="#update-openshift-upgrade-the-operator-via-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
+<p>You can upgrade the Operator for PostgreSQL that was <a href="#openshift-install-the-operator-via-the-operator-lifecycle-manager-olm">installed on the OpenShift platform using OLM</a> directly through the Operator Lifecycle Manager.</p>
+<h3 id="update-openshift-before-you-start">Before you start<a class="headerlink" href="#update-openshift-before-you-start" title="Permanent link">&para;</a></h3>
+<p>You must manually update the <code>initContainer.image</code> Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.</p>
+<p>Follow these steps to upgrade the <code>initContainer.image</code>:</p>
+<ol>
+<li>
+<p>Export the namespace as environment variable</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
+</code></pre></div>
+</li>
+<li>
+<p>Retrieve the current Operator installation image used for <code>initContainer</code> by running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.template.spec.containers[*].image}&#39;</span>
+</code></pre></div>
+<p>Find the <code>image</code> value in the relevant section of the output, for example:</p>
+<div class="highlight"><pre><span></span><code><span class="l l-Scalar l-Scalar-Plain">registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0</span>
+</code></pre></div>
+</li>
+<li>
+<p>Update your PostgreSQL cluster&rsquo;s Custom Resource with the image you found above, replacing <code>cluster1</code> with your cluster name:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">    &quot;spec&quot;: {</span>
+<span class="s1">      &quot;initContainer&quot;: { &quot;image&quot;: &quot;&lt;IMAGE_FROM_STEP_2&gt;&quot; }</span>
+<span class="s1">    }}&#39;</span>
+</code></pre></div>
+<p>Repeat this command for each cluster managed by the Operator.</p>
+</li>
+</ol>
+<h3 id="update-openshift-upgrade-the-operator">Upgrade the Operator<a class="headerlink" href="#update-openshift-upgrade-the-operator" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Log in to the OpenShift web console and check the list of installed Operators in your namespace to see if upgrades are available.</p>
+<p><img alt="image" src="assets/images/olm4.svg" /></p>
+</li>
+<li>
+<p>Click the &ldquo;Upgrade available&rdquo; link to review details, click &ldquo;Preview InstallPlan,&rdquo; and then click &ldquo;Approve&rdquo; to upgrade the Operator.</p>
+</li>
+</ol>
+<h2 id="update-openshift-upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#update-openshift-upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h2>
+<h2 id="update-openshift-before-you-start_1">Before you start<a class="headerlink" href="#update-openshift-before-you-start_1" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</p>
+</li>
+<li>
+<p>If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</p>
+</li>
+</ol>
+<h2 id="update-openshift-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-openshift-upgrade-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Find the <strong>new</strong> initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the <code>kubectl get deploy</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o yaml
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="p">{</span>
+<span class="w">  </span><span class="nt">&quot;initContainer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot;</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;</span><span class="p">,</span>
+<span class="w">  </span><span class="err">...</span>
+<span class="w">  </span><span class="nt">&quot;proxy&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pgBouncer&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="err">...</span>
+<span class="w">  </span><span class="nt">&quot;backups&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;pgbackrest&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">      </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot;</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="w">  </span><span class="p">},</span>
+<span class="w">  </span><span class="err">....</span>
+<span class="w">  </span><span class="nt">&quot;pmm&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="nt">&quot;enabled&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span>
+<span class="w">    </span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805&quot;</span>
+<span class="w">  </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p><a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/">Apply a patch <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to update your cluster&rsquo;s Custom Resource. Set the <code>crVersion</code> field to match the Operator version and update the images as needed. </p>
+</li>
+</ol>
+<p>Depending if you already updated the PMM client, include its image in the list of images to update in your patch command. Otherwise,  exclude the PMM client image from the patch.</p>
+<p>If your cluster is named <code>cluster1</code>, use the following command as an example:</p>
+<p>=== &ldquo;With PMM Client&rdquo;</p>
+<div class="highlight"><pre><span></span><code>   ```bash
+   kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch &#39;{
+   &quot;spec&quot;: {
+   &quot;crVersion&quot;:&quot;2.8.0&quot;,
+   &quot;initContainer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot; },
+   &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;,
+   &quot;proxy&quot;: { &quot;pgBouncer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot; } },
+   &quot;backups&quot;: { &quot;pgbackrest&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot; } },
+   &quot;pmm&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805&quot; }
+   }}&#39;
+   ```
+
+=== &quot;Without PMM Client&quot;
+
+   ```bash
+   kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch &#39;{
+   &quot;spec&quot;: {
+   &quot;crVersion&quot;:&quot;2.8.0&quot;,
+   &quot;initContainer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2&quot; },
+   &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a&quot;,
+   &quot;proxy&quot;: { &quot;pgBouncer&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda&quot; } },
+   &quot;backups&quot;: { &quot;pgbackrest&quot;: { &quot;image&quot;: &quot;registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0&quot; } }
+   }}&#39;
+   ```
+</code></pre></div>
+<ol>
+<li>
+<p>The deployment rollout will be automatically triggered by the applied patch.
+    You can track the rollout process in real time with the
+    <code>kubectl rollout status</code> command with the name of your cluster:</p>
+<div class="highlight" data-prompt="$"><pre><span></span><code>kubectl<span class="w"> </span>rollout<span class="w"> </span>status<span class="w"> </span>deployments<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>deployment &quot;percona-postgresql-operator&quot; successfully rolled out
+</code></pre></div>
+</details>
+</li>
+</ol></section>
+                    <section class='print-page md-section' id='section-8-6' heading-number='8.6'>
+                        <h1>Upgrade from version 1 to version 2<a class='headerlink' href='#section-8-6' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="update-data-volumes" heading-number="8.5.1"><h1 id="update-data-volumes-upgrade-using-data-volumes">Upgrade using data volumes<a class="headerlink" href="#update-data-volumes-upgrade-using-data-volumes" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="update-data-volumes" heading-number="8.6.1"><h1 id="update-data-volumes-upgrade-using-data-volumes">Upgrade using data volumes<a class="headerlink" href="#update-data-volumes-upgrade-using-data-volumes" title="Permanent link">&para;</a></h1>
 <h2 id="update-data-volumes-prerequisites">Prerequisites:<a class="headerlink" href="#update-data-volumes-prerequisites" title="Permanent link">&para;</a></h2>
 <p>The following conditions should be met for the Volumes-based migration:</p>
 <ul>
@@ -11215,7 +11381,7 @@ cluster1-pgbr-repo   Bound    pvc-37d93aa9-bf02-4295-bbbc-c1f834ed6045   1Gi    
 </code></pre></div>
 </li>
 </ol>
-<p>The new cluster will be provisioned shortly using the volume of the version 1.x cluster. You should remove the <code>spec.datasource.volumes</code> section from your manifest.</p></section><section class="print-page" id="update-backup-restore" heading-number="8.5.2"><h1 id="update-backup-restore-upgrade-using-backup-and-restore">Upgrade using backup and restore<a class="headerlink" href="#update-backup-restore-upgrade-using-backup-and-restore" title="Permanent link">&para;</a></h1>
+<p>The new cluster will be provisioned shortly using the volume of the version 1.x cluster. You should remove the <code>spec.datasource.volumes</code> section from your manifest.</p></section><section class="print-page" id="update-backup-restore" heading-number="8.6.2"><h1 id="update-backup-restore-upgrade-using-backup-and-restore">Upgrade using backup and restore<a class="headerlink" href="#update-backup-restore-upgrade-using-backup-and-restore" title="Permanent link">&para;</a></h1>
 <p>This method allows you to migrate from the version 1.x to version 2.x cluster by restoring (actually creating) a new version 2.x PostgreSQL cluster using a backup from the version 1.x cluster.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -11284,7 +11450,7 @@ When it&rsquo;s set, local backups will be kept after the cluster deletion, so y
 <div class="highlight" data-prompt="$"><pre><span></span><code>$<span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cr.yaml
 </code></pre></div>
 </li>
-</ol></section><section class="print-page" id="update-standby" heading-number="8.5.3"><h1 id="update-standby-migrate-using-standby">Migrate using Standby<a class="headerlink" href="#update-standby-migrate-using-standby" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="update-standby" heading-number="8.6.3"><h1 id="update-standby-migrate-using-standby">Migrate using Standby<a class="headerlink" href="#update-standby-migrate-using-standby" title="Permanent link">&para;</a></h1>
 <p>This method allows you to migrate from version 1.x to version 2.x by creating a new version 2.x PostgreSQL cluster in a &ldquo;standby&rdquo; mode, mirroring the version 1.x cluster to it continuously. This method can provide minimal downtime, but requires additional computing resources to run two clusters in parallel.</p>
 <p>This method only works if the version 1.x cluster uses <a href="https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services">Amazon S3 or S3-compatible storage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, or <a href="https://cloud.google.com/storage">Google Cloud storage (GCS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for backups. For more information on standby clusters, please refer to <a href="https://www.postgresql.org/docs/current/warm-standby.html">this article <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <h2 id="update-standby-migrate-to-version-2">Migrate to version 2<a class="headerlink" href="#update-standby-migrate-to-version-2" title="Permanent link">&para;</a></h2>
@@ -20006,12 +20172,14 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #update-extensions > h1:before { content: '8.4 ' }
 
-.print-site-enumerate-headings #section-8-5 > h1:before { content: '8.5 ' }
-.print-site-enumerate-headings #update-data-volumes > h1:before { content: '8.5.1 ' }
+.print-site-enumerate-headings #update-openshift > h1:before { content: '8.5 ' }
 
-.print-site-enumerate-headings #update-backup-restore > h1:before { content: '8.5.2 ' }
+.print-site-enumerate-headings #section-8-6 > h1:before { content: '8.6 ' }
+.print-site-enumerate-headings #update-data-volumes > h1:before { content: '8.6.1 ' }
 
-.print-site-enumerate-headings #update-standby > h1:before { content: '8.5.3 ' }
+.print-site-enumerate-headings #update-backup-restore > h1:before { content: '8.6.2 ' }
+
+.print-site-enumerate-headings #update-standby > h1:before { content: '8.6.3 ' }
 
 .print-site-enumerate-headings #section-9 > h1:before { content: '9 ' }
 .print-site-enumerate-headings #custom-install > h1:before { content: '9.1 ' }

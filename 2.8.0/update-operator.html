@@ -9,7 +9,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation">
+        <meta name="description" content="Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.">
       
       
         <meta name="author" content="Percona LLC">
@@ -2274,6 +2274,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#considerations-for-kubernetes-cluster-versions-and-upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2283,8 +2295,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#considerations-for-the-operator-upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2294,8 +2306,25 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
+  <a href="#upgrade-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade guides
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrade guides">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#manual-upgrade" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2303,6 +2332,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2318,10 +2352,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrade-via-operator-lifecycle-manager-olm" class="md-nav__link">
+  <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upgrade via Operator Lifecycle Manager (OLM)
+        Next steps
       
     </span>
   </a>
@@ -2399,6 +2433,34 @@
   
   
   
+    <li class="md-nav__item">
+      <a href="update-openshift.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Upgrade on Percona Operator for PostgreSQL on OpenShift
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     
     
     
@@ -2408,10 +2470,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_6" >
         
           
-          <label class="md-nav__link" for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_8_6" id="__nav_8_6_label" tabindex="0">
             
   
   
@@ -2429,8 +2491,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_5_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_8_5">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3931,6 +3993,18 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#considerations-for-kubernetes-cluster-versions-and-upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3940,8 +4014,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#considerations-for-the-operator-upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3951,8 +4025,25 @@
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
       
         <li class="md-nav__item">
+  <a href="#upgrade-guides" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade guides
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Upgrade guides">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#manual-upgrade" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3960,6 +4051,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3975,10 +4071,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#upgrade-via-operator-lifecycle-manager-olm" class="md-nav__link">
+  <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Upgrade via Operator Lifecycle Manager (OLM)
+        Next steps
       
     </span>
   </a>
@@ -4019,7 +4115,9 @@
 
 
 <h1 id="upgrading-the-operator-and-crd">Upgrading the Operator and CRD<a class="headerlink" href="#upgrading-the-operator-and-crd" title="Permanent link">&para;</a></h1>
-<h2 id="considerations-for-kubernetes-cluster-versions-and-upgrades">Considerations for Kubernetes Cluster versions and upgrades<a class="headerlink" href="#considerations-for-kubernetes-cluster-versions-and-upgrades" title="Permanent link">&para;</a></h2>
+<p>Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.</p>
+<h2 id="considerations">Considerations<a class="headerlink" href="#considerations" title="Permanent link">&para;</a></h2>
+<h3 id="considerations-for-kubernetes-cluster-versions-and-upgrades">Considerations for Kubernetes Cluster versions and upgrades<a class="headerlink" href="#considerations-for-kubernetes-cluster-versions-and-upgrades" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Before upgrading the Kubernetes cluster, have a disaster recovery plan in place. Ensure that a backup is taken prior to the upgrade.</p>
@@ -4039,7 +4137,7 @@
 <p>Regardless of the upgrade approach, pods will be rescheduled or recycled. Plan your Kubernetes cluster upgrade accordingly to minimize downtime and service disruption.</p>
 </li>
 </ol>
-<h2 id="considerations-for-the-operator-upgrades">Considerations for the Operator upgrades<a class="headerlink" href="#considerations-for-the-operator-upgrades" title="Permanent link">&para;</a></h2>
+<h3 id="considerations-for-the-operator-upgrades">Considerations for the Operator upgrades<a class="headerlink" href="#considerations-for-the-operator-upgrades" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>The Operator version has three digits separated by a dot (<code>.</code>) in the format <code>major.minor.patch</code>. Here&rsquo;s how you can understand the version <code>2.6.0</code>:</p>
@@ -4069,7 +4167,12 @@ its own namespace. In this case upgrading Operator deployments will look as foll
 </ul>
 </li>
 </ol>
-<h2 id="manual-upgrade">Manual upgrade<a class="headerlink" href="#manual-upgrade" title="Permanent link">&para;</a></h2>
+<h2 id="upgrade-guides">Upgrade guides<a class="headerlink" href="#upgrade-guides" title="Permanent link">&para;</a></h2>
+<p>Choose the upgrade instructions below based on how you originally deployed the Operator:</p>
+<p><a class="md-button" href="#manual-upgrade">Manual upgrade</a>
+<a class="md-button" href="#upgrade-via-helm">Upgrade via Helm</a>
+<a href="update-openshift.html">Upgrade on OpenShift</a>(.md-button)</p>
+<h3 id="manual-upgrade">Manual upgrade<a class="headerlink" href="#manual-upgrade" title="Permanent link">&para;</a></h3>
 <p>You can upgrade the Operator and CRD as follows, considering the Operator uses
 <code>postgres-operator</code> namespace, and you are upgrading it to the version 2.8.0.</p>
 <ol>
@@ -4152,23 +4255,14 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <p>During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.</p>
 </li>
 </ol>
-<h2 id="upgrade-via-operator-lifecycle-manager-olm">Upgrade via Operator Lifecycle Manager (OLM)<a class="headerlink" href="#upgrade-via-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
-<p>If you have <a href="openshift.html#install-the-operator-via-the-operator-lifecycle-manager-olm">installed the Operator on the OpenShift platform using OLM</a>, you can upgrade the Operator within it.</p>
-<ol>
-<li>
-<p>List installed Operators for your Namespace to see if there are upgradable items.</p>
-<p><img alt="image" src="assets/images/olm4.svg" /></p>
-</li>
-<li>
-<p>Click the &ldquo;Upgrade available&rdquo; link to see upgrade details, then click &ldquo;Preview InstallPlan&rdquo; button, and finally &ldquo;Approve&rdquo; to upgrade the Operator.</p>
-</li>
-</ol>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="update-database.html">Upgrade the database</a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      2025-11-13
+      2025-11-18
     
   </small>
 </div>
