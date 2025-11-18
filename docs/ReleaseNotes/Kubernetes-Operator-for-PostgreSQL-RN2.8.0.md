@@ -71,7 +71,7 @@ The Operator now uses the official Percona Docker images for Percona Distributio
 
 Because of this transition, the Operator is compatible with and supports only the following specific PostgreSQL versions:
 
-* Percona Distribution for PostgreSQL 17.5.2, 17.6.2
+* Percona Distribution for PostgreSQL 17.6
 * Percona Distribution for PostgreSQL 16.10
 * Percona Distribution for PostgreSQL 15.14
 * Percona Distribution for PostgreSQL 14.19
