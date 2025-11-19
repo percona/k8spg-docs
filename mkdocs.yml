@@ -5,4 +5,4 @@ INHERIT: mkdocs-base.yml
 extra:
   analytics:
     provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
+    property: G-J4J70BNH0G
