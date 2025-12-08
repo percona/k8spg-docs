@@ -22,9 +22,9 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 * Also, we will use some files from the Operator repository for setting up
     backups. So, clone the percona-postgresql-operator repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
     !!! note
@@ -38,8 +38,8 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
     === ":simple-linux: Linux"
 
-         ``` {.bash data-prompt="$" }
-         $ cat <<EOF | base64 --wrap=0
+         ```bash
+         cat <<EOF | base64 --wrap=0
          [global]
          repo2-s3-key=<YOUR_AWS_S3_KEY>
          repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -48,8 +48,8 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
     === ":simple-apple: macOS"
 
-         ``` {.bash data-prompt="$" }
-         $ cat <<EOF | base64
+         ```bash
+         cat <<EOF | base64
          [global]
          repo2-s3-key=<YOUR_AWS_S3_KEY>
          repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -70,8 +70,8 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
 3. Create the Secrets object from this yaml file. Specify your namespace instead of the `<namespace>` placeholder:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
+    ```bash
+    kubectl apply -f cluster1-pgbackrest-secrets.yaml -n <namespace>
     ```
 
 4. Update your `deploy/cr.yaml` configuration. Specify the Secret file you created in the `backups.pgbackrest.configuration` subsection, and put all other S3 related information in the `backups.pgbackrest.repos` subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.
@@ -97,8 +97,8 @@ Now your database [contains some data](data-insert.md), so it's a good time to l
 
 5. Create or update the cluster. Specify your namespace instead of the `<namespace>` placeholder:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/cr.yaml
+    ```bash
+    kubectl apply -f deploy/cr.yaml
     ``` 
 
 ## Make a backup 
@@ -122,14 +122,14 @@ For manual backups, you need a backup configuration file.
 
 2. Apply the configuration. This instructs the Operator to start a backup.
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/backup.yaml -n <namespace>
+    ```bash
+    kubectl apply -f deploy/backup.yaml -n <namespace>
     ```
 
 3. To make a backup takes a while. Track the backup progress:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg-backup -n <namespace>
+    ```bash
+    kubectl get pg-backup -n <namespace>
     ```
 
     ??? example "Expected output"

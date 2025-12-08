@@ -9,13 +9,13 @@ the example of the Operator deployed in the OpenShift environment.
 
 1. First of all login to the OpenShift and create project.
 
-    ``` {.bash data-prompt="$" }
-    $ oc login
+    ```bash
+    oc login
     Authentication required for https://192.168.1.100:8443 (openshift)
     Username: admin
     Password:
     Login successful.
-    $ oc new-project pg
+    oc new-project pg
     Now using project "pg" on server "https://192.168.1.100:8443".
     ```
 
@@ -27,23 +27,23 @@ the example of the Operator deployed in the OpenShift environment.
 
      The token can be found with the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ oc whoami -t
+    ```bash
+    oc whoami -t
     ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s
     ```
 
     And the following one tells you the registry IP address:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get services/docker-registry -n default
+    ```bash
+    kubectl get services/docker-registry -n default
     NAME              TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
     docker-registry   ClusterIP   172.30.162.173   <none>        5000/TCP   1d
     ```
 
 3. Use the user token and the registry IP address to login to the registry:
 
-    ``` {.bash data-prompt="$" }
-    $ docker login -u admin -p ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s 172.30.162.173:5000
+    ```bash
+    docker login -u admin -p ADO8CqCDappWR4hxjfDqwijEHei31yXAvWg61Jg210s 172.30.162.173:5000
     ```
 
     ??? example "Expected output"
@@ -54,8 +54,8 @@ the example of the Operator deployed in the OpenShift environment.
 
 4. Use the Docker commands to pull the needed image by its SHA digest:
 
-    ``` {.bash data-prompt="$" }
-    $ docker pull docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0
+    ```bash
+    docker pull docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0
     ```
 
     ??? example "Expected output"
@@ -73,17 +73,17 @@ the example of the Operator deployed in the OpenShift environment.
 5. The following method can push an image to the custom registry for the example
     OpenShift `pg` project:
 
-    ``` {.bash data-prompt="$" }
-    $ docker tag \
+    ```bash
+    docker tag \
         docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0 \
         172.30.162.173:5000/psmdb/percona-postgresql-operator:{{ postgresrecommended }}
-    $ docker push 172.30.162.173:5000/pg/percona-postgresql-operator:{{ postgresrecommended }}
+    docker push 172.30.162.173:5000/pg/percona-postgresql-operator:{{ postgresrecommended }}
     ```
 
 6. Verify the image is available in the OpenShift registry with the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ oc get is
+    ```bash
+    oc get is
     ```
 
     ??? example "Expected output"

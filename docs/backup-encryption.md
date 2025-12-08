@@ -16,8 +16,8 @@ This document describes how to configure backup encryption.
 
 You should use a long, random encryption key. You can generate it using OpenSSL as follows:
 
-```{.bash data-prompt="$"}
-$ openssl rand -base64 48
+```bash
+openssl rand -base64 48
 ```
 
 ## Configure backup storage
@@ -31,8 +31,8 @@ The following example shows the configuration for S3-compatible storage and the 
 
     === ":simple-linux: Linux"         
 
-          ``` {.bash data-prompt="$" }
-          $ cat <<EOF | base64 --wrap=0
+          ```bash
+          cat <<EOF | base64 --wrap=0
           [global]
           repo2-s3-key=<YOUR_AWS_S3_KEY>
           repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -42,8 +42,8 @@ The following example shows the configuration for S3-compatible storage and the 
 
     === ":simple-apple: macOS"         
 
-         ``` {.bash data-prompt="$" }
-         $ cat <<EOF | base64
+         ```bash
+         cat <<EOF | base64
          [global]
          repo2-s3-key=<YOUR_AWS_S3_KEY>
          repo2-s3-key-secret=<YOUR_AWS_S3_KEY_SECRET>
@@ -81,8 +81,8 @@ The following example shows the configuration for S3-compatible storage and the 
 
 4. Apply the changes. Replace the `<namespace>` placeholder with your value.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
     ```
 
 

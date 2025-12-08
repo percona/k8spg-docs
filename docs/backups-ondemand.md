@@ -24,8 +24,8 @@ Here's a sequence of steps to follow:
 
 4. Make a backup with the following command (modify the `-n postgres-operator` parameter if your database cluster resides in a different namespace):
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f deploy/backup.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f deploy/backup.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -36,8 +36,8 @@ Here's a sequence of steps to follow:
 
 5. Making a backup takes time. Use the `kubectl get pg-backup` command to track the backup progress. When finished, backup should obtain the `Succeeded` status:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg-backup backup1 -n postgres-operator
+    ```bash
+    kubectl get pg-backup backup1 -n postgres-operator
     ```
     ???+ example "Expected output"
 
@@ -50,13 +50,13 @@ Here's a sequence of steps to follow:
 
     To list available backups, run:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg-backup -n postgres-operator
+    ```bash
+    kubectl get pg-backup -n postgres-operator
     ```
 
 ## Next steps
 
-[Restore from a backup](backups-restore.md)
+[Restore from a backup](backups-restore.md){.md-button}
 
 ## Useful links
 

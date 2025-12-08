@@ -128,7 +128,7 @@ Follow these steps to upgrade the `initContainer.image`:
     You can track the rollout process in real time with the
     `kubectl rollout status` command with the name of your cluster:
 
-    ``` {.bash data-prompt="$" }
+    ```bash
     kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
     ```
 

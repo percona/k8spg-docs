@@ -14,8 +14,8 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 1. Check the information about the [cluster instances](operator.md#operator-instances-section). Cluster instances are defined in the `spec.instances` Custom Resource section. By default you have one cluster instance named `instance1` with 3 PostgreSQL instances in it. You can check which cluster instances you have. Do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
+    ```bash
+    kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
         -L postgres-operator.crunchydata.com/instance \
         -L postgres-operator.crunchydata.com/role | grep instance1
     ```
@@ -40,8 +40,8 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
     You can do it with `kubectl patch` command, specifying the name of the instance that you want to be the new primary. For example, let's set the `cluster1-instance1-bmdp` as a new PostgreSQL primary:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
+    ```bash
+    kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
       "spec": {
         "patroni": {
           "switchover": {
@@ -55,16 +55,16 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 3. Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the `<namespace>` placeholder with your value:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
+    ```bash
+    kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
     ```
 
     The `--overwrite` flag in the above command allows you to overwrite the annotation if it already exists (useful if that's not the first switchover you do).
 
 4. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pg cluster1 -o yaml -n <namespace>
+    ```bash
+    kubectl get pg cluster1 -o yaml -n <namespace>
     ```
 
     ??? example "Sample output"
@@ -81,8 +81,8 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 5. Now, check instances of your cluster once again to make sure the switchover took place:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
+    ```bash
+    kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
         -L postgres-operator.crunchydata.com/instance \
         -L postgres-operator.crunchydata.com/role | grep instance1
     ```
@@ -97,8 +97,8 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
 6. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
+    ```bash
+    kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
       "spec": {
         "patroni": {
           "switchover": {

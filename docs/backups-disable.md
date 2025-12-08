@@ -22,8 +22,8 @@ To deploy a new cluster without backups, do the following:
 
 1. Clone the Operator repository to be able to edit resource manifests.
 
-    ```{.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
     ``` 
 
 2. Edit the `deploy/cr.yaml` Custom Resource and set the `backups.enabled` option to `false` 
@@ -36,8 +36,8 @@ To deploy a new cluster without backups, do the following:
 
 3. Apply the Custom Resource to start the cluster creation.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
     ```
 
 ### Disable backups for a running cluster
@@ -51,8 +51,8 @@ To disable backups for a running cluster, update the `deploy/cr.yaml` Custom Res
 
 Since it is a running cluster, we will use the `kubectl patch` command to update its configuration:
 
-```{.bash data-prompt="$"}
-$ kubectl patch pg cluster1 --type merge \
+```bash
+kubectl patch pg cluster1 --type merge \
   -p '{
     "metadata": {
       "annotations": {
@@ -77,14 +77,14 @@ To re-enable backups for a running cluster, do the following:
 
 1. Remove the annotation `pgv2.percona.com/authorizeBackupRemoval:"true"`
 
-    ```{.bash data-prompt="$"}
-    $ kubectl annotate pg cluster1 pgv2.percona.com/authorizeBackupRemoval-
+    ```bash
+    kubectl annotate pg cluster1 pgv2.percona.com/authorizeBackupRemoval-
     ```
 
 2. Apply the patch to your running cluster and enable backups:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl patch pg cluster1 --type merge \
+    ```bash
+    kubectl patch pg cluster1 --type merge \
       -p '{
         "spec": {
           "backups": {

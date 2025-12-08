@@ -47,9 +47,9 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 
 1. First of all, clone the percona-postgresql-operator repository:
 
-    ``` {.bash data-prompt="$" }
-    $ git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
-    $ cd percona-postgresql-operator
+    ```bash
+    git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
+    cd percona-postgresql-operator
     ```
 
     !!! note
@@ -64,8 +64,8 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
     [Apply it :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     as follows:
 
-    ``` {.bash data-prompt="$" }
-    $ oc apply --server-side -f deploy/crd.yaml
+    ```bash
+    oc apply --server-side -f deploy/crd.yaml
     ```
 
     This step should be done only once; it does not need to be repeated with any
@@ -74,8 +74,8 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 3. Create the OpenShift namespace for your cluster if needed (for example,
     let's name it `postgres-operator`):
 
-    ``` {.bash data-prompt="$" }
-    $ oc create namespace postgres-operator
+    ```bash
+    oc create namespace postgres-operator
     ```
 
     !!! note
@@ -92,8 +92,8 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
     The role and actions are defined for Kubernetes resources in the yaml file.
     Further details about users and roles can be found in specific [OpenShift documentation :octicons-link-external-16:](https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html))
 
-    ``` {.bash data-prompt="$" }
-    $ oc apply -f deploy/rbac.yaml -n postgres-operator
+    ```bash
+    oc apply -f deploy/rbac.yaml -n postgres-operator
     ```
 
     !!! note
@@ -109,14 +109,14 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 5. If you are going to use the operator with [anyuid :octicons-link-external-16:](https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html) security context constraint
     please execute the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ sed -i '/disable_auto_failover: "false"/a \ \ \ \ disable_fsgroup: "false"' deploy/operator.yaml
+    ```bash
+    sed -i '/disable_auto_failover: "false"/a \ \ \ \ disable_fsgroup: "false"' deploy/operator.yaml
     ```
 
 6. Start the Operator within OpenShift:
 
-    ``` {.bash data-prompt="$" }
-    $ oc apply -f deploy/operator.yaml -n postgres-operator
+    ```bash
+    oc apply -f deploy/operator.yaml -n postgres-operator
     ```
 
     Optionally, you can add PostgreSQL Users secrets and TLS certificates to
@@ -131,8 +131,8 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
         `deploy/bundle.yaml` file instead of running commands from the steps
         2 and 4:
         
-        ``` {.bash data-prompt="$" }
-        $ oc apply -f deploy/bundle.yaml
+        ```bash
+        oc apply -f deploy/bundle.yaml
         ```
         
         This will automatically create Custom Resource Definition, set up
@@ -141,15 +141,15 @@ Following steps will allow you to deploy the Operator and PostgreSQL cluster on 
 7. After the Operator is started Percona Distribution for PostgreSQL cluster can
     be created at any time with the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ oc apply -f deploy/cr.yaml -n postgres-operator
+    ```bash
+    oc apply -f deploy/cr.yaml -n postgres-operator
     ```
 
     Creation process will take some time. The process is over when both
     Operator and replica set Pods have reached their Running status:
 
-    ``` {.bash data-prompt="$" }
-    $ oc get pg -n postgres-operator
+    ```bash
+    oc get pg -n postgres-operator
     ```
 
     ??? example "Expected output"

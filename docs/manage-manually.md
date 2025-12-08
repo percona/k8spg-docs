@@ -20,20 +20,20 @@ Here's what you need to do:
 
 1. Create a `sleep-forever` file in the data directory with the following command:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/sleep-forever
+    ```bash
+    kubectl exec cluster1-instance1-24b8-0 -- touch /pgdata/sleep-forever
     ```
 
 2. Delete the Pod:
 
-     ```{.bash data-prompt="$"}
-     $ kubectl delete pod cluster1-instance1-24b8-0
+     ```bash
+     kubectl delete pod cluster1-instance1-24b8-0
      ```
 
 3. After the Pod restarts, it won't start PostgreSQL. You can check it with the following command:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl logs cluster1-instance1-24b8-0 database
+    ```bash
+    kubectl logs cluster1-instance1-24b8-0 database
     ```
 
     ??? example "Expected output"
@@ -45,8 +45,8 @@ Here's what you need to do:
 
 4. Now you can start PostgreSQL manually:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 start
+    ```bash
+    kubectl exec cluster1-instance1-24b8-0 -- pg_ctl -D /pgdata/pg17 start
     ```
 
     ??? example "Expected output"
@@ -60,8 +60,8 @@ Here's what you need to do:
 
 5. When you are done with the maintenance, remove the `sleep-forever` file to re-enable the liveness probe.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
+    ```bash
+    kubectl exec cluster1-instance1-24b8-0 -- rm /pgdata/sleep-forever
     ```
 
 ## Stop reconciliation by putting a cluster into an unmanaged mode
@@ -84,8 +84,8 @@ spec:
 
 Apply the changes:
 
-```{.bash data-prompt="$"}
-$ kubectl apply -f deploy/cr.yaml -n <namespace>
+```bash
+kubectl apply -f deploy/cr.yaml -n <namespace>
 ```
 
 !!! warning
@@ -100,8 +100,8 @@ The Operator creates a ConfigMap called `<cluster-name>-config` to store a Patro
 
 Here is the example command for the cluster named `cluster1`:
 
-```{.bash data-prompt="$"}
-$ kubectl annotate cm cluster1-config pgv2.percona.com/override-config=true
+```bash
+kubectl annotate cm cluster1-config pgv2.percona.com/override-config=true
 ```
 
 ??? example "Expected output"
@@ -120,8 +120,8 @@ As long as the ConfigMap has this `pgv2.percona.com/override-config` annotation,
 
 It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers. For example:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
 ```
 
 Operator doesn't apply a new configuration for Patroni automatically. You must run `patronictl reload <cluster_name> <pod-name>` to apply it after your changes are propagated to the container.
@@ -132,16 +132,16 @@ Operator doesn't apply a new configuration for Patroni automatically. You must r
 
     To remove the annotation, use the following command:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl annotate cm cluster1-config pgv2.percona.com/override-config-
+    ```bash
+    kubectl annotate cm cluster1-config pgv2.percona.com/override-config-
     ```
 
 ### For an individual Pod
 
 Operator creates a ConfigMap called `<pod-name>-config` to store Patroni instance configuration for each Pod. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in these ConfigMaps and keep the changes, you need to annotate them using a special annotation:
 
-```{.bash data-prompt="$"}
-$ kubectl annotate cm cluster1-instance1-24b8-config pgv2.percona.com/override-config=true
+```bash
+kubectl annotate cm cluster1-instance1-24b8-config pgv2.percona.com/override-config=true
 ```
 
 ??? example "Expected output"
@@ -160,16 +160,16 @@ As long as the ConfigMap has the `pgv2.percona.com/override-config` annotation, 
 
 It takes some time for your changes of ConfigMap to propagate to running containers. You can verify if changes are propagated by checking the mounted file in containers for a Pod. For example:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operator_cluster.yaml
 ```
 
 Operator doesn't apply a new configuration automatically. You must run `patronictl reload <cluster_name> <pod_name>` to apply it after your changes are propagated to the container. 
 
 To find the cluster name, run:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
 ```
 
 ??? example "Expected output"
@@ -191,16 +191,16 @@ $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl list
 
     To remove the annotation, use the following command:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl annotate cm cluster1-instance1-24b8-0 pgv2.percona.com/override-config-
+    ```bash
+    kubectl annotate cm cluster1-instance1-24b8-0 pgv2.percona.com/override-config-
     ```
 
 ## Override PostgreSQL parameters
 
 Use the `patronictl show-config` command to print PostgreSQL parameters used in the cluster. For example:
 
-```{.bash data-prompt="$"}
-$ kubectl exec cluster1-instance1-24b8-0 -- patronictl show-config
+```bash
+kubectl exec cluster1-instance1-24b8-0 -- patronictl show-config
 ```
 
 ??? example "Expected output"
@@ -243,8 +243,8 @@ Use the `patronictl edit-config` command to change any PostgreSQL parameter.
 
 For example, run the following command to change the `restore_command` parameter:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg restore_command=/bin/true
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg restore_command=/bin/true
 ```
 
 ??? example "Expected output"
@@ -267,8 +267,8 @@ $ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg rest
 
 This command changes the `shared_preload_libraries` parameter:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg shared_preload_libraries=""
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --pg shared_preload_libraries=""
 ```
 
 ??? example "Expected output"
@@ -307,8 +307,8 @@ You may want to append entries to `pg_hba`. You can use the `spec.patroni.postgr
 
 The order of parameters matters in `pg_hba.conf`, so consider overriding the list completely. For this, you can use the `patronictl edit-config` command:
 
-```{.bash data-prompt="$"}
-$ kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --set postgresql.pg_hba='[
+```bash
+kubectl exec -it cluster1-instance1-24b8-0 -- patronictl edit-config --set postgresql.pg_hba='[
   "local all all trust",
   "reject all all all"
 ]'

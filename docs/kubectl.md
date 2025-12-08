@@ -30,8 +30,8 @@ Here's a sequence of steps to follow:
 
 1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let's name it `postgres-operator`:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl create namespace postgres-operator
+    ```bash
+    kubectl create namespace postgres-operator
     ```
 
     ??? example "Expected output"
@@ -45,8 +45,8 @@ Here's a sequence of steps to follow:
 2. Deploy the Operator [using :octicons-link-external-16:](https://kubernetes.io/docs/reference/using-api/server-side-apply/)
     the following command:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    ```bash
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -58,8 +58,8 @@ Here's a sequence of steps to follow:
 3. Deploy Percona Distribution
     for PostgreSQL cluster:
 
-    ``` {.bash data-prompt="$" }
-    $ kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/cr.yaml -n postgres-operator
     ```
 
     ??? example "Expected output"
@@ -70,8 +70,8 @@ Here's a sequence of steps to follow:
 
 4. Check the Operator and replica set Pods status.
    
-    ``` {.bash data-prompt="$" }
-    $ kubectl get pg -n postgres-operator
+    ```bash
+    kubectl get pg -n postgres-operator
     ```
 
     The creation process may take some time. When the process is over your cluster obtains the ready status.

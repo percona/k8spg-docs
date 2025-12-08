@@ -45,8 +45,8 @@ There is no need to perform any additional configuration on version 1.x cluster,
 
 5. Create the version 2.x cluster:
 
-    ```{.bash data-prompt="$"}
-    $ kubectl apply -f deploy/cr.yaml
+    ```bash
+    kubectl apply -f deploy/cr.yaml
     ```
 
 ## Promote version 2.x cluster
@@ -56,8 +56,8 @@ Once the standby cluster is up and running, you can promote it.
 
 1. Delete version 1.x cluster, but ensure that `spec.keepBackups` is set to `true`.
 
-    ```{.bash data-prompt="$"}
-    $ kubectl delete perconapgcluster cluster1
+    ```bash
+    kubectl delete perconapgcluster cluster1
     ```
 
 2. Promote version 2.x cluster by disabling the standby mode:
