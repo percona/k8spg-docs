@@ -4649,8 +4649,8 @@ percona-patroni-4.0.6-1.el9.x86_64
 <div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">&quot;Development tools&quot;</span>
 </code></pre></div>
 <p>Troubleshooting tip: If development tools fail to install, add BaseOS and AppStream repos:</p>
-<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/BaseOS/aarch64/os/
-dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/AppStream/aarch64/os/
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/
+dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/AppStream/x86_64/os/
 dnf<span class="w"> </span>clean<span class="w"> </span>all<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dnf<span class="w"> </span>makecache
 </code></pre></div>
 <p>Then retry the installation.</p>
@@ -4870,7 +4870,7 @@ patroni:
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 8, 2025 19:16:57 UTC">December 8, 2025</span>
       
         <br>
         Created:
