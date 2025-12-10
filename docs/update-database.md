@@ -20,7 +20,7 @@
 To make a minor upgrade of Percona Distribution for PostgreSQL (for example, from 17.5.2 to 17.6.1) , do the following:
 {.power-number}
 
-1. Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the [Operator upgrade guide](#upgrading-the-operator-and-crd)
+1. Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the [Operator upgrade guide](update-operator.md)
 2. Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Replace the Operator version with your value in the following command:
    
     ```bash
