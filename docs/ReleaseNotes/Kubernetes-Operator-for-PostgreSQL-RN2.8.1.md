@@ -26,67 +26,6 @@ Read more about PostgreSQL 18 in:
 
 Find PostgreSQL 18 images in the list of [Percona-certified images](#percona-certified-images).
 
-### PostgreSQL 13 is end-of-life
-
-This release marks the final version of Percona Distribution for PostgreSQL 13.23, as this major version reaches its end-of-life. To understand the potential issues of running an unsupported (EOL) PostgreSQL version and to explore your upgrade options, read our guidance in the Percona blog: [PostgreSQL 13 Is Reaching End of Life – The Time to Upgrade is Now](https://www.percona.com/blog/postgresql-13-is-reaching-end-of-life-the-time-to-upgrade-is-now/).
-
-## Changelog
-
-### New features
-
-* [K8SPG-730](https://perconadev.atlassian.net/browse/K8SPG-730) - Added the  `status.observedGeneration` field to the Custom Resource Definition to improve observability and ensure the controller successfully reconciled the latest changes to the cluster.
-
-* [K8SPG-752](https://perconadev.atlassian.net/browse/K8SPG-752) - Allowed setting loadBalancerClass service type and use a custom implementation of a load balancer rather than the cloud provider default one.
-
-* [K8SPG-768](https://perconadev.atlassian.net/browse/K8SPG-768) Introduced a mechanism to prevent excessive logging caused by continuous pod annotation updates for suggested volume sizing. The Operator now skips updating the Pod annotation with the suggested volume size unless the auto-growable disk feature is explicitly configured. This significantly reduces redundant logs and unnecessary load on both the Kubernetes API and the logging pipeline.
-
-* [K8SPG-832](https://perconadev.atlassian.net/browse/K8SPG-832) - Users can now specify custom sidecar containers for the `repo-host` Pod, enabling seamless integration with external tools, storage systems, or observability agents. This enhances flexibility in backup workflows without modifying the Operator’s core logic.
-
-* [K8SPG-833](https://perconadev.atlassian.net/browse/K8SPG-833) - Added the ability to define custom environment variables across all components. This enables tighter integration with external systems, secrets, or runtime configurations.
-
-### Improvements
-
-* [K8SPG-460](https://perconadev.atlassian.net/browse/K8SPG-460) - The Operator now correctly enables and used Huge pages functionality if they are enabled on the OS level.
-* [K8SPG-570](https://perconadev.atlassian.net/browse/K8SPG-570) - The Operator now correctly respects custom user passwords defined in secrets when creating new users, and automatically adds any missing credentials.
-
-* [K8SPG-611](https://perconadev.atlassian.net/browse/K8SPG-611) - The operator now uses official Percona PostgreSQL docker images, which are compatible only with specific latest PostgreSQL versions.
-
-* [K8SPG-624](https://perconadev.atlassian.net/browse/K8SPG-624), [K8SPG-728](https://perconadev.atlassian.net/browse/K8SPG-728) - Added the ability to configure the Operator to use path-style access to S3 storage or skip TLS verification to ensure broader compatibility with S3 storage services.
-
-* [K8SPG-718](https://perconadev.atlassian.net/browse/K8SPG-718) - Improved Patroni observability by sending Patroni metrics to PMM.
-
-* [K8SPG-748](https://perconadev.atlassian.net/browse/K8SPG-748) - The PerconaPGCluster status now provides more comprehensive details, including persistent volume resizing and pgBackRest backup conditions.
-
-* [K8SPG-757](https://perconadev.atlassian.net/browse/K8SPG-757): The Percona PostgreSQL Operator now successfully deploys in environments where `readOnlyRootFilesystem` is enforced.
-* [K8SPG-874](https://perconadev.atlassian.net/browse/K8SPG-874)- Improved logging to no longer contain backup-related information when backups are disabled.
-
-* [K8SPG-882](https://perconadev.atlassian.net/browse/K8SPG-882) - The operator no longer deploys a temporary Patroni version check pod, as it now detects the version directly from running database instances.
-
-### Fixed bugs
-
-- [K8SPG-724](https://perconadev.atlassian.net/browse/K8SPG-724) - Fixed the issue with upgrading custom extension versions. The Operator now correctly uninstalls old versions and installs new ones automatically.
-
-- [K8SPG-777](https://perconadev.atlassian.net/browse/K8SPG-777) - Custom Resource `crVersion` is now automatically assigned if not explicitly defined.
-
-- [K8SPG-778](https://perconadev.atlassian.net/browse/K8SPG-778) -  Backup restores no longer fail due to empty repository name errors during the finalization process.
-- [K8SPG-781](https://perconadev.atlassian.net/browse/K8SPG-781)- Error messages for primary pod issues now reveal the specific underlying problem instead of a generic message.
-- [K8SPG-803](https://perconadev.atlassian.net/browse/K8SPG-803) -  Outdated backups are now correctly cleaned up, even when pgBackRest debug logging is enabled.
-- [K8SPG-826](https://perconadev.atlassian.net/browse/K8SPG-826) - Fixed the issue with cluster monitoring on OpenShift by using the correct folder for PMM3 .
-- [K8SPG-835](https://perconadev.atlassian.net/browse/K8SPG-835) - Improved affinity behavior for `patroni-version-check` pod
-- [K8SPG-844](https://perconadev.atlassian.net/browse/K8SPG-844) - Fixed the issue with the Operator overriding user configuration with archive commands when the latest restorable time tracking disabled by fully respecting user configuration.
-- [K8SPG-869](https://perconadev.atlassian.net/browse/K8SPG-869) - A backup repository is no longer required when configuring a cluster with disabled backups.
-- [K8SPG-872](https://perconadev.atlassian.net/browse/K8SPG-872) - Updated DNS records used in certificates to no longer include a trailing period to comply with updated validation standards.
-* [K8SPG-876](https://perconadev.atlassian.net/browse/K8SPG-876): Fixed an issue where PostgreSQL clusters remained in an "Initialized" state after restoring a backup from S3 storage.
-- [K8SPG-879](https://perconadev.atlassian.net/browse/K8SPG-879) - Clusters can now be created successfully on Kubernetes version 1.34.
-
-* [K8SPG-883](https://perconadev.atlassian.net/browse/K8SPG-883): Patroni version information is now displayed in the `status.patroni.version` field instead of `status.patroniVersion `.
-
-- [K8SPG-884](https://perconadev.atlassian.net/browse/K8SPG-884) - Clusters deployed with PostgreSQL 13 now correctly support the `pg_stat_statements` extension.
-
-
-
-## Deprecation, Change, Rename and Removal
-
 
 ## Supported software
 
@@ -94,10 +33,12 @@ The Operator {{ release }} is developed, tested and based on:
 
 --8<-- [start:software]
 
-* PostgreSQL 13.22-1, 14.19-1, 15.14-1, 16.10-1,17.6-1 as the database. Other versions may also work but have not been tested.
-* pgBouncer 1.24.1-1 for connection pooling
-* Patroni version 4.6.0 for high-availability
-* PostGIS version 3.3.8
+* PostgreSQL 18.1-1, 17.7-1, 16.11-1, 15.15-1, 14.20-1, 13.23-1 as the database. Other versions may also work but have not been tested.
+* pgBouncer 1.25.0-1 for connection pooling
+* Patroni version 4.1.0 for high-availability
+* PostGIS:
+   * version 3.5.4 for PostgreSQL 18, 
+   * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
 
 --8<-- [end:software]
 
@@ -108,11 +49,11 @@ Percona Operators are designed for compatibility with all [CNCF-certified :octic
 Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version {{release}}:
 
 --8<-- [start:platforms]
-* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.31 - 1.33
 
-* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.31 - 1.34
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.16 - 4.20
+* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.31 - 1.33
+* [Amazon Elastic Kubernetes Service (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.31 - 1.34
 * [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.32 - 1.34
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.16 - 4.20
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.37.0 with Kubernetes v1.34.0
 
 --8<-- [end:platforms]
