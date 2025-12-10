@@ -182,7 +182,7 @@ The Operator {{ release }} is developed, tested and based on:
 
 * PostgreSQL 13.22-1, 14.19-1, 15.14-1, 16.10-1,17.6-1 as the database. Other versions may also work but have not been tested.
 * pgBouncer 1.24.1-1 for connection pooling
-* Patroni version 4.6.0 for high-availability
+* Patroni version 4.0.6 for high-availability
 * PostGIS version 3.3.8
 
 --8<-- [end:software]
