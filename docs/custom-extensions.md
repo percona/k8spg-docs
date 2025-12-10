@@ -204,8 +204,8 @@ Run the following commands as the root user or with `sudo` privileges.
     Troubleshooting tip: If development tools fail to install, add BaseOS and AppStream repos:
 
     ```bash
-    dnf config-manager --add-repo https://dl.rockylinux.org/pub/rocky/9/BaseOS/aarch64/os/
-    dnf config-manager --add-repo https://dl.rockylinux.org/pub/rocky/9/AppStream/aarch64/os/
+    dnf config-manager --add-repo https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/
+    dnf config-manager --add-repo https://dl.rockylinux.org/pub/rocky/9/AppStream/x86_64/os/
     dnf clean all && dnf makecache
     ```
 
