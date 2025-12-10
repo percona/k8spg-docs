@@ -6,7 +6,7 @@ release: 2.8.1
 
 # Supported software
 
-pmm3recommended: 3.4.1
+pmm3recommended: 3.5.0
 commandName: 'kubectl'
 postgres18recommended: '18.1-1'
 postgresrecommended: '17.7-1'

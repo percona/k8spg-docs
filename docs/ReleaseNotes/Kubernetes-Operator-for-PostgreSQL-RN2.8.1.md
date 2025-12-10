@@ -39,6 +39,7 @@ The Operator {{ release }} is developed, tested and based on:
 * PostGIS:
    * version 3.5.4 for PostgreSQL 18, 
    * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
+* PMM Client 3.5.0
 
 --8<-- [end:software]
 
