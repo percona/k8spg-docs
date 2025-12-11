@@ -12,7 +12,6 @@ You can now deploy PostgreSQL 18 on Kubernetes with the Operator. This latest ma
 
 Key improvements of PostgreSQL 18 are:
 
-* PostgreSQL now supports OAuth for user authentication. This simplifies integration with modern identity providers and strengthens access control.
 * Asynchronous I/O (AIO) boosts throughput and reduces latency for sequential scans, vacuums, and other heavy operations. This means faster queries and smoother performance under load.
 * Queries can now use multicolumn B-tree indexes more effectively. Users benefit from faster lookups without needing redundant indexes.
 * Upgrades made via `pg_upgrade` no longer discard optimizer statistics. This reduces downtime and ensures consistent query performance after migrations.
