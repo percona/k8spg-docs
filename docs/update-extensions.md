@@ -2,7 +2,7 @@
 
 ## Upgrade `pg_stat_monitor` (for Operator earlier than 2.6.0)
 
-`pg_stat_monitor` is the built-in extension, which is used to provide query analytics for Percona Monitoring and Management (PMM). If you [enabled it](custom-extensions.md#enabling-or-disabling-built-in-extensions) in the Custom Resource (`deploy/cr.yaml` manifest), you need to manually update it *after the database upgrade* (this manual step is not required for the Operator versions 2.6.0 and newer):
+`pg_stat_monitor` is the built-in extension, which is used to provide query analytics for Percona Monitoring and Management (PMM). If you [enabled it](custom-extensions.md#built-in-extensions) in the Custom Resource (`deploy/cr.yaml` manifest), you need to manually update it *after the database upgrade* (this manual step is not required for the Operator versions 2.6.0 and newer):
 
 1. Find the primary instance of your PostgreSQL cluster. You can do this using Kubernetes Labels as follows (replace the `<namespace>` placeholder with your value):
 
@@ -35,6 +35,6 @@
 
 ## Upgrade custom PostgreSQL extensions
 
-If you have installed [custom PostgreSQL extensions](custom-extensions.md#adding-custom-extensions), you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container. 
+If you have installed [custom PostgreSQL extensions](custom-extensions.md#add-custom-extensions), you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container. 
 
 Refer to the [Update custom extensions](custom-extensions.md#update-custom-extensions) section for step-by-step instructions.

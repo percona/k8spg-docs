@@ -99,7 +99,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 If you have [installed the Operator using Helm](helm.md), you can upgrade the
 Operator deployment with the `helm upgrade` command.
 
- The `helm upgrade` command updates only the Operator deployment. The [update flow for the database management system (Percona Distribution for PostgreSQL)](#upgrade-percona-distribution-for-postgresql) is the same for all installation methods, whether it was installed via Helm or `kubectl`.
+ The `helm upgrade` command updates only the Operator deployment. The [update flow for the database management system (Percona Distribution for PostgreSQL)](update-database.md) is the same for all installation methods, whether it was installed via Helm or `kubectl`.
 
 1. You must have the compatible version of the Custom Resource Definition (CRD) in all namespaces that the Operator manages. Starting with version 2.7.0, you can check it using the following command:
 
