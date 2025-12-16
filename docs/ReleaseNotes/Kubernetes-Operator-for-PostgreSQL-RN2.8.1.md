@@ -35,10 +35,13 @@ The Operator {{ release }} is developed, tested and based on:
 * PostgreSQL 18.1-1, 17.7-1, 16.11-1, 15.15-1, 14.20-1, 13.23-1 as the database. Other versions may also work but have not been tested.
 * pgBouncer 1.25.0-1 for connection pooling
 * Patroni version 4.1.0 for high-availability
-* PostGIS:
-   * version 3.5.4 for PostgreSQL 18, 
-   * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
 * PMM Client 3.5.0
+* PostGIS:
+   
+    * version 3.5.4 for PostgreSQL 18, 
+    * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
+   
+
 
 --8<-- [end:software]
 
