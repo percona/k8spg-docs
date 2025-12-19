@@ -41,7 +41,7 @@ The Operator {{ release }} is developed, tested and based on:
     * version 3.5.4 for PostgreSQL 18, 
     * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
    
-!!! important "PostgreSQL RPMs rebuilt to disable debug assertions"
+!!! warning "PostgreSQL RPMs rebuilt to disable debug assertions"
 
     The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for **PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release** were built with debug assertions enabled (`--enable-cassert`).
 
@@ -51,7 +51,7 @@ The Operator {{ release }} is developed, tested and based on:
 
     To verify, run `pg_config --configure`. If the output includes `--enable-cassert`, then your installation is affected.
 
-**We do not recommend using the affected PostgreSQL versions listed above in production.** Percona is working on a fix to fully address this issue. Find more information in [Percona Distribution for PostgreSQL 18.1.1](https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html) release notes.
+    **We do not recommend using the affected PostgreSQL versions listed above in production.** Percona is working on a fix to fully address this issue. Find more information in [Percona Distribution for PostgreSQL 18.1.1](https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html) release notes.
  
 --8<-- [end:software]
 
