@@ -45,13 +45,13 @@ The Operator {{ release }} is developed, tested and based on:
 
     The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for **PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release** were built with debug assertions enabled (`--enable-cassert`).
 
-    If you installed or updated PostgreSQL RPMs within the last four months, you may be affected: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.
+    If you installed or updated PostgreSQL RPMs within the last four months, you may suffer performance degradation for the following versions: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.
 
     These packages have been rebuilt, and all users running RPM-based installations of the affected releases are **strongly advised** to update to the latest available packages.
 
     To verify, run `pg_config --configure`. If the output includes `--enable-cassert`, then your installation is affected.
 
-    **We do not recommend using the affected PostgreSQL versions listed above in production.** Percona is working on a fix to fully address this issue. Find more information in [Percona Distribution for PostgreSQL 18.1.1](https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html) release notes.
+    **We do not recommend using the affected PostgreSQL versions listed above in production.** We are working on a fix to fully address this issue. Find more information in [Percona Distribution for PostgreSQL 18.1.1](https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html) release notes.
  
 --8<-- [end:software]
 
