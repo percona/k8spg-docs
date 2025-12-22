@@ -1,34 +1,18 @@
-# Percona Operator for PostgreSQL 2.8.1 ({{date.2_8_1}})
+# Percona Operator for PostgreSQL 2.8.2 ({{date.2_8_2}})
 
 [Get started with the Operator :material-arrow-right:](../quickstart.md){.md-button}
 
 ## Release Highlights
 
-This release provides the following features and improvements:
+This release provides PostgreSQL images for the updated releases of Percona Distribution for PostgreSQL 18 rebuilt with disabled debug assertions. 
 
-### PostgreSQL 18 support
+We're updating the images for the remaining PostgreSQL versions as soon as new Percona Distribution for PostgreSQL versions become available.
 
-You can now deploy PostgreSQL 18 on Kubernetes with the Operator. This latest major version of PostgreSQL delivers major improvements in performance, usability, and security, empowering you to make large-scale, mission-critical deployments more reliable and efficient.
-
-Key improvements of PostgreSQL 18 are:
-
-* Asynchronous I/O (AIO) boosts throughput and reduces latency for sequential scans, vacuums, and other heavy operations. This means faster queries and smoother performance under load.
-* Queries can now use multicolumn B-tree indexes more effectively. Users benefit from faster lookups without needing redundant indexes.
-* Upgrades made via `pg_upgrade` no longer discard optimizer statistics. This reduces downtime and ensures consistent query performance after migrations.
-* You can now enforce PRIMARY KEY, UNIQUE, and FOREIGN KEY constraints over ranges of time. This is especially valuable for applications managing time-series or historical data.
-* Generated columns are now computed at read time by default. This reduces storage overhead and makes schema design more flexible.
-
-Read more about PostgreSQL 18 in:
-
-* [Percona Blog: Planning Ahead for PostgreSQL 18: What Matters for Your Organization :octicons-link-external-16:](https://www.percona.com/blog/planning-ahead-for-postgresql-18-what-matters-for-your-organization/)
-* [PostgreSQL 18.1 release notes :octicons-link-external-16:](https://www.postgresql.org/docs/18/release-18-1.html)
-
-Find PostgreSQL 18 images in the list of [Percona-certified images](#percona-certified-images).
-
+You can find the latest available images in the [images list](#percona-certified-images).
 
 ## Supported software
 
-The Operator 2.8.1 is developed, tested and based on:
+This version of the Operator is developed, tested and based on:
 
 --8<-- [start:software]
 
@@ -41,17 +25,6 @@ The Operator 2.8.1 is developed, tested and based on:
     * version 3.5.4 for PostgreSQL 18, 
     * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
    
-!!! warning "PostgreSQL RPMs rebuilt to disable debug assertions"
-
-    The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for **PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release** were built with debug assertions enabled (`--enable-cassert`).
-
-    If you installed or updated PostgreSQL RPMs within the last four months, you may suffer performance degradation for the following versions: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.
-
-    These packages have been rebuilt, and all users running RPM-based installations of the affected releases are **strongly advised** to update to the latest available packages.
-
-    To verify, run `pg_config --configure`. If the output includes `--enable-cassert`, then your installation is affected.
-
-    **We do not recommend using the affected PostgreSQL versions listed above in production.** We are working on a fix to fully address this issue. Find more information in [Percona Distribution for PostgreSQL 18.1.1](https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html) release notes.
  
 --8<-- [end:software]
 
@@ -59,7 +32,7 @@ The Operator 2.8.1 is developed, tested and based on:
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 
 
-Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.8.1:
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for the current Operator version:
 
 --8<-- [start:platforms]
 
@@ -82,8 +55,8 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 
 | Image                                                                 | Digest                                                           |
 |:----------------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:2.8.1  (x86_64)  | 018b0063352fff83d7850d732c80ba6a938c425ac2d9ac7e9a0a270361ff3fc0 |
-| percona/percona-postgresql-operator:2.8.1 (ARM64)  | ce7e6f612d4cef4ef86f06521549f3e3c4e1fe8ecf794feff6f3205667863792 |
+| percona/percona-postgresql-operator:2.8.2  (x86_64)  | 018b0063352fff83d7850d732c80ba6a938c425ac2d9ac7e9a0a270361ff3fc0 |
+| percona/percona-postgresql-operator:2.8.2 (ARM64)  | ce7e6f612d4cef4ef86f06521549f3e3c4e1fe8ecf794feff6f3205667863792 |
 | percona/percona-distribution-postgresql:18.1-1   | 23522ee9c1abda0b9cbb40c4b414328dafc10596506731954a5754e8b6994e76 |
 | percona/percona-distribution-postgresql:17.7-1   | c4eec3a4fc8a5d7ba6a631a19f7387f5e34ca9ddcc8ba34bdc6709159be2c3ac |
 | percona/percona-distribution-postgresql:16.11-1    | 4cd7092284bf323893c75349a5f6c0f4948d8e602fa213210e3efca28cfc2f1d |

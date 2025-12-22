@@ -156,7 +156,7 @@ Read more about these troubleshooting methods in the [documentation](../manage-m
     All Custom Resource manifests now include the registry name in image paths. This enables you to successfully install the Operator using the default manifests from Git repositories. If you upgrade the Operator and the database cluster via the command line interface, add the `docker.io` registry name to image paths for all components in the format:
 
     ```
-    "docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{postgresrecommended}}-postgres"
+    "docker.io/percona/percona-postgresql-operator:2.7.0-ppg{{postgresrecommended}}-postgres"
     ```
 
     Follow our [upgrade documentation](../update.md) for update guidelines.
@@ -180,7 +180,7 @@ The Operator {{ release }} is developed, tested and based on:
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 
 
-Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version {{release}}:
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.7.0:
 
 --8<-- [start:platforms]
 

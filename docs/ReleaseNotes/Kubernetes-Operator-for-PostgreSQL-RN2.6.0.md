@@ -81,7 +81,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 ## Supported platforms
 
-The Operator {{ release }} is developed, tested and based on:
+The Operator 2.6.0 is developed, tested and based on:
 
 * PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. 
 * pgBouncer for connection pooling:
@@ -98,7 +98,7 @@ The Operator {{ release }} is developed, tested and based on:
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 
 
-Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version {{release}}:
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.6.0:
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.29 - 1.31
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.29 - 1.32

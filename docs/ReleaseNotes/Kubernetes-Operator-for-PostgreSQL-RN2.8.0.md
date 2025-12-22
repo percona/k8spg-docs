@@ -176,7 +176,7 @@ Attempting to use the Operator with other PostgreSQL versions or custom images i
 
 ## Supported software
 
-The Operator {{ release }} is developed, tested and based on:
+The Operator 2.8.0 is developed, tested and based on:
 
 --8<-- [start:software]
 
@@ -191,7 +191,7 @@ The Operator {{ release }} is developed, tested and based on:
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 
 
-Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version {{release}}:
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.8.0:
 
 --8<-- [start:platforms]
 
