@@ -30,7 +30,7 @@ of storage classes, hostPath, and NFS.">
       
       
       <link rel="icon" href="assets/operators-fav.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -38,7 +38,7 @@ of storage classes, hostPath, and NFS.">
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -4296,6 +4296,14 @@ of storage classes, hostPath, and NFS.</p>
 </ul>
 </li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">PostgreSQL RPMs rebuilt to disable debug assertions</p>
+<p>The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for <strong>PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release</strong> were built with debug assertions enabled (<code>--enable-cassert</code>).</p>
+<p>If you installed or updated PostgreSQL RPMs within the last four months, you may suffer performance degradation for the following versions: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.</p>
+<p>These packages have been rebuilt, and all users running RPM-based installations of the affected releases are <strong>strongly advised</strong> to update to the latest available packages.</p>
+<p>To verify, run <code>pg_config --configure</code>. If the output includes <code>--enable-cassert</code>, then your installation is affected.</p>
+<p><strong>We do not recommend using the affected PostgreSQL versions listed above in production.</strong> We are working on a fix to fully address this issue. Find more information in <a href="https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html">Percona Distribution for PostgreSQL 18.1.1</a> release notes.</p>
+</div>
 <h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
 <p>The following platforms were tested and are officially supported by the Operator
 2.8.1:</p>
@@ -4388,11 +4396,11 @@ of storage classes, hostPath, and NFS.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="js/print-site.js"></script>
       

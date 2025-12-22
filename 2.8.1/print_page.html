@@ -24,7 +24,7 @@
       
       
       <link rel="icon" href="assets/operators-fav.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.1">
     
     
       
@@ -32,7 +32,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -5933,6 +5933,14 @@ of storage classes, hostPath, and NFS.</p>
 </ul>
 </li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">PostgreSQL RPMs rebuilt to disable debug assertions</p>
+<p>The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for <strong>PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release</strong> were built with debug assertions enabled (<code>--enable-cassert</code>).</p>
+<p>If you installed or updated PostgreSQL RPMs within the last four months, you may suffer performance degradation for the following versions: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.</p>
+<p>These packages have been rebuilt, and all users running RPM-based installations of the affected releases are <strong>strongly advised</strong> to update to the latest available packages.</p>
+<p>To verify, run <code>pg_config --configure</code>. If the output includes <code>--enable-cassert</code>, then your installation is affected.</p>
+<p><strong>We do not recommend using the affected PostgreSQL versions listed above in production.</strong> We are working on a fix to fully address this issue. Find more information in <a href="https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html">Percona Distribution for PostgreSQL 18.1.1</a> release notes.</p>
+</div>
 <h2 id="system-requirements-supported-platforms">Supported platforms<a class="headerlink" href="#system-requirements-supported-platforms" title="Permanent link">&para;</a></h2>
 <p>The following platforms were tested and are officially supported by the Operator
 2.8.1:</p>
@@ -19227,6 +19235,14 @@ we will do our very best to be helpful.</p></section></section>
 </ul>
 </li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">PostgreSQL RPMs rebuilt to disable debug assertions</p>
+<p>The Percona Server for PostgreSQL (PSP) and Percona Distribution for PostgreSQL (PPG) RPM packages for <strong>PostgreSQL versions 13 through 18 released as part of the Q4 quarterly release</strong> were built with debug assertions enabled (<code>--enable-cassert</code>).</p>
+<p>If you installed or updated PostgreSQL RPMs within the last four months, you may suffer performance degradation for the following versions: 18.1, 17.6, 17.7, 16.10, 16.11, 15.14, 15.15, 14.19, 14.20, 13.22, 13.23.</p>
+<p>These packages have been rebuilt, and all users running RPM-based installations of the affected releases are <strong>strongly advised</strong> to update to the latest available packages.</p>
+<p>To verify, run <code>pg_config --configure</code>. If the output includes <code>--enable-cassert</code>, then your installation is affected.</p>
+<p><strong>We do not recommend using the affected PostgreSQL versions listed above in production.</strong> We are working on a fix to fully address this issue. Find more information in <a href="https://docs.percona.com/postgresql/18/release-notes/release-notes-v18.1.1.html">Percona Distribution for PostgreSQL 18.1.1</a> release notes.</p>
+</div>
 <h2 id="releasenotes-kubernetes-operator-for-postgresql-rn2.8.1-supported-platforms">Supported platforms<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.8.1-supported-platforms" title="Permanent link">&para;</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.8.1:</p>
@@ -20800,11 +20816,11 @@ In addition to that:</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/percona-operator-for-postgresql/2.8.1", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "/percona-operator-for-postgresql/2.8.1", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
       
         <script src="js/print-site.js"></script>
       
