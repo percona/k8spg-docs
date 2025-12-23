@@ -70,7 +70,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     ```
 
 6. After the Operator is started, modify the `deploy/cr.yaml` configuration
-    file with PostGIS-enabled image - use `docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ pgversiongis }}-postgres-gis{{postgisrecommended}}` instead of `docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ pgversiongis }}-postgres`
+    file with PostGIS-enabled image - use `docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{pgversiongis}}-postgres-gis{{postgisrecommended}}` instead of `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`
     
     ```yaml
     apiVersion: pgv2.percona.com/v2
