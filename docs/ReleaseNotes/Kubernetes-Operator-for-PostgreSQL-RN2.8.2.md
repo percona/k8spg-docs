@@ -16,13 +16,14 @@ This version of the Operator is developed, tested and based on:
 
 --8<-- [start:software]
 
-* PostgreSQL 18.1-1, 17.7-1, 16.11-1, 15.15-1, 14.20-1, 13.23-1 as the database. Other versions may also work but have not been tested.
+* PostgreSQL 18.1-3, 17.7-2, 16.11-2, 15.15-2, 14.20-2, 13.23-2 as the database. Other versions may also work but have not been tested.
+* pgBackRest 2.57.0-1 for backup and recovery
 * pgBouncer 1.25.0-1 for connection pooling
-* Patroni version 4.1.0 for high-availability
-* PMM Client 3.5.0
+* Patroni version 4.1.0 for high availability
+* PMM Client versions 2.44.1-1 and 3.5.0 
 * PostGIS:
    
-    * version 3.5.4 for PostgreSQL 18, 
+    * version 3.5.4 for PostgreSQL 18
     * version 3.3.8 for PostgreSQL 17, 16, 15, 14, and 13
    
  
