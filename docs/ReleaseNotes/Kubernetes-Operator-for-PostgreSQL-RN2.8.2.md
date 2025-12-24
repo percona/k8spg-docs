@@ -61,9 +61,9 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 | percona/percona-distribution-postgresql:18.1-3   | 940859b7c45d1217ba852e8c5e5500832daf61c6914d5af33808251cb23f0102 |
 | percona/percona-distribution-postgresql:17.7-2   |  |
 | percona/percona-distribution-postgresql:16.11-2    | 80882a55997c58b7a4dd5defc6482d99dc31c11fbd206f788e540a74ffab4823 |
-| percona/percona-distribution-postgresql:15.15-2       | 9ace25f15a319ec741ab32502d4818874a981c38dbb22625e8f2f67bf42bb558 |
-| percona/percona-distribution-postgresql:14.20-2    |  |
-| percona/percona-distribution-postgresql:13.23-2     |  |
+| percona/percona-distribution-postgresql:15.15-2       | 100ef9920d70d0ff53a0466f9b077ba3f1828c31b330a08a6e6e11802b870178 |
+| percona/percona-distribution-postgresql:14.20-2    | 011bae00abeb266352aa6c8e127396b0a3fb5877f0112f5291172624b5556120 |
+| percona/percona-distribution-postgresql:13.23-2     | 39ef40f72704e8e782ed43fb5a5072ee557fd410b85b9d2177b332ce39b888f5 |
 | percona/percona-postgresql-operator:2.8.2-ppg18.1-postgres-gis3.5.4   |  |
 | percona/percona-postgresql-operator:2.8.2-ppg17.7-postgres-gis3.3.8   |  |
 | percona/percona-postgresql-operator:2.8.2-ppg16.11-postgres-gis3.3.8  | dca87ac8ddf79ed600f8b7243d7a351ec058a0a65aedbd360ac77fcb061e441c |
