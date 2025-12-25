@@ -33,7 +33,7 @@ After applying it as usual, by running `kubectl apply -f deploy/upgrade.yaml` co
 3. Jobs are created to migrate the data,
 4. The cluster starts up after the upgrade finishes.
 
-Check official documentation for [more details](../update.md#major-version-upgrade), including ones about tracking the upgrade process and side effects for users with custom extensions.
+Check official documentation for [more details](../update-database.md#major-version-upgrade), including ones about tracking the upgrade process and side effects for users with custom extensions.
 
 ## Supporting PostgreSQL tablespaces 
     

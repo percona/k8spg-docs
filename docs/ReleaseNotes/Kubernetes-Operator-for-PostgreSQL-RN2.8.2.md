@@ -6,8 +6,6 @@
 
 This release provides PostgreSQL images for the updated releases of Percona Distribution for PostgreSQL 18 rebuilt with disabled debug assertions. 
 
-We're updating the images for the remaining PostgreSQL versions as soon as new Percona Distribution for PostgreSQL versions become available.
-
 You can find the latest available images in the [images list](#percona-certified-images).
 
 ## Supported software
@@ -40,7 +38,7 @@ Our release process includes targeted testing and validation on major cloud prov
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.31 - 1.33
 * [Amazon Elastic Kubernetes Service (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.31 - 1.34
 * [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.32 - 1.34
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.17 - 4.20
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.16 - 4.20
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.37.0 with Kubernetes v1.34.0
 
 --8<-- [end:platforms]
@@ -59,17 +57,17 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 | percona/percona-postgresql-operator:2.8.2  (x86_64)  | 018b0063352fff83d7850d732c80ba6a938c425ac2d9ac7e9a0a270361ff3fc0 |
 | percona/percona-postgresql-operator:2.8.2 (ARM64)  | ce7e6f612d4cef4ef86f06521549f3e3c4e1fe8ecf794feff6f3205667863792 |
 | percona/percona-distribution-postgresql:18.1-3   | 940859b7c45d1217ba852e8c5e5500832daf61c6914d5af33808251cb23f0102 |
-| percona/percona-distribution-postgresql:17.7-2   |  |
+| percona/percona-distribution-postgresql:17.7-2   | 7beb6a0d9fd4c4e8125c5cb43c48e8b189a4dca7b4f1ec1e433b49956d4203d6 |
 | percona/percona-distribution-postgresql:16.11-2    | 80882a55997c58b7a4dd5defc6482d99dc31c11fbd206f788e540a74ffab4823 |
 | percona/percona-distribution-postgresql:15.15-2       | 100ef9920d70d0ff53a0466f9b077ba3f1828c31b330a08a6e6e11802b870178 |
 | percona/percona-distribution-postgresql:14.20-2    | 011bae00abeb266352aa6c8e127396b0a3fb5877f0112f5291172624b5556120 |
 | percona/percona-distribution-postgresql:13.23-2     | 39ef40f72704e8e782ed43fb5a5072ee557fd410b85b9d2177b332ce39b888f5 |
-| percona/percona-postgresql-operator:2.8.2-ppg18.1-postgres-gis3.5.4   |  |
-| percona/percona-postgresql-operator:2.8.2-ppg17.7-postgres-gis3.3.8   |  |
-| percona/percona-postgresql-operator:2.8.2-ppg16.11-postgres-gis3.3.8  | dca87ac8ddf79ed600f8b7243d7a351ec058a0a65aedbd360ac77fcb061e441c |
-| percona/percona-postgresql-operator:2.8.2-ppg15.15-postgres-gis3.3.8  |  |
-| percona/percona-postgresql-operator:2.8.2-ppg14.20-postgres-gis3.3.8  |  |
-| percona/percona-postgresql-operator:2.8.2-ppg13.23-postgres-gis3.3.8  |  |
+| percona/percona-postgresql-operator:2.8.2-ppg18.1-postgres-gis3.5.4   | a9c58611e1660a1377a579370c0684a5bc12a37df69031bdcf7dac5332d016ad |
+| percona/percona-postgresql-operator:2.8.2-ppg17.7-postgres-gis3.3.8   | 64246fa0fe2213f2321bdd565181578fd84e8d745b044553b60d45c41dbf3e5c |
+| percona/percona-postgresql-operator:2.8.2-ppg16.11-postgres-gis3.3.8  | d4467fe931e6403538a1f9831c7c97f84177027bfb226a9a7e021026506bb4d7 |
+| percona/percona-postgresql-operator:2.8.2-ppg15.15-postgres-gis3.3.8  | d9680938ae31bc0c2d1fd89cda306b1bdb9b4aef424d706896460de71a2311e2 |
+| percona/percona-postgresql-operator:2.8.2-ppg14.20-postgres-gis3.3.8  | 71947a799ea4e957bf6a9dd6a4ff055037a335d9d71186452b64e05d1ce68c38 |
+| percona/percona-postgresql-operator:2.8.2-ppg13.23-postgres-gis3.3.8  | 9b75f33ee9d7e95a0d9ea9e619533878d92814183a0ed9ad59bc69813b11a84d |
 | percona/percona-pgbouncer:1.25.0-1 (x86_64)  | bf2f325cc733b96dc360c2386c8931ed9e3513f55cb425e59033e1e56737134f |
 | percona/percona-pgbouncer:1.25.0-1 (ARM64)    | 902feac78cf98fbd6a7aece1761371dd1a43faaed88b63be0e0d54dd524b8286 |
 | percona/percona-pgbackrest:2.57.0-1  (x86_64)   | 2bf7265f84210671bc5c0928cc772202c0e6054d426eb6ecf86279d69e831b96 |
