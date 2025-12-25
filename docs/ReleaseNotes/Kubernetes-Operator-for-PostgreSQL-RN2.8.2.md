@@ -4,7 +4,7 @@
 
 ## Release Highlights
 
-This release provides PostgreSQL images for the updated releases of Percona Distribution for PostgreSQL 18 rebuilt with disabled debug assertions. 
+This release provides PostgreSQL images for the updated releases of Percona Distribution for PostgreSQL rebuilt with disabled debug assertions. 
 
 You can find the latest available images in the [images list](#percona-certified-images).
 
