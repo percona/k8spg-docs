@@ -54,8 +54,8 @@ spec:
 ## Improvements
 
 * {{ k8spgjira(630) }}: A new `backups.trackLatestRestorableTime` Custom Resource option allows to disable latest restorable time tracking for users who need reducing S3 API calls usage
-* {{ k8spgjira(605) }} and {{ k8spgjira(593) }}: Documentation now includes information about [upgrading the Operator via Helm](../update.md#upgrade-via-helm) and [using databaseInitSQL commands](../initsql.md)
-* {{ k8spgjira(598) }}: Database major version upgrade now [supports custom images](../update.md#major-version-upgrade)
+* {{ k8spgjira(605) }} and {{ k8spgjira(593) }}: Documentation now includes information about [upgrading the Operator via Helm](../update-operator.md#upgrade-via-helm) and [using databaseInitSQL commands](../initsql.md)
+* {{ k8spgjira(598) }}: Database major version upgrade now [supports custom images](../update-database.md#major-version-upgrade)
 * {{ k8spgjira(560) }}: A `pg-restore` Custom Resource is now automatically created at [bootstrapping a new cluster from an existing backup](../backups-restore.md#restore-to-a-new-postgresql-cluster)
 * {{ k8spgjira(555) }}: The Operator now creates separate Secret with CA certificate for each cluster
 * {{ k8spgjira(553) }}: Users can provide the Operator with their own [root CA certificate](../TLS.md#generate-custom-certificates-for-the-operator-yourself)

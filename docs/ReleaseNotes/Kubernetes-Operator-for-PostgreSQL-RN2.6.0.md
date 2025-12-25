@@ -26,7 +26,7 @@ PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. 
 
 PostgreSQL 17 is currently not recommended for production environments due to the [known limitation](#known-limitations).
 
-_Update from April 1, 2025_: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the [upgrade instructions](../update.md#minor-version-upgrade) for steps
+_Update from April 1, 2025_: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the [upgrade instructions](../update-database.md#minor-version-upgrade) for steps
 
 ### `pgvector` is added to the PostgreSQL image
 
@@ -81,7 +81,7 @@ To support you with your AI journey, we've added the `pgvector` extension to the
 
 ## Supported platforms
 
-The Operator {{ release }} is developed, tested and based on:
+The Operator 2.6.0 is developed, tested and based on:
 
 * PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. 
 * pgBouncer for connection pooling:
@@ -98,7 +98,7 @@ The Operator {{ release }} is developed, tested and based on:
 
 Percona Operators are designed for compatibility with all [CNCF-certified :octicons-link-external-16:](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions. 
 
-Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version {{release}}:
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.6.0:
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.29 - 1.31
 * [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.29 - 1.32
