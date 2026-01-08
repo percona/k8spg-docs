@@ -128,7 +128,7 @@ Follow the instructions relevant to the cloud storage or Persistent Volume you a
                 ...
                 global:
                   repo2-path: /pgbackrest/postgres-operator/cluster1/repo2
-                  repo2-storage-verify-tls=y
+                  repo2-storage-verify-tls: "y"
                   repo2-s3-uri-style: path
                 ...
                 repos:
