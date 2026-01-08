@@ -33,7 +33,7 @@ We'd like to hear from you. Click **Rate this page** and leave your feedback. We
 ## Contribute to documentation yourself
 
 Percona Operator for PostgreSQL documentation is written in [Markdown](https://www.markdownguide.org/basic-syntax/) language, so you can
-[edit it online via GitHub](#edit-documentation-online-vi-github). If you wish to have more control over the doc process, jump to how to [edit documentation locally](#edit-documentation-locally).
+[edit it online via GitHub](#edit-documentation-online-via-github). If you wish to have more control over the doc process, jump to how to [edit documentation locally](#edit-documentation-locally).
 
 To contribute to the documentation, you should be familiar with the following technologies:
 
