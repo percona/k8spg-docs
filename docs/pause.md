@@ -56,7 +56,7 @@ Then retry pausing the cluster.
 
 Standby PostgreSQL clusters provide a continuously replicated copy of your primary cluster, forming the backbone of high‑availability and disaster‑recovery strategies. They stay in sync through streaming replication, enabling you to quickly promote a standby if the primary becomes unavailable. Standby clusters can also run in separate regions or environments, helping you maintain business continuity during outages.
 
-The standby mode for a cluster is controlled with the `standby.enabled` option plus the `standby.repoName` and/or `standby.host` and `standby. port` options in the Custom Resource. What options to specify depends on the standby cluster type. 
+The standby mode for a cluster is controlled with the `spec.standby.enabled` option plus the `spec.standby.repoName` and/or `spec.standby.host` and `spec.standby.port` options in the Custom Resource. What options to specify depends on the standby cluster type. 
 
 Read more about the supported types of standby clusters and their setup in the [Deploy a standby cluster for Disaster Recovery](standby.md) documentation.
 
