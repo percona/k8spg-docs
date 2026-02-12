@@ -96,12 +96,11 @@ the following information there:
 
 * `subjects.namespace` option should contain the namespace which will host
     the Operator,
-* `WATCH_NAMESPACE` key-value pair in the `env` section should have
-    `value` equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, *and* the namespace in which the Operator resides. If this key
-    is set to a blank string, the Operator will watch
-    **only the namespace it runs in**, which would be the same as
-    [single-namespace deployment](cluster-wide.md#namespace-scope).
+* `WATCH_NAMESPACE` in the `env` section controls which namespaces the Operator watches. Specify a comma-separated list of namespaces, including the namespace where the Operator runs, as a value to watch those namespaces only. If a 
+    `value` is a blank string (`""`), the Operator watches **all namespaces**
+    in the cluster. When the `WATCH_NAMESPACE` environment variable is not set, the Operator watches only the namespace it runs in, as in
+    [single-namespace deployment](cluster-wide.md#namespace-scope). For the full
+    list of Operator environment variables, see [Define environment variables](env-vars.md).
 
 !!! note
 
@@ -152,8 +151,7 @@ Kubernetes.
     kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
     ```
 
-    Right now the operator deployed in cluster-wide mode will monitor all
-    namespaces in the cluster, either already existing or newly created ones.
+    With this configuration, the Operator monitors only the specified namespaces.
 
 5. Deploy the cluster in the namespace of your choice:
 
@@ -163,7 +161,7 @@ Kubernetes.
 
 ## Verifying the cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, connect to the cluster to verify it is operational.
 
 {% include 'assets/fragments/connectivity.txt' %}
 
