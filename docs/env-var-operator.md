@@ -4,7 +4,7 @@ You can configure the Percona Operator for PostgreSQL behavior by setting enviro
 
 * For installations via `kubectl`, edit the Operator Deployment manifest `deploy/operator.yaml` or `deploy/cw-operator.yaml`. Alternatively you can modify the Deployment resource in `deploy/bundle.yaml`, or `deploy/cw-bundle.yaml` files.
 * For Helm installations you can set environment variables through Helm values when you install the `percona/pg-operator` chart.
-* For installations on OpenShift, you can edit the manifests and aplly them with the `oc apply` command. If you installed via the [Operator Lifecycle Manager (OLM)](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can configure environment variables through the OLM subscription.
+* For installations on OpenShift, you can edit the manifests and apply them with the `oc apply` command. If you installed via the [Operator Lifecycle Manager (OLM)](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can configure environment variables through the OLM subscription.
 
 ## Available environment variables
 
@@ -27,7 +27,7 @@ spec:
 
 Controls whether the operator sends anonymous telemetry data to Percona. Telemetry helps Percona understand usage patterns and improve the operator, if the value is set to `true` , no telemetry data is sent otherwise telemetry data is sent to the server.
 
-Learn more about telemetry at (../telemetry.md)
+Learn more about telemetry at [telemetry](telemetry.md).
 
 **Example Configuration:**
 
@@ -83,7 +83,7 @@ It is important to note that concurrent reconciliations are done only on differe
 Example:
 PGO_WORKERS=1 , Two PerconaPGCluster objects(A,B) present => One thread only which reconciles both the objects
 PGO_WORKERS=4 , One PerconaPGCluster object present => Reconciliation done serially for this object
-PGO_WORKERS=4 , Two PerconaPGCluster objects(A,B) present => 2 Seperate threads one for each PerconaPGCluster object, however objects A and B are always processed serially.
+PGO_WORKERS=4 , Two PerconaPGCluster objects(A,B) present => 2 Separate threads one for each PerconaPGCluster object, however objects A and B are always processed serially.
 
 **Example Configuration:**
 
@@ -98,14 +98,14 @@ spec:
 
 ### `WATCH_NAMESPACE`
 
-Specifies which Kubernetes namespaces the operator should monitor for PostgreSQL cluster resources. This is a critical configuration for determining the operator's scope of operation. If the variable `WATCH_NAMESPACE` is not set, operator will not run.
+Specifies which Kubernetes namespaces the operator should monitor for PostgreSQL cluster resources. This is a critical configuration for determining the operator's scope of operation. If the `WATCH_NAMESPACE` variable is not set, the operator watches only the namespace where it is deployed.
 
-* If set to a value using a literal string or downward API, single namespace is managed (namespace-scoped mode).
-* If set to a comma-separated list, the operator watches those specific namespaces ,the namespace list must include the namespace where the operator itself is deployed(cluster-wide mode).
-* If set to an empty String "", the operator watches all the namespaces of the kubernetes cluster(cluster-wide mode).
+* If set to a value using a literal string or the downward API, a single namespace is managed (namespace-scoped mode).
+* If set to a comma-separated list, the operator watches those specific namespaces. The list must include the namespace where the operator itself is deployed (cluster-wide mode).
+* If set to an empty string (""), the operator watches all namespaces in the Kubernetes cluster (cluster-wide mode).
 
-In Cluster-wide mode,operator should be associated with appropriate ClusterRole.
-Read more about deployment methods here (./2.1.6.1_namespace_modes.md)
+In cluster-wide mode, the operator must be associated with an appropriate ClusterRole.
+Read more about deployment methods here: (./2.1.6.1_namespace_modes.md)
 
 **Example Configuration:**
 

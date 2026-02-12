@@ -96,9 +96,8 @@ the following information there:
 
 * `subjects.namespace` option should contain the namespace which will host
     the Operator,
-* `WATCH_NAMESPACE` in the `env` section controls which namespaces the Operator watches. Specify a comma-separated list of namespaces, including the namespace where the Operator runs, as a value to watch those namespaces only. If a 
-    `value` is a blank string (`""`), the Operator watches **all namespaces**
-    in the cluster. When the `WATCH_NAMESPACE` environment variable is not set, the Operator watches only the namespace it runs in, as in
+* `WATCH_NAMESPACE` in the `env` section controls which namespaces the Operator watches. Specify a comma-separated list of namespaces, including the namespace where the Operator runs, as a value to watch those namespaces only. If the `value` is a blank string (`""`), the Operator watches **all namespaces** in the cluster.
+    When the `WATCH_NAMESPACE` environment variable is not set, the Operator watches only the namespace it runs in, as in
     [single-namespace deployment](cluster-wide.md#namespace-scope). For the full
     list of Operator environment variables, see [Define environment variables](env-vars.md).
 
