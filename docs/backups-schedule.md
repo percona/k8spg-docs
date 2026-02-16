@@ -33,8 +33,10 @@ actual schedule that you specify in crontab format.
 
 ## Next steps
 
-[Restore from a backup](backups-restore.md){.md-button}
+[Restore from a backup](backups-restore-inplace.md){.md-button}
 
 ## Useful links
 
-[Backup retention](backup-retention.md)
+* [Backup retention](backup-retention.md)
+* [Restore options](backups-restore.md)
+

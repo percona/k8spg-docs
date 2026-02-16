@@ -211,6 +211,7 @@ nav:
             - "Make scheduled backups": backups-schedule.md
             - "Make on-demand backup": backups-ondemand.md
             - "Restore from a backup": backups-restore.md
+            - "Restore options: in-place vs cluster clone": backups-datasource.md
             - "Backup encryption": backup-encryption.md
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
