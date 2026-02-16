@@ -86,7 +86,7 @@ namespaces, if needed:
 
 ![image](assets/images/cluster-wide-2.svg)
 
-To use the Operator in such cluster-wide mode, you should install it with a
+To use the Operator in a cluster-wide mode, you should install it with a
 different set of configuration YAML files, which are available in the deploy
 folder and have filenames with a special `cw-` prefix: e.g.
 `deploy/cw-bundle.yaml`.
@@ -96,9 +96,13 @@ the following information there:
 
 * `subjects.namespace` option should contain the namespace which will host
     the Operator,
-* `WATCH_NAMESPACE` in the `env` section controls which namespaces the Operator watches. Specify a comma-separated list of namespaces, including the namespace where the Operator runs, as a value to watch those namespaces only. If the `value` is a blank string (`""`), the Operator watches **all namespaces** in the cluster.
-    When the `WATCH_NAMESPACE` environment variable is not set, the Operator watches only the namespace it runs in, as in
-    [single-namespace deployment](cluster-wide.md#namespace-scope). For the full
+* The `WATCH_NAMESPACE` environment variable determines which namespaces the Operator will monitor for custom resources. Configure it in the Operator Deployment's `env` section and choose the option that matches your desired Operator scope:
+
+     - **Comma-separated list of namespaces**: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., `"pg-operator,percona-db-1"`). The Operator will watch only the specified namespaces. 
+     - **Empty string (`""`)**: Set the `value` to an empty string. The Operator watches **all namespaces** in the cluster.
+     * **Not set explicitly**: The `WATCH_NAMESPACE` value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`. In this case, the Operator watches only its own namespace.
+
+    For the full
     list of Operator environment variables, see [Define environment variables](env-vars.md).
 
 !!! note

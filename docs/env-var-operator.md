@@ -159,7 +159,7 @@ spec:
 
 ### `PGO_NAMESPACE`
 
-Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`.
+Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`.
 
 This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.
 
