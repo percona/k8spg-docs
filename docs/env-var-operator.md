@@ -134,6 +134,16 @@ spec:
 
 Specifies which namespaces the Operator watches for Custom Resources (PerconaPGCluster and related resources). This is a critical configuration for determining the Operator's scope of operation. 
 
+By default, the value is set to the Operator's own namespace from the `metadata.namespace` option via a downward API `fieldRef`:
+
+```yaml
+- name: WATCH_NAMESPACE
+  valueFrom:
+    fieldRef:
+      apiVersion: v1
+      fieldPath: metadata.namespace
+```
+
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
 | string     | Operator's namespace (from `fieldRef`) | `"pg-operator,percona-db-1"` or `""` |

@@ -96,14 +96,15 @@ the following information there:
 
 * `subjects.namespace` option should contain the namespace which will host
     the Operator,
-* The `WATCH_NAMESPACE` environment variable determines which namespaces the Operator will monitor for custom resources. Configure it in the Operator Deployment's `env` section and choose the option that matches your desired Operator scope:
+* The [`WATCH_NAMESPACE`](env-var-operator.md#watch_namespace) environment variable determines which namespaces the Operator will monitor for custom resources. By default, it is defined by the `metadata.namespace` option via a downward API `fieldRef` and points to the Operator's own namespace.
+
+    Configure the `WATCH_NAMESPACE` environment variable in the Operator Deployment's `env` section and choose the option that matches your desired Operator scope:
 
      - **Comma-separated list of namespaces**: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., `"pg-operator,percona-db-1"`). The Operator will watch only the specified namespaces. 
      - **Empty string (`""`)**: Set the `value` to an empty string. The Operator watches **all namespaces** in the cluster.
-     * **Not set explicitly**: The `WATCH_NAMESPACE` value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`. In this case, the Operator watches only its own namespace.
 
     For the full
-    list of Operator environment variables, see [Define environment variables](env-vars.md).
+    list of Operator environment variables, see [Define Operator environment variables](env-var-operator.md).
 
 !!! note
 
