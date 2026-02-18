@@ -42,7 +42,7 @@ Controls whether the Operator sends anonymous telemetry data to Percona. Telemet
 | ---------- | ------- | ------- |
 | string     | `"false"` | `"true"` |
 
-When set to `true`, the Operator does not send anonymous telemetry data to Percona.
+When set to `"true"`, the Operator does not send anonymous telemetry data to Percona.
 
 Learn more about [Telemetry](telemetry.md).
 
