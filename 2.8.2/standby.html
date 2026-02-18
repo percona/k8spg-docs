@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#how-to-deploy-a-standby-cluster-for-disaster-recovery" class="md-skip">
+        <a href="#deploy-a-standby-cluster-for-disaster-recovery" class="md-skip">
           Skip to content
         </a>
       
@@ -4185,21 +4185,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="how-to-deploy-a-standby-cluster-for-disaster-recovery">How to deploy a standby cluster for Disaster Recovery<a class="headerlink" href="#how-to-deploy-a-standby-cluster-for-disaster-recovery" title="Permanent link">&para;</a></h1>
+<h1 id="deploy-a-standby-cluster-for-disaster-recovery">Deploy a standby cluster for Disaster Recovery<a class="headerlink" href="#deploy-a-standby-cluster-for-disaster-recovery" title="Permanent link">&para;</a></h1>
 <p>Disaster recovery is not optional for businesses operating in the digital age. With the ever-increasing reliance on data, system outages or data loss can be catastrophic, causing significant business disruptions and financial losses.</p>
 <p>With multi-cloud or multi-regional PostgreSQL deployments, the complexity of managing disaster recovery only increases. This is where the Percona Operators come in, providing a solution to streamline disaster recovery for PostgreSQL clusters running on Kubernetes. With the Percona Operators, businesses can manage multi-cloud or hybrid-cloud PostgreSQL deployments with ease, ensuring that critical data is always available and secure, no matter what happens.</p>
-<p>Operators automate routine tasks and remove toil. For standby, the <a href="index.html">Percona Operator for PostgreSQL version 2</a> provides the following options:</p>
+<p>Operators automate routine tasks and remove toil. Percona Operator for PostgreSQL supports the following types of standby clusters:</p>
 <ol>
-<li><a href="standby-backup.html">pgBackrest repo based standby</a>. The standby cluster will be connected to a pgBackRest cloud repo, so it will receive WAL files from the repo and apply them to the database.</li>
-<li><a href="standby-streaming.html">Streaming replication</a>. The standby cluster will use an authenticated network connection to the primary cluster to receive WAL records directly.</li>
-<li>Combination of (1) and (2). The standby cluster is configured for both repo-based standby and streaming replicaton. It bootstraps from the pgBackRest repo and continues to receive WAL files as they are pushed to the repo, and can also directly receive them from primary. Using this approach ensures the cluster will still be up to date with the pgBackRest repo if streaming falls behind.</li>
+<li>A repo-based standby that recovers WAL files from a <code>pgBackRest</code> repo stored in external storage. For this setup, you reference the <code>pgBackRest</code> repo name and the cloud-based backup configuration that matches the one from the primary site. Refer to the <a href="standby-backup.html">Standby cluster deployment based on pgBackRest</a> tutorial for the setup steps.</li>
+<li>A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the <a href="standby-streaming.html">Standby cluster deployment based on streaming replication</a> tutorial.</li>
+<li>Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.</li>
 </ol>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2024 16:43:58 UTC">October 8, 2024</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 18, 2026 11:40:17 UTC">February 18, 2026</span>
       
         <br>
         Created:

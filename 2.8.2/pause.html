@@ -2138,21 +2138,60 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pause-and-resume" class="md-nav__link">
+  <a href="#pause-and-resume-the-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pause and resume
+        Pause and resume the cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pause and resume the cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-pause" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to pause
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#put-in-standby-mode" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-resume" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Put in standby mode
+        How to resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standby-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standby mode
       
     </span>
   </a>
@@ -4218,21 +4257,60 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#pause-and-resume" class="md-nav__link">
+  <a href="#pause-and-resume-the-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Pause and resume
+        Pause and resume the cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Pause and resume the cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-pause" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How to pause
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#put-in-standby-mode" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#how-to-resume" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Put in standby mode
+        How to resume
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#standby-mode" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Standby mode
       
     </span>
   </a>
@@ -4273,30 +4351,44 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">&para;</a></h1>
-<h2 id="pause-and-resume">Pause and resume<a class="headerlink" href="#pause-and-resume" title="Permanent link">&para;</a></h2>
-<p>Sometimes you may need to temporarily shut down (pause) your cluster and restart it later, such as during maintenance.</p>
-<p>The <code>deploy/cr.yaml</code> file contains a special <code>spec.pause</code> key for this.
-Setting it to <code>true</code> gracefully stops the cluster:</p>
+<h2 id="pause-and-resume-the-cluster">Pause and resume the cluster<a class="headerlink" href="#pause-and-resume-the-cluster" title="Permanent link">&para;</a></h2>
+<p>You can temporarily shut down your PostgreSQL cluster and bring it back later without losing data or configuration. You may want to pause the cluster for maintenance tasks, emergency manual intervention or debugging.</p>
+<p>When paused, all changes to the cluster&rsquo;s current state are suspended and no statuses other than the &ldquo;Progressing&rdquo; condition are updated until you resume the reconciliation.</p>
+<h3 id="how-to-pause">How to pause<a class="headerlink" href="#how-to-pause" title="Permanent link">&para;</a></h3>
+<p>Set the <code>spec.pause</code> option to <code>true</code> in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">.......</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">pause</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">pause</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="c1"># ... rest of your spec</span>
 </code></pre></div>
-<p>To start the cluster after it was paused, revert the <code>spec.pause</code>
-key to <code>false</code>.</p>
-<p><strong>Troubleshooting tip</strong></p>
-<p>If you&rsquo;re pausing the cluster when there is a running backup, the Operator won&rsquo;t pause it for you. It will print a warning about running backups. In this case delete a running backup job and retry.</p>
-<h2 id="put-in-standby-mode">Put in standby mode<a class="headerlink" href="#put-in-standby-mode" title="Permanent link">&para;</a></h2>
-<p>You can also put the cluster into a <a href="https://www.postgresql.org/docs/current/warm-standby.html">standby <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> (read-only) mode instead of completely shutting it down. This is done by a special <code>spec.standby</code> key. Set it to <code>true</code> for read-only state. To resume the normal cluster operation, set it to <code>false</code>.</p>
+<p>Apply the change:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs).</p>
+<h3 id="how-to-resume">How to resume<a class="headerlink" href="#how-to-resume" title="Permanent link">&para;</a></h3>
+<p>Set <code>spec.pause</code> back to <code>false</code> in the same Custom Resource and apply:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">.......</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">standby</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pause</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="c1"># ... rest of your spec</span>
 </code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>The Operator will start the cluster again using the existing data volumes.</p>
+<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h3>
+<p><strong>The Operator does not pause the cluster</strong></p>
+<p>If a backup job is running, the Operator will not pause the cluster and will log a warning. Remove a running backup job so you can pause:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>job<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>Then retry pausing the cluster.</p>
+<h2 id="standby-mode">Standby mode<a class="headerlink" href="#standby-mode" title="Permanent link">&para;</a></h2>
+<p>Standby PostgreSQL clusters provide a continuously replicated copy of your primary cluster, forming the backbone of high‑availability and disaster‑recovery strategies. They stay in sync through streaming replication, enabling you to quickly promote a standby if the primary becomes unavailable. Standby clusters can also run in separate regions or environments, helping you maintain business continuity during outages.</p>
+<p>The standby mode for a cluster is controlled with the <code>spec.standby.enabled</code> option plus the <code>spec.standby.repoName</code> and/or <code>spec.standby.host</code> and <code>spec.standby.port</code> options in the Custom Resource. What options to specify depends on the standby cluster type. </p>
+<p>Read more about the supported types of standby clusters and their setup in the <a href="standby.html">Deploy a standby cluster for Disaster Recovery</a> documentation.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 18, 2026 11:40:17 UTC">February 18, 2026</span>
       
         <br>
         Created:
