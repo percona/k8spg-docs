@@ -99,7 +99,7 @@ To check available configuration options, see [deploy/cr.yaml :octicons-link-ext
 
     !!! note "Cluster name length"
 
-        For the pg-db chart, the cluster name is limited to 21 characters, must consist of lower case alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character. Keep this in mind when using `fullnameOverride` or long release names.
+        For the pg-db chart, the cluster name is limited to 21 characters, must consist of lowercase alphanumeric characters, '-' or '.', and must start and end with an alphanumeric character. Keep this in mind when using `fullnameOverride` or long release names.
 
     ## Common Helm values reference
 
