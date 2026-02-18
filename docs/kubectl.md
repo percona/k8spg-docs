@@ -1,6 +1,6 @@
 # Install Percona Operator for PostgreSQL using kubectl
 
-Percona Operator for PostgreSQL is a custom controller that will manage your PostgreSQL clusters inside Kubernetes. The Operator will automatically deploy, maintain, and monitor PostgreSQL databases automatically, so you don't have to manage these tasks manually.
+Percona Operator for PostgreSQL is a custom controller that will manage your PostgreSQL clusters inside Kubernetes. The Operator will automatically deploy, maintain, and monitor PostgreSQL databases, so you don't have to manage these tasks manually.
 
 We recommend installing the Operator with the [kubectl :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/) command line utility. It is the universal way to interact with Kubernetes. Alternatively, you can install the Operator using the [Helm :octicons-link-external-16:](https://github.com/helm/helm) package manager.
 
