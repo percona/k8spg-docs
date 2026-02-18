@@ -11,8 +11,8 @@
 The default Percona Distribution for PostgreSQL configuration includes:
 
 * 3 PostgreSQL servers, one Primary and two replicas. 
-* a pgBouncer instance - a lightweight connection pooler for PostgreSQL that sits between client applications and the database server to manage and reuse connections efficiently.
-* a pgBackRest instance - a backup and restore utility for PostgreSQL that provides a way to backup and restore your database.
-* a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor and manage your database.
+* 3 pgBouncer instances - a lightweight connection pooler for PostgreSQL that sits between client applications and the database server to manage and reuse connections efficiently.
+* a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest - a backup and restore utility. 
+* a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor and manage your database. It runs as a sidecar container in the database Pods.
 
 Read more about the default components in the [Architecture](architecture.md) section.
