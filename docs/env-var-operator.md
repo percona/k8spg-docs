@@ -152,7 +152,6 @@ Accepted values:
 
 * If set to a comma-separated list, the Operator watches those specific namespaces. The namespace list must include the namespace where the Operator itself is deployed. Use this approach for the [cluster-wide mode](cluster-wide.md).
 * If set to an empty string (`""`), the Operator watches all namespaces in the Kubernetes cluster (cluster-wide mode).
-* If not set explicitly, the value is retrieved from the Deployment's namespace via `fieldRef`. In this case, the Operator watches only its own namespace.
 
 When you deploy the Operator in cluster-wide mode, it should be associated with the appropriate ClusterRole. 
 
