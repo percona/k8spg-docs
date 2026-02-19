@@ -42,7 +42,11 @@ Controls whether the Operator sends anonymous telemetry data to Percona. Telemet
 | ---------- | ------- | ------- |
 | string     | `"false"` | `"true"` |
 
+<<<<<<< K8SPG-758-Doc-Pprof-binding
 When set to `"true"`, the Operator does not send anonymous telemetry data to Percona.
+=======
+When set to `true`, the Operator does not send anonymous telemetry data to Percona.
+>>>>>>> 2.0
 
 Learn more about [Telemetry](telemetry.md).
 
@@ -185,6 +189,7 @@ spec:
       value: "pg-operator"
 ```
 
+<<<<<<< K8SPG-758-Doc-Pprof-binding
 ### `PPROF_BIND_ADDRESS`
 
 Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.
@@ -208,6 +213,8 @@ spec:
       value: "127.0.0.1:6060"
 ```
 
+=======
+>>>>>>> 2.0
 ## Update environment variables
 
 ### Using kubectl patch
