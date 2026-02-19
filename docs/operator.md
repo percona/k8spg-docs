@@ -102,6 +102,14 @@ Name of the pgBackRest repository in the primary cluster this standby cluster co
 | ---------- | ------- |
 | :material-code-string: string | `repo1` |
 
+### `standby.maxAcceptableLag`
+
+The maximum amount of WAL data that the standby cluster can be behind the primary cluster. It is measured in bytes of WAL data. When the WAL lag exceeds this value, the primary pod in the standby cluster is marked as unready, the cluster goes into the `initializing` state, and a `StandbyLagging` condition is set in the status. If unset, lag is not checked. Use Kubernetes quantity format (for example, `10Mi`, `1Gi`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `10Mi` |
+
 ### `secrets.customRootCATLSSecret.name`
 
 Name of the secret with the custom root CA certificate and key for secure connections to the PostgreSQL server, see [Transport Layer Security (TLS)](TLS.md) for details.

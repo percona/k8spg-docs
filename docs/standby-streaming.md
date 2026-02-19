@@ -80,10 +80,12 @@ Apart from setting certificates correctly, you should also set standby configura
   standby:
     enabled: true
     host: main-ha.main-pg.svc
+    maxAcceptableLag: 10Mi  # optional: enables replication lag detection
 ```
 
 * `standby.enabled` controls if it is a standby cluster or not
 * `standby.host` must point to the primary node of a Main cluster. In this example it is a `main-ha` Service in another namespace.
+* `standby.maxAcceptableLag` (optional) enables replication lag detection. When the WAL lag exceeds this value, the standby primary pod is marked as unready, the cluster goes into `initializing` state, and a `StandbyLagging` condition is set in the status.
 
 Deploy the standby cluster by applying the manifest:
 

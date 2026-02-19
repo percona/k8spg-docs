@@ -10,3 +10,23 @@ Operators automate routine tasks and remove toil. Percona Operator for PostgreSQ
 2. A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the [Standby cluster deployment based on streaming replication](standby-streaming.md) tutorial.
 3. Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.
 
+## Detect replication lag for standby cluster
+
+If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster. 
+
+You can enable replication lag detection for any standby type by setting the [`standby.maxAcceptableLag`](operator.md#standbymaxacceptablelag) option in the Custom Resource. When the WAL lag exceeds this value, the following occurs:
+
+* The primary pod in the standby cluster is marked as `Unready` 
+* The cluster goes into the `initializing` state
+* The  `StandbyLagging` condition is set in the cluster status. You can check the conditions with the `kubectl describe pg <cluster-name> -n <namespace>` command.
+
+This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.
+
+### Known limitation for a repo-based standby cluster
+
+For WAL lag detection to work in this standby type, the Operator must have access to the primary cluster. Therefore, WAL lag detection is available in these setups:
+
+* Primary and standby clusters are deployed in the same namespace
+* Primary and standby are deployed in different namespaces and the Operator is installed in cluster-wide mode.
+
+
