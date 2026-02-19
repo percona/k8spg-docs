@@ -219,6 +219,9 @@ nav:
               - Restore options: backups-restore.md
               - To the same cluster (in-place restore): backups-restore-inplace.md
               - To a new cluster (cluster clone): backups-clone.md
+            - PVC shapshots:
+              - "About PVC snapshots": backups-pvc-snapshots.md
+              - "Configure PVC snapshots": backups-pvc-snapshots-setup.md
             - "Backup encryption": backup-encryption.md
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md

@@ -39,6 +39,14 @@ Specifies the name of one of the 4 pgBackRest repositories, already configured i
 | ----------- | ---------- |
 | :material-code-string: string     | `repo1` |
 
+### `volumeSnapshotBackupName`
+
+Specifies the name of a PVC snapshot-based backup to restore from. See [Configure and use PVC snapshots](backups-pvc-setup.md) to learn more.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `backup1` |
+
 ### `options`
 
 Specify the [command line options supported by `pgBackRest` :octicons-external-link-16:](https://pgbackrest.org/configuration.html). For example, to make a point-in-time restore or to restore from a specific backup.

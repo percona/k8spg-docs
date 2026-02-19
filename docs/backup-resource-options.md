@@ -39,6 +39,14 @@ Specifies the name of the `pgBackRest` repository where to save a backup. It mus
 | ----------- | ---------- |
 | :material-code-string: string     | `repo1` |
 
+### `method`
+
+Specifies what method to use for the backup. When undefined, uses `pgBackRest` by default. Supported value is `VolumeSnapshot`. See [PVC snapshot support](backups-pvc-snapshots.md) to learn more.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `VolumeSnapshot` |
+
 ### `options`
 
 You can customize the backup by specifying different [command line options supported by pgBackRest :octicons-external-link-16:](https://pgbackrest.org/configuration.html).

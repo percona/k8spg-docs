@@ -11,10 +11,16 @@ file. The Operator makes them automatically according to the schedule.
 
 ## What you need to know
 
-### Backup repositories
+### Backup methods
 
-To make backups, the Operator uses the open source [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) backup
-and restore utility. 
+By default, the Operator uses the open source [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) backup
+and restore utility to make backups.
+
+Starting with version 2.9.0, the Operator also supports [PVC snapshots](backups-pvc-snapshots.md) - storage-level copies of your data volumes. PVC snapshots offer much faster backups and restores. When used with `pgBackRest` WAL archiving, they maintain data consistency and enable you to make point-in-time recovery of your database.
+
+This feature is in the tech preview stage. You must explicitly enable it for the Operator deployment.
+
+### Backup repositories
 
 When the Operator creates a new PostgreSQL cluster, it also creates a special *pgBackRest repository* to facilitate the usage of the pgBackRest
 features. You can notice an additional `repo-host` Pod after the cluster

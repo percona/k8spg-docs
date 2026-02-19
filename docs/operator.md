@@ -567,6 +567,30 @@ The [Kubernetes labels :octicons-link-external-16:](https://kubernetes.io/docs/c
 | ---------- | ------- |
 | :material-label-outline: label | `test-label: value` |
 
+### `dataSource.apiGroup`
+
+The name of the VolumeSnapshot API. It is required for bootstrapping a new cluster from a PVC snapshot.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `snapshot.storage.k8s.io` |
+
+### `dataSource.kind`
+
+Specifies what kind of resources serves as the data source
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `VolumeSnapshot` |
+
+### `dataSource.name`
+
+Specifies what name of the PVC snapshot backup that will be used as a data source for the restore.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-snapshot-backup-data` |
+
 ### `image`
 
 The PostgreSQL Docker image to use.
@@ -1080,6 +1104,30 @@ Enables or disables [tracking the latest restorable time](backups-restore-inplac
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
+
+### `backups.volumeSnapshots.className`
+
+Name of the [VolumeSnapshotClass :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to use when creating [PVC snapshots](backups-pvc-snapshots.md). When set, the Operator creates a volume snapshot in coordination with each backup. Snapshots enable much faster restores when provisioning new clusters. Requires the `VolumeSnapshots=true` feature gate.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `csi-gce-pd-snapshot-class` |
+
+### `backups.volumeSnapshots.mode`
+
+Specifies the type of PVC snapshot-based backups.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `offline` |
+
+### `backups.volumeSnapshots.schedule`
+
+Specifies the schedule in Cron format to run PVC snapshot-based backups automatically.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"0 3 * * *"` |
 
 ### `backups.pgbackrest.metadata.labels`
 
