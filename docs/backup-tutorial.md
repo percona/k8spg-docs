@@ -139,7 +139,7 @@ For manual backups, you need a backup configuration file.
         backup1                      cluster1   repo2   s3://pg-operator-testing   Succeeded   full   3m14s       4m46s
         ```
 
-Congratulations! You have made the first backup manually. Want to learn more about backups? See the [Backup and restore section](backups.md) for details like types, retention and how to [automatically make backups according to the schedule](backups-schedule.md).
+Congratulations! You have made the first backup manually. Want to learn more about backups? See the [Backup and restore section](backups.md) for details like types, retention and how to [automatically make backups according to the schedule](backups-schedule.md). When you need to restore, see [Restore options](backups-restore.md) for in-place restore and cluster cloning.
 
 ## Next steps
 
