@@ -208,10 +208,13 @@ nav:
           - Back up and restore: 
             - "About backups": backups.md
             - "Configure storage for backups": backups-storage.md
-            - "Make scheduled backups": backups-schedule.md
-            - "Make on-demand backup": backups-ondemand.md
-            - "Restore from a backup": backups-restore.md
-            - "Restore options: in-place vs cluster clone": backups-datasource.md
+            - Make a backup:
+              - Scheduled backup: backups-schedule.md
+              - On-demand backup: backups-ondemand.md
+            - Restore from a backup: 
+              - Restore options: backups-restore.md
+              - To the same cluster (in-place restore): backups-restore-inplace.md
+              - To a new cluster (cluster clone): backups-clone.md
             - "Backup encryption": backup-encryption.md
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
