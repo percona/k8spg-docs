@@ -1564,6 +1564,53 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_3" id="__nav_7_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Make a backup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Make a backup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="backups-schedule.html" class="md-nav__link">
         
@@ -1572,7 +1619,7 @@
   <span class="md-ellipsis">
     
   
-    Make scheduled backups
+    Scheduled backup
   
 
     
@@ -1600,7 +1647,90 @@
   <span class="md-ellipsis">
     
   
-    Make on-demand backup
+    On-demand backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_4" id="__nav_7_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore from a backup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Restore from a backup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-restore.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore options
   
 
     
@@ -1621,14 +1751,14 @@
   
   
     <li class="md-nav__item">
-      <a href="backups-restore.html" class="md-nav__link">
+      <a href="backups-restore-inplace.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    To the same cluster (in-place restore)
   
 
     
@@ -1637,6 +1767,42 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-clone.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    To a new cluster (cluster clone)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4402,7 +4568,7 @@ limited to a specific namespace, to limit the blast radius. But it is possible
 to run it in so-called <em>cluster-wide</em> mode, one Operator watching several
 namespaces, if needed:</p>
 <p><img alt="image" src="assets/images/cluster-wide-2.svg" /></p>
-<p>To use the Operator in such cluster-wide mode, you should install it with a
+<p>To use the Operator in a cluster-wide mode, you should install it with a
 different set of configuration YAML files, which are available in the deploy
 folder and have filenames with a special <code>cw-</code> prefix: e.g.
 <code>deploy/cw-bundle.yaml</code>.</p>
@@ -4411,12 +4577,16 @@ the following information there:</p>
 <ul>
 <li><code>subjects.namespace</code> option should contain the namespace which will host
     the Operator,</li>
-<li><code>WATCH_NAMESPACE</code> key-value pair in the <code>env</code> section should have
-    <code>value</code> equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, <em>and</em> the namespace in which the Operator resides. If this key
-    is set to a blank string, the Operator will watch
-    <strong>only the namespace it runs in</strong>, which would be the same as
-    <a href="cluster-wide.html#namespace-scope">single-namespace deployment</a>.</li>
+<li>
+<p>The <a href="env-var-operator.html#watch_namespace"><code>WATCH_NAMESPACE</code></a> environment variable determines which namespaces the Operator will monitor for custom resources. By default, it is defined by the <code>metadata.namespace</code> option via a downward API <code>fieldRef</code> and points to the Operator&rsquo;s own namespace.</p>
+<p>Configure the <code>WATCH_NAMESPACE</code> environment variable in the Operator Deployment&rsquo;s <code>env</code> section and choose the option that matches your desired Operator scope:</p>
+<ul>
+<li><strong>Comma-separated list of namespaces</strong>: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., <code>"pg-operator,percona-db-1"</code>). The Operator will watch only the specified namespaces. </li>
+<li><strong>Empty string (<code>""</code>)</strong>: Set the <code>value</code> to an empty string. The Operator watches <strong>all namespaces</strong> in the cluster.</li>
+</ul>
+<p>For the full
+list of Operator environment variables, see <a href="env-var-operator.html">Define Operator environment variables</a>.</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -4462,8 +4632,7 @@ kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span clas
 <p>Apply the <code>deploy/cw-bundle.yaml</code> file with the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/cw-bundle.yaml<span class="w"> </span>-n<span class="w"> </span>pg-operator
 </code></pre></div>
-<p>Right now the operator deployed in cluster-wide mode will monitor all
-namespaces in the cluster, either already existing or newly created ones.</p>
+<p>With this configuration, the Operator monitors only the specified namespaces.</p>
 </li>
 <li>
 <p>Deploy the cluster in the namespace of your choice:</p>
@@ -4472,7 +4641,7 @@ namespaces in the cluster, either already existing or newly created ones.</p>
 </li>
 </ol>
 <h2 id="verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
-<p>When creation process is over, you can try to connect to the cluster.</p>
+<p>When creation process is over, connect to the cluster to verify it is operational.</p>
 <p class="power-number">During the installation, the Operator has generated several
 <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
 including the one with password for default PostgreSQL user. This default
@@ -4520,7 +4689,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 10:22:59 UTC">February 19, 2026</span>
       
         <br>
         Created:

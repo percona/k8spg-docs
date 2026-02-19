@@ -1572,6 +1572,53 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_3" id="__nav_7_1_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Make a backup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Make a backup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="backups-schedule.html" class="md-nav__link">
         
@@ -1580,7 +1627,7 @@
   <span class="md-ellipsis">
     
   
-    Make scheduled backups
+    Scheduled backup
   
 
     
@@ -1608,7 +1655,90 @@
   <span class="md-ellipsis">
     
   
-    Make on-demand backup
+    On-demand backup
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_4" id="__nav_7_1_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore from a backup
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Restore from a backup
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-restore.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Restore options
   
 
     
@@ -1629,14 +1759,14 @@
   
   
     <li class="md-nav__item">
-      <a href="backups-restore.html" class="md-nav__link">
+      <a href="backups-restore-inplace.md" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    To the same cluster (in-place restore)
   
 
     
@@ -1645,6 +1775,42 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-clone.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    To a new cluster (cluster clone)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4592,10 +4758,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#section-7-1-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Make a backup
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Make a backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#backups-schedule" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Make scheduled backups
+        Scheduled backup
       
     </span>
   </a>
@@ -4606,21 +4784,43 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <a href="#backups-ondemand" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Make on-demand backup
+        On-demand backup
       
     </span>
   </a>
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+        
           <li class="md-nav__item">
-  <a href="#backups-restore" class="md-nav__link">
+  <a href="#section-7-1-4" class="md-nav__link">
     <span class="md-ellipsis">
       
         Restore from a backup
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Restore from a backup">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backups-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore options
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -9703,7 +9903,11 @@ separate data keys.    </p>
 <ul>
 <li><a class="md-button" href="#backups-ondemand">Make an on-demand backup</a></li>
 <li><a class="md-button" href="#backups-schedule">Make a scheduled backup</a></li>
-</ul></section><section class="print-page" id="backups-schedule" heading-number="7.1.3"><h1 id="backups-schedule-make-scheduled-backups">Make scheduled backups<a class="headerlink" href="#backups-schedule-make-scheduled-backups" title="Permanent link">&para;</a></h1>
+</ul></section>
+                    <section class='print-page md-section' id='section-7-1-3' heading-number='7.1.3'>
+                        <h1>Make a backup<a class='headerlink' href='#section-7-1-3' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="backups-schedule" heading-number="7.1.3.1"><h1 id="backups-schedule-make-scheduled-backups">Make scheduled backups<a class="headerlink" href="#backups-schedule-make-scheduled-backups" title="Permanent link">&para;</a></h1>
 <p>Backups schedule is defined on the per-repository basis in the
 <code>backups.pgbackrest.repos</code> subsection of the <code>deploy/cr.yaml</code> file. </p>
 <p class="power-number">You can supply each repository with a <code>schedules.&lt;backup type&gt;</code> key equal to an
@@ -9738,7 +9942,7 @@ actual schedule that you specify in crontab format.</p>
 <h2 id="backups-schedule-next-steps">Next steps<a class="headerlink" href="#backups-schedule-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#backups-restore">Restore from a backup</a></p>
 <h2 id="backups-schedule-useful-links">Useful links<a class="headerlink" href="#backups-schedule-useful-links" title="Permanent link">&para;</a></h2>
-<p><a href="#backup-retention">Backup retention</a></p></section><section class="print-page" id="backups-ondemand" heading-number="7.1.4"><h1 id="backups-ondemand-making-on-demand-backups">Making on-demand backups<a class="headerlink" href="#backups-ondemand-making-on-demand-backups" title="Permanent link">&para;</a></h1>
+<p><a href="#backup-retention">Backup retention</a></p></section><section class="print-page" id="backups-ondemand" heading-number="7.1.3.2"><h1 id="backups-ondemand-making-on-demand-backups">Making on-demand backups<a class="headerlink" href="#backups-ondemand-making-on-demand-backups" title="Permanent link">&para;</a></h1>
 <p>To make an on-demand backup manually, you need a backup configuration file. You can use the example of the backup configuration file <a href="https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.2/deploy/backup.yaml">deploy/backup.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
@@ -9789,7 +9993,11 @@ backup1   cluster1   repo1                 Succeeded   incr   3m38s       3m53s
 <h2 id="backups-ondemand-next-steps">Next steps<a class="headerlink" href="#backups-ondemand-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#backups-restore">Restore from a backup</a></p>
 <h2 id="backups-ondemand-useful-links">Useful links<a class="headerlink" href="#backups-ondemand-useful-links" title="Permanent link">&para;</a></h2>
-<p><a href="#backup-retention">Backup retention</a></p></section><section class="print-page" id="backups-restore" heading-number="7.1.5"><h1 id="backups-restore-restore-the-cluster-from-a-previously-saved-backup">Restore the cluster from a previously saved backup<a class="headerlink" href="#backups-restore-restore-the-cluster-from-a-previously-saved-backup" title="Permanent link">&para;</a></h1>
+<p><a href="#backup-retention">Backup retention</a></p></section></section>
+                    <section class='print-page md-section' id='section-7-1-4' heading-number='7.1.4'>
+                        <h1>Restore from a backup<a class='headerlink' href='#section-7-1-4' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="backups-restore" heading-number="7.1.4.1"><h1 id="backups-restore-restore-the-cluster-from-a-previously-saved-backup">Restore the cluster from a previously saved backup<a class="headerlink" href="#backups-restore-restore-the-cluster-from-a-previously-saved-backup" title="Permanent link">&para;</a></h1>
 <p>The Operator supports the ability to perform a full restore on a PostgreSQL
 cluster as well as a point-in-time-recovery. There are two ways to
 restore a cluster:</p>
@@ -10042,7 +10250,7 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
 </code></pre></div>
 <p>Alternatively, you can temporarily delete the database cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a> (check the <a href="#operator-finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running <code>kubectl apply -f deploy/cr.yaml -n postgres-operator</code> command you have used to deploy the it previously.</p>
-<p>One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a>, <a href="#debug-storage-check-the-pvc">find the startup PVC</a> to delete it and recreate again. </p></section><section class="print-page" id="backup-encryption" heading-number="7.1.6"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
+<p>One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a>, <a href="#debug-storage-check-the-pvc">find the startup PVC</a> to delete it and recreate again. </p></section></section><section class="print-page" id="backup-encryption" heading-number="7.1.5"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
 <p>Backup encryption is a security best practice that helps protect your organization&rsquo;s confidential information and prevents unauthorized access.</p>
 <p>The pgBackRest tool used by the Operator allows encrypting backups using AES-256
 encryption. The approach is <strong>repository-based</strong>: pgBackRest encrypts the whole
@@ -10121,7 +10329,7 @@ instruction relevant to the backup storage you are using. The only difference is
 </ol>
 <h2 id="backup-encryption-make-a-backup">Make a backup<a class="headerlink" href="#backup-encryption-make-a-backup" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#backups-ondemand">Make an on-demand backup</a>
-<a class="md-button" href="#backups-schedule">Make a scheduled backup</a></p></section><section class="print-page" id="async-archiving" heading-number="7.1.7"><h1 id="async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving">Speed-up backups with pgBackRest asynchronous archiving<a class="headerlink" href="#async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving" title="Permanent link">&para;</a></h1>
+<a class="md-button" href="#backups-schedule">Make a scheduled backup</a></p></section><section class="print-page" id="async-archiving" heading-number="7.1.6"><h1 id="async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving">Speed-up backups with pgBackRest asynchronous archiving<a class="headerlink" href="#async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving" title="Permanent link">&para;</a></h1>
 <p>Backing up a database with high write-ahead logs (WAL) generation can be rather
 slow, because PostgreSQL archiving process is sequential, without any
 parallelism or batching. In extreme cases backup can be even considered
@@ -10149,7 +10357,7 @@ Your storage configuration file may look as follows:</p>
 <p>No modifications are needed aside of setting these additional parameters.
 You can find more information about WAL asynchronous archiving in
 <a href="https://pgbackrest.org/user-guide-centos7.html#async-archiving">gpBackRest official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and in <a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">this blog post <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="backup-retention" heading-number="7.1.8"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
+and in <a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">this blog post <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="backup-retention" heading-number="7.1.7"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
 <p>The Operator supports setting pgBackRest retention policies for full and
 differential backups. When a full backup expires according to the retention
 policy, pgBackRest cleans up all the files related to this backup and to the
@@ -10180,7 +10388,7 @@ as follows.</p>
 <span class="w">      </span><span class="nt">global</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">repo1-retention-diff</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
 <span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div></section><section class="print-page" id="backups-delete" heading-number="7.1.9"><h1 id="backups-delete-delete-the-unneeded-backup">Delete the unneeded backup<a class="headerlink" href="#backups-delete-delete-the-unneeded-backup" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="backups-delete" heading-number="7.1.8"><h1 id="backups-delete-delete-the-unneeded-backup">Delete the unneeded backup<a class="headerlink" href="#backups-delete-delete-the-unneeded-backup" title="Permanent link">&para;</a></h1>
 <p>The maximum amount of stored backups is controlled by the <a href="#backup-retention">retention policies</a>.
 Older backups are automatically deleted. </p>
 <p>Manual deleting of a previously saved backup requires not more than the backup
@@ -10197,7 +10405,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This <code>percona.com/delete-backups</code> finalizer is in tech preview state, and it is not yet recommended for production environments.</p>
-</div></section><section class="print-page" id="backups-disable" heading-number="7.1.10"><h1 id="backups-disable-disable-backups">Disable backups<a class="headerlink" href="#backups-disable-disable-backups" title="Permanent link">&para;</a></h1>
+</div></section><section class="print-page" id="backups-disable" heading-number="7.1.9"><h1 id="backups-disable-disable-backups">Disable backups<a class="headerlink" href="#backups-disable-disable-backups" title="Permanent link">&para;</a></h1>
 <p>The recommended approach to deploy and run the database is with the disaster recovery strategy in mind. Therefore, the Operator is designed and running with the backups enabled by default. </p>
 <p>There are some specific use cases when you may wish to run a database without enabled backups. Disabling backups should be a conscious decision based on your data&rsquo;s value and recoverability. These are example use cases where it is considered acceptable are when the data is fully disposable:</p>
 <ul>
@@ -12639,7 +12847,7 @@ limited to a specific namespace, to limit the blast radius. But it is possible
 to run it in so-called <em>cluster-wide</em> mode, one Operator watching several
 namespaces, if needed:</p>
 <p><img alt="image" src="assets/images/cluster-wide-2.svg" /></p>
-<p>To use the Operator in such cluster-wide mode, you should install it with a
+<p>To use the Operator in a cluster-wide mode, you should install it with a
 different set of configuration YAML files, which are available in the deploy
 folder and have filenames with a special <code>cw-</code> prefix: e.g.
 <code>deploy/cw-bundle.yaml</code>.</p>
@@ -12648,12 +12856,16 @@ the following information there:</p>
 <ul>
 <li><code>subjects.namespace</code> option should contain the namespace which will host
     the Operator,</li>
-<li><code>WATCH_NAMESPACE</code> key-value pair in the <code>env</code> section should have
-    <code>value</code> equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, <em>and</em> the namespace in which the Operator resides. If this key
-    is set to a blank string, the Operator will watch
-    <strong>only the namespace it runs in</strong>, which would be the same as
-    <a href="#cluster-wide-namespace-scope">single-namespace deployment</a>.</li>
+<li>
+<p>The <a href="#env-var-operator-watch_namespace"><code>WATCH_NAMESPACE</code></a> environment variable determines which namespaces the Operator will monitor for custom resources. By default, it is defined by the <code>metadata.namespace</code> option via a downward API <code>fieldRef</code> and points to the Operator&rsquo;s own namespace.</p>
+<p>Configure the <code>WATCH_NAMESPACE</code> environment variable in the Operator Deployment&rsquo;s <code>env</code> section and choose the option that matches your desired Operator scope:</p>
+<ul>
+<li><strong>Comma-separated list of namespaces</strong>: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., <code>"pg-operator,percona-db-1"</code>). The Operator will watch only the specified namespaces. </li>
+<li><strong>Empty string (<code>""</code>)</strong>: Set the <code>value</code> to an empty string. The Operator watches <strong>all namespaces</strong> in the cluster.</li>
+</ul>
+<p>For the full
+list of Operator environment variables, see <a href="#env-var-operator">Define Operator environment variables</a>.</p>
+</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -12699,8 +12911,7 @@ kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span clas
 <p>Apply the <code>deploy/cw-bundle.yaml</code> file with the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/cw-bundle.yaml<span class="w"> </span>-n<span class="w"> </span>pg-operator
 </code></pre></div>
-<p>Right now the operator deployed in cluster-wide mode will monitor all
-namespaces in the cluster, either already existing or newly created ones.</p>
+<p>With this configuration, the Operator monitors only the specified namespaces.</p>
 </li>
 <li>
 <p>Deploy the cluster in the namespace of your choice:</p>
@@ -12709,7 +12920,7 @@ namespaces in the cluster, either already existing or newly created ones.</p>
 </li>
 </ol>
 <h2 id="cluster-wide-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#cluster-wide-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
-<p>When creation process is over, you can try to connect to the cluster.</p>
+<p>When creation process is over, connect to the cluster to verify it is operational.</p>
 <p class="power-number">During the installation, the Operator has generated several
 <a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
 including the one with password for default PostgreSQL user. This default
@@ -20820,21 +21031,23 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #backups-storage > h1:before { content: '7.1.2 ' }
 
-.print-site-enumerate-headings #backups-schedule > h1:before { content: '7.1.3 ' }
+.print-site-enumerate-headings #section-7-1-3 > h1:before { content: '7.1.3 ' }
+.print-site-enumerate-headings #backups-schedule > h1:before { content: '7.1.3.1 ' }
 
-.print-site-enumerate-headings #backups-ondemand > h1:before { content: '7.1.4 ' }
+.print-site-enumerate-headings #backups-ondemand > h1:before { content: '7.1.3.2 ' }
 
-.print-site-enumerate-headings #backups-restore > h1:before { content: '7.1.5 ' }
+.print-site-enumerate-headings #section-7-1-4 > h1:before { content: '7.1.4 ' }
+.print-site-enumerate-headings #backups-restore > h1:before { content: '7.1.4.1 ' }
 
-.print-site-enumerate-headings #backup-encryption > h1:before { content: '7.1.6 ' }
+.print-site-enumerate-headings #backup-encryption > h1:before { content: '7.1.5 ' }
 
-.print-site-enumerate-headings #async-archiving > h1:before { content: '7.1.7 ' }
+.print-site-enumerate-headings #async-archiving > h1:before { content: '7.1.6 ' }
 
-.print-site-enumerate-headings #backup-retention > h1:before { content: '7.1.8 ' }
+.print-site-enumerate-headings #backup-retention > h1:before { content: '7.1.7 ' }
 
-.print-site-enumerate-headings #backups-delete > h1:before { content: '7.1.9 ' }
+.print-site-enumerate-headings #backups-delete > h1:before { content: '7.1.8 ' }
 
-.print-site-enumerate-headings #backups-disable > h1:before { content: '7.1.10 ' }
+.print-site-enumerate-headings #backups-disable > h1:before { content: '7.1.9 ' }
 
 .print-site-enumerate-headings #section-7-2 > h1:before { content: '7.2 ' }
 .print-site-enumerate-headings #standby > h1:before { content: '7.2.1 ' }

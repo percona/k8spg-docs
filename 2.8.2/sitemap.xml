@@ -137,6 +137,18 @@
          <lastmod>2026-02-19</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/env-var-cluster.html</loc>
+         <lastmod>2026-02-19</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/env-var-operator.html</loc>
+         <lastmod>2026-02-19</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/env-vars.html</loc>
+         <lastmod>2026-02-19</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/everest.html</loc>
          <lastmod>2026-02-19</lastmod>
     </url>
