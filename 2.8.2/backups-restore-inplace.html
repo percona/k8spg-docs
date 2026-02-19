@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Configure backup storage for your backup repositories in the backups.pgbackrest.repos section of the deploy/cr.yaml configuration file.">
+        <meta name="description" content="To restore data into an existing cluster, use the PerconaPGRestore custom resource.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-storage.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-restore-inplace.html">
       
       
-        <link rel="prev" href="backups.html">
+        <link rel="prev" href="backups-restore.html">
       
       
-        <link rel="next" href="backups-schedule.html">
+        <link rel="next" href="backups-clone.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Configure storage for backups - Percona Operator for PostgreSQL</title>
+        <title>To the same cluster (in-place restore) - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Configure storage for backups" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - To the same cluster (in-place restore)" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#configure-backup-storage" class="md-skip">
+        <a href="#restore-to-an-existing-postgresql-cluster-in-place-restore" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Configure storage for backups
+            To the same cluster (in-place restore)
             
           </span>
         </div>
@@ -1538,37 +1538,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configure storage for backups
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="backups-storage.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="backups-storage.html" class="md-nav__link">
         
   
   
@@ -1584,37 +1557,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Next steps
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1735,18 +1677,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_4" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_4" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1_4" id="__nav_7_1_4_label" tabindex="0">
@@ -1767,7 +1711,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_4_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_4_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1_4">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1810,10 +1754,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="backups-restore-inplace.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    To the same cluster (in-place restore)
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="backups-restore-inplace.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1829,6 +1800,109 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare your environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-a-full-restore-from-the-latest-backup-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Make a full restore from the latest backup (default)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-from-a-specific-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore from a specific backup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-the-cluster-with-point-in-time-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore the cluster with point-in-time recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restore the cluster with point-in-time recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specify-a-base-backup-for-point-in-time-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specify a base backup for point-in-time restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provide-pgbackrest-with-a-custom-restore-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provide pgBackRest with a custom restore command
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fix-the-cluster-if-the-restore-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix the cluster if the restore fails
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4325,7 +4399,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backups-storage.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backups-restore-inplace.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4375,10 +4449,82 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#next-steps" class="md-nav__link">
+  <a href="#prepare-your-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Next steps
+        Prepare your environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-a-full-restore-from-the-latest-backup-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Make a full restore from the latest backup (default)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-from-a-specific-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore from a specific backup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-the-cluster-with-point-in-time-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore the cluster with point-in-time recovery
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restore the cluster with point-in-time recovery">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#specify-a-base-backup-for-point-in-time-restore" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Specify a base backup for point-in-time restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#provide-pgbackrest-with-a-custom-restore-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Provide pgBackRest with a custom restore command
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#fix-the-cluster-if-the-restore-fails" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Fix the cluster if the restore fails
       
     </span>
   </a>
@@ -4411,371 +4557,270 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backups-storage.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backups-restore-inplace.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="configure-backup-storage">Configure backup storage<a class="headerlink" href="#configure-backup-storage" title="Permanent link">&para;</a></h1>
-<p>Configure backup storage for your <a href="backups.html#backup-repositories">backup repositories</a> in the <code>backups.pgbackrest.repos</code> section of the <code>deploy/cr.yaml</code> configuration file.</p>
-<p>Follow the instructions relevant to the cloud storage or Persistent Volume you are using for backups.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M257.7 162.7C209 164.5 88.2 178.2 88.2 280.2c0 109.5 138.3 114 183.5 43.2 6.5 10.2 35.4 37.5 45.3 46.8l56.8-56s-32.3-25.3-32.3-52.8V114.3C341.5 89 317 32 229.2 32c-88 0-134.7 55-134.7 104.3l73.5 6.8c16.3-49.5 54.2-49.5 54.2-49.5 40.7-.1 35.5 29.8 35.5 69.1m0 86.8c0 80-84.2 68-84.2 17.2 0-47.2 50.5-56.7 84.2-57.8zm136 163.5c-7.7 10-70 67-174.5 67s-184.5-71.5-209-101c-6.8-7.7 1-11.3 5.5-8.3C89 415.2 203.5 488.5 388.2 401c7.5-3.7 13.3 2 5.5 12m39.8 2.2c-6.5 15.8-16 26.8-21.2 31-5.5 4.5-9.5 2.7-6.5-3.8s19.3-46.5 12.7-55c-6.5-8.3-37-4.3-48-3.2-10.8 1-13 2-14-.3-2.3-5.7 21.7-15.5 37.5-17.5 15.7-1.8 41-.8 46 5.7 3.7 5.1 0 27.1-6.5 43.1"/></svg></span> S3-compatible backup storage</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.19 2.38a9.344 9.344 0 0 0-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006-.007-.007.03a6.7 6.7 0 0 0 4.077 1.356h5.173l.03.03h5.192c6.687.053 9.376-8.605 3.835-12.35a9.37 9.37 0 0 0-2.821-4.552l-.043.043.006-.05A9.34 9.34 0 0 0 12.19 2.38m-.358 4.146c1.244-.04 2.518.368 3.486 1.15a5.19 5.19 0 0 1 1.862 4.078v.518c3.53-.07 3.53 5.262 0 5.193h-5.193l-.008.009v-.04H6.785a2.6 2.6 0 0 1-1.067-.23h.001a2.597 2.597 0 1 1 3.437-3.437l3.013-3.012A6.75 6.75 0 0 0 8.11 8.24c.018-.01.04-.026.054-.023a5.19 5.19 0 0 1 3.67-1.69z"/></svg></span> Google Cloud Storage</label><label for="__tabbed_1_3"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.05 4.24 6.56 18.05 2 18l5.09-8.76zm.7 1.09L22 19.76H6.74l9.3-1.66-4.87-5.79z"/></svg></span> Azure Blob Storage (tech preview)</label><label for="__tabbed_1_4"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M1 3.5c0-.626.292-1.165.7-1.59.406-.422.956-.767 1.579-1.041C4.525.32 6.195 0 8 0s3.475.32 4.722.869c.622.274 1.172.62 1.578 1.04.408.426.7.965.7 1.591v9c0 .626-.292 1.165-.7 1.59-.406.422-.956.767-1.579 1.041C11.476 15.68 9.806 16 8 16c-1.805 0-3.475-.32-4.721-.869-.623-.274-1.173-.62-1.579-1.04-.408-.426-.7-.965-.7-1.591Zm1.5 0c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 5.205 6.353 5.5 8 5.5s3.101-.295 4.118-.742c.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55s-.058-.318-.282-.551c-.227-.237-.591-.483-1.101-.707C11.102 1.795 9.647 1.5 8 1.5s-3.101.295-4.118.742c-.508.224-.873.471-1.1.708-.224.232-.282.417-.282.55m0 4.5c0 .133.058.318.282.551.227.237.591.483 1.101.707C4.898 9.705 6.353 10 8 10s3.101-.295 4.118-.742c.508-.224.873-.471 1.1-.708.224-.232.282-.417.282-.55V5.724c-.241.15-.503.286-.778.407C11.475 6.68 9.805 7 8 7s-3.475-.32-4.721-.869a6 6 0 0 1-.779-.407Zm0 2.225V12.5c0 .133.058.318.282.55.227.237.592.484 1.1.708 1.016.447 2.471.742 4.118.742s3.102-.295 4.117-.742c.51-.224.874-.47 1.101-.707.224-.233.282-.418.282-.551v-2.275c-.241.15-.503.285-.778.406-1.247.549-2.917.869-4.722.869s-3.475-.32-4.721-.869a6 6 0 0 1-.779-.406"/></svg></span> Persistent Volume</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p><a name="configuring-the-s3-compatible-backup-storage"></a> To use <a href="https://aws.amazon.com/s3/">Amazon S3 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> or any <a href="https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services">S3-compatible storage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for backups, you need to have the following S3-related information:</p>
-<ul>
-<li>The name of S3 bucket;</li>
-<li>The region - the location of the bucket</li>
-<li>S3 credentials such as S3 key and secret to access the storage. These are stored in an encoded form in <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> along with other sensitive information. </li>
-<li>For S3-compatible storage other than native Amazon S3, you will also need to specify the endpoint - the actual URI to access the bucket - and the URI style (see below).</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The pgBackRest tool does backups based on write-ahead logs (WAL) archiving.
-If you are using an S3 storage in a region located far away from the region of your PostgreSQL cluster deployment, it could lead to the delay and impossibility to create a new replica/join delayed replica if the primary restarts. A new WAL file is archived in 60 seconds at the backup start <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#GUC-ARCHIVE-TIMEOUT">by default <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, causing both full and incremental backups fail in case of long delay.</p>
-<p>To prevent issues with PostgreSQL archiving and have faster restores, it&rsquo;s recommended to use the same S3 region for both the Operator and backup options. Additionally, you can replicate the S3 bucket to another region with tools like <a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/replication.html">Amazon S3 Cross Region Replication <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h1 id="restore-to-an-existing-postgresql-cluster-in-place-restore">Restore to an existing PostgreSQL cluster (in-place restore)<a class="headerlink" href="#restore-to-an-existing-postgresql-cluster-in-place-restore" title="Permanent link">&para;</a></h1>
+<p>To restore data into an existing cluster, use the <code>PerconaPGRestore</code> custom resource. </p>
+<p>You can make a full restore or restore the database to a specific point in time. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This operation overwrites the current data and is destructive.</p>
 </div>
-<p class="power-number"><strong>Configuration steps</strong></p>
+<p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
+configuration file. The example of the backup configuration file is
+<a href="https://github.com/percona/percona-postgresql-operator/blob/v2.8.2/deploy/restore.yaml">deploy/restore.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">&para;</a></h2>
+<p>Export the namespace where your cluster is running as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+<h2 id="make-a-full-restore-from-the-latest-backup-default">Make a full restore from the latest backup (default)<a class="headerlink" href="#make-a-full-restore-from-the-latest-backup-default" title="Permanent link">&para;</a></h2>
+<p>Specify the following options in the <code>deploy/restore.yaml</code> configuration file for the <code>PerconaPGRestore</code> object:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster,</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource,</li>
+<li><code>options</code> (optional) - additional <a href="https://pgbackrest.org/configuration.html">pgBackRest command line options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
+</ul>
+<p>Here is the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+</code></pre></div>
+<p>Start the restore process:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<h2 id="restore-from-a-specific-backup">Restore from a specific backup<a class="headerlink" href="#restore-from-a-specific-backup" title="Permanent link">&para;</a></h2>
+<p>When you have multiple backups, the Operator restores the <a href="#make-a-full-restore-from-the-latest-backup-default">latest full backup</a> by default.</p>
+<p>If you want to restore from a specific previous backup, use the <code>--set</code> option with the backup label. </p>
+<p class="power-number">Here&rsquo;s the sequence of steps to follow:</p>
 <ol>
 <li>
-<p>Encode the S3 credentials and the pgBackRest repository name that you will use for backups. In this example, we use AWS S3 key and S3 key secret and <code>repo2</code>. </p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0q-.232 0-.48.021c-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.4.4 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071s1.592-.536 2.257-1.306c.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.36.36 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139m.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105l-.004-.021-.004-.024a1.8 1.8 0 0 1-.15.706.95.95 0 0 1-.213.335 1 1 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.3 1.3 0 0 0-.22-.066c.05-.06.146-.133.183-.198q.08-.193.088-.402v-.02a1.2 1.2 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 0 0-.205.334 1.2 1.2 0 0 0-.09.4v.019q.002.134.02.267c-.193-.067-.438-.135-.607-.202a2 2 0 0 1-.018-.2v-.02a1.8 1.8 0 0 1 .15-.768 1.08 1.08 0 0 1 .43-.533 1 1 0 0 1 .594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2q.018-.136.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.6.6 0 0 0-.166-.267.25.25 0 0 0-.183-.064h-.021c-.071.006-.13.04-.186.132a.55.55 0 0 0-.12.27 1 1 0 0 0-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268q.014.014.034.024c-.07.057-.117.07-.176.136a.3.3 0 0 1-.131.068 2.6 2.6 0 0 1-.275-.402 1.8 1.8 0 0 1-.155-.667 1.8 1.8 0 0 1 .08-.668 1.4 1.4 0 0 1 .283-.535c.128-.133.26-.2.418-.2m1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.57.57 0 0 1 .016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.1 1.1 0 0 1-.448-.067 4 4 0 0 1-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71q-.104-.403.193-.6c.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.7 2.7 0 0 0-.402-.533 1.5 1.5 0 0 0-.275-.333c.182 0 .338-.03.465-.067a.62.62 0 0 0 .314-.334c.108-.267 0-.697-.345-1.163s-.931-.995-1.788-1.521c-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.1 8.1 0 0 1 .647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335q.058.005.11.006c.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01q.08 0 .157.014c.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602q-.553-.1-.723-.4c-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336m7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8 8 0 0 1-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065m-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg></span> Linux</label><label for="__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span> macOS</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | base64 --wrap=0</span>
-<span class="s">[global]</span>
-<span class="s">repo2-s3-key=&lt;YOUR_AWS_S3_KEY&gt;</span>
-<span class="s">repo2-s3-key-secret=&lt;YOUR_AWS_S3_KEY_SECRET&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | base64</span>
-<span class="s">[global]</span>
-<span class="s">repo2-s3-key=&lt;YOUR_AWS_S3_KEY&gt;</span>
-<span class="s">repo2-s3-key-secret=&lt;YOUR_AWS_S3_KEY_SECRET&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  <code>cluster1-pgbackrest-secrets.yaml</code> Secret file:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">s3.conf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base64-encoded-configuration-contents&gt;</span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>This Secret can store credentials for several repositories presented as
-separate data keys.     </p>
-</div>
-</li>
-<li>
-<p>Create the Secrets object from this YAML file. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-pgbackrest-secrets.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>List available backups:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 </li>
 <li>
-<p>Update your <code>deploy/cr.yaml</code> configuration. Specify the Secret file you created in the <code>backups.pgbackrest.configuration</code> subsection, and put all other S3 related information in the <code>backups.pgbackrest.repos</code> subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded S3 credentials on step 1.</p>
-<p>Provide pgBackRest the directory path for backup on the storage. You can pass it in the <a href="https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global">backups.pgbackrest.global</a> subsection via the pgBackRest <code>path</code> option (prefix it&rsquo;s name with the repository name, for example <code>repo1-path</code>). Also, if your S3-compatible storage requires additional <a href="https://pgbackrest.org/configuration.html#section-repository">repository options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the pgBackRest tool, you can specify these parameters in the same <code>backups.pgbackrest.global</code> subsection with standard pgBackRest option names, also prefixed with the repository name.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M180.4 203c-.7 22.6 10.6 32.7 10.9 39-.1 1.3-.6 2.5-1.3 3.6s-1.7 2-2.8 2.6l-12.8 9c-1.7 1.2-3.6 1.8-5.6 1.9-.4 0-8.2 1.8-20.5-25.6-7.5 9.4-17 16.9-27.9 22s-22.7 7.7-34.7 7.5c-16.3.9-60.4-9.2-58.1-56.2-1.6-38.3 34.1-62.1 70.9-60 7.1 0 21.6.4 47 6.3v-15.6c2.7-26.5-14.7-47-44.8-43.9-2.4 0-19.4-.5-45.8 10.1-7.4 3.4-8.3 2.8-10.8 2.8-7.4 0-4.4-21.5-2.9-24.2 5.2-6.4 35.9-18.4 65.9-18.2 20.1-1.8 40.1 4.4 55.7 17.3 6.3 7.1 11.2 15.4 14.2 24.4s4.2 18.5 3.5 28v69.3zM94 235.4c32.4-.5 46.2-20 49.3-30.5 2.5-10.1 2.1-16.4 2.1-27.4-9.7-2.3-23.6-4.9-39.6-4.9-15.2-1.1-42.8 5.6-41.7 32.3-1.2 16.8 11.1 31.4 30 30.5zm170.9 23.1c-7.9.7-11.5-4.9-12.7-10.4L202.4 83.4c-1-2.8-1.6-5.6-1.9-8.6-.2-1.2.1-2.4.8-3.4s1.8-1.6 3-1.8h22.2c8.8-.9 11.6 6 12.6 10.4l35.8 140.8L308.1 80c.5-3.2 2.9-11.1 12.8-10.2h17.2c2.2-.2 11.1-.5 12.7 10.4l33.3 142.5L421 80.1c.5-2.2 2.7-11.4 12.7-10.4h19.7c.9-.1 6.2-.8 5.3 8.6-.4 1.8 3.4-10.7-52.8 169.9-1.1 5.5-4.8 11.1-12.7 10.4h-18.7c-10.9 1.2-12.5-9.7-12.7-10.7l-33.2-137.1-32.8 137c-.2 1.1-1.7 11.9-12.7 10.7h-18.3zm273.5 5.6c-5.9 0-33.9-.3-57.4-12.3-2.3-1-4.3-2.6-5.7-4.8s-2.1-4.6-2.1-7.1v-10.7c0-8.5 6.2-6.9 8.8-5.9 10 4.1 16.5 7.1 28.8 9.6 36.7 7.5 52.8-2.3 56.7-4.5 13.2-7.8 14.2-25.7 5.3-34.9-10.5-8.8-15.5-9.1-53.1-21-4.6-1.3-43.7-13.6-43.8-52.4-.6-28.2 25-56.2 69.5-56 12.7 0 46.4 4.1 55.6 15.6 1.4 2.1 2 4.6 1.9 7v10.1c0 4.4-1.6 6.7-4.9 6.7-7.7-.9-21.4-11.2-49.2-10.8-6.9-.4-39.9.9-38.4 25-.4 19 26.6 26.1 29.7 26.9 36.5 11 48.6 12.8 63.1 29.6 17.1 22.2 7.9 48.3 4.3 55.4-19.1 37.5-68.4 34.4-69.3 34.4zM578.6 369c-70 51.7-171.7 79.2-258.5 79.2C203 449 89.8 405.9 2.8 327.5c-6.5-5.9-.8-14 7.2-9.5 96.5 55.2 205.7 84.2 316.9 84.1 83-.4 165.1-17.3 241.6-49.5 11.8-5 21.8 7.8 10.1 16.4m29.2-33.3c-9-11.5-59.3-5.4-81.8-2.7-6.8.8-7.9-5.1-1.8-9.5 40.1-28.2 105.9-20.1 113.4-10.6s-2.1 75.4-39.6 106.9c-5.8 4.9-11.3 2.3-8.7-4.1 8.4-21.3 27.4-68.5 18.4-80z"/></svg></span> Amazon S3 storage</label><label for="__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.207.006a2.16 2.16 0 0 0-1.62.582 2.15 2.15 0 0 0-.095 3.035l3.408 3.55a3.042 3.042 0 0 1-.663 4.688l-.463.239V7.285a15.42 15.42 0 0 0-8.018 10.487v.017l6.549-3.328v7.621L13.779 24V13.682l.897-.463a4.443 4.443 0 0 0 1.22-7.03l-3.37-3.525a.75.75 0 0 1 .037-1.055.75.75 0 0 1 1.056.038l.467.486-.006.006 4.07 4.244a.057.057 0 0 0 .082 0 .06.06 0 0 0 0-.07l-3.14-5.143-.149.143.149-.145C14.494.393 13.829.054 13.207.006m-.902 9.865v2.994l-4.152 2.149a14 14 0 0 1 2.767-3.928 14 14 0 0 1 1.385-1.215"/></svg></span> S3-compatible storage</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>For example, the S3 storage for the <code>repo2</code> repository looks as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">backups</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">configuration</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">repo2-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo2</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">repos</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo2</span>
-<span class="w">      </span><span class="nt">s3</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AWS_S3_BUCKET_NAME&gt;&quot;</span>
-<span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AWS_S3_REGION&gt;&quot;</span>
+<p>Get detailed information about the backup you wish to restore from:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg-backup<span class="w"> </span>&lt;BACKUP<span class="w"> </span>NAME&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<details class="note">
-<summary>Using AWS EC2 instances for backups makes it possible to automate access to AWS S3 buckets based on <a href="https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html">IAM roles</a> for Service Accounts with no need to specify the S3 credentials explicitly.</summary>
-<p>To use this feature, add annotation to the spec part of the Custom Resource and also add pgBackRest custom configuration option to the backups subsection as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">crVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.8.2</span>
-<span class="w">  </span><span class="nt">metadata</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">eks.amazonaws.com/role-arn</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arn:aws:iam::1191:role/role-pgbackrest-access-s3-bucket</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona/percona-postgresql-operator:2.8.2-ppg16-pgbackrest</span>
-<span class="w">      </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">repo2-s3-key-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web-id</span>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>Name:         cluster1-backup-c55w-f858g
+Namespace:    default
+Labels:       &lt;none&gt;
+Annotations:  pgv2.percona.com/pgbackrest-backup-job-name: cluster1-backup-c55w
+              pgv2.percona.com/pgbackrest-backup-job-type: replica-create
+API Version:  pgv2.percona.com/v2
+Kind:         PerconaPGBackup
+Metadata:
+  Creation Timestamp:  2024-06-28T07:44:08Z
+  Generate Name:       cluster1-backup-c55w-
+  Generation:          1
+  Resource Version:    1199
+  UID:                 92a8193c-6cbd-4cdf-82e5-a4623bf7f2d9
+Spec:
+  Pg Cluster:  cluster1
+  Repo Name:   repo1
+Status:
+<span class="hll">  Backup Name:  20240628-074416F
+</span><span class="hll">  Backup Type:  full
+</span>...
 </code></pre></div>
 </details>
-</div>
-<div class="tabbed-block">
-<p>For example, the S3-compatible storage for the <code>repo2</code> repository looks as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">backups</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">configuration</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">repo2-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo2</span>
-<span class="w">      </span><span class="nt">repo2-storage-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;y&quot;</span>
-<span class="w">      </span><span class="nt">repo2-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">repos</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo2</span>
-<span class="w">      </span><span class="nt">s3</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AWS_S3_BUCKET_NAME&gt;&quot;</span>
-<span class="w">        </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AWS_S3_ENDPOINT&gt;&quot;</span>
-<span class="w">        </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AWS_S3_REGION&gt;&quot;</span>
-</code></pre></div>
-<p>The <code>repo2-storage-verify-tls</code> option in the above example enables TLS verification for pgBackRest (when set to <code>y</code> or simply omitted) or disables it, when set to <code>n</code>.</p>
-<p>The <code>repo2-s3-uri-style</code> option <a href="https://pgbackrest.org/configuration.html#section-repository/option-repo-s3-uri-style">should be set to <code>path</code>  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> if you use S3-compatible storage (otherwise you might see &ldquo;host not found error&rdquo; in your backup job logs), and is not needed for Amazon S3.</p>
-</div>
-</div>
-</div>
+<p>Look for the &ldquo;Backup Name&rdquo; in the Status section (for example, <code>20240628-074416F</code>). This is the label that you will use with the <code>--set</code> option.</p>
 </li>
 <li>
-<p>Create or update the cluster. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Modify the <code>deploy/restore.yaml</code> configuration file. Specify this information:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource </li>
+<li>
+<p>Configure the <code>options</code> section:</p>
+<ul>
+<li><code>--type=&lt;type&gt;</code> - Specify how you wish to restore the data. The <code>default</code> type restores the backup and replays WAL up to the end of available WAL. The <code>immediate</code> type restores the backup exactly as it was at the backup time, without replaying WAL.</li>
+<li><code>--set=&lt;backup_label&gt;</code> - Specify the backup label.</li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration to restore from a backup <code>20240628-074416F</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=immediate</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set=20240628-074416F</span>
+</code></pre></div>
+</li>
+<li>
+<p>Start the restore</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 </li>
 </ol>
-</div>
-<div class="tabbed-block">
-<p><a name="use-google-cloud-storage-for-backups"></a> To use <a href="https://cloud.google.com/storage">Google Cloud Storage (GCS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> as
-an object store for backups, you need the following information:</p>
-<ul>
-<li>a proper GCS bucket name. Pass the bucket name to <code>pgBackRest</code> via the
-<code>gcs.bucket</code> key in the <code>backups.pgbackrest.repos</code> subsection of
-<code>deploy/cr.yaml</code>.</li>
-<li>your service account key for the Operator to access the storage.</li>
-</ul>
-<p class="power-number"><strong>Configuration steps</strong> </p>
-<ol>
-<li>Create your service account key following the <a href="https://cloud.google.com/iam/docs/creating-managing-service-account-keys">official Google Cloud instructions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
-<li>
-<p>Export this key from your Google Cloud account.</p>
-<p>You can find your key in the Google Cloud console (select <em>IAM &amp; Admin</em>
-→ <em>Service Accounts</em> in the left menu panel, then click your account and
-open the <em>KEYS</em> tab):    </p>
-<p><img alt="image" src="assets/images/gcs-service-account.svg" />    </p>
-<p>Click the <em>ADD KEY</em> button, choose <em>Create new key</em> and choose <em>JSON</em> as a key
-type. These actions will result in downloading a file in JSON format with
-your new private key and related information (for example, <code>gcs-key.json</code>).    </p>
-</li>
-<li>
-<p>Create the <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secret <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. The Secret consists of 
-     base64-encoded versions of two files: the <code>gcs-key.json</code> file with the Google service account key you have just downloaded, and the special <code>gcs.conf</code> configuration file.    </p>
-<ul>
-<li>Create the <code>gcs.conf</code> configuration file. The file contents depends on the repository
-name for backups in the <code>deploy/cr.yaml</code> file. In case of the <code>repo3</code> repository, it looks as follows:    </li>
-</ul>
-<div class="highlight"><pre><span></span><code>[global]
-repo3-gcs-key=/etc/pgbackrest/conf.d/gcs-key.json
-</code></pre></div>
-<ul>
-<li>
-<p>Encode both <code>gcs-key.json</code> and <code>gcs.conf</code> files. </p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:2"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0q-.232 0-.48.021c-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.4.4 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071s1.592-.536 2.257-1.306c.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.36.36 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139m.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105l-.004-.021-.004-.024a1.8 1.8 0 0 1-.15.706.95.95 0 0 1-.213.335 1 1 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.3 1.3 0 0 0-.22-.066c.05-.06.146-.133.183-.198q.08-.193.088-.402v-.02a1.2 1.2 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 0 0-.205.334 1.2 1.2 0 0 0-.09.4v.019q.002.134.02.267c-.193-.067-.438-.135-.607-.202a2 2 0 0 1-.018-.2v-.02a1.8 1.8 0 0 1 .15-.768 1.08 1.08 0 0 1 .43-.533 1 1 0 0 1 .594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2q.018-.136.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.6.6 0 0 0-.166-.267.25.25 0 0 0-.183-.064h-.021c-.071.006-.13.04-.186.132a.55.55 0 0 0-.12.27 1 1 0 0 0-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268q.014.014.034.024c-.07.057-.117.07-.176.136a.3.3 0 0 1-.131.068 2.6 2.6 0 0 1-.275-.402 1.8 1.8 0 0 1-.155-.667 1.8 1.8 0 0 1 .08-.668 1.4 1.4 0 0 1 .283-.535c.128-.133.26-.2.418-.2m1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.57.57 0 0 1 .016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.1 1.1 0 0 1-.448-.067 4 4 0 0 1-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71q-.104-.403.193-.6c.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.7 2.7 0 0 0-.402-.533 1.5 1.5 0 0 0-.275-.333c.182 0 .338-.03.465-.067a.62.62 0 0 0 .314-.334c.108-.267 0-.697-.345-1.163s-.931-.995-1.788-1.521c-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.1 8.1 0 0 1 .647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335q.058.005.11.006c.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01q.08 0 .157.014c.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602q-.553-.1-.723-.4c-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336m7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8 8 0 0 1-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065m-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg></span> Linux</label><label for="__tabbed_4_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span> MacOS</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>base64 --wrap=0 &lt;filename&gt;
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>base64 -i &lt;filename&gt;
-</code></pre></div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Create the Kubernetes Secret configuration file and specify your cluster name
-and the base64-encoded contents of the files from previous steps. The following is the example of the
-<code>cluster1-pgbackrest-secrets.yaml</code> Secret file:    </p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">gcs-key.json</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base64-encoded-json-file-contents&gt;</span>
-<span class="w">  </span><span class="nt">gcs.conf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base64-encoded-conf-file-contents&gt;</span>
-</code></pre></div>
-</li>
-</ul>
-<p><i info><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 9h-2V7h2m0 10h-2v-6h2m-1-9A10 10 0 0 0 2 12a10 10 0 0 0 10 10 10 10 0 0 0 10-10A10 10 0 0 0 12 2"/></svg></span> Info </i>   This Secret can store credentials for several repositories presented as
-       separate data keys.    </p>
-</li>
-<li>
-<p>Create the Secrets object from the Secret configuration file. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-pgbackrest-secrets.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Update your <code>deploy/cr.yaml</code> configuration. Specify your GCS credentials Secret in the <code>backups.pgbackrest.configuration</code> subsection, and put GCS bucket name into the <code>bucket</code> option in the <code>backups.pgbackrest.repos</code> subsection. The repository name must be the same as the name you specified when you created the <code>gcs.conf</code> file. </p>
-<p>Also, provide pgBackRest the directory path for backup on the storage. You can pass it in the <a href="https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global">backups.pgbackrest.global</a> subsection via the pgBackRest <code>path</code> option (prefix it&rsquo;s name with the repository name, for example <code>repo3-path</code>).</p>
-<p>For example, GCS storage configuration for the <code>repo3</code> repository would look as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">backups</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">configuration</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">repo3-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo3</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">repos</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo3</span>
-<span class="w">      </span><span class="nt">gcs</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_GCS_BUCKET_NAME&gt;&quot;</span>
-</code></pre></div>
-</li>
-<li>
-<p>Create or update the cluster. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-</ol>
-</div>
-<div class="tabbed-block">
-<p>To use <a href="https://azure.microsoft.com/en-us/services/storage/blobs/">Microsoft Azure Blob Storage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for storing backups, you need the following:</p>
-<ul>
-<li>a proper Azure container name. </li>
-<li>Azure Storage credentials. These are stored in an encoded form in the <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secret <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
-</ul>
-<p class="power-number"><strong>Configuration steps</strong></p>
-<ol>
-<li>
-<p>Encode the Azure Storage credentials and the pgBackRest repo name that you will use for backups with base64. In this example, we are using <code>repo4</code>.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:2"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0q-.232 0-.48.021c-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.4.4 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071s1.592-.536 2.257-1.306c.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.36.36 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139m.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105l-.004-.021-.004-.024a1.8 1.8 0 0 1-.15.706.95.95 0 0 1-.213.335 1 1 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.3 1.3 0 0 0-.22-.066c.05-.06.146-.133.183-.198q.08-.193.088-.402v-.02a1.2 1.2 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 0 0-.205.334 1.2 1.2 0 0 0-.09.4v.019q.002.134.02.267c-.193-.067-.438-.135-.607-.202a2 2 0 0 1-.018-.2v-.02a1.8 1.8 0 0 1 .15-.768 1.08 1.08 0 0 1 .43-.533 1 1 0 0 1 .594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2q.018-.136.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.6.6 0 0 0-.166-.267.25.25 0 0 0-.183-.064h-.021c-.071.006-.13.04-.186.132a.55.55 0 0 0-.12.27 1 1 0 0 0-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268q.014.014.034.024c-.07.057-.117.07-.176.136a.3.3 0 0 1-.131.068 2.6 2.6 0 0 1-.275-.402 1.8 1.8 0 0 1-.155-.667 1.8 1.8 0 0 1 .08-.668 1.4 1.4 0 0 1 .283-.535c.128-.133.26-.2.418-.2m1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.57.57 0 0 1 .016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.1 1.1 0 0 1-.448-.067 4 4 0 0 1-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71q-.104-.403.193-.6c.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.7 2.7 0 0 0-.402-.533 1.5 1.5 0 0 0-.275-.333c.182 0 .338-.03.465-.067a.62.62 0 0 0 .314-.334c.108-.267 0-.697-.345-1.163s-.931-.995-1.788-1.521c-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.1 8.1 0 0 1 .647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335q.058.005.11.006c.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01q.08 0 .157.014c.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602q-.553-.1-.723-.4c-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336m7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8 8 0 0 1-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065m-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg></span> Linux</label><label for="__tabbed_5_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span> macOS</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | base64 --wrap=0</span>
-<span class="s">[global]</span>
-<span class="s">repo4-azure-account=&lt;AZURE_STORAGE_ACCOUNT_NAME&gt;</span>
-<span class="s">repo4-azure-key=&lt;AZURE_STORAGE_ACCOUNT_KEY&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | base64</span>
-<span class="s">[global]</span>
-<span class="s">repo4-azure-account=&lt;AZURE_STORAGE_ACCOUNT_NAME&gt;</span>
-<span class="s">repo4-azure-key=&lt;AZURE_STORAGE_ACCOUNT_KEY&gt;</span>
-<span class="s">EOF</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Create the Secret configuration file and specify the base64-encoded string from the previous step. The following is the example of the  <code>cluster1-pgbackrest-secrets.yaml</code> Secret file:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-<span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">azure.conf</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base64-encoded-configuration-contents&gt;</span>
-</code></pre></div>
+<h2 id="restore-the-cluster-with-point-in-time-recovery">Restore the cluster with point-in-time recovery<a class="headerlink" href="#restore-the-cluster-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
+<p>Point-in-time recovery lets you restore your database to the  state it was before a change occurred (for example, before accidental data deletion or corruption).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>This Secret can store credentials for several repositories presented as
-separate data keys.    </p>
+<p>To support this, the Operator automatically creates an initial full backup when your cluster is first created. This initial backup is used as the starting point for point-in-time recovery. This backup is required internally and does not appear when running <code>kubectl get pg-backup</code>.</p>
 </div>
-</li>
+<p>By default, the Operator uses the latest successful full backup as the base for point-in-time restore. You can specify another  backup to use as the base by referencing its ID. Refer to the <a href="#specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore</a> section to learn more.</p>
+<p>To make a point-in-time restore, you need the following:</p>
+<ul>
+<li>A backup that finished before your target time. You cannot restore to the time where there was no backup </li>
+<li>All relevant WAL files must be successfully archived</li>
+<li>Use the <code>--type=time</code> and <code>--target</code> options in the <code>options</code> subsection of the <code>deploy/restore.yaml</code> configuration file.</li>
+</ul>
+<p class="power-number">Here&rsquo;s the sequence of steps to follow:</p>
+<ol>
 <li>
-<p>Create the Secrets object from this yaml file. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-pgbackrest-secrets.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>List available backups:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 </li>
 <li>
-<p>Update your deploy/cr.yaml configuration. Specify the Secret file you have created in the previous step in the <code>backups.pgbackrest.configuration</code> subsection. Put Azure container name in the <code>backups.pgbackrest.repos</code> subsection under the repository name that you intend to use for backups. This name must match the name you used when you encoded Azure credentials on step 1.</p>
-<p>Also, provide pgBackRest the directory path for backup on the storage. You can pass it in the <a href="https://docs.percona.com/percona-operator-for-postgresql/2.0/operator.html#backups-pgbackrest-global">backups.pgbackrest.global</a> subsection via the pgBackRest <code>path</code> option (prefix it&rsquo;s name with the repository name, for example <code>repo4-path</code>).</p>
-<p>For example, the Azure storage for the <code>repo4</code> repository looks as follows.</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">backups</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">configuration</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">repo4-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo4</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">repos</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo4</span>
-<span class="w">      </span><span class="nt">azure</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">container</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;&lt;YOUR_AZURE_CONTAINER&gt;&quot;</span>
+<p>Determine the target restore time. The Operator tracks the latest restorable time for each backup by default. To view this value, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
 </code></pre></div>
 </li>
 <li>
-<p>Create or update the cluster. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Edit the <code>deploy/restore.yaml</code> configuration file and specify this information:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource</li>
+<li>
+<p>Configure the <code>options</code> section:</p>
+<ul>
+<li><code>--type</code> - set to <code>time</code>,</li>
+<li><code>--target</code> set the target time that you retrieved at the previous step. The format is <code>&lt;YYYY-MM-DD HH:MM:DD&gt;</code>, optionally followed by a timezone offset: <code>"2021-04-16 15:13:32+00"</code> (<code>+00</code> here means UTC). </li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2025-11-30 15:12:11+03&quot;</span>
 </code></pre></div>
+</li>
+<li>
+<p>Start the restore process:</p>
+<p><code>bash
+kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
 </li>
 </ol>
-</div>
-<div class="tabbed-block">
-<p>Percona Operator for PostgreSQL uses <a href="https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services">Kubernetes Persistent Volumes</a> to store Postgres data. You can also use them to store backups. A Persistent volume is created at the same time when the Operator creates PostgreSQL cluster for you. You can find the Persistent Volume configuration in the <code>backups.pgbackrest.repos</code> section of the <code>cr.yaml</code> file under the <code>repo1</code> name:</p>
-<div class="highlight"><pre><span></span><code><span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="l l-Scalar l-Scalar-Plain">backups</span><span class="p p-Indicator">:</span>
-<span class="w"> </span><span class="w w-Error"> </span><span class="nt">pgbackrest</span><span class="p">:</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">global</span><span class="p p-Indicator">:</span>
-<span class="w">      </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo1</span>
-<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">    </span><span class="nt">repos</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
-<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">volume</span><span class="p p-Indicator">:</span>
-<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<h3 id="specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore<a class="headerlink" href="#specify-a-base-backup-for-point-in-time-restore" title="Permanent link">&para;</a></h3>
+<p>You can select a base backup for point-in-time restore. To do this you must get the backup ID and then specify it for the <code>--set</code> option in the restore configuration file. </p>
+<p>To get the backup ID, do the following:</p>
+<ol>
+<li>
+<p>Get the Pod name:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>This configuration is sufficient to make a backup.</p>
-</div>
-</div>
-</div>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+</li>
+<li>
+<p>Connect to the Pod and get the backupID with the <code>pgbackrest --stanza=db info</code> command :</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-hcgr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+</code></pre></div>
+<p>Find ID of the needed backup in the output:</p>
+<div class="no-copy highlight"><pre><span></span><code>stanza: db
+    status: ok
+    cipher: none
+
+    db (prior)
+        wal archive min/max (16): 0000000F000000000000001C/0000002000000036000000C5
+
+<span class="hll">        full backup: 20240401-173403F
+</span>            timestamp start/stop: 2024-04-01 17:34:03+00 / 2024-04-01 17:36:57+00
+            wal start/stop: 000000120000000000000022 / 000000120000000000000024
+            database size: 31MB, database backup size: 31MB
+            repo1: backup set size: 4.1MB, backup size: 4.1MB
+
+        incr backup: 20240401-173403F_20240415-201250I
+            timestamp start/stop: 2024-04-15 20:12:50+00 / 2024-04-15 20:14:19+00
+            wal start/stop: 00000019000000000000005C / 00000019000000000000005D
+            database size: 46.0MB, database backup size: 25.7MB
+            repo1: backup set size: 6.1MB, backup size: 3.8MB
+            backup reference list: 20240401-173403F
+
+        incr backup: 20240401-173403F_20240415-201430I
+...
+</code></pre></div>
+</li>
+<li>
+<p>Reference this backup ID to the <em>backup restore</em> configuration file:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="hll"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2024-04-01 17:36:57+00&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set=&quot;20240401-173403F&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Start the restore:</p>
+<p><code>bash
+kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
+</li>
+</ol>
+<h2 id="provide-pgbackrest-with-a-custom-restore-command">Provide pgBackRest with a custom restore command<a class="headerlink" href="#provide-pgbackrest-with-a-custom-restore-command" title="Permanent link">&para;</a></h2>
+<p>There may be cases where it is needed to control what files are restored from the backup and apply fine-grained filtering to them. For such scenarios there is a possibility to overwrite the <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY">restore_command used in PosgreSQL archive recovery <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. You can do it in the <code>patroni.dynamicConfiguration</code> subsection of the Custom Resource as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">restore_command</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pgbackrest</span><span class="nv"> </span><span class="s">--stanza=db</span><span class="nv"> </span><span class="s">archive-get</span><span class="nv"> </span><span class="s">%f</span><span class="nv"> </span><span class="s">\&quot;%p\&quot;&quot;</span>
+</code></pre></div>
+<p>The <code>%f</code> template in the above example is replaced by the name of the file to
+retrieve from the archive, and <code>%p</code> is replaced by the copy destination path
+name on the server. See <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY">PostgreSQL official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for more low-level details about this feature.</p>
+<h2 id="fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a class="headerlink" href="#fix-the-cluster-if-the-restore-fails" title="Permanent link">&para;</a></h2>
+<p>The restore process overwrites database files. Wrong data or a misconfigured restore can leave your cluster in a non-operational state.</p>
+<p>For example, incorrect <code>pgBackRest</code> arguments in the <a href="#make-a-full-restore-from-the-latest-backup-default">PerconaPGRestore custom resource</a> can break the database while the restore hangs.</p>
+<p>Here&rsquo;s what you can do:</p>
 <ul>
-<li><a class="md-button" href="backups-ondemand.html">Make an on-demand backup</a></li>
-<li><a class="md-button" href="backups-schedule.html">Make a scheduled backup</a></li>
+<li>
+<p>You can remove the restore annotation from your cluster Custom Resource to stop the restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
+</code></pre></div>
+</li>
+<li>
+<p>Alternatively, you can delete the cluster <a href="delete.html#delete-a-database-cluster">by removing the Custom Resource</a> and recreate it. Before you delete the Custom Resource, ensure the <a href="operator.html#finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not set, or you will lose your data. Then run the same <code>kubectl apply</code> command you used to deploy the cluster originally.</p>
+</li>
 </ul>
+<p>Another example that can also cause restore failures is corrupted backup repository or missing files. In that case, <a href="delete.html#delete-a-database-cluster">remove the Custom Resource</a>, <a href="debug-storage.html#check-the-pvc">locate and delete the startup PVC</a>, then recreate the cluster.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="January 8, 2026 11:26:25 UTC">January 8, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 4, 2023 12:40:07 UTC">July 4, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
       
     
   </small>

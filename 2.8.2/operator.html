@@ -1752,7 +1752,7 @@ deploy/cr.yaml  file.">
   
   
     <li class="md-nav__item">
-      <a href="backups-restore-inplace.md" class="md-nav__link">
+      <a href="backups-restore-inplace.html" class="md-nav__link">
         
   
   
@@ -1780,7 +1780,7 @@ deploy/cr.yaml  file.">
   
   
     <li class="md-nav__item">
-      <a href="backups-clone.md" class="md-nav__link">
+      <a href="backups-clone.html" class="md-nav__link">
         
   
   
@@ -3645,6 +3645,23 @@ deploy/cr.yaml  file.">
   </a>
   
 </li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datasource-subsection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataSource subsection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dataSource subsection">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#datasourcepostgresclusterclustername" class="md-nav__link">
@@ -7635,6 +7652,23 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#datasource-subsection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataSource subsection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="dataSource subsection">
+      <ul class="md-nav__list">
+        
           <li class="md-nav__item">
   <a href="#datasourcepostgresclusterclustername" class="md-nav__link">
     <span class="md-ellipsis">
@@ -10776,8 +10810,10 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tr>
 </tbody>
 </table>
+<h2 id="datasource-subsection"><code>dataSource</code> subsection<a class="headerlink" href="#datasource-subsection" title="Permanent link">&para;</a></h2>
+<p>Contains the configuration options for restoring from a backup onto a new cluster. For usage examples, see <a href="backups-clone.html">Restore the backup to a new cluster (cluster clone)</a>.</p>
 <h3 id="datasourcepostgresclusterclustername"><code>dataSource.postgresCluster.clusterName</code><a class="headerlink" href="#datasourcepostgresclusterclustername" title="Permanent link">&para;</a></h3>
-<p>Name of an existing cluster to use as the data source when restoring backup to a new cluster.</p>
+<p>Name of an existing cluster to use as the data source when restoring backup to a new cluster. </p>
 <table>
 <thead>
 <tr>
@@ -12441,7 +12477,7 @@ Percona Distribution for PostgreSQL backups.</p>
 </tbody>
 </table>
 <h3 id="backupstracklatestrestorabletime"><code>backups.trackLatestRestorableTime</code><a class="headerlink" href="#backupstracklatestrestorabletime" title="Permanent link">&para;</a></h3>
-<p>Enables or disables <a href="backups-restore.html#backups-latest-restorable-time">tracking the latest restorable time</a> for latest successful backup (on by default). It can be turned off to reduced S3 API usage.</p>
+<p>Enables or disables <a href="backups-restore-inplace.html#restore-the-cluster-with-point-in-time-recovery">tracking the latest restorable time</a> for latest successful backup (on by default). It can be turned off to reduce the S3 API usage.</p>
 <table>
 <thead>
 <tr>
@@ -14546,7 +14582,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 13, 2025 14:38:58 UTC">November 13, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
       
         <br>
         Created:

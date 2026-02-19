@@ -1751,7 +1751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore-inplace.md" class="md-nav__link">
+      <a href="../backups-restore-inplace.html" class="md-nav__link">
         
   
   
@@ -1779,7 +1779,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-clone.md" class="md-nav__link">
+      <a href="../backups-clone.html" class="md-nav__link">
         
   
   
@@ -4640,7 +4640,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new <a href="../operator.html#backupspgbackrestjobsbackofflimit">backups.pgbackrest.jobs.backoffLimit</a> and <a href="../operator.html#backupspgbackrestjobsrestartpolicy">backups.pgbackrest.jobs.restartPolicy</a> Custom Resource options.</p>
 </li>
 <li>
-<p>You can now <a href="../backups-restore.html#providing-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
+<p>You can now <a href="../backups-restore-inplace.html#providing-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
 </li>
 </ul>
 <h3 id="postgresql-17-support">PostgreSQL 17 support<a class="headerlink" href="#postgresql-17-support" title="Permanent link">&para;</a></h3>
@@ -4656,7 +4656,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>To support you with your AI journey, we&rsquo;ve added the <code>pgvector</code> extension to the PostgreSQL images shipped with our Operator. Now, you can easily use Percona Distribution for PostgreSQL as a vector database by simply enabling it in your <a href="../operator.html#extensionsbuiltinpgvector">Custom Resource options</a>. No more <a href="https://www.percona.com/blog/create-an-ai-expert-with-open-source-tools-and-pgvector/">custom extension installations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> needed.</p>
 <h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="../backups-restore.html#providing-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="../backups-restore-inplace.html#providing-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-619">K8SPG-619</a>: New <code>backups.pgbackrest.jobs.backoffLimit</code> and <code>backups.pgbackrest.jobs.restartPolicy</code> Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-648">K8SPG-648</a>: PostgreSQL 17 is now supported by the Operator</li>
 </ul>
@@ -4738,7 +4738,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 25, 2025 11:01:10 UTC">December 25, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
       
         <br>
         Created:

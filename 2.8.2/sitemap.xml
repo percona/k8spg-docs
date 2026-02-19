@@ -45,6 +45,10 @@
          <lastmod>2026-02-19</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-clone.html</loc>
+         <lastmod>2026-02-19</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-delete.html</loc>
          <lastmod>2026-02-19</lastmod>
     </url>
@@ -54,6 +58,10 @@
     </url>
     <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-ondemand.html</loc>
+         <lastmod>2026-02-19</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-restore-inplace.html</loc>
          <lastmod>2026-02-19</lastmod>
     </url>
     <url>

@@ -1759,7 +1759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups-restore-inplace.md" class="md-nav__link">
+      <a href="backups-restore-inplace.html" class="md-nav__link">
         
   
   
@@ -1787,7 +1787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="backups-clone.md" class="md-nav__link">
+      <a href="backups-clone.html" class="md-nav__link">
         
   
   
@@ -4819,6 +4819,28 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#backups-restore-inplace" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To the same cluster (in-place restore)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backups-clone" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        To a new cluster (cluster clone)
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6601,7 +6623,7 @@ backup1                      cluster1   repo2   s3://pg-operator-testing   Succe
 </details>
 </li>
 </ol>
-<p>Congratulations! You have made the first backup manually. Want to learn more about backups? See the <a href="#backups">Backup and restore section</a> for details like types, retention and how to <a href="#backups-schedule">automatically make backups according to the schedule</a>.</p>
+<p>Congratulations! You have made the first backup manually. Want to learn more about backups? See the <a href="#backups">Backup and restore section</a> for details like types, retention and how to <a href="#backups-schedule">automatically make backups according to the schedule</a>. When you need to restore, see <a href="#backups-restore">Restore options</a> for in-place restore and cluster cloning.</p>
 <h2 id="backup-tutorial-next-steps">Next steps<a class="headerlink" href="#backup-tutorial-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#monitoring"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 16V4H3v12zm0-14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7v2h2v2H8v-2h2v-2H3a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2zM5 6h9v5H5zm10 0h4v2h-4zm4 3v5h-4V9zM5 12h4v2H5zm5 0h4v2h-4z"/></svg></span> Monitor the database <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p></section><section class="print-page" id="monitoring-tutorial" heading-number="4.7"><h1 id="monitoring-tutorial-5-monitor-the-database">5 Monitor the database<a class="headerlink" href="#monitoring-tutorial-5-monitor-the-database" title="Permanent link">&para;</a></h1>
 <p>Finally, when we are <a href="#backup-tutorial">done with backup</a>, it&rsquo;s time for one more step.
@@ -9940,9 +9962,12 @@ actual schedule that you specify in crontab format.</p>
 </li>
 </ol>
 <h2 id="backups-schedule-next-steps">Next steps<a class="headerlink" href="#backups-schedule-next-steps" title="Permanent link">&para;</a></h2>
-<p><a class="md-button" href="#backups-restore">Restore from a backup</a></p>
+<p><a class="md-button" href="#backups-restore-inplace">Restore from a backup</a></p>
 <h2 id="backups-schedule-useful-links">Useful links<a class="headerlink" href="#backups-schedule-useful-links" title="Permanent link">&para;</a></h2>
-<p><a href="#backup-retention">Backup retention</a></p></section><section class="print-page" id="backups-ondemand" heading-number="7.1.3.2"><h1 id="backups-ondemand-making-on-demand-backups">Making on-demand backups<a class="headerlink" href="#backups-ondemand-making-on-demand-backups" title="Permanent link">&para;</a></h1>
+<ul>
+<li><a href="#backup-retention">Backup retention</a></li>
+<li><a href="#backups-restore">Restore options</a></li>
+</ul></section><section class="print-page" id="backups-ondemand" heading-number="7.1.3.2"><h1 id="backups-ondemand-making-on-demand-backups">Making on-demand backups<a class="headerlink" href="#backups-ondemand-making-on-demand-backups" title="Permanent link">&para;</a></h1>
 <p>To make an on-demand backup manually, you need a backup configuration file. You can use the example of the backup configuration file <a href="https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.2/deploy/backup.yaml">deploy/backup.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
@@ -9991,70 +10016,56 @@ backup1   cluster1   repo1                 Succeeded   incr   3m38s       3m53s
 </code></pre></div>
 </div>
 <h2 id="backups-ondemand-next-steps">Next steps<a class="headerlink" href="#backups-ondemand-next-steps" title="Permanent link">&para;</a></h2>
-<p><a class="md-button" href="#backups-restore">Restore from a backup</a></p>
+<p><a class="md-button" href="#backups-restore-inplace">Restore from a backup</a></p>
 <h2 id="backups-ondemand-useful-links">Useful links<a class="headerlink" href="#backups-ondemand-useful-links" title="Permanent link">&para;</a></h2>
-<p><a href="#backup-retention">Backup retention</a></p></section></section>
+<ul>
+<li><a href="#backup-retention">Backup retention</a></li>
+<li><a href="#backups-restore">Restore options</a> </li>
+</ul></section></section>
                     <section class='print-page md-section' id='section-7-1-4' heading-number='7.1.4'>
                         <h1>Restore from a backup<a class='headerlink' href='#section-7-1-4' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="backups-restore" heading-number="7.1.4.1"><h1 id="backups-restore-restore-the-cluster-from-a-previously-saved-backup">Restore the cluster from a previously saved backup<a class="headerlink" href="#backups-restore-restore-the-cluster-from-a-previously-saved-backup" title="Permanent link">&para;</a></h1>
-<p>The Operator supports the ability to perform a full restore on a PostgreSQL
-cluster as well as a point-in-time-recovery. There are two ways to
-restore a cluster:</p>
+                    <section class="print-page" id="backups-restore" heading-number="7.1.4.1"><h1 id="backups-restore-restore-options-in-place-restore-vs-cluster-clone">Restore options: in-place restore vs cluster clone<a class="headerlink" href="#backups-restore-restore-options-in-place-restore-vs-cluster-clone" title="Permanent link">&para;</a></h1>
+<p>You can restore your PostgreSQL data from a backup in these ways:</p>
 <ul>
-<li>restore to a new cluster using the <a href="#operator-datasourcepostgresclusterclustername">dataSource.postgresCluster</a>
-subsection,</li>
-<li>restore in-place to an existing cluster (note that this is destructive).</li>
-</ul>
-<h2 id="backups-restore-restore-to-a-new-postgresql-cluster">Restore to a new PostgreSQL cluster<a class="headerlink" href="#backups-restore-restore-to-a-new-postgresql-cluster" title="Permanent link">&para;</a></h2>
-<p>Restoring to a new PostgreSQL cluster allows you to take a backup and create a
-new PostgreSQL cluster that can run alongside an existing one. There are several
-scenarios where using this technique is helpful:</p>
+<li><a href="#backups-restore-inplace"><strong>In-place restore</strong></a> – restore data into the same cluster using the <a href="#restore-options">PerconaPGRestore</a> custom resource. By default, the Operator restores the most recent backup. You can specify what backup to restore from using the <code>--set</code> option. </li>
+<li>
+<p><a href="#backups-clone"><strong>Cluster clone</strong></a> – create a new cluster from a backup using the <code>dataSource</code> option in the Custom Resource of a <strong>new</strong> cluster. Use this approach to deploy a copy of your cluster in a new namespace or a different Kubernetes cluster to:</p>
 <ul>
-<li>Creating a copy of a PostgreSQL cluster that can be used for other purposes.
-    Another way of putting this is <em>creating a clone</em>.</li>
-<li>Restore to a point-in-time and inspect the state of the data without affecting
-    the current cluster.</li>
+<li>Test your disaster recovery strategy</li>
+<li>Analyze the data without affecting the production cluster</li>
+<li>Restore the database from a cloud storage when the source cluster no longer exists.</li>
 </ul>
-<p>To create a new PostgreSQL cluster from either an active one, or a former cluster
-whose pgBackRest repository still exists, edit the <a href="#operator-datasourcepostgresclusterclustername">dataSource.postgresCluster</a> subsection options in the
-Custom Resource manifest of the <em>new cluster</em> (the one you are going to create).
-The content of this subsection should copy the <code>backups</code> keys of the original
-cluster - ones needed to carry on the restore:</p>
+</li>
+</ul>
+<p>Both approaches support full restore and point-in-time recovery. Choose the method that fits your scenario.</p>
+<h2 id="backups-restore-next-steps">Next steps<a class="headerlink" href="#backups-restore-next-steps" title="Permanent link">&para;</a></h2>
 <ul>
-<li><code>dataSource.postgresCluster.clusterName</code> should contain the source cluster name,</li>
-<li><code>dataSource.postgresCluster.clusterNamespace</code> should contain the namespace of
-    the source cluster (it is needed if the new cluster will be created in a
-    different namespace, and <strong>you will need the Operator deployed <a href="#cluster-wide-install-the-operator-cluster-wide">in multi-namespace/cluster-wide mode</a> to make such cross-namespace restore</strong>),</li>
-<li><code>dataSource.postgresCluster.options</code> allow you to set the needed pgBackRest
-    command line options,</li>
-<li><code>dataSource.postgresCluster.repoName</code> should contain the name of the
-    pgBackRest repository, while the actual storage configuration keys for this
-    repository should be placed into <code>dataSource.pgbackrest.repo</code> subsection,</li>
-<li><code>dataSource.pgbackrest.configuration.secret.name</code> should contain the name of
-    a Kubernetes Secret with credentials needed to access cloud storage, if any.</li>
-</ul>
-<p>The following example bootstraps a new cluster from a backup, which was made
-on the <code>cluster1</code> cluster deployed in <code>percona-db-1</code> namespace. For simplicity,
-this backup uses <code>repo1</code> repository from the <a href="#backups-storage-__tabbed_1_4">Persistent Volume backup storage example</a>, which needs no cloud credentials. The resulting
-<code>deploy/cr.yaml</code> manifest for the <em>new</em> cluster should contain the following
-lines:</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">dataSource</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">postgresCluster</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
-<span class="w">    </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
-<span class="w">    </span><span class="nt">clusterNamespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-db-1</span>
-<span class="nn">...</span>
-</code></pre></div>
-<p>Creating the new cluster in its namespace (for example, <code>percona-db-2</code>) with
-such a manifest will initiate the restoration process:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
-</code></pre></div>
-<h2 id="backups-restore-restore-to-an-existing-postgresql-cluster">Restore to an existing PostgreSQL cluster<a class="headerlink" href="#backups-restore-restore-to-an-existing-postgresql-cluster" title="Permanent link">&para;</a></h2>
-<p>To restore the previously saved backup, use a <em>backup restore</em>
+<li><a href="#backups-restore-inplace">In-place restore</a> – restore to the same cluster</li>
+<li><a href="#backups-clone">Cluster clone</a> – restore to a new cluster</li>
+<li><a href="#restore-options">Restore options reference</a> – PerconaPGRestore spec</li>
+</ul></section><section class="print-page" id="backups-restore-inplace" heading-number="7.1.4.2"><h1 id="backups-restore-inplace-restore-to-an-existing-postgresql-cluster-in-place-restore">Restore to an existing PostgreSQL cluster (in-place restore)<a class="headerlink" href="#backups-restore-inplace-restore-to-an-existing-postgresql-cluster-in-place-restore" title="Permanent link">&para;</a></h1>
+<p>To restore data into an existing cluster, use the <code>PerconaPGRestore</code> custom resource. </p>
+<p>You can make a full restore or restore the database to a specific point in time. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This operation overwrites the current data and is destructive.</p>
+</div>
+<p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
 configuration file. The example of the backup configuration file is
-<a href="https://github.com/percona/percona-postgresql-operator/blob/main/deploy/restore.yaml">deploy/restore.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</p>
+<a href="https://github.com/percona/percona-postgresql-operator/blob/v2.8.2/deploy/restore.yaml">deploy/restore.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="backups-restore-inplace-prepare-your-environment">Prepare your environment<a class="headerlink" href="#backups-restore-inplace-prepare-your-environment" title="Permanent link">&para;</a></h2>
+<p>Export the namespace where your cluster is running as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+<h2 id="backups-restore-inplace-make-a-full-restore-from-the-latest-backup-default">Make a full restore from the latest backup (default)<a class="headerlink" href="#backups-restore-inplace-make-a-full-restore-from-the-latest-backup-default" title="Permanent link">&para;</a></h2>
+<p>Specify the following options in the <code>deploy/restore.yaml</code> configuration file for the <code>PerconaPGRestore</code> object:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster,</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource,</li>
+<li><code>options</code> (optional) - additional <a href="https://pgbackrest.org/configuration.html">pgBackRest command line options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
+</ul>
+<p>Here is the example configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -10062,31 +10073,26 @@ configuration file. The example of the backup configuration file is
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
-<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2022-11-30 15:12:11+03&quot;</span>
 </code></pre></div>
-<p>The following keys are the most important ones:</p>
-<ul>
-<li><code>pgCluster</code> specifies the name of your cluster,</li>
-<li><code>repoName</code> specifies the name of one of the 4 pgBackRest repositories,
-    already configured in the <code>backups.pgbackrest.repos</code> subsection,</li>
-<li><code>options</code> passes through any <a href="https://pgbackrest.org/configuration.html">pgBackRest command line options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
-</ul>
-<p>To start the restoration process, run the following command (modify the <code>-n postgres-operator</code> parameter if your database cluster resides in a different namespace):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<p>Start the restore process:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<h3 id="backups-restore-specifying-which-backup-to-restore">Specifying which backup to restore<a class="headerlink" href="#backups-restore-specifying-which-backup-to-restore" title="Permanent link">&para;</a></h3>
-<p>When there are multiple backups, the Operator will restore the latest full
-backup by default.</p>
-<p>if you want to restore to some previous backup, not the last one, follow these
-steps:</p>
+<h2 id="backups-restore-inplace-restore-from-a-specific-backup">Restore from a specific backup<a class="headerlink" href="#backups-restore-inplace-restore-from-a-specific-backup" title="Permanent link">&para;</a></h2>
+<p>When you have multiple backups, the Operator restores the <a href="#backups-restore-inplace-make-a-full-restore-from-the-latest-backup-default">latest full backup</a> by default.</p>
+<p>If you want to restore from a specific previous backup, use the <code>--set</code> option with the backup label. </p>
+<p class="power-number">Here&rsquo;s the sequence of steps to follow:</p>
 <ol>
 <li>
-<p>Find the label of the backup you want to restore. For this, you can list
-    available backups with <code>kubectl get pg-backup</code> command, and then get detailed
-    information about the backup of your interest with
-    <code>kubectl describe pg-backup &lt;BACKUP NAME&gt;</code>. The output should look as follows:</p>
+<p>List available backups:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Get detailed information about the backup you wish to restore from:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg-backup<span class="w"> </span>&lt;BACKUP<span class="w"> </span>NAME&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
 <div class="highlight"><pre><span></span><code>Name:         cluster1-backup-c55w-f858g
 Namespace:    default
 Labels:       &lt;none&gt;
@@ -10108,12 +10114,23 @@ Status:
 </span><span class="hll">  Backup Type:  full
 </span>...
 </code></pre></div>
-<p>The &ldquo;Backup Name&rdquo; status field will contain needed backup label.</p>
+</details>
+<p>Look for the &ldquo;Backup Name&rdquo; in the Status section (for example, <code>20240628-074416F</code>). This is the label that you will use with the <code>--set</code> option.</p>
 </li>
 <li>
-<p>Now use a <em>backup restore</em> configuration file with additional
-    <code>--set=&lt;backup_label&gt;</code> pgBackRest option. For example, the following yaml
-    file will result in restoring to a backup labeled <code>20240628-074416F</code>:</p>
+<p>Modify the <code>deploy/restore.yaml</code> configuration file. Specify this information:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource </li>
+<li>
+<p>Configure the <code>options</code> section:</p>
+<ul>
+<li><code>--type=&lt;type&gt;</code> - Specify how you wish to restore the data. The <code>default</code> type restores the backup and replays WAL up to the end of available WAL. The <code>immediate</code> type restores the backup exactly as it was at the backup time, without replaying WAL.</li>
+<li><code>--set=&lt;backup_label&gt;</code> - Specify the backup label.</li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration to restore from a backup <code>20240628-074416F</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -10127,44 +10144,82 @@ Status:
 </code></pre></div>
 </li>
 <li>
-<p>Start the restoration process, as usual:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<p>Start the restore</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 </li>
 </ol>
-<h2 id="backups-restore-restore-the-cluster-with-point-in-time-recovery">Restore the cluster with point-in-time recovery<a class="headerlink" href="#backups-restore-restore-the-cluster-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
-<p>Point-in-time recovery functionality allows users to revert the database back to
-a state before an unwanted change had occurred.</p>
+<h2 id="backups-restore-inplace-restore-the-cluster-with-point-in-time-recovery">Restore the cluster with point-in-time recovery<a class="headerlink" href="#backups-restore-inplace-restore-the-cluster-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
+<p>Point-in-time recovery lets you restore your database to the  state it was before a change occurred (for example, before accidental data deletion or corruption).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>For this feature to work, the Operator initiates a full backup 
-immediately after the cluster creation, to use it as a basis for
-point-in-time recovery when needed (this backup is not listed in the output
-of the <code>kubectl get pg-backup</code> command).</p>
+<p>To support this, the Operator automatically creates an initial full backup when your cluster is first created. This initial backup is used as the starting point for point-in-time recovery. This backup is required internally and does not appear when running <code>kubectl get pg-backup</code>.</p>
 </div>
-<p>You can set up a point-in-time recovery using the normal restore command of
-pgBackRest with few additional <code>spec.options</code> fields in <code>deploy/restore.yaml</code>:</p>
+<p>By default, the Operator uses the latest successful full backup as the base for point-in-time restore. You can specify another  backup to use as the base by referencing its ID. Refer to the <a href="#backups-restore-inplace-specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore</a> section to learn more.</p>
+<p>To make a point-in-time restore, you need the following:</p>
 <ul>
-<li>set <code>--type</code> option to <code>time</code>,</li>
-<li>set <code>--target</code> to a specific time you would like to restore to. You can use
-    the typical string formatted as <code>&lt;YYYY-MM-DD HH:MM:DD&gt;</code>, optionally followed
-    by a timezone offset: <code>"2021-04-16 15:13:32+00"</code> (<code>+00</code> in the above
-    example means UTC),</li>
+<li>A backup that finished before your target time. You cannot restore to the time where there was no backup </li>
+<li>All relevant WAL files must be successfully archived</li>
+<li>Use the <code>--type=time</code> and <code>--target</code> options in the <code>options</code> subsection of the <code>deploy/restore.yaml</code> configuration file.</li>
+</ul>
+<p class="power-number">Here&rsquo;s the sequence of steps to follow:</p>
+<ol>
 <li>
-<p>optional <code>--set</code> argument followed with a pgBackRest backup ID allows you to
-    choose the backup which will be the starting point for point-in-time
-    recovery. This option must be specified if the target is one or more backups
-    away from the current moment. You can look through the available backups with the 
-    <a href="https://pgbackrest.org/command.html#command-info">pgBackRest info <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-    command to find out the proper backup ID.</p>
-<details class="example">
-<summary>pgBackRest backup ID example</summary>
-<p>After obtaining the Pod name with <code>kubectl get pods</code> command, you can
-run <code>pgbackrest --stanza=db info</code> command on the appropriate Pod as
-follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-hcgr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+<p>List available backups:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>Then find ID of the needed backup in the output:</p>
+</li>
+<li>
+<p>Determine the target restore time. The Operator tracks the latest restorable time for each backup by default. To view this value, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Edit the <code>deploy/restore.yaml</code> configuration file and specify this information:</p>
+<ul>
+<li><code>pgCluster</code> - the name of your cluster</li>
+<li><code>repoName</code> - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the <code>backups.pgbackrest.repos</code> subsection of the cluster Custom Resource</li>
+<li>
+<p>Configure the <code>options</code> section:</p>
+<ul>
+<li><code>--type</code> - set to <code>time</code>,</li>
+<li><code>--target</code> set the target time that you retrieved at the previous step. The format is <code>&lt;YYYY-MM-DD HH:MM:DD&gt;</code>, optionally followed by a timezone offset: <code>"2021-04-16 15:13:32+00"</code> (<code>+00</code> here means UTC). </li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2025-11-30 15:12:11+03&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Start the restore process:</p>
+<p><code>bash
+kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
+</li>
+</ol>
+<h3 id="backups-restore-inplace-specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore<a class="headerlink" href="#backups-restore-inplace-specify-a-base-backup-for-point-in-time-restore" title="Permanent link">&para;</a></h3>
+<p>You can select a base backup for point-in-time restore. To do this you must get the backup ID and then specify it for the <code>--set</code> option in the restore configuration file. </p>
+<p>To get the backup ID, do the following:</p>
+<ol>
+<li>
+<p>Get the Pod name:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Connect to the Pod and get the backupID with the <code>pgbackrest --stanza=db info</code> command :</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-hcgr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+</code></pre></div>
+<p>Find ID of the needed backup in the output:</p>
 <div class="no-copy highlight"><pre><span></span><code>stanza: db
     status: ok
     cipher: none
@@ -10188,22 +10243,9 @@ follows:</p>
         incr backup: 20240401-173403F_20240415-201430I
 ...
 </code></pre></div>
-<p>Now you can put this backup ID to the <em>backup restore</em> configuration
-file as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
-<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
-<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
-<span class="hll"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set=&quot;20240401-173403F&quot;</span>
-</span></code></pre></div>
-</details>
 </li>
-</ul>
-<p>The example may look as follows:</p>
+<li>
+<p>Reference this backup ID to the <em>backup restore</em> configuration file:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
 <span class="nt">metadata</span><span class="p">:</span>
@@ -10212,27 +10254,18 @@ file as follows:</p>
 <span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">  </span><span class="nt">options</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2022-11-30 15:12:11+03&quot;</span>
+<span class="hll"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2024-04-01 17:36:57+00&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set=&quot;20240401-173403F&quot;</span>
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p><a name="backups-latest-restorable-time"></a> Latest succeeded backup available with the <code>kubectl get pg-backup</code> command has a &ldquo;Latest restorable time&rdquo; information field handy when selecting a backup to restore. Tracking latest restorable time is <a href="#operator-backupstracklatestrestorabletime">turned on by default</a>, and you can easily query the backup for this information as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
-</code></pre></div>
-</div>
-<p>After setting these options in the <em>backup restore</em> configuration file,
-start the restoration process:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Make sure you have a backup that is older than your desired point in time.
-You obviously can’t restore from a time where you do not have a backup.
-All relevant write-ahead log files must be successfully pushed before you
-make the restore.</p>
-</div>
-<h2 id="backups-restore-providing-pgbackrest-with-a-custom-restore-command">Providing pgBackRest with a custom restore command<a class="headerlink" href="#backups-restore-providing-pgbackrest-with-a-custom-restore-command" title="Permanent link">&para;</a></h2>
+</li>
+<li>
+<p>Start the restore:</p>
+<p><code>bash
+kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
+</li>
+</ol>
+<h2 id="backups-restore-inplace-provide-pgbackrest-with-a-custom-restore-command">Provide pgBackRest with a custom restore command<a class="headerlink" href="#backups-restore-inplace-provide-pgbackrest-with-a-custom-restore-command" title="Permanent link">&para;</a></h2>
 <p>There may be cases where it is needed to control what files are restored from the backup and apply fine-grained filtering to them. For such scenarios there is a possibility to overwrite the <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY">restore_command used in PosgreSQL archive recovery <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. You can do it in the <code>patroni.dynamicConfiguration</code> subsection of the Custom Resource as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -10243,14 +10276,318 @@ make the restore.</p>
 <p>The <code>%f</code> template in the above example is replaced by the name of the file to
 retrieve from the archive, and <code>%p</code> is replaced by the copy destination path
 name on the server. See <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY">PostgreSQL official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for more low-level details about this feature.</p>
-<h2 id="backups-restore-fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a class="headerlink" href="#backups-restore-fix-the-cluster-if-the-restore-fails" title="Permanent link">&para;</a></h2>
-<p>The restore process changes database files, and therefore restoring wrong information or causing restore fail by misconfiguring can put the database cluster in non-operational state.</p>
-<p>For example, adding wrong pgBackRest arguments to <a href="#backups-restore-restore-to-an-existing-postgresql-cluster"><code>PerconaGPRestore</code> custom resource</a> breaks existing database installation while the restore hangs.</p>
-<p>In this case it’s possible to remove the <em>restore annotation</em> from the Custom Resource correspondent to your cluster. Supposing that your cluster <code>cluster1</code> was deployed in <code>postgres-operator</code> namespace, you can do it with the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
+<h2 id="backups-restore-inplace-fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a class="headerlink" href="#backups-restore-inplace-fix-the-cluster-if-the-restore-fails" title="Permanent link">&para;</a></h2>
+<p>The restore process overwrites database files. Wrong data or a misconfigured restore can leave your cluster in a non-operational state.</p>
+<p>For example, incorrect <code>pgBackRest</code> arguments in the <a href="#backups-restore-inplace-make-a-full-restore-from-the-latest-backup-default">PerconaPGRestore custom resource</a> can break the database while the restore hangs.</p>
+<p>Here&rsquo;s what you can do:</p>
+<ul>
+<li>
+<p>You can remove the restore annotation from your cluster Custom Resource to stop the restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
 </code></pre></div>
-<p>Alternatively, you can temporarily delete the database cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a> (check the <a href="#operator-finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not turned on, otherwise you will not retain your data!), and recreate the cluster back by running <code>kubectl apply -f deploy/cr.yaml -n postgres-operator</code> command you have used to deploy the it previously.</p>
-<p>One more reason of failed restore to consider is the possibility of a corrupted backup repository or missing files. In this case, you may need to delete the database cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a>, <a href="#debug-storage-check-the-pvc">find the startup PVC</a> to delete it and recreate again. </p></section></section><section class="print-page" id="backup-encryption" heading-number="7.1.5"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
+</li>
+<li>
+<p>Alternatively, you can delete the cluster <a href="#delete-delete-a-database-cluster">by removing the Custom Resource</a> and recreate it. Before you delete the Custom Resource, ensure the <a href="#operator-finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not set, or you will lose your data. Then run the same <code>kubectl apply</code> command you used to deploy the cluster originally.</p>
+</li>
+</ul>
+<p>Another example that can also cause restore failures is corrupted backup repository or missing files. In that case, <a href="#delete-delete-a-database-cluster">remove the Custom Resource</a>, <a href="#debug-storage-check-the-pvc">locate and delete the startup PVC</a>, then recreate the cluster.</p></section><section class="print-page" id="backups-clone" heading-number="7.1.4.3"><h1 id="backups-clone-restore-the-backup-to-a-new-cluster-cluster-clone">Restore the backup to a new cluster (cluster clone)<a class="headerlink" href="#backups-clone-restore-the-backup-to-a-new-cluster-cluster-clone" title="Permanent link">&para;</a></h1>
+<p>Apart from <a href="#backups-restore-inplace">restoring the data on the same database cluster</a>, you can restore a backup to a new cluster and run it alongside the existing one.</p>
+<p>This is useful for:</p>
+<ul>
+<li>Cloning a cluster to a new namespace or Kubernetes environment</li>
+<li>Creating a copy for development, testing, or reporting</li>
+<li>Restoring from a cloud storage when the source cluster no longer exists</li>
+</ul>
+<p>You can make a full restore or restore the database to a specific point in time. For each restore scenario, you must define the Custom Resource for a <strong>new</strong> cluster with these configuration options:</p>
+<ul>
+<li><code>dataSource</code> section - where to take the data from</li>
+<li><code>backups</code> section. The new cluster needs its own backup configuration.</li>
+</ul>
+<h2 id="backups-clone-understand-the-datasource-options">Understand the <code>dataSource</code> options<a class="headerlink" href="#backups-clone-understand-the-datasource-options" title="Permanent link">&para;</a></h2>
+<p>The <code>dataSource</code> section in the Custom Resource includes two subsections: <code>dataSource.postgresCluster</code> and <code>dataSource.pgbackrest</code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You cannot use both <code>dataSource.postgresCluster</code> and <code>dataSource.pgbackrest</code> at the same time. If both are present in the Custom Resource, the <code>dataSource.postgresCluster</code> option will take precedence and the Operator will use it to restore the data.</p>
+</div>
+<h3 id="backups-clone-datasourcepostgrescluster"><code>dataSource.postgresCluster</code><a class="headerlink" href="#backups-clone-datasourcepostgrescluster" title="Permanent link">&para;</a></h3>
+<p>Configure this subsection <strong>to clone an existing cluster</strong>. The key options are:</p>
+<ul>
+<li>
+<p><code>dataSource.postgresCluster.clusterName</code> is the name of the cluster you restore from. This is the source cluster. The option value corresponds to the <code>metadata.name</code> of the source cluster Custom Resource.</p>
+</li>
+<li>
+<p><code>dataSource.postgresCluster.clusterNamespace</code> is the namespace where the source cluster is deployed. Use it if namespaces of source and new clusters differ.</p>
+</li>
+<li>
+<p><code>dataSource.postgresCluster.repoName</code> is the name of the <code>pgBackRest</code> repository on the source cluster where the backup you restore from is located. It must exist on the source.</p>
+</li>
+<li>
+<p><code>dataSource.postgresCluster.options</code> are additional <code>pgBackRest</code> options that you pass for the restore. For example, you configure them for point-in-time recovery.</p>
+</li>
+</ul>
+<p>Read more about all available options in the <a href="#operator-datasource-subsection">Custom Resource reference</a></p>
+<h3 id="backups-clone-datasourcepgbackrest"><code>dataSource.pgbackrest</code><a class="headerlink" href="#backups-clone-datasourcepgbackrest" title="Permanent link">&para;</a></h3>
+<p>Configure this subsection <strong>to restore from backup repository stored in a cloud storage</strong>.</p>
+<p>Its structure closely matches the source cluster&rsquo;s <code>backups.pgbackrest</code> section, with these main points:</p>
+<ul>
+<li>Define the backup source using a single <code>repo</code> object (not an array as in <code>backups.pgbackrest</code>).</li>
+<li>Specify <code>stanza</code> (usually <code>db</code>), required to identify the backup.</li>
+<li>Reference the same Secret for cloud credentials in both the restore and backup configuration.</li>
+</ul>
+<p>Key options are:</p>
+<ul>
+<li>
+<p><code>dataSource.pgbackrest.stanza</code> - the name of <code>pgBackRest</code> stanza - a unique identifier for a source PostgreSQL cluster&rsquo;s backup configuration</p>
+</li>
+<li>
+<p><code>dataSource.pgbackrest.configuration.secret.name</code> - the name of the Secret object with the credentials to the cloud storage. It must be the same in both source and new clusters because the restore Pod requires the same credentials as the original backup Pod.</p>
+</li>
+<li>
+<p><code>dataSource.pgbackrest.global</code> is the location of a backup.</p>
+</li>
+<li>
+<p><code>dataSource.pgbackrest.repo</code> is the name of the <code>pgBackRest</code> repository. It is the same on both source and new clusters.</p>
+</li>
+</ul>
+<p>For all options, see the <a href="#operator-datasourcepgbackrestconfigurationsecretname">Custom Resource reference</a>.</p>
+<h2 id="backups-clone-clone-from-an-existing-cluster">Clone from an existing cluster<a class="headerlink" href="#backups-clone-clone-from-an-existing-cluster" title="Permanent link">&para;</a></h2>
+<h3 id="backups-clone-make-a-full-data-clone">Make a full data clone<a class="headerlink" href="#backups-clone-make-a-full-data-clone" title="Permanent link">&para;</a></h3>
+<p>To create an independent copy of your cluster, add the <code>dataSource.postgresCluster</code> section to the Custom Resource of the <em>new</em> cluster.</p>
+<p>Key fields:</p>
+<ul>
+<li><code>clusterName</code> – name of the source cluster</li>
+<li><code>clusterNamespace</code> – namespace of the source cluster (required when cloning to a different namespace; requires the Operator in <a href="#cluster-wide-install-the-operator-cluster-wide">cluster-wide mode</a>)</li>
+<li><code>repoName</code> – name of the pgBackRest repository in the source cluster containing the backup to use for the restore</li>
+</ul>
+<p>You also need to configure the storage and backup settings for the new cluster:</p>
+<ul>
+<li>In the <code>instances</code> section, define the <code>dataVolumeClaimSpec</code> for your new cluster, which sets up the PVC. This determines the storage resources (size, access mode, etc.) allocated for your cloned database data.</li>
+<li>In the <code>backups.pgbackrest.repos</code> section, set up a backup repository for the new cluster. The repo name must match the one used in <code>repoName</code> above. Also configure the backup storage. This ensures the new cluster both restores data and is able to perform its own backups independently.</li>
+</ul>
+<p>The following example creates a cluster named <code>cluster2</code> as a clone of <code>cluster1</code> in the <code>percona-db-1</code> namespace:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster2</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">crVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.8.2</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresCluster</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">      </span><span class="nt">clusterNamespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-db-1</span>
+<span class="w">      </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">volume</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+<p>Deploy the new cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+</code></pre></div>
+<p>This configuration allows your new cluster to both restore data from the source backup and operate as a fully functioning, independently backed-up PostgreSQL cluster. </p>
+<h3 id="backups-clone-make-a-clone-with-point-in-time-recovery">Make a clone with point-in-time recovery<a class="headerlink" href="#backups-clone-make-a-clone-with-point-in-time-recovery" title="Permanent link">&para;</a></h3>
+<p>To restore from a backup up to a specific point in time, you need the following:</p>
+<ul>
+<li>A backup that finished before your target time. You cannot restore to the time where there was no backup</li>
+<li>All relevant WAL files must be successfully archived</li>
+<li>Use the <code>--type=time</code> and <code>--target</code> options in the <code>options</code> subsection of the <code>deploy/restore.yaml</code> configuration file.</li>
+</ul>
+<p>Use the same settings as for <a href="#backups-clone-make-a-full-data-clone">a full data clone</a>. Also, add <code>pgBackRest</code> options for point-in-time recovery to <code>dataSource.postgresCluster.options</code>. These options are:</p>
+<ul>
+<li><code>--type=time</code>: Instructs pgBackRest to initiate a point-in-time recovery.</li>
+<li><code>--target</code>: The timestamp up to which to restore the data. To get the timestamp, run this command on the <strong>source cluster</strong>: <code>kubectl get pg-backup &lt;backup_name&gt; -n &lt;namespace&gt; -o jsonpath='{.status.latestRestorableTime}'</code></li>
+<li><code>--set</code> (optional): Allows you to specify a particular backup as the starting point for point-in-time recovery. For more information how to do it, refer to the <a href="#backups-restore-inplace-specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore</a> section.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster2</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">crVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.8.2</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresCluster</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">      </span><span class="nt">clusterNamespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-db-1</span>
+<span class="w">      </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2025-11-30 15:12:11+03&quot;</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">volume</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+<p>The new cluster will be restored to the specified point in time and then promoted. You can start accessing it from that specific timestamp.</p>
+<h3 id="backups-clone-restore-specific-databases">Restore specific databases<a class="headerlink" href="#backups-clone-restore-specific-databases" title="Permanent link">&para;</a></h3>
+<p>You might need to restore only specific databases on a new cluster. For example, for performance reasons or due to storage limits. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Note that <strong>only the specified databases</strong> will be restored and available on a new cluster. All other databases from a backup will <strong>not</strong> be accessible. This means that if you have <code>db1</code>, <code>db2</code> and <code>db3</code> in a backup and you specify only <code>db1</code>, you will have access only to this <code>db1</code>. <code>db2</code> and <code>db3</code> will not be restored. </p>
+<p>Also check <a href="https://pgbackrest.org/user-guide.html#restore/option-db-include">pgBackRest limitations for restoring specific databases</a></p>
+</div>
+<p>To restore only specific databases to a new cluster, start with <a href="#backups-clone-make-a-full-data-clone">the basic cluster clone configuration</a>, and add the <code>--db-include</code> flag under <code>options</code> to list the databases you want to restore. For example, to restore just the <code>app1</code> database, use:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresCluster</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">      </span><span class="nt">clusterNamespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-db-1</span>
+<span class="w">      </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--db-include=app1</span>
+</code></pre></div>
+<p>List additional databases with separate <code>--db-include</code> flags as needed.</p>
+<h2 id="backups-clone-clone-from-cloud-storage-s3-gcs-azure-blob">Clone from cloud storage (S3, GCS, Azure Blob)<a class="headerlink" href="#backups-clone-clone-from-cloud-storage-s3-gcs-azure-blob" title="Permanent link">&para;</a></h2>
+<p>You can create a new cluster when the source cluster no longer exists but backups remain in a cloud storage (AWS S3, Google Cloud Storage, or Azure Blob Storage). This is useful for disaster recovery, for keeping data compressed on cheaper storage and restoring it when needed, or for creating a standalone copy from archived backups.</p>
+<h3 id="backups-clone-before-you-start">Before you start<a class="headerlink" href="#backups-clone-before-you-start" title="Permanent link">&para;</a></h3>
+<p>You need the backup configuration from the original cluster: the path where backups were stored, the Secret with cloud credentials, and the storage settings (bucket, endpoint, region). </p>
+<p>If the source cluster is still running and you plan to delete it, take a full backup first for best results, then delete the cluster once the backup completes.</p>
+<h3 id="backups-clone-clone-from-s3-storage">Clone from S3 storage<a class="headerlink" href="#backups-clone-clone-from-s3-storage" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Configure the <code>dataSource.pgbackrest</code> subsection in the new cluster Custom Resource. </p>
+<p><strong>Configure these fields correctly:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Field</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>dataSource.pgbackrest</code></td>
+<td><code>stanza</code></td>
+<td>pgBackRest stanza name (usually <code>db</code>). Required for cloud restore.</td>
+</tr>
+<tr>
+<td><code>dataSource.pgbackrest</code></td>
+<td><code>configuration.secret.name</code></td>
+<td>Secret with cloud credentials. Must match the Secret used by the source cluster.</td>
+</tr>
+<tr>
+<td><code>dataSource.pgbackrest</code></td>
+<td><code>global.repo1-path</code></td>
+<td>Path where the <strong>source</strong> cluster stored its backups. Use the same path as in the original cluster&rsquo;s <code>backups.pgbackrest.global</code>.</td>
+</tr>
+<tr>
+<td><code>dataSource.pgbackrest</code></td>
+<td><code>repo</code></td>
+<td>Storage config (bucket, endpoint, region) matching the source. Single object, not an array.</td>
+</tr>
+<tr>
+<td><code>backups.pgbackrest</code></td>
+<td><code>global.repo1-path</code></td>
+<td>Path for the <strong>new</strong> cluster&rsquo;s backups. Use a different path (e.g., with the new cluster name) so the clone backs up to its own location and does not overwrite the original backups.</td>
+</tr>
+</tbody>
+</table>
+<p>The following example creates <code>cluster2</code> from backups that <code>cluster1</code> stored in the S3 storage. The source cluster may already be deleted.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster2</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">crVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.8.2</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">stanza</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db</span>
+<span class="w">      </span><span class="nt">configuration</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
+<span class="w">      </span><span class="nt">global</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster1/repo1</span>
+<span class="w">      </span><span class="nt">repo</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">s3</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-bucket</span>
+<span class="w">          </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3.ca-central-1.amazonaws.com</span>
+<span class="w">          </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca-central-1</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">configuration</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pgbackrest-secrets</span>
+<span class="w">      </span><span class="nt">global</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/postgres-operator/cluster2/repo1</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">s3</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-bucket</span>
+<span class="w">          </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3.ca-central-1.amazonaws.com</span>
+<span class="w">          </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca-central-1</span>
+</code></pre></div>
+</li>
+<li>
+<p>Deploy the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+</code></pre></div>
+</li>
+<li>
+<p>Check that the cluster is ready:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster2<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+</code></pre></div>
+</li>
+</ol>
+<p>When the number of ready instances matches the expected instances, the cloned cluster is up and running.</p>
+<h3 id="backups-clone-clone-from-cloud-backup-to-local-storage">Clone from cloud, backup to local storage<a class="headerlink" href="#backups-clone-clone-from-cloud-backup-to-local-storage" title="Permanent link">&para;</a></h3>
+<p>You can restore from cloud storage but configure the new cluster to use a local Persistent Volume for its own backups. Replace the <code>backups.pgbackrest</code> section with a volume-based repo:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">volume</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+<p>The <code>dataSource.pgbackrest</code> section stays the same; only the new cluster&rsquo;s backup destination changes.</p>
+<h3 id="backups-clone-gcs-and-azure-blob-storage">GCS and Azure Blob Storage<a class="headerlink" href="#backups-clone-gcs-and-azure-blob-storage" title="Permanent link">&para;</a></h3>
+<p>For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the <code>repo.s3</code> block with <code>repo.gcs</code> or <code>repo.azure</code> and the matching configuration. See <a href="#backups-storage">Configure storage for backups</a> for examples.</p></section></section><section class="print-page" id="backup-encryption" heading-number="7.1.5"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
 <p>Backup encryption is a security best practice that helps protect your organization&rsquo;s confidential information and prevents unauthorized access.</p>
 <p>The pgBackRest tool used by the Operator allows encrypting backups using AES-256
 encryption. The approach is <strong>repository-based</strong>: pgBackRest encrypts the whole
@@ -15036,8 +15373,10 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tr>
 </tbody>
 </table>
+<h2 id="operator-datasource-subsection"><code>dataSource</code> subsection<a class="headerlink" href="#operator-datasource-subsection" title="Permanent link">&para;</a></h2>
+<p>Contains the configuration options for restoring from a backup onto a new cluster. For usage examples, see <a href="#backups-clone">Restore the backup to a new cluster (cluster clone)</a>.</p>
 <h3 id="operator-datasourcepostgresclusterclustername"><code>dataSource.postgresCluster.clusterName</code><a class="headerlink" href="#operator-datasourcepostgresclusterclustername" title="Permanent link">&para;</a></h3>
-<p>Name of an existing cluster to use as the data source when restoring backup to a new cluster.</p>
+<p>Name of an existing cluster to use as the data source when restoring backup to a new cluster. </p>
 <table>
 <thead>
 <tr>
@@ -16701,7 +17040,7 @@ Percona Distribution for PostgreSQL backups.</p>
 </tbody>
 </table>
 <h3 id="operator-backupstracklatestrestorabletime"><code>backups.trackLatestRestorableTime</code><a class="headerlink" href="#operator-backupstracklatestrestorabletime" title="Permanent link">&para;</a></h3>
-<p>Enables or disables <a href="#backups-restore-backups-latest-restorable-time">tracking the latest restorable time</a> for latest successful backup (on by default). It can be turned off to reduced S3 API usage.</p>
+<p>Enables or disables <a href="#backups-restore-inplace-restore-the-cluster-with-point-in-time-recovery">tracking the latest restorable time</a> for latest successful backup (on by default). It can be turned off to reduce the S3 API usage.</p>
 <table>
 <thead>
 <tr>
@@ -18910,7 +19249,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tbody>
 </table>
 <h3 id="restore-options-options"><code>options</code><a class="headerlink" href="#restore-options-options" title="Permanent link">&para;</a></h3>
-<p>Specify the <a href="https://pgbackrest.org/configuration.html">command line options supported by pgBackRest :octicons-external-link-16:</a>. For example, to make a point-in-time restore.</p>
+<p>Specify the <a href="https://pgbackrest.org/configuration.html">command line options supported by <code>pgBackRest</code> :octicons-external-link-16:</a>. For example, to make a point-in-time restore or to restore from a specific backup.</p>
 <table>
 <thead>
 <tr>
@@ -18921,10 +19260,11 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <tbody>
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>--type=time</code> <br> <code>--target=YYYY-MM-DD HH:MM:DD +00</code></td>
+<td><code>--type=time</code> <br> <code>--target=YYYY-MM-DD HH:MM:DD +00</code> <br> <code>--set=20240628-074416F</code> (backup name)</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="secret-options" heading-number="11.4"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
+</table>
+<p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="#backups-restore-inplace">Restore to the same cluster</a> or <a href="#backups-clone">Restore to a new cluster</a>.</p></section><section class="print-page" id="secret-options" heading-number="11.4"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
 <p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
 <h2 id="secret-options-apiversion"><code>apiVersion</code><a class="headerlink" href="#secret-options-apiversion" title="Permanent link">&para;</a></h2>
 <p>Specifies the API version of the Custom Resource.</p>
@@ -20344,7 +20684,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p>Backup logic was improved and now allows retrying a failed backup in the same backup Pod for a specified number of times before deleting this Pod and creating a new one. This should be beneficial in case of short connectivity issues or timeouts. This behavior is controlled by the new <a href="#operator-backupspgbackrestjobsbackofflimit">backups.pgbackrest.jobs.backoffLimit</a> and <a href="#operator-backupspgbackrestjobsrestartpolicy">backups.pgbackrest.jobs.restartPolicy</a> Custom Resource options.</p>
 </li>
 <li>
-<p>You can now <a href="#backups-restore-providing-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="#operator-patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
+<p>You can now <a href="#backups-restore-inplace-providing-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="#operator-patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
 </li>
 </ul>
 <h3 id="releasenotes-kubernetes-operator-for-postgresql-rn2.6.0-postgresql-17-support">PostgreSQL 17 support<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.6.0-postgresql-17-support" title="Permanent link">&para;</a></h3>
@@ -20360,7 +20700,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p>To support you with your AI journey, we&rsquo;ve added the <code>pgvector</code> extension to the PostgreSQL images shipped with our Operator. Now, you can easily use Percona Distribution for PostgreSQL as a vector database by simply enabling it in your <a href="#operator-extensionsbuiltinpgvector">Custom Resource options</a>. No more <a href="https://www.percona.com/blog/create-an-ai-expert-with-open-source-tools-and-pgvector/">custom extension installations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> needed.</p>
 <h2 id="releasenotes-kubernetes-operator-for-postgresql-rn2.6.0-new-features">New features<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.6.0-new-features" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="#backups-restore-providing-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="#operator-patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="#backups-restore-inplace-providing-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="#operator-patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-619">K8SPG-619</a>: New <code>backups.pgbackrest.jobs.backoffLimit</code> and <code>backups.pgbackrest.jobs.restartPolicy</code> Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-648">K8SPG-648</a>: PostgreSQL 17 is now supported by the Operator</li>
 </ul>
@@ -20508,7 +20848,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <li><a href="https://jira.percona.com/browse/K8SPG-630">K8SPG-630</a>: A new <code>backups.trackLatestRestorableTime</code> Custom Resource option allows to disable latest restorable time tracking for users who need reducing S3 API calls usage</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-605">K8SPG-605</a> and <a href="https://jira.percona.com/browse/K8SPG-593">K8SPG-593</a>: Documentation now includes information about <a href="#update-operator-upgrade-via-helm">upgrading the Operator via Helm</a> and <a href="#initsql">using databaseInitSQL commands</a></li>
 <li><a href="https://jira.percona.com/browse/K8SPG-598">K8SPG-598</a>: Database major version upgrade now <a href="#update-database-major-version-upgrade">supports custom images</a></li>
-<li><a href="https://jira.percona.com/browse/K8SPG-560">K8SPG-560</a>: A <code>pg-restore</code> Custom Resource is now automatically created at <a href="#backups-restore-restore-to-a-new-postgresql-cluster">bootstrapping a new cluster from an existing backup</a></li>
+<li><a href="https://jira.percona.com/browse/K8SPG-560">K8SPG-560</a>: A <code>pg-restore</code> Custom Resource is now automatically created at <a href="#backups-clone-make-a-full-data-clone">bootstrapping a new cluster from an existing backup</a></li>
 <li><a href="https://jira.percona.com/browse/K8SPG-555">K8SPG-555</a>: The Operator now creates separate Secret with CA certificate for each cluster</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-553">K8SPG-553</a>: Users can provide the Operator with their own <a href="#tls-generate-custom-certificates-for-the-operator-yourself">root CA certificate</a></li>
 <li><a href="https://jira.percona.com/browse/K8SPG-454">K8SPG-454</a>: Cluster status obtained with <code>kubectl get pg</code> command is now &ldquo;ready&rdquo; not only when all Pods are ready, but also takes into account if all StatefulSets are up to date</li>
@@ -20622,7 +20962,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-259">K8SPG-259</a>: Users can now change the default level for log messages for pgBackRest to simplify fixing backup and restore issues</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-542">K8SPG-542</a>: Documentation now includes HowTo on <a href="#standby-streaming">creating a disaster recovery cluster using streaming replication</a></li>
-<li><a href="https://jira.percona.com/browse/K8SPG-506">K8SPG-506</a>: The <code>pg-backup</code> objects now have a new <code>backupName</code> status field, which allows users to <a href="#backups-restore-specifying-which-backup-to-restore">obtain the backup</a> name for restore simpler</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-506">K8SPG-506</a>: The <code>pg-backup</code> objects now have a new <code>backupName</code> status field, which allows users to <a href="#backups-restore-inplace-restore-from-a-specific-backup">obtain the backup</a> name for restore simpler</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-514">K8SPG-514</a>: The new <code>securityContext</code> Custom Resource subsections allow to configure securityContext for PostgreSQL instances, pgBouncer, and pgBackRest Pods</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-518">K8SPG-518</a>: The <code>kubectl get pg-backup</code> command now shows the latest restorable time to make it easier to pick a point-in-time recovery target</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-519">K8SPG-519</a>: The new <code>extensions.storage.endpoint</code> Custom Resource option allows specifying a custom S3 object storage endpoint for installing custom extensions</li>
@@ -21038,6 +21378,10 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #section-7-1-4 > h1:before { content: '7.1.4 ' }
 .print-site-enumerate-headings #backups-restore > h1:before { content: '7.1.4.1 ' }
+
+.print-site-enumerate-headings #backups-restore-inplace > h1:before { content: '7.1.4.2 ' }
+
+.print-site-enumerate-headings #backups-clone > h1:before { content: '7.1.4.3 ' }
 
 .print-site-enumerate-headings #backup-encryption > h1:before { content: '7.1.5 ' }
 
