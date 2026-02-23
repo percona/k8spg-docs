@@ -102,13 +102,13 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
     kubectl get volumesnapshotclasses
     ```
 
-  2. Edit the `deploy/cr.yaml` Custom Resource and add the `snapshots` subsection under `backups`. Specify the name of the `VolumeSnapshotClass` in the `volumeSnapshotClassName` key:
+  2. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify the name of the `VolumeSnapshotClass` in the `className` key:
 
       ```yaml
       spec:
         backups:
-          snapshots:
-            volumeSnapshotClassName: <name-of-your-volume-snapshot-class>
+          volumeSnapshots:
+            className: <name-of-your-volume-snapshot-class>
       ```
 
 3. Apply the configuration to update the cluster:
