@@ -585,7 +585,7 @@ Specifies what kind of resources serves as the data source
 
 ### `dataSource.name`
 
-Specifies what name of the PVC snapshot backup that will be used as a data source for the restore.
+Specifies what name of the PVC snapshot backup will be used as a data source for the restore.
 
 | Value type | Example |
 | ---------- | ------- |

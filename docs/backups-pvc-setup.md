@@ -9,13 +9,23 @@ For a high-level explanation of PVC snapshots, please refer to the [PVC snapshot
 To use PVC snapshots, ensure you have the following prerequisites met:
 
 1. Your Kubernetes cluster must have a CSI driver that supports Volume Snapshots  
-   For example, Google Kubernetes Engine (GKE) with `pd.csi.storage.gke.io`, or Amazon EKS with `ebs.csi.aws.com`.
+   For example, Google Kubernetes Engine (GKE) with `pd.csi.storage.gke.io`, or Amazon EKS with `ebs.csi.aws.com`. Check what driver you have with:
+
+    ```bash
+    kubectl get csidriver
+    ```
 
 2. Your Kubernetes cluster must have VolumeSnapshot CRDs installed. Most managed Kubernetes providers include these by default. Verify by running:
 
     ```bash
-    kubectl get crd volumesnapshots.snapshot.storage.k8s.io
+    kubectl get crd | grep volumesnapshots 
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        volumesnapshots.snapshot.storage.k8s.io
+        ```
 
 3. At least one `VolumeSnapshotClass` must exist and be compatible with the storage class used by your PostgreSQL data volumes. Check it with:
 
@@ -23,7 +33,7 @@ To use PVC snapshots, ensure you have the following prerequisites met:
     kubectl get volumesnapshotclasses
     ```
 
-    If you don't have one, refer to the [Add a VolumeSnapshotClass](#add-volumesnapshotclass) section.
+    If you don't have one, you can add it yourself. Refer to the [Add a VolumeSnapshotClass](#add-volumesnapshotclass) section.
 
 4. You must enable the `VolumeSnapshots` feature gate for the **Percona Operator for PostgreSQL** deployment.  Refer to the [Enable the feature gate](#enable-the-feature-gate) section for details.
 
@@ -48,7 +58,7 @@ To use PVC snapshots, ensure you have the following prerequisites met:
 
 If you have the Operator Deployment up and running, you can edit the `deploy/operator.yaml` manifest. If you deploy the Operator from scratch, edit the `deploy/bundle.yaml` manifest.
 
-1. Edit the `deploy/operator.yaml` or `deploy/bundle.yaml` and set the `PGO_FEATURE_GATES` environment variable for the Operator Deployment to `"VolumeSnapshots=true"`:
+1. Edit the `deploy/operator.yaml` or `deploy/bundle.yaml` and set the `PGO_FEATURE_GATES` environment variable for the Operator Deployment to `"BackupSnapshots=true"`:
 
     ```yaml
     spec:
@@ -56,7 +66,7 @@ If you have the Operator Deployment up and running, you can edit the `deploy/ope
       - name: percona-postgresql-operator
         env:
         - name: PGO_FEATURE_GATES
-          value: "VolumeSnapshots=true"
+          value: "BackupSnapshots=true"
     ```
 
 2. Apply the configuration:
@@ -81,7 +91,7 @@ If your Kubernetes cluster doesn't have a `VolumeSnapshotClass` that matches you
     apiVersion: snapshot.storage.k8s.io/v1
     kind: VolumeSnapshotClass
     metadata:
-    	name: gke-snapshot-class
+      name: gke-snapshot-class
     driver: pd.csi.storage.gke.io
     deletionPolicy: Delete
     ```
@@ -91,6 +101,12 @@ If your Kubernetes cluster doesn't have a `VolumeSnapshotClass` that matches you
     ```bash
     kubectl apply -f volume-snapshot-class.yaml
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        volumesnapshotclass.snapshot.storage.k8s.io/gke-snapshot-class created
+        ```
 
 ### Configure PVC snapshots in your cluster
 
@@ -102,13 +118,24 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
     kubectl get volumesnapshotclasses
     ```
 
-  2. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify the name of the `VolumeSnapshotClass` in the `className` key:
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        NAME                 DRIVER                  DELETIONPOLICY   AGE
+        gke-snapshot-class   pd.csi.storage.gke.io   Delete           42s
+        ```
+
+  2. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify these keys:
+  
+      * `className` - the name of the `VolumeSnapshotClass`
+      * `mode` -  how to make backups. `offile` is currently the only supported mode.
 
       ```yaml
       spec:
         backups:
           volumeSnapshots:
             className: <name-of-your-volume-snapshot-class>
+            mode: offline
       ```
 
 3. Apply the configuration to update the cluster:
@@ -164,7 +191,7 @@ Once the PVC snapshots are configured, you can use them to make backups and rest
 
 ### Make a scheduled snapshot-based backup
 
-1. Configure the backup schedule in your cluster Custom Resource. Edit the `deploy/cr.yaml` manifest. In the `schedule` key in the `snapshots` subsection under `backups`, specify the schedule in the Cron format for the snapshots to be made automatically. Your updated configuration should look like this:
+1. Configure the backup schedule in your cluster Custom Resource. Edit the `deploy/cr.yaml` manifest. In the `schedule` key in the `volumeSnapshots` subsection under `backups`, specify the schedule in the Cron format for the snapshots to be made automatically. Your updated configuration should look like this:
 
     ```yaml
     apiVersion: pgv2.percona.com/v2
@@ -176,7 +203,7 @@ Once the PVC snapshots are configured, you can use them to make backups and rest
         volumeSnapshots:
           className: my-snapshot-class
           mode: offline
-          schedule: "0 3 ** *"   # Every day at 3:00 AM
+          schedule: "0 3 * * *"   # Every day at 3:00 AM
     ```
 
 2. Apply the configuration to update the cluster:
