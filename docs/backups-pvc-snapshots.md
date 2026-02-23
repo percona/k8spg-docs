@@ -72,9 +72,9 @@ Before enabling PVC snapshots, ensure the following:
    kubectl get volumesnapshotclasses
    ```
 
-   See how to add it in the [Add a VolumeSnapshotClass](#add-volumesnapshotclass) section.
+   See how to add it in the [Add a VolumeSnapshotClass](backups-pvc-setup.md#add-volumesnapshotclass) section.
 
-3. You must explicitly enable the `VolumeSnapshots` feature gate in the Operator Deployment. See [Enable the feature gate](#enable-the-feature-gate).
+3. You must explicitly enable the `VolumeSnapshots` feature gate in the Operator Deployment. See [Enable the feature gate](backups-pvc-setup.md#enable-the-feature-gate).
 
 ## Limitations
 
