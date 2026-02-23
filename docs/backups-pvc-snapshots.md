@@ -10,7 +10,7 @@ By reading this document you will learn the following:
 
 * [What is a PVC snapshot](#overview)
 * [How it works](#workflow)
-* [Why you need it](#benefits)
+* [Why you need it](#why-to-use-pvc-snapshots)
 * [Requirements](#requirements) 
 * [Current limitations](#limitations)
 
