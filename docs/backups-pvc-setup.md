@@ -352,10 +352,10 @@ Follow the steps below to create a new cluster from a PVC snapshot.
             resources:
               requests:
                 storage: 10Gi
-        dataSource:
-        	apiGroup: snapshot.storage.k8s.io
-				  kind: VolumeSnapshot
-				  name: <name-of-the-pvc-snapshot-backup>
+      dataSource:
+        apiGroup: snapshot.storage.k8s.io
+        kind: VolumeSnapshot
+        name: <name-of-the-pvc-snapshot-backup>
     ```
 
 3. Apply the configuration to create the new cluster:
