@@ -68,7 +68,7 @@ If you have the Operator Deployment up and running, you can edit the `deploy/ope
     or
 
     ```bash
-    kubectl apply --sever-side -f deploy/bundle.yaml -n $NAMESPACE
+    kubectl apply --server-side -f deploy/bundle.yaml -n $NAMESPACE
     ```
 
 ### Add a VolumeSnapshotClass
