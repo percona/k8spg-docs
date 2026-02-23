@@ -4,11 +4,11 @@
 
     This feature is in the tech preview stage. The API and behavior may change in future releases.
 
-This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the [Configure and PVC snaphots](backups-pvc-setup.md) tutorial. 
+This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the [Configure and use PVC snapshots](backups-pvc-setup.md) tutorial. 
 
 By reading this document you will learn the following:
 
-* [What is a PVC shapshot](#overview)
+* [What is a PVC snapshot](#overview)
 * [How it works](#workflow)
 * [Why you need it](#benefits)
 * [Requirements](#requirements) 
