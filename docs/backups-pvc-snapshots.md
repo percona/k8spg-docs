@@ -18,14 +18,14 @@ By reading this document you will learn the following:
 
 A PVC snapshot is a point-in-time copy of a [Persistent Volume Claim :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) created by the storage provider. It captures the volume contents at a specific moment without copying data block by block. 
 
-PVC snapshots are much faster than streaming data to cloud storage or a backup volume. This is especially beneficial for large datasets. The Operator uses the [Kubernetes VolumeSnapshot API :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to create PVC snapshots at the storage level. When used with pgBackRest WAL archiving, PVC snapshots ensure data consistency and provide support for point-in-time recovery.
+PVC snapshots are much faster than streaming data to cloud storage or a backup volume. This is especially beneficial for large datasets. The Operator uses the [Kubernetes VolumeSnapshot API :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to create PVC snapshots at the storage level. When used with `pgBackRest` WAL archiving, PVC snapshots ensure data consistency and provide support for point-in-time recovery.
 
 
 ## Workflow
 
 The Operator currently supports only cold backups (the `offline` mode). 
 A cold backup is also known as an offline backup. 
-It is a physical base backup taken when the PostgreSQL instance is shut down. 
+It is a storage-level backup taken when the PostgreSQL instance is shut down. 
 This ensures consistency by capturing the entire database exactly as it exists at the moment when it's shut down.
 
 During cold backups, the Operator:
@@ -41,12 +41,11 @@ This approach ensures a crash-consistent snapshot while minimizing the impact on
 
 ## Why to use PVC snapshots
 
-PVC snapshots can speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:
+PVC snapshots speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:
 
 * **Much faster backups** – Snapshot creation is typically seconds to minutes, regardless of database size. Traditional full backups scale with data volume and can take hours for large datasets.
 * **Much faster restores** – Restoring from a snapshot is significantly faster than restoring from cloud storage. Both in-place restores and restores to a new cluster are supported.
-* **Lower resource usage** – Snapshots avoid the CPU and network overhead of streaming data to remote storage.
-* **PITR support** – When used with pgBackRest, snapshots integrate with point-in-time recovery for flexible restore targets.
+* **Lower resource usage** – Snapshots avoid the CPU and network overhead of streaming data to a remote storage.
 
 ## Requirements
 
