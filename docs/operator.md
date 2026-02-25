@@ -54,6 +54,22 @@ Enforce the Operator to use only Transport Layer Security (TLS) for both interna
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `tls.certValidityDuration`
+
+Validity duration for TLS certificates (cluster, instance, and PgBouncer). Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `2160h`). Default: `8760h` (1 year).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `2160h` |
+
+### `tls.caValidityDuration`
+
+Validity duration for the root CA certificate. Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `26280h`). Default: `8760h` (1 year).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `26280h` |
+
 ### `standby.enabled`
 
 Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).
