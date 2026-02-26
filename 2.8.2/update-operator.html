@@ -28,7 +28,7 @@
       
       
       <link rel="icon" href="assets/operators-fav.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.2">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
@@ -4644,9 +4644,9 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span c
 <p class="admonition-title">Note</p>
 <p>In case of <a href="cluster-wide.html">cluster-wide installation</a>, use <code>deploy/cw-rbac.yaml</code> instead of <code>deploy/rbac.yaml</code>.</p>
 </div>
-</li>
-<li>
-<p>Next, update the Percona Distribution for PostgreSQL Operator Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release <a href="images.html">in the list of certified images</a>. Use the following command to update the Operator to the <code>2.8.2</code> version:</p>
+<ol>
+<li>Next, update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release <a href="images.html">in the list of certified images</a>. Use the following command to update the Operator to the <code>2.8.2</code> version:</li>
+</ol>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
 -p<span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;operator&quot;,&quot;image&quot;:&quot;docker.io/percona/percona-postgresql-operator:2.8.2}]}}}}&#39;</span>
 </code></pre></div>
@@ -4720,7 +4720,7 @@ which you have chosen for the Operator when installing its Helm chart.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 16, 2025 10:21:11 UTC">December 16, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 26, 2026 11:50:48 UTC">February 26, 2026</span>
       
         <br>
         Created:
