@@ -1,15 +1,24 @@
-# Install Percona Distribution for PostgreSQL using Helm
+# Install Percona Operator for PostgreSQL using Helm
 
 [Helm :octicons-link-external-16:](https://github.com/helm/helm) is the package manager for Kubernetes. 
-A Helm [chart :octicons-link-external-16:](https://helm.sh/docs/topics/charts/) is a package that contains all the necessary resources to deploy an application to a Kubernetes cluster.
+A Helm [chart :octicons-link-external-16:](https://helm.sh/docs/topics/charts/) is a package that contains all the necessary files to deploy resources or an application to a Kubernetes cluster. 
 
-You can find Percona Helm charts in [percona/percona-helm-charts :octicons-link-external-16:](https://github.com/percona/percona-helm-charts) repository in Github.
+Helm charts for Percona Operator for PostgreSQL include:
+
+* [Percona Operator for PostgreSQL Deployment :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator) 
+* [Percona Distribution for PostgreSQL :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-db)
+
+You need to install both of them. First you install the Operator Deployment and then you use that to install Percona Distribution for PostgreSQL cluster.
+
+This guide walks you through installing Percona Operator for PostgreSQL with default parameters and names. 
+
+To install the Operator with custom parameters or custom resource names, refer to [Install Percona Operator for PostgreSQL with customized parameters](custom-install.md).
 
 ## Prerequisites
 
 To install and deploy the Operator, you need the following:
 
-1. [Helm v3 :octicons-link-external-16:](https://docs.helm.sh/using_helm/#installing-helm).
+1. [Helm v3 :octicons-link-external-16:](https://docs.helm.sh/using_helm/#installing-helm). Run `helm version` to check the version
 2. [kubectl :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tools/) command line utility.
 3. A Kubernetes environment. You can deploy it locally on [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) for testing purposes or using any cloud provider of your choice. Check the list of our [officially supported platforms](System-Requirements.md#supported-platforms).
 
@@ -18,6 +27,8 @@ To install and deploy the Operator, you need the following:
         * [Set up Minikube](minikube.md#set-up-minikube)
         * [Create and configure the GKE cluster](gke.md#create-and-configure-the-gke-cluster)
         * [Set up Amazon Elastic Kubernetes Service](eks.md#software-installation)
+
+4. Privileges to create Custom Resource Definitions (CRDs), RBAC resources, and deploy the Operator
 
 ## Installation 
 
@@ -75,9 +86,7 @@ Here's a sequence of steps to follow:
         cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
         ``` 
 
-You have successfully installed and deployed the Operator with default parameters. You can check them in the [Custom Resource options reference](operator.md).
-
-You can find in the documentation for the charts which [Operator :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator#installing-the-chart) and [database :octicons-link-external-16:](https://github.com/percona/percona-helm-charts/tree/main/charts/pg-db#installing-the-chart) parameters can be customized during installation.
+You have successfully installed and deployed the Operator with default parameters.
 
 ## Next steps
 

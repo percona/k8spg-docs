@@ -73,7 +73,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
         In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
 
-2. Next, update the Percona Distribution for PostgreSQL Operator Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
+    2. Next, update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
 
     ```bash
     kubectl -n postgres-operator patch deployment percona-postgresql-operator \
