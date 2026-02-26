@@ -15,6 +15,8 @@ You can configure TLS in these ways:
 * Use the [cert-manager](tls-cert-manager.md) to manage certificates and their lifecycle,
 * [Generate certificates manually](tls-manual.md).
 
+You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manager.md) to benefit from automatic renewal and centralized management.
+
 Additionally, you can *force* your database cluster to use only encrypted channels for both internal and external communications. To do this, set the `tlsOnly` Custom Resource option to `true`.
 
 ## Automatic certificate generation by the Operator
@@ -36,6 +38,7 @@ Upon cluster creation, the Operator reviews the Custom Resource configuration to
 The following sections provide guidelines how to:
 
 * [Configure TLS security with the Operator using cert-manager](tls-cert-manager.md)
+* [Migrate from Operator-generated certificates to cert-manager](tls-migrate-to-cert-manager.md)
 * [Generate certificates manually](tls-manual.md)
 * [Update certificates](tls-update.md)
 * [Check TLS communication to a cluster](tls-verify-communication.md)

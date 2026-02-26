@@ -204,6 +204,7 @@ nav:
           - Transport encryption (TLS/SSL):
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
+            - "Migrate from Operator-generated certificates to cert-manager": tls-migrate-to-cert-manager.md
             - "Generate certificates manually": tls-manual.md
             - "Update TLS/SSL certificates": tls-update.md
             - "Check TLS communication": tls-verify-communication.md
