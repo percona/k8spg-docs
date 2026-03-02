@@ -1,19 +1,23 @@
-# Configure DNS suffix for cross-service discovery
+# Configure DNS suffix for service discovery
 
-When you run the Percona Operator for PostgreSQL inside a [vcluster](https://www.vcluster.com/), the vcluster introduces its own DNS domain (for example, `mycluster.local`). The Operator resolves service names according to that domain, while external services such as PMM, Prometheus exporters or pgBackRest typically live in the host cluster and use a different domain (for example, `svc.cluster.local`).
+In Kubernetes, services are assigned a DNS name to be accessible within the cluster. The domain name follows the pattern `<service-name>.<namespace>.svc.<cluster-domain>`. The default cluster domain is `cluster.local`, so a typical FQDN looks like `<service-name>.<namespace>.svc.cluster.local`.
 
-Without control over the DNS suffix, the Operator constructs internal service names using the wrong domain. As a result, connections to external monitoring and backup endpoints fail.
+When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.
 
-The `clusterServiceDNSSuffix` option lets you explicitly define which DNS suffix the Operator uses when constructing internal service names. This ensures correct service discovery whether the Operator runs in a vcluster, the host cluster, or a mixed setup.
+A vcluster or clusters with custom DNS configuration can use a different domain instead of `cluster.local`. In that case, the Operator must know which suffix to use when generating service names. Otherwise, it produces hostnames using the default domain and they do not match the cluster's DNS configuration and service resolution fails.
+
+## User value
+
+The `clusterServiceDNSSuffix` option lets you set the cluster domain as the value the Operator uses when generating service names. As a result, the Operator produces hostnames that match your cluster's DNS configuration, ensuring correct service resolution and discovery.
 
 ## How to configure
 
-Add `clusterServiceDNSSuffix` under `spec` in your Custom Resource. For a vcluster setup, set it to the host cluster's DNS suffix so the Operator can reach services there:
+Add `clusterServiceDNSSuffix` under `spec` in your Custom Resource. Set it to your cluster's DNS suffix—for example, `cluster.local` for a standard cluster, or the host cluster's suffix when the Operator runs in a vcluster:
 
 ```yaml
 spec:
   ...
-  clusterServiceDNSSuffix: mycluster.local
+  clusterServiceDNSSuffix: cluster.local
   # ... rest of your spec
 ```
 

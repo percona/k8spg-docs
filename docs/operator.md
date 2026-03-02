@@ -32,7 +32,7 @@ Version of the Operator the Custom Resource belongs to.
 
 ### `clusterServiceDNSSuffix`
 
-DNS suffix used when constructing internal service names. Use this when the Operator runs in a vcluster or a cluster with a custom DNS domain so it can correctly reach external endpoints. See [Configure DNS suffix for cross-service discovery](dns-suffix.md) for details.
+A custom cluster domain to be used as a DNS suffix used when constructing internal service names. Use this when the Operator runs in a vcluster or a cluster with a custom DNS domain so it can correctly resolve services. See [Configure DNS suffix for service discovery](dns-suffix.md) for details.
 
 | Value type | Example |
 | ---------- | ------- |
