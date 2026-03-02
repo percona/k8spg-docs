@@ -27,7 +27,7 @@ Read more about cert-manager in [Configure TLS security with the Operator using 
     kubectl get pg cluster1 -n $NAMESPACE
     ```
 
-    Wait until the cluster status is `Stopped`. You can verify with `kubectl get pods -n $NAMESPACE`.
+    Wait until the cluster status is `Paused`. You can verify with `kubectl get pods -n $NAMESPACE`.
 
 4. Deploy cert-manager. In this guide we install cert-manager with `kubectl`. Refer to [Configure TLS security with the Operator using cert-manager](tls-cert-manager.md#install-cert-manager) for Helm installation instructions.
 

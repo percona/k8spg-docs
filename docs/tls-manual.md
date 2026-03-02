@@ -13,7 +13,7 @@ Each Secret must contain the following fields:
 
 Note that you cannot use only one custom set of certificates. If you provide a custom TLS Secret, you **must** also provide a custom replication TLS Secret, and both must contain the same `ca.crt`.
 
-## Provide pre-existing custom certificates
+## Provide existing custom certificates
 
 For example, you have files named `ca.crt`, `my_tls.key`, and `my_tls.crt`. Run the following command to create a custom TLS Secret named `cluster1-tls`:
 
