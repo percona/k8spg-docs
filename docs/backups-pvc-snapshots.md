@@ -25,7 +25,7 @@ PVC snapshots are much faster than streaming data to cloud storage or a backup v
 
 The Operator currently supports only cold backups (the `offline` mode). 
 A cold backup is also known as an offline backup. 
-It is a storage-level backup taken when the PostgreSQL instance is shut down. 
+It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the operator.
 This ensures consistency by capturing the entire database exactly as it exists at the moment when it's shut down.
 
 During cold backups, the Operator:
