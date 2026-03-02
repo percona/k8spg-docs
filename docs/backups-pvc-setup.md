@@ -35,7 +35,7 @@ To use PVC snapshots, ensure you have the following prerequisites met:
 
     If you don't have one, you can add it yourself. Refer to the [Add a VolumeSnapshotClass](#add-volumesnapshotclass) section.
 
-4. You must enable the `VolumeSnapshots` feature gate for the **Percona Operator for PostgreSQL** deployment.  Refer to the [Enable the feature gate](#enable-the-feature-gate) section for details.
+4. You must enable the `BackupSnapshots` feature gate for the **Percona Operator for PostgreSQL** deployment.  Refer to the [Enable the feature gate](#enable-the-feature-gate) section for details.
 
 ## Before you start
 
@@ -341,7 +341,7 @@ Follow the steps below to make a point-in-time restore from a PVC snapshot.
 
 You can create a new cluster from a PVC snapshot. This is useful when you want to restore the data to a new cluster and don't want to overwrite the existing data in the existing cluster.
 
-To create a new cluster from a PVC snapshot, you need to configure the `PerconaPGCluster` object and specify the existing PVC snapshot as the `dataSource`. You also need to configure the `instances` and `backups` sections to set up the new cluster. 
+To create a new cluster from a PVC snapshot, you need to configure the `PerconaPGCluster` object and specify an `volumesnapshot` object as the `dataSource`. You also need to configure the `instances` and `backups` sections to set up the new cluster. 
 
 For more information about the `dataSource` options, see the [Understand the `dataSource` options](backups-clone.md#understand-the-datasource-options) section. Also check the [Custom Resource reference](operator.md#datasource-subsection) for all available options.
 

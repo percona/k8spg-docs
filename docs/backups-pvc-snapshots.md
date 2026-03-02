@@ -25,8 +25,8 @@ PVC snapshots are much faster than streaming data to cloud storage or a backup v
 
 The Operator currently supports only cold backups (the `offline` mode). 
 A cold backup is also known as an offline backup. 
-It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the operator.
-This ensures consistency by capturing the entire database exactly as it exists at the moment when it's shut down.
+It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the Operator.
+This ensures consistency by capturing the entire database exactly as it exists at the moment when the replica is temporarily suspended.
 
 During cold backups, the Operator:
 
@@ -43,7 +43,7 @@ This approach ensures a crash-consistent snapshot while minimizing the impact on
 
 PVC snapshots speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:
 
-* **Much faster backups** – Snapshot creation is typically seconds to minutes, regardless of database size. Traditional full backups scale with data volume and can take hours for large datasets.
+* **Much faster backups** – Snapshot creation is typically seconds to minutes, regardless of database size. Time it takes to run traditional full backups increases as the size of your database grows.
 * **Much faster restores** – Restoring from a snapshot is significantly faster than restoring from cloud storage. Both in-place restores and restores to a new cluster are supported.
 * **Lower resource usage** – Snapshots avoid the CPU and network overhead of streaming data to a remote storage.
 
@@ -73,7 +73,7 @@ Before enabling PVC snapshots, ensure the following:
 
    See how to add it in the [Add a VolumeSnapshotClass](backups-pvc-setup.md#add-volumesnapshotclass) section.
 
-3. You must explicitly enable the `VolumeSnapshots` feature gate in the Operator Deployment. See [Enable the feature gate](backups-pvc-setup.md#enable-the-feature-gate).
+3. You must explicitly enable the `BackupSnapshots` feature gate in the Operator Deployment. See [Enable the feature gate](backups-pvc-setup.md#enable-the-feature-gate).
 
 ## Limitations
 

@@ -75,7 +75,7 @@ Following feature gates are present:
 1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#enable-automatic-storage-resize) chapter. Available as of Operator version 2.8.1.
 >>>>>>> Update docs/backups-pvc-setup.md
 
-2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster restores for large datasets. Available as of Operator version 2.9.0.
+2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.
 
 
 **Example configuration:**

@@ -1107,7 +1107,7 @@ Enables or disables [tracking the latest restorable time](backups-restore-inplac
 
 ### `backups.volumeSnapshots.className`
 
-Name of the [VolumeSnapshotClass :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to use when creating [PVC snapshots](backups-pvc-snapshots.md). When set, the Operator creates a volume snapshot in coordination with each backup. Snapshots enable much faster restores when provisioning new clusters. Requires the `VolumeSnapshots=true` feature gate.
+Name of the [VolumeSnapshotClass :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to use when creating [PVC snapshots](backups-pvc-snapshots.md). When set, the Operator creates a volume snapshot in coordination with each backup. Snapshots enable much faster restores when provisioning new clusters. Requires the `BackupSnapshots=true` feature gate.
 
 | Value type | Example |
 | ---------- | ------- |
