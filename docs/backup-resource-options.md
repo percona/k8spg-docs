@@ -41,7 +41,7 @@ Specifies the name of the `pgBackRest` repository where to save a backup. It mus
 
 ### `method`
 
-Specifies what method to use for the backup. When undefined, uses `pgBackRest` by default. Supported value is `volumeSnapshot`. See [PVC snapshot support](backups-pvc-snapshots.md) to learn more.
+Specifies what method to use for the backup. When undefined, uses `pgBackRest` by default. Supported values are `volumeSnapshot` and `pgBackRest`. See [PVC snapshot support](backups-pvc-snapshots.md) to learn more.
 
 | Value type  | Example    |
 | ----------- | ---------- |
