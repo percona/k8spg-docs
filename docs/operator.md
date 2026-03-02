@@ -1054,6 +1054,22 @@ Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL 
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 
+### `instances.sidecarVolumes`
+
+The [volumes  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS, and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-secret<br>  secret:<br>    secretName: mysecret<br>- name: backup-nfs<br>  nfs:<br>    server: "nfs-service.storage.svc.cluster.local"<br>    path: "/pg-some-name"</pre> |
+
+### `instances.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
+
 ## Backup section
 
 The `backup` section in the
@@ -1333,11 +1349,27 @@ The command to use inside a custom sidecar container for pgBackRest Pods
 
 ### `backups.pgbackrest.repoHost.sidecars.securityContext`
 
-Security settings for the sifecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+Security settings for the sidecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `{}` |
+
+### `backups.pgbackrest.repoHost.sidecarVolumes`
+
+The [volumes  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS, and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-secret<br>  secret:<br>    secretName: mysecret</pre> |
+
+### `backups.pgbackrest.repoHost.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
 
 ### `backups.pgbackrest.repoHost.resources.requests.cpu`
 
@@ -1975,6 +2007,22 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 | Value type | Example |
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
+
+### `proxy.pgBouncer.sidecarVolumes`
+
+The [volumes  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBouncer Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS, and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-secret<br>  secret:<br>    secretName: mysecret</pre> |
+
+### `proxy.pgBouncer.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBouncer Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
 
 ## Patroni Section
 
