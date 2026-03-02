@@ -23,6 +23,7 @@ You can add sidecar containers to these Pods:
 
 * a PostgreSQL instance Pod 
 * a pgBouncer Pod
+* a pgBackRest repo host Pod
 
 To add a sidecar container, use the `instances.sidecars` or `proxy.pgBouncer.sidecars` subsection in the `deploy/cr.yaml` configuration file.  Specify this minimum required information in this subsection:
 
