@@ -1054,7 +1054,7 @@ Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL 
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 
-### `instances.sidecars.sidecarVolumes.name`
+### `instances.sidecarVolumes.name`
 
 The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS volume types.
 
@@ -1062,7 +1062,7 @@ The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/
 | ---------- | ------- |
 | :material-text-long: subdoc | sidecar-secret |
 
-### `instances.sidecars.sidecarVolumes.secret.secretName`
+### `instances.sidecarVolumes.secret.secretName`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1070,7 +1070,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `instances.sidecars.sidecarVolumes.secret.configMap.name`
+### `instances.sidecarVolumes.secret.configMap.name`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1078,7 +1078,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `instances.sidecars.sidecarVolumes.secret.configMap.name`
+### `instances.sidecarVolumes.secret.configMap.name`
 
 The name of the configMap object to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1086,7 +1086,7 @@ The name of the configMap object to attach to PostgreSQL instance Pods for use b
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `instances.sidecars.sidecarVolumes.nfs.server`
+### `instances.sidecarVolumes.nfs.server`
 
 The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
 
@@ -1094,7 +1094,7 @@ The hostname of the NFS server that will provide remote filesystem to the [custo
 | ---------- | ------- |
 | :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
 
-### `instances.sidecars.sidecarVolumes.nfs.path`
+### `instances.sidecarVolumes.nfs.path`
 
 The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
 
@@ -1395,7 +1395,7 @@ Security settings for the sidecar container. These settings control privileges, 
 | ---------- | ------- |
 | :material-code-string: string | `{}` |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.name`
+### `backups.pgbackrest.repoHost.sidecarVolumes.name`
 
 The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS volume types.
 
@@ -1403,7 +1403,7 @@ The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/
 | ---------- | ------- |
 | :material-text-long: subdoc | sidecar-secret |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.secret.secretName`
+### `backups.pgbackrest.repoHost.sidecarVolumes.secret.secretName`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1411,7 +1411,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.secret.configMap.name`
+### `backups.pgbackrest.repoHost.sidecarVolumes.secret.configMap.name`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1419,7 +1419,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.secret.configMap.name`
+### `backups.pgbackrest.repoHost.sidecarVolumes.secret.configMap.name`
 
 The name of the configMap object to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1427,7 +1427,7 @@ The name of the configMap object to attach to pgBackRest repo host Pods for use 
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.nfs.server`
+### `backups.pgbackrest.repoHost.sidecarVolumes.nfs.server`
 
 The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods Pods.
 
@@ -1435,7 +1435,7 @@ The hostname of the NFS server that will provide remote filesystem to the [custo
 | ---------- | ------- |
 | :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
 
-### `backups.pgbackrest.repoHost.sidecars.sidecarVolumes.nfs.path`
+### `backups.pgbackrest.repoHost.sidecarVolumes.nfs.path`
 
 The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods` Pods.
 
@@ -2088,7 +2088,7 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.name`
+### `proxy.pgBouncer.sidecarVolumes.name`
 
 The name of the [volumes  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS, and other volume types.
 
@@ -2096,7 +2096,7 @@ The name of the [volumes  :octicons-link-external-16:](https://kubernetes.io/doc
 | ---------- | ------- |
 | :material-text-string: string | sidecar-secret |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.secret.secretName`
+### `proxy.pgBouncer.sidecarVolumes.secret.secretName`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md). 
 
@@ -2104,7 +2104,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.secret.configMap.name`
+### `proxy.pgBouncer.sidecarVolumes.secret.configMap.name`
 
 The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -2112,7 +2112,7 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.secret.configMap.name`
+### `proxy.pgBouncer.sidecarVolumes.secret.configMap.name`
 
 The name of the configMap object to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -2120,7 +2120,7 @@ The name of the configMap object to attach to `pgBouncer` Pods for use by [custo
 | ---------- | ------- |
 | :material-text-string: string | sidecar-config |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.nfs.server`
+### `proxy.pgBouncer.sidecarVolumes.nfs.server`
 
 The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in `pgBouncer` Pods.
 
@@ -2128,7 +2128,7 @@ The hostname of the NFS server that will provide remote filesystem to the [custo
 | ---------- | ------- |
 | :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
 
-### `proxy.pgBouncer.sidecars.sidecarVolumes.nfs.path`
+### `proxy.pgBouncer.sidecarVolumes.nfs.path`
 
 The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in `pgBouncer` Pods.
 
@@ -2136,7 +2136,7 @@ The path on the NFS server that will be provided as a remote filesystem to the [
 | ---------- | ------- |
 | :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
 
-### `proxy.pgBouncer.sidecars.sidecarPVCs`
+### `proxy.pgBouncer.sidecarPVCs`
 
 [PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the Operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBouncer Pods.
 
