@@ -210,6 +210,9 @@ nav:
           - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Labels and annotations": annotations.md
+          - Data-at-rest encryption:
+            - About data-at-rest encryption: encryption.md
+            - Configure data-at-rest encryption with HashiCorp Vault: encryption-setup.md
           - Transport encryption (TLS/SSL):
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
