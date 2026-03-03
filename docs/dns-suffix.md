@@ -4,11 +4,11 @@ In Kubernetes, services are assigned a DNS name to be accessible within the clus
 
 When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.
 
-A vcluster or clusters with custom DNS configuration can use a different domain instead of `cluster.local`. In that case, the Operator must know which suffix to use when generating service names. Otherwise, it produces hostnames using the default domain and they do not match the cluster's DNS configuration and service resolution fails.
+Clusters with custom DNS configurations may use a domain suffix different from the default `cluster.local`. This includes scenarios such as running inside a vcluster, which may respond to DNS queries with records that do not match the actual cluster domain.
 
-## User value
+The Operator tries to auto-detect the cluster's domain suffix by performing a CNAME lookup on the service `kubernetes.default.svc` (that is, a service named `kubernetes` in the `default` namespace). If the lookup returns a value, the Operator uses that as the domain suffix. If the Operator fails to auto-detect the DNS suffix, it falls back to using the default `cluster.local` domain. This may lead to services not resolving properly within the cluster.
 
-The `clusterServiceDNSSuffix` option lets you set the cluster domain as the value the Operator uses when generating service names. As a result, the Operator produces hostnames that match your cluster's DNS configuration, ensuring correct service resolution and discovery.
+To address this, you can set your custom DNS suffix for the Operator to use when it constructs service names. As a result, the Operator produces hostnames that match your cluster's DNS configuration, ensuring correct service resolution and discovery.
 
 ## How to configure
 
