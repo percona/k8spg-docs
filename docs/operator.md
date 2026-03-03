@@ -1056,7 +1056,7 @@ Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL 
 
 ### `instances.sidecarVolumes.name`
 
-The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS volume types.
+The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS and other volume types.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1070,15 +1070,8 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `instances.sidecarVolumes.secret.configMap.name`
 
-The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
-
-| Value type | Example |
-| ---------- | ------- |
-| :material-text-string: string | sidecar-config |
-
-### `instances.sidecarVolumes.secret.configMap.name`
+### `instances.sidecarVolumes.configMap.name`
 
 The name of the configMap object to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -1397,7 +1390,7 @@ Security settings for the sidecar container. These settings control privileges, 
 
 ### `backups.pgbackrest.repoHost.sidecarVolumes.name`
 
-The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS volume types.
+The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS and other volume types.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1411,15 +1404,8 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `backups.pgbackrest.repoHost.sidecarVolumes.secret.configMap.name`
 
-The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
-
-| Value type | Example |
-| ---------- | ------- |
-| :material-text-string: string | sidecar-config |
-
-### `backups.pgbackrest.repoHost.sidecarVolumes.secret.configMap.name`
+### `backups.pgbackrest.repoHost.sidecarVolumes.configMap.name`
 
 The name of the configMap object to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
 
@@ -2104,15 +2090,8 @@ The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.i
 | ---------- | ------- |
 | :material-text-string: string | mysecret |
 
-### `proxy.pgBouncer.sidecarVolumes.secret.configMap.name`
 
-The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md).
-
-| Value type | Example |
-| ---------- | ------- |
-| :material-text-string: string | sidecar-config |
-
-### `proxy.pgBouncer.sidecarVolumes.secret.configMap.name`
+### `proxy.pgBouncer.sidecarVolumes.configMap.name`
 
 The name of the configMap object to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md).
 
