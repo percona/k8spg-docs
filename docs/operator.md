@@ -1097,7 +1097,9 @@ The path on the NFS server that will be provided as a remote filesystem to the [
 
 ### `instances.sidecarPVCs`
 
-[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods. 
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1432,6 +1434,8 @@ The path on the NFS server that will be provided as a remote filesystem to the [
 ### `backups.pgbackrest.repoHost.sidecarPVCs`
 
 [PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the Operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods.
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -2118,6 +2122,8 @@ The path on the NFS server that will be provided as a remote filesystem to the [
 ### `proxy.pgBouncer.sidecarPVCs`
 
 [PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the Operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBouncer Pods.
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
 
 | Value type | Example |
 | ---------- | ------- |

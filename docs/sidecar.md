@@ -121,7 +121,13 @@ lifecycle.
 
 The Operator creates and manages the PVCs you define in `sidecarPVCs`. Claim storage with
 [persistentVolumeClaim  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/#persistentvolumeclaim)
-and reference it in your sidecar's `volumeMounts`. The following example requests 1Gi storage with `sidecar-volume-claim`
+and reference it in your sidecar's `volumeMounts`. 
+
+!!! important
+
+    You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
+
+The following example requests 1Gi storage with `sidecar-volume-claim`
 and mounts it to the `testcontainer` sidecar under `/volume0`:
 
 ```yaml
@@ -148,7 +154,7 @@ spec:
 
 !!! note
 
-    If you set the `percona.com/delete-pvc` [finalizer](operator.md#finalizers-delete-pvc), the operator deletes sidecar PVCs when the cluster is removed.
+    If you set the `percona.com/delete-pvc` [finalizer](operator.md#finalizers-delete-pvc), the Operator deletes sidecar PVCs when the cluster is removed.
 
 ### Secret
 
