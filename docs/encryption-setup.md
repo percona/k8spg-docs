@@ -97,19 +97,11 @@ Using the root token for authentication is not recommended, as it poses signific
     '
     ```
 
-2. Create the AppRole authentication method in Vault. This method allows the Operator to programmatically authenticate to Vault with a role and secret, rather than using a human token.
-
-    ```bash
-    kubectl -n "${NAMESPACE}" exec pod/vault-0 -- vault auth enable approle
-    kubectl -n "${NAMESPACE}" exec pod/vault-0 -- vault write auth/approle/role/tde-role policies="${POLICY_NAME}"
-    ```
-
-3. Now create a token with a policy.
+2. Now create a token with a policy.
 
     ```bash
     kubectl -n "${NAMESPACE}" exec pod/vault-0 -- vault token create -policy="${POLICY_NAME}" -format=json > "${WORKDIR}/vault-token.json"
     ```
-
 4. Export the non-root token as an environment variable:
 
     ```bash
