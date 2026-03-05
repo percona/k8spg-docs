@@ -2536,7 +2536,7 @@ Enable or disable [pg_repack :octicons-link-external-16:](https://github.com/reo
 
 ### `extensions.pg_tde`
 
-Enable or disable [pg_rtde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) PostgreSQL extension. Read more about it in [Data-at-rest encryption](encryption.md).
+Enable or disable [pg_tde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) PostgreSQL extension. Read more about it in [Data-at-rest encryption](encryption.md).
 
 This extension is compatible **with Percona Distribution for PostgreSQL 17 and above**.
 
