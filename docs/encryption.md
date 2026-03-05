@@ -10,7 +10,7 @@ The Operator supports transparent data encryption (TDE) via the [pg_tde :octicon
 
 This feature is available with Percona Distribution for PostgreSQL 17 and above. 
 
-To store encryption keys, the Operator uses a key management system (KMS).The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases. WAL encryption is not yet supported.
+To store encryption keys, the Operator uses a key management system (KMS). The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases. WAL encryption is not yet supported.
 
 ## How it works
 
