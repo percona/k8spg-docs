@@ -33,7 +33,7 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
     
     This command triggers the rolling restart of your database Pods. As a result, the Operator runs `DROP EXTENSION pg_tde` in all databases.
 
-4. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the Connect to the primary database Pod as the `postgres` user and run:
+4. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the primary database Pod as the `postgres` user and run:
 
     ```sql
     CHECKPOINT;
