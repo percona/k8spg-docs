@@ -148,7 +148,7 @@ kubectl get secret -n $CLUSTER_NAMESPACE
 
 Now, enable the `pg_tde` extension for your cluster and configure Vault as the key provider. For this you need the following information:
 
-* * A Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format `<service-name>.<namespace>.svc.cluster.local`.
+* A Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format `<service-name>.<namespace>.svc.cluster.local`.
 * The Secret name with the Vault token 
 * The Secret name with the CA certificate. In our example, the Vault token and the CA certificate are in the same Secret that you created earlier
 * The secrets mount path 
