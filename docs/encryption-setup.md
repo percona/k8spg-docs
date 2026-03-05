@@ -298,7 +298,7 @@ If you encounter issues during the setup, use the following troubleshooting tips
 
     * Provide a new mount path when enabling the secrets engine
     * Update your access policy to include the new mount path
-    * Update the `mount_point` value in your Custom Resource configuration to match the new mount path
+    * Update the `mountPath` value in your Custom Resource configuration to match the new mount path
 
 4. Verify that you reference the correct secret name in your Custom Resource.
 
