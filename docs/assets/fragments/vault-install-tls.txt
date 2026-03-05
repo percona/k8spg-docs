@@ -73,7 +73,7 @@ For this setup, we install Vault in Kubernetes using the [Helm 3 package manager
         https://developer.hashicorp.com/vault/docs
         ```
 
-4. Retrieve the Pod name where Vault is running:
+3. Retrieve the Pod name where Vault is running:
 
     ```bash
     kubectl -n $NAMESPACE get pod -l app.kubernetes.io/name=${SERVICE} -o jsonpath='{range .items[*]}{.metadata.name}{"\n"}{end}'
@@ -179,15 +179,15 @@ For this setup, we install Vault in Kubernetes using the [Helm 3 package manager
     
     ??? example "Expected output"
 
-        ```{.text .no-value}
+        ```{.text .no-copy}
         Key                     Value
         ---                     -----
         Seal Type               shamir
         Initialized             true
-        Sealed                  true
+        Sealed                  false
         Total Shares            1
         Threshold               1
-        Unseal Progress         0/1
+        Unseal Progress         1/1
         Unseal Nonce            n/a
         Version                 1.19.0
         Build Date              2025-03-04T12:36:40Z

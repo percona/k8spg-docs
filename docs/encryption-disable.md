@@ -4,11 +4,17 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
 
 !!! important
 
-    To properly disable encryption in the Operator, you must follow a specific sequence and modify your Custom Resource (CR) twice. Attempting to disable everything in a single step will not work: the Operator needs to drop the `pg_tde` extension before you remove the Vault (key provider) configuration.
+    To properly disable encryption in the Operator, you must follow a specific sequence and modify your Custom Resource (CR) twice. Attempting to disable everything in a single step will not work: the Operator needs to drop the `pg_tde` extension before you remove the key provider configuration.
 
     Failing to follow the steps in this tutorial in order will result in errors, because removing the Vault configuration before the extension is dropped prevents the Operator from cleaning up properly.
 
-1. Unencrypt **all encrypted databases** in your database. Connect to the primary database Pod as the `postgres` user, connect to each encrypted database and run the following command to unencrypt **every** encrypted table
+1. Export the namespace where your database cluster is deployed as an environment variable. Replace the `<namespace>` placeholder with your value:
+    
+    ```bash
+    export CLUSTER_NAMESPACE=<namespace>
+    ```
+
+2. Unencrypt **all encrypted databases** in your database. Connect to the primary database Pod as the `postgres` user, connect to each encrypted database and run the following command to unencrypt **every** encrypted table
 
     ```sql
     ALTER TABLE <table_name> SET ACCESS METHOD heap;
@@ -16,7 +22,7 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
 
     Exit the Pod.
 
-2. Edit the Custom Resource and set the `extensions.pg_tde.enabled` option to `false`.
+3. Edit the Custom Resource and set the `extensions.pg_tde.enabled` option to `false`.
 
     ```yaml
     spec:
@@ -25,15 +31,15 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
           enabled: false
     ```
 
-3. Apply the changes:
+4. Apply the changes:
 
     ```bash
-    kubectl apply -f deploy/cr.yaml -n $NAMESPACE
+    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
     ```
     
     This command triggers the rolling restart of your database Pods. As a result, the Operator runs `DROP EXTENSION pg_tde` in all databases.
 
-4. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the primary database Pod as the `postgres` user and run:
+5. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the primary database Pod as the `postgres` user and run:
 
     ```sql
     CHECKPOINT;
@@ -43,11 +49,12 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
 
     Exit the Pod.
 
-5. Update the Custom Resource again and remove all vault-related configuration from `extensions.pg_tde` section. 
-6. Apply the changes:
+6. Update the Custom Resource again and remove all vault-related configuration from `extensions.pg_tde` section. 
+
+7. Apply the changes:
     
     ```bash
-    kubectl apply -f deploy/cr.yaml -n $NAMESPACE
+    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
     ```
 
     This triggers another rolling restart of the database Pods.

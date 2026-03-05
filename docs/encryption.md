@@ -18,7 +18,7 @@ When you enable `pg_tde` and provide Vault configuration, the Operator automates
 
 1. Adds `pg_tde` to `shared_preload_libraries` so the extension loads at startup.
 2. Mounts the Vault token and CA certificate secrets into the database containers.
-3. Creates the `pg_tde` extension wth the `CREATE EXTENSION ` command in all databases.
+3. Creates the `pg_tde` extension with the `CREATE EXTENSION pg_tde;` command in all databases.
 4. Registers Vault as the key provider, creates a global encryption key and sets it as a default key using the functions provided by `pg_tde`.
 
 The Operator tracks the pg_tde configuration via a hash and exposes its state through a `PGTDEEnabled` condition in `status.conditions`. The Operator uses the hash to detect changes and reconfigure the `pg_tde` when needed.

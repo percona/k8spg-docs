@@ -220,7 +220,7 @@ Check that the encryption is enabled. To do that, create a table in PostgreSQL u
     ??? example "Sample output"
 
         ```{.text .no-copy}
-        cluster1-instance1-btdf-0   4/4     Running   0          41m
+        cluster1-instance1-btdf-0
         ```
 
 3. Execute into the primary PostgreSQL Pod as the `postgres` user and establish the `psql` session.

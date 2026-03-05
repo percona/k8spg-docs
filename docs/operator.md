@@ -2562,7 +2562,7 @@ The secrets mount path in Vault.
 
 ### `extensions.pg_tde.vault.tokenSecret.name`
 
-The name of the Secrets object that stores a token to access Vault.
+The name of the Secret object that stores a token to access Vault.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -2578,7 +2578,7 @@ Specifies a token to use for accessing Vault.
 
 ### `extensions.pg_tde.vault.caSecret.name`
 
-The name of the Secrets object that stores TLS certificates for secure communication with Vault. You can use the same Secret for storing a token and TLS certificates.
+The name of the Secret object that stores TLS certificates for secure communication with Vault. You can use the same Secret for storing a token and TLS certificates.
 
 | Value type | Example |
 | ---------- | ------- |
