@@ -10,7 +10,7 @@ This document guides you through setting up data-at-rest encryption with `pg_tde
 
 ## Prerequisites
 
-To configure data-at-rest encryptio, you need the following:
+To configure data-at-rest encryption, you need the following:
 
 * `kubectl`- Kubernetes command-line interface
 * `helm` - Helm package manager
