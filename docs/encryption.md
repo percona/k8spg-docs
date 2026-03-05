@@ -27,6 +27,8 @@ To see the pg_tde configuration status, run the `kubectl get pg <cluster-name> -
 
 The global key name is determined by the cluster's `metadata.uid`, so it changes if you delete and recreate the cluster. `pg_tde` handles this like key rotation as long as both old and new keys remain accessible (for example, you deleted and recreated the cluster without removing PVCs).
 
+With `pg_tde` enabled you can make backups and restores as usual. Note that for the restore the Operator must have the access to the encryption key that was used to encrypt the backup data.
+
 ## Implementation specifics
 
 1. `pg_tde` is available with PostgreSQL 17 and above.
