@@ -49,7 +49,7 @@ Use the `ldapadd` command to add this structure. Use your LDAP server hostname a
 ldapadd -x -H ldap://<ldap-server-hostname>:389 -D "cn=admin,dc=ldap,dc=local" -w adminpassword <<EOF
 dn: ou=perconadba,dc=ldap,dc=local
 objectClass: organizationalUnit
-ou: percona
+ou: perconadba
 
 dn: uid=percona,ou=perconadba,dc=ldap,dc=local
 objectClass: inetOrgPerson
@@ -76,7 +76,7 @@ ldapsearch -x \
   "(uid=percona)"
 ``` 
 
-??? example "Expected ooutput"
+??? example "Expected output"
 
     ```{.text .no-copy}
     # LDAPv3
@@ -105,7 +105,7 @@ ldapsearch -x \
 
 ### Plain LDAP 
 
-Use plain LDAP only in trusted networks. In this connection mode, PostgreSQL connects to the LDAP server on port 389 using the HTTP protocol.
+Use plain LDAP only in trusted networks. In this connection mode, PostgreSQL connects to the LDAP server on port `389`.
 
 1. Export the namespace where your cluster will be running as an environment variable:
 
@@ -113,7 +113,7 @@ Use plain LDAP only in trusted networks. In this connection mode, PostgreSQL con
     export NAMESPACE=<namespace>
     ```
     
-2. Install the Operator deployment, following the steps from the [Quick install guide](kubectl.md#)
+2. Install the Operator deployment, following the steps from the [Quick install guide](kubectl.md)
 3. Edit the Custom Resource manifest and specify the following configuration:
     
     * Add the same user to the Custom Resource manifest as you defined in your LDAP directory. Specify the privileges you want this user to have in the `spec.users` section of the manifest. In this example setup this is the user `percona`.
@@ -135,7 +135,7 @@ Use plain LDAP only in trusted networks. In this connection mode, PostgreSQL con
            - name: percona
              databases:
                - percona 
-          ......          #The rest of your configuration
+         # The rest of your configuration
          authentication:
            rules:
              - connection: host
@@ -168,7 +168,7 @@ For LDAPS connection, you must provide the LDAP server's certificate to PostgreS
     export NAMESPACE=<namespace>
     ```
 
-2. Create a Secret with the LDAP server's CA certificate. Specify the path the the CA certificate:
+2. Create a Secret with the LDAP server's CA certificate. Specify the path to the CA certificate:
     
     ```bash
     kubectl -n $NAMESPACE create secret generic ldap-ca \
@@ -182,10 +182,10 @@ For LDAPS connection, you must provide the LDAP server's certificate to PostgreS
     - Add authentication rules in the `spec.authentication.rules` section. The Operator will create a rule in the `pg_hba.conf` file based on this data:
 
        - `connection` - set to `host`.
-       - `method` - set to `ldaps`
+       - `method` - set to `ldap`
        - `users` - add users that will authenticate using LDAP
        - `options.ldapserver` - the hostname of your LDAP server
-       - `options.ldapport` - the port to connect to. Set it to `636` for plain LDAP.
+       - `options.ldapport` - the port to connect to. Set it to `636` for LDAP over LTS connection type.
        - `ldapprefix` - The string to prepend the username when forming a DN during simple bind. In our example this is `"uid="`.
        - `ldapsuffix` - The string to append to the username when forming a DN to bind as. In our example this is `",ou=perconadba,dc=ldap,dc=local"`
 
@@ -243,7 +243,7 @@ Here are the steps:
     kubectl get svc -n $NAMESPACE
     ```
 
-    Look for the `<cluster-name>-ha` service
+    Look for the `<cluster-name>-ha` service.
 
 2. Create a Pod where you start a container with Percona Distribution for PostgreSQL and establish a shell session inside:
     
@@ -254,7 +254,7 @@ Here are the steps:
 3. Inside the Pod, connect to PostgreSQL:
 
     ```bash
-    psql "postgres://percona@ldap-tls-ha.kuttl-test-direct-iguana.svc:5432/percona"
+    psql "postgres://percona@<cluster-name>-ha.<namespace>.svc:5432/percona"
     ```
 
     ??? example "Expected output"
