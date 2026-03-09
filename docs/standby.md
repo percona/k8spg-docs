@@ -12,13 +12,27 @@ Operators automate routine tasks and remove toil. Percona Operator for PostgreSQ
 
 ## Detect replication lag for standby cluster
 
-If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster. 
+If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.
 
 You can enable replication lag detection for any standby type by setting the [`standby.maxAcceptableLag`](operator.md#standbymaxacceptablelag) option in the Custom Resource. When the WAL lag exceeds this value, the following occurs:
 
-* The primary pod in the standby cluster is marked as `Unready` 
+* The primary pod in the standby cluster is marked as `Unready`
 * The cluster goes into the `initializing` state
-* The  `StandbyLagging` condition is set in the cluster status. You can check the conditions with the `kubectl describe pg <cluster-name> -n <namespace>` command.
+* The `StandbyLagging` condition is set in the cluster status. You can check the conditions with the `kubectl describe pg <cluster-name> -n <namespace>` command.
+
+### Monitor lag in the cluster status
+
+When lag detection is enabled, the cluster status includes a `standby` section that shows the current lag and when it was last computed. Use `kubectl get pg <cluster-name> -n <namespace> -o yaml` and look at `status.standby`:
+
+```yaml
+status:
+  standby:
+    lagBytes: 2343212
+    lagLastComputedAt: "2026-02-24T12:07:05Z"
+```
+
+* `lagBytes` — the current WAL lag in bytes (if any)
+* `lagLastComputedAt` — the timestamp of the last lag check
 
 This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.
 
