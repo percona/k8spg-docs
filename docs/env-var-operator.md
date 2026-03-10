@@ -130,8 +130,6 @@ spec:
       value: "4"
 ```
 
-
-
 ### `WATCH_NAMESPACE`
 
 Specifies which namespaces the Operator watches for Custom Resources (PerconaPGCluster and related resources). This is a critical configuration for determining the Operator's scope of operation. 
