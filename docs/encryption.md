@@ -21,13 +21,25 @@ When you enable `pg_tde` and provide Vault configuration, the Operator automates
 3. Creates the `pg_tde` extension with the `CREATE EXTENSION pg_tde;` command in all databases.
 4. Registers Vault as the key provider, creates a global encryption key and sets it as a default key using the functions provided by `pg_tde`.
 
-The Operator tracks the pg_tde configuration via a hash and exposes its state through a `PGTDEEnabled` condition in `status.conditions`. The Operator uses the hash to detect changes and reconfigure the `pg_tde` when needed.
+## Status and conditions
 
-To see the pg_tde configuration status, run the `kubectl get pg <cluster-name> -n <namespace> -o yaml` command and look for the condition with `type: PGTDEEnabled` under `status.conditions`.
+The Operator tracks the `pg_tde` configuration via a hash and exposes its state through a `PGTDEEnabled` condition in `status.conditions`. The Operator uses the hash to detect changes and reconfigure the `pg_tde` when needed.
+
+To see the `pg_tde` configuration status, run: 
+
+```bash
+kubectl get pg <cluster-name> -n <namespace> -o yaml
+```
+
+Look for the condition with `type: PGTDEEnabled` under `status.conditions`.
+
+The `PGTDEEnabled` condition indicates that the `pg_tde` extension is created in all databases and added to `shared_preload_libraries`. Note that the condition can be `True` and the cluster status `Ready` even when there are issues with token or key provider configuration. However, the Operator logs these errors and if you encounter issues with encryption, check the Operator logs for details.
+
+## Global key handling
 
 The global key name is determined by the cluster's `metadata.uid`, so it changes if you delete and recreate the cluster. `pg_tde` handles this like key rotation as long as both old and new keys remain accessible (for example, you deleted and recreated the cluster without removing PVCs).
 
-With `pg_tde` enabled you can make backups and restores as usual. Note that for the restore the Operator must have the access to the encryption key that was used to encrypt the backup data.
+With `pg_tde` enabled you can make backups and restores as usual. For restore, the Operator must have access to the encryption key that was used to encrypt the backup data.
 
 ## Implementation specifics
 
