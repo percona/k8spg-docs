@@ -130,6 +130,8 @@ spec:
       value: "4"
 ```
 
+
+
 ### `WATCH_NAMESPACE`
 
 Specifies which namespaces the Operator watches for Custom Resources (PerconaPGCluster and related resources). This is a critical configuration for determining the Operator's scope of operation. 
@@ -185,6 +187,101 @@ spec:
       value: "pg-operator"
 ```
 
+### `PGO_CONTROLLER_LEADER_ELECTION_ENABLED`
+
+Controls whether the Operator uses leader election. Leader election ensures only one Operator instance manages resources when multiple replicas run. Set to `"false"` to disable leader election (single-replica deployments only).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"true"` | `"false"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEADER_ELECTION_ENABLED
+      value: "false"
+```
+
+### `PGO_CONTROLLER_LEASE_NAME`
+
+Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `""` (empty) | `"my-lease"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_NAME
+      value: "my-lease"
+```
+
+### `PGO_CONTROLLER_LEASE_DURATION`
+
+Duration that non-leader candidates wait before forcing leader acquisition. This is measured against the time of last observed acknowledgment. Uses Go duration format (for example, `60s`). You can increase this value if the Operator experiences leader election failures in high-latency or resource-constrained environments.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"60s"` | `"90s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_DURATION
+      value: "90s"
+```
+
+### `PGO_CONTROLLER_RENEW_DEADLINE`
+
+Duration that the acting leader retries refreshing the lease before giving up. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"40s"` | `"60s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RENEW_DEADLINE
+      value: "60s"
+```
+
+### `PGO_CONTROLLER_RETRY_PERIOD`
+
+Duration between leader election retry attempts. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"10s"` | `"15s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RETRY_PERIOD
+      value: "15s"
+```
+
 ## Update environment variables
 
 ### Using kubectl patch
@@ -198,7 +295,6 @@ You can update environment variables in an existing Operator Deployment by apply
     ```
 
 2. Edit the output to add or change a variable (for example `PGO_WORKERS`), then apply a patch with the full `env` list. Alternatively, patch a single entry by index (see [Configure concurrency for a cluster reconciliation](reconciliation-concurrency.md)).
-
 
 ### Using Helm
 
