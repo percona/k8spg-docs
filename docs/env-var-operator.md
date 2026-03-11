@@ -206,7 +206,7 @@ spec:
 
 ### `PGO_CONTROLLER_LEASE_NAME`
 
-Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default.
+Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default Lease `08db3feb.percona.com` .
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
