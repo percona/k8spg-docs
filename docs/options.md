@@ -7,7 +7,7 @@ dynamic_configuration.html) provided by Patroni. You can pass PostgreSQL options
 to apply your changes.
 
 Add your PostgreSQL options to the `patroni.dynamicConfiguration.postgresql.parameters`
-section in your `deploy/cr.yaml` Custom Resource :
+section in your `deploy/cr.yaml` Custom Resource:
 
 ```yaml
 ...
