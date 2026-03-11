@@ -48,7 +48,7 @@ requires a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
 The `wal_level` option controls how much information is written to PostgreSQL WAL
 files. You can set it in `patroni.dynamicConfiguration.postgresql.parameters`:
 
-* `minimal` - removes all logging except the information required to recover from a crash or immediate shutdown. Note that this level provides insufficient information for point-in-time recovery. 
+* `minimal` — removes all logging except the information required to recover from a crash or immediate shutdown. Note that this level provides insufficient information for point-in-time recovery.
 * `replica` (PostgreSQL default) — sufficient for physical replication and most
   workloads
 * `logical` — required for logical replication; increases WAL volume and I/O
