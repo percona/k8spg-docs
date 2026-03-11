@@ -1,8 +1,7 @@
 # Changing PostgreSQL options
 
 You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the [PostgreSQL dynamic configuration method
-:octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/
-dynamic_configuration.html) provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
+:octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
 [Patroni dynamic configuration :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html)
 to apply your changes.
 
@@ -65,7 +64,7 @@ patroni:
 ```
 
 Use `replica` when you need physical replication or no replication. Use
-`logical` when you need logical replication. Both values allow for  point-in-time recovery.
+`logical` when you need logical replication. Both values allow for point-in-time recovery.
 
 The `wal_level` parameter has the
 postmaster context. Changing it triggers a rolling restart of all PostgreSQL
