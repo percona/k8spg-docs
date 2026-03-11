@@ -12,7 +12,6 @@ This document walks you through setting up LDAP authentication in your PostgreSQ
 
 3. The examples in this document use [OpenLDAP :octicons-external-link-16:](https://www.openldap.org/) as the LDAP server. If you are using Active Directory, please refer to their [official documentation](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names) for user and group configuration.
 4. This example setup uses [Simple bind](ldap.md#bind-modes) mode and the bind user DN `cn=admin,dc=ldap,dc=local`. Make sure to add your own bind user and use it in the commands shown later in this document.
-5. **Important:** The Operator does not support LDAP authentication via `pgBouncer` yet. Your users will need to connect directly to the PostgreSQL primary Pod via the `<cluster-name>-ha` service to authenticate using LDAP. 
 
 ## Prerequisites
 
@@ -233,7 +232,7 @@ For LDAPS connection, you must provide the LDAP server's certificate to PostgreS
 To verify the LDAP authentication, let's do the following:
 
 * Create a `pg-client` Pod
-* Connect to a PostgreSQL primary service as the user that has LDAP authentication configured (`percona` in our example)
+* Connect to PostgreSQL via `pgBouncer` as the user that has LDAP authentication configured (`percona` in our example)
 
 Here are the steps:
 
@@ -243,7 +242,7 @@ Here are the steps:
     kubectl get svc -n $NAMESPACE
     ```
 
-    Look for the `<cluster-name>-ha` service.
+    Look for the `<cluster-name>-pgbouncer` service.
 
 2. Create a Pod where you start a container with Percona Distribution for PostgreSQL and establish a shell session inside:
     
@@ -254,7 +253,7 @@ Here are the steps:
 3. Inside the Pod, connect to PostgreSQL:
 
     ```bash
-    psql "postgres://percona@<cluster-name>-ha.<namespace>.svc:5432/percona"
+    psql "postgres://percona@<cluster-name>-pgbouncer.<namespace>.svc:5432/percona"
     ```
 
     ??? example "Expected output"
