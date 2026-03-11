@@ -14,29 +14,30 @@ This document lists all of them:
 
 The Operator sets and enforces the following PostgreSQL parameters. You cannot override them via `patroni.dynamicConfiguration.postgresql.parameters` or any other method. The Operator reconciles the Patroni configuration and restores these values.
 
-### Core parameters
+### TLS and security
 
-| Parameter | Value |
-| --------- | ----- |
-| `unix_socket_directories` | `/tmp/postgres` |
-| `ssl` | `on` |
-| `ssl_cert_file` | `/pgconf/tls/tls.crt` |
-| `ssl_key_file` | `/pgconf/tls/tls.key` |
-| `ssl_ca_file` | `/pgconf/tls/ca.crt` |
+| Parameter | Value   | Purpose |
+| --------- | ------- | ------- | 
+| `ssl` | `on` | Always set to `on` for encrypted connections. |
+| `ssl_cert_file` |  `/pgconf/tls/tls.crt` | Path to the TLS certificate. The Operator manages certificate paths. |
+| `ssl_key_file` | `/pgconf/tls/tls.key` | Path to the TLS private key. |
+| `ssl_ca_file` | `/pgconf/tls/ca.crt` | Path to the CA certificate. |
 
-### pgBackRest parameters
+### Cluster internals
 
-| Parameter | Value |
-| --------- | ----- |
-| `archive_mode` | `on` |
-| `archive_command` | pgBackRest archive-push |
-| `restore_command` | pgBackRest archive-get |
+| Parameter | Value   | Purpose |
+| --------- | ------- | ------- | 
+| `unix_socket_directories` | `/tmp/postgres` | Socket path for local connections. The Operator uses a fixed path for Pod communication. |
+| `log_file_mode` | `0660` | File permissions for log files. The Operator sets this for Pod security context compatibility. |
 
-### Conditionally set parameters
+### WAL archiving and recovery (pgBackRest parameters)
 
-| Parameter | Value | Condition |
-| --------- | ----- | --------- |
-| `track_commit_timestamp` | `true` | When [backups.trackLatestRestorableTime](operator.md#backups-tracklatestrestorabletime) is enabled and the `crVersion` is 2.8.0 or higher |
+| Parameter | Value   | Purpose |
+| --------- | ------- | --------| 
+| `archive_mode` | `on` | Must be `on` for pgBackRest to archive WAL files. The Operator sets this to enable backups. |
+| `archive_command` | pgbackrest --stanza=db archive-push "%p" | Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository. |
+| `archive_timeout` | `60s` | Forces a WAL switch after the specified interval. The Operator manages this for backup consistency. |
+| `track_commit_timestamp` | `true`  | Enables commit timestamps for point-in-time recovery when [backups.trackLatestRestorableTime](operator.md#backups-tracklatestrestorabletime) is enabled and the `crVersion` is 2.8.0 or higher |
 
 ### Extension parameters
 
@@ -77,6 +78,7 @@ The following parameters are set by the Operator but you can override them via `
 | `password_encryption` | `scram-sha-256` |
 | `archive_timeout` | `60s` |
 | `huge_pages` | `try` or `off` (computed from resource limits) |
+| `restore_command` | `pgbackrest --stanza=db archive-get %f "%p"`|
 
 ## Custom Resource options with modification limits
 
