@@ -2,9 +2,9 @@
 
 Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with [cert-manager :octicons-link-external-16:](https://cert-manager.io/) for TLS certificate management. 
 
-When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven't provided custom TLS secrets. If these conditions are met, the Operator requests a certificate from the cert-manager. The cert-manager acts as a self-signed issuer, generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.
+When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven't provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.
 
-The Percona Operator self-signed issuer is local to the operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). 
+The Percona Operator self-signed issuer is local to the Operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). 
 
 If cert-manager is not installed or not ready, the Operator falls back to its built-in certificate generation.
 
@@ -164,7 +164,7 @@ kubectl get pods -n cert-manager
         caValidityDuration: 26280h    # 3 years for the CA certificate (default: 8760h / 1 year)
     ```
 
-    Use [Go duration format :octicons-link-external-16:](https://pkg.go.dev/time#ParseDuration) (e.g. `2160h`, `90d`, `8760h`).
+    Use [Go duration format :octicons-link-external-16:](https://pkg.go.dev/time#ParseDuration) (e.g. `2160h`, `8760h`).
 
 
 2. Deploy the cluster:
