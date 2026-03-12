@@ -47,12 +47,16 @@ requires a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
 The `wal_level` option controls how much information is written to PostgreSQL WAL
 files. You can set it in `patroni.dynamicConfiguration.postgresql.parameters`:
 
-* `minimal` — removes all logging except the information required to recover from a crash or immediate shutdown. Note that this level provides insufficient information for point-in-time recovery.
+
 * `replica` (PostgreSQL default) — sufficient for physical replication and most
   workloads
-* `logical` — required for logical replication; increases WAL volume and I/O
+* `logical` — required for logical replication; increases WAL volume and I/O.
 
 Read more about `wal_level` values in [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS)
+
+!!! note
+    
+    Though the `wal_level` option can also have the value `minimal`, it will be rejected by the validation rules, since other parameters, such as `hot_standby`, require more WAL data. 
 
 ```yaml
 ...
