@@ -2,7 +2,7 @@
 
 ## Upgrade the Operator via Operator Lifecycle Manager (OLM)
 
-You can upgrade the Operator for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager.
+You can upgrade the Operator for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager.
 
 ### Before you start
 
@@ -93,36 +93,36 @@ Follow these steps to upgrade the `initContainer.image`:
 
 2. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to update your cluster's Custom Resource. Set the `crVersion` field to match the Operator version and update the images as needed. 
 
-   Depending if you already updated the PMM client, include its image in the list of images to update in your patch command. Otherwise,  exclude the PMM client image from the patch.
+    Depending if you already updated the PMM client, include its image in the list of images to update in your patch command. Otherwise,  exclude the PMM client image from the patch.
 
-   If your cluster is named `cluster1`, use the following command as an example:
+    If your cluster is named `cluster1`, use the following command as an example:
 
-   === "With PMM Client"
+    === "With PMM Client"
 
-       ```bash
-       kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
-       "spec": {
-       "crVersion":"{{release}}",
-       "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
-       "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
-       "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
-       "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } },
-       "pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805" }
-       }}'
-       ```
+        ```bash
+        kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
+        "spec": {
+        "crVersion":"{{release}}",
+        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
+        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
+        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
+        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } },
+        "pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805" }
+        }}'
+        ```
     
     === "Without PMM Client"
 
-       ```bash
-       kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
-       "spec": {
-       "crVersion":"{{release}}",
-       "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
-       "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
-       "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
-       "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } }
-       }}'
-       ```
+        ```bash
+        kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
+        "spec": {
+        "crVersion":"{{release}}",
+        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
+        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
+        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
+        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } }
+        }}'
+        ```
 
 3. The deployment rollout will be automatically triggered by the applied patch.
     You can track the rollout process in real time with the

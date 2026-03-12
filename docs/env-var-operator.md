@@ -4,7 +4,7 @@ You can configure the Percona Operator for PostgreSQL behavior by setting enviro
 
 * For installations via `kubectl`, edit the Operator Deployment manifest `deploy/operator.yaml` or `deploy/cw-operator.yaml`. Alternatively you can modify the Deployment resource in `deploy/bundle.yaml`, or `deploy/cw-bundle.yaml` files.
 * For Helm installations you can set environment variables through Helm values when you install the `percona/pg-operator` chart.
-* For installations on OpenShift, you can edit the manifests and aplly them with the `oc apply` command. If you installed via the [Operator Lifecycle Manager (OLM)](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm), you can configure environment variables through the OLM subscription.
+* For installations on OpenShift, you can edit the manifests and aplly them with the `oc apply` command. If you installed via the [Operator Lifecycle Manager (OLM)](openshift.md#install-via-the-operator-lifecycle-manager-olm), you can configure environment variables through the OLM subscription.
 
 ## Available environment variables
 
@@ -69,7 +69,7 @@ The value needs to be a key-value with comma-separated list of feature gates. By
 
 Following feature gates are present as of Operator version 2.8.1:
 
-1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#enable-automatic-storage-resize) chapter.
+1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#automated-scaling-with-auto-growable-disk) chapter.
 
 **Example configuration:**
 
