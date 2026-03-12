@@ -109,11 +109,9 @@ Choose the approach that fits your needs:
     1. Clone the percona-postgresql-operator repository:
 
         ```bash
-        git clone -b v{{ release }} https://github.com/percona/
-        percona-postgresql-operator
+        git clone -b v{{ release }} https://github.com/percona/percona-postgresql-operator
         cd percona-postgresql-operator
         ```
-
     2. Create the Custom Resource Definition (CRD). CRDs are cluster-scoped and apply to all namespaces. You don't need to repeat this step for additional Operator deployments:
 
         ```bash
