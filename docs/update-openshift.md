@@ -93,7 +93,7 @@ Follow these steps to upgrade the `initContainer.image`:
 
 2. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to update your cluster's Custom Resource. Set the `crVersion` field to match the Operator version and update the images as needed. 
 
-    Depending if you already updated the PMM client, include its image in the list of images to update in your patch command. Otherwise,  exclude the PMM client image from the patch.
+    Depending on whether you've already updated the PMM client, either include its image in the list of images to update in your patch command or exclude the PMM client image from the patch.
 
     If your cluster is named `cluster1`, use the following command as an example:
 
