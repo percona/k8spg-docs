@@ -18,7 +18,7 @@ pgbackrestrecommended: '2.57.0-1'
 gkerecommended: '1.33'
 postgisrecommended: 3.3.8
 patronirecommended: 4.1.0
-k8s_monitor_tag: 'v0.1.1'
+k8s_monitor_tag: 'v0.1.2'
 
 
 date:
