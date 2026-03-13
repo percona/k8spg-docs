@@ -56,8 +56,9 @@ Here's a sequence of steps to follow:
 
 ## Next steps
 
-[Restore from a backup](backups-restore.md){.md-button}
+[Restore from a backup](backups-restore-inplace.md){.md-button}
 
 ## Useful links
 
-[Backup retention](backup-retention.md)
+* [Backup retention](backup-retention.md)
+* [Restore options](backups-restore.md) 

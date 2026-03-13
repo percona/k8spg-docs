@@ -65,7 +65,7 @@ spec:
 ## New features
 
 * {{ k8spgjira(138) }}: Users are now able to use AWS [IAM role  :octicons-link-external-16:](https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html) to provide access to the S3 bucket used for backups
-* {{ k8spgjira(254) }}: Now the Operator [automates](../update.md#major-version-upgrade) upgrading PostgreSQL major versions
+* {{ k8spgjira(254) }}: Now the Operator [automates](../update-database.md#major-version-upgrade) upgrading PostgreSQL major versions
 * {{ k8spgjira(459) }}: PostgreSQL tablespaces [are now supported](../tablespaces.md) by the Operator
 * {{ k8spgjira(479) }} and {{ k8spgjira(492) }}: It is now possible to specify  tolerations for the  [backup restore jobs](../operator.md#backupsrestoretolerationseffect) as well as for the [data move jobs](../operator.md#datasourcepostgresclustertolerationseffect) created when the Operator 1.x is upgraded to 2.x; this is useful in environments with dedicated Kubernetes worker nodes protected by taints
 * {{ k8spgjira(503) }} and {{ k8spgjira(513) }}: It is now possible to specify [resources for the sidecar containers](../operator.md#instancescontainersreplicacertcopyresourceslimitscpu) of database instance Pods
@@ -74,7 +74,7 @@ spec:
 
 * {{ k8spgjira(259) }}: Users can now change the default level for log messages for pgBackRest to simplify fixing backup and restore issues
 * {{ k8spgjira(542) }}: Documentation now includes HowTo on [creating a disaster recovery cluster using streaming replication](../standby-streaming.md)
-* {{ k8spgjira(506) }}: The `pg-backup` objects now have a new `backupName` status field, which allows users to [obtain the backup](..//backups-restore.md#specifying-which-backup-to-restore) name for restore simpler
+* {{ k8spgjira(506) }}: The `pg-backup` objects now have a new `backupName` status field, which allows users to [obtain the backup](../backups-restore-inplace.md#restore-from-a-specific-backup) name for restore simpler
 * {{ k8spgjira(514) }}: The new `securityContext` Custom Resource subsections allow to configure securityContext for PostgreSQL instances, pgBouncer, and pgBackRest Pods
 * {{ k8spgjira(518) }}: The `kubectl get pg-backup` command now shows the latest restorable time to make it easier to pick a point-in-time recovery target
 * {{ k8spgjira(519) }}: The new `extensions.storage.endpoint` Custom Resource option allows specifying a custom S3 object storage endpoint for installing custom extensions

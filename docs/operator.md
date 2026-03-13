@@ -222,9 +222,13 @@ Setting it to `true` stops the Operator's activity including the rollout and rec
 | ---------- | ------- |
 | :material-code-string: string | `false` |
 
+## `dataSource` subsection
+
+Contains the configuration options for restoring from a backup onto a new cluster. For usage examples, see [Restore the backup to a new cluster (cluster clone)](backups-clone.md).
+
 ### `dataSource.postgresCluster.clusterName`
 
-Name of an existing cluster to use as the data source when restoring backup to a new cluster.
+Name of an existing cluster to use as the data source when restoring backup to a new cluster. 
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1075,7 +1079,7 @@ Enables to turn on/off backups for the cluster. Use this option with caution. Re
 
 ### `backups.trackLatestRestorableTime`
 
-Enables or disables [tracking the latest restorable time](backups-restore.md#backups-latest-restorable-time) for latest successful backup (on by default). It can be turned off to reduced S3 API usage.
+Enables or disables [tracking the latest restorable time](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery) for latest successful backup (on by default). It can be turned off to reduce the S3 API usage.
 
 | Value type | Example |
 | ---------- | ------- |

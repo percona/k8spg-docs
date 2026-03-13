@@ -86,7 +86,7 @@ namespaces, if needed:
 
 ![image](assets/images/cluster-wide-2.svg)
 
-To use the Operator in such cluster-wide mode, you should install it with a
+To use the Operator in a cluster-wide mode, you should install it with a
 different set of configuration YAML files, which are available in the deploy
 folder and have filenames with a special `cw-` prefix: e.g.
 `deploy/cw-bundle.yaml`.
@@ -96,18 +96,21 @@ the following information there:
 
 * `subjects.namespace` option should contain the namespace which will host
     the Operator,
-* `WATCH_NAMESPACE` key-value pair in the `env` section should have
-    `value` equal to a  comma-separated list of the namespaces to be watched by
-    the Operator, *and* the namespace in which the Operator resides. If this key
-    is set to a blank string, the Operator will watch
-    **only the namespace it runs in**, which would be the same as
-    [single-namespace deployment](cluster-wide.md#namespace-scope).
+* The [`WATCH_NAMESPACE`](env-var-operator.md#watch_namespace) environment variable determines which namespaces the Operator will monitor for custom resources. By default, it is defined by the `metadata.namespace` option via a downward API `fieldRef` and points to the Operator's own namespace.
+
+    Configure the `WATCH_NAMESPACE` environment variable in the Operator Deployment's `env` section and choose the option that matches your desired Operator scope:
+
+     - **Comma-separated list of namespaces**: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., `"pg-operator,percona-db-1"`). The Operator will watch only the specified namespaces. 
+     - **Empty string (`""`)**: Set the `value` to an empty string. The Operator watches **all namespaces** in the cluster.
+
+    For the full
+    list of Operator environment variables, see [Define Operator environment variables](env-var-operator.md).
 
 !!! note
 
     Installing the Operator cluster-wide on OpenShift via the the Operator
     Lifecycle Manager (OLM) requires
-    [making different selections in the OLM web-based UI](openshift.md#install-the-operator-via-the-operator-lifecycle-manager-olm)
+    [making different selections in the OLM web-based UI](openshift.md#install-via-the-operator-lifecycle-manager-olm)
     instead of patching YAML files.
 
 The following simple example shows how to install Operator cluster-wide on
@@ -152,8 +155,7 @@ Kubernetes.
     kubectl apply --server-side -f deploy/cw-bundle.yaml -n pg-operator
     ```
 
-    Right now the operator deployed in cluster-wide mode will monitor all
-    namespaces in the cluster, either already existing or newly created ones.
+    With this configuration, the Operator monitors only the specified namespaces.
 
 5. Deploy the cluster in the namespace of your choice:
 
@@ -163,7 +165,7 @@ Kubernetes.
 
 ## Verifying the cluster operation
 
-When creation process is over, you can try to connect to the cluster.
+When creation process is over, connect to the cluster to verify it is operational.
 
 {% include 'assets/fragments/connectivity.txt' %}
 
