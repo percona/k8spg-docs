@@ -184,7 +184,7 @@ For LDAPS connection, you must provide the LDAP server's certificate to PostgreS
        - `method` - set to `ldap`
        - `users` - add users that will authenticate using LDAP
        - `options.ldapserver` - the hostname of your LDAP server
-       - `options.ldapport` - the port to connect to. Set it to `636` for LDAP over LTS connection type.
+       - `options.ldapport` - the port to connect to. Set it to `636` for LDAP over TLS connection type.
        - `ldapprefix` - The string to prepend the username when forming a DN during simple bind. In our example this is `"uid="`.
        - `ldapsuffix` - The string to append to the username when forming a DN to bind as. In our example this is `",ou=perconadba,dc=ldap,dc=local"`
 
