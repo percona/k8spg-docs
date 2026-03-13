@@ -70,7 +70,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
     ```
 
 6. After the Operator is started, modify the `deploy/cr.yaml` configuration
-    file with PostGIS-enabled image - use `docker.io/percona/percona-postgresql-operator:{{release}}-ppg{{pgversiongis}}-postgres-gis{{postgisrecommended}}` instead of `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`
+    file with PostGIS-enabled image - use `docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgisrecommended}}` instead of `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`
     
     ```yaml
     apiVersion: pgv2.percona.com/v2
@@ -79,7 +79,7 @@ Following steps will allow you to deploy PostgreSQL cluster with these images.
       name: cluster1
     spec:
       ...
-      image: docker.io/percona/percona-postgresql-operator:{{ release }}-ppg{{ pgversiongis }}-postgres-gis{{postgisrecommended}}
+      image: docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgisrecommended}}
       ...
     ```
 
@@ -137,7 +137,7 @@ postgis_full_version
 ```
 
 You can find more about using PostGIS in the official Percona Distribution for
-PostgreSQL [documentation :octicons-link-external-16:](https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html),
+PostgreSQL [documentation :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/solutions/postgis-deploy.html),
 as well as in this [blogpost :octicons-link-external-16:](https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/).
 
 
