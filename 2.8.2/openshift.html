@@ -28,7 +28,7 @@
       
       
       <link rel="icon" href="assets/operators-fav.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
     
     
       
@@ -1136,22 +1136,33 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-operator" class="md-nav__link">
+  <a href="#installation-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator
+        Installation options
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install the Operator">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-via-the-operator-lifecycle-manager-olm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install via the Operator Lifecycle Manager (OLM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install via the Operator Lifecycle Manager (OLM)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#install-the-operator-via-the-operator-lifecycle-manager-olm" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator via the Operator Lifecycle Manager (OLM)
+        Prerequisites
       
     </span>
   </a>
@@ -1159,10 +1170,49 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-the-operator-via-the-command-line-interface" class="md-nav__link">
+  <a href="#install-the-operator-deployment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator via the command-line interface
+        Install the Operator Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-percona-distribution-for-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Percona Distribution for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-via-the-command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install via the command-line interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install via the command-line interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-percona-distribution-for-postgresql-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Percona Distribution for PostgreSQL cluster
       
     </span>
   </a>
@@ -4412,22 +4462,33 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#install-the-operator" class="md-nav__link">
+  <a href="#installation-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator
+        Installation options
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Install the Operator">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-via-the-operator-lifecycle-manager-olm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install via the Operator Lifecycle Manager (OLM)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install via the Operator Lifecycle Manager (OLM)">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#install-the-operator-via-the-operator-lifecycle-manager-olm" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator via the Operator Lifecycle Manager (OLM)
+        Prerequisites
       
     </span>
   </a>
@@ -4435,10 +4496,49 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#install-the-operator-via-the-command-line-interface" class="md-nav__link">
+  <a href="#install-the-operator-deployment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Install the Operator via the command-line interface
+        Install the Operator Deployment
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-percona-distribution-for-postgresql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy Percona Distribution for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-via-the-command-line-interface" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install via the command-line interface
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Install via the command-line interface">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-percona-distribution-for-postgresql-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Percona Distribution for PostgreSQL cluster
       
     </span>
   </a>
@@ -4496,137 +4596,165 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 <h1 id="install-percona-distribution-for-postgresql-on-openshift">Install Percona Distribution for PostgreSQL on OpenShift<a class="headerlink" href="#install-percona-distribution-for-postgresql-on-openshift" title="Permanent link">&para;</a></h1>
 <p>Percona Operator for PostgreSQL is a <a href="https://connect.redhat.com/en/partner-with-us/red-hat-openshift-certification">Red Hat Certified Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. This means that Percona Operator is portable across hybrid clouds and fully supports the Red Hat OpenShift lifecycle.</p>
-<p>Installing Percona Distribution for PostgreSQL on OpenShift includes two steps:</p>
-<ul>
-<li>Installing the Percona Operator for PostgreSQL,</li>
-<li>Install Percona Distribution for PostgreSQL using the Operator.</li>
-</ul>
-<h2 id="install-the-operator">Install the Operator<a class="headerlink" href="#install-the-operator" title="Permanent link">&para;</a></h2>
-<p>You can install Percona Operator for PostgreSQL on OpenShift using the web interface (the <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.2/html/operators/understanding-the-operator-lifecycle-manager-olm#olm-overview_olm-understanding-olm">Operator Lifecycle Manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>), or using the command line interface.</p>
-<h3 id="install-the-operator-via-the-operator-lifecycle-manager-olm">Install the Operator via the Operator Lifecycle Manager (OLM)<a class="headerlink" href="#install-the-operator-via-the-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h3>
-<p>Operator Lifecycle Manager (OLM) is a part of the <a href="https://github.com/operator-framework">Operator Framework <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that allows you to install, update, and manage the Operators lifecycle on the OpenShift platform.</p>
-<p>Following steps will allow you to deploy the Operator and PostgreSQL cluster on your OLM installation:</p>
+<p>To install Percona Distribution for PostgreSQL on OpenShift, you need to do the following:</p>
 <ol>
+<li>First, install the Percona Operator for PostgreSQL Deployment. </li>
+<li>Next, use the Operator to create Percona Distribution for PostgreSQL cluster.</li>
+</ol>
+<h2 id="installation-options">Installation options<a class="headerlink" href="#installation-options" title="Permanent link">&para;</a></h2>
+<p>You can install Percona Operator for PostgreSQL on OpenShift in two ways:</p>
+<ul>
+<li><strong>Using the <a href="https://docs.redhat.com/en/documentation/openshift_container_platform/4.21/html/operators/understanding-operators#operator-lifecycle-manager-olm">Operator Lifecycle Manager (OLM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></strong> via the OpenShift web console</li>
+<li><strong>Using the command-line interface</strong> with <code>oc</code> commands</li>
+</ul>
+<p>Choose the method that best fits your workflow.</p>
+<h2 id="install-via-the-operator-lifecycle-manager-olm">Install via the Operator Lifecycle Manager (OLM)<a class="headerlink" href="#install-via-the-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
+<p>Operator Lifecycle Manager (OLM) is a part of the <a href="https://github.com/operator-framework">Operator Framework <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that allows you to install, update, and manage the Operators lifecycle on the OpenShift platform.</p>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h3>
+<p>Before you start, ensure you have the following:</p>
+<ol>
+<li>You can log in to the OLM console</li>
+<li>You have the ARN role assigned to your OLM user.</li>
+</ol>
+<h3 id="install-the-operator-deployment">Install the Operator Deployment<a class="headerlink" href="#install-the-operator-deployment" title="Permanent link">&para;</a></h3>
+<p>Follow these steps to deploy the Operator and Percona Distribution for PostgreSQL cluster:</p>
+<ol>
+<li>Login to the OLM and navigate to the Software Catalog.</li>
 <li>
-<p>Login to the OLM and click the needed Operator on the OperatorHub page:</p>
-<p><img alt="image" src="assets/images/olm1.svg" /></p>
+<p>Search for the needed Operator and select it. You may need to change the project for your user:</p>
+<p><img alt="image" src="assets/images/olm1-start-page.svg" /></p>
 <p>Then click &ldquo;Continue&rdquo;, and &ldquo;Install&rdquo;.</p>
 </li>
 <li>
-<p>A new page will allow you to choose the Operator version and the Namespace / OpenShift project you would like to install the Operator into.</p>
-<p><img alt="image" src="assets/images/olm2.svg" /></p>
+<p>A new page opens where you specify the ARN role assigned to your user. You also choose the Operator version and the Namespace / OpenShift project you would like to install the Operator into.</p>
+<p><img alt="image" src="assets/images/olm2-install.svg" /></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>If you are going to install the Operator in <a href="cluster-wide.html">multi-namespace (cluster-wide) mode</a>, please choose values with <code>-cw</code> suffix for the update channel and version, and select the &ldquo;All namespaces on the cluster&rdquo; radio button for the installation mode instead of choosing a specific Namespace:</p>
-<p><img alt="image" src="assets/images/olm-cw.svg" /></p>
+<p>To install the Operator in <a href="cluster-wide.html">multi-namespace (cluster-wide) mode</a>, choose values with <code>-cw</code> suffix for the channel and version, and select the &ldquo;All namespaces on the cluster&rdquo; radio button for the installation mode instead of choosing a specific Namespace:</p>
+<p><img alt="image" src="assets/images/olm2-create-ns-cw.svg" /></p>
 </div>
-<p>Click &ldquo;Install&rdquo; button to actually install the Operator.</p>
+<p>Click &ldquo;Install&rdquo; button to install the Operator.</p>
 </li>
 <li>
-<p>When the installation finishes, you can deploy PostgreSQL cluster. In the &ldquo;Operator Details&rdquo; you will see Provided APIs (Custom Resources, available for installation). Click &ldquo;Create instance&rdquo; for the <code>PerconaPGCluster</code> Custom Resource.</p>
-<p><img alt="image" src="assets/images/olm3.svg" /></p>
-<p>You will be able to edit manifest to set needed Custom Resource options, and then click &ldquo;Create&rdquo; button to deploy your database cluster.</p>
+<p>You can track the installation flow by clicking the link on the updated page. You will be redirected to the Installed Operators tab. Your installed Operator will appear there. </p>
+<p><img alt="image" src="assets/images/olm3-installation-overview.svg" /></p>
 </li>
 </ol>
-<h3 id="install-the-operator-via-the-command-line-interface">Install the Operator via the command-line interface<a class="headerlink" href="#install-the-operator-via-the-command-line-interface" title="Permanent link">&para;</a></h3>
+<h3 id="deploy-percona-distribution-for-postgresql">Deploy Percona Distribution for PostgreSQL<a class="headerlink" href="#deploy-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h3>
+<p>When the installation finishes, you can deploy PostgreSQL cluster. </p>
 <ol>
 <li>
-<p>First of all, clone the percona-postgresql-operator repository:</p>
+<p>In the &ldquo;Operator Details&rdquo; you will see Provided APIs (Custom Resources, available for installation). Click &ldquo;Create instance&rdquo; for the <code>PerconaPGCluster</code> Custom Resource.</p>
+<p><img alt="image" src="assets/images/olm3.svg" /></p>
+</li>
+<li>
+<p>You can either go with default settings or edit them as needed. You can use the form or edit the YAML manifest to set needed Custom Resource options.</p>
+</li>
+<li>Click the &ldquo;Create&rdquo; button to deploy your database cluster.</li>
+</ol>
+<h2 id="install-via-the-command-line-interface">Install via the command-line interface<a class="headerlink" href="#install-via-the-command-line-interface" title="Permanent link">&para;</a></h2>
+<p>The following steps install the latest version of the Operator with default parameters. To install a specific version, replace the <code>v2.8.2</code> tag with your value. See the full list of tags <a href="https://github.com/percona/percona-postgresql-operator/tags">in the Operator repository <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> on GitHub.</p>
+<p>To install the Operator with customized parameters, see <a href="custom-install.html">Install Percona Operator for PostgreSQL with customized parameters</a>.</p>
+<p>Choose the approach that fits your needs:</p>
+<ul>
+<li><strong>Quick install</strong> — Apply a single bundle file. Use this when you want to get started quickly with default settings.</li>
+<li><strong>Step-by-step install</strong> — Run each installation step separately. Use this when
+  you need to customize the installation (for example, apply the <a href="https://docs.openshift.com/container-platform/4.21/authentication/managing-security-context-constraints.html">anyuid <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+  security context constraint).</li>
+</ul>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m13.13 22.19-1.63-3.83c1.57-.58 3.04-1.36 4.4-2.27zM5.64 12.5l-3.83-1.63 6.1-2.77C7 9.46 6.22 10.93 5.64 12.5M21.61 2.39S16.66.269 11 5.93c-2.19 2.19-3.5 4.6-4.35 6.71-.28.75-.09 1.57.46 2.13l2.13 2.12c.55.56 1.37.74 2.12.46A19.1 19.1 0 0 0 18.07 13c5.66-5.66 3.54-10.61 3.54-10.61m-7.07 7.07c-.78-.78-.78-2.05 0-2.83s2.05-.78 2.83 0c.77.78.78 2.05 0 2.83s-2.05.78-2.83 0m-5.66 7.07-1.41-1.41zM6.24 22l3.64-3.64c-.34-.09-.67-.24-.97-.45L4.83 22zM2 22h1.41l4.77-4.76-1.42-1.41L2 20.59zm0-2.83 4.09-4.08c-.21-.3-.36-.62-.45-.97L2 17.76z"/></svg></span> Quick install</label><label for="__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M7 13v-2h14v2zm0 6v-2h14v2zM7 7V5h14v2zM3 8V5H2V4h2v4zm-1 9v-1h3v4H2v-1h2v-.5H3v-1h1V17zm2.25-7a.75.75 0 0 1 .75.75c0 .2-.08.39-.21.52L3.12 13H5v1H2v-.92L4 11H2v-1z"/></svg></span> Step-by-step install</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>The bundle file creates the Custom Resource Definition, sets up RBAC, and installs the Operator Deployment in one go. </p>
+<ol>
+<li>
+<p>Create the namespace for your cluster:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespace as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
+</code></pre></div>
+</li>
+<li>
+<p>Apply the bundle to install the Operator:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v2.8.2/deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<p>Install the Operator step by step if you wish to have more control over the installation process and modify the manifests before you apply them.</p>
+<ol>
+<li>
+<p>Clone the percona-postgresql-operator repository:</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
 <span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>It is crucial to specify the right branch with <code>-b</code> option while cloning the
-code on this step. Please be careful.</p>
-</div>
 </li>
 <li>
-<p>The Custom Resource Definition for Percona Distribution for PostgreSQL should
-    be created from the <code>deploy/crd.yaml</code> file. Custom Resource Definition
-    extends the standard set of resources which OpenShift “knows” about with
-    the new items (in our case ones which are the core of the Operator).
-    <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">Apply it <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-    as follows:</p>
+<p>Create the Custom Resource Definition (CRD). CRDs are cluster-scoped and apply to all namespaces. You don&rsquo;t need to repeat this step for additional Operator deployments:</p>
 <div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/crd.yaml
 </code></pre></div>
-<p>This step should be done only once; it does not need to be repeated with any
-other Operator deployments.</p>
 </li>
 <li>
-<p>Create the OpenShift namespace for your cluster if needed (for example,
-    let&rsquo;s name it <code>postgres-operator</code>):</p>
+<p>Create the namespace for your cluster (for example, <code>postgres-operator</code>):</p>
 <div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>To use different namespace, specify other name instead of
-<code>postgres-operator</code> in the above command, and modify the 
-<code>-n postgres-operator</code> parameter with it in the following two steps.
-You can also omit this parameter completely to deploy everything in the
-<code>default</code> namespace.</p>
-</div>
 </li>
 <li>
-<p>The role-based access control (RBAC) for Percona Distribution for PostgreSQL
-    is configured with the <code>deploy/rbac.yaml</code> file. Role-based access is based
-    on defined roles and the available actions which correspond to each role.
-    The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in specific <a href="https://docs.openshift.com/enterprise/3.0/architecture/additional_concepts/authorization.html">OpenShift documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>)</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<p>Export the namespace as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
+</code></pre></div>
+</li>
+<li>
+<p>Apply RBAC configuration. Your user must have cluster-admin privileges:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Setting RBAC requires your user to have cluster-admin role
-privileges. For example, those using Google OpenShift Engine can
-grant user needed privileges with the following command:</p>
-<div class="highlight"><pre><span></span><code>$ oc create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
+<p>For example, if you use Google OpenShift Engine, grant cluster-admin
+privileges with:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<span class="w"> </span>cluster-admin-binding<span class="w"> </span>--clusterrole<span class="o">=</span>cluster-admin<span class="w"> </span>--user<span class="o">=</span><span class="k">$(</span>gcloud<span class="w"> </span>config<span class="w"> </span>get-value<span class="w"> </span>core/account<span class="k">)</span>
 </code></pre></div>
 </div>
 </li>
 <li>
-<p>If you are going to use the operator with <a href="https://docs.openshift.com/container-platform/4.9/authentication/managing-security-context-constraints.html">anyuid <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> security context constraint
-    please execute the following command:</p>
+<p>If you use the <a href="https://docs.openshift.com/container-platform/4.21/authentication/managing-security-context-constraints.html">anyuid <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+security context constraint, modify the Operator manifest before applying:</p>
 <div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/disable_auto_failover: &quot;false&quot;/a \ \ \ \ disable_fsgroup: &quot;false&quot;&#39;</span><span class="w"> </span>deploy/operator.yaml
 </code></pre></div>
 </li>
 <li>
-<p>Start the Operator within OpenShift:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<p>Create the Operator Deployment:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>Optionally, you can add PostgreSQL Users secrets and TLS certificates to
-OpenShift. If you don&rsquo;t, the Operator will create the needed users and
-certificates automatically, when you create the database cluster. You can
-see documentation on <a href="users.html">Users</a> and <a href="TLS.html">TLS certificates</a> if
-still want to create them yourself.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>You can simplify the Operator installation by applying a single
-<code>deploy/bundle.yaml</code> file instead of running commands from the steps
-2 and 4:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml
-</code></pre></div>
-<p>This will automatically create Custom Resource Definition, set up
-role-based access control and install the Operator as one single action.</p>
+</li>
+</ol>
 </div>
+</div>
+</div>
+<h3 id="install-percona-distribution-for-postgresql-cluster">Install Percona Distribution for PostgreSQL cluster<a class="headerlink" href="#install-percona-distribution-for-postgresql-cluster" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Create the Percona Distribution for PostgreSQL cluster:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
 </li>
 <li>
-<p>After the Operator is started Percona Distribution for PostgreSQL cluster can
-    be created at any time with the following command:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
-</code></pre></div>
-<p>Creation process will take some time. The process is over when both
-Operator and replica set Pods have reached their Running status:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<p>Check the cluster status. Creation may take a few minutes:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
-cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
+<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                                   STATUS  POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.postgres-operator.svc   ready   3          3           143m
 </code></pre></div>
 </details>
 </li>
 </ol>
+<p>Optionally, you can add PostgreSQL Users secrets and TLS certificates before creating the cluster. If you don&rsquo;t, the Operator creates them automatically. See <a href="users.html">Users</a> and <a href="TLS.html">TLS certificates</a> for details.</p>
 <h2 id="verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, <code>oc get pg</code> command will show you the
 cluster status as <code>ready</code>, and you can try to connect to the cluster.</p>
@@ -4677,7 +4805,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 11:38:47 UTC">March 13, 2026</span>
       
         <br>
         Created:

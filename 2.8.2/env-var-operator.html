@@ -24,7 +24,7 @@
       
       
       <link rel="icon" href="assets/operators-fav.svg">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.4">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.5">
     
     
       
@@ -4490,7 +4490,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <ul>
 <li>For installations via <code>kubectl</code>, edit the Operator Deployment manifest <code>deploy/operator.yaml</code> or <code>deploy/cw-operator.yaml</code>. Alternatively you can modify the Deployment resource in <code>deploy/bundle.yaml</code>, or <code>deploy/cw-bundle.yaml</code> files.</li>
 <li>For Helm installations you can set environment variables through Helm values when you install the <code>percona/pg-operator</code> chart.</li>
-<li>For installations on OpenShift, you can edit the manifests and aplly them with the <code>oc apply</code> command. If you installed via the <a href="openshift.html#install-the-operator-via-the-operator-lifecycle-manager-olm">Operator Lifecycle Manager (OLM)</a>, you can configure environment variables through the OLM subscription.</li>
+<li>For installations on OpenShift, you can edit the manifests and apply them with the <code>oc apply</code> command. If you installed via the <a href="openshift.html#install-via-the-operator-lifecycle-manager-olm">Operator Lifecycle Manager (OLM)</a>, you can configure environment variables through the OLM subscription.</li>
 </ul>
 <h2 id="available-environment-variables">Available environment variables<a class="headerlink" href="#available-environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="log_level"><code>LOG_LEVEL</code><a class="headerlink" href="#log_level" title="Permanent link">&para;</a></h3>
@@ -4575,7 +4575,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </table>
 <p>Following feature gates are present as of Operator version 2.8.1:</p>
 <ol>
-<li><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="scaling.html#enable-automatic-storage-resize">Scale your cluster</a> chapter.</li>
+<li><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="scaling.html#automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.</li>
 </ol>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -4718,7 +4718,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 10:22:59 UTC">February 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 11:38:47 UTC">March 13, 2026</span>
       
         <br>
         Created:
