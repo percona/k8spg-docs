@@ -193,6 +193,10 @@
          <lastmod>2026-03-16</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/immutable-options.html</loc>
+         <lastmod>2026-03-16</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/initsql.html</loc>
          <lastmod>2026-03-16</lastmod>
     </url>

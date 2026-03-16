@@ -3417,6 +3417,34 @@
   
   
     <li class="md-nav__item">
+      <a href="immutable-options.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immutable options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="images.html" class="md-nav__link">
         
   
@@ -5442,6 +5470,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Secrets options
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#immutable-options" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Immutable options
       
     </span>
   </a>
@@ -8246,6 +8285,10 @@ for PostgreSQL options only and cannot be applied to change other
 It means that options in the <code>parameters</code> subsection under
 <code>patroni.dynamicConfiguration.postgresql</code> will be applied, and everything
 else in <code>patroni.dynamicConfiguration.postgresql</code> will be ignored.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="#immutable-options">Immutable options</a> for the full list.</p>
 </div>
 <h2 id="options-using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#options-using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the
@@ -15126,6 +15169,10 @@ Success: reinitialize for member cluster1-instance1-24b8-0
                     <section class="print-page" id="operator" heading-number="11.1"><h1 id="operator-custom-resource-options">Custom Resource options<a class="headerlink" href="#operator-custom-resource-options" title="Permanent link">&para;</a></h1>
 <p>The Cluster is configured via the
 <a href="https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> file.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some options cannot be changed after creation or have specific modification limits. See <a href="#immutable-options-custom-resource-options-with-modification-limits">Options with modification limits</a> for details.</p>
+</div>
 <h2 id="operator-metadata"><code>metadata</code><a class="headerlink" href="#operator-metadata" title="Permanent link">&para;</a></h2>
 <p>The metadata part of this file contains the following keys:</p>
 <ul>
@@ -19448,7 +19495,216 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td><code>PMM_SERVER_TOKEN</code></td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="images" heading-number="11.5"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="immutable-options" heading-number="11.5"><h1 id="immutable-options-immutable-options">Immutable options<a class="headerlink" href="#immutable-options-immutable-options" title="Permanent link">&para;</a></h1>
+<p>Percona Operator for PostgreSQL manages certain options internally to ensure cluster health, backup integrity, and security. You cannot change these options through the Custom Resource or other configuration methods. If you try to modify them, the Operator reconciles the cluster and reverts your changes.</p>
+<p>There are some options that you can override and some of them have modification limits.</p>
+<p>This document lists all of them:</p>
+<ul>
+<li><a href="#immutable-options-postgresql-parameters-that-cannot-be-overridden">PostgreSQL parameters that you cannot override</a> </li>
+<li><a href="#immutable-options-postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that you can override</a></li>
+<li><a href="#immutable-options-custom-resource-options-with-modification-limits">Custom Resource options with modification limits</a>.</li>
+</ul>
+<h2 id="immutable-options-postgresql-parameters-that-cannot-be-overridden">PostgreSQL parameters that cannot be overridden<a class="headerlink" href="#immutable-options-postgresql-parameters-that-cannot-be-overridden" title="Permanent link">&para;</a></h2>
+<p>The Operator sets and enforces the following PostgreSQL parameters. You cannot override them via <code>patroni.dynamicConfiguration.postgresql.parameters</code> or any other method. The Operator reconciles the Patroni configuration and restores these values.</p>
+<h3 id="immutable-options-tls-and-security">TLS and security<a class="headerlink" href="#immutable-options-tls-and-security" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ssl</code></td>
+<td><code>on</code></td>
+<td>Always set to <code>on</code> for encrypted connections.</td>
+</tr>
+<tr>
+<td><code>ssl_cert_file</code></td>
+<td><code>/pgconf/tls/tls.crt</code></td>
+<td>Path to the TLS certificate. The Operator manages certificate paths.</td>
+</tr>
+<tr>
+<td><code>ssl_key_file</code></td>
+<td><code>/pgconf/tls/tls.key</code></td>
+<td>Path to the TLS private key.</td>
+</tr>
+<tr>
+<td><code>ssl_ca_file</code></td>
+<td><code>/pgconf/tls/ca.crt</code></td>
+<td>Path to the CA certificate.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="immutable-options-cluster-internals">Cluster internals<a class="headerlink" href="#immutable-options-cluster-internals" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>unix_socket_directories</code></td>
+<td><code>/tmp/postgres</code></td>
+<td>Socket path for local connections. The Operator uses a fixed path for Pod communication.</td>
+</tr>
+<tr>
+<td><code>log_file_mode</code></td>
+<td><code>0660</code></td>
+<td>File permissions for log files. The Operator sets this for Pod security context compatibility.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="immutable-options-wal-archiving-and-recovery-pgbackrest-parameters">WAL archiving and recovery (pgBackRest parameters)<a class="headerlink" href="#immutable-options-wal-archiving-and-recovery-pgbackrest-parameters" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>archive_mode</code></td>
+<td><code>on</code></td>
+<td>Must be <code>on</code> for pgBackRest to archive WAL files. The Operator sets this to enable backups.</td>
+</tr>
+<tr>
+<td><code>archive_command</code></td>
+<td>pgbackrest &ndash;stanza=db archive-push &ldquo;%p&rdquo;</td>
+<td>Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository.</td>
+</tr>
+<tr>
+<td><code>archive_timeout</code></td>
+<td><code>60s</code></td>
+<td>Forces a WAL switch after the specified interval. The Operator manages this for backup consistency.</td>
+</tr>
+<tr>
+<td><code>track_commit_timestamp</code></td>
+<td><code>true</code></td>
+<td>Enables commit timestamps for point-in-time recovery when <a href="#operator-backups-tracklatestrestorabletime">backups.trackLatestRestorableTime</a> is enabled and the <code>crVersion</code> is 2.8.0 or higher</td>
+</tr>
+</tbody>
+</table>
+<h3 id="immutable-options-extension-parameters">Extension parameters<a class="headerlink" href="#immutable-options-extension-parameters" title="Permanent link">&para;</a></h3>
+<p>When you enable built-in extensions, the Operator appends or sets the following parameters. You cannot override these values while the extension is enabled.</p>
+<p><strong>When <code>spec.extensions.builtin.pg_stat_statements</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>pg_stat_statements</code></td>
+</tr>
+<tr>
+<td><code>pg_stat_statements.track</code></td>
+<td><code>all</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>When <code>spec.extensions.builtin.pg_stat_monitor</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>pg_stat_monitor</code></td>
+</tr>
+<tr>
+<td><code>pg_stat_monitor.pgsm_query_max_len</code></td>
+<td><code>2048</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>When <code>spec.extensions.builtin.pg_audit</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>pgaudit</code></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To view the full list of parameters the Operator sets, run <code>patronictl show-config</code> inside a PostgreSQL Pod. See <a href="#manage-manually-override-postgresql-parameters">Manage a database manually</a> for details. Any changes you make via <code>patronictl edit-config</code> will be reverted when the Operator reconciles, unless the cluster is in <a href="#manage-manually-stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode">unmanaged mode</a>.</p>
+</div>
+<h2 id="immutable-options-postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that can be overridden<a class="headerlink" href="#immutable-options-postgresql-parameters-that-can-be-overridden" title="Permanent link">&para;</a></h2>
+<p>The following parameters are set by the Operator but you can override them via <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Default value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wal_level</code></td>
+<td><code>logical</code></td>
+</tr>
+<tr>
+<td><code>jit</code></td>
+<td><code>off</code></td>
+</tr>
+<tr>
+<td><code>password_encryption</code></td>
+<td><code>scram-sha-256</code></td>
+</tr>
+<tr>
+<td><code>archive_timeout</code></td>
+<td><code>60s</code></td>
+</tr>
+<tr>
+<td><code>huge_pages</code></td>
+<td><code>try</code> or <code>off</code> (computed from resource limits)</td>
+</tr>
+<tr>
+<td><code>restore_command</code></td>
+<td><code>pgbackrest --stanza=db archive-get %f "%p"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="immutable-options-custom-resource-options-with-modification-limits">Custom Resource options with modification limits<a class="headerlink" href="#immutable-options-custom-resource-options-with-modification-limits" title="Permanent link">&para;</a></h2>
+<h3 id="immutable-options-metadataname"><code>metadata.name</code><a class="headerlink" href="#immutable-options-metadataname" title="Permanent link">&para;</a></h3>
+<p>The cluster name is set at creation time and cannot be changed. Kubernetes Custom Resource names are immutable. To use a different name, create a new cluster and migrate data.</p>
+<h3 id="immutable-options-usersdatabases"><code>users.databases</code><a class="headerlink" href="#immutable-options-usersdatabases" title="Permanent link">&para;</a></h3>
+<p>You can add databases to a user&rsquo;s access list, but you cannot revoke access to a database once it has been granted. Removing a database from the list does not revoke existing privileges.</p>
+<h3 id="immutable-options-usersoptions"><code>users.options</code><a class="headerlink" href="#immutable-options-usersoptions" title="Permanent link">&para;</a></h3>
+<p>The <code>ALTER ROLE</code> options (such as <code>SUPERUSER</code>) are ignored for the <code>postgres</code> user. The Operator manages the superuser role.</p>
+<h3 id="immutable-options-databaseinitsql"><code>databaseInitSQL</code><a class="headerlink" href="#immutable-options-databaseinitsql" title="Permanent link">&para;</a></h3>
+<p>Initialization SQL runs only at cluster creation time. You cannot add or change init SQL for an existing cluster. The Operator executes the script once during bootstrap.</p>
+<h3 id="immutable-options-datasource"><code>dataSource</code><a class="headerlink" href="#immutable-options-datasource" title="Permanent link">&para;</a></h3>
+<p>The <code>dataSource</code> subsection configures restore-from-backup for a <em>new</em> cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.</p>
+<h2 id="immutable-options-backup-options">Backup options<a class="headerlink" href="#immutable-options-backup-options" title="Permanent link">&para;</a></h2>
+<h3 id="immutable-options-backup-encryption">Backup encryption<a class="headerlink" href="#immutable-options-backup-encryption" title="Permanent link">&para;</a></h3>
+<p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="#backup-encryption">Backup encryption</a>.</p>
+<h3 id="immutable-options-storage-size">Storage size<a class="headerlink" href="#immutable-options-storage-size" title="Permanent link">&para;</a></h3>
+<p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="#scaling-scale-storage">Scale storage</a>.</p>
+<h2 id="immutable-options-patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#immutable-options-patroni-dynamic-configuration" title="Permanent link">&para;</a></h2>
+<p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="#options">Changing PostgreSQL options</a>.</p></section><section class="print-page" id="images" heading-number="11.6"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL 2.8.2. </p>
 <p>To find images for a specific Operator version, see <a href="#image-query">Retrieve Percona certified images</a></p>
 <p><strong>Images released with the Operator version 2.8.2:</strong></p>
@@ -19546,7 +19802,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tr>
 </tbody>
 </table>
-<p>For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p></section><section class="print-page" id="versions" heading-number="11.6"><h1 id="versions-versions-compatibility">Versions compatibility<a class="headerlink" href="#versions-versions-compatibility" title="Permanent link">&para;</a></h1>
+<p>For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p></section><section class="print-page" id="versions" heading-number="11.7"><h1 id="versions-versions-compatibility">Versions compatibility<a class="headerlink" href="#versions-versions-compatibility" title="Permanent link">&para;</a></h1>
 <p>Versions of the cluster components and platforms tested with different Operator releases are shown below. Other version combinations may also work but have not been tested.</p>
 <p>Cluster components:</p>
 <table>
@@ -19883,9 +20139,9 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td style="text-align: left;">-</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="copyright" heading-number="11.7"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="copyright" heading-number="11.8"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
 <h2 id="copyright-documentation-licensing">Documentation licensing<a class="headerlink" href="#copyright-documentation-licensing" title="Permanent link">&para;</a></h2>
-<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.8"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
+<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.9"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
 <p>This <a href="https://www.percona.com/trademark-policy">Trademark Policy <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is to ensure that users of Percona-branded products or
 services know that what they receive has really been developed, approved,
 tested and maintained by Percona. Trademarks help to prevent confusion in the
@@ -21638,13 +21894,15 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #secret-options > h1:before { content: '11.4 ' }
 
-.print-site-enumerate-headings #images > h1:before { content: '11.5 ' }
+.print-site-enumerate-headings #immutable-options > h1:before { content: '11.5 ' }
 
-.print-site-enumerate-headings #versions > h1:before { content: '11.6 ' }
+.print-site-enumerate-headings #images > h1:before { content: '11.6 ' }
 
-.print-site-enumerate-headings #copyright > h1:before { content: '11.7 ' }
+.print-site-enumerate-headings #versions > h1:before { content: '11.7 ' }
 
-.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.8 ' }
+.print-site-enumerate-headings #copyright > h1:before { content: '11.8 ' }
+
+.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.9 ' }
 
 .print-site-enumerate-headings #section-12 > h1:before { content: '12 ' }
 .print-site-enumerate-headings #releasenotes-index > h1:before { content: '12.1 ' }

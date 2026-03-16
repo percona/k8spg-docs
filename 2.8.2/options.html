@@ -3474,6 +3474,34 @@ Operator Custom Resource, updating it with deploy/cr.yaml configuration file).">
   
   
     <li class="md-nav__item">
+      <a href="immutable-options.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Immutable options
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="images.html" class="md-nav__link">
         
   
@@ -4461,6 +4489,10 @@ It means that options in the <code>parameters</code> subsection under
 <code>patroni.dynamicConfiguration.postgresql</code> will be applied, and everything
 else in <code>patroni.dynamicConfiguration.postgresql</code> will be ignored.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="immutable-options.html">Immutable options</a> for the full list.</p>
+</div>
 <h2 id="using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the
 PostgreSQL database based on the IP address or the host name of the connecting
@@ -4500,7 +4532,7 @@ and <code>dynamicConfiguration.postgresql.pg_hba</code> subsections: </p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 13:32:29 UTC">March 16, 2026</span>
       
         <br>
         Created:
