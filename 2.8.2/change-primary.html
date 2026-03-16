@@ -4418,7 +4418,7 @@ metadata:
 </li>
 <li>
 <p>Now, check instances of your cluster once again to make sure the switchover took place:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\ </span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/instance<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-L<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>instance1
 </code></pre></div>
@@ -4449,7 +4449,7 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 08:43:18 UTC">March 16, 2026</span>
       
         <br>
         Created:
