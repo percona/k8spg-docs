@@ -46,6 +46,10 @@ to see if the change should cause a restart or not.
     `patroni.dynamicConfiguration.postgresql` will be applied, and everything
     else in `patroni.dynamicConfiguration.postgresql` will be ignored.
 
+!!! note
+
+    The Operator manages certain PostgreSQL parameters (such as `archive_mode`, `archive_command`, `restore_command`, and TLS settings) internally and reverts any user changes. Other parameters (such as `wal_level`, `archive_timeout`, `jit`) can be overridden. See [Immutable options](immutable-options.md) for the full list.
+
 
 ## Using host-based authentication (pg_hba)
 
