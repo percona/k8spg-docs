@@ -21,7 +21,7 @@ user has the same login name as the cluster name.
     `pg-client`:
 
     ```bash
-    {{ commandName }} run -i --rm --tty pg-client --image=perconalab/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
+    {{ commandName }} run -i --rm --tty pg-client --image=percona/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
     ```
     Executing it may require some time to deploy the corresponding Pod.
 
