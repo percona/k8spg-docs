@@ -8,13 +8,13 @@ unsuccessful by the Operator because of the timeout.
 The pgBackRest tool used by the Operator solves this problem
 by using the [WAL asynchronous archiving :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving) feature.
 
-Asynchronous archiving is enabled by default in the `pgBackRest` configuration and uses the `/pgdata/pgbackrest-spool` as the spool path to store transient data. You can your further fine-tune it by setting the max number of parallel processes for `archive-push` and `archive-get` commands.
+Asynchronous archiving is enabled by default in the `pgBackRest` configuration and uses the `/pgdata/pgbackrest-spool` as the spool path to store transient data. You can further fine-tune it by setting the max number of parallel processes for `archive-push` and `archive-get` commands.
 
 Be sure not to set a high `process-max` value because it may affect normal database operations.
  
 Your storage configuration file may look as follows:
 
-```yaml title="s3.conf"
+```ini title="s3.conf"
 [global]
 repo2-s3-key=REPLACE-WITH-AWS-ACCESS-KEY
 repo2-s3-key-secret=REPLACE-WITH-AWS-SECRET-KEY
