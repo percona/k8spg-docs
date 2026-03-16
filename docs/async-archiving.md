@@ -10,7 +10,7 @@ by using the [WAL asynchronous archiving :octicons-link-external-16:](https://pg
 
 Asynchronous archiving is enabled by default in the `pgBackRest` configuration and uses the `/pgdata/pgbackrest-spool` as the spool path to store transient data. You can your further fine-tune it by setting the max number of parallel processes for `archive-push` and `archive-get` commands.
 
-Be sure to not set the a high `process-max` value because it may affect normal database operations.
+Be sure not to set a high `process-max` value because it may affect normal database operations.
  
 Your storage configuration file may look as follows:
 
