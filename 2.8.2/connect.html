@@ -4450,7 +4450,7 @@ the <a href="operator.html#metadata-name">name of your Percona Distribution for 
 </li>
 <li>
 <p>Create a Pod where you start a container with Percona Distribution for PostgreSQL and connect to the database. The following command does it, naming the Pod <code>pg-client</code> and connects you to the <code>cluster1</code> database:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:16<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$PGBOUNCER_URI</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$PGBOUNCER_URI</span>
 </code></pre></div>
 <p>It may take some time to create the Pod and connect to the database. As the result, you should see the following sample output: </p>
 <details class="example">
@@ -4471,7 +4471,7 @@ cluster1=&gt;
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 08:46:40 UTC">March 16, 2026</span>
       
         <br>
         Created:

@@ -4698,7 +4698,7 @@ user has the same login name as the cluster name.</p>
 <li>
 <p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
     <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
 </code></pre></div>
 Executing it may require some time to deploy the corresponding Pod.</p>
 </li>
