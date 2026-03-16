@@ -20,26 +20,7 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
     ALTER TABLE <table_name> SET ACCESS METHOD heap;
     ```
 
-    Exit the Pod.
-
-3. Edit the Custom Resource and set the `extensions.pg_tde.enabled` option to `false`.
-
-    ```yaml
-    spec:
-      extensions:
-        pg_tde:
-          enabled: false
-    ```
-
-4. Apply the changes:
-
-    ```bash
-    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
-    ```
-    
-    This command triggers the rolling restart of your database Pods. As a result, the Operator runs `DROP EXTENSION pg_tde` in all databases.
-
-5. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the primary database Pod as the `postgres` user and run:
+3. Run the `CHECKPOINT` command in PostgreSQL. It forces an immediate checkpoint to flush all dirty pages to disk and update all datafiles and indexes. Connect to the primary database Pod as the `postgres` user and run:
 
     ```sql
     CHECKPOINT;
@@ -48,6 +29,23 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
     This flushes data to disk in all databases.
 
     Exit the Pod.
+
+4. Edit the Custom Resource and set the `extensions.pg_tde.enabled` option to `false`.
+
+    ```yaml
+    spec:
+      extensions:
+        pg_tde:
+          enabled: false
+    ```
+
+5. Apply the changes:
+
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
+    ```
+    
+    This command triggers the rolling restart of your database Pods. As a result, the Operator runs `DROP EXTENSION pg_tde` in all databases.
 
 6. Update the Custom Resource again and remove all vault-related configuration from `extensions.pg_tde` section. 
 

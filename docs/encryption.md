@@ -47,6 +47,9 @@ With `pg_tde` enabled you can make backups and restores as usual. For restore, t
 2. Vault must use a **KV secrets engine v2** for the mount path.
 3. You can configure Vault to communicate with the Operator with and without TLS.
 4. The Operator does not assume anything about the contents of your secrets; you specify the secret names and keys in the Custom Resource.
+5. If you are using a [standby cluster](standby.md), you must [configure `pg_tde`](encryption-setup.md) and the key provider on both the source (primary) and the standby clusters. This means you need to enable the extension and set up the key provider in each cluster’s Custom Resource. This configuration is essential for the standby to be able to write and access encrypted data from the source.
+
+   Initially, the Operator uses the key provider configuration from the source cluster to write data on the standby. If the standby cluster is promoted to become the new primary, it will generate its own key provider configuration. The data previously written remains accessible, provided that the proper key provider setup was completed on the standby before promotion. In summary, both the source and standby clusters require correct `pg_tde` and key provider configuration for seamless operation and failover.
 
 ## Known limitations
 
