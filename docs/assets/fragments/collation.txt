@@ -49,7 +49,7 @@
         (4 rows)
         ```
     
-7. Refresh collection metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
+7. Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
 
     ```sql
     ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
