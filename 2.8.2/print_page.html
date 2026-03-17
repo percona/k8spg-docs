@@ -6990,17 +6990,15 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </ol>
 <h2 id="minikube-verify-the-percona-distribution-for-postgresql-cluster-operation">Verify the Percona Distribution for PostgreSQL cluster operation<a class="headerlink" href="#minikube-verify-the-percona-distribution-for-postgresql-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, the output of the <code>kubectl get pg</code> command shows the cluster status as <code>ready</code>. You can try to connect to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7009,18 +7007,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -7186,17 +7198,15 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <h2 id="gke-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#gke-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, <code>kubectl get pg -n &lt;namespace&gt;</code> command will show you the
 cluster status as <code>ready</code>, and you can try to connect to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7205,18 +7215,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -7383,17 +7407,15 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <h2 id="eks-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#eks-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, <code>kubectl get pg</code> command will show you the
 cluster status as <code>ready</code>, and you can try to connect to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7402,18 +7424,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -7551,17 +7587,15 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <p>It may take ten minutes to get the cluster started. When <code>kubectl get pg</code>
 command finally shows you the cluster status as <code>ready</code>, you can try to connect
 to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7570,18 +7604,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -7771,17 +7819,15 @@ cluster1   cluster1-pgbouncer.postgres-operator.svc   ready   3          3      
 <h2 id="openshift-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#openshift-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, <code>oc get pg</code> command will show you the
 cluster status as <code>ready</code>, and you can try to connect to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>oc get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>oc get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7790,18 +7836,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>oc<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -7901,17 +7961,15 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 <h2 id="kubernetes-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#kubernetes-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, the output of the <code>kubectl get pg</code> command shows the
 cluster status as <code>ready</code>. You can now try to connect to the cluster.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -7920,18 +7978,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -13442,17 +13514,15 @@ kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span clas
 </ol>
 <h2 id="cluster-wide-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#cluster-wide-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
 <p>When creation process is over, connect to the cluster to verify it is operational.</p>
-<p class="power-number">During the installation, the Operator has generated several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-including the one with password for default PostgreSQL user. This default
-user has the same login name as the cluster name.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
 <ol>
 <li>
-<p>Use <code>kubectl get secrets</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named as
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (substitute <code>&lt;cluster_name&gt;</code> with
-    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>).
-    The default variant will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
 </li>
 <li>
 <p>Use the
@@ -13461,18 +13531,32 @@ user has the same login name as the cluster name.</p>
 </code></pre></div>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod
-    <code>pg-client</code>:</p>
-<p><div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-Executing it may require some time to deploy the corresponding Pod.</p>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
 <p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. 
-    The following command will connect you as a <code>cluster1</code> user to a <code>cluster1</code> database
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.postgres-operator.svc<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
