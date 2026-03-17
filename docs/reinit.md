@@ -216,7 +216,7 @@ You can instruct Patroni to reinitialize the replica when it detects that the re
 ```yaml
 spec:
   patroni:
-    removeDataDirectoryOnDivergedTimeline: true
+    removeDataDirectoryOnDivergedTimelines: true
 ```
 
 Apply the configuration for the changes to come into force:
