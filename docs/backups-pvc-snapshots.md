@@ -4,7 +4,7 @@
 
     This feature is in the tech preview stage. The API and behavior may change in future releases.
 
-This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the [Configure and use PVC snapshots](backups-pvc-setup.md) tutorial. 
+This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the [Configure and use PVC snapshots](backups-pvc-setup.md) tutorial. If you run on Amazon EKS, start with [Set up PVC snapshots on EKS](backups-pvc-setup-eks.md). 
 
 By reading this document you will learn the following:
 
