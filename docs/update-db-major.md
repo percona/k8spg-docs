@@ -71,7 +71,7 @@ If the upgrade fails for some reason, the cluster will stay in paused mode. Resu
 
 During the restore, the Operator first restores the primary node. Then replicas rejoin it and start streaming data from a primary. PostgreSQL uses the pg_rewind tool to sync data with the primary.
 
-It may happen that the primary and replica nodes have diverged too much and pg_rewind cannot find the common WAL point in their timeline history to start syncing the data from. This happens more often in clusters with low write traffic. In this case you may see the could not find common ancestor of the source and target cluster's timelines  error in pg_rewind
+It may happen that the primary and replica nodes have diverged too much and pg_rewind cannot find the common WAL point in their timeline history to start syncing the data from. This happens more often in clusters with low write traffic. In this case you may see the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`.
 
 To address this issue, you must manually [reinitialize](reinit.md) the failed replica. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
 
