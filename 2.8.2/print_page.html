@@ -10844,25 +10844,23 @@ instruction relevant to the backup storage you are using. The only difference is
 slow, because PostgreSQL archiving process is sequential, without any
 parallelism or batching. In extreme cases backup can be even considered
 unsuccessful by the Operator because of the timeout.</p>
-<p>The pgBackRest tool used by the Operator can, if necessary, solve this problem
+<p>The pgBackRest tool used by the Operator solves this problem
 by using the <a href="https://pgbackrest.org/user-guide-centos7.html#async-archiving">WAL asynchronous archiving <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> feature.</p>
-<p>You can set up asynchronous archiving in your storage configuration file for
-pgBackRest. Turn on the additional <code>archive-async</code> flag, and set the 
-<code>process-max</code> value for <code>archive-push</code> and <code>archive-get</code> commands.
-Your storage configuration file may look as follows:</p>
-<div class="highlight"><span class="filename">s3.conf</span><pre><span></span><code><span class="p p-Indicator">[</span><span class="nv">global</span><span class="p p-Indicator">]</span>
-<span class="l l-Scalar l-Scalar-Plain">repo2-s3-key=REPLACE-WITH-AWS-ACCESS-KEY</span>
-<span class="l l-Scalar l-Scalar-Plain">repo2-s3-key-secret=REPLACE-WITH-AWS-SECRET-KEY</span>
-<span class="l l-Scalar l-Scalar-Plain">repo2-storage-verify-tls=n</span>
-<span class="l l-Scalar l-Scalar-Plain">repo2-s3-uri-style=path</span>
-<span class="l l-Scalar l-Scalar-Plain">archive-async=y</span>
-<span class="l l-Scalar l-Scalar-Plain">spool-path=/pgdata</span>
+<p>Asynchronous archiving is enabled by default in the <code>pgBackRest</code> configuration. It requires the spool path to store transient data. The spool path may differ depending on the image and version. An example spool path is <code>/pgdata/pgbackrest-spool</code>. </p>
+<p>You can further fine-tune asynchronous archiving by setting the max number of parallel processes for <code>archive-push</code> and <code>archive-get</code> commands.</p>
+<p>Be sure not to set a high <code>process-max</code> value because it may affect normal database operations.</p>
+<p>Your storage configuration file may look as follows:</p>
+<div class="highlight"><span class="filename">s3.conf</span><pre><span></span><code><span class="k">[global]</span>
+<span class="na">repo2-s3-key</span><span class="o">=</span><span class="s">REPLACE-WITH-AWS-ACCESS-KEY</span>
+<span class="na">repo2-s3-key-secret</span><span class="o">=</span><span class="s">REPLACE-WITH-AWS-SECRET-KEY</span>
+<span class="na">repo2-storage-verify-tls</span><span class="o">=</span><span class="s">n</span>
+<span class="na">repo2-s3-uri-style</span><span class="o">=</span><span class="s">path</span>
 
-<span class="l l-Scalar l-Scalar-Plain">[global:archive-get]</span>
-<span class="l l-Scalar l-Scalar-Plain">process-max=2</span>
+<span class="k">[global:archive-get]</span>
+<span class="na">process-max</span><span class="o">=</span><span class="s">2</span>
 
-<span class="l l-Scalar l-Scalar-Plain">[global:archive-push]</span>
-<span class="l l-Scalar l-Scalar-Plain">process-max=4</span>
+<span class="k">[global:archive-push]</span>
+<span class="na">process-max</span><span class="o">=</span><span class="s">4</span>
 </code></pre></div>
 <p>No modifications are needed aside of setting these additional parameters.
 You can find more information about WAL asynchronous archiving in
@@ -12076,15 +12074,16 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </code></pre></div>
 </li>
 <li>
-<p>If you see the list of affected images, find the database names where indexes use a different collation version:</p>
+<p>If you see the list of affected indexes, find the database names where indexes use a different collation version:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<p>```{.text .no-copy}
-oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl</p>
-<p>-------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------</p>
-<p>5 | postgres  |     10 |        6 | c              | f             | t            |
+<div class="no-copy highlight"><pre><span></span><code>oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
+
+-------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
+
+ 5 | postgres  |     10 |        6 | c              | f             | t            |
    -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
  |             | 2.28           |
  1 | template1 |     10 |        6 | c              | t             | t            |
@@ -12096,7 +12095,8 @@ oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallow
  16466 | cluster1  |     10 |        6 | c              | f             | t            |
    -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
  |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
-(4 rows)</p>
+(4 rows)
+</code></pre></div>
 </details>
 </li>
 <li>
@@ -12154,15 +12154,16 @@ oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallow
 </code></pre></div>
 </li>
 <li>
-<p>If you see the list of affected images, find the database names where indexes use a different collation version:</p>
+<p>If you see the list of affected indexes, find the database names where indexes use a different collation version:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<p>```{.text .no-copy}
-oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl</p>
-<p>-------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------</p>
-<p>5 | postgres  |     10 |        6 | c              | f             | t            |
+<div class="no-copy highlight"><pre><span></span><code>oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
+
+-------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
+
+ 5 | postgres  |     10 |        6 | c              | f             | t            |
    -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
  |             | 2.28           |
  1 | template1 |     10 |        6 | c              | t             | t            |
@@ -12174,7 +12175,8 @@ oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallow
  16466 | cluster1  |     10 |        6 | c              | f             | t            |
    -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
  |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
-(4 rows)</p>
+(4 rows)
+</code></pre></div>
 </details>
 </li>
 <li>
