@@ -37,7 +37,7 @@ EKS requires two addons for volume snapshots: the Amazon EBS CSI driver and the 
 
 #### Option A: Add addons when creating the cluster
 
-If you deploy the cluster with eksctl or a similar tool, include these addons in your cluster configuration:
+If you deploy the cluster with `eksctl` or a similar tool, include these addons in your cluster configuration:
 
 ```yaml
 addons:
@@ -91,7 +91,7 @@ The default `gp2` storage class on EKS doesn't support volume snapshots. You mus
 
     ```bash
     kubectl apply -f ebs-gp3-storage-class.yaml 
-    ```
+    ``` 
 
 ### Create a VolumeSnapshotClass
 
@@ -155,7 +155,24 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
     kubectl get volumesnapshotclasses
     ```
 
-2. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify these keys:
+2. Edit the `deploy/cr.yaml` Custom Resource. Reference the Storage Class you created in the `spec.instances.[]dataVolumeClaimSpec.storageClassName` option. The Operator then uses this storage class when it creates the cluster.
+    
+    Here's the example configuration:
+
+    ```yaml
+    spec:
+      instances:
+      - name: instance1
+        dataVolumeClaimSpec: 
+          storageClassName: ebs-csi-gp3
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    ```
+        
+3. In the Custom Resource, add the `volumeSnapshots` subsection under `backups`. Specify these keys:
   
     * `className` - the name of the `VolumeSnapshotClass`
     * `mode` -  how to make backups. `offline` is currently the only supported mode.
@@ -168,7 +185,7 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
           mode: offline
     ```
 
-3. Apply the configuration to update the cluster:
+4. Apply the configuration to update the cluster:
 
     ```bash
     kubectl apply -f deploy/cr.yaml -n $NAMESPACE
