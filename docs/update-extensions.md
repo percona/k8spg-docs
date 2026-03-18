@@ -33,6 +33,17 @@
     postgres=# alter extension pg_stat_monitor update;
     ```
 
+## Upgrade PostGIS extension
+
+When you [upgrade your database](update-db-minor.md) to a new version, this process does **not** automatically update the PostGIS extension inside PostgreSQL. You need to manually update the PostGIS extension in every database where it is enabled.
+
+To do this, connect to PostgreSQL as a user with `SUPERUSER` privileges. You can use [the same user you used to enable the PostGIS extension](postgis.md#enable-postgis-extension). Then, execute the following SQL command for each relevant database:
+
+```sql
+ALTER EXTENSION postgis UPDATE;
+```
+
+
 ## Upgrade custom PostgreSQL extensions
 
 If you have installed [custom PostgreSQL extensions](custom-extensions.md#add-custom-extensions), you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container. 

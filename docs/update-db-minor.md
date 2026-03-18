@@ -72,7 +72,27 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
     
         * `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
-        * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`,
+        * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`
+    
+    === "with PostGIS"
+
+        When using the [PostGIS](postgis.md) extension, make sure to specify the image that contains it for the `kubectl patch command`. Add PMM client image to the list if you also use it.
+
+        ```bash
+        kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
+           "spec": {
+              "crVersion":"{{ release }}",
+              "image": "docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgresrecommended }}",
+              "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
+              "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } }
+           }}'
+        ```
+
+        The following image names in the above example were taken from the [list of certified images](images.md):
+    
+        * `docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgresrecommended }}`,
+        * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
+        * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`
 
 4. After you applied the patch, the deployment rollout will be triggered automatically.
    The update process is successfully finished when all Pods have been restarted.
