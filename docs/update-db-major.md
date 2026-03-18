@@ -69,9 +69,11 @@ If the upgrade fails for some reason, the cluster will stay in paused mode. Resu
 
 ### Failed first restore after the upgrade
 
-During the restore, the Operator first restores the primary node. Then replicas rejoin it and start streaming data from a primary. PostgreSQL uses the pg_rewind tool to sync data with the primary.
+After a major upgrade, PostgreSQL starts a new WAL timeline. PostgreSQL treats the upgraded cluster as a new logical generation, so it increments the timeline ID and begins writing WAL from that new point.
 
-It may happen that the primary and replica nodes have diverged too much and pg_rewind cannot find the common WAL point in their timeline history to start syncing the data from. This happens more often in clusters with low write traffic. In this case you may see the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`.
+In clusters with very low write traffic, the upgraded primary may generate very few WAL segments after the upgrade. 
+
+When you make a first restore after the upgrade, the restored replicas need to replay WAL from the primary to catch up. To do that, PostgreSQL uses the `pg_rewind` tool. `pg_rewind` searches a common WAL ancestor — a point in history where both the primary and the replica share the same WAL record. If there are few WAL records, there may not be a common WAL ancestor and the replica may fail to rejoin the primary. When this happens, you see the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`.
 
 To address this issue, you must manually [reinitialize](reinit.md) the failed replica. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
 
