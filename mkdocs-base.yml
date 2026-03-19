@@ -175,6 +175,7 @@ nav:
     - Discover the Operator:
           - "Comparison with other solutions": compare.md
           - "Design and architecture": architecture.md
+          - limitations.md
     - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
