@@ -174,7 +174,7 @@ spec:
 
 Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`.
 
-This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.
+This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.
 
 This is particularly important in [cluster-wide](cluster-wide.md) deployment scenarios where the Operator manages resources across multiple namespaces.
 
