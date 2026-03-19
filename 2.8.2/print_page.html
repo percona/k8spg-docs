@@ -1409,6 +1409,145 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Environment variables
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Environment variables
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="env-vars.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="env-var-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Operator environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="env-var-cluster.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster component environment variables
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -4731,6 +4870,56 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-6-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Environment variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#env-vars" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env-var-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env-var-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cluster component environment variables
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -9692,7 +9881,277 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <p>To verify that the change has been applied, run the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.template.spec.containers[0].env[?(@.name==&quot;PGO_WORKERS&quot;)].value}&#39;</span>
 </code></pre></div>
-<p>The output should be <code>2</code>.</p></section></section>
+<p>The output should be <code>2</code>.</p></section>
+                    <section class='print-page md-section' id='section-6-9' heading-number='6.9'>
+                        <h1>Environment variables<a class='headerlink' href='#section-6-9' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="env-vars" heading-number="6.9.1"><h1 id="env-vars-define-environment-variables">Define environment variables<a class="headerlink" href="#env-vars-define-environment-variables" title="Permanent link">&para;</a></h1>
+<p>You can configure environment variables in Percona Operator for PostgreSQL for the following purposes:</p>
+<ol>
+<li><strong>Operator environment variables</strong> – To control the Operator&rsquo;s behavior, such as logging, telemetry, and which namespaces it watches. You set these in the Operator Deployment (for example in <code>deploy/bundle.yaml</code> or via the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">Helm chart</a> values).</li>
+<li><strong>Cluster component environment variables</strong> – To customize the behavior of cluster components (PostgreSQL, pgBackRest, pgBouncer). You define these in your cluster Custom Resource and, when needed, store sensitive values in <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets</a>.</li>
+<li><strong>Backup and restore environment variables</strong> – To customize backup and restore flows. You can specify the environment variables either directly in the backup / restore manifest, or reference a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secret</a> that stores sensitive values.</li>
+</ol>
+<h2 id="env-vars-when-to-use-environment-variables">When to use environment variables<a class="headerlink" href="#env-vars-when-to-use-environment-variables" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Use cases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operator environment variables</td>
+<td>- Control logging for debugging and log aggregation <br> - Manage telemetry <br> - Configure which namespaces the Operator watches (single-namespace vs cluster-wide) <br> - Set the number of concurrent reconciliation workers for multi-cluster environments <br> - Enable feature gates such as auto-growable volumes</td>
+</tr>
+<tr>
+<td>Cluster component environment variables</td>
+<td>- Customize PostgreSQL, pgBackRest, or pgBouncer behavior <br> - Pass configuration or secrets into Pods <br> - Integrate with external systems or monitoring.</td>
+</tr>
+<tr>
+<td>Backup and restore environment variables</td>
+<td>- Customize backup and restore operations <br> - Pass configuration or secrets into backup / restore Jobs</td>
+</tr>
+</tbody>
+</table>
+<h2 id="env-vars-next-steps">Next steps<a class="headerlink" href="#env-vars-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#env-var-operator">Configure Operator environment variables</a>
+<a class="md-button" href="#env-var-cluster">Environment variables for cluster components</a></p></section><section class="print-page" id="env-var-operator" heading-number="6.9.2"><h1 id="env-var-operator-configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#env-var-operator-configure-the-operator-environment-variables" title="Permanent link">&para;</a></h1>
+<p>You can configure the Percona Operator for PostgreSQL behavior by setting environment variables in the Operator Deployment. You can set them when you install the Operator in the following ways:</p>
+<ul>
+<li>For installations via <code>kubectl</code>, edit the Operator Deployment manifest <code>deploy/operator.yaml</code> or <code>deploy/cw-operator.yaml</code>. Alternatively you can modify the Deployment resource in <code>deploy/bundle.yaml</code>, or <code>deploy/cw-bundle.yaml</code> files.</li>
+<li>For Helm installations you can set environment variables through Helm values when you install the <code>percona/pg-operator</code> chart.</li>
+<li>For installations on OpenShift, you can edit the manifests and apply them with the <code>oc apply</code> command. If you installed via the <a href="#openshift-install-via-the-operator-lifecycle-manager-olm">Operator Lifecycle Manager (OLM)</a>, you can configure environment variables through the OLM subscription.</li>
+</ul>
+<h2 id="env-var-operator-available-environment-variables">Available environment variables<a class="headerlink" href="#env-var-operator-available-environment-variables" title="Permanent link">&para;</a></h2>
+<h3 id="env-var-operator-log_level"><code>LOG_LEVEL</code><a class="headerlink" href="#env-var-operator-log_level" title="Permanent link">&para;</a></h3>
+<p>Controls the verbosity of the operator&rsquo;s logging output. This helps with debugging and monitoring the Operator behavior. </p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"INFO"</code></td>
+<td><code>"DEBUG"</code></td>
+</tr>
+</tbody>
+</table>
+<p>Accepted values are:</p>
+<ul>
+<li><code>"DEBUG"</code> – Most verbose, includes detailed debugging information</li>
+<li><code>"INFO"</code> – Standard informational messages (default)</li>
+<li><code>"WARN"</code> – Warning messages only</li>
+<li><code>"ERROR"</code> – Error messages only</li>
+</ul>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_LEVEL</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;DEBUG&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-disable_telemetry"><code>DISABLE_TELEMETRY</code><a class="headerlink" href="#env-var-operator-disable_telemetry" title="Permanent link">&para;</a></h3>
+<p>Controls whether the Operator sends anonymous telemetry data to Percona. Telemetry helps Percona understand usage patterns and improve the Operator. </p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"false"</code></td>
+<td><code>"true"</code></td>
+</tr>
+</tbody>
+</table>
+<p>When set to <code>true</code>, the Operator does not send anonymous telemetry data to Percona.</p>
+<p>Learn more about <a href="#telemetry">Telemetry</a>.</p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DISABLE_TELEMETRY</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_feature_gates"><code>PGO_FEATURE_GATES</code><a class="headerlink" href="#env-var-operator-pgo_feature_gates" title="Permanent link">&para;</a></h3>
+<p>Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.</p>
+<p>The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>""</code> (empty)</td>
+<td><code>"AutoGrowVolumes=true"</code></td>
+</tr>
+</tbody>
+</table>
+<p>Following feature gates are present as of Operator version 2.8.1:</p>
+<ol>
+<li><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.</li>
+</ol>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-log_structured"><code>LOG_STRUCTURED</code><a class="headerlink" href="#env-var-operator-log_structured" title="Permanent link">&para;</a></h3>
+<p>Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"false"</code></td>
+<td><code>"true"</code></td>
+</tr>
+</tbody>
+</table>
+<p>When set to <code>"true"</code>, the logs are produced in JSON format. When set to <code>"false"</code> or not set at all, the Operator outputs plain text logs. This is the default behavior.</p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_STRUCTURED</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_workers"><code>PGO_WORKERS</code><a class="headerlink" href="#env-var-operator-pgo_workers" title="Permanent link">&para;</a></h3>
+<p>Specifies the number of worker threads the Operator uses to process events and reconcile resources. This controls the Operator&rsquo;s concurrency. Default value is <code>1</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"1"</code></td>
+<td><code>"2"</code></td>
+</tr>
+</tbody>
+</table>
+<p>Keep in mind that concurrent reconciliations are done only on different objects. For the same object reconciliation is always done serially, regardless of the value set in <code>PGO_WORKERS</code>. This is defined by how the controller runtime works with the queue to avoid any race conditions or incorrect modification of objects. </p>
+<p>To illustrate how it works:</p>
+<ul>
+<li>If you have two PerconaPGCluster objects (A and B) and set <code>PGO_WORKERS=1</code>, a single worker thread will reconcile the clusters serially, one after another.  </li>
+<li>If you set <code>PGO_WORKERS=4</code> but only have one PerconaPGCluster object, the operator still reconciles this object serially.  </li>
+<li>If you set <code>PGO_WORKERS=4</code> and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.</li>
+</ul>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_WORKERS</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-watch_namespace"><code>WATCH_NAMESPACE</code><a class="headerlink" href="#env-var-operator-watch_namespace" title="Permanent link">&para;</a></h3>
+<p>Specifies which namespaces the Operator watches for Custom Resources (PerconaPGCluster and related resources). This is a critical configuration for determining the Operator&rsquo;s scope of operation. </p>
+<p>By default, the value is set to the Operator&rsquo;s own namespace from the <code>metadata.namespace</code> option via a downward API <code>fieldRef</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WATCH_NAMESPACE</span>
+<span class="w">  </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">fieldRef</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="w">      </span><span class="nt">fieldPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metadata.namespace</span>
+</code></pre></div>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td>Operator&rsquo;s namespace (from <code>fieldRef</code>)</td>
+<td><code>"pg-operator,percona-db-1"</code> or <code>""</code></td>
+</tr>
+</tbody>
+</table>
+<p>Accepted values:</p>
+<ul>
+<li>If set to a comma-separated list, the Operator watches those specific namespaces. The namespace list must include the namespace where the Operator itself is deployed. Use this approach for the <a href="#cluster-wide">cluster-wide mode</a>.</li>
+<li>If set to an empty string (<code>""</code>), the Operator watches all namespaces in the Kubernetes cluster (cluster-wide mode).</li>
+</ul>
+<p>When you deploy the Operator in cluster-wide mode, it should be associated with the appropriate ClusterRole. </p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WATCH_NAMESPACE</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator,percona-db-1,percona-db-2&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_namespace"><code>PGO_NAMESPACE</code><a class="headerlink" href="#env-var-operator-pgo_namespace" title="Permanent link">&para;</a></h3>
+<p>Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from <code>metadata.namespace</code> via a downward API <code>fieldRef</code>.</p>
+<p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.</p>
+<p>This is particularly important in <a href="#cluster-wide">cluster-wide</a> deployment scenarios where the Operator manages resources across multiple namespaces.</p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_NAMESPACE</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator&quot;</span>
+</code></pre></div>
+<h2 id="env-var-operator-update-environment-variables">Update environment variables<a class="headerlink" href="#env-var-operator-update-environment-variables" title="Permanent link">&para;</a></h2>
+<h3 id="env-var-operator-using-kubectl-patch">Using kubectl patch<a class="headerlink" href="#env-var-operator-using-kubectl-patch" title="Permanent link">&para;</a></h3>
+<p>You can update environment variables in an existing Operator Deployment by applying a patch. To keep existing variables, include the full list in your patch.</p>
+<ol>
+<li>
+<p>Get the current environment variables:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.template.spec.containers[0].env}&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Edit the output to add or change a variable (for example <code>PGO_WORKERS</code>), then apply a patch with the full <code>env</code> list. Alternatively, patch a single entry by index (see <a href="#reconciliation-concurrency">Configure concurrency for a cluster reconciliation</a>).</p>
+</li>
+</ol>
+<h3 id="env-var-operator-using-helm">Using Helm<a class="headerlink" href="#env-var-operator-using-helm" title="Permanent link">&para;</a></h3>
+<p>For Helm installations, set or change environment variables through Helm values (for example <code>logLevel</code>, <code>logStructured</code>, <code>disableTelemetry</code>, <code>watchNamespace</code>, <code>watchAllNamespaces</code>). Refer to the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">pg-operator chart</a> documentation for the exact value names and syntax. To add variables not exposed by the chart, use a chart value that merges extra env entries if supported, or switch to patching the Deployment after install.</p>
+<h2 id="env-var-operator-after-the-update">After the update<a class="headerlink" href="#env-var-operator-after-the-update" title="Permanent link">&para;</a></h2>
+<p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p></section><section class="print-page" id="env-var-cluster" heading-number="6.9.3"><h1 id="env-var-cluster-define-environment-variables-for-cluster-components">Define environment variables for cluster components<a class="headerlink" href="#env-var-cluster-define-environment-variables-for-cluster-components" title="Permanent link">&para;</a></h1>
+<p>To pass environment variables into PostgreSQL, pgBackRest, or pgBouncer Pods, use the Custom Resource options described in <a href="#operator">Custom Resource options</a>. For example:</p>
+<ul>
+<li><strong>PostgreSQL instances:</strong> use <code>spec.instances[].env</code>, <code>spec.instances[].envFrom</code>, or reference a Secret via <code>spec.instances[].envVarsSecret</code>.</li>
+<li><strong>pgBackRest:</strong> use the relevant <code>spec.backups.pgbackrest.*</code> or restore job options and any supported env or Secret references.</li>
+<li><strong>pgBouncer:</strong> use <code>spec.proxy.pgbouncer.env</code>, <code>spec.proxy.pgbouncer.envFrom</code>, or <code>spec.proxy.pgbouncer.envVarsSecret</code>.</li>
+</ul>
+<p>Sensitive values (passwords, API keys) should be stored in <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets</a> and referenced by name in the cluster spec. For more options, see <a href="#secret-options">Secrets options</a> and the <a href="#operator">Custom Resource options</a> reference.</p></section></section></section>
                     <section class='print-page md-section' id='section-7' heading-number='7'>
                         <h1>Management<a class='headerlink' href='#section-7' title='Permanent link'></a>
                         </h1>
@@ -19491,6 +19950,54 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td><code>--type=full</code></td>
 </tr>
 </tbody>
+</table>
+<h3 id="backup-resource-options-containeroptionsenvname"><code>containerOptions.env.name</code><a class="headerlink" href="#backup-resource-options-containeroptionsenvname" title="Permanent link">&para;</a></h3>
+<p>Specifies the name of a custom environment variable that you pass to backup containers for manual backups.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>MY_ENV</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="backup-resource-options-containeroptionsenvvalue"><code>containerOptions.env.value</code><a class="headerlink" href="#backup-resource-options-containeroptionsenvvalue" title="Permanent link">&para;</a></h3>
+<p>Specifies the value for a custom environment variable that you pass to backup containers for manual backups.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>1000</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="backup-resource-options-containeroptionsenvfromsecretrefname"><code>containerOptions.envFrom.secretRef.name</code><a class="headerlink" href="#backup-resource-options-containeroptionsenvfromsecretrefname" title="Permanent link">&para;</a></h3>
+<p>Name of a Secret, key/values of which are used as environment variables for manual backups.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>backup-env-secret</code></td>
+</tr>
+</tbody>
 </table></section><section class="print-page" id="restore-options" heading-number="11.3"><h1 id="restore-options-restore-resource-options">Restore Resource Options<a class="headerlink" href="#restore-options-restore-resource-options" title="Permanent link">&para;</a></h1>
 <p>A Restore resource is a Kubernetes object that tells the Operator how to restore your database from a specific backup. The <code>deploy/restore.yaml</code> file is a template for creating restore resources. It defines the <code>PerconaPGRestore</code> resource.</p>
 <p>This document describes all available options that you can use to customize a restore.</p>
@@ -19554,7 +20061,55 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tr>
 </tbody>
 </table>
-<p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="#backups-restore-inplace">Restore to the same cluster</a> or <a href="#backups-clone">Restore to a new cluster</a>.</p></section><section class="print-page" id="secret-options" heading-number="11.4"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
+<p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="#backups-restore-inplace">Restore to the same cluster</a> or <a href="#backups-clone">Restore to a new cluster</a>.</p>
+<h3 id="restore-options-containeroptionsenvname"><code>containerOptions.env.name</code><a class="headerlink" href="#restore-options-containeroptionsenvname" title="Permanent link">&para;</a></h3>
+<p>Specifies the name of a custom environment variable that you pass to backup containers for restore Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>MY_ENV</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="restore-options-containeroptionsenvvalue"><code>containerOptions.env.value</code><a class="headerlink" href="#restore-options-containeroptionsenvvalue" title="Permanent link">&para;</a></h3>
+<p>Specifies the value for a custom environment variable that you pass to backup containers for restore Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>1000</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="restore-options-containeroptionsenvfromsecretrefname"><code>containerOptions.envFrom.secretRef.name</code><a class="headerlink" href="#restore-options-containeroptionsenvfromsecretrefname" title="Permanent link">&para;</a></h3>
+<p>Name of a Secret, key/values of which are used as environment variables for restore Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>restore-env-secret</code></td>
+</tr>
+</tbody>
+</table></section><section class="print-page" id="secret-options" heading-number="11.4"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
 <p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
 <h2 id="secret-options-apiversion"><code>apiVersion</code><a class="headerlink" href="#secret-options-apiversion" title="Permanent link">&para;</a></h2>
 <p>Specifies the API version of the Custom Resource.</p>
@@ -21863,6 +22418,13 @@ In addition to that:</p>
 .print-site-enumerate-headings #telemetry > h1:before { content: '6.7 ' }
 
 .print-site-enumerate-headings #reconciliation-concurrency > h1:before { content: '6.8 ' }
+
+.print-site-enumerate-headings #section-6-9 > h1:before { content: '6.9 ' }
+.print-site-enumerate-headings #env-vars > h1:before { content: '6.9.1 ' }
+
+.print-site-enumerate-headings #env-var-operator > h1:before { content: '6.9.2 ' }
+
+.print-site-enumerate-headings #env-var-cluster > h1:before { content: '6.9.3 ' }
 
 .print-site-enumerate-headings #section-7 > h1:before { content: '7 ' }
 .print-site-enumerate-headings #section-7-1 > h1:before { content: '7.1 ' }
