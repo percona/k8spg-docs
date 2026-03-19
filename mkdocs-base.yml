@@ -204,6 +204,10 @@ nav:
           - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
+          - Environment variables: 
+            - "About environment variables": env-vars.md
+            - "Operator environment variables": env-var-operator.md
+            - "Cluster component environment variables": env-var-cluster.md
     - Management:
           - Back up and restore: 
             - "About backups": backups.md
