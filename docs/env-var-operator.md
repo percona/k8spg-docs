@@ -120,8 +120,8 @@ Keep in mind that concurrent reconciliations are done only on different objects.
 To illustrate how it works:
 
 * If you have two PerconaPGCluster objects (A and B) and set `PGO_WORKERS=1`, a single worker thread will reconcile the clusters serially, one after another.  
-* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the operator still reconciles this object serially.  
-* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
+* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the Operator still reconciles this object serially.  
+* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the Operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
 
 **Example configuration:**
 
