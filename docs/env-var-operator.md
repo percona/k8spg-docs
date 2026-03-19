@@ -10,7 +10,7 @@ You can configure the Percona Operator for PostgreSQL behavior by setting enviro
 
 ### `LOG_LEVEL`
 
-Controls the verbosity of the operator's logging output. This helps with debugging and monitoring the Operator behavior. 
+Controls the verbosity of the Operator's logging output. This helps with debugging and monitoring the Operator behavior. 
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
