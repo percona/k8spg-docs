@@ -88,7 +88,7 @@ spec:
 
 ### `LOG_STRUCTURED`
 
-Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.
+Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
