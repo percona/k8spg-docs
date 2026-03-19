@@ -65,7 +65,7 @@ spec:
 
 Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.
 
-The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.
+The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
