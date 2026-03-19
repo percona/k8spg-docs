@@ -46,3 +46,27 @@ You can customize the backup by specifying different [command line options suppo
 | Value type  | Example    |
 | ----------- | ---------- |
 | :material-code-string: string     | `--type=full` |
+
+### `containerOptions.env.name`
+
+Specifies the name of a custom environment variable that you pass to backup containers for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `MY_ENV` |
+
+### `containerOptions.env.value`
+
+Specifies the value for a custom environment variable that you pass to backup containers for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `1000` |
+
+### `containerOptions.envFrom.secretRef.name`
+
+Name of a Secret, key/values of which are used as environment variables for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `backup-env-secret` |

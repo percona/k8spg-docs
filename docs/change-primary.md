@@ -82,7 +82,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 5. Now, check instances of your cluster once again to make sure the switchover took place:
 
     ```bash
-    kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \ 
+    kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/cluster=cluster1 \
         -L postgres-operator.crunchydata.com/instance \
         -L postgres-operator.crunchydata.com/role | grep instance1
     ```

@@ -5,22 +5,23 @@ slow, because PostgreSQL archiving process is sequential, without any
 parallelism or batching. In extreme cases backup can be even considered
 unsuccessful by the Operator because of the timeout.
 
-The pgBackRest tool used by the Operator can, if necessary, solve this problem
+The pgBackRest tool used by the Operator solves this problem
 by using the [WAL asynchronous archiving :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving) feature.
 
-You can set up asynchronous archiving in your storage configuration file for
-pgBackRest. Turn on the additional `archive-async` flag, and set the 
-`process-max` value for `archive-push` and `archive-get` commands.
+Asynchronous archiving is enabled by default in the `pgBackRest` configuration. It requires the spool path to store transient data. The spool path may differ depending on the image and version. An example spool path is `/pgdata/pgbackrest-spool`. 
+
+You can further fine-tune asynchronous archiving by setting the max number of parallel processes for `archive-push` and `archive-get` commands.
+
+Be sure not to set a high `process-max` value because it may affect normal database operations.
+ 
 Your storage configuration file may look as follows:
 
-```yaml title="s3.conf"
+```ini title="s3.conf"
 [global]
 repo2-s3-key=REPLACE-WITH-AWS-ACCESS-KEY
 repo2-s3-key-secret=REPLACE-WITH-AWS-SECRET-KEY
 repo2-storage-verify-tls=n
 repo2-s3-uri-style=path
-archive-async=y
-spool-path=/pgdata
 
 [global:archive-get]
 process-max=2
