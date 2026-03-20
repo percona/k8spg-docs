@@ -8,13 +8,13 @@ We recommend that you run the latest version of Percona Operator for PostgreSQL 
 
 Starting with **Percona Operator for PostgreSQL 2.7.0**, the documentation site includes a **version switcher** in the header. You can use it to open the documentation that matches a specific Operator release line.
 
-The switcher lists the **three latest minor versions** of the documentation (for example, 2.6, 2.7, and 2.8). **Patch releases** (such as 2.8.1 or 2.8.2) are not separate entries in the switcher; each minor line has one documentation set that applies to the current patch level in that line.
+The switcher lists all documentation versions that are currently deployed. Each entry corresponds to a specific released Operator version, including patch releases (for example, 2.8.0, 2.8.1, and 2.8.2).
 
 Where a feature was added or behavior changed, the text often notes the Operator version. See the [Release notes](ReleaseNotes/index.md) for detailed changes in each release.
 
 ## Older documentation
 
-Documentation for Operator versions that are no longer among the three maintained minor lines is **not** available in the version switcher. Those releases are published as **PDF** files in the [Percona legacy documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/).
+Documentation for Operator versions that are no longer supported is **not** available in the version switcher. Those releases are published as **PDF** files in the [Percona legacy documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/).
 
 ## Report an issue or request a change
 
