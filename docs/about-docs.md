@@ -22,4 +22,4 @@ To report a problem with the documentation, use the feedback widget at the botto
 
 ## How to contribute
 
-Thank you for your interest in improving this documentation. See the [Contributing guide :octicons-link-external-16:](https://github.com/percona/k8spg-docs/blob/main/CONTRIBUTING.md) in the documentation repository for instructions.
+Thank you for your interest in improving this documentation. See the [Contributing guide :octicons-link-external-16:](https://github.com/percona/k8spg-docs/blob/2.0/CONTRIBUTING.md) in the documentation repository for instructions.
