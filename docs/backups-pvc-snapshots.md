@@ -8,11 +8,12 @@ This document provides an overview of PVC snapshots. If you are familiar with th
 
 By reading this document you will learn the following:
 
-* [What is a PVC snapshot](#overview)
-* [How it works](#workflow)
-* [Why you need it](#why-to-use-pvc-snapshots)
-* [Requirements](#requirements) 
-* [Current limitations](#limitations)
+- [PVC snapshot support](#pvc-snapshot-support)
+    - [Overview](#overview)
+    - [Workflow](#workflow)
+    - [Why to use PVC snapshots](#why-to-use-pvc-snapshots)
+    - [Requirements](#requirements)
+    - [Limitations](#limitations)
 
 ## Overview
 
@@ -82,6 +83,8 @@ Before enabling PVC snapshots, ensure the following:
 * **CSI driver support required** — your Kubernetes cluster’s storage provisioner
 must support the Volume Snapshot API.
 * **One snapshot backup at a time** – You can only run one snapshot backup at a time on a given cluster; concurrent snapshot backups are not supported.
+* **No automatic retention policy for scheduled backups yet** - You must manually delete outdated backup objects. Retention policy is planned to be added in future releases.
+* **No automatic retention policy for scheduled backups yet** – You need to manually remove outdated backup objects for now. Automatic retention will be available in a future release.
 
 [Configure PVC snapshots](backups-pvc-setup.md){.md-button}
 
