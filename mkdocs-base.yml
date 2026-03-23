@@ -5,7 +5,7 @@ site_description: Documentation
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
 copyright: 
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2026 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -75,7 +75,7 @@ extra_javascript:
 
 #Copyright
 copyright: >
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#__consent">Cookie Consent</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2026 — <a href="#__consent">Cookie Consent</a>
 
 #Extensions
 markdown_extensions:
@@ -204,6 +204,10 @@ nav:
           - "Transport encryption (TLS/SSL)": TLS.md
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
+          - Environment variables: 
+            - "About environment variables": env-vars.md
+            - "Operator environment variables": env-var-operator.md
+            - "Cluster component environment variables": env-var-cluster.md
     - Management:
           - Back up and restore: 
             - "About backups": backups.md
@@ -268,6 +272,7 @@ nav:
           - "Backup resource options": backup-resource-options.md
           - "Restore options": restore-options.md
           - "Secrets options": secret-options.md
+          - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md

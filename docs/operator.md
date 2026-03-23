@@ -3,6 +3,10 @@
 The Cluster is configured via the
 [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file.
 
+!!! note
+
+    Some options cannot be changed after creation or have specific modification limits. See [Options with modification limits](immutable-options.md#custom-resource-options-with-modification-limits) for details.
+
 ## `metadata`
 
 The metadata part of this file contains the following keys:

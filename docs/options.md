@@ -73,6 +73,11 @@ Use `replica` when you need physical replication or no replication. Use
 The `wal_level` parameter has the
 postmaster context. After you change it, Patroni restarts all PostgreSQL instances.
 
+!!! note
+
+    The Operator manages certain PostgreSQL parameters (such as `archive_mode`, `archive_command`, `restore_command`, and TLS settings) internally and reverts any user changes. Other parameters (such as `wal_level`, `archive_timeout`, `jit`) can be overridden. See [Immutable options](immutable-options.md) for the full list.
+
+
 ## Using host-based authentication (pg_hba)
 
 PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
