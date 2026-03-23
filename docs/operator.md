@@ -70,6 +70,10 @@ Validity duration for the root CA certificate. Used only when [cert-manager](tls
 | ---------- | ------- |
 | :material-code-string: string | `26280h` |
 
+### `tls.pgBackRestCertValidityDuration`
+
+Validity duration for the `pgBackRest` client and repository host certificates
+
 ### `standby.enabled`
 
 Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).

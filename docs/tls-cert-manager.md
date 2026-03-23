@@ -162,6 +162,7 @@ kubectl get pods -n cert-manager
       tls:
         certValidityDuration: 2160h   # 90 days for TLS certificates (default: 8760h / 1 year)
         caValidityDuration: 26280h    # 3 years for the CA certificate (default: 8760h / 1 year)
+        pgBackRestCertValidityDuration: 2160H # 90 days for TLS certificates 
     ```
 
     Use [Go duration format :octicons-link-external-16:](https://pkg.go.dev/time#ParseDuration) (e.g. `2160h`, `8760h`).
