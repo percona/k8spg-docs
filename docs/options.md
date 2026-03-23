@@ -71,8 +71,7 @@ Use `replica` when you need physical replication or no replication. Use
 `logical` when you need logical replication. Both values allow for point-in-time recovery.
 
 The `wal_level` parameter has the
-postmaster context. Changing it triggers a rolling restart of all PostgreSQL
-instances.
+postmaster context. After you change it, Patroni restarts all PostgreSQL instances.
 
 ## Using host-based authentication (pg_hba)
 
