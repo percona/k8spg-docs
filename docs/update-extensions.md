@@ -40,7 +40,7 @@ When you [upgrade your database](update-db-minor.md) to a new version, this proc
 To do this, connect to PostgreSQL as a user with `SUPERUSER` privileges. You can use [the same user you used to enable the PostGIS extension](postgis.md#enable-postgis-extension). Then, execute the following SQL command for each relevant database:
 
 ```sql
-ALTER EXTENSION postgis UPDATE;
+SELECT PostGIS_Extensions_Upgrade();
 ```
 
 
