@@ -12,7 +12,7 @@ To proceed with the setup, ensure you have:
 * `kubectl` configured to access your cluster
 * The AWS CLI installed and configured
 
-EKS requires specific addons, a gp3 storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.
+EKS requires specific addons, a `gp3` storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.
 
 ## Before you start
 

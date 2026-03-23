@@ -128,7 +128,24 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
         gke-snapshot-class   pd.csi.storage.gke.io   Delete           42s
         ```
 
-2. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify these keys:
+2. Edit the `deploy/cr.yaml` Custom Resource. Reference the Storage Class that supports the VolumeSnapshot API in the `spec.instances.[]dataVolumeClaimSpec.storageClassName` option. The Operator then uses this storage class when it creates the cluster.
+
+    Here's the example configuration:
+
+    ```yaml
+    spec:
+      instances:
+      - name: instance1
+        dataVolumeClaimSpec: 
+          storageClassName: standard
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 1Gi
+    ```
+    
+3. Edit the `deploy/cr.yaml` Custom Resource and add the `volumeSnapshots` subsection under `backups`. Specify these keys:
   
     * `className` - the name of the `VolumeSnapshotClass`
     * `mode` -  how to make backups. `offline` is currently the only supported mode.
@@ -141,7 +158,7 @@ You must reference the `VolumeSnapshotClass` in your cluster Custom Resource.
           mode: offline
     ```
 
-3. Apply the configuration to update the cluster:
+4. Apply the configuration to update the cluster:
 
     ```bash
     kubectl apply -f deploy/cr.yaml -n $NAMESPACE

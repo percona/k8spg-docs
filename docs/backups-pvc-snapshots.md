@@ -75,6 +75,7 @@ Before enabling PVC snapshots, ensure the following:
    See how to add it in the [Add a VolumeSnapshotClass](backups-pvc-setup.md#add-volumesnapshotclass) section.
 
 3. You must explicitly enable the `BackupSnapshots` feature gate in the Operator Deployment. See [Enable the feature gate](backups-pvc-setup.md#enable-the-feature-gate).
+5. You must explicitly specify the storage class whose CSI driver supports VolumeSnapshot API in the `spec.instances.[]dataVolumeClaimSpec.storageClassName` option in the Custom Resource for your cluster.
 
 ## Limitations
 
