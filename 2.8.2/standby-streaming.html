@@ -4712,10 +4712,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main-ha.main-pg.svc</span>
+<span class="w">    </span><span class="nt">maxAcceptableLag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Mi</span><span class="w">  </span><span class="c1"># optional: enables replication lag detection</span>
 </code></pre></div>
 <ul>
 <li><code>standby.enabled</code> controls if it is a standby cluster or not</li>
 <li><code>standby.host</code> must point to the primary node of a Main cluster. In this example it is a <code>main-ha</code> Service in another namespace.</li>
+<li><code>standby.maxAcceptableLag</code> (optional) enables replication lag detection. When the WAL lag exceeds this value, the standby primary pod is marked as unready, the cluster goes into <code>initializing</code> state, and a <code>StandbyLagging</code> condition is set in the status.</li>
 </ul>
 <p>Deploy the standby cluster by applying the manifest:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>dr-cr.yaml<span class="w"> </span>-n<span class="w"> </span>dr-pg
@@ -4736,7 +4738,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:38:22 UTC">March 24, 2026</span>
       
         <br>
         Created:

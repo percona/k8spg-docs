@@ -3632,6 +3632,17 @@ deploy/cr.yaml  file.">
 </li>
         
           <li class="md-nav__item">
+  <a href="#standbymaxacceptablelag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        standby.maxAcceptableLag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#secretscustomrootcatlssecretname" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7666,6 +7677,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#standbymaxacceptablelag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        standby.maxAcceptableLag
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#secretscustomrootcatlssecretname" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10754,6 +10776,22 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>repo1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="standbymaxacceptablelag"><code>standby.maxAcceptableLag</code><a class="headerlink" href="#standbymaxacceptablelag" title="Permanent link">&para;</a></h3>
+<p>The maximum amount of WAL data that the standby cluster can be behind the primary cluster. It is measured in bytes of WAL data. When the WAL lag exceeds this value, the primary pod in the standby cluster is marked as unready, the cluster goes into the <code>initializing</code> state, and a <code>StandbyLagging</code> condition is set in the status. If unset, lag is not checked. Use Kubernetes quantity format (for example, <code>10Mi</code>, <code>1Gi</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>10Mi</code></td>
 </tr>
 </tbody>
 </table>
@@ -14753,7 +14791,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 16, 2026 13:32:29 UTC">March 16, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:38:22 UTC">March 24, 2026</span>
       
         <br>
         Created:

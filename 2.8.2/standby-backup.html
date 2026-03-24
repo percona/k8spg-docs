@@ -4721,8 +4721,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ol>
 <h3 id="configure-dr-site">Configure DR site<a class="headerlink" href="#configure-dr-site" title="Permanent link">&para;</a></h3>
-<p>The configuration of the disaster recovery site is similar <a href="#configure-main-site">to that of the Main site</a>, with the only difference in standby settings.</p>
-<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case):</p>
+<p>The configuration of the disaster recovery site is similar <a href="#configure-main-site">to that of the Main site</a>, with the  difference in standby settings.</p>
+<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case). Optionally, add <code>standby.maxAcceptableLag</code> to enable <a href="standby.html#detect-replication-lag-for-standby-cluster">replication lag detection</a>. Check the <a href="standby.html#known-limitation-for-a-repo-based-standby-cluster">known limitation for this standby type</a>. </p>
 <div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standby</span>
 <span class="nt">spec</span><span class="p">:</span><span class="w"> </span>
@@ -4739,6 +4739,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">    </span><span class="c1"># maxAcceptableLag: 10Mi  # optional: enables replication lag detection</span>
 </code></pre></div>
 <p>Deploy the standby cluster by applying the manifest:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
@@ -4753,7 +4754,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:38:22 UTC">March 24, 2026</span>
       
         <br>
         Created:

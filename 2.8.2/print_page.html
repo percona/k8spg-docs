@@ -11469,7 +11469,44 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <li>A repo-based standby that recovers WAL files from a <code>pgBackRest</code> repo stored in external storage. For this setup, you reference the <code>pgBackRest</code> repo name and the cloud-based backup configuration that matches the one from the primary site. Refer to the <a href="#standby-backup">Standby cluster deployment based on pgBackRest</a> tutorial for the setup steps.</li>
 <li>A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the <a href="#standby-streaming">Standby cluster deployment based on streaming replication</a> tutorial.</li>
 <li>Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.</li>
-</ol></section><section class="print-page" id="standby-backup" heading-number="7.2.2"><h1 id="standby-backup-standby-cluster-deployment-based-on-pgbackrest">Standby cluster deployment based on pgBackRest<a class="headerlink" href="#standby-backup-standby-cluster-deployment-based-on-pgbackrest" title="Permanent link">&para;</a></h1>
+</ol>
+<h2 id="standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster<a class="headerlink" href="#standby-detect-replication-lag-for-standby-cluster" title="Permanent link">&para;</a></h2>
+<p>If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.</p>
+<p>You can enable replication lag detection for any standby type by setting the <a href="#operator-standbymaxacceptablelag"><code>standby.maxAcceptableLag</code></a> option in the Custom Resource. </p>
+<h3 id="standby-how-replication-lag-is-detected-and-handled">How replication lag is detected and handled<a class="headerlink" href="#standby-how-replication-lag-is-detected-and-handled" title="Permanent link">&para;</a></h3>
+<p>The Operator checks the WAL source based on the standby type: from the primary site or from an external repository. </p>
+<p>For a standby cluster configured with both streaming and external repository, the Operator detects the replication lag as follows:</p>
+<ol>
+<li>The Operator first attempts to check streaming replication lag.</li>
+<li>If it fails to retrieve the streaming lag, the Operator falls back to checking the WAL replication lag from an external pgBackRest repository. Note the <a href="#standby-known-limitation-for-a-repo-based-standby-cluster">known limitation for the repo-based standby</a>.</li>
+<li>If streaming lag is successfully detected, this value is used.</li>
+</ol>
+<p>When the WAL lag exceeds the value you specified in the <code>standby.maxAcceptableLag</code> option, the following occurs:</p>
+<ul>
+<li>The primary pod in the standby cluster is marked as <code>Unready</code></li>
+<li>The cluster goes into the <code>initializing</code> state</li>
+<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command.</li>
+</ul>
+<h3 id="standby-monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a class="headerlink" href="#standby-monitor-lag-in-the-cluster-status" title="Permanent link">&para;</a></h3>
+<p>When lag detection is enabled, the cluster status includes a <code>standby</code> section that shows the current lag and when it was last computed. Use <code>kubectl get pg &lt;cluster-name&gt; -n &lt;namespace&gt; -o yaml</code> and look at <code>status.standby</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">lagBytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2343212</span>
+<span class="w">    </span><span class="nt">lagLastComputedAt</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-02-24T12:07:05Z&quot;</span>
+</code></pre></div>
+<ul>
+<li><code>lagBytes</code> — the current WAL lag in bytes (if any)</li>
+<li><code>lagLastComputedAt</code> — the timestamp of the last lag check</li>
+</ul>
+<p>This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.</p>
+<h3 id="standby-known-limitation-for-a-repo-based-standby-cluster">Known limitation for a repo-based standby cluster<a class="headerlink" href="#standby-known-limitation-for-a-repo-based-standby-cluster" title="Permanent link">&para;</a></h3>
+<p>For WAL lag detection to work in this standby type, the Operator must have access to the primary cluster. Therefore, WAL lag detection is available in these setups:</p>
+<ul>
+<li>Primary and standby clusters are deployed in the same namespace</li>
+<li>Primary and standby are deployed in different namespaces of the same cluster and the Operator is installed in cluster-wide mode.</li>
+</ul>
+<h3 id="standby-disable-replication-lag-detection">Disable replication lag detection<a class="headerlink" href="#standby-disable-replication-lag-detection" title="Permanent link">&para;</a></h3>
+<p>To disable detecting the replication lag, remove the <code>standby.maxAcceptableLag</code> from the Custom Resource. The changes apply without restarting the database Pods.</p></section><section class="print-page" id="standby-backup" heading-number="7.2.2"><h1 id="standby-backup-standby-cluster-deployment-based-on-pgbackrest">Standby cluster deployment based on pgBackRest<a class="headerlink" href="#standby-backup-standby-cluster-deployment-based-on-pgbackrest" title="Permanent link">&para;</a></h1>
 <p>The pgBackRest repo-based standby is the simplest one. The following is the architecture diagram:</p>
 <p><img alt="image" src="assets/images/dr1.svg" /></p>
 <h2 id="standby-backup-pgbackrest-repo-based-standby">pgBackrest repo based standby<a class="headerlink" href="#standby-backup-pgbackrest-repo-based-standby" title="Permanent link">&para;</a></h2>
@@ -11527,8 +11564,8 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 </li>
 </ol>
 <h3 id="standby-backup-configure-dr-site">Configure DR site<a class="headerlink" href="#standby-backup-configure-dr-site" title="Permanent link">&para;</a></h3>
-<p>The configuration of the disaster recovery site is similar <a href="#standby-backup-configure-main-site">to that of the Main site</a>, with the only difference in standby settings.</p>
-<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case):</p>
+<p>The configuration of the disaster recovery site is similar <a href="#standby-backup-configure-main-site">to that of the Main site</a>, with the  difference in standby settings.</p>
+<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case). Optionally, add <code>standby.maxAcceptableLag</code> to enable <a href="#standby-detect-replication-lag-for-standby-cluster">replication lag detection</a>. Check the <a href="#standby-known-limitation-for-a-repo-based-standby-cluster">known limitation for this standby type</a>. </p>
 <div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standby</span>
 <span class="nt">spec</span><span class="p">:</span><span class="w"> </span>
@@ -11545,6 +11582,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">    </span><span class="c1"># maxAcceptableLag: 10Mi  # optional: enables replication lag detection</span>
 </code></pre></div>
 <p>Deploy the standby cluster by applying the manifest:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
@@ -11624,10 +11662,12 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main-ha.main-pg.svc</span>
+<span class="w">    </span><span class="nt">maxAcceptableLag</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Mi</span><span class="w">  </span><span class="c1"># optional: enables replication lag detection</span>
 </code></pre></div>
 <ul>
 <li><code>standby.enabled</code> controls if it is a standby cluster or not</li>
 <li><code>standby.host</code> must point to the primary node of a Main cluster. In this example it is a <code>main-ha</code> Service in another namespace.</li>
+<li><code>standby.maxAcceptableLag</code> (optional) enables replication lag detection. When the WAL lag exceeds this value, the standby primary pod is marked as unready, the cluster goes into <code>initializing</code> state, and a <code>StandbyLagging</code> condition is set in the status.</li>
 </ul>
 <p>Deploy the standby cluster by applying the manifest:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>dr-cr.yaml<span class="w"> </span>-n<span class="w"> </span>dr-pg
@@ -15895,6 +15935,22 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>repo1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-standbymaxacceptablelag"><code>standby.maxAcceptableLag</code><a class="headerlink" href="#operator-standbymaxacceptablelag" title="Permanent link">&para;</a></h3>
+<p>The maximum amount of WAL data that the standby cluster can be behind the primary cluster. It is measured in bytes of WAL data. When the WAL lag exceeds this value, the primary pod in the standby cluster is marked as unready, the cluster goes into the <code>initializing</code> state, and a <code>StandbyLagging</code> condition is set in the status. If unset, lag is not checked. Use Kubernetes quantity format (for example, <code>10Mi</code>, <code>1Gi</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>10Mi</code></td>
 </tr>
 </tbody>
 </table>

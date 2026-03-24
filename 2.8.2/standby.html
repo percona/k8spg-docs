@@ -2162,6 +2162,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Introduction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="standby.html" class="md-nav__link md-nav__link--active">
         
   
@@ -2178,6 +2196,86 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-replication-lag-for-standby-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detect replication lag for standby cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detect replication lag for standby cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-replication-lag-is-detected-and-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How replication lag is detected and handled
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-lag-in-the-cluster-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor lag in the cluster status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-limitation-for-a-repo-based-standby-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known limitation for a repo-based standby cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-replication-lag-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disable replication lag detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -4487,6 +4585,75 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#detect-replication-lag-for-standby-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Detect replication lag for standby cluster
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Detect replication lag for standby cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-replication-lag-is-detected-and-handled" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How replication lag is detected and handled
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-lag-in-the-cluster-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor lag in the cluster status
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#known-limitation-for-a-repo-based-standby-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known limitation for a repo-based standby cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable-replication-lag-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disable replication lag detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -4527,12 +4694,49 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the <a href="standby-streaming.html">Standby cluster deployment based on streaming replication</a> tutorial.</li>
 <li>Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.</li>
 </ol>
+<h2 id="detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster<a class="headerlink" href="#detect-replication-lag-for-standby-cluster" title="Permanent link">&para;</a></h2>
+<p>If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.</p>
+<p>You can enable replication lag detection for any standby type by setting the <a href="operator.html#standbymaxacceptablelag"><code>standby.maxAcceptableLag</code></a> option in the Custom Resource. </p>
+<h3 id="how-replication-lag-is-detected-and-handled">How replication lag is detected and handled<a class="headerlink" href="#how-replication-lag-is-detected-and-handled" title="Permanent link">&para;</a></h3>
+<p>The Operator checks the WAL source based on the standby type: from the primary site or from an external repository. </p>
+<p>For a standby cluster configured with both streaming and external repository, the Operator detects the replication lag as follows:</p>
+<ol>
+<li>The Operator first attempts to check streaming replication lag.</li>
+<li>If it fails to retrieve the streaming lag, the Operator falls back to checking the WAL replication lag from an external pgBackRest repository. Note the <a href="#known-limitation-for-a-repo-based-standby-cluster">known limitation for the repo-based standby</a>.</li>
+<li>If streaming lag is successfully detected, this value is used.</li>
+</ol>
+<p>When the WAL lag exceeds the value you specified in the <code>standby.maxAcceptableLag</code> option, the following occurs:</p>
+<ul>
+<li>The primary pod in the standby cluster is marked as <code>Unready</code></li>
+<li>The cluster goes into the <code>initializing</code> state</li>
+<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command.</li>
+</ul>
+<h3 id="monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a class="headerlink" href="#monitor-lag-in-the-cluster-status" title="Permanent link">&para;</a></h3>
+<p>When lag detection is enabled, the cluster status includes a <code>standby</code> section that shows the current lag and when it was last computed. Use <code>kubectl get pg &lt;cluster-name&gt; -n &lt;namespace&gt; -o yaml</code> and look at <code>status.standby</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">lagBytes</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2343212</span>
+<span class="w">    </span><span class="nt">lagLastComputedAt</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;2026-02-24T12:07:05Z&quot;</span>
+</code></pre></div>
+<ul>
+<li><code>lagBytes</code> — the current WAL lag in bytes (if any)</li>
+<li><code>lagLastComputedAt</code> — the timestamp of the last lag check</li>
+</ul>
+<p>This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.</p>
+<h3 id="known-limitation-for-a-repo-based-standby-cluster">Known limitation for a repo-based standby cluster<a class="headerlink" href="#known-limitation-for-a-repo-based-standby-cluster" title="Permanent link">&para;</a></h3>
+<p>For WAL lag detection to work in this standby type, the Operator must have access to the primary cluster. Therefore, WAL lag detection is available in these setups:</p>
+<ul>
+<li>Primary and standby clusters are deployed in the same namespace</li>
+<li>Primary and standby are deployed in different namespaces of the same cluster and the Operator is installed in cluster-wide mode.</li>
+</ul>
+<h3 id="disable-replication-lag-detection">Disable replication lag detection<a class="headerlink" href="#disable-replication-lag-detection" title="Permanent link">&para;</a></h3>
+<p>To disable detecting the replication lag, remove the <code>standby.maxAcceptableLag</code> from the Custom Resource. The changes apply without restarting the database Pods.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:38:22 UTC">March 24, 2026</span>
       
         <br>
         Created:
