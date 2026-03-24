@@ -10,7 +10,7 @@ You can configure the Percona Operator for PostgreSQL behavior by setting enviro
 
 ### `LOG_LEVEL`
 
-Controls the verbosity of the operator's logging output. This helps with debugging and monitoring the Operator behavior. 
+Controls the verbosity of the Operator's logging output. This helps with debugging and monitoring the Operator behavior. 
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
@@ -61,7 +61,7 @@ spec:
 
 Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.
 
-The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.
+The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
@@ -84,7 +84,7 @@ spec:
 
 ### `LOG_STRUCTURED`
 
-Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.
+Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
@@ -116,8 +116,8 @@ Keep in mind that concurrent reconciliations are done only on different objects.
 To illustrate how it works:
 
 * If you have two PerconaPGCluster objects (A and B) and set `PGO_WORKERS=1`, a single worker thread will reconcile the clusters serially, one after another.  
-* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the operator still reconciles this object serially.  
-* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
+* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the Operator still reconciles this object serially.  
+* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the Operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
 
 **Example configuration:**
 
@@ -170,7 +170,7 @@ spec:
 
 Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`.
 
-This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.
+This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.
 
 This is particularly important in [cluster-wide](cluster-wide.md) deployment scenarios where the Operator manages resources across multiple namespaces.
 
@@ -183,6 +183,29 @@ spec:
     env:
     - name: PGO_NAMESPACE
       value: "pg-operator"
+```
+
+### `PPROF_BIND_ADDRESS`
+
+Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"0"` (disabled) | `"127.0.0.1:6060"` |
+
+When set to `""` or `"0"`, pprof serving is disabled. Set it to an address such as `127.0.0.1:6060` to enable profiling. You can then use `kubectl port-forward` to access the pprof endpoints from your local machine.
+
+See [Profiling the Operator with pprof](troubleshoot-operator.md#profiling-the-operator-with-pprof) for usage instructions.
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PPROF_BIND_ADDRESS
+      value: "127.0.0.1:6060"
 ```
 
 ## Update environment variables
