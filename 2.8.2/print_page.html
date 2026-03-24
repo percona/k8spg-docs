@@ -3084,6 +3084,34 @@
   
   
     <li class="md-nav__item">
+      <a href="dns-suffix.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure DNS suffix for service discovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="delete.html" class="md-nav__link">
         
   
@@ -5482,6 +5510,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Use PostGIS extension
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns-suffix" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure DNS suffix for service discovery
       
     </span>
   </a>
@@ -12013,7 +12052,7 @@ existing nodes intact.</p>
 <li><code>pgbackrest</code> - runs the main backup/restore agent</li>
 <li><code>pgbackrest-config</code> - handles configuration management for <code>pgBackRest</code></li>
 </ul>
-<p>The Operator allows you to deploy your own sidecar containers to
+<p>You can also deploy your own sidecar containers to
 the Pod. You can use this feature to run debugging tools, some specific
 monitoring solutions, etc.</p>
 <div class="admonition note">
@@ -12025,6 +12064,7 @@ monitoring solutions, etc.</p>
 <ul>
 <li>a PostgreSQL instance Pod </li>
 <li>a pgBouncer Pod</li>
+<li>a pgBackRest repo host Pod</li>
 </ul>
 <p>To add a sidecar container, use the <code>instances.sidecars</code> or <code>proxy.pgBouncer.sidecars</code> subsection in the <code>deploy/cr.yaml</code> configuration file.  Specify this minimum required information in this subsection:</p>
 <ul>
@@ -12047,7 +12087,7 @@ monitoring solutions, etc.</p>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">....</span>
 </code></pre></div>
 <p>Find additional options suitable for the <code>sidecars</code> subsection in the <a href="#operator">Custom Resource options reference</a> and the <a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#container-v1-core">Kubernetes Workload API reference <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
-<p>Apply your modifications as usual:</p>
+<p>Apply your modifications:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>Running <code>kubectl describe</code> command for the appropriate Pod can bring you the
@@ -12084,7 +12124,117 @@ Mounts:
 <p>You can login to your sidecar container as follows:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1n8v4-0<span class="w"> </span>-c<span class="w"> </span>testcontainer<span class="w"> </span>--<span class="w"> </span>sh
 /<span class="w"> </span><span class="c1">#</span>
-</code></pre></div></section><section class="print-page" id="pause" heading-number="7.7"><h1 id="pause-pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pause-pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">&para;</a></h1>
+</code></pre></div>
+<h2 id="sidecar-mount-volumes-into-sidecar-containers">Mount volumes into sidecar containers<a class="headerlink" href="#sidecar-mount-volumes-into-sidecar-containers" title="Permanent link">&para;</a></h2>
+<p>You can mount volumes into sidecar containers using <code>sidecarVolumes</code> and
+<code>sidecarPVCs</code>. These options are available for:</p>
+<ul>
+<li>PostgreSQL instance Pods (<code>instances[].sidecarVolumes</code>, <code>instances[].sidecarPVCs</code>)</li>
+<li>pgBouncer Pods (<code>proxy.pgBouncer.sidecarVolumes</code>, <code>proxy.pgBouncer.sidecarPVCs</code>)</li>
+<li>pgBackRest repo host Pods (<code>backups.pgbackrest.repoHost.sidecarVolumes</code>, <code>backups.pgbackrest.repoHost.sidecarPVCs</code>)</li>
+</ul>
+<p>The following subsections describe different <a href="https://kubernetes.io/docs/concepts/storage/volumes/#volume-types">volume types  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+that work with sidecar containers. Use <code>sidecarVolumes</code> for existing volumes (secret, configMap, NFS, etc.) and <code>sidecarPVCs</code> for operator-managed PersistentVolumeClaims.</p>
+<h3 id="sidecar-persistent-volume">Persistent Volume<a class="headerlink" href="#sidecar-persistent-volume" title="Permanent link">&para;</a></h3>
+<p>You can use <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent volumes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+when you need dynamically provisioned storage that does not depend on the Pod
+lifecycle. </p>
+<p>The Operator creates and manages the PVCs you define in <code>sidecarPVCs</code>. Claim storage with
+<a href="https://kubernetes.io/docs/concepts/storage/volumes/#persistentvolumeclaim">persistentVolumeClaim  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and reference it in your sidecar&rsquo;s <code>volumeMounts</code>. </p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.</p>
+</div>
+<p>The following example requests 1Gi storage with <code>sidecar-volume-claim</code>
+and mounts it to the <code>testcontainer</code> sidecar under <code>/volume0</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">sidecars</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testcontainer</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox:latest</span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;sleep&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;30d&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-volume-claim</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/volume0</span>
+<span class="w">    </span><span class="nt">sidecarPVCs</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-volume-claim</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">        </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you set the <code>percona.com/delete-pvc</code> <a href="#operator-finalizers-delete-pvc">finalizer</a>, the Operator deletes sidecar PVCs when the cluster is removed.</p>
+</div>
+<h3 id="sidecar-secret">Secret<a class="headerlink" href="#sidecar-secret" title="Permanent link">&para;</a></h3>
+<p>You can use a <a href="https://kubernetes.io/docs/concepts/storage/volumes/#secret">secret volume  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+to pass the information which needs additional protection (e.g. passwords), to
+the sidecar container. Secrets are stored with the Kubernetes API and mounted to the
+container as RAM-stored files.</p>
+<p>Create the <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secret object  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> with the sensitive information that you want to pass to the container.</p>
+<p>Define the volume in <code>sidecarVolumes</code> and reference the Secret there, Then reference the volume in your sidecar <code>volumeMounts</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">sidecars</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rs-sidecar-0</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;while</span><span class="nv"> </span><span class="s">true;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">5;</span><span class="nv"> </span><span class="s">done&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/secret</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-secret</span>
+<span class="w">    </span><span class="nt">sidecarVolumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-secret</span>
+<span class="w">      </span><span class="nt">secret</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mysecret</span>
+</code></pre></div>
+<p>The example creates a <code>sidecar-secret</code> volume from the existing
+<code>mysecret</code> <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secret object  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and mounts it under <code>/secret</code>.</p>
+<h3 id="sidecar-configmap">configMap<a class="headerlink" href="#sidecar-configmap" title="Permanent link">&para;</a></h3>
+<p>You can use a <a href="https://kubernetes.io/docs/concepts/storage/volumes/#configmap">configMap volume  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+to pass configuration data to the container. ConfigMaps are stored in the Kubernetes API and mounted as RAM-backed files.</p>
+<p>As with the Secret, you must create the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">configMap object  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> first. </p>
+<p>Then define the volume in <code>sidecarVolumes</code> and reference your configMap object. Finally, reference the volume in your sidecar <code>volumeMounts</code>.</p>
+<p>This example creates a <code>sidecar-config</code> volume from the existing
+<code>myconfigmap</code> <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-configmap/">configMap object  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and mounts it under <code>/config</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">sidecars</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rs-sidecar-0</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">busybox</span>
+<span class="w">      </span><span class="nt">command</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;/bin/sh&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">args</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;-c&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;while</span><span class="nv"> </span><span class="s">true;</span><span class="nv"> </span><span class="s">do</span><span class="nv"> </span><span class="s">sleep</span><span class="nv"> </span><span class="s">5;</span><span class="nv"> </span><span class="s">done&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">volumeMounts</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/config</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-config</span>
+<span class="w">    </span><span class="nt">sidecarVolumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sidecar-config</span>
+<span class="w">      </span><span class="nt">configMap</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myconfigmap</span>
+</code></pre></div>
+<h3 id="sidecar-nfs">NFS<a class="headerlink" href="#sidecar-nfs" title="Permanent link">&para;</a></h3>
+<p>You can use an <a href="https://kubernetes.io/docs/concepts/storage/volumes/#nfs">NFS volume  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+to mount a shared NFS export into your sidecar. Add it to <code>sidecarVolumes</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">sidecarVolumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">backup-nfs</span>
+<span class="w">      </span><span class="nt">nfs</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;nfs-service.storage.svc.cluster.local&quot;</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;/pg-some-name&quot;</span>
+</code></pre></div>
+<p>Reference the volume in your sidecar <code>volumeMounts</code> with the same <code>name</code>.</p></section><section class="print-page" id="pause" heading-number="7.7"><h1 id="pause-pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pause-pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">&para;</a></h1>
 <h2 id="pause-pause-and-resume-the-cluster">Pause and resume the cluster<a class="headerlink" href="#pause-pause-and-resume-the-cluster" title="Permanent link">&para;</a></h2>
 <p>You can temporarily shut down your PostgreSQL cluster and bring it back later without losing data or configuration. You may want to pause the cluster for maintenance tasks, emergency manual intervention or debugging.</p>
 <p>When paused, all changes to the cluster&rsquo;s current state are suspended and no statuses other than the &ldquo;Progressing&rdquo; condition are updated until you resume the reconciliation.</p>
@@ -14544,7 +14694,22 @@ database you created earlier and run the following command:</p>
 </code></pre></div>
 <p>You can find more about using PostGIS in the official Percona Distribution for
 PostgreSQL <a href="https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="delete" heading-number="9.10"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="dns-suffix" heading-number="9.10"><h1 id="dns-suffix-configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#dns-suffix-configure-dns-suffix-for-service-discovery" title="Permanent link">&para;</a></h1>
+<p>In Kubernetes, services are assigned a DNS name to be accessible within the cluster. The domain name follows the pattern <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.&lt;cluster-domain&gt;</code>. The default cluster domain is <code>cluster.local</code>, so a typical FQDN looks like <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
+<p>When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.</p>
+<p>Clusters with custom DNS configurations may use a domain suffix different from the default <code>cluster.local</code>. This includes scenarios such as running inside a vcluster, which may respond to DNS queries with records that do not match the actual cluster domain.</p>
+<p>The Operator tries to auto-detect the cluster&rsquo;s domain suffix by performing a CNAME lookup on the service <code>kubernetes.default.svc</code> (that is, a service named <code>kubernetes</code> in the <code>default</code> namespace). If the lookup returns a value, the Operator uses that as the domain suffix. If the Operator fails to auto-detect the DNS suffix, it falls back to using the default <code>cluster.local</code> domain. This may lead to services not resolving properly within the cluster.</p>
+<p>To address this, you can set your custom DNS suffix for the Operator to use when it constructs service names. As a result, the Operator produces hostnames that match your cluster&rsquo;s DNS configuration, ensuring correct service resolution and discovery.</p>
+<h2 id="dns-suffix-how-to-configure">How to configure<a class="headerlink" href="#dns-suffix-how-to-configure" title="Permanent link">&para;</a></h2>
+<p>Add <code>clusterServiceDNSSuffix</code> under <code>spec</code> in your Custom Resource. Set it to your cluster&rsquo;s DNS suffix—for example, <code>cluster.local</code> for a standard cluster, or the host cluster&rsquo;s suffix when the Operator runs in a vcluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">clusterServiceDNSSuffix</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster.local</span>
+<span class="w">  </span><span class="c1"># ... rest of your spec</span>
+</code></pre></div>
+<p>Apply the change:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div></section><section class="print-page" id="delete" heading-number="9.11"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <p>When cleaning up your Kubernetes environment (e.g., moving from a trial
 deployment to a production one, or testing experimental configurations), you may
 need to remove some (or all) of the following objects:</p>
@@ -14743,7 +14908,7 @@ persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
 </li>
 </ol>
 </li>
-</ol></section><section class="print-page" id="image-query" heading-number="9.11"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="image-query" heading-number="9.12"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>When preparing for the upgrade, you must have the list of compatible images for a specific Operator version and the database version you wish to update to. You can either manually find the images in the <a href="#images">list of certified images</a> or you can get this list by querying the <strong>Version Service</strong> server. </p>
 <h3 id="image-query-what-is-the-version-service">What is the Version Service?<a class="headerlink" href="#image-query-what-is-the-version-service" title="Permanent link">&para;</a></h3>
 <p>The <strong>Version Service</strong> is a centralized repository that the Percona Operator for PostgreSQL connects to at scheduled times to get the latest information on compatible versions and valid image paths. This service is a crucial part of the automatic upgrade process, and it is enabled by default. Its landing page, <code>check.percona.com</code>, provides more details about the service itself.</p>
@@ -15853,6 +16018,22 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>2.8.2</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-clusterservicednssuffix"><code>clusterServiceDNSSuffix</code><a class="headerlink" href="#operator-clusterservicednssuffix" title="Permanent link">&para;</a></h3>
+<p>A custom cluster domain to be used as a DNS suffix used when constructing internal service names. Use this when the Operator runs in a vcluster or a cluster with a custom DNS domain so it can correctly resolve services. See <a href="#dns-suffix">Configure DNS suffix for service discovery</a> for details.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>cluster.local</code></td>
 </tr>
 </tbody>
 </table>
@@ -17885,6 +18066,103 @@ file contains configuration options for <a href="#sidecar">custom sidecar contai
 </tr>
 </tbody>
 </table>
+<h3 id="operator-instancessidecarvolumesname"><code>instances.sidecarVolumes.name</code><a class="headerlink" href="#operator-instancessidecarvolumesname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volume <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to PostgreSQL instance Pods for use by <a href="#sidecar">custom sidecar containers</a>. Supports secret, configMap, NFS and other volume types.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td>sidecar-secret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-instancessidecarvolumessecretsecretname"><code>instances.sidecarVolumes.secret.secretName</code><a class="headerlink" href="#operator-instancessidecarvolumessecretsecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volume Secret <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to PostgreSQL instance Pods for use by <a href="#sidecar">custom sidecar containers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>mysecret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-instancessidecarvolumesconfigmapname"><code>instances.sidecarVolumes.configMap.name</code><a class="headerlink" href="#operator-instancessidecarvolumesconfigmapname" title="Permanent link">&para;</a></h3>
+<p>The name of the configMap object to attach to PostgreSQL instance Pods for use by <a href="#sidecar">custom sidecar containers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>sidecar-config</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-instancessidecarvolumesnfsserver"><code>instances.sidecarVolumes.nfs.server</code><a class="headerlink" href="#operator-instancessidecarvolumesnfsserver" title="Permanent link">&para;</a></h3>
+<p>The hostname of the NFS server that will provide remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in PostgreSQL instance Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-instancessidecarvolumesnfspath"><code>instances.sidecarVolumes.nfs.path</code><a class="headerlink" href="#operator-instancessidecarvolumesnfspath" title="Permanent link">&para;</a></h3>
+<p>The path on the NFS server that will be provided as a remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in PostgreSQL instance Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-instancessidecarpvcs"><code>instances.sidecarPVCs</code><a class="headerlink" href="#operator-instancessidecarpvcs" title="Permanent link">&para;</a></h3>
+<p><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PersistentVolumeClaims  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that the operator creates and mounts for <a href="#sidecar">custom sidecar containers</a> in PostgreSQL instance Pods. </p>
+<p>You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td><pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre></td>
+</tr>
+</tbody>
+</table>
 <h2 id="operator-backup-section">Backup section<a class="headerlink" href="#operator-backup-section" title="Permanent link">&para;</a></h2>
 <p>The <code>backup</code> section in the
 <a href="https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
@@ -18409,7 +18687,7 @@ Percona Distribution for PostgreSQL backups.</p>
 </tbody>
 </table>
 <h3 id="operator-backupspgbackrestrepohostsidecarssecuritycontext"><code>backups.pgbackrest.repoHost.sidecars.securityContext</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarssecuritycontext" title="Permanent link">&para;</a></h3>
-<p>Security settings for the sifecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Kubernetes documentation on SecurityContext <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
+<p>Security settings for the sidecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Kubernetes documentation on SecurityContext <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
 <table>
 <thead>
 <tr>
@@ -18421,6 +18699,103 @@ Percona Distribution for PostgreSQL backups.</p>
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>{}</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarvolumesname"><code>backups.pgbackrest.repoHost.sidecarVolumes.name</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarvolumesname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volume <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to pgBackRest repo host Pods for use by <a href="#sidecar">custom sidecar containers</a>. Supports secret, configMap, NFS and other volume types.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td>sidecar-secret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarvolumessecretsecretname"><code>backups.pgbackrest.repoHost.sidecarVolumes.secret.secretName</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarvolumessecretsecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volume Secret <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to pgBackRest repo host Pods for use by <a href="#sidecar">custom sidecar containers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>mysecret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarvolumesconfigmapname"><code>backups.pgbackrest.repoHost.sidecarVolumes.configMap.name</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarvolumesconfigmapname" title="Permanent link">&para;</a></h3>
+<p>The name of the configMap object to attach to pgBackRest repo host Pods for use by <a href="#sidecar">custom sidecar containers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>sidecar-config</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarvolumesnfsserver"><code>backups.pgbackrest.repoHost.sidecarVolumes.nfs.server</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarvolumesnfsserver" title="Permanent link">&para;</a></h3>
+<p>The hostname of the NFS server that will provide remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in pgBackRest repo host Pods Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarvolumesnfspath"><code>backups.pgbackrest.repoHost.sidecarVolumes.nfs.path</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarvolumesnfspath" title="Permanent link">&para;</a></h3>
+<p>The path on the NFS server that will be provided as a remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in pgBackRest repo host Pods` Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupspgbackrestrepohostsidecarpvcs"><code>backups.pgbackrest.repoHost.sidecarPVCs</code><a class="headerlink" href="#operator-backupspgbackrestrepohostsidecarpvcs" title="Permanent link">&para;</a></h3>
+<p><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PersistentVolumeClaims  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that the Operator creates and mounts for <a href="#sidecar">custom sidecar containers</a> in pgBackRest repo host Pods.</p>
+<p>You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td><pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre></td>
 </tr>
 </tbody>
 </table>
@@ -19644,6 +20019,103 @@ file contains configuration options for <a href="#sidecar">custom sidecar contai
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H3V6h18zM6 8v10h4v-2H8v-6h2V8zm10 8h-2v2h4V8h-4v2h2z"/></svg></span> array</td>
 <td><code>["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarvolumesname"><code>proxy.pgBouncer.sidecarVolumes.name</code><a class="headerlink" href="#operator-proxypgbouncersidecarvolumesname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volumes  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to <code>pgBouncer</code> Pods for use by <a href="#sidecar">custom sidecar containers</a>. Supports secret, configMap, NFS, and other volume types.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>sidecar-secret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarvolumessecretsecretname"><code>proxy.pgBouncer.sidecarVolumes.secret.secretName</code><a class="headerlink" href="#operator-proxypgbouncersidecarvolumessecretsecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the <a href="https://kubernetes.io/docs/concepts/storage/volumes/">volume Secret <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to attach to <code>pgBouncer</code> Pods for use by <a href="#sidecar">custom sidecar containers</a>. </p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>mysecret</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarvolumesconfigmapname"><code>proxy.pgBouncer.sidecarVolumes.configMap.name</code><a class="headerlink" href="#operator-proxypgbouncersidecarvolumesconfigmapname" title="Permanent link">&para;</a></h3>
+<p>The name of the configMap object to attach to <code>pgBouncer</code> Pods for use by <a href="#sidecar">custom sidecar containers</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>sidecar-config</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarvolumesnfsserver"><code>proxy.pgBouncer.sidecarVolumes.nfs.server</code><a class="headerlink" href="#operator-proxypgbouncersidecarvolumesnfsserver" title="Permanent link">&para;</a></h3>
+<p>The hostname of the NFS server that will provide remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in <code>pgBouncer</code> Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarvolumesnfspath"><code>proxy.pgBouncer.sidecarVolumes.nfs.path</code><a class="headerlink" href="#operator-proxypgbouncersidecarvolumesnfspath" title="Permanent link">&para;</a></h3>
+<p>The path on the NFS server that will be provided as a remote filesystem to the <a href="#sidecar">custom sidecar containers</a> in <code>pgBouncer</code> Pods.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>:material-text-string: string</td>
+<td>&ldquo;nfs-service.storage.svc.cluster.local&rdquo;</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-proxypgbouncersidecarpvcs"><code>proxy.pgBouncer.sidecarPVCs</code><a class="headerlink" href="#operator-proxypgbouncersidecarpvcs" title="Permanent link">&para;</a></h3>
+<p><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PersistentVolumeClaims  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that the Operator creates and mounts for <a href="#sidecar">custom sidecar containers</a> in pgBouncer Pods.</p>
+<p>You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td><pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre></td>
 </tr>
 </tbody>
 </table>
@@ -22630,9 +23102,11 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #postgis > h1:before { content: '9.9 ' }
 
-.print-site-enumerate-headings #delete > h1:before { content: '9.10 ' }
+.print-site-enumerate-headings #dns-suffix > h1:before { content: '9.10 ' }
 
-.print-site-enumerate-headings #image-query > h1:before { content: '9.11 ' }
+.print-site-enumerate-headings #delete > h1:before { content: '9.11 ' }
+
+.print-site-enumerate-headings #image-query > h1:before { content: '9.12 ' }
 
 .print-site-enumerate-headings #section-10 > h1:before { content: '10 ' }
 .print-site-enumerate-headings #troubleshoot-operator > h1:before { content: '10.1 ' }

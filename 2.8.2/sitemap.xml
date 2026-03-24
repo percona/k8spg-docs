@@ -141,6 +141,10 @@
          <lastmod>2026-03-24</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/dns-suffix.html</loc>
+         <lastmod>2026-03-24</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/eks.html</loc>
          <lastmod>2026-03-24</lastmod>
     </url>
