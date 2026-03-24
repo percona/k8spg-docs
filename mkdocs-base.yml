@@ -256,6 +256,7 @@ nav:
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
+          - dns-suffix.md
           - "Delete the Operator": delete.md
           - "Retrieve Percona certified images": image-query.md
 

@@ -34,6 +34,14 @@ Version of the Operator the Custom Resource belongs to.
 | ---------- | ------- |
 | :material-code-string: string | `{{ release }}` |
 
+### `clusterServiceDNSSuffix`
+
+A custom cluster domain to be used as a DNS suffix used when constructing internal service names. Use this when the Operator runs in a vcluster or a cluster with a custom DNS domain so it can correctly resolve services. See [Configure DNS suffix for service discovery](dns-suffix.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster.local` |
+
 ### `metadata.annotations`
 
 The [Kubernetes annotations  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata to be set at a global level for all resources created by the Operator.
