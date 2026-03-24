@@ -1635,6 +1635,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pprof_bind_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PPROF_BIND_ADDRESS
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4763,6 +4774,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pprof_bind_address" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PPROF_BIND_ADDRESS
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -4860,7 +4882,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <h2 id="available-environment-variables">Available environment variables<a class="headerlink" href="#available-environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="log_level"><code>LOG_LEVEL</code><a class="headerlink" href="#log_level" title="Permanent link">&para;</a></h3>
-<p>Controls the verbosity of the operator&rsquo;s logging output. This helps with debugging and monitoring the Operator behavior. </p>
+<p>Controls the verbosity of the Operator&rsquo;s logging output. This helps with debugging and monitoring the Operator behavior. </p>
 <table>
 <thead>
 <tr>
@@ -4922,7 +4944,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <h3 id="pgo_feature_gates"><code>PGO_FEATURE_GATES</code><a class="headerlink" href="#pgo_feature_gates" title="Permanent link">&para;</a></h3>
 <p>Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.</p>
-<p>The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.</p>
+<p>The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.</p>
 <table>
 <thead>
 <tr>
@@ -4952,7 +4974,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true&quot;</span>
 </code></pre></div>
 <h3 id="log_structured"><code>LOG_STRUCTURED</code><a class="headerlink" href="#log_structured" title="Permanent link">&para;</a></h3>
-<p>Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.</p>
+<p>Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.</p>
 <table>
 <thead>
 <tr>
@@ -5000,8 +5022,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>To illustrate how it works:</p>
 <ul>
 <li>If you have two PerconaPGCluster objects (A and B) and set <code>PGO_WORKERS=1</code>, a single worker thread will reconcile the clusters serially, one after another.  </li>
-<li>If you set <code>PGO_WORKERS=4</code> but only have one PerconaPGCluster object, the operator still reconciles this object serially.  </li>
-<li>If you set <code>PGO_WORKERS=4</code> and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.</li>
+<li>If you set <code>PGO_WORKERS=4</code> but only have one PerconaPGCluster object, the Operator still reconciles this object serially.  </li>
+<li>If you set <code>PGO_WORKERS=4</code> and have two PerconaPGCluster objects (A and B), the Operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.</li>
 </ul>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -5052,7 +5074,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <h3 id="pgo_namespace"><code>PGO_NAMESPACE</code><a class="headerlink" href="#pgo_namespace" title="Permanent link">&para;</a></h3>
 <p>Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from <code>metadata.namespace</code> via a downward API <code>fieldRef</code>.</p>
-<p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.</p>
+<p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.</p>
 <p>This is particularly important in <a href="cluster-wide.html">cluster-wide</a> deployment scenarios where the Operator manages resources across multiple namespaces.</p>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -5061,6 +5083,34 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator&quot;</span>
+</code></pre></div>
+<h3 id="pprof_bind_address"><code>PPROF_BIND_ADDRESS</code><a class="headerlink" href="#pprof_bind_address" title="Permanent link">&para;</a></h3>
+<p>Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"0"</code> (disabled)</td>
+<td><code>"127.0.0.1:6060"</code></td>
+</tr>
+</tbody>
+</table>
+<p>When set to <code>""</code> or <code>"0"</code>, pprof serving is disabled. Set it to an address such as <code>127.0.0.1:6060</code> to enable profiling. You can then use <code>kubectl port-forward</code> to access the pprof endpoints from your local machine.</p>
+<p>See <a href="troubleshoot-operator.html#profiling-the-operator-with-pprof">Profiling the Operator with pprof</a> for usage instructions.</p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PPROF_BIND_ADDRESS</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:6060&quot;</span>
 </code></pre></div>
 <h2 id="update-environment-variables">Update environment variables<a class="headerlink" href="#update-environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="using-kubectl-patch">Using kubectl patch<a class="headerlink" href="#using-kubectl-patch" title="Permanent link">&para;</a></h3>
@@ -5084,7 +5134,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 11:38:47 UTC">March 13, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:39:48 UTC">March 24, 2026</span>
       
         <br>
         Created:

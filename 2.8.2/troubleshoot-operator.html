@@ -3280,6 +3280,17 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#profiling-the-operator-with-pprof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profiling the Operator with pprof
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4594,6 +4605,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#profiling-the-operator-with-pprof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profiling the Operator with pprof
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -4763,12 +4785,46 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 </li>
 </ol>
 <p>See the <a href="manage-manually.html#disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p>
+<h2 id="profiling-the-operator-with-pprof">Profiling the Operator with pprof<a class="headerlink" href="#profiling-the-operator-with-pprof" title="Permanent link">&para;</a></h2>
+<p>When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go&rsquo;s pprof tooling.</p>
+<ol>
+<li>
+<p>Enable pprof by setting the <code>PPROF_BIND_ADDRESS</code> environment variable in the Operator Deployment. For example, set it to <code>127.0.0.1:6060</code> to bind pprof to localhost on port 6060. See <a href="env-var-operator.html#pprof_bind_address">PPROF_BIND_ADDRESS</a> for configuration details.</p>
+</li>
+<li>
+<p>Restart the Operator so the new configuration takes effect.</p>
+</li>
+<li>
+<p>Set up a port-forward to the Operator Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>deploy/percona-postgresql-operator<span class="w"> </span><span class="m">6060</span>:6060<span class="w"> </span>-n<span class="w"> </span>&lt;operator-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>In another terminal, collect profiles using <code>go tool pprof</code>:</p>
+<p><strong>CPU profile</strong> (30 seconds):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
+</code></pre></div>
+<p><strong>Heap (memory) profile</strong>:</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
+</code></pre></div>
+<p><strong>Goroutine profile</strong> (useful for deadlock investigation):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
+</code></pre></div>
+</li>
+<li>
+<p>After collecting a profile, you can analyze it interactively. For example, type <code>top</code> to see the functions consuming the most CPU or memory, or <code>web</code> to generate a flame graph (requires Graphviz).</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Disable pprof when you finish troubleshooting by setting <code>PPROF_BIND_ADDRESS</code> to <code>"0"</code> or <code>""</code>. Keeping it enabled in production is not recommended for security reasons.</p>
+</div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:39:48 UTC">March 24, 2026</span>
       
         <br>
         Created:

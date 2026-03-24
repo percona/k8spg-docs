@@ -9926,7 +9926,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </ul>
 <h2 id="env-var-operator-available-environment-variables">Available environment variables<a class="headerlink" href="#env-var-operator-available-environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="env-var-operator-log_level"><code>LOG_LEVEL</code><a class="headerlink" href="#env-var-operator-log_level" title="Permanent link">&para;</a></h3>
-<p>Controls the verbosity of the operator&rsquo;s logging output. This helps with debugging and monitoring the Operator behavior. </p>
+<p>Controls the verbosity of the Operator&rsquo;s logging output. This helps with debugging and monitoring the Operator behavior. </p>
 <table>
 <thead>
 <tr>
@@ -9988,7 +9988,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </code></pre></div>
 <h3 id="env-var-operator-pgo_feature_gates"><code>PGO_FEATURE_GATES</code><a class="headerlink" href="#env-var-operator-pgo_feature_gates" title="Permanent link">&para;</a></h3>
 <p>Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.</p>
-<p>The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.</p>
+<p>The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.</p>
 <table>
 <thead>
 <tr>
@@ -10018,7 +10018,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true&quot;</span>
 </code></pre></div>
 <h3 id="env-var-operator-log_structured"><code>LOG_STRUCTURED</code><a class="headerlink" href="#env-var-operator-log_structured" title="Permanent link">&para;</a></h3>
-<p>Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.</p>
+<p>Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.</p>
 <table>
 <thead>
 <tr>
@@ -10066,8 +10066,8 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <p>To illustrate how it works:</p>
 <ul>
 <li>If you have two PerconaPGCluster objects (A and B) and set <code>PGO_WORKERS=1</code>, a single worker thread will reconcile the clusters serially, one after another.  </li>
-<li>If you set <code>PGO_WORKERS=4</code> but only have one PerconaPGCluster object, the operator still reconciles this object serially.  </li>
-<li>If you set <code>PGO_WORKERS=4</code> and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.</li>
+<li>If you set <code>PGO_WORKERS=4</code> but only have one PerconaPGCluster object, the Operator still reconciles this object serially.  </li>
+<li>If you set <code>PGO_WORKERS=4</code> and have two PerconaPGCluster objects (A and B), the Operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.</li>
 </ul>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -10118,7 +10118,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </code></pre></div>
 <h3 id="env-var-operator-pgo_namespace"><code>PGO_NAMESPACE</code><a class="headerlink" href="#env-var-operator-pgo_namespace" title="Permanent link">&para;</a></h3>
 <p>Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from <code>metadata.namespace</code> via a downward API <code>fieldRef</code>.</p>
-<p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.</p>
+<p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.</p>
 <p>This is particularly important in <a href="#cluster-wide">cluster-wide</a> deployment scenarios where the Operator manages resources across multiple namespaces.</p>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -10127,6 +10127,34 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pprof_bind_address"><code>PPROF_BIND_ADDRESS</code><a class="headerlink" href="#env-var-operator-pprof_bind_address" title="Permanent link">&para;</a></h3>
+<p>Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"0"</code> (disabled)</td>
+<td><code>"127.0.0.1:6060"</code></td>
+</tr>
+</tbody>
+</table>
+<p>When set to <code>""</code> or <code>"0"</code>, pprof serving is disabled. Set it to an address such as <code>127.0.0.1:6060</code> to enable profiling. You can then use <code>kubectl port-forward</code> to access the pprof endpoints from your local machine.</p>
+<p>See <a href="#troubleshoot-operator-profiling-the-operator-with-pprof">Profiling the Operator with pprof</a> for usage instructions.</p>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PPROF_BIND_ADDRESS</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;127.0.0.1:6060&quot;</span>
 </code></pre></div>
 <h2 id="env-var-operator-update-environment-variables">Update environment variables<a class="headerlink" href="#env-var-operator-update-environment-variables" title="Permanent link">&para;</a></h2>
 <h3 id="env-var-operator-using-kubectl-patch">Using kubectl patch<a class="headerlink" href="#env-var-operator-using-kubectl-patch" title="Permanent link">&para;</a></h3>
@@ -14946,7 +14974,41 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 <p>If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a <code>sleep-forever</code> script to prevent the containers from restarting repeatedly. </p>
 </li>
 </ol>
-<p>See the <a href="#manage-manually-disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p></section><section class="print-page" id="debug" heading-number="10.2"><h1 id="debug-initial-troubleshooting">Initial troubleshooting<a class="headerlink" href="#debug-initial-troubleshooting" title="Permanent link">&para;</a></h1>
+<p>See the <a href="#manage-manually-disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p>
+<h2 id="troubleshoot-operator-profiling-the-operator-with-pprof">Profiling the Operator with pprof<a class="headerlink" href="#troubleshoot-operator-profiling-the-operator-with-pprof" title="Permanent link">&para;</a></h2>
+<p>When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go&rsquo;s pprof tooling.</p>
+<ol>
+<li>
+<p>Enable pprof by setting the <code>PPROF_BIND_ADDRESS</code> environment variable in the Operator Deployment. For example, set it to <code>127.0.0.1:6060</code> to bind pprof to localhost on port 6060. See <a href="#env-var-operator-pprof_bind_address">PPROF_BIND_ADDRESS</a> for configuration details.</p>
+</li>
+<li>
+<p>Restart the Operator so the new configuration takes effect.</p>
+</li>
+<li>
+<p>Set up a port-forward to the Operator Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>deploy/percona-postgresql-operator<span class="w"> </span><span class="m">6060</span>:6060<span class="w"> </span>-n<span class="w"> </span>&lt;operator-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>In another terminal, collect profiles using <code>go tool pprof</code>:</p>
+<p><strong>CPU profile</strong> (30 seconds):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
+</code></pre></div>
+<p><strong>Heap (memory) profile</strong>:</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
+</code></pre></div>
+<p><strong>Goroutine profile</strong> (useful for deadlock investigation):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
+</code></pre></div>
+</li>
+<li>
+<p>After collecting a profile, you can analyze it interactively. For example, type <code>top</code> to see the functions consuming the most CPU or memory, or <code>web</code> to generate a flame graph (requires Graphviz).</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Disable pprof when you finish troubleshooting by setting <code>PPROF_BIND_ADDRESS</code> to <code>"0"</code> or <code>""</code>. Keeping it enabled in production is not recommended for security reasons.</p>
+</div></section><section class="print-page" id="debug" heading-number="10.2"><h1 id="debug-initial-troubleshooting">Initial troubleshooting<a class="headerlink" href="#debug-initial-troubleshooting" title="Permanent link">&para;</a></h1>
 <p>Percona Operator for PostgreSQL uses <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/">Custom Resources <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to manage options for the various components of the cluster.</p>
 <ul>
 <li>
