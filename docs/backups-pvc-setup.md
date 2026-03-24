@@ -5,7 +5,8 @@ This document provides step-by-step instructions for configuring and using Persi
 For a high-level explanation of PVC snapshots, please refer to the [PVC snapshot support](backups-pvc-snapshots.md#overview) chapter.
 
 !!! note "Amazon EKS users"
-    If you run your cluster on Amazon EKS, complete the [Set up PVC snapshots on EKS](backups-pvc-setup-eks.md) tutorial first. EKS requires specific addons, a gp3 storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.
+
+    If you run your cluster on Amazon EKS, refer to the [Set up PVC snapshots on EKS](backups-pvc-setup-eks.md) tutorial. EKS requires specific addons, a gp3 storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.
 
 ## Prerequisites
 
@@ -90,14 +91,38 @@ If your Kubernetes cluster doesn't have a `VolumeSnapshotClass` that matches you
 
 1. Create a VolumeSnapshotClass configuration file with the following configuration:
 
-    ```yaml title="volume-snapshot-class.yaml"
-    apiVersion: snapshot.storage.k8s.io/v1
-    kind: VolumeSnapshotClass
-    metadata:
-      name: gke-snapshot-class
-    driver: pd.csi.storage.gke.io
-    deletionPolicy: Delete
-    ```
+    === "Google Kubernetes Engine (GKE)"
+
+        ```yaml title="volume-snapshot-class.yaml"
+        apiVersion: snapshot.storage.k8s.io/v1
+        kind: VolumeSnapshotClass
+        metadata:
+          name: gke-snapshot-class
+        driver: pd.csi.storage.gke.io
+        deletionPolicy: Delete
+        ```
+    
+    === "Microsoft Azure Kubernetes Service (AKS)"
+
+        ```yaml title="volume-snapshot-class.yaml"
+        apiVersion: snapshot.storage.k8s.io/v1
+        kind: VolumeSnapshotClass
+        metadata:
+          name: aks-snapshot-class
+        driver: disk.csi.azure.com
+        deletionPolicy: Delete
+        ```
+
+    === "OpenShift"
+
+        ```yaml title="volume-snapshot-class.yaml"
+        apiVersion: snapshot.storage.k8s.io/v1
+        kind: VolumeSnapshotClass
+        metadata:
+          name: openshift-snapshot-class
+        driver: ebs.csi.aws.com
+        deletionPolicy: Delete
+        ```
 
 2. Create the VolumeSnapshotClass resource:
 
