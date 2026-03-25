@@ -153,6 +153,10 @@ Red Hat Marketplace was discontinued in April 2025. Percona Operator for Postgre
 
 If you use the Operator from Red Hat Marketplace, switch to the Certified Operator Catalog for future updates and support.
 
+### `pg_stat_monitor` is disabled by default
+
+Starting with this release `pg_stat_monitor` is disabled by default when you deploy a new cluster. If you wish to keep using this extension after upgrading to this version, enable it in the Custom resource before the upgrade.
+
 ### Custom Resource changes
 
 * The `exposeSuperusers` default value has changed to `false`
@@ -160,6 +164,12 @@ If you use the Operator from Red Hat Marketplace, switch to the Certified Operat
 ### CRD changes
 
 * The description of the `.spec.majorVersion` option has been updated to include PostgreSQL 18.
+* New fields:
+  
+   * `tls.properties.caValidityDuration`
+   * `tls.properties.pgBackRestCertValidityDuration`
+   * `tls.properties.certValidityDuration`
+
 
 ## Changelog
 
