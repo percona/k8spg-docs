@@ -1,14 +1,12 @@
 # Changing PostgreSQL options
 
-Despite the Operator's ability to configure PostgreSQL and the large number of
-Custom Resource options, there may be situations where you need to pass specific
-options directly to your cluster's PostgreSQL instances. For this purpose, you
-can use the [PostgreSQL dynamic configuration method :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html)
-provided by Patroni. You can pass PostgreSQL options to Patroni through the 
-Operator Custom Resource, updating it with `deploy/cr.yaml` configuration file).
+You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the [PostgreSQL dynamic configuration method
+:octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
+[Patroni dynamic configuration :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html)
+to apply your changes.
 
-Custom PostgreSQL configuration options should be included into the
-`patroni.dynamicConfiguration.postgresql.parameters` subsection as follows:
+Add your PostgreSQL options to the `patroni.dynamicConfiguration.postgresql.parameters`
+section in your `deploy/cr.yaml` Custom Resource:
 
 ```yaml
 ...
@@ -22,29 +20,58 @@ patroni:
         work_mem: 2MB
 ```
 
-Please note that configuration changes will be automatically applied to the
-running instances as soon as you apply Custom Resource changes in a usual way,
-running the `kubectl apply -f deploy/cr.yaml` command.
+Apply the updated Custom Resource:
 
-You can apply custom configuration in this way for both new and existing clusters.
+```bash
+kubectl apply -f deploy/cr.yaml
+```
 
-Normally, options should be applied to PostgreSQL instances dynamically without
-restart, except [the options with the postmaster context :octicons-link-external-16:](https://www.postgresql.org/docs/16/view-pg-settings.html).
-Changing options which have `context=postmaster` will cause Patroni to initiate
-restart of all PostgreSQL instances, one by one. You can check the context of
-a specific option using the `SELECT name, context FROM pg_settings;` query to
-to see if the change should cause a restart or not.
+This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.
+
+Most options take effect without
+a PostgreSQL server restart. Some options, such as `wal_level` and `shared_buffers`, have the
+[postmaster context :octicons-link-external-16:](https://www.postgresql.org/docs/16/view-pg-settings.html)
+and require a PostgreSQL restart. For these options, Patroni performs a rolling
+restart of all instances after you apply the change. To check whether an option
+requires a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
 
 !!! note
 
-    The Operator passes options to Patroni without validation, so there is a
-    theoretical possibility of the cluster malfunction caused by wrongly
-    configured PostgreSQL instances. Also, this configuration method is used
-    for PostgreSQL options only and cannot be applied to change other 
-    [Patroni dynamic configuration options :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html).
-    It means that options in the `parameters` subsection under
-    `patroni.dynamicConfiguration.postgresql` will be applied, and everything
-    else in `patroni.dynamicConfiguration.postgresql` will be ignored.
+    The Operator does not validate the options it passes to Patroni. Invalid
+    values can make the cluster unavailable. Also, only PostgreSQL parameters in the
+    `patroni.dynamicConfiguration.postgresql.parameters` subsection are applied. Other Patroni options in
+    `patroni.dynamicConfiguration` subsection are ignored.
+
+## Configuring wal_level
+
+The `wal_level` option controls how much information is written to PostgreSQL WAL
+files. You can set it in `patroni.dynamicConfiguration.postgresql.parameters`:
+
+
+* `replica` (PostgreSQL default) — sufficient for physical replication and most
+  workloads
+* `logical` — required for logical replication; increases WAL volume and I/O.
+
+Read more about `wal_level` values in [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS)
+
+!!! note
+    
+    Though the `wal_level` option can also have the value `minimal`, it will be rejected by the validation rules, since other parameters, such as `hot_standby`, require more WAL data. 
+
+```yaml
+...
+patroni:
+  dynamicConfiguration:
+    postgresql:
+      parameters:
+        wal_level: replica
+```
+
+Use `replica` when you need physical replication or no replication. Use
+`logical` when you need logical replication. Both values allow for point-in-time recovery.
+
+The `wal_level` parameter has the
+postmaster context. After you change it, Patroni restarts all PostgreSQL instances.
 
 !!! note
 
@@ -53,10 +80,9 @@ to see if the change should cause a restart or not.
 
 ## Using host-based authentication (pg_hba)
 
-PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the
-PostgreSQL database based on the IP address or the host name of the connecting
-host. You can  configure `pg_hba` through the Custom Resource 
-`patroni.dynamicConfiguration.postgresql.pg_hba` subsection as follows:
+PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
+the client IP or hostname. Configure it in the
+`patroni.dynamicConfiguration.postgresql.pg_hba` section of the Custom Resource:
 
 ```yaml
 ...
@@ -67,11 +93,10 @@ patroni:
       - host    all all 0.0.0.0/0 md5
 ```
 
-As you may guess, this example allows all hosts to connect to any database with
-MD5 password-based authentication.
+This example allows all hosts to connect to any database using MD5 password
+authentication.
 
-Obviously, you can connect both `dynamicConfiguration.postgresql.parameters`
-and `dynamicConfiguration.postgresql.pg_hba` subsections: 
+You can use both `parameters` and `pg_hba` in the same configuration:
 
 ```yaml
 ...
@@ -90,8 +115,4 @@ patroni:
       - host    all mytest 123.123.123.123/32 reject
 ```
 
-The changes will be applied after you update Custom Resource in a usual way:
-
-```bash
-kubectl apply -f deploy/cr.yaml
-```
+Apply the changes with `kubectl apply -f deploy/cr.yaml`.
