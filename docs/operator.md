@@ -2289,7 +2289,7 @@ Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.per
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-toggle-switch-outline: boolean | `true` |
+| :material-toggle-switch-outline: boolean | `false` |
 
 ### `extensions.builtin.pg_stat_statements`
 
