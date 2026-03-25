@@ -8547,14 +8547,12 @@ balancer:</p>
 <span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
 </code></pre></div></section><section class="print-page" id="options" heading-number="6.3"><h1 id="options-changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#options-changing-postgresql-options" title="Permanent link">&para;</a></h1>
-<p>Despite the Operator&rsquo;s ability to configure PostgreSQL and the large number of
-Custom Resource options, there may be situations where you need to pass specific
-options directly to your cluster&rsquo;s PostgreSQL instances. For this purpose, you
-can use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-provided by Patroni. You can pass PostgreSQL options to Patroni through the 
-Operator Custom Resource, updating it with <code>deploy/cr.yaml</code> configuration file).</p>
-<p>Custom PostgreSQL configuration options should be included into the
-<code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection as follows:</p>
+<p>You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method
+<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
+<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+to apply your changes.</p>
+<p>Add your PostgreSQL options to the <code>patroni.dynamicConfiguration.postgresql.parameters</code>
+section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -8565,36 +8563,55 @@ Operator Custom Resource, updating it with <code>deploy/cr.yaml</code> configura
 <span class="w">        </span><span class="nt">shared_buffers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1GB</span>
 <span class="w">        </span><span class="nt">work_mem</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2MB</span>
 </code></pre></div>
-<p>Please note that configuration changes will be automatically applied to the
-running instances as soon as you apply Custom Resource changes in a usual way,
-running the <code>kubectl apply -f deploy/cr.yaml</code> command.</p>
-<p>You can apply custom configuration in this way for both new and existing clusters.</p>
-<p>Normally, options should be applied to PostgreSQL instances dynamically without
-restart, except <a href="https://www.postgresql.org/docs/16/view-pg-settings.html">the options with the postmaster context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.
-Changing options which have <code>context=postmaster</code> will cause Patroni to initiate
-restart of all PostgreSQL instances, one by one. You can check the context of
-a specific option using the <code>SELECT name, context FROM pg_settings;</code> query to
-to see if the change should cause a restart or not.</p>
+<p>Apply the updated Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.</p>
+<p>Most options take effect without
+a PostgreSQL server restart. Some options, such as <code>wal_level</code> and <code>shared_buffers</code>, have the
+<a href="https://www.postgresql.org/docs/16/view-pg-settings.html">postmaster context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and require a PostgreSQL restart. For these options, Patroni performs a rolling
+restart of all instances after you apply the change. To check whether an option
+requires a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>The Operator passes options to Patroni without validation, so there is a
-theoretical possibility of the cluster malfunction caused by wrongly
-configured PostgreSQL instances. Also, this configuration method is used
-for PostgreSQL options only and cannot be applied to change other 
-<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration options <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.
-It means that options in the <code>parameters</code> subsection under
-<code>patroni.dynamicConfiguration.postgresql</code> will be applied, and everything
-else in <code>patroni.dynamicConfiguration.postgresql</code> will be ignored.</p>
+<p>The Operator does not validate the options it passes to Patroni. Invalid
+values can make the cluster unavailable. Also, only PostgreSQL parameters in the
+<code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied. Other Patroni options in
+<code>patroni.dynamicConfiguration</code> subsection are ignored.</p>
 </div>
+<h2 id="options-configuring-wal_level">Configuring wal_level<a class="headerlink" href="#options-configuring-wal_level" title="Permanent link">&para;</a></h2>
+<p>The <code>wal_level</code> option controls how much information is written to PostgreSQL WAL
+files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
+<ul>
+<li><code>replica</code> (PostgreSQL default) — sufficient for physical replication and most
+  workloads</li>
+<li><code>logical</code> — required for logical replication; increases WAL volume and I/O.</li>
+</ul>
+<p>Read more about <code>wal_level</code> values in <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Though the <code>wal_level</code> option can also have the value <code>minimal</code>, it will be rejected by the validation rules, since other parameters, such as <code>hot_standby</code>, require more WAL data. </p>
+</div>
+<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+<span class="nt">patroni</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">wal_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replica</span>
+</code></pre></div>
+<p>Use <code>replica</code> when you need physical replication or no replication. Use
+<code>logical</code> when you need logical replication. Both values allow for point-in-time recovery.</p>
+<p>The <code>wal_level</code> parameter has the
+postmaster context. After you change it, Patroni restarts all PostgreSQL instances.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="#immutable-options">Immutable options</a> for the full list.</p>
 </div>
 <h2 id="options-using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#options-using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
-<p>PostgreSQL Host-Based Authentication (pg_hba) allows controlling access to the
-PostgreSQL database based on the IP address or the host name of the connecting
-host. You can  configure <code>pg_hba</code> through the Custom Resource 
-<code>patroni.dynamicConfiguration.postgresql.pg_hba</code> subsection as follows:</p>
+<p>PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
+the client IP or hostname. Configure it in the
+<code>patroni.dynamicConfiguration.postgresql.pg_hba</code> section of the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -8602,10 +8619,9 @@ host. You can  configure <code>pg_hba</code> through the Custom Resource
 <span class="w">      </span><span class="nt">pg_hba</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host    all all 0.0.0.0/0 md5</span>
 </code></pre></div>
-<p>As you may guess, this example allows all hosts to connect to any database with
-MD5 password-based authentication.</p>
-<p>Obviously, you can connect both <code>dynamicConfiguration.postgresql.parameters</code>
-and <code>dynamicConfiguration.postgresql.pg_hba</code> subsections: </p>
+<p>This example allows all hosts to connect to any database using MD5 password
+authentication.</p>
+<p>You can use both <code>parameters</code> and <code>pg_hba</code> in the same configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -8621,9 +8637,7 @@ and <code>dynamicConfiguration.postgresql.pg_hba</code> subsections: </p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host    all all ::1/128   md5</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host    all mytest 123.123.123.123/32 reject</span>
 </code></pre></div>
-<p>The changes will be applied after you update Custom Resource in a usual way:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
-</code></pre></div></section><section class="print-page" id="constraints" heading-number="6.4"><h1 id="constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes">Binding Percona Distribution for PostgreSQL components to specific Kubernetes/OpenShift Nodes<a class="headerlink" href="#constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes" title="Permanent link">&para;</a></h1>
+<p>Apply the changes with <code>kubectl apply -f deploy/cr.yaml</code>.</p></section><section class="print-page" id="constraints" heading-number="6.4"><h1 id="constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes">Binding Percona Distribution for PostgreSQL components to specific Kubernetes/OpenShift Nodes<a class="headerlink" href="#constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes" title="Permanent link">&para;</a></h1>
 <p>The operator does good job automatically assigning new Pods to nodes
 with sufficient resources to achieve balanced distribution across the cluster.
 Still there are situations when it is worth to ensure that pods will land
