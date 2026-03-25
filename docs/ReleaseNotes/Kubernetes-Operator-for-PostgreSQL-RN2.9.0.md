@@ -235,6 +235,10 @@ Starting with this release `pg_stat_monitor` is disabled by default when you dep
 
 * [K8SPG-957](https://perconadev.atlassian.net/browse/K8SPG-957) - Fixed a crash in Amazon EKS environments where the Operator would fail if VolumeSnapshot APIs were not pre-installed.
 
+* [K8SPG-982](https://perconadev.atlassian.net/browse/K8SPG-982) - Fixed the issue with Pods being killed with out-of-memory error when pg_stat_monitor is enabled by default by disabling it by default.
+  
+* [K8SPG-983](https://perconadev.atlassian.net/browse/K8SPG-983) - Fixed the issue with PMM QAN exporter not respecting pg_stat_statements set as teh query source by adding the value mapping to correctly parse the query-source value.
+
 ### Documentation improvements
 
 * Updated OpenShift documentation to better show available installation options
