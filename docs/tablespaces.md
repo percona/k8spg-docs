@@ -37,36 +37,110 @@ directory.
 
 ## Creating a new tablespace
 
-Providing a new tablespace for your database in Kubernetes involves two parts:
+To provide a new tablespace for your database in Kubernetes, you should do the following:
 
 1. Configure the new tablespace storage with the Operator,
 2. Create database objects in this tablespace with PostgreSQL.
 
-The first part is done in the traditional way of Percona Operators, by modifying
-Custom Resource via the `deploy/cr.yaml` configuration file. It has a special
-[spec.tablespaceStorages](operator.md#instancestablespacevolumesname) section
+### Configure the new tablespace storage with the Operator
+
+Modify the Custom Resource and configure the [spec.tablespaceStorages](operator.md#instancestablespacevolumesname) section
 for tablespaces.
 
-The example already present in `deploy/cr.yaml` shows how to create tablespace
-storage 1Gb in size (you can see
-[official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details):
+=== ":simple-kubernetes: kubectl"
 
-```yaml
-spec:
-  instances:
-    ...
-    tablespaceVolumes:
-      - name: user
-        dataVolumeClaimSpec:
-          accessModes:
-            - 'ReadWriteOnce'
-          resources:
-            requests:
-              storage: 1Gi
-```
+    1. Edit the `deploy/cr.yaml` configuration file. Specify the volume name, access mode and resource requests. Refer to [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details.
 
-After you apply this by running the `kubectl apply -f deploy/cr.yaml` command,
-the new `/tablespaces/user/` mountpoint will appear for your database. Please take into
+        This example configuration shows how to create tablespace storage 1Gb in size:
+
+        ```yaml
+        spec:
+          instances:
+            ...
+            tablespaceVolumes:
+              - name: user
+                dataVolumeClaimSpec:
+                  accessModes:
+                    - 'ReadWriteOnce'
+                  resources:
+                    requests:
+                      storage: 1Gi
+        ```
+      
+    2. Apply the configuration:
+
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n <namespace>
+        ```  
+
+=== ":simple-helm: Helm"
+
+    1. Create or update the existing `values.yaml` file and specify the tablespace storage configuration:
+     
+        * the name for the storage
+        * access mode
+        * resource requests
+       
+        Refer to [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details. 
+     
+        This example configuration shows how to create tablespace storage 1Gb in size:
+     
+        ```yaml title="my-values.yaml"
+        instances:
+        - name: instance1
+          replicas: 3
+          dataVolumeClaimSpec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 5Gi
+          tablespaceVolumes:
+            - name: user
+              dataVolumeClaimSpec:
+                accessModes:
+                  - 'ReadWriteOnce'
+                resources:
+                  requests:
+                    storage: 1Gi
+        ```
+    
+    2. Update your release object for the database cluster:
+        
+        ```bash
+        helm upgrade -f my-values.yaml <release-name> percona/pg-db -n <namespace>
+        ```
+
+    3. Check if your settings took effect:
+   
+        ```bash
+        helm get values <release-name> -n <namespace>
+        ```
+
+        ??? example "Expected output"
+
+            ```{.yaml .no-copy}
+            USER-SUPPLIED VALUES:
+            instances:
+            - dataVolumeClaimSpec:
+                accessModes:
+                - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 5Gi
+              name: instance1
+              replicas: 3
+              tablespaceVolumes:
+              - dataVolumeClaimSpec:
+                  accessModes:
+                  - ReadWriteOnce
+                  resources:
+                    requests:
+                      storage: 1Gi
+                name: user
+            ```
+
+After you apply the new configuration, the new `/tablespaces/user/` mountpoint will appear for your database. Please take into
 account that if you add your new tablespace to the already existing PostgreSQL
 cluster, it may take time for the Operator to create Persistent Volume Claims
 and get Persistent Volumes actually mounted.
