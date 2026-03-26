@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="There are two design patterns that you can choose from when deploying Percona Operator for PostgreSQL and PostgreSQL clusters in Kubernetes:">
+        <meta name="description" content="How your TLS certificates are updated depends on how they were created:">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/cluster-wide.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/tls-update.html">
       
       
-        <link rel="prev" href="custom-extensions.html">
+        <link rel="prev" href="tls-manual.html">
       
       
-        <link rel="next" href="tablespaces.html">
+        <link rel="next" href="tls-verify-communication.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment - Percona Operator for PostgreSQL</title>
+        <title>Update TLS/SSL certificates - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Update TLS/SSL certificates" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment" class="md-skip">
+        <a href="#update-certificates" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment
+            Update TLS/SSL certificates
             
           </span>
         </div>
@@ -1134,18 +1134,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1166,7 +1168,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1321,18 +1323,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
@@ -1353,7 +1357,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1480,10 +1484,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="tls-update.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update TLS/SSL certificates
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tls-update.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1499,6 +1530,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#check-your-certificates-for-expiration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check your certificates for expiration
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-custom-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update custom certificates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-a-custom-root-ca-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update a custom root CA certificate
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2969,20 +3053,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_9" >
         
           
           <label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
@@ -3003,7 +3085,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_9_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_9">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3158,37 +3240,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="cluster-wide.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="cluster-wide.html" class="md-nav__link">
         
   
   
@@ -3204,76 +3259,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#namespace-scope" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Namespace-scope
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Namespace-scope">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-more-namespaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Add more namespaces
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-the-operator-cluster-wide" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install the Operator cluster-wide
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verifying-the-cluster-operation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Verifying the cluster operation
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4752,7 +4737,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/cluster-wide.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/tls-update.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4802,38 +4787,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#namespace-scope" class="md-nav__link">
+  <a href="#check-your-certificates-for-expiration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Namespace-scope
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Namespace-scope">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#add-more-namespaces" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Add more namespaces
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#install-the-operator-cluster-wide" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Install the Operator cluster-wide
+        Check your certificates for expiration
       
     </span>
   </a>
@@ -4841,10 +4798,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#verifying-the-cluster-operation" class="md-nav__link">
+  <a href="#update-custom-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Verifying the cluster operation
+        Update custom certificates
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#update-a-custom-root-ca-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update a custom root CA certificate
       
     </span>
   </a>
@@ -4877,213 +4845,178 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/cluster-wide.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/tls-update.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment">Percona Operator for PostgreSQL single-namespace and multi-namespace deployment<a class="headerlink" href="#percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment" title="Permanent link">&para;</a></h1>
-<p>There are two design patterns that you can choose from when deploying Percona Operator for PostgreSQL and PostgreSQL clusters in Kubernetes:</p>
+<h1 id="update-certificates">Update certificates<a class="headerlink" href="#update-certificates" title="Permanent link">&para;</a></h1>
+<p>How your TLS certificates are updated depends on how they were created:</p>
 <ul>
-<li>
-<p>Namespace-scope - one Operator per Kubernetes namespace,</p>
-</li>
-<li>
-<p>Cluster-wide - one Operator can manage clusters in multiple namespaces.</p>
-</li>
+<li>Certificates generated by the Operator are long-term. The Operator automatically updates the automatically-generated certificates to ensure your applications continue operation without communication issues.</li>
+<li>Certificates issued by the cert-manager are short-term. You can configure their validity in the Custom Resource when you deploy a cluster. The cert-manager automatically reissues the certificates on schedule and without downtime.</li>
+<li>Certificates you generated manually or provided to the Operator are out of its control. The Operator doesn&rsquo;t update custom certificates. It is your responsibility to timely update them.</li>
 </ul>
-<p>This how-to explains how to configure Percona Operator for PostgreSQL for each scenario.</p>
-<h2 id="namespace-scope">Namespace-scope<a class="headerlink" href="#namespace-scope" title="Permanent link">&para;</a></h2>
-<p>By default, Percona Operator for PostgreSQL functions in a specific Kubernetes namespace. You can
-create one during the installation (like it is shown in the
-<a href="kubernetes.html">installation instructions</a>) or just use the default namespace. This approach allows several Operators to co-exist in one Kubernetes-based environment, being separated in different namespaces:</p>
-<p><img alt="image" src="assets/images/cluster-wide-1.svg" /></p>
-<p>Normally this is a recommended approach, as isolation minimizes impact in case of various failure scenarios. This is the default configuration of our Operator.</p>
-<p>Let’s say you will use a Kubernetes Namespace called <code>percona-db-1</code>.</p>
+<p>This document focuses on how to update manually generated certificates.</p>
+<h2 id="check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
+</code></pre></div>
 <ol>
 <li>
-<p>Clone <code>percona-postgresql-operator</code> repository:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
-<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+<p>First, check the necessary secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
+<p>You will have the following response:</p>
+<div class="no-copy highlight"><pre><span></span><code>NAME                            TYPE     DATA   AGE
+cluster1-cluster-cert           Opaque   3      11m
+...
+cluster1-replication-cert       Opaque   3      11m
+...
 </code></pre></div>
 </li>
 <li>
-<p>Create your <code>percona-db-1</code> Namespace (if it doesn&rsquo;t yet exist) as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
+<p>Now use the following command to find out the certificates validity dates,
+    substituting Secrets names if necessary:</p>
+<div class="highlight"><pre><span></span><code><span class="o">{</span>
+<span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span><span class="o">}</span>
 </code></pre></div>
-</li>
-<li>
-<p>Deploy the Operator <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">using <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-    the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
-</code></pre></div>
-</li>
-<li>
-<p>Once Operator is up and running, deploy the database cluster itself:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
+<p>The resulting output will be self-explanatory:</p>
+<div class="no-copy highlight"><pre><span></span><code>notBefore=Jun 28 10:20:19 2023 GMT
+notAfter=Jun 27 11:20:19 2024 GMT
+notBefore=Jun 28 10:20:18 2023 GMT
+notAfter=Jun 25 11:20:18 2033 GMT
 </code></pre></div>
 </li>
 </ol>
-<p>You can deploy multiple clusters in this namespace.</p>
-<h3 id="add-more-namespaces">Add more namespaces<a class="headerlink" href="#add-more-namespaces" title="Permanent link">&para;</a></h3>
-<p>What if there is a need to deploy clusters in another namespace? The solution for namespace-scope deployment is to have more than one Operator. We will use the <code>percona-db-2</code> namespace as an example.</p>
+<h2 id="update-custom-certificates">Update custom certificates<a class="headerlink" href="#update-custom-certificates" title="Permanent link">&para;</a></h2>
+<p>You can update only custom certificates for external and / or internal communication and keep the same root CA certificate. </p>
+<p>You can update the contents of your existing Secrets referenced in the <code>spec.secrets.customTLSSecret</code> and/or <code>spec.secrets.customReplicationTLSSecret</code> fields in <code>deploy/cr.yaml</code> without changing their names. In this case, the Operator detects the updated certificate data and applies the changes to the running cluster without restarting it. Such update is called hot reload.</p>
+<p>This example shows how you can do it. Let&rsquo;s say you have the following certificates and Secrets:</p>
+<ul>
+<li><code>server.pem</code> / <code>server-key.pem</code> and the <code>cluster1-cert</code> Secret for external communication,</li>
+<li><code>replica.pem</code> / <code>replica-key.pem</code> and <code>cluster1-replication-cert</code> Secret for internal communication </li>
+<li><code>ca.pem</code> / <code>ca-key.pem</code> is the existing CA root certificate that you keep</li>
+</ul>
+<p>Your cluster is deployed in the <code>postgres-operator</code> namespace.</p>
 <ol>
 <li>
-<p>Create your <code>percona-db-2</code> namespace (if it doesn&rsquo;t yet exist) as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-2
+<p>Set the context for the cluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>postgres-operator
 </code></pre></div>
 </li>
 <li>
-<p>Deploy the Operator:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
+<p>Create a YAML manifest for the <code>cluster1-cert</code> Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-cert<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-cert.yaml
 </code></pre></div>
 </li>
 <li>
-<p>Once Operator is up and running deploy the database cluster itself:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Cluster names may be the same in different namespaces.</p>
-</div>
-</li>
-</ol>
-<h2 id="install-the-operator-cluster-wide">Install the Operator cluster-wide<a class="headerlink" href="#install-the-operator-cluster-wide" title="Permanent link">&para;</a></h2>
-<p>Sometimes it is more convenient to have one Operator watching for
-Percona Distribution for PostgreSQL custom resources in several namespaces.</p>
-<p>We recommend running Percona Operator for PostgreSQL in a traditional way,
-limited to a specific namespace, to limit the blast radius. But it is possible
-to run it in so-called <em>cluster-wide</em> mode, one Operator watching several
-namespaces, if needed:</p>
-<p><img alt="image" src="assets/images/cluster-wide-2.svg" /></p>
-<p>To use the Operator in a cluster-wide mode, you should install it with a
-different set of configuration YAML files, which are available in the deploy
-folder and have filenames with a special <code>cw-</code> prefix: e.g.
-<code>deploy/cw-bundle.yaml</code>.</p>
-<p>While using this cluster-wide versions of configuration files, you should set
-the following information there:</p>
-<ul>
-<li><code>subjects.namespace</code> option should contain the namespace which will host
-    the Operator,</li>
-<li>
-<p>The <a href="env-var-operator.html#watch_namespace"><code>WATCH_NAMESPACE</code></a> environment variable determines which namespaces the Operator will monitor for custom resources. By default, it is defined by the <code>metadata.namespace</code> option via a downward API <code>fieldRef</code> and points to the Operator&rsquo;s own namespace.</p>
-<p>Configure the <code>WATCH_NAMESPACE</code> environment variable in the Operator Deployment&rsquo;s <code>env</code> section and choose the option that matches your desired Operator scope:</p>
-<ul>
-<li><strong>Comma-separated list of namespaces</strong>: Specify the comma-separated list of namespaces, including the namespace where the Operator itself is running (e.g., <code>"pg-operator,percona-db-1"</code>). The Operator will watch only the specified namespaces. </li>
-<li><strong>Empty string (<code>""</code>)</strong>: Set the <code>value</code> to an empty string. The Operator watches <strong>all namespaces</strong> in the cluster.</li>
-</ul>
-<p>For the full
-list of Operator environment variables, see <a href="env-var-operator.html">Define Operator environment variables</a>.</p>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Installing the Operator cluster-wide on OpenShift via the the Operator
-Lifecycle Manager (OLM) requires
-<a href="openshift.html#install-via-the-operator-lifecycle-manager-olm">making different selections in the OLM web-based UI</a>
-instead of patching YAML files.</p>
-</div>
-<p>The following simple example shows how to install Operator cluster-wide on
-Kubernetes.</p>
-<ol>
-<li>
-<p>Clone <code>percona-postgresql-operator</code> repository:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
-<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+<p>Create a YAML manifest for the <code>cluster1-replication-cert</code> Secret. Run the following command to generate a YAML manifest (adjust file paths if needed):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-replication-cert<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replica.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replica-key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-replication-cert.yaml
 </code></pre></div>
 </li>
 <li>
-<p>Let’s say you will use <code>pg-operator</code> namespace for the Operator, and <code>percona-db-1</code>
-    namespace for the cluster. Create these namespaces, if needed:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pg-operator
-kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>percona-db-1
-</code></pre></div>
-</li>
-<li>
-<p>Edit the <code>deploy/cw-bundle.yaml</code> configuration file to make sure it
-    contains proper namespace name for the Operator:</p>
-<div class="highlight"><pre><span></span><code><span class="nn">...</span>
-<span class="nt">subjects</span><span class="p">:</span>
-<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg-operator</span>
-<span class="nn">...</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">env</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WATCH_NAMESPACE</span>
-<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator,percona-db-1&quot;</span>
-<span class="nn">...</span>
-</code></pre></div>
-</li>
-<li>
-<p>Apply the <code>deploy/cw-bundle.yaml</code> file with the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/cw-bundle.yaml<span class="w"> </span>-n<span class="w"> </span>pg-operator
-</code></pre></div>
-<p>With this configuration, the Operator monitors only the specified namespaces.</p>
-</li>
-<li>
-<p>Deploy the cluster in the namespace of your choice:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-1
+<p>Apply the manifests to update the Secrets:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span>
 </code></pre></div>
 </li>
 </ol>
-<h2 id="verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
-<p>When creation process is over, connect to the cluster to verify it is operational.</p>
-<p class="power-number">When the Operator deploys a database cluster, it generates several
-<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
-user has the same username as the cluster name. </p>
+<p>If you create new Secrets with new names and values, update the <code>spec.customTLSSecret</code> and <code>spec.customReplicationTLSSecret</code> fields in the <code>deploy/cr.yaml</code>. When you apply the new configuration,this causes the Operator to restart the cluster. </p>
+<h2 id="update-a-custom-root-ca-certificate">Update a custom root CA certificate<a class="headerlink" href="#update-a-custom-root-ca-certificate" title="Permanent link">&para;</a></h2>
+<p>Here&rsquo;s what you need to know if you wish to update a custom root CA certificate:</p>
+<ul>
+<li>If you change a root CA certificate, you must also change your custom TLS certificates for external and internal communications as these must be signed with the same root CA. </li>
+<li>The new root CA and associated certs must be stored in new Secrets (not overwriting existing ones). This ensures rollback capability in case of misconfiguration or validation issues.</li>
+<li>You must <a href="pause.html">pause the cluster</a> before applying changes. This prevents the Operator from restarting or reconfiguring Pods mid-update.</li>
+</ul>
+<p>To update a custom root CA certificate, do the following:</p>
 <ol>
+<li>Generate a new root CA certificate and key. For example, you have them in files named <code>new-ca.pem</code> and <code>new-ca-key.pem</code>.</li>
 <li>
-<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
-    Secrets object you are interested in is named in the format
-    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
-    the <a href="operator.html#metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
+<p>Generate all dependent certificates for external and internal communication and sign them using the new root CA certificate. Check the <a href="tls-manual.html#generate-certificates-manually">Generate certificates manually</a> section for the steps. For example, you end up with the following certificates:</p>
+<ul>
+<li><code>server.pem</code> and <code>server-key.pem</code> for external communication</li>
+<li><code>replication.pem</code> and <code>replication-key.pem</code> for internal communication</li>
+</ul>
 </li>
 <li>
-<p>Use the
-    following command to get the password of this user. Replace the <code>&lt;cluster_name&gt;</code> and <code>&lt;namespace&gt;</code> placeholders with your values:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
+<p>Create a new Secret object for the new root CA certificate and define the new CA certificate and key within. Let&rsquo;s name it <code>cluster1-ca-cert-new</code>.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-ca-cert-new<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>new-ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>ca.key<span class="o">=</span>new-ca-key.pem
 </code></pre></div>
 </li>
 <li>
-<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Create new Secrets for external and internal communications, named <code>cluster1-tls</code> and <code>cluster1-replication-tls</code> respectively</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem
 </code></pre></div>
-<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
-cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
-cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
-cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
-cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
-cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-replication-tls<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replication-key.pem<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replication.pem
 </code></pre></div>
-</details>
 </li>
 <li>
-<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<p>Pause the cluster to prevent the Operator to restart the Pods mid-update.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: true}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
-<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
 <li>
-<p>Run a container with <code>psql</code> tool and connect its console output to your
-    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
-    via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<p>Specify details about new custom certificates in the <code>deploy/cr.yaml</code>. Since this is a provisioned cluster, apply the patch as follows:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">        &quot;spec&quot;: {</span>
+<span class="s1">            &quot;secrets&quot;: {</span>
+<span class="s1">                &quot;customRootCATLSSecret&quot;: {</span>
+<span class="s1">                    &quot;name&quot;: &quot;cluster1-ca-cert-new&quot;,</span>
+<span class="s1">                    &quot;items&quot;: [</span>
+<span class="s1">                        {</span>
+<span class="s1">                            &quot;key&quot;: &quot;ca.crt&quot;,</span>
+<span class="s1">                            &quot;path&quot;: &quot;root.crt&quot;</span>
+<span class="s1">                        },</span>
+<span class="s1">                        {</span>
+<span class="s1">                            &quot;key&quot;: &quot;ca.key&quot;,</span>
+<span class="s1">                            &quot;path&quot;: &quot;root.key&quot;</span>
+<span class="s1">                        }</span>
+<span class="s1">                    ]</span>
+<span class="s1">                },</span>
+<span class="s1">                &quot;customTLSSecret&quot;: {</span>
+<span class="s1">                    &quot;name&quot;: &quot;cluster1-tls&quot;</span>
+<span class="s1">                },</span>
+<span class="s1">                &quot;customReplicationTLSSecret&quot;: {</span>
+<span class="s1">                    &quot;name&quot;: &quot;cluster1-replication-tls&quot;</span>
+<span class="s1">                }</span>
+<span class="s1">            }</span>
+<span class="s1">        }</span>
+<span class="s1">    }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7-2<span class="o">)</span>
-SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
-Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
-<span class="nv">pgdb</span><span class="o">=</span>&gt;
+</li>
+<li>
+<p>Unpause the cluster to resume the Operator control:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: false}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
-</details>
 </li>
 </ol>
 <hr>
@@ -5091,11 +5024,11 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 11:38:47 UTC">March 13, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:51:30 UTC">March 26, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 12, 2022 05:57:43 UTC">July 12, 2022</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:51:30 UTC">March 26, 2026</span>
       
     
   </small>

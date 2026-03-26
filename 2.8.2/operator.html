@@ -1324,9 +1324,20 @@ deploy/cr.yaml  file.">
   
   
   
-    <li class="md-nav__item">
-      <a href="TLS.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -1340,7 +1351,191 @@ deploy/cr.yaml  file.">
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transport encryption (TLS/SSL)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="TLS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TLS/SSL
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-manager.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TLS/SSL with the Operator using cert-manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-migrate-to-cert-manager.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate from Operator-generated certificates to cert-manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-manual.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generate certificates manually
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-update.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update TLS/SSL certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-verify-communication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3598,6 +3793,39 @@ deploy/cr.yaml  file.">
     <span class="md-ellipsis">
       
         tlsOnly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlscertvalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.certValidityDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlscavalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.caValidityDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlspgbackrestcertvalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.pgBackRestCertValidityDuration
       
     </span>
   </a>
@@ -7859,6 +8087,39 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#tlscertvalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.certValidityDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlscavalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.caValidityDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlspgbackrestcertvalidityduration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.pgBackRestCertValidityDuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#standbyenabled" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -11145,6 +11406,40 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tr>
 </tbody>
 </table>
+<h3 id="tlscertvalidityduration"><code>tls.certValidityDuration</code><a class="headerlink" href="#tlscertvalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for TLS certificates (cluster, instance, and PgBouncer). Used only when <a href="tls-cert-manager.html">cert-manager</a> manages certificates. Format: Go duration (e.g. <code>2160h</code>). Default: <code>8760h</code> (1 year).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>2160h</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tlscavalidityduration"><code>tls.caValidityDuration</code><a class="headerlink" href="#tlscavalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for the root CA certificate. Used only when <a href="tls-cert-manager.html">cert-manager</a> manages certificates. Format: Go duration (e.g. <code>26280h</code>). Default: <code>8760h</code> (1 year).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>26280h</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tlspgbackrestcertvalidityduration"><code>tls.pgBackRestCertValidityDuration</code><a class="headerlink" href="#tlspgbackrestcertvalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for the <code>pgBackRest</code> client and repository host certificates</p>
 <h3 id="standbyenabled"><code>standby.enabled</code><a class="headerlink" href="#standbyenabled" title="Permanent link">&para;</a></h3>
 <p>Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).</p>
 <table>
@@ -15544,7 +15839,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:41:32 UTC">March 24, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:51:30 UTC">March 26, 2026</span>
       
         <br>
         Created:

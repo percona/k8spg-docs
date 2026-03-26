@@ -1331,9 +1331,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="TLS.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -1347,7 +1358,191 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transport encryption (TLS/SSL)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="TLS.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TLS/SSL
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-manager.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TLS/SSL with the Operator using cert-manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-migrate-to-cert-manager.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Migrate from Operator-generated certificates to cert-manager
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-manual.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generate certificates manually
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-update.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Update TLS/SSL certificates
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-verify-communication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4869,13 +5064,85 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#tls" class="md-nav__link">
+  <a href="#section-6-6" class="md-nav__link">
     <span class="md-ellipsis">
       
         Transport encryption (TLS/SSL)
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Transport encryption (TLS/SSL)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About TLS/SSL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure TLS/SSL with the Operator using cert-manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-migrate-to-cert-manager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Migrate from Operator-generated certificates to cert-manager
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-manual" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate certificates manually
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-update" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update TLS/SSL certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tls-verify-communication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check TLS communication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -9191,7 +9458,11 @@ NAME                                 CREATED AT             LABELS</p>
 <span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">pgv2.percona.com/custom-patroni-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div></section><section class="print-page" id="tls" heading-number="6.6"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
+</code></pre></div></section>
+                    <section class='print-page md-section' id='section-6-6' heading-number='6.6'>
+                        <h1>Transport encryption (TLS/SSL)<a class='headerlink' href='#section-6-6' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="tls" heading-number="6.6.1"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
 <p>The Percona Operator for PostgreSQL uses Transport Layer Security
 (TLS) cryptographic protocol for the following types of communication:</p>
 <ul>
@@ -9200,136 +9471,311 @@ NAME                                 CREATED AT             LABELS</p>
 </ul>
 <p>The internal certificate is also used as an authorization method for PostgreSQL
 Replica instances.</p>
-<p>TLS security can be configured in following ways:</p>
+<p>You can configure TLS in these ways:</p>
 <ul>
-<li>the Operator can generate long-term certificates automatically at cluster
-    creation time,</li>
-<li>you can generate certificates manually.</li>
+<li>Have the Operator generate certificates automatically during cluster creation,</li>
+<li>Use the <a href="#tls-cert-manager">cert-manager</a> to manage certificates and their lifecycle,</li>
+<li><a href="#tls-manual">Generate certificates manually</a>.</li>
+</ul>
+<p>You can <a href="#tls-migrate-to-cert-manager">migrate your running cluster to cert-manager</a> to benefit from automatic renewal and centralized management.</p>
+<p>Additionally, you can <em>force</em> your database cluster to use only encrypted channels for both internal and external communications. To do this, set the <code>tlsOnly</code> Custom Resource option to <code>true</code>.</p>
+<h2 id="tls-automatic-certificate-generation-by-the-operator">Automatic certificate generation by the Operator<a class="headerlink" href="#tls-automatic-certificate-generation-by-the-operator" title="Permanent link">&para;</a></h2>
+<p>The Operator can generate long-term certificates automatically and enable encryption automatically during cluster creation.</p>
+<p>Upon cluster creation, the Operator reviews the Custom Resource configuration to determine the TLS approach:</p>
+<ul>
+<li>If you created custom certificate Secrets and referenced them in the cluster spec, the Operator uses them for TLS.</li>
+<li>If custom Secrets are not specified but <a href="#tls-cert-manager">cert-manager</a> is installed, the Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.</li>
+<li>If neither condition is met, the Operator generates the necessary certificates and Secrets itself.</li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Additionally, you can <em>force</em> your database cluster to use only encrypted
-channels for both internal and external communications. This effect is
-achieved by setting the <code>tlsOnly</code> Custom Resource option to <code>true</code>.</p>
+<p>Beginning with version 2.5.0, the Operator creates a dedicated root CA for each cluster. Earlier versions used a single generated root CA for all database clusters.</p>
 </div>
-<h2 id="tls-allow-the-operator-to-generate-certificates-automatically">Allow the Operator to generate certificates automatically<a class="headerlink" href="#tls-allow-the-operator-to-generate-certificates-automatically" title="Permanent link">&para;</a></h2>
-<p>The Operator is able to generate long-term certificates automatically and
-turn on encryption at cluster creation time, if there are no certificate
-secrets available. Just deploy your cluster as usual, with the
-<code>kubectl apply -f deploy/cr.yaml</code> command, and certificates will be generated.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Starting from 2.5.0, the Operator creates root CA on per-cluster basis. In Operator versions before 2.5.0, autogenerated certificates for all database clusters were based on the same generated root CA. </p>
+<h2 id="tls-tls-configuration">TLS configuration<a class="headerlink" href="#tls-tls-configuration" title="Permanent link">&para;</a></h2>
+<p>The following sections provide guidelines how to:</p>
+<ul>
+<li><a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a></li>
+<li><a href="#tls-migrate-to-cert-manager">Migrate from Operator-generated certificates to cert-manager</a></li>
+<li><a href="#tls-manual">Generate certificates manually</a></li>
+<li><a href="#tls-update">Update certificates</a></li>
+<li><a href="#tls-verify-communication">Check TLS communication to a cluster</a></li>
+</ul>
+<h2 id="tls-keep-certificates-after-deleting-the-cluster">Keep certificates after deleting the cluster<a class="headerlink" href="#tls-keep-certificates-after-deleting-the-cluster" title="Permanent link">&para;</a></h2>
+<p>When you <a href="#delete">delete the cluster</a>, the Operator handles SSL objects (Secrets, certificates, and issuer) as follows:</p>
+<ul>
+<li>The Operator doesn&rsquo;t delete TLS Secrets, certificates, and issuer it generated by default. </li>
+<li>The Operator removes the cert-manager Issuers and Certificates it created but keeps the Secrets.</li>
+</ul>
+<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.6.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
+<p>Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management. </p>
+<p>When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven&rsquo;t provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.</p>
+<p>The Percona Operator self-signed issuer is local to the Operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). </p>
+<p>If cert-manager is not installed or not ready, the Operator falls back to its built-in certificate generation.</p>
+<p>This approach gives you:</p>
+<ul>
+<li><strong>Automatic renewal</strong> – cert-manager renews certificates before they expire (by default, 30 days before expiry)</li>
+<li><strong>Configurable validity</strong> – you can set certificate and CA validity durations via Custom Resource options</li>
+<li><strong>Centralized management</strong> – use cert-manager’s tooling and policies for all TLS certificates in the cluster</li>
+</ul>
+<h2 id="tls-cert-manager-certificate-lifecycle-management">Certificate lifecycle management<a class="headerlink" href="#tls-cert-manager-certificate-lifecycle-management" title="Permanent link">&para;</a></h2>
+<p>The cert-manager handles:</p>
+<ul>
+<li><strong>Issuance</strong> – creates certificates when the cluster is created</li>
+<li><strong>Renewal</strong> – renews certificates before expiry (default: 30 days before). You can configure the certificate duration in the Custom Resource</li>
+<li><strong>Rotation</strong> – updates Secrets when certificates are renewed</li>
+</ul>
+<p>The Operator does not renew certificates when using cert-manager; cert-manager does. You do not need to restart the cluster when certificates are renewed.</p>
+<h2 id="tls-cert-manager-prerequisites">Prerequisites<a class="headerlink" href="#tls-cert-manager-prerequisites" title="Permanent link">&para;</a></h2>
+<p>To use cert-manager with the Operator, ensure the following:</p>
+<ol>
+<li>You have deployed the Operator. Check if it runs with <code>kubectl get deploy -n &lt;namespace&gt;</code> command.</li>
+<li>
+<p>Your Custom Resource does <strong>not</strong> include these options:</p>
+<ul>
+<li><code>secrets.customTLSSecret</code></li>
+<li><code>secrets.customReplicationTLSSecret</code></li>
+<li><code>secrets.customRootCATLSSecret</code></li>
+</ul>
+<p>If you provide any of these, the Operator uses your custom certificates and does not create cert-manager resources.</p>
+</li>
+</ol>
+<h2 id="tls-cert-manager-install-cert-manager">Install cert-manager<a class="headerlink" href="#tls-cert-manager-install-cert-manager" title="Permanent link">&para;</a></h2>
+<p>Install cert-manager before deploying the Operator and cluster. You can use either kubectl or Helm.</p>
+<p>By default the cert-manager is installed in the <code>cert-manager</code> namespace. </p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="tls-cert-manager-__tabbed_1_1" name="tls-cert-manager-__tabbed_1" type="radio" /><input id="tls-cert-manager-__tabbed_1_2" name="tls-cert-manager-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="tls-cert-manager-__tabbed_1_1">with kubectl</label><label for="tls-cert-manager-__tabbed_1_2">with Helm</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/cert-manager/cert-manager/releases/download/v1.19.1.1/cert-manager.yaml<span class="w"> </span>
+</code></pre></div>
+<p>??? example &ldquo;Expected output&rdquo;</p>
+<div class="highlight"><pre><span></span><code> ```{.text .no-copy}
+ namespace/cert-manager created
+ customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
+ customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
+ customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io created
+ customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io created
+ customresourcedefinition.apiextensions.k8s.io/issuers.cert-manager.io created
+ customresourcedefinition.apiextensions.k8s.io/orders.acme.cert-manager.io created
+ serviceaccount/cert-manager-cainjector created
+ serviceaccount/cert-manager created
+ serviceaccount/cert-manager-webhook created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-cainjector created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-orders created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-cluster-view created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-view created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-edit created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+ clusterrole.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-cainjector created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-orders created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+ clusterrolebinding.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+ role.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+ role.rbac.authorization.k8s.io/cert-manager:leaderelection created
+ role.rbac.authorization.k8s.io/cert-manager-tokenrequest created
+ role.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+ rolebinding.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+ rolebinding.rbac.authorization.k8s.io/cert-manager:leaderelection created
+ rolebinding.rbac.authorization.k8s.io/cert-manager-cert-manager-tokenrequest created
+ rolebinding.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+ service/cert-manager-cainjector created
+ service/cert-manager created
+ service/cert-manager-webhook created
+ deployment.apps/cert-manager-cainjector created
+ deployment.apps/cert-manager created
+ deployment.apps/cert-manager-webhook created
+ mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+ validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+ ```
+</code></pre></div>
 </div>
-<h2 id="tls-check-connectivity-to-the-cluster">Check connectivity to the cluster<a class="headerlink" href="#tls-check-connectivity-to-the-cluster" title="Permanent link">&para;</a></h2>
-<p>You can check TLS communication using <code>psql</code>, the standard interactive terminal-based frontend to PostgreSQL. </p>
-<p>For this purpose, we will create a <code>pg-client</code> Deployment, which includes the necessary tools. We will use the existing Secret object with the TLS certificates, generated by the Operator.</p>
-<p>Follow these steps:</p>
+<div class="tabbed-block">
 <ol>
 <li>
-<p>Export the namespace as the environment variable to simplify further configuration:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;postgres-operator&gt;
+<p>Add the Helm chart and update the repositories</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>jetstack<span class="w"> </span>https://charts.jetstack.io<span class="w"> </span>--force-update
+helm<span class="w"> </span>repo<span class="w"> </span>update
 </code></pre></div>
 </li>
 <li>
-<p>List the Secret objects:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+<p>Install cert-manager with default parameters:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>cert-manager<span class="w"> </span>jetstack/cert-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span>cert-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--create-namespace<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span>v1.19.1.1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>crds.enabled<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
-<div class="highlight"><pre><span></span><code>cluster1-cluster-ca-cert        Opaque   2      37m
-cluster1-cluster-cert           Opaque   3      37m
-cluster1-instance1-5nlp-certs   Opaque   6      37m
-cluster1-instance1-8rks-certs   Opaque   6      37m
-cluster1-instance1-z5tz-certs   Opaque   6      37m
-cluster1-pgbackrest             Opaque   5      37m
-cluster1-pgbouncer              Opaque   6      37m
-cluster1-pguser-cluster1        Opaque   12     37m
-cluster1-replication-cert       Opaque   3      37m
+<div class="no-copy highlight"><pre><span></span><code>Pulled: quay.io/jetstack/charts/cert-manager:v1.19.4
+Digest: sha256:135b97727e98ab0af229c2dceaf2e2c3c074a7b83495c6e09a1697c85e5ef6c7
+NAME: cert-manager
+LAST DEPLOYED: Wed Feb 25 16:43:23 2026
+NAMESPACE: cert-manager
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
 </code></pre></div>
 </details>
-<p>The secret with TLS certificates is <code>&lt;cluster-name&gt;-cluster-ca-cert</code> (<code>cluster1-cluster-ca-cert</code> by default).</p>
+<p>You can customize the Helm installation by passing the TLS options via <code>values.yaml</code> or <code>--set</code>. See the <a href="https://github.com/percona/percona-helm-charts">percona-helm-charts <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> repository for the available parameters.</p>
 </li>
-<li>
-<p>Create a deployment. Replace the placeholders in the following command with your values:</p>
-<ul>
-<li>Replace the <code>&lt;cluster-name&gt;</code> placeholder with your actual cluster name</li>
-<li>Specify the Secret object with the TLS certificate from step 1</li>
-<li>Specify the CA certificate file for the <code>volumeMounts.name</code> and <code>volumes.name</code> options. This file is used to mount the root CA certificate into the container so that client tools like <code>psql</code> can verify the server&rsquo;s certificate. To view the file name, run <code>kubectl get secret &lt;cluster-name&gt;-cluster-ca-cert -o yaml -n $NAMESPACE</code> command.</li>
-</ul>
-<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -n $NAMESPACE -f -</span>
-<span class="s">apiVersion: apps/v1</span>
-<span class="s">kind: Deployment</span>
-<span class="s">metadata:</span>
-<span class="s">  name: pg-client</span>
-<span class="s">spec:</span>
-<span class="s">  replicas: 1</span>
-<span class="s">  selector:</span>
-<span class="s">    matchLabels:</span>
-<span class="s">      name: pg-client</span>
-<span class="s">  template:</span>
-<span class="s">    metadata:</span>
-<span class="s">      labels:</span>
-<span class="s">        name: pg-client</span>
-<span class="s">    spec:</span>
-<span class="s">      containers:</span>
-<span class="s">        - name: pg-client</span>
-<span class="s">          image: percona/percona-distribution-postgresql:17.7-2</span>
-<span class="s">          imagePullPolicy: Always</span>
-<span class="s">          command:</span>
-<span class="s">          - sleep</span>
-<span class="s">          args:</span>
-<span class="s">          - &quot;100500&quot;</span>
-<span class="s">          volumeMounts:</span>
-<span class="s">            - name: root</span>
-<span class="s">              mountPath: &quot;/tmp/tls&quot;</span>
-<span class="s">      volumes:</span>
-<span class="s">      - name: root</span>
-<span class="s">        secret:</span>
-<span class="s">          secretName: &lt;cluster_name&gt;-cluster-ca-cert</span>
-<span class="s">          items:</span>
-<span class="s">          - key: root.crt</span>
-<span class="s">            path: root.crt</span>
-<span class="s">            mode: 0777</span>
-<span class="s">EOF</span>
-</code></pre></div>
-</li>
-<li>
-<p>Retrieve the <code>pgBouncer</code> URI to connect to PostgreSQL. It is stored in the Secret object with user credentials: <code>&lt;cluster-name&gt;-pguser-&lt;db-name&gt;</code>. The default value is <code>cluster1-pguser-cluster1</code>. Run the following command and replace the <code>cluster1-pguser-cluster1</code> Secret name with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<p>```text
-postgresql://cluster1:<password>@cluster1-pgbouncer.default.svc:5432/cluster1</p>
-</details>
-</li>
-<li>
-<p>Now get shell access to the newly created container:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>deployment/pg-client<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</ol>
+</div>
+</div>
+</div>
+<p>Verify that cert-manager is running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cert-manager
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
-<div class="highlight"><pre><span></span><code>[postgres@pg-client-54b449898f-ztlrh /]$
+<div class="no-copy highlight"><pre><span></span><code>cert-manager-548f7cf98c-kjrvx             1/1     Running   0          22s
+cert-manager-cainjector-8798f647f-kv9j4   1/1     Running   0          23s
+cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 </code></pre></div>
 </details>
+<h2 id="tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity<a class="headerlink" href="#tls-cert-manager-configure-the-certificate-validity" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Add the <code>tls</code> section to your Custom Resource to set certificate validity durations. These options apply only when cert-manager is used.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">certValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2160h</span><span class="w">   </span><span class="c1"># 90 days for TLS certificates (default: 8760h / 1 year)</span>
+<span class="w">    </span><span class="nt">caValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">26280h</span><span class="w">    </span><span class="c1"># 3 years for the CA certificate (default: 8760h / 1 year)</span>
+<span class="w">    </span><span class="nt">pgBackRestCertValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2160H</span><span class="w"> </span><span class="c1"># 90 days for TLS certificates </span>
+</code></pre></div>
+<p>Use <a href="https://pkg.go.dev/time#ParseDuration">Go duration format <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> (e.g. <code>2160h</code>, <code>8760h</code>).</p>
 </li>
 <li>
-<p>Launch the <code>psql</code> interactive terminal to check connectivity over the encrypted channel. Make sure to use your cluster name, the pgBouncer URL you retrieved at the previous step, and the CA certificate you provided when you created the <code>pg-client</code> deployment:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>verify-ca<span class="w"> </span><span class="nv">PGSSLROOTCERT</span><span class="o">=</span>/tmp/tls/root.crt<span class="w"> </span>psql<span class="w"> </span><span class="s1">&#39;postgresql://cluster1:&lt;password&gt;@cluster1-pgbouncer.default.svc:5432/cluster1&#39;</span>
-</code></pre></div>
-<p>Now you should see the prompt of PostgreSQL interactive terminal:</p>
-<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7-2<span class="o">)</span>
-Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
-<span class="nv">cluster1</span><span class="o">=</span>&gt;
+<p>Deploy the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 </li>
 </ol>
-<h2 id="tls-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-generate-certificates-manually" title="Permanent link">&para;</a></h2>
+<p>Once you create the database with the Operator, it will automatically trigger the cert-manager to create certificates. Whenever you check certificates for expiration, you will find that they are valid and short-term.</p>
+<h2 id="tls-cert-manager-verify-cert-manager-resources">Verify cert-manager resources<a class="headerlink" href="#tls-cert-manager-verify-cert-manager-resources" title="Permanent link">&para;</a></h2>
+<p>After the cluster is created, you can inspect the cert-manager resources:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># List Issuers</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>issuers<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+
+<span class="c1"># List Certificates</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+
+<span class="c1"># Check certificate status</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.6.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-certificates-to-cert-manager">Migrate from Operator-generated certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
+<p>You can start using cert-manager for TLS certificates lifecycle management if you have previously deployed your cluster with auto-generated or custom certificates. The use of cert-manager provides automatic certificate renewal, configurable validity periods, and centralized certificate management across your Kubernetes cluster.</p>
+<p>Read more about cert-manager in <a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a>.</p>
+<h2 id="tls-migrate-to-cert-manager-migration-steps">Migration steps<a class="headerlink" href="#tls-migrate-to-cert-manager-migration-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Export the cluster name and the namespace where the cluster is running as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER</span><span class="o">=</span>&lt;cluster1&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p><a href="#pause">Pause the cluster</a> to stop reconciliation before you change TLS resources. Run the following command to patch your running cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">&quot;spec&quot;: {</span>
+<span class="s1">  &quot;pause&quot;: true}</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify the cluster status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>Wait until the cluster status is <code>Paused</code>. You can verify with <code>kubectl get pods -n $NAMESPACE</code>.</p>
+</li>
+<li>
+<p>Deploy cert-manager. In this guide we install cert-manager with <code>kubectl</code>. Refer to <a href="#tls-cert-manager-install-cert-manager">Configure TLS security with the Operator using cert-manager</a> for Helm installation instructions.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/cert-manager/cert-manager/releases/download/v1.19.1.1/cert-manager.yaml
+</code></pre></div>
+<p>This command installs cert-manager in the default <code>cert-manager</code> namespace.</p>
+</li>
+<li>
+<p>Verify that cert-manager is running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>cert-manager
+</code></pre></div>
+</li>
+<li>
+<p>Delete the TLS Secrets.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="tls-migrate-to-cert-manager-__tabbed_1_1" name="tls-migrate-to-cert-manager-__tabbed_1" type="radio" /><input id="tls-migrate-to-cert-manager-__tabbed_1_2" name="tls-migrate-to-cert-manager-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="tls-migrate-to-cert-manager-__tabbed_1_1">Operator-generated certificates</label><label for="tls-migrate-to-cert-manager-__tabbed_1_2">Custom certificates</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Delete the Secrets:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span><span class="nv">$CLUSTER</span>-cluster-ca-cert<span class="w"> </span><span class="nv">$CLUSTER</span>-cluster-cert<span class="w"> </span><span class="nv">$CLUSTER</span>-replication-cert<span class="w"> </span>-n<span class="w">  </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>Example for a cluster named <code>cluster1</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>cluster1-cluster-ca-cert<span class="w"> </span>cluster1-cluster-cert<span class="w"> </span>cluster1-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Update the Custom Resource and remove all references to Secrets that contain your custom certificates:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">  &quot;spec&quot;: {</span>
+<span class="s1">    &quot;secrets&quot;: {</span>
+<span class="s1">      &quot;customRootCATLSSecret&quot;: null,</span>
+<span class="s1">      &quot;customTLSSecret&quot;: null,</span>
+<span class="s1">      &quot;customReplicationTLSSecret&quot;: null</span>
+<span class="s1">    }</span>
+<span class="s1">  }</span>
+<span class="s1">}&#39;</span>
+</code></pre></div>
+<p>If <code>pgBouncer</code> also uses a custom certificate, clear the <code>spec.proxy.pgBouncer.customTLSSecret</code> option too.</p>
+</li>
+<li>
+<p>Delete the Secrets. This includes your custom Secrets and the one generated by the Operator:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>&lt;customRootCATLSSecret-value&gt;<span class="w"> </span>&lt;customTLSSecret-value&gt;<span class="w"> </span>&lt;customReplicationTLSSecret-value&gt;<span class="w"> </span>&lt;pgbouncer.customTLSSecret&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span><span class="nv">$CLUSTER</span>-cluster-ca-cert<span class="w"> </span><span class="nv">$CLUSTER</span>-cluster-cert<span class="w"> </span><span class="nv">$CLUSTER</span>-replication-cert<span class="w"> </span><span class="nv">$CLUSTER</span>-pgbouncer-frontend-tls<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Resume the cluster. Set <code>spec.pause</code> back to <code>false</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
+<span class="s1">&quot;spec&quot;: {</span>
+<span class="s1">  &quot;pause&quot;: false}</span>
+<span class="s1">  }&#39;</span>
+</code></pre></div>
+</li>
+</ol>
+<p>The Operator detects the missing Secrets, sees cert-manager installed, requests new certificates from cert-manager, creates the Secrets, and resumes the cluster.</p>
+<h3 id="tls-migrate-to-cert-manager-verify-the-migration">Verify the migration<a class="headerlink" href="#tls-migrate-to-cert-manager-verify-the-migration" title="Permanent link">&para;</a></h3>
+<p>After the cluster is running, verify that cert-manager resources were created:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>issuers<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>&lt;cluster-name&gt;-cluster-cert<span class="w"> </span>&lt;cluster-name&gt;-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>You can configure certificate validity in the Custom Resource. See <a href="#tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity</a> for details.</p></section><section class="print-page" id="tls-manual" heading-number="6.6.4"><h1 id="tls-manual-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-manual-generate-certificates-manually" title="Permanent link">&para;</a></h1>
 <p>You can customize TLS for the Operator by providing your own TLS certificates. To do this, you must create two Kubernetes Secret objects <em>before</em> deploying your cluster:</p>
 <ul>
-<li>One for external communication, later referenced by the <code>spec.customTLSSecret</code> field in the <code>deploy/cr.yaml</code></li>
-<li>One for internal communication (used for replication authentication), referenced by the <code>spec.customReplicationTLSSecret</code> field in the <code>deploy/cr.yaml</code>.</li>
+<li>One for external communication, later referenced by the <code>spec.secrets.customTLSSecret</code> field in the <code>deploy/cr.yaml</code></li>
+<li>One for internal communication (used for replication authentication), referenced by the <code>spec.secrets.customReplicationTLSSecret</code> field in the <code>deploy/cr.yaml</code>.</li>
 </ul>
 <p>Each Secret must contain the following fields:</p>
 <ul>
@@ -9338,7 +9784,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 <li><code>ca.crt</code> (the Certificate Authority certificate)</li>
 </ul>
 <p>Note that you cannot use only one custom set of certificates. If you provide a custom TLS Secret, you <strong>must</strong> also provide a custom replication TLS Secret, and both must contain the same <code>ca.crt</code>.</p>
-<h3 id="tls-provide-pre-existing-custom-certificates">Provide pre-existing custom certificates<a class="headerlink" href="#tls-provide-pre-existing-custom-certificates" title="Permanent link">&para;</a></h3>
+<h2 id="tls-manual-provide-existing-custom-certificates">Provide existing custom certificates<a class="headerlink" href="#tls-manual-provide-existing-custom-certificates" title="Permanent link">&para;</a></h2>
 <p>For example, you have files named <code>ca.crt</code>, <code>my_tls.key</code>, and <code>my_tls.crt</code>. Run the following command to create a custom TLS Secret named <code>cluster1-tls</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-tls<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.crt<span class="w"> </span><span class="se">\</span>
@@ -9365,7 +9811,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 <p>Now you can create a cluster with your custom certificates:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<h3 id="tls-provide-a-pre-existing-custom-root-ca-certificate-to-the-operator">Provide a pre-existing custom root CA certificate to the Operator<a class="headerlink" href="#tls-provide-a-pre-existing-custom-root-ca-certificate-to-the-operator" title="Permanent link">&para;</a></h3>
+<h2 id="tls-manual-provide-a-pre-existing-custom-root-ca-certificate-to-the-operator">Provide a pre-existing custom root CA certificate to the Operator<a class="headerlink" href="#tls-manual-provide-a-pre-existing-custom-root-ca-certificate-to-the-operator" title="Permanent link">&para;</a></h2>
 <p>You can also provide a custom root CA certificate to the Operator. In this case the Operator will not generate one itself, but will use the user-provided CA certificate. This can be useful if you would like to have several database clusters with certificates generated by the Operator based on the same root CA.</p>
 <p>To make the Operator use a custom root certificate, create a separate secret with this certificate and specify this secret in the Custom Resource options <strong>before</strong> you deploy a cluster.</p>
 <p>For example, if you have files named <code>my_tls.key</code> and <code>my_tls.crt</code> stored on your local machine, you could run the following command to create a
@@ -9390,8 +9836,8 @@ Secret named <code>cluster1-ca-cert</code> in the <code>postgres-operator</code>
 <p class="admonition-title">Warning</p>
 <p>This approach allows using root CA certificate auto-generated by the Operator for some other clusters, but it needs caution.  If the cluster with auto-generated certificate has <code>delete-ssl</code> finalizer enabled, the certificate will be deleted at the cluster deletion event even if it was manually provided to some other cluster.</p>
 </div>
-<h3 id="tls-generate-custom-certificates-for-the-operator-yourself">Generate custom certificates for the Operator yourself<a class="headerlink" href="#tls-generate-custom-certificates-for-the-operator-yourself" title="Permanent link">&para;</a></h3>
-<h4 id="tls-understand-certificate-requirements">Understand certificate requirements<a class="headerlink" href="#tls-understand-certificate-requirements" title="Permanent link">&para;</a></h4>
+<h2 id="tls-manual-generate-custom-certificates-for-the-operator-yourself">Generate custom certificates for the Operator yourself<a class="headerlink" href="#tls-manual-generate-custom-certificates-for-the-operator-yourself" title="Permanent link">&para;</a></h2>
+<h3 id="tls-manual-understand-certificate-requirements">Understand certificate requirements<a class="headerlink" href="#tls-manual-understand-certificate-requirements" title="Permanent link">&para;</a></h3>
 <p>To find out the certificates specifics needed for the Operator, view the certificates generated by the Operator automatically. For example, if you have a cluster deployed in some staging environment.</p>
 <p>Here&rsquo;s how to do it: </p>
 <ol>
@@ -9439,7 +9885,7 @@ cluster1-replication-cert       Opaque   3      143m
 </li>
 <li>
 <p>You can check the auto-generated TLS certificate (<code>tls.crt</code>) in a similar way:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="tls-__tabbed_1_1" name="tls-__tabbed_1" type="radio" /><input id="tls-__tabbed_1_2" name="tls-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="tls-__tabbed_1_1">External communication</label><label for="tls-__tabbed_1_2">Internal communication</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="tls-manual-__tabbed_1_1" name="tls-manual-__tabbed_1" type="radio" /><input id="tls-manual-__tabbed_1_2" name="tls-manual-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="tls-manual-__tabbed_1_1">External communication</label><label for="tls-manual-__tabbed_1_2">Internal communication</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
@@ -9528,7 +9974,7 @@ cluster1-replication-cert       Opaque   3      143m
 </li>
 </ol>
 <p>Both secrets share the same <code>ca.crt</code> certificate but have different <code>tls.crt</code> certificates. The <code>tls.crt</code> in the Secret for external communications should have a Common Name (CN) setting that matches the primary Service name (<code>CN = cluster1-primary.default.svc.cluster.local.</code> in the above example). Similarly, the <code>tls.crt</code> in the Secret for internal communications should have a Common Name (CN) setting that matches the preset replication user: <code>CN=_crunchyrepl</code>.</p>
-<h4 id="tls-generate-certificates">Generate certificates<a class="headerlink" href="#tls-generate-certificates" title="Permanent link">&para;</a></h4>
+<h3 id="tls-manual-generate-certificates">Generate certificates<a class="headerlink" href="#tls-manual-generate-certificates" title="Permanent link">&para;</a></h3>
 <p>One of the options to create certificates yourself is to use <a href="https://cfssl.org/">CloudFlare PKI and TLS toolkit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
 <p><strong>You must generate certificates twice: one set is for
 external communications, and another set is for internal ones!</strong></p>
@@ -9636,7 +10082,7 @@ external communications, and another set is for internal ones!</strong></p>
 <span class="s">  }</span>
 <span class="s">  EOF</span>
 </code></pre></div>
-<p>You should have the following files as defined by the <code>-bare server</code> part of the command:</p>
+<p>You should have the following files as defined by the <code>-bare</code> part of the command:</p>
 <ul>
 <li><code>replication.pem</code> - the signed certificate</li>
 <li><code>replication-key.pem</code> - the private key</li>
@@ -9644,8 +10090,15 @@ external communications, and another set is for internal ones!</strong></p>
 </li>
 </ul>
 <p>You can find more on generating certificates this way in <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/">official Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<p>Refer to the <a href="#tls-provide-pre-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p>
-<h2 id="tls-check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#tls-check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
+<p>Refer to the <a href="#tls-manual-provide-pre-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p></section><section class="print-page" id="tls-update" heading-number="6.6.5"><h1 id="tls-update-update-certificates">Update certificates<a class="headerlink" href="#tls-update-update-certificates" title="Permanent link">&para;</a></h1>
+<p>How your TLS certificates are updated depends on how they were created:</p>
+<ul>
+<li>Certificates generated by the Operator are long-term. The Operator automatically updates the automatically-generated certificates to ensure your applications continue operation without communication issues.</li>
+<li>Certificates issued by the cert-manager are short-term. You can configure their validity in the Custom Resource when you deploy a cluster. The cert-manager automatically reissues the certificates on schedule and without downtime.</li>
+<li>Certificates you generated manually or provided to the Operator are out of its control. The Operator doesn&rsquo;t update custom certificates. It is your responsibility to timely update them.</li>
+</ul>
+<p>This document focuses on how to update manually generated certificates.</p>
+<h2 id="tls-update-check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#tls-update-check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
 </code></pre></div>
 <ol>
@@ -9675,11 +10128,9 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </code></pre></div>
 </li>
 </ol>
-<h2 id="tls-update-certificates">Update certificates<a class="headerlink" href="#tls-update-certificates" title="Permanent link">&para;</a></h2>
-<p>The Operator automatically updates the automatically-generated certificates to ensure your applications continue operation without communication issues. However, the Operator doesn&rsquo;t update custom certificates. It is your responsibility to timely update them.</p>
-<h3 id="tls-update-custom-certificates">Update custom certificates<a class="headerlink" href="#tls-update-custom-certificates" title="Permanent link">&para;</a></h3>
+<h2 id="tls-update-update-custom-certificates">Update custom certificates<a class="headerlink" href="#tls-update-update-custom-certificates" title="Permanent link">&para;</a></h2>
 <p>You can update only custom certificates for external and / or internal communication and keep the same root CA certificate. </p>
-<p>You can update the contents of your existing Secrets referenced in the <code>spec.customTLSSecret</code> and/or <code>spec.customReplicationTLSSecret</code> fields in <code>deploy/cr.yaml</code> without changing their names. In this case, the Operator detects the updated certificate data and applies the changes to the running cluster without restarting it. Such update is called hot reload.</p>
+<p>You can update the contents of your existing Secrets referenced in the <code>spec.secrets.customTLSSecret</code> and/or <code>spec.secrets.customReplicationTLSSecret</code> fields in <code>deploy/cr.yaml</code> without changing their names. In this case, the Operator detects the updated certificate data and applies the changes to the running cluster without restarting it. Such update is called hot reload.</p>
 <p>This example shows how you can do it. Let&rsquo;s say you have the following certificates and Secrets:</p>
 <ul>
 <li><code>server.pem</code> / <code>server-key.pem</code> and the <code>cluster1-cert</code> Secret for external communication,</li>
@@ -9720,7 +10171,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 </li>
 </ol>
 <p>If you create new Secrets with new names and values, update the <code>spec.customTLSSecret</code> and <code>spec.customReplicationTLSSecret</code> fields in the <code>deploy/cr.yaml</code>. When you apply the new configuration,this causes the Operator to restart the cluster. </p>
-<h3 id="tls-update-a-custom-root-ca-certificate">Update a custom root CA certificate<a class="headerlink" href="#tls-update-a-custom-root-ca-certificate" title="Permanent link">&para;</a></h3>
+<h2 id="tls-update-update-a-custom-root-ca-certificate">Update a custom root CA certificate<a class="headerlink" href="#tls-update-update-a-custom-root-ca-certificate" title="Permanent link">&para;</a></h2>
 <p>Here&rsquo;s what you need to know if you wish to update a custom root CA certificate:</p>
 <ul>
 <li>If you change a root CA certificate, you must also change your custom TLS certificates for external and internal communications as these must be signed with the same root CA. </li>
@@ -9731,7 +10182,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <ol>
 <li>Generate a new root CA certificate and key. For example, you have them in files named <code>new-ca.pem</code> and <code>new-ca-key.pem</code>.</li>
 <li>
-<p>Generate all dependent certificates for external and internal communication and sign them using the new root CA certificate. Check the <a href="#tls-generate-certificates-manually">Generate certificates manually</a> section for the steps. For example, you end up with the following certificates:</p>
+<p>Generate all dependent certificates for external and internal communication and sign them using the new root CA certificate. Check the <a href="#tls-manual-generate-certificates-manually">Generate certificates manually</a> section for the steps. For example, you end up with the following certificates:</p>
 <ul>
 <li><code>server.pem</code> and <code>server-key.pem</code> for external communication</li>
 <li><code>replication.pem</code> and <code>replication-key.pem</code> for internal communication</li>
@@ -9805,10 +10256,110 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
-</ol>
-<h2 id="tls-keep-certificates-after-deleting-the-cluster">Keep certificates after deleting the cluster<a class="headerlink" href="#tls-keep-certificates-after-deleting-the-cluster" title="Permanent link">&para;</a></h2>
-<p>In case of cluster deletion, objects, created for SSL (Secret, certificate, and issuer) are not deleted by default.</p>
-<p>If the user wants the cleanup of objects created for SSL, there is a <a href="#operator-finalizers-delete-ssl">finalizers.percona.com/delete-ssl</a> Custom Resource option, which can be set in <code>deploy/cr.yaml</code>: if this finalizer is set, the Operator will delete Secret, certificate and issuer after the cluster deletion event. </p></section><section class="print-page" id="telemetry" heading-number="6.7"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="tls-verify-communication" heading-number="6.6.6"><h1 id="tls-verify-communication-check-tls-communication-to-the-cluster">Check TLS communication to the cluster<a class="headerlink" href="#tls-verify-communication-check-tls-communication-to-the-cluster" title="Permanent link">&para;</a></h1>
+<p>You can check TLS communication using <code>psql</code>, the standard interactive terminal-based frontend to PostgreSQL. </p>
+<p>For this purpose, we will create a <code>pg-client</code> Deployment, which includes the necessary tools. We will use the existing Secret object with the TLS certificates, generated by the Operator.</p>
+<p>Follow these steps:</p>
+<ol>
+<li>
+<p>Export the namespace as the environment variable to simplify further configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;postgres-operator&gt;
+</code></pre></div>
+</li>
+<li>
+<p>List the Secret objects:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code>cluster1-cluster-ca-cert        Opaque   2      37m
+cluster1-cluster-cert           Opaque   3      37m
+cluster1-instance1-5nlp-certs   Opaque   6      37m
+cluster1-instance1-8rks-certs   Opaque   6      37m
+cluster1-instance1-z5tz-certs   Opaque   6      37m
+cluster1-pgbackrest             Opaque   5      37m
+cluster1-pgbouncer              Opaque   6      37m
+cluster1-pguser-cluster1        Opaque   12     37m
+cluster1-replication-cert       Opaque   3      37m
+</code></pre></div>
+</details>
+<p>The secret with TLS certificates is <code>&lt;cluster-name&gt;-cluster-ca-cert</code> (<code>cluster1-cluster-ca-cert</code> by default).</p>
+</li>
+<li>
+<p>Create a deployment. Replace the placeholders in the following command with your values:</p>
+<ul>
+<li>Replace the <code>&lt;cluster-name&gt;</code> placeholder with your actual cluster name</li>
+<li>Specify the Secret object with the TLS certificate from step 2</li>
+<li>Specify the CA certificate file for the <code>volumeMounts.name</code> and <code>volumes.name</code> options. This file is used to mount the root CA certificate into the container so that client tools like <code>psql</code> can verify the server&rsquo;s certificate. To view the file name, run <code>kubectl get secret &lt;cluster-name&gt;-cluster-ca-cert -o yaml -n $NAMESPACE</code> command.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | kubectl apply -n $NAMESPACE -f -</span>
+<span class="s">apiVersion: apps/v1</span>
+<span class="s">kind: Deployment</span>
+<span class="s">metadata:</span>
+<span class="s">  name: pg-client</span>
+<span class="s">spec:</span>
+<span class="s">  replicas: 1</span>
+<span class="s">  selector:</span>
+<span class="s">    matchLabels:</span>
+<span class="s">      name: pg-client</span>
+<span class="s">  template:</span>
+<span class="s">    metadata:</span>
+<span class="s">      labels:</span>
+<span class="s">        name: pg-client</span>
+<span class="s">    spec:</span>
+<span class="s">      containers:</span>
+<span class="s">        - name: pg-client</span>
+<span class="s">          image: percona/percona-distribution-postgresql:17.7-2</span>
+<span class="s">          imagePullPolicy: Always</span>
+<span class="s">          command:</span>
+<span class="s">          - sleep</span>
+<span class="s">          args:</span>
+<span class="s">          - &quot;100500&quot;</span>
+<span class="s">          volumeMounts:</span>
+<span class="s">            - name: root</span>
+<span class="s">              mountPath: &quot;/tmp/tls&quot;</span>
+<span class="s">      volumes:</span>
+<span class="s">      - name: root</span>
+<span class="s">        secret:</span>
+<span class="s">          secretName: &lt;cluster-name&gt;-cluster-ca-cert</span>
+<span class="s">          items:</span>
+<span class="s">          - key: root.crt</span>
+<span class="s">            path: root.crt</span>
+<span class="s">            mode: 0777</span>
+<span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Retrieve the <code>pgBouncer</code> URI to connect to PostgreSQL. It is stored in the Secret object with user credentials: <code>&lt;cluster-name&gt;-pguser-&lt;db-name&gt;</code>. The default value is <code>cluster1-pguser-cluster1</code>. Run the following command and replace the <code>cluster1-pguser-cluster1</code> Secret name with your value:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<p>```text
+postgresql://cluster1:<password>@cluster1-pgbouncer.default.svc:5432/cluster1</p>
+</details>
+</li>
+<li>
+<p>Now get shell access to the newly created container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>deployment/pg-client<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code>[postgres@pg-client-54b449898f-ztlrh /]$
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Launch the <code>psql</code> interactive terminal to check connectivity over the encrypted channel. Make sure to use your cluster name, the pgBouncer URL you retrieved at the previous step, and the CA certificate you provided when you created the <code>pg-client</code> deployment:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>verify-ca<span class="w"> </span><span class="nv">PGSSLROOTCERT</span><span class="o">=</span>/tmp/tls/root.crt<span class="w"> </span>psql<span class="w"> </span><span class="s1">&#39;postgresql://cluster1:&lt;password&gt;@cluster1-pgbouncer.default.svc:5432/cluster1&#39;</span>
+</code></pre></div>
+<p>Now you should see the prompt of PostgreSQL interactive terminal:</p>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">17</span>.7-2<span class="o">)</span>
+Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<span class="nv">cluster1</span><span class="o">=</span>&gt;
+</code></pre></div>
+</li>
+</ol></section></section><section class="print-page" id="telemetry" heading-number="6.7"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
 <p>The Telemetry function enables the Operator gathering and sending basic anonymous data to Percona, which helps us to determine where to focus the development and what is the uptake for each release of Operator. </p>
 <p>The following information is gathered:</p>
 <ul>
@@ -16099,6 +16650,40 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tr>
 </tbody>
 </table>
+<h3 id="operator-tlscertvalidityduration"><code>tls.certValidityDuration</code><a class="headerlink" href="#operator-tlscertvalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for TLS certificates (cluster, instance, and PgBouncer). Used only when <a href="#tls-cert-manager">cert-manager</a> manages certificates. Format: Go duration (e.g. <code>2160h</code>). Default: <code>8760h</code> (1 year).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>2160h</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-tlscavalidityduration"><code>tls.caValidityDuration</code><a class="headerlink" href="#operator-tlscavalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for the root CA certificate. Used only when <a href="#tls-cert-manager">cert-manager</a> manages certificates. Format: Go duration (e.g. <code>26280h</code>). Default: <code>8760h</code> (1 year).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>26280h</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-tlspgbackrestcertvalidityduration"><code>tls.pgBackRestCertValidityDuration</code><a class="headerlink" href="#operator-tlspgbackrestcertvalidityduration" title="Permanent link">&para;</a></h3>
+<p>Validity duration for the <code>pgBackRest</code> client and repository host certificates</p>
 <h3 id="operator-standbyenabled"><code>standby.enabled</code><a class="headerlink" href="#operator-standbyenabled" title="Permanent link">&para;</a></h3>
 <p>Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).</p>
 <table>
@@ -23017,7 +23602,18 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #annotations > h1:before { content: '6.5 ' }
 
-.print-site-enumerate-headings #tls > h1:before { content: '6.6 ' }
+.print-site-enumerate-headings #section-6-6 > h1:before { content: '6.6 ' }
+.print-site-enumerate-headings #tls > h1:before { content: '6.6.1 ' }
+
+.print-site-enumerate-headings #tls-cert-manager > h1:before { content: '6.6.2 ' }
+
+.print-site-enumerate-headings #tls-migrate-to-cert-manager > h1:before { content: '6.6.3 ' }
+
+.print-site-enumerate-headings #tls-manual > h1:before { content: '6.6.4 ' }
+
+.print-site-enumerate-headings #tls-update > h1:before { content: '6.6.5 ' }
+
+.print-site-enumerate-headings #tls-verify-communication > h1:before { content: '6.6.6 ' }
 
 .print-site-enumerate-headings #telemetry > h1:before { content: '6.7 ' }
 
