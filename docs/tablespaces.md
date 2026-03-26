@@ -44,7 +44,7 @@ To provide a new tablespace for your database in Kubernetes, you should do the f
 
 ### Configure the new tablespace storage with the Operator
 
-Modify the Custom Resource and configure the [spec.tablespaceStorages](operator.md#instancestablespacevolumesname) section
+Modify the Custom Resource and configure the [spec.instances.tablespaceVolumes](operator.md#instancestablespacevolumesname) section
 for tablespaces.
 
 === ":simple-kubernetes: kubectl"
