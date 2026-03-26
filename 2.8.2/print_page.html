@@ -2156,6 +2156,173 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    PVC snapshots
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pvc-snapshots.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pvc-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pvc-setup-eks.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure PVC snapshots on EKS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pvc-usage.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="backup-encryption.html" class="md-nav__link">
         
@@ -5347,6 +5514,67 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         To a new cluster (cluster clone)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-7-1-5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PVC snapshots
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="PVC snapshots">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#backups-pvc-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About PVC snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backups-pvc-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure PVC snapshots
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backups-pvc-setup-eks" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure PVC snapshots on EKS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backups-pvc-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use PVC snapshots
       
     </span>
   </a>
@@ -10609,9 +10837,28 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </tr>
 </tbody>
 </table>
-<p>Following feature gates are present as of Operator version 2.8.1:</p>
+<p>Following feature gates are present:</p>
+<p>&laquo;&laquo;&laquo;&lt; HEAD
+1. <code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.
+=======
+1. <code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-enable-automatic-storage-resize">Scale your cluster</a> chapter. Available as of Operator version 2.8.1.</p>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<blockquote>
+<p>Update docs/backups-pvc-setup.md</p>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
+</blockquote>
 <ol>
-<li><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.</li>
+<li><code>BackupSnapshots=true</code> - Enables <a href="#backups-pvc-snapshots">PVC snapshot support</a> for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.</li>
 </ol>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -10620,6 +10867,10 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true&quot;</span>
+</code></pre></div>
+<p>To enable multiple features, list them separated by a comma:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
+<span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true,BackupSnapshots=true&quot;</span>
 </code></pre></div>
 <h3 id="env-var-operator-log_structured"><code>LOG_STRUCTURED</code><a class="headerlink" href="#env-var-operator-log_structured" title="Permanent link">&para;</a></h3>
 <p>Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.</p>
@@ -10801,9 +11052,12 @@ percona-postgresql-operator   0/1     1            0           3h50m
 file. The Operator makes them automatically according to the schedule. </li>
 </ul>
 <h2 id="backups-what-you-need-to-know">What you need to know<a class="headerlink" href="#backups-what-you-need-to-know" title="Permanent link">&para;</a></h2>
+<h3 id="backups-backup-methods">Backup methods<a class="headerlink" href="#backups-backup-methods" title="Permanent link">&para;</a></h3>
+<p>By default, the Operator uses the open source <a href="https://pgbackrest.org/">pgBackRest <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> backup
+and restore utility to make backups.</p>
+<p>Starting with version 2.9.0, the Operator also supports <a href="#backups-pvc-snapshots">PVC snapshots</a> - storage-level copies of your data volumes. PVC snapshots offer much faster backups and restores. When used with <code>pgBackRest</code> WAL archiving, they maintain data consistency and enable you to make point-in-time recovery of your database.</p>
+<p>This feature is in the tech preview stage. You must explicitly enable it for the Operator deployment.</p>
 <h3 id="backups-backup-repositories">Backup repositories<a class="headerlink" href="#backups-backup-repositories" title="Permanent link">&para;</a></h3>
-<p>To make backups, the Operator uses the open source <a href="https://pgbackrest.org/">pgBackRest <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> backup
-and restore utility. </p>
 <p>When the Operator creates a new PostgreSQL cluster, it also creates a special <em>pgBackRest repository</em> to facilitate the usage of the pgBackRest
 features. You can notice an additional <code>repo-host</code> Pod after the cluster
 creation.</p>
@@ -11851,7 +12105,660 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
 </code></pre></div>
 <p>The <code>dataSource.pgbackrest</code> section stays the same; only the new cluster&rsquo;s backup destination changes.</p>
 <h3 id="backups-clone-gcs-and-azure-blob-storage">GCS and Azure Blob Storage<a class="headerlink" href="#backups-clone-gcs-and-azure-blob-storage" title="Permanent link">&para;</a></h3>
-<p>For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the <code>repo.s3</code> block with <code>repo.gcs</code> or <code>repo.azure</code> and the matching configuration. See <a href="#backups-storage">Configure storage for backups</a> for examples.</p></section></section><section class="print-page" id="backup-encryption" heading-number="7.1.5"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
+<p>For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the <code>repo.s3</code> block with <code>repo.gcs</code> or <code>repo.azure</code> and the matching configuration. See <a href="#backups-storage">Configure storage for backups</a> for examples.</p></section></section>
+                    <section class='print-page md-section' id='section-7-1-5' heading-number='7.1.5'>
+                        <h1>PVC snapshots<a class='headerlink' href='#section-7-1-5' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="backups-pvc-snapshots" heading-number="7.1.5.1"><h1 id="backups-pvc-snapshots-pvc-snapshot-support">PVC snapshot support<a class="headerlink" href="#backups-pvc-snapshots-pvc-snapshot-support" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p>This feature is in the tech preview stage. The API and behavior may change in future releases.</p>
+</div>
+<p>This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the <a href="#backups-pvc-setup">Configure and use PVC snapshots</a> tutorial. If you run on Amazon EKS, start with <a href="#backups-pvc-setup-eks">Set up PVC snapshots on EKS</a>. </p>
+<p>By reading this document you will learn the following:</p>
+<ul>
+<li><a href="#backups-pvc-snapshots-pvc-snapshot-support">PVC snapshot support</a><ul>
+<li><a href="#backups-pvc-snapshots-overview">Overview</a></li>
+<li><a href="#backups-pvc-snapshots-workflow">Workflow</a></li>
+<li><a href="#backups-pvc-snapshots-why-to-use-pvc-snapshots">Why to use PVC snapshots</a></li>
+<li><a href="#backups-pvc-snapshots-requirements">Requirements</a></li>
+<li><a href="#backups-pvc-snapshots-limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="backups-pvc-snapshots-overview">Overview<a class="headerlink" href="#backups-pvc-snapshots-overview" title="Permanent link">&para;</a></h2>
+<p>A PVC snapshot is a point-in-time copy of a <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claim <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> created by the storage provider. It captures the volume contents at a specific moment without copying data block by block. </p>
+<p>PVC snapshots are much faster than streaming data to cloud storage or a backup volume. This is especially beneficial for large datasets. The Operator uses the <a href="https://kubernetes.io/docs/concepts/storage/volume-snapshots/">Kubernetes VolumeSnapshot API <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to create PVC snapshots at the storage level. When used with <code>pgBackRest</code> WAL archiving, PVC snapshots ensure data consistency and provide support for point-in-time recovery.</p>
+<h2 id="backups-pvc-snapshots-workflow">Workflow<a class="headerlink" href="#backups-pvc-snapshots-workflow" title="Permanent link">&para;</a></h2>
+<p>The Operator currently supports only cold backups (the <code>offline</code> mode). 
+A cold backup is also known as an offline backup. 
+It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the Operator.
+This ensures consistency by capturing the entire database exactly as it exists at the moment when the replica is temporarily suspended.</p>
+<p>During cold backups, the Operator:</p>
+<ol>
+<li>Selects a <strong>replica</strong> instance as the snapshot target.</li>
+<li>Issues a PostgreSQL <code>CHECKPOINT</code> on that replica (if checkpoint is enabled).</li>
+<li><strong>Suspends</strong> the replica StatefulSet (scales it to zero).</li>
+<li>Creates Kubernetes <code>VolumeSnapshot</code> objects for the data PVC, WAL PVC (if separate), and any tablespace PVCs.</li>
+<li>Waits for all snapshots to become <code>ReadyToUse</code>.</li>
+<li><strong>Resumes</strong> the replica StatefulSet.</li>
+</ol>
+<p>This approach ensures a crash-consistent snapshot while minimizing the impact on the primary. Only a replica is taken offline, so the cluster continues serving read/write traffic on the primary during the snapshot.</p>
+<h2 id="backups-pvc-snapshots-why-to-use-pvc-snapshots">Why to use PVC snapshots<a class="headerlink" href="#backups-pvc-snapshots-why-to-use-pvc-snapshots" title="Permanent link">&para;</a></h2>
+<p>PVC snapshots speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:</p>
+<ul>
+<li><strong>Much faster backups</strong> – Snapshot creation is typically seconds to minutes, regardless of database size. Time it takes to run traditional full backups increases as the size of your database grows.</li>
+<li><strong>Much faster restores</strong> – Restoring from a snapshot is significantly faster than restoring from cloud storage. Both in-place restores and restores to a new cluster are supported.</li>
+<li><strong>Lower resource usage</strong> – Snapshots avoid the CPU and network overhead of streaming data to a remote storage.</li>
+</ul>
+<h2 id="backups-pvc-snapshots-requirements">Requirements<a class="headerlink" href="#backups-pvc-snapshots-requirements" title="Permanent link">&para;</a></h2>
+<p>Before enabling PVC snapshots, ensure the following:</p>
+<ol>
+<li>
+<p>Your Kubernetes cluster must have the CSI driver that supports VolumeSnapshot API. An example of such driver for GKE is <code>pd.csi.storage.gke.io</code>, for EKS - <code>ebs.csi.aws.com</code>.</p>
+</li>
+<li>
+<p>Your Kubernetes cluster must have the VolumeSnapshot CRDs installed. Verify if they are installed with this command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>volumesnapshots.snapshot.storage.k8s.io
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Expected output</p>
+<p><code>volumesnapshotclasses.snapshot.storage.k8s.io</code>
+<code>volumesnapshotcontents.snapshot.storage.k8s.io</code>
+<code>volumesnapshots.snapshot.storage.k8s.io</code></p>
+</div>
+</li>
+<li>
+<p>At least one <code>VolumeSnapshotClass</code> must exist and be compatible with the storage class used by your PostgreSQL data volumes. Check it with:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+<p>See how to add it in the <a href="#backups-pvc-setup-add-volumesnapshotclass">Add a VolumeSnapshotClass</a> section.</p>
+<ol>
+<li>You must explicitly enable the <code>BackupSnapshots</code> feature gate in the Operator Deployment. See <a href="#backups-pvc-setup-enable-the-feature-gate">Enable the feature gate</a>.</li>
+<li>You must explicitly specify the storage class whose CSI driver supports VolumeSnapshot API in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option in the Custom Resource for your cluster.</li>
+</ol>
+<h2 id="backups-pvc-snapshots-limitations">Limitations<a class="headerlink" href="#backups-pvc-snapshots-limitations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Currently only offline mode</strong> – Only offline snapshots are supported; the Operator must stop a replica pod to take a consistent snapshot of the database.</li>
+<li><strong>At least one replica required</strong> – Your cluster must have at least one replica pod besides the primary. The Operator takes the snapshot from a replica; clusters without replicas cannot use this feature.</li>
+<li><strong>CSI driver support required</strong> — your Kubernetes cluster’s storage provisioner
+must support the Volume Snapshot API.</li>
+<li><strong>One snapshot backup at a time</strong> – You can only run one snapshot backup at a time on a given cluster; concurrent snapshot backups are not supported.</li>
+<li><strong>No automatic retention policy for scheduled backups yet</strong> - You must manually delete outdated backup objects. Retention policy is planned to be added in future releases.</li>
+<li><strong>No automatic retention policy for scheduled backups yet</strong> – You need to manually remove outdated backup objects for now. Automatic retention will be available in a future release.</li>
+</ul>
+<p><a class="md-button" href="#backups-pvc-setup">Configure PVC snapshots</a></p></section><section class="print-page" id="backups-pvc-setup" heading-number="7.1.5.2"><h1 id="backups-pvc-setup-configure-and-use-pvc-snapshots">Configure and use PVC snapshots<a class="headerlink" href="#backups-pvc-setup-configure-and-use-pvc-snapshots" title="Permanent link">&para;</a></h1>
+<p>This document provides step-by-step instructions for configuring and using Persistent Volume Claim (PVC) Snapshots with Percona Operator for PostgreSQL on Kubernetes. </p>
+<p>For a high-level explanation of PVC snapshots, please refer to the <a href="#backups-pvc-snapshots-overview">PVC snapshot support</a> chapter.</p>
+<div class="admonition note">
+<p class="admonition-title">Amazon EKS users</p>
+<p>If you run your cluster on Amazon EKS, refer to the <a href="#backups-pvc-setup-eks">Set up PVC snapshots on EKS</a> tutorial. EKS requires specific addons, a gp3 storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.</p>
+</div>
+<h2 id="backups-pvc-setup-prerequisites">Prerequisites<a class="headerlink" href="#backups-pvc-setup-prerequisites" title="Permanent link">&para;</a></h2>
+<p>To use PVC snapshots, ensure you have the following prerequisites met:</p>
+<ol>
+<li>
+<p>Your Kubernetes cluster must have a CSI driver that supports Volume Snapshots<br />
+   For example, Google Kubernetes Engine (GKE) with <code>pd.csi.storage.gke.io</code>, or Amazon EKS with <code>ebs.csi.aws.com</code>. Check what driver you have with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>csidriver
+</code></pre></div>
+</li>
+<li>
+<p>Your Kubernetes cluster must have VolumeSnapshot CRDs installed. Most managed Kubernetes providers include these by default. Verify by running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>volumesnapshots<span class="w"> </span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>volumesnapshots.snapshot.storage.k8s.io
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>At least one <code>VolumeSnapshotClass</code> must exist and be compatible with the storage class used by your PostgreSQL data volumes. Check it with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+<p>If you don&rsquo;t have one, you can add it yourself. Refer to the <a href="#backups-pvc-setup-add-volumesnapshotclass">Add a VolumeSnapshotClass</a> section.</p>
+</li>
+<li>
+<p>You must enable the <code>BackupSnapshots</code> feature gate for the <strong>Percona Operator for PostgreSQL</strong> deployment.  Refer to the <a href="#backups-pvc-setup-enable-the-feature-gate">Enable the feature gate</a> section for details.</p>
+</li>
+</ol>
+<h2 id="backups-pvc-setup-before-you-start">Before you start<a class="headerlink" href="#backups-pvc-setup-before-you-start" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Check the <a href="#backups-pvc-setup-prerequisites">prerequisites</a> and <a href="#backups-pvc-snapshots-limitations">limitations</a></li>
+<li>
+<p>Clone the Operator repository to be able to edit manifests:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespace where you run your cluster as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<h2 id="backups-pvc-setup-configuration">Configuration<a class="headerlink" href="#backups-pvc-setup-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="backups-pvc-setup-enable-the-feature-gate">Enable the feature gate<a class="headerlink" href="#backups-pvc-setup-enable-the-feature-gate" title="Permanent link">&para;</a></h3>
+<p>If you have the Operator Deployment up and running, you can edit the <code>deploy/operator.yaml</code> manifest. If you deploy the Operator from scratch, edit the <code>deploy/bundle.yaml</code> manifest.</p>
+<ol>
+<li>
+<p>Edit the <code>deploy/operator.yaml</code> or <code>deploy/bundle.yaml</code> and set the <code>PGO_FEATURE_GATES</code> environment variable for the Operator Deployment to <code>"BackupSnapshots=true"</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BackupSnapshots=true&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="backups-pvc-setup-add-a-volumesnapshotclass">Add a VolumeSnapshotClass<a class="headerlink" href="#backups-pvc-setup-add-a-volumesnapshotclass" title="Permanent link">&para;</a></h3>
+<p>If your Kubernetes cluster doesn&rsquo;t have a <code>VolumeSnapshotClass</code> that matches your CSI driver, create one.</p>
+<ol>
+<li>
+<p>Create a VolumeSnapshotClass configuration file with the following configuration:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="backups-pvc-setup-__tabbed_1_1" name="backups-pvc-setup-__tabbed_1" type="radio" /><input id="backups-pvc-setup-__tabbed_1_2" name="backups-pvc-setup-__tabbed_1" type="radio" /><input id="backups-pvc-setup-__tabbed_1_3" name="backups-pvc-setup-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="backups-pvc-setup-__tabbed_1_1">Google Kubernetes Engine (GKE)</label><label for="backups-pvc-setup-__tabbed_1_2">Microsoft Azure Kubernetes Service (AKS)</label><label for="backups-pvc-setup-__tabbed_1_3">OpenShift</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><span class="filename">volume-snapshot-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshotClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gke-snapshot-class</span>
+<span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pd.csi.storage.gke.io</span>
+<span class="nt">deletionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><span class="filename">volume-snapshot-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshotClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aks-snapshot-class</span>
+<span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk.csi.azure.com</span>
+<span class="nt">deletionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><span class="filename">volume-snapshot-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshotClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openshift-snapshot-class</span>
+<span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs.csi.aws.com</span>
+<span class="nt">deletionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Create the VolumeSnapshotClass resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>volume-snapshot-class.yaml
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>volumesnapshotclass.snapshot.storage.k8s.io/gke-snapshot-class created
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="backups-pvc-setup-configure-pvc-snapshots-in-your-cluster">Configure PVC snapshots in your cluster<a class="headerlink" href="#backups-pvc-setup-configure-pvc-snapshots-in-your-cluster" title="Permanent link">&para;</a></h3>
+<p>You must reference the <code>VolumeSnapshotClass</code> in your cluster Custom Resource.</p>
+<ol>
+<li>
+<p>Check the name of the <code>VolumeSnapshotClass</code> that works with your storage. You can list available classes with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                 DRIVER                  DELETIONPOLICY   AGE
+gke-snapshot-class   pd.csi.storage.gke.io   Delete           42s
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> Custom Resource. Reference the Storage Class that supports the VolumeSnapshot API in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option. The Operator then uses this storage class when it creates the cluster.</p>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
+<span class="w">      </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+</li>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> Custom Resource and add the <code>volumeSnapshots</code> subsection under <code>backups</code>. Specify these keys:</p>
+<ul>
+<li><code>className</code> - the name of the <code>VolumeSnapshotClass</code></li>
+<li><code>mode</code> -  how to make backups. <code>offline</code> is currently the only supported mode.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name-of-your-volume-snapshot-class&gt;</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to update the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>Once configured, snapshots are created automatically when you <a href="#backups-pvc-usage-make-an-on-demand-backup-from-a-pvc-snapshot">make a manual on-demand backup</a> or when <a href="#backups-pvc-usage-make-a-scheduled-snapshot-based-backup">a scheduled backup runs</a>.</p></section><section class="print-page" id="backups-pvc-setup-eks" heading-number="7.1.5.3"><h1 id="backups-pvc-setup-eks-configure-pvc-snapshots-on-amazon-eks">Configure PVC snapshots on Amazon EKS<a class="headerlink" href="#backups-pvc-setup-eks-configure-pvc-snapshots-on-amazon-eks" title="Permanent link">&para;</a></h1>
+<p>This tutorial walks you through setting up PVC snapshots for Percona Operator for PostgreSQL on Amazon Elastic Kubernetes Service (EKS). EKS has specific requirements that differ from other Kubernetes providers such as GKE.</p>
+<p>For a high-level explanation of PVC snapshots, see the <a href="#backups-pvc-snapshots-overview">PVC snapshot support</a> chapter. </p>
+<h2 id="backups-pvc-setup-eks-prerequisites">Prerequisites<a class="headerlink" href="#backups-pvc-setup-eks-prerequisites" title="Permanent link">&para;</a></h2>
+<p>To proceed with the setup, ensure you have:</p>
+<ul>
+<li>An EKS cluster (or plan to create one)</li>
+<li><code>kubectl</code> configured to access your cluster</li>
+<li>The AWS CLI installed and configured</li>
+</ul>
+<p>EKS requires specific addons, a <code>gp3</code> storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.</p>
+<h2 id="backups-pvc-setup-eks-before-you-start">Before you start<a class="headerlink" href="#backups-pvc-setup-eks-before-you-start" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Check the <a href="#backups-pvc-setup-eks-prerequisites">prerequisites</a> and <a href="#backups-pvc-snapshots-limitations">limitations</a></li>
+<li>
+<p>Clone the Operator repository to be able to edit manifests:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespace where you run your cluster as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<h2 id="backups-pvc-setup-eks-configuration">Configuration<a class="headerlink" href="#backups-pvc-setup-eks-configuration" title="Permanent link">&para;</a></h2>
+<h3 id="backups-pvc-setup-eks-enable-required-eks-addons">Enable required EKS addons<a class="headerlink" href="#backups-pvc-setup-eks-enable-required-eks-addons" title="Permanent link">&para;</a></h3>
+<p>EKS requires two addons for volume snapshots: the Amazon EBS CSI driver and the snapshot controller. You can enable them when you create the cluster or add them to an existing cluster.</p>
+<h4 id="backups-pvc-setup-eks-option-a-add-addons-when-creating-the-cluster">Option A: Add addons when creating the cluster<a class="headerlink" href="#backups-pvc-setup-eks-option-a-add-addons-when-creating-the-cluster" title="Permanent link">&para;</a></h4>
+<p>If you deploy the cluster with <code>eksctl</code> or a similar tool, include these addons in your cluster configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">addons</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-ebs-csi-driver</span>
+<span class="w">    </span><span class="nt">wellKnownPolicies</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ebsCSIController</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot-controller</span>
+<span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ng-1</span>
+<span class="w">    </span><span class="nt">desiredCapacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<h4 id="backups-pvc-setup-eks-option-b-add-addons-to-an-existing-cluster">Option B: Add addons to an existing cluster<a class="headerlink" href="#backups-pvc-setup-eks-option-b-add-addons-to-an-existing-cluster" title="Permanent link">&para;</a></h4>
+<p>If your cluster already exists, enable the addons with the AWS CLI:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster-name<span class="w"> </span>&lt;CLUSTER_NAME&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--addon-name<span class="w"> </span>aws-ebs-csi-driver<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resolve-conflicts<span class="w"> </span>OVERWRITE
+
+aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster-name<span class="w"> </span>&lt;CLUSTER_NAME&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--addon-name<span class="w"> </span>snapshot-controller
+</code></pre></div>
+<p>Replace <code>&lt;CLUSTER_NAME&gt;</code> with the name of your EKS cluster.</p>
+<h3 id="backups-pvc-setup-eks-create-a-gp3-storage-class">Create a gp3 storage class<a class="headerlink" href="#backups-pvc-setup-eks-create-a-gp3-storage-class" title="Permanent link">&para;</a></h3>
+<p>The default <code>gp2</code> storage class on EKS doesn&rsquo;t support volume snapshots. You must use <code>gp3</code> instead.</p>
+<ol>
+<li>
+<p>Create a storage class configuration file:</p>
+<div class="highlight"><span class="filename">ebs-gp3-storage-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StorageClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs.csi.aws.com</span>
+<span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WaitForFirstConsumer</span>
+<span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp3</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the storage class:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>ebs-gp3-storage-class.yaml<span class="w"> </span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="backups-pvc-setup-eks-create-a-volumesnapshotclass">Create a VolumeSnapshotClass<a class="headerlink" href="#backups-pvc-setup-eks-create-a-volumesnapshotclass" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Create a VolumeSnapshotClass configuration file:</p>
+<div class="highlight"><span class="filename">ebs-gp3-snapshot-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshotClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs.csi.aws.com</span>
+<span class="nt">deletionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the VolumeSnapshotClass:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>ebs-gp3-snapshot-class.yaml
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>volumesnapshotclass.snapshot.storage.k8s.io/ebs-csi-gp3 created
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="backups-pvc-setup-eks-enable-the-feature-gate">Enable the feature gate<a class="headerlink" href="#backups-pvc-setup-eks-enable-the-feature-gate" title="Permanent link">&para;</a></h3>
+<p>If you have the Operator Deployment up and running, you can edit the <code>deploy/operator.yaml</code> manifest. If you deploy the Operator from scratch, edit the <code>deploy/bundle.yaml</code> manifest.</p>
+<ol>
+<li>
+<p>Edit the <code>deploy/operator.yaml</code> or <code>deploy/bundle.yaml</code> and set the <code>PGO_FEATURE_GATES</code> environment variable for the Operator Deployment to <code>"BackupSnapshots=true"</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BackupSnapshots=true&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="backups-pvc-setup-eks-configure-pvc-snapshots-in-your-cluster">Configure PVC snapshots in your cluster<a class="headerlink" href="#backups-pvc-setup-eks-configure-pvc-snapshots-in-your-cluster" title="Permanent link">&para;</a></h4>
+<p>You must reference the <code>VolumeSnapshotClass</code> in your cluster Custom Resource.</p>
+<ol>
+<li>
+<p>Check the name of the <code>VolumeSnapshotClass</code> that works with your storage. You can list available classes with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+</li>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> Custom Resource. Reference the Storage Class you created in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option. The Operator then uses this storage class when it creates the cluster.</p>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="w">      </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+</li>
+<li>
+<p>In the Custom Resource, add the <code>volumeSnapshots</code> subsection under <code>backups</code>. Specify these keys:</p>
+<ul>
+<li><code>className</code> - the name of the <code>VolumeSnapshotClass</code></li>
+<li><code>mode</code> -  how to make backups. <code>offline</code> is currently the only supported mode.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name-of-your-volume-snapshot-class&gt;</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to update the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>Once configured, snapshots are created automatically when you <a href="#backups-pvc-usage-make-an-on-demand-backup-from-a-pvc-snapshot">make a manual on-demand backup</a> or when <a href="#backups-pvc-usage-make-a-scheduled-snapshot-based-backup">a scheduled backup runs</a>.</p></section><section class="print-page" id="backups-pvc-usage" heading-number="7.1.5.4"><h1 id="backups-pvc-usage-use-pvc-snapshots">Use PVC snapshots<a class="headerlink" href="#backups-pvc-usage-use-pvc-snapshots" title="Permanent link">&para;</a></h1>
+<p>Once the PVC snapshots are configured, you can use them to make backups and restores. </p>
+<h2 id="backups-pvc-usage-make-an-on-demand-backup-from-a-pvc-snapshot">Make an on-demand backup from a PVC snapshot<a class="headerlink" href="#backups-pvc-usage-make-an-on-demand-backup-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Configure the <code>PerconaPGBackup</code> object. Edit the <code>deploy/backup.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>method</code> - the backup method. Specify <code>volumeSnapshot</code>.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volumeSnapshot</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a backup:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the backup status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>my-snapshot-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>NAME      CLUSTER    REPO    DESTINATION   STATUS      TYPE   COMPLETED   AGE
+my-snapshot-backup                      cluster1   repo1                 Succeeded   snapshot   3m38s       3m53s
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="backups-pvc-usage-make-a-scheduled-snapshot-based-backup">Make a scheduled snapshot-based backup<a class="headerlink" href="#backups-pvc-usage-make-a-scheduled-snapshot-based-backup" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Configure the backup schedule in your cluster Custom Resource. Edit the <code>deploy/cr.yaml</code> manifest. In the <code>schedule</code> key in the <code>volumeSnapshots</code> subsection under <code>backups</code>, specify the schedule in the Cron format for the snapshots to be made automatically. Your updated configuration should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-class</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
+<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">3</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">   </span><span class="c1"># Every day at 3:00 AM</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to update the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="backups-pvc-usage-in-place-restore-from-a-pvc-snapshot">In-place restore from a PVC snapshot<a class="headerlink" href="#backups-pvc-usage-in-place-restore-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<p>An in-place restore is a restore to the same cluster using the <code>PerconaPGRestore</code> custom resource. You can make a full in-place restore or a point-in-time restore. </p>
+<p>When you create the <code>PerconaPGRestore</code> object, the Operator performs the following steps:</p>
+<ol>
+<li>Suspends all instances in the cluster.</li>
+<li>Deletes all existing PVCs in the cluster. This removes all existing data, WAL, and tablespaces.</li>
+<li>Creates new PVCs with the snapshot serving as the data source. This restores the data, WAL, and tablespaces from that snapshot.</li>
+<li>Spins up a job to configure the restored PVCs to be used by the cluster. </li>
+<li>Resumes all instances in the cluster. The cluster starts with the data from the snapshot.</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An in-place restore overwrites the current data and is destructive. Any data that was written after the backup was made is lost. Therefore, consider restoring to a new cluster instead. This way you can evaluate the data before switching to the new cluster and don&rsquo;t risk losing data in the existing cluster.</p>
+</div>
+<p>Follow the steps below to make a full in-place restore from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Configure the <code>PerconaPGRestore</code> object. Edit the <code>deploy/restore.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>volumeSnapshotBackupName</code> - the name of the PVC snapshot backup. Check it with the <code>kubectl get pg-backup -n $NAMESPACE</code> command.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">volumeSnapshotBackupName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the restore status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>restore1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>NAME         CLUSTER      STATUS      COMPLETED              AGE
+restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="backups-pvc-usage-in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a class="headerlink" href="#backups-pvc-usage-in-place-restore-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
+<p>You can make a point-in-time restore from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:</p>
+<ol>
+<li>Have a <code>pgBackRest</code> configuration, including the backup storage and at least one repository. See the <a href="#backups-storage">Configure backup storage</a> section for configuration steps.</li>
+<li>The repository must have at least one WAL archive.</li>
+</ol>
+<p>The workflow for point-in-time restore is similar to <a href="#backups-pvc-usage-in-place-restore-from-a-pvc-snapshot">a full in-place restore</a>. After the Operator restores the data from the snapshot, it replays the WAL files from the WAL archive to bring the cluster to the target time.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An in-place restore overwrites the current data and is destructive. Any data that was written after the backup was made is lost. Therefore, consider restoring to a new cluster instead. This way you can evaluate the data before switching to the new cluster and don&rsquo;t risk losing data in the existing cluster.</p>
+</div>
+<p>Follow the steps below to make a point-in-time restore from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Check the repo name and the target time for the restore. </p>
+<ul>
+<li>List the backups:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<ul>
+<li>For a <code>pgBackRest</code> backup run the following command to get the target time:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Configure the <code>PerconaPGRestore</code> object. Edit the <code>deploy/restore.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>volumeSnapshotBackupName</code> - the name of the PVC snapshot backup. </p>
+</li>
+<li>
+<p><code>repoName</code> - the name of the pgBackRest repository that contains the WAL archives. </p>
+</li>
+<li>
+<p><code>options</code> - the options for the restore. Specify the following options:</p>
+<ul>
+<li><code>--type=time</code> - set to <code>time</code> to make a point-in-time restore.</li>
+<li><code>--target</code> - set the target time for the restore. </li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pitr-restore</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">volumeSnapshotBackupName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2026-02-16T11:00:00Z&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the restore status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>pitr-restore<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="backups-pvc-usage-create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot<a class="headerlink" href="#backups-pvc-usage-create-a-new-cluster-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<p>You can create a new cluster from a PVC snapshot. This is useful when you want to restore the data to a new cluster and don&rsquo;t want to overwrite the existing data in the existing cluster.</p>
+<p>To create a new cluster from a PVC snapshot, you need to configure the <code>PerconaPGCluster</code> object and specify an <code>volumesnapshot</code> object as the <code>dataSource</code>. You also need to configure the <code>instances</code> and <code>backups</code> sections to set up the new cluster. </p>
+<p>For more information about the <code>dataSource</code> options, see the <a href="#backups-clone-understand-the-datasource-options">Understand the <code>dataSource</code> options</a> section. Also check the <a href="#operator-datasource-subsection">Custom Resource reference</a> for all available options.</p>
+<p>Follow the steps below to create a new cluster from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Create the namespace where a new cluster will be deployed and export it as the environment variable:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;new-namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEW_NAMESPACE</span><span class="o">=</span>&lt;new-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Configure the <code>PerconaPGCluster</code> object. Edit the <code>deploy/cr.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>dataSource</code> - the name of the PVC snapshot backup. Check it with the <code>kubectl get pg-backup my-snapshot-backup -o jsonpath='{.status.snapshot.dataVolumeSnapshotRef}'</code> command on the <strong>source</strong> cluster.</p>
+</li>
+<li>
+<p><code>instances</code> - the instances configuration for the new cluster.</p>
+</li>
+<li>
+<p><code>backups</code> - the backups configuration for the new cluster.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-cluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshot</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name-of-the-pvc-snapshot-backup&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to create the new cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NEW_NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>The new cluster will be provisioned shortly using the volume of the source cluster.</p></section></section><section class="print-page" id="backup-encryption" heading-number="7.1.6"><h1 id="backup-encryption-configure-backup-encryption">Configure backup encryption<a class="headerlink" href="#backup-encryption-configure-backup-encryption" title="Permanent link">&para;</a></h1>
 <p>Backup encryption is a security best practice that helps protect your organization&rsquo;s confidential information and prevents unauthorized access.</p>
 <p>The pgBackRest tool used by the Operator allows encrypting backups using AES-256
 encryption. The approach is <strong>repository-based</strong>: pgBackRest encrypts the whole
@@ -11930,7 +12837,7 @@ instruction relevant to the backup storage you are using. The only difference is
 </ol>
 <h2 id="backup-encryption-make-a-backup">Make a backup<a class="headerlink" href="#backup-encryption-make-a-backup" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#backups-ondemand">Make an on-demand backup</a>
-<a class="md-button" href="#backups-schedule">Make a scheduled backup</a></p></section><section class="print-page" id="async-archiving" heading-number="7.1.6"><h1 id="async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving">Speed-up backups with pgBackRest asynchronous archiving<a class="headerlink" href="#async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving" title="Permanent link">&para;</a></h1>
+<a class="md-button" href="#backups-schedule">Make a scheduled backup</a></p></section><section class="print-page" id="async-archiving" heading-number="7.1.7"><h1 id="async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving">Speed-up backups with pgBackRest asynchronous archiving<a class="headerlink" href="#async-archiving-speed-up-backups-with-pgbackrest-asynchronous-archiving" title="Permanent link">&para;</a></h1>
 <p>Backing up a database with high write-ahead logs (WAL) generation can be rather
 slow, because PostgreSQL archiving process is sequential, without any
 parallelism or batching. In extreme cases backup can be even considered
@@ -11956,7 +12863,7 @@ by using the <a href="https://pgbackrest.org/user-guide-centos7.html#async-archi
 <p>No modifications are needed aside of setting these additional parameters.
 You can find more information about WAL asynchronous archiving in
 <a href="https://pgbackrest.org/user-guide-centos7.html#async-archiving">gpBackRest official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and in <a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">this blog post <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="backup-retention" heading-number="7.1.7"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
+and in <a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">this blog post <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="backup-retention" heading-number="7.1.8"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
 <p>The Operator supports setting pgBackRest retention policies for full and
 differential backups. When a full backup expires according to the retention
 policy, pgBackRest cleans up all the files related to this backup and to the
@@ -11987,7 +12894,7 @@ as follows.</p>
 <span class="w">      </span><span class="nt">global</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">repo1-retention-diff</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3&quot;</span>
 <span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-</code></pre></div></section><section class="print-page" id="backups-delete" heading-number="7.1.8"><h1 id="backups-delete-delete-the-unneeded-backup">Delete the unneeded backup<a class="headerlink" href="#backups-delete-delete-the-unneeded-backup" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="backups-delete" heading-number="7.1.9"><h1 id="backups-delete-delete-the-unneeded-backup">Delete the unneeded backup<a class="headerlink" href="#backups-delete-delete-the-unneeded-backup" title="Permanent link">&para;</a></h1>
 <p>The maximum amount of stored backups is controlled by the <a href="#backup-retention">retention policies</a>.
 Older backups are automatically deleted. </p>
 <p>Manual deleting of a previously saved backup requires not more than the backup
@@ -12004,7 +12911,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>This <code>percona.com/delete-backups</code> finalizer is in tech preview state, and it is not yet recommended for production environments.</p>
-</div></section><section class="print-page" id="backups-disable" heading-number="7.1.9"><h1 id="backups-disable-disable-backups">Disable backups<a class="headerlink" href="#backups-disable-disable-backups" title="Permanent link">&para;</a></h1>
+</div></section><section class="print-page" id="backups-disable" heading-number="7.1.10"><h1 id="backups-disable-disable-backups">Disable backups<a class="headerlink" href="#backups-disable-disable-backups" title="Permanent link">&para;</a></h1>
 <p>The recommended approach to deploy and run the database is with the disaster recovery strategy in mind. Therefore, the Operator is designed and running with the backups enabled by default. </p>
 <p>There are some specific use cases when you may wish to run a database without enabled backups. Disabling backups should be a conscious decision based on your data&rsquo;s value and recoverability. These are example use cases where it is considered acceptable are when the data is fully disposable:</p>
 <ul>
@@ -17711,6 +18618,54 @@ name used for backups. Bucket name should follow <a href="https://docs.aws.amazo
 </tr>
 </tbody>
 </table>
+<h3 id="operator-datasourceapigroup"><code>dataSource.apiGroup</code><a class="headerlink" href="#operator-datasourceapigroup" title="Permanent link">&para;</a></h3>
+<p>The name of the VolumeSnapshot API. It is required for bootstrapping a new cluster from a PVC snapshot.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>snapshot.storage.k8s.io</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-datasourcekind"><code>dataSource.kind</code><a class="headerlink" href="#operator-datasourcekind" title="Permanent link">&para;</a></h3>
+<p>Specifies what kind of resources serves as the data source</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>VolumeSnapshot</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-datasourcename"><code>dataSource.name</code><a class="headerlink" href="#operator-datasourcename" title="Permanent link">&para;</a></h3>
+<p>Specifies what name of the PVC snapshot backup will be used as a data source for the restore.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>my-snapshot-backup-data</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="operator-image"><code>image</code><a class="headerlink" href="#operator-image" title="Permanent link">&para;</a></h3>
 <p>The PostgreSQL Docker image to use.</p>
 <table>
@@ -18796,6 +19751,54 @@ Percona Distribution for PostgreSQL backups.</p>
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
 <td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupsvolumesnapshotsclassname"><code>backups.volumeSnapshots.className</code><a class="headerlink" href="#operator-backupsvolumesnapshotsclassname" title="Permanent link">&para;</a></h3>
+<p>Name of the <a href="https://kubernetes.io/docs/concepts/storage/volume-snapshots/">VolumeSnapshotClass <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to use when creating <a href="#backups-pvc-snapshots">PVC snapshots</a>. When set, the Operator creates a volume snapshot in coordination with each backup. Snapshots enable much faster restores when provisioning new clusters. Requires the <code>BackupSnapshots=true</code> feature gate.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>csi-gce-pd-snapshot-class</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupsvolumesnapshotsmode"><code>backups.volumeSnapshots.mode</code><a class="headerlink" href="#operator-backupsvolumesnapshotsmode" title="Permanent link">&para;</a></h3>
+<p>Specifies the type of PVC snapshot-based backups.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>offline</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-backupsvolumesnapshotsschedule"><code>backups.volumeSnapshots.schedule</code><a class="headerlink" href="#operator-backupsvolumesnapshotsschedule" title="Permanent link">&para;</a></h3>
+<p>Specifies the schedule in Cron format to run PVC snapshot-based backups automatically.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>"0 3 * * *"</code></td>
 </tr>
 </tbody>
 </table>
@@ -21124,6 +22127,22 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tr>
 </tbody>
 </table>
+<h3 id="backup-resource-options-method"><code>method</code><a class="headerlink" href="#backup-resource-options-method" title="Permanent link">&para;</a></h3>
+<p>Specifies what method to use for the backup. When undefined, uses <code>pgBackRest</code> by default. Supported values are <code>volumeSnapshot</code> and <code>pgBackRest</code>. See <a href="#backups-pvc-snapshots">PVC snapshot support</a> to learn more.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>volumeSnapshot</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="backup-resource-options-options"><code>options</code><a class="headerlink" href="#backup-resource-options-options" title="Permanent link">&para;</a></h3>
 <p>You can customize the backup by specifying different <a href="https://pgbackrest.org/configuration.html">command line options supported by pgBackRest :octicons-external-link-16:</a>.</p>
 <table>
@@ -21231,6 +22250,22 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>repo1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="restore-options-volumesnapshotbackupname"><code>volumeSnapshotBackupName</code><a class="headerlink" href="#restore-options-volumesnapshotbackupname" title="Permanent link">&para;</a></h3>
+<p>Specifies the name of a PVC snapshot-based backup to restore from. See <a href="#backups-pvc-setup">Configure and use PVC snapshots</a> to learn more.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>backup1</code></td>
 </tr>
 </tbody>
 </table>
@@ -23644,15 +24679,24 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #backups-clone > h1:before { content: '7.1.4.3 ' }
 
-.print-site-enumerate-headings #backup-encryption > h1:before { content: '7.1.5 ' }
+.print-site-enumerate-headings #section-7-1-5 > h1:before { content: '7.1.5 ' }
+.print-site-enumerate-headings #backups-pvc-snapshots > h1:before { content: '7.1.5.1 ' }
 
-.print-site-enumerate-headings #async-archiving > h1:before { content: '7.1.6 ' }
+.print-site-enumerate-headings #backups-pvc-setup > h1:before { content: '7.1.5.2 ' }
 
-.print-site-enumerate-headings #backup-retention > h1:before { content: '7.1.7 ' }
+.print-site-enumerate-headings #backups-pvc-setup-eks > h1:before { content: '7.1.5.3 ' }
 
-.print-site-enumerate-headings #backups-delete > h1:before { content: '7.1.8 ' }
+.print-site-enumerate-headings #backups-pvc-usage > h1:before { content: '7.1.5.4 ' }
 
-.print-site-enumerate-headings #backups-disable > h1:before { content: '7.1.9 ' }
+.print-site-enumerate-headings #backup-encryption > h1:before { content: '7.1.6 ' }
+
+.print-site-enumerate-headings #async-archiving > h1:before { content: '7.1.7 ' }
+
+.print-site-enumerate-headings #backup-retention > h1:before { content: '7.1.8 ' }
+
+.print-site-enumerate-headings #backups-delete > h1:before { content: '7.1.9 ' }
+
+.print-site-enumerate-headings #backups-disable > h1:before { content: '7.1.10 ' }
 
 .print-site-enumerate-headings #section-7-2 > h1:before { content: '7.2 ' }
 .print-site-enumerate-headings #standby > h1:before { content: '7.2.1 ' }

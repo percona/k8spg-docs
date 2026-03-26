@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.">
+        <meta name="description" content="This tutorial walks you through setting up PVC snapshots for Percona Operator for PostgreSQL on Amazon Elastic Kubernetes Service (EKS). EKS has specific requirements that differ from other Kubernetes providers such as GKE.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/secret-options.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-pvc-setup-eks.html">
       
       
-        <link rel="prev" href="restore-options.html">
+        <link rel="prev" href="backups-pvc-setup.html">
       
       
-        <link rel="next" href="immutable-options.html">
+        <link rel="next" href="backups-pvc-usage.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Secrets options - Percona Operator for PostgreSQL</title>
+        <title>Configure PVC snapshots on EKS - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Secrets options" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Configure PVC snapshots on EKS" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#secrets-resource-options" class="md-skip">
+        <a href="#configure-pvc-snapshots-on-amazon-eks" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Secrets options
+            Configure PVC snapshots on EKS
             
           </span>
         </div>
@@ -1746,18 +1746,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1778,7 +1780,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1793,18 +1795,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
@@ -1825,7 +1829,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2146,18 +2150,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
@@ -2178,7 +2184,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2249,10 +2255,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="backups-pvc-setup-eks.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure PVC snapshots on EKS
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="backups-pvc-setup-eks.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2268,6 +2301,154 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-start" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you start
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-required-eks-addons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable required EKS addons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable required EKS addons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-add-addons-when-creating-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Add addons when creating the cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-b-add-addons-to-an-existing-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option B: Add addons to an existing cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-gp3-storage-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a gp3 storage class
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-volumesnapshotclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a VolumeSnapshotClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-the-feature-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable the feature gate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable the feature gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-pvc-snapshots-in-your-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure PVC snapshots in your cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3776,20 +3957,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -3810,7 +3989,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3909,37 +4088,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Secrets options
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="secret-options.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -3955,81 +4107,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        apiVersion
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        kind
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metadata.name
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        type
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stringData
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4924,7 +5001,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/secret-options.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backups-pvc-setup-eks.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4974,10 +5051,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apiVersion
+        Prerequisites
       
     </span>
   </a>
@@ -4985,10 +5062,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
+  <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
-        kind
+        Before you start
       
     </span>
   </a>
@@ -4996,35 +5073,108 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
+  <a href="#configuration" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metadata.name
+        Configuration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#enable-required-eks-addons" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable required EKS addons
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable required EKS addons">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-a-add-addons-when-creating-the-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option A: Add addons when creating the cluster
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#option-b-add-addons-to-an-existing-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        type
+        Option B: Add addons to an existing cluster
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-gp3-storage-class" class="md-nav__link">
     <span class="md-ellipsis">
       
-        stringData
+        Create a gp3 storage class
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-a-volumesnapshotclass" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a VolumeSnapshotClass
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-the-feature-gate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable the feature gate
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable the feature gate">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configure-pvc-snapshots-in-your-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure PVC snapshots in your cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5054,49 +5204,186 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/secret-options.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backups-pvc-setup-eks.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secrets-resource-options" title="Permanent link">&para;</a></h1>
-<p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h2>
-<p>Specifies the API version of the Custom Resource.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">&para;</a></h2>
-<p>Defines the type of resource being created: <code>Secret</code>.</p>
-<h2 id="metadataname"><code>metadata.name</code><a class="headerlink" href="#metadataname" title="Permanent link">&para;</a></h2>
-<p>Contains the metadata about the resource, such as its name.</p>
-<h2 id="type"><code>type</code><a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Defines the type of data stored within the Secret resource. <code>Opaque</code> type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.</p>
-<h2 id="stringdata"><code>stringData</code><a class="headerlink" href="#stringdata" title="Permanent link">&para;</a></h2>
-<p>The data that you pass to the Operator within the Secret.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>PMM_SERVER_TOKEN</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="configure-pvc-snapshots-on-amazon-eks">Configure PVC snapshots on Amazon EKS<a class="headerlink" href="#configure-pvc-snapshots-on-amazon-eks" title="Permanent link">&para;</a></h1>
+<p>This tutorial walks you through setting up PVC snapshots for Percona Operator for PostgreSQL on Amazon Elastic Kubernetes Service (EKS). EKS has specific requirements that differ from other Kubernetes providers such as GKE.</p>
+<p>For a high-level explanation of PVC snapshots, see the <a href="backups-pvc-snapshots.html#overview">PVC snapshot support</a> chapter. </p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>To proceed with the setup, ensure you have:</p>
+<ul>
+<li>An EKS cluster (or plan to create one)</li>
+<li><code>kubectl</code> configured to access your cluster</li>
+<li>The AWS CLI installed and configured</li>
+</ul>
+<p>EKS requires specific addons, a <code>gp3</code> storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.</p>
+<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Check the <a href="#prerequisites">prerequisites</a> and <a href="backups-pvc-snapshots.html#limitations">limitations</a></li>
+<li>
+<p>Clone the Operator repository to be able to edit manifests:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespace where you run your cluster as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
+<h3 id="enable-required-eks-addons">Enable required EKS addons<a class="headerlink" href="#enable-required-eks-addons" title="Permanent link">&para;</a></h3>
+<p>EKS requires two addons for volume snapshots: the Amazon EBS CSI driver and the snapshot controller. You can enable them when you create the cluster or add them to an existing cluster.</p>
+<h4 id="option-a-add-addons-when-creating-the-cluster">Option A: Add addons when creating the cluster<a class="headerlink" href="#option-a-add-addons-when-creating-the-cluster" title="Permanent link">&para;</a></h4>
+<p>If you deploy the cluster with <code>eksctl</code> or a similar tool, include these addons in your cluster configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">addons</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-ebs-csi-driver</span>
+<span class="w">    </span><span class="nt">wellKnownPolicies</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ebsCSIController</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot-controller</span>
+<span class="nt">nodeGroups</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ng-1</span>
+<span class="w">    </span><span class="nt">desiredCapacity</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<h4 id="option-b-add-addons-to-an-existing-cluster">Option B: Add addons to an existing cluster<a class="headerlink" href="#option-b-add-addons-to-an-existing-cluster" title="Permanent link">&para;</a></h4>
+<p>If your cluster already exists, enable the addons with the AWS CLI:</p>
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster-name<span class="w"> </span>&lt;CLUSTER_NAME&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--addon-name<span class="w"> </span>aws-ebs-csi-driver<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resolve-conflicts<span class="w"> </span>OVERWRITE
+
+aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--cluster-name<span class="w"> </span>&lt;CLUSTER_NAME&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--addon-name<span class="w"> </span>snapshot-controller
+</code></pre></div>
+<p>Replace <code>&lt;CLUSTER_NAME&gt;</code> with the name of your EKS cluster.</p>
+<h3 id="create-a-gp3-storage-class">Create a gp3 storage class<a class="headerlink" href="#create-a-gp3-storage-class" title="Permanent link">&para;</a></h3>
+<p>The default <code>gp2</code> storage class on EKS doesn&rsquo;t support volume snapshots. You must use <code>gp3</code> instead.</p>
+<ol>
+<li>
+<p>Create a storage class configuration file:</p>
+<div class="highlight"><span class="filename">ebs-gp3-storage-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StorageClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs.csi.aws.com</span>
+<span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WaitForFirstConsumer</span>
+<span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="nt">parameters</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gp3</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the storage class:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>ebs-gp3-storage-class.yaml<span class="w"> </span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="create-a-volumesnapshotclass">Create a VolumeSnapshotClass<a class="headerlink" href="#create-a-volumesnapshotclass" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Create a VolumeSnapshotClass configuration file:</p>
+<div class="highlight"><span class="filename">ebs-gp3-snapshot-class.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io/v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshotClass</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="nt">driver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs.csi.aws.com</span>
+<span class="nt">deletionPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the VolumeSnapshotClass:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>ebs-gp3-snapshot-class.yaml
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>volumesnapshotclass.snapshot.storage.k8s.io/ebs-csi-gp3 created
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="enable-the-feature-gate">Enable the feature gate<a class="headerlink" href="#enable-the-feature-gate" title="Permanent link">&para;</a></h3>
+<p>If you have the Operator Deployment up and running, you can edit the <code>deploy/operator.yaml</code> manifest. If you deploy the Operator from scratch, edit the <code>deploy/bundle.yaml</code> manifest.</p>
+<ol>
+<li>
+<p>Edit the <code>deploy/operator.yaml</code> or <code>deploy/bundle.yaml</code> and set the <code>PGO_FEATURE_GATES</code> environment variable for the Operator Deployment to <code>"BackupSnapshots=true"</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;BackupSnapshots=true&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>or</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="configure-pvc-snapshots-in-your-cluster">Configure PVC snapshots in your cluster<a class="headerlink" href="#configure-pvc-snapshots-in-your-cluster" title="Permanent link">&para;</a></h4>
+<p>You must reference the <code>VolumeSnapshotClass</code> in your cluster Custom Resource.</p>
+<ol>
+<li>
+<p>Check the name of the <code>VolumeSnapshotClass</code> that works with your storage. You can list available classes with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+</li>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> Custom Resource. Reference the Storage Class you created in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option. The Operator then uses this storage class when it creates the cluster.</p>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ebs-csi-gp3</span>
+<span class="w">      </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+</li>
+<li>
+<p>In the Custom Resource, add the <code>volumeSnapshots</code> subsection under <code>backups</code>. Specify these keys:</p>
+<ul>
+<li><code>className</code> - the name of the <code>VolumeSnapshotClass</code></li>
+<li><code>mode</code> -  how to make backups. <code>offline</code> is currently the only supported mode.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name-of-your-volume-snapshot-class&gt;</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to update the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>Once configured, snapshots are created automatically when you <a href="backups-pvc-usage.html#make-an-on-demand-backup-from-a-pvc-snapshot">make a manual on-demand backup</a> or when <a href="backups-pvc-usage.html#make-a-scheduled-snapshot-based-backup">a scheduled backup runs</a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 10:23:06 UTC">November 3, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 18, 2025 14:58:23 UTC">July 18, 2025</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
     
   </small>

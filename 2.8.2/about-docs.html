@@ -9,19 +9,15 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.">
+        <meta name="description" content="This documentation describes how to deploy, configure, and operate Percona Operator for PostgreSQL on Kubernetes. It also includes reference materials for Custom Resource options, backup and restore settings, and related topics.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/secret-options.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/about-docs.html">
       
       
-        <link rel="prev" href="restore-options.html">
-      
-      
-        <link rel="next" href="immutable-options.html">
       
       
         
@@ -32,7 +28,7 @@
     
     
       
-        <title>Secrets options - Percona Operator for PostgreSQL</title>
+        <title>About documentation - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +96,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Secrets options" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - About documentation" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +126,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#secrets-resource-options" class="md-skip">
+        <a href="#about-documentation" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +193,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Secrets options
+            About documentation
             
           </span>
         </div>
@@ -3776,20 +3772,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -3810,7 +3804,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3909,37 +3903,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Secrets options
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="secret-options.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -3955,81 +3922,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        apiVersion
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        kind
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metadata.name
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        type
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stringData
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4924,7 +4816,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/secret-options.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/about-docs.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4974,10 +4866,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
+  <a href="#documentation-versions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apiVersion
+        Documentation versions
       
     </span>
   </a>
@@ -4985,10 +4877,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
+  <a href="#older-documentation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        kind
+        Older documentation
       
     </span>
   </a>
@@ -4996,10 +4888,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
+  <a href="#report-an-issue-or-request-a-change" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metadata.name
+        Report an issue or request a change
       
     </span>
   </a>
@@ -5007,21 +4899,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
+  <a href="#how-to-contribute" class="md-nav__link">
     <span class="md-ellipsis">
       
-        type
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stringData
+        How to contribute
       
     </span>
   </a>
@@ -5054,49 +4935,36 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/secret-options.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/about-docs.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secrets-resource-options" title="Permanent link">&para;</a></h1>
-<p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h2>
-<p>Specifies the API version of the Custom Resource.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">&para;</a></h2>
-<p>Defines the type of resource being created: <code>Secret</code>.</p>
-<h2 id="metadataname"><code>metadata.name</code><a class="headerlink" href="#metadataname" title="Permanent link">&para;</a></h2>
-<p>Contains the metadata about the resource, such as its name.</p>
-<h2 id="type"><code>type</code><a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Defines the type of data stored within the Secret resource. <code>Opaque</code> type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.</p>
-<h2 id="stringdata"><code>stringData</code><a class="headerlink" href="#stringdata" title="Permanent link">&para;</a></h2>
-<p>The data that you pass to the Operator within the Secret.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>PMM_SERVER_TOKEN</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="about-documentation">About documentation<a class="headerlink" href="#about-documentation" title="Permanent link">&para;</a></h1>
+<p>This documentation describes how to deploy, configure, and operate Percona Operator for PostgreSQL on Kubernetes. It also includes reference materials for Custom Resource options, backup and restore settings, and related topics.</p>
+<h2 id="documentation-versions">Documentation versions<a class="headerlink" href="#documentation-versions" title="Permanent link">&para;</a></h2>
+<p>We recommend that you run the latest version of Percona Operator for PostgreSQL to receive bug fixes and new features. For that reason, the default view of this site reflects the latest documentation.</p>
+<p>Starting with <strong>Percona Operator for PostgreSQL 2.7.0</strong>, the documentation site includes a <strong>version switcher</strong> in the header. You can use it to open the documentation that matches a specific Operator release line.</p>
+<p>The version switcher displays the <strong>three most recent minor versions</strong> of the documentation (for example, 2.7.0, 2.8.0, and 2.9.0). Patch releases (such as 2.8.1 or 2.8.2), id present, are also listed in the switcher because they belong to their respective minor version. When a new minor version is released (for example, 2.10.0), the oldest minor version and all its associated patch versions (like 2.8.0, 2.8.1, and 2.8.2) are removed from the switcher.</p>
+<p>Where a feature was added or behavior changed, the text often notes the Operator version. See the <a href="ReleaseNotes/index.html">Release notes</a> for detailed changes in each release.</p>
+<h2 id="older-documentation">Older documentation<a class="headerlink" href="#older-documentation" title="Permanent link">&para;</a></h2>
+<p>Documentation for Operator versions that are no longer among the three maintained minor lines is <strong>not</strong> available in the version switcher. Those releases are published as <strong>PDF</strong> files in the <a href="https://docs.percona.com/legacy-documentation/">Percona legacy documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="report-an-issue-or-request-a-change">Report an issue or request a change<a class="headerlink" href="#report-an-issue-or-request-a-change" title="Permanent link">&para;</a></h2>
+<p>To report a problem with the documentation, use the feedback widget at the right-hand side of the page or open a ticket in the <a href="https://jira.percona.com/projects/K8SPG/issues">Percona Operator for PostgreSQL project <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> on Jira.</p>
+<h2 id="how-to-contribute">How to contribute<a class="headerlink" href="#how-to-contribute" title="Permanent link">&para;</a></h2>
+<p>Thank you for your interest in improving this documentation. See the <a href="https://github.com/percona/k8spg-docs/blob/main/CONTRIBUTING.md">Contributing guide <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> in the documentation repository for instructions.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 10:23:06 UTC">November 3, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 18, 2025 14:58:23 UTC">July 18, 2025</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
     
   </small>

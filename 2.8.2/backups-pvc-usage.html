@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.">
+        <meta name="description" content="Once the PVC snapshots are configured, you can use them to make backups and restores.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/secret-options.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-pvc-usage.html">
       
       
-        <link rel="prev" href="restore-options.html">
+        <link rel="prev" href="backups-pvc-setup-eks.html">
       
       
-        <link rel="next" href="immutable-options.html">
+        <link rel="next" href="backup-encryption.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Secrets options - Percona Operator for PostgreSQL</title>
+        <title>Use PVC snapshots - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Secrets options" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Use PVC snapshots" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#secrets-resource-options" class="md-skip">
+        <a href="#use-pvc-snapshots" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Secrets options
+            Use PVC snapshots
             
           </span>
         </div>
@@ -1746,18 +1746,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1778,7 +1780,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1793,18 +1795,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
@@ -1825,7 +1829,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2146,18 +2150,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
@@ -2178,7 +2184,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2277,10 +2283,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="backups-pvc-usage.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Use PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="backups-pvc-usage.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2296,6 +2329,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#make-an-on-demand-backup-from-a-pvc-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Make an on-demand backup from a PVC snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#make-a-scheduled-snapshot-based-backup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Make a scheduled snapshot-based backup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-place-restore-from-a-pvc-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-place restore from a PVC snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#in-place-restore-with-point-in-time-recovery" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        In-place restore with point-in-time recovery
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-new-cluster-from-a-pvc-snapshot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a new cluster from a PVC snapshot
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3776,20 +3884,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -3810,7 +3916,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3909,37 +4015,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Secrets options
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="secret-options.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -3955,81 +4034,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        apiVersion
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        kind
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metadata.name
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        type
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stringData
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4924,7 +4928,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/secret-options.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backups-pvc-usage.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4974,10 +4978,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
+  <a href="#make-an-on-demand-backup-from-a-pvc-snapshot" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apiVersion
+        Make an on-demand backup from a PVC snapshot
       
     </span>
   </a>
@@ -4985,10 +4989,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
+  <a href="#make-a-scheduled-snapshot-based-backup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        kind
+        Make a scheduled snapshot-based backup
       
     </span>
   </a>
@@ -4996,10 +5000,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
+  <a href="#in-place-restore-from-a-pvc-snapshot" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metadata.name
+        In-place restore from a PVC snapshot
       
     </span>
   </a>
@@ -5007,10 +5011,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
+  <a href="#in-place-restore-with-point-in-time-recovery" class="md-nav__link">
     <span class="md-ellipsis">
       
-        type
+        In-place restore with point-in-time recovery
       
     </span>
   </a>
@@ -5018,10 +5022,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
+  <a href="#create-a-new-cluster-from-a-pvc-snapshot" class="md-nav__link">
     <span class="md-ellipsis">
       
-        stringData
+        Create a new cluster from a PVC snapshot
       
     </span>
   </a>
@@ -5054,49 +5058,263 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/secret-options.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backups-pvc-usage.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secrets-resource-options" title="Permanent link">&para;</a></h1>
-<p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h2>
-<p>Specifies the API version of the Custom Resource.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">&para;</a></h2>
-<p>Defines the type of resource being created: <code>Secret</code>.</p>
-<h2 id="metadataname"><code>metadata.name</code><a class="headerlink" href="#metadataname" title="Permanent link">&para;</a></h2>
-<p>Contains the metadata about the resource, such as its name.</p>
-<h2 id="type"><code>type</code><a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Defines the type of data stored within the Secret resource. <code>Opaque</code> type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.</p>
-<h2 id="stringdata"><code>stringData</code><a class="headerlink" href="#stringdata" title="Permanent link">&para;</a></h2>
-<p>The data that you pass to the Operator within the Secret.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>PMM_SERVER_TOKEN</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="use-pvc-snapshots">Use PVC snapshots<a class="headerlink" href="#use-pvc-snapshots" title="Permanent link">&para;</a></h1>
+<p>Once the PVC snapshots are configured, you can use them to make backups and restores. </p>
+<h2 id="make-an-on-demand-backup-from-a-pvc-snapshot">Make an on-demand backup from a PVC snapshot<a class="headerlink" href="#make-an-on-demand-backup-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Configure the <code>PerconaPGBackup</code> object. Edit the <code>deploy/backup.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>method</code> - the backup method. Specify <code>volumeSnapshot</code>.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">volumeSnapshot</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a backup:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the backup status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>my-snapshot-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>NAME      CLUSTER    REPO    DESTINATION   STATUS      TYPE   COMPLETED   AGE
+my-snapshot-backup                      cluster1   repo1                 Succeeded   snapshot   3m38s       3m53s
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="make-a-scheduled-snapshot-based-backup">Make a scheduled snapshot-based backup<a class="headerlink" href="#make-a-scheduled-snapshot-based-backup" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Configure the backup schedule in your cluster Custom Resource. Edit the <code>deploy/cr.yaml</code> manifest. In the <code>schedule</code> key in the <code>volumeSnapshots</code> subsection under <code>backups</code>, specify the schedule in the Cron format for the snapshots to be made automatically. Your updated configuration should look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-class</span>
+<span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
+<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">3</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">   </span><span class="c1"># Every day at 3:00 AM</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to update the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="in-place-restore-from-a-pvc-snapshot">In-place restore from a PVC snapshot<a class="headerlink" href="#in-place-restore-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<p>An in-place restore is a restore to the same cluster using the <code>PerconaPGRestore</code> custom resource. You can make a full in-place restore or a point-in-time restore. </p>
+<p>When you create the <code>PerconaPGRestore</code> object, the Operator performs the following steps:</p>
+<ol>
+<li>Suspends all instances in the cluster.</li>
+<li>Deletes all existing PVCs in the cluster. This removes all existing data, WAL, and tablespaces.</li>
+<li>Creates new PVCs with the snapshot serving as the data source. This restores the data, WAL, and tablespaces from that snapshot.</li>
+<li>Spins up a job to configure the restored PVCs to be used by the cluster. </li>
+<li>Resumes all instances in the cluster. The cluster starts with the data from the snapshot.</li>
+</ol>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An in-place restore overwrites the current data and is destructive. Any data that was written after the backup was made is lost. Therefore, consider restoring to a new cluster instead. This way you can evaluate the data before switching to the new cluster and don&rsquo;t risk losing data in the existing cluster.</p>
+</div>
+<p>Follow the steps below to make a full in-place restore from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Configure the <code>PerconaPGRestore</code> object. Edit the <code>deploy/restore.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>volumeSnapshotBackupName</code> - the name of the PVC snapshot backup. Check it with the <code>kubectl get pg-backup -n $NAMESPACE</code> command.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">restore1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">volumeSnapshotBackupName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the restore status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>restore1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>NAME         CLUSTER      STATUS      COMPLETED              AGE
+restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
+<p>You can make a point-in-time restore from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:</p>
+<ol>
+<li>Have a <code>pgBackRest</code> configuration, including the backup storage and at least one repository. See the <a href="backups-storage.html">Configure backup storage</a> section for configuration steps.</li>
+<li>The repository must have at least one WAL archive.</li>
+</ol>
+<p>The workflow for point-in-time restore is similar to <a href="#in-place-restore-from-a-pvc-snapshot">a full in-place restore</a>. After the Operator restores the data from the snapshot, it replays the WAL files from the WAL archive to bring the cluster to the target time.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>An in-place restore overwrites the current data and is destructive. Any data that was written after the backup was made is lost. Therefore, consider restoring to a new cluster instead. This way you can evaluate the data before switching to the new cluster and don&rsquo;t risk losing data in the existing cluster.</p>
+</div>
+<p>Follow the steps below to make a point-in-time restore from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Check the repo name and the target time for the restore. </p>
+<ul>
+<li>List the backups:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<ul>
+<li>For a <code>pgBackRest</code> backup run the following command to get the target time:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Configure the <code>PerconaPGRestore</code> object. Edit the <code>deploy/restore.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>pgCluster</code> - the name of your cluster. Check it with the <code>kubectl get pg -n $NAMESPACE</code> command</p>
+</li>
+<li>
+<p><code>volumeSnapshotBackupName</code> - the name of the PVC snapshot backup. </p>
+</li>
+<li>
+<p><code>repoName</code> - the name of the pgBackRest repository that contains the WAL archives. </p>
+</li>
+<li>
+<p><code>options</code> - the options for the restore. Specify the following options:</p>
+<ul>
+<li><code>--type=time</code> - set to <code>time</code> to make a point-in-time restore.</li>
+<li><code>--target</code> - set the target time for the restore. </li>
+</ul>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGRestore</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pitr-restore</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">volumeSnapshotBackupName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-backup</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2026-02-16T11:00:00Z&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to start a restore:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the restore status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>pitr-restore<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot<a class="headerlink" href="#create-a-new-cluster-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
+<p>You can create a new cluster from a PVC snapshot. This is useful when you want to restore the data to a new cluster and don&rsquo;t want to overwrite the existing data in the existing cluster.</p>
+<p>To create a new cluster from a PVC snapshot, you need to configure the <code>PerconaPGCluster</code> object and specify an <code>volumesnapshot</code> object as the <code>dataSource</code>. You also need to configure the <code>instances</code> and <code>backups</code> sections to set up the new cluster. </p>
+<p>For more information about the <code>dataSource</code> options, see the <a href="backups-clone.html#understand-the-datasource-options">Understand the <code>dataSource</code> options</a> section. Also check the <a href="operator.html#datasource-subsection">Custom Resource reference</a> for all available options.</p>
+<p>Follow the steps below to create a new cluster from a PVC snapshot.</p>
+<ol>
+<li>
+<p>Create the namespace where a new cluster will be deployed and export it as the environment variable:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;new-namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NEW_NAMESPACE</span><span class="o">=</span>&lt;new-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Configure the <code>PerconaPGCluster</code> object. Edit the <code>deploy/cr.yaml</code> manifest and specify the following keys:</p>
+<ul>
+<li>
+<p><code>dataSource</code> - the name of the PVC snapshot backup. Check it with the <code>kubectl get pg-backup my-snapshot-backup -o jsonpath='{.status.snapshot.dataVolumeSnapshotRef}'</code> command on the <strong>source</strong> cluster.</p>
+</li>
+<li>
+<p><code>instances</code> - the instances configuration for the new cluster.</p>
+</li>
+<li>
+<p><code>backups</code> - the backups configuration for the new cluster.</p>
+</li>
+</ul>
+<p>Here&rsquo;s the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-cluster</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">apiGroup</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">snapshot.storage.k8s.io</span>
+<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VolumeSnapshot</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;name-of-the-pvc-snapshot-backup&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to create the new cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NEW_NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>The new cluster will be provisioned shortly using the volume of the source cluster.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 10:23:06 UTC">November 3, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 18, 2025 14:58:23 UTC">July 18, 2025</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
     
   </small>

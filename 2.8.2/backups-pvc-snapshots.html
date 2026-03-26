@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.">
+        <meta name="description" content="This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the Configure and use PVC snapshots tutorial. If you run on Amazon EKS, start with Set up PVC snapshots on EKS.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/secret-options.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backups-pvc-snapshots.html">
       
       
-        <link rel="prev" href="restore-options.html">
+        <link rel="prev" href="backups-clone.html">
       
       
-        <link rel="next" href="immutable-options.html">
+        <link rel="next" href="backups-pvc-setup.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Secrets options - Percona Operator for PostgreSQL</title>
+        <title>About PVC snapshots - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Secrets options" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - About PVC snapshots" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#secrets-resource-options" class="md-skip">
+        <a href="#pvc-snapshot-support" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Secrets options
+            About PVC snapshots
             
           </span>
         </div>
@@ -1746,18 +1746,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -1778,7 +1780,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1793,18 +1795,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
@@ -1825,7 +1829,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2146,18 +2150,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
@@ -2178,7 +2184,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2193,10 +2199,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="backups-pvc-snapshots.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="backups-pvc-snapshots.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2212,6 +2245,81 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-to-use-pvc-snapshots" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why to use PVC snapshots
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#requirements" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Requirements
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3776,20 +3884,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -3810,7 +3916,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3909,37 +4015,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Secrets options
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="secret-options.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -3955,81 +4034,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        apiVersion
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        kind
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metadata.name
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        type
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        stringData
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -4924,7 +4928,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/secret-options.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backups-pvc-snapshots.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -4974,10 +4978,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
+  <a href="#overview" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apiVersion
+        Overview
       
     </span>
   </a>
@@ -4985,10 +4989,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
+  <a href="#workflow" class="md-nav__link">
     <span class="md-ellipsis">
       
-        kind
+        Workflow
       
     </span>
   </a>
@@ -4996,10 +5000,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadataname" class="md-nav__link">
+  <a href="#why-to-use-pvc-snapshots" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metadata.name
+        Why to use PVC snapshots
       
     </span>
   </a>
@@ -5007,10 +5011,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#type" class="md-nav__link">
+  <a href="#requirements" class="md-nav__link">
     <span class="md-ellipsis">
       
-        type
+        Requirements
       
     </span>
   </a>
@@ -5018,10 +5022,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#stringdata" class="md-nav__link">
+  <a href="#limitations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        stringData
+        Limitations
       
     </span>
   </a>
@@ -5054,49 +5058,103 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/secret-options.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backups-pvc-snapshots.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secrets-resource-options" title="Permanent link">&para;</a></h1>
-<p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h2>
-<p>Specifies the API version of the Custom Resource.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">&para;</a></h2>
-<p>Defines the type of resource being created: <code>Secret</code>.</p>
-<h2 id="metadataname"><code>metadata.name</code><a class="headerlink" href="#metadataname" title="Permanent link">&para;</a></h2>
-<p>Contains the metadata about the resource, such as its name.</p>
-<h2 id="type"><code>type</code><a class="headerlink" href="#type" title="Permanent link">&para;</a></h2>
-<p>Defines the type of data stored within the Secret resource. <code>Opaque</code> type signals to Kubernetes and to the Operator that the content of the secret is custom and unstructured.</p>
-<h2 id="stringdata"><code>stringData</code><a class="headerlink" href="#stringdata" title="Permanent link">&para;</a></h2>
-<p>The data that you pass to the Operator within the Secret.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>PMM_SERVER_TOKEN</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="pvc-snapshot-support">PVC snapshot support<a class="headerlink" href="#pvc-snapshot-support" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p>This feature is in the tech preview stage. The API and behavior may change in future releases.</p>
+</div>
+<p>This document provides an overview of PVC snapshots. If you are familiar with the concept and want to try it out, jump to the <a href="backups-pvc-setup.html">Configure and use PVC snapshots</a> tutorial. If you run on Amazon EKS, start with <a href="backups-pvc-setup-eks.html">Set up PVC snapshots on EKS</a>. </p>
+<p>By reading this document you will learn the following:</p>
+<ul>
+<li><a href="#pvc-snapshot-support">PVC snapshot support</a><ul>
+<li><a href="#overview">Overview</a></li>
+<li><a href="#workflow">Workflow</a></li>
+<li><a href="#why-to-use-pvc-snapshots">Why to use PVC snapshots</a></li>
+<li><a href="#requirements">Requirements</a></li>
+<li><a href="#limitations">Limitations</a></li>
+</ul>
+</li>
+</ul>
+<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>A PVC snapshot is a point-in-time copy of a <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claim <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> created by the storage provider. It captures the volume contents at a specific moment without copying data block by block. </p>
+<p>PVC snapshots are much faster than streaming data to cloud storage or a backup volume. This is especially beneficial for large datasets. The Operator uses the <a href="https://kubernetes.io/docs/concepts/storage/volume-snapshots/">Kubernetes VolumeSnapshot API <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to create PVC snapshots at the storage level. When used with <code>pgBackRest</code> WAL archiving, PVC snapshots ensure data consistency and provide support for point-in-time recovery.</p>
+<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
+<p>The Operator currently supports only cold backups (the <code>offline</code> mode). 
+A cold backup is also known as an offline backup. 
+It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the Operator.
+This ensures consistency by capturing the entire database exactly as it exists at the moment when the replica is temporarily suspended.</p>
+<p>During cold backups, the Operator:</p>
+<ol>
+<li>Selects a <strong>replica</strong> instance as the snapshot target.</li>
+<li>Issues a PostgreSQL <code>CHECKPOINT</code> on that replica (if checkpoint is enabled).</li>
+<li><strong>Suspends</strong> the replica StatefulSet (scales it to zero).</li>
+<li>Creates Kubernetes <code>VolumeSnapshot</code> objects for the data PVC, WAL PVC (if separate), and any tablespace PVCs.</li>
+<li>Waits for all snapshots to become <code>ReadyToUse</code>.</li>
+<li><strong>Resumes</strong> the replica StatefulSet.</li>
+</ol>
+<p>This approach ensures a crash-consistent snapshot while minimizing the impact on the primary. Only a replica is taken offline, so the cluster continues serving read/write traffic on the primary during the snapshot.</p>
+<h2 id="why-to-use-pvc-snapshots">Why to use PVC snapshots<a class="headerlink" href="#why-to-use-pvc-snapshots" title="Permanent link">&para;</a></h2>
+<p>PVC snapshots speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:</p>
+<ul>
+<li><strong>Much faster backups</strong> – Snapshot creation is typically seconds to minutes, regardless of database size. Time it takes to run traditional full backups increases as the size of your database grows.</li>
+<li><strong>Much faster restores</strong> – Restoring from a snapshot is significantly faster than restoring from cloud storage. Both in-place restores and restores to a new cluster are supported.</li>
+<li><strong>Lower resource usage</strong> – Snapshots avoid the CPU and network overhead of streaming data to a remote storage.</li>
+</ul>
+<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h2>
+<p>Before enabling PVC snapshots, ensure the following:</p>
+<ol>
+<li>
+<p>Your Kubernetes cluster must have the CSI driver that supports VolumeSnapshot API. An example of such driver for GKE is <code>pd.csi.storage.gke.io</code>, for EKS - <code>ebs.csi.aws.com</code>.</p>
+</li>
+<li>
+<p>Your Kubernetes cluster must have the VolumeSnapshot CRDs installed. Verify if they are installed with this command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd<span class="w"> </span>volumesnapshots.snapshot.storage.k8s.io
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Expected output</p>
+<p><code>volumesnapshotclasses.snapshot.storage.k8s.io</code>
+<code>volumesnapshotcontents.snapshot.storage.k8s.io</code>
+<code>volumesnapshots.snapshot.storage.k8s.io</code></p>
+</div>
+</li>
+<li>
+<p>At least one <code>VolumeSnapshotClass</code> must exist and be compatible with the storage class used by your PostgreSQL data volumes. Check it with:</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>volumesnapshotclasses
+</code></pre></div>
+<p>See how to add it in the <a href="backups-pvc-setup.html#add-volumesnapshotclass">Add a VolumeSnapshotClass</a> section.</p>
+<ol>
+<li>You must explicitly enable the <code>BackupSnapshots</code> feature gate in the Operator Deployment. See <a href="backups-pvc-setup.html#enable-the-feature-gate">Enable the feature gate</a>.</li>
+<li>You must explicitly specify the storage class whose CSI driver supports VolumeSnapshot API in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option in the Custom Resource for your cluster.</li>
+</ol>
+<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Currently only offline mode</strong> – Only offline snapshots are supported; the Operator must stop a replica pod to take a consistent snapshot of the database.</li>
+<li><strong>At least one replica required</strong> – Your cluster must have at least one replica pod besides the primary. The Operator takes the snapshot from a replica; clusters without replicas cannot use this feature.</li>
+<li><strong>CSI driver support required</strong> — your Kubernetes cluster’s storage provisioner
+must support the Volume Snapshot API.</li>
+<li><strong>One snapshot backup at a time</strong> – You can only run one snapshot backup at a time on a given cluster; concurrent snapshot backups are not supported.</li>
+<li><strong>No automatic retention policy for scheduled backups yet</strong> - You must manually delete outdated backup objects. Retention policy is planned to be added in future releases.</li>
+<li><strong>No automatic retention policy for scheduled backups yet</strong> – You need to manually remove outdated backup objects for now. Automatic retention will be available in a future release.</li>
+</ul>
+<p><a class="md-button" href="backups-pvc-setup.html">Configure PVC snapshots</a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 10:23:06 UTC">November 3, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 18, 2025 14:58:23 UTC">July 18, 2025</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
       
     
   </small>
