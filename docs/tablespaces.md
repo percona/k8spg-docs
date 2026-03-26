@@ -51,7 +51,7 @@ for tablespaces.
 
     1. Edit the `deploy/cr.yaml` configuration file. Specify the volume name, access mode and resource requests. Refer to [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details.
 
-        This example configuration shows how to create tablespace storage 1Gb in size:
+        This example configuration shows how to create tablespace storage 1Gi in size:
 
         ```yaml
         spec:
