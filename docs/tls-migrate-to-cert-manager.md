@@ -1,4 +1,4 @@
-# Migrate from Operator-generated certificates to cert-manager
+# Migrate from Operator-generated or custom certificates to cert-manager
 
 You can start using cert-manager for TLS certificates lifecycle management if you have previously deployed your cluster with auto-generated or custom certificates. The use of cert-manager provides automatic certificate renewal, configurable validity periods, and centralized certificate management across your Kubernetes cluster.
 

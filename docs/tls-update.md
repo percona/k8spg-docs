@@ -10,9 +10,11 @@ This document focuses on how to update manually generated certificates.
 
 ## Check your certificates for expiration
 
-```bash
-kubectl get secrets
-```
+1. List the Secrets 
+   
+    ```bash
+    kubectl get secrets -n <namespace>
+    ```
 
 1. First, check the necessary secrets names (`cluster1-cluster-cert` and `cluster1-replication-cert` by default):
 
@@ -31,8 +33,8 @@ kubectl get secrets
 
     ```bash
     {
-      kubectl get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -noout -dates
-      kubectl get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -noout -dates
+      kubectl -n <namespace> get secret/cluster1-replication-cert -o jsonpath='{.data.tls\.crt}' | base64 --decode | openssl x509 -noout -dates
+      kubectl -n <namespace> get secret/cluster1-cluster-cert -o jsonpath='{.data.ca\.crt}' | base64 --decode | openssl x509 -noout -dates
       }
     ```
 
