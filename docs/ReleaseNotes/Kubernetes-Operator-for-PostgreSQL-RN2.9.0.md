@@ -163,9 +163,6 @@ If you use the Operator from Red Hat Marketplace, switch to the Certified Operat
 
 Starting with this release `pg_stat_monitor` is disabled by default when you deploy a new cluster. If you wish to keep using this extension after upgrading to this version, enable it in the Custom resource before the upgrade.
 
-### Custom Resource changes
-
-* The `exposeSuperusers` default value has changed to `false`
 
 ### CRD changes
 
