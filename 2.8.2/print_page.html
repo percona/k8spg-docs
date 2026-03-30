@@ -9904,7 +9904,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
 <span class="c1"># Check certificate status</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.6.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-certificates-to-cert-manager">Migrate from Operator-generated certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
+<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.6.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager">Migrate from Operator-generated or custom certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
 <p>You can start using cert-manager for TLS certificates lifecycle management if you have previously deployed your cluster with auto-generated or custom certificates. The use of cert-manager provides automatic certificate renewal, configurable validity periods, and centralized certificate management across your Kubernetes cluster.</p>
 <p>Read more about cert-manager in <a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a>.</p>
 <h2 id="tls-migrate-to-cert-manager-migration-steps">Migration steps<a class="headerlink" href="#tls-migrate-to-cert-manager-migration-steps" title="Permanent link">&para;</a></h2>
@@ -10327,9 +10327,12 @@ external communications, and another set is for internal ones!</strong></p>
 </ul>
 <p>This document focuses on how to update manually generated certificates.</p>
 <h2 id="tls-update-check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#tls-update-check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets
-</code></pre></div>
 <ol>
+<li>
+<p>List the Secrets </p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
 <li>
 <p>First, check the necessary secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
 <p>You will have the following response:</p>
@@ -10344,8 +10347,8 @@ cluster1-replication-cert       Opaque   3      11m
 <p>Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:</p>
 <div class="highlight"><pre><span></span><code><span class="o">{</span>
-<span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
-<span class="w">  </span>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
 <span class="w">  </span><span class="o">}</span>
 </code></pre></div>
 <p>The resulting output will be self-explanatory:</p>
