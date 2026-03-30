@@ -194,6 +194,7 @@ nav:
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
           - "Install on Microsoft Azure Kubernetes Service (AKS)": aks.md
           - "Install on OpenShift": openshift.md
+          - "Install on Digital Ocean Kubernetes Service (DOKS)": doks.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
