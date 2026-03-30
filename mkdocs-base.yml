@@ -250,7 +250,10 @@ nav:
     - Upgrade:
           - About upgrades: update.md
           - "Upgrade the Operator": update-operator.md
-          - "Upgrade the database": update-database.md
+          - Upgrade the database: 
+            - "About database upgrades": update-database.md
+            - update-db-minor.md
+            - update-db-major.md
           - "Upgrade PostgreSQL extensions": update-extensions.md
           - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
           - Upgrade from version 1 to version 2:
