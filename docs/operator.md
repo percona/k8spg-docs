@@ -2285,7 +2285,7 @@ The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/c
 
 ### `extensions.builtin.pg_stat_monitor`
 
-Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension.
+Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension. Disabled by default starting with version 2.9.0.
 
 | Value type | Example |
 | ---------- | ------- |
