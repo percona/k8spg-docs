@@ -6,7 +6,7 @@
 
 ### Backup and restore
 
-* [Use PVC snapshots for faster backups and restores](#boost-backup-and-restore-performance-with-pvc-snapshot-support)
+* [Use PVC snapshots for faster backups and restores](#boost-backup-and-restore-performance-with-pvc-snapshot-support) (tech preview)
 
 ### Operations
 
