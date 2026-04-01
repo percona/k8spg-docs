@@ -293,8 +293,10 @@ nav:
           - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
-          - "Copyright and licensing information": copyright.md
-          - "Trademark policy": trademark-policy.md
+          - "About documentation": about-docs.md
+          - Legal:
+            - "Copyright and licensing information": copyright.md
+            - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.md
