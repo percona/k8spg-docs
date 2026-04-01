@@ -51,7 +51,7 @@ Choose the upgrade instructions below based on how you originally deployed the O
 
 [Manual upgrade](#manual-upgrade){.md-button}
 [Upgrade via Helm](#upgrade-via-helm){.md-button}
-[Upgrade on OpenShift](update-openshift.md)(.md-button)
+[Upgrade on OpenShift](update-openshift.md){.md-button}
 
 ### Manual upgrade
 
@@ -75,7 +75,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
     ```bash
     kubectl -n postgres-operator patch deployment percona-postgresql-operator \
-    -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}}]}}}}'
+    -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}"}]}}}}'
     ```
 
 3. The deployment rollout will be automatically triggered by the applied patch.
