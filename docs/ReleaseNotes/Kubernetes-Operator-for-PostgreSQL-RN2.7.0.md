@@ -165,7 +165,7 @@ Read more about these troubleshooting methods in the [documentation](../manage-m
 
 ## Supported software
 
-This version of the Operator is developed is developed, tested and based on:
+This version of the Operator is developed, tested and based on:
 
 --8<-- [start:software]
 

@@ -39,6 +39,14 @@ Specifies the name of the `pgBackRest` repository where to save a backup. It mus
 | ----------- | ---------- |
 | :material-code-string: string     | `repo1` |
 
+### `method`
+
+Specifies what method to use for the backup. When undefined, uses `pgBackRest` by default. Supported values are `volumeSnapshot` and `pgBackRest`. See [PVC snapshot support](backups-pvc-snapshots.md) to learn more.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `volumeSnapshot` |
+
 ### `options`
 
 You can customize the backup by specifying different [command line options supported by pgBackRest :octicons-external-link-16:](https://pgbackrest.org/configuration.html).
@@ -46,3 +54,27 @@ You can customize the backup by specifying different [command line options suppo
 | Value type  | Example    |
 | ----------- | ---------- |
 | :material-code-string: string     | `--type=full` |
+
+### `containerOptions.env.name`
+
+Specifies the name of a custom environment variable that you pass to backup containers for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `MY_ENV` |
+
+### `containerOptions.env.value`
+
+Specifies the value for a custom environment variable that you pass to backup containers for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `1000` |
+
+### `containerOptions.envFrom.secretRef.name`
+
+Name of a Secret, key/values of which are used as environment variables for manual backups.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `backup-env-secret` |

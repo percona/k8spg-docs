@@ -39,6 +39,14 @@ Specifies the name of one of the 4 pgBackRest repositories, already configured i
 | ----------- | ---------- |
 | :material-code-string: string     | `repo1` |
 
+### `volumeSnapshotBackupName`
+
+Specifies the name of a PVC snapshot-based backup to restore from. See [Configure and use PVC snapshots](backups-pvc-setup.md) to learn more.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `backup1` |
+
 ### `options`
 
 Specify the [command line options supported by `pgBackRest` :octicons-external-link-16:](https://pgbackrest.org/configuration.html). For example, to make a point-in-time restore or to restore from a specific backup.
@@ -48,3 +56,27 @@ Specify the [command line options supported by `pgBackRest` :octicons-external-l
 | :material-code-string: string     | `--type=time` <br> `--target=YYYY-MM-DD HH:MM:DD +00` <br> `--set=20240628-074416F` (backup name) |
 
 To restore from a specific backup, use the `--set` option with the backup label. You can find the backup label in the `status.backupName` field of the `PerconaPGBackup` resource. For the full restore workflow, see [Restore to the same cluster](backups-restore-inplace.md) or [Restore to a new cluster](backups-clone.md).
+
+### `containerOptions.env.name`
+
+Specifies the name of a custom environment variable that you pass to backup containers for restore Pods.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `MY_ENV` |
+
+### `containerOptions.env.value`
+
+Specifies the value for a custom environment variable that you pass to backup containers for restore Pods.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `1000` |
+
+### `containerOptions.envFrom.secretRef.name`
+
+Name of a Secret, key/values of which are used as environment variables for restore Pods.
+
+| Value type  | Example    |
+| ----------- | ---------- |
+| :material-code-string: string     | `restore-env-secret` |
