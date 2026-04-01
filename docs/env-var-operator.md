@@ -69,11 +69,7 @@ The value is a comma-separated list of feature gate key-value pairs. By default 
 
 Following feature gates are present:
 
-<<<<<<< HEAD
 1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#automated-scaling-with-auto-growable-disk) chapter.
-=======
-1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#enable-automatic-storage-resize) chapter. Available as of Operator version 2.8.1.
->>>>>>> Update docs/backups-pvc-setup.md
 
 2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.
 
@@ -199,6 +195,100 @@ spec:
       value: "pg-operator"
 ```
 
+### `PGO_CONTROLLER_LEADER_ELECTION_ENABLED`
+
+Controls whether the Operator uses leader election. Leader election ensures only one Operator instance manages resources when multiple replicas run. Set to `"false"` to disable leader election (single-replica deployments only).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"true"` | `"false"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEADER_ELECTION_ENABLED
+      value: "false"
+```
+
+### `PGO_CONTROLLER_LEASE_NAME`
+
+Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default Lease `08db3feb.percona.com` .
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `""` (empty) | `"my-lease"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_NAME
+      value: "my-lease"
+```
+
+### `PGO_CONTROLLER_LEASE_DURATION`
+
+Duration that non-leader candidates wait before forcing leader acquisition. This is measured against the time of last observed acknowledgment. Uses Go duration format (for example, `60s`). You can increase this value if the Operator experiences leader election failures in high-latency or resource-constrained environments.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"60s"` | `"90s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_DURATION
+      value: "90s"
+```
+
+### `PGO_CONTROLLER_RENEW_DEADLINE`
+
+Duration that the acting leader retries refreshing the lease before giving up. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"40s"` | `"60s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RENEW_DEADLINE
+      value: "60s"
+```
+
+### `PGO_CONTROLLER_RETRY_PERIOD`
+
+Duration between leader election retry attempts. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"10s"` | `"15s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RETRY_PERIOD
+      value: "15s"
+
 ### `PPROF_BIND_ADDRESS`
 
 Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.
@@ -235,7 +325,6 @@ You can update environment variables in an existing Operator Deployment by apply
     ```
 
 2. Edit the output to add or change a variable (for example `PGO_WORKERS`), then apply a patch with the full `env` list. Alternatively, patch a single entry by index (see [Configure concurrency for a cluster reconciliation](reconciliation-concurrency.md)).
-
 
 ### Using Helm
 
