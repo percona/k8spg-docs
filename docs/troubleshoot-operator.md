@@ -178,3 +178,43 @@ If you are still running into issues, check with your Kubernetes cluster adminis
 8. If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a `sleep-forever` script to prevent the containers from restarting repeatedly. 
    
    See the [Disable health check probes for maintenance](manage-manually.md#disable-health-check-probes-for-maintenance) section for steps.
+
+## Profiling the Operator with pprof
+
+When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go's pprof tooling.
+
+1. Enable pprof by setting the `PPROF_BIND_ADDRESS` environment variable in the Operator Deployment. For example, set it to `127.0.0.1:6060` to bind pprof to localhost on port 6060. See [PPROF_BIND_ADDRESS](env-var-operator.md#pprof_bind_address) for configuration details.
+
+2. Restart the Operator so the new configuration takes effect.
+
+3. Set up a port-forward to the Operator Pod:
+
+    ```bash
+    kubectl port-forward deploy/percona-postgresql-operator 6060:6060 -n <operator-namespace>
+    ```
+
+4. In another terminal, collect profiles using `go tool pprof`:
+
+    **CPU profile** (30 seconds):
+
+    ```bash
+    go tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
+    ```
+
+    **Heap (memory) profile**:
+
+    ```bash
+    go tool pprof http://localhost:6060/debug/pprof/heap
+    ```
+
+    **Goroutine profile** (useful for deadlock investigation):
+
+    ```bash
+    go tool pprof http://localhost:6060/debug/pprof/goroutine
+    ```
+
+5. After collecting a profile, you can analyze it interactively. For example, type `top` to see the functions consuming the most CPU or memory, or `web` to generate a flame graph (requires Graphviz).
+
+!!! note
+
+    Disable pprof when you finish troubleshooting by setting `PPROF_BIND_ADDRESS` to `"0"` or `""`. Keeping it enabled in production is not recommended for security reasons.

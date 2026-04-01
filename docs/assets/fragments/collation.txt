@@ -1,4 +1,4 @@
-5. Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) and run the following query:
+5. Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner and run the following query:
 
     ```sql
     SELECT DISTINCT
@@ -21,7 +21,7 @@
         AND collname NOT IN ('C', 'POSIX');
     ```
 
-6. If you see the list of affected images, find the database names where indexes use a different collation version:
+6. If you see the list of affected indexes, find the database names where indexes use a different collation version:
 
     ```sql
     SELECT * FROM pg_database;
@@ -47,8 +47,9 @@
            -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
          |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
         (4 rows)
+        ```
     
-7. Refresh collection metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
+7. Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
 
     ```sql
     ALTER DATABASE cluster1 REFRESH COLLATION VERSION;

@@ -5,7 +5,7 @@ site_description: Documentation
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
 copyright: 
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2026 — <a href="#" onclick="Osano.cm.showDrawer('osano-cm-dom-info-dialog-open')">Cookie Preferences</a>
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
@@ -75,7 +75,7 @@ extra_javascript:
 
 #Copyright
 copyright: >
-  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2025 — <a href="#__consent">Cookie Consent</a>
+  <a href="https://www.percona.com/about">Percona LLC</a> and/or its affiliates © 2026 — <a href="#__consent">Cookie Consent</a>
 
 #Extensions
 markdown_extensions:
@@ -197,13 +197,26 @@ nav:
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
+          - LDAP authentication: 
+              - "About LDAP authentication": ldap.md
+              - "Configure LDAP authentication": ldap-setup.md
           - "Exposing the cluster": expose.md
           - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Labels and annotations": annotations.md
-          - "Transport encryption (TLS/SSL)": TLS.md
+          - Transport encryption (TLS/SSL):
+            - "About TLS/SSL": TLS.md
+            - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
+            - "Migrate from Operator-generated certificates to cert-manager": tls-migrate-to-cert-manager.md
+            - "Generate certificates manually": tls-manual.md
+            - "Update TLS/SSL certificates": tls-update.md
+            - "Check TLS communication": tls-verify-communication.md
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
+          - Environment variables: 
+            - "About environment variables": env-vars.md
+            - "Operator environment variables": env-var-operator.md
+            - "Cluster component environment variables": env-var-cluster.md
     - Management:
           - Back up and restore: 
             - "About backups": backups.md
@@ -215,6 +228,11 @@ nav:
               - Restore options: backups-restore.md
               - To the same cluster (in-place restore): backups-restore-inplace.md
               - To a new cluster (cluster clone): backups-clone.md
+            - PVC snapshots:
+              - "About PVC snapshots": backups-pvc-snapshots.md
+              - "Configure PVC snapshots": backups-pvc-setup.md
+              - "Configure PVC snapshots on EKS": backups-pvc-setup-eks.md
+              - "Use PVC snapshots": backups-pvc-usage.md
             - "Backup encryption": backup-encryption.md
             - "Speed up backups": async-archiving.md
             - "Backup retention": backup-retention.md
@@ -235,7 +253,10 @@ nav:
     - Upgrade:
           - About upgrades: update.md
           - "Upgrade the Operator": update-operator.md
-          - "Upgrade the database": update-database.md
+          - Upgrade the database: 
+            - "About database upgrades": update-database.md
+            - update-db-minor.md
+            - update-db-major.md
           - "Upgrade PostgreSQL extensions": update-extensions.md
           - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
           - Upgrade from version 1 to version 2:
@@ -252,6 +273,7 @@ nav:
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md
           - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
+          - dns-suffix.md
           - "Delete the Operator": delete.md
           - "Retrieve Percona certified images": image-query.md
 
@@ -268,6 +290,7 @@ nav:
           - "Backup resource options": backup-resource-options.md
           - "Restore options": restore-options.md
           - "Secrets options": secret-options.md
+          - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
           - "Copyright and licensing information": copyright.md

@@ -34,9 +34,7 @@ Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Def
     `minor.major` version by more than one, you need to make several
     incremental upgrades sequentially. 
     
-    For example, to upgrade the CRD and Operator from the version 2.4.
-    0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.
-    5.1 to 2.6.0.
+    For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.5.1 to 2.6.0.
 
 2. CRD supports **the last 3 minor versions of the Operator**. This means it is compatible with the newest Operator version and the two previous minor versions. If the Operator is older than the CRD by no more than two versions, you should be able to continue using the old Operator version. But updating the CRD and Operator is the recommended path.
 
@@ -53,7 +51,7 @@ Choose the upgrade instructions below based on how you originally deployed the O
 
 [Manual upgrade](#manual-upgrade){.md-button}
 [Upgrade via Helm](#upgrade-via-helm){.md-button}
-[Upgrade on OpenShift](update-openshift.md)(.md-button)
+[Upgrade on OpenShift](update-openshift.md){.md-button}
 
 ### Manual upgrade
 
@@ -77,7 +75,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
     ```bash
     kubectl -n postgres-operator patch deployment percona-postgresql-operator \
-    -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}}]}}}}'
+    -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}"}]}}}}'
     ```
 
 3. The deployment rollout will be automatically triggered by the applied patch.
