@@ -8,7 +8,12 @@ When you create a new Percona PostgreSQL cluster, the Operator uses the `basebac
 
 You may need to reinitialize cluster replicas. For example, if the data on the replica becomes corrupted or inconsistent with the primary node. Reinitialization ensures the replica is rebuilt with the correct data. Or, if the replica falls significantly behind the primary or encounters issues that prevent successful synchronization, reinitialization can reset the replica to match the current state of the primary.
 
-This document provides the ways how to do it.
+You can do this:
+
+* Manually by operating the database cluster. This is the recommended approach as you have the full control over the data state in your database.
+* Automatically via Patroni. When Patroni notices the timelines between the primary and a replica diverged and the replica cannot stream from a primary, it automatically removes the data directory and recreates the replica to ensure it rejoins the cluster. Note that in this flow the Operator cannot ensure all transactions are replicated somewhere and it might potentially result in data loss. 
+
+This document provides the steps how to do it both ways.
 
 ## Reinitialize by deleting replica Pod and its PersistentVolumeClaim
 
@@ -203,3 +208,26 @@ kubectl exec -it cluster1-instance1-24b8-0 -- cat /etc/patroni/~postgres-operato
     ```
 
 Though the Operator updates the ConfigMaps, it doesn't automatically apply the new configuration for Patroni. To make Patroni aware of the changes, reload its configuration on every instance with the `patronictl reload <cluster_name> <pod-name>` command. 
+
+## Automate replica reinitialization with Patroni
+
+You can instruct Patroni to reinitialize the replica when it detects that the replica's timeline diverges from the primary one. Update the Custom Resource and set the `.spec.patroni.removeDataDirectoryOnDivergedTimelines` option:
+
+```yaml
+spec:
+  patroni:
+    removeDataDirectoryOnDivergedTimelines: true
+```
+
+Apply the configuration for the changes to come into force:
+
+```bash
+kubectl apply -f deploy/cr.yaml
+```
+
+!!! warning
+
+    The `removeDataDirectoryOnDivergedTimelines` option can lead to data loss.
+    When the Operator resyncs the replica automatically, some transactions may
+    be lost. The risk is usually small but not zero. Use this option only if you
+    understand and accept this trade-off.

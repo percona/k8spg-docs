@@ -59,9 +59,9 @@ The pgBackRest repo-based standby is the simplest one. The following is the arch
 
 ### Configure DR site
 
-The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the only difference in standby settings.
+The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the  difference in standby settings.
 
-The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case):
+The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case). Optionally, add `standby.maxAcceptableLag` to enable [replication lag detection](standby.md#detect-replication-lag-for-standby-cluster). Check the [known limitation for this standby type](standby.md#known-limitation-for-a-repo-based-standby-cluster). 
 
 ```yaml
 metadata:
@@ -80,6 +80,7 @@ spec:
   standby:
     enabled: true
     repoName: repo1
+    # maxAcceptableLag: 10Mi  # optional: enables replication lag detection
 ```
 
 Deploy the standby cluster by applying the manifest:

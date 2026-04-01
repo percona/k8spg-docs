@@ -10,7 +10,7 @@ You can configure the Percona Operator for PostgreSQL behavior by setting enviro
 
 ### `LOG_LEVEL`
 
-Controls the verbosity of the operator's logging output. This helps with debugging and monitoring the Operator behavior. 
+Controls the verbosity of the Operator's logging output. This helps with debugging and monitoring the Operator behavior. 
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
@@ -61,15 +61,18 @@ spec:
 
 Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.
 
-The value needs to be a key-value with comma-separated list of feature gates. By default this variable is not set in the Operator.
+The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
 | string     | `""` (empty) | `"AutoGrowVolumes=true"` |
 
-Following feature gates are present as of Operator version 2.8.1:
+Following feature gates are present:
 
 1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#automated-scaling-with-auto-growable-disk) chapter.
+
+2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.
+
 
 **Example configuration:**
 
@@ -82,9 +85,16 @@ spec:
       value: "AutoGrowVolumes=true"
 ```
 
+To enable multiple features, list them separated by a comma:
+
+```yaml
+- name: PGO_FEATURE_GATES
+  value: "AutoGrowVolumes=true,BackupSnapshots=true"
+```
+
 ### `LOG_STRUCTURED`
 
-Controls whether the Operator outputs logs in a structured JSON format  instead of the plain text. Structured logging is useful for log aggregation tools.
+Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.
 
 | Value type | Default | Example |
 | ---------- | ------- | ------- |
@@ -116,8 +126,8 @@ Keep in mind that concurrent reconciliations are done only on different objects.
 To illustrate how it works:
 
 * If you have two PerconaPGCluster objects (A and B) and set `PGO_WORKERS=1`, a single worker thread will reconcile the clusters serially, one after another.  
-* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the operator still reconciles this object serially.  
-* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
+* If you set `PGO_WORKERS=4` but only have one PerconaPGCluster object, the Operator still reconciles this object serially.  
+* If you set `PGO_WORKERS=4` and have two PerconaPGCluster objects (A and B), the Operator uses two separate threads to reconcile each object in parallel; however, it always processes events for each individual object sequentially.
 
 **Example configuration:**
 
@@ -170,7 +180,7 @@ spec:
 
 Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from `metadata.namespace` via a downward API `fieldRef`.
 
-This variable is used by the Operator to refer objects like Secrets for the normal functioning of the operator.
+This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.
 
 This is particularly important in [cluster-wide](cluster-wide.md) deployment scenarios where the Operator manages resources across multiple namespaces.
 
@@ -183,6 +193,123 @@ spec:
     env:
     - name: PGO_NAMESPACE
       value: "pg-operator"
+```
+
+### `PGO_CONTROLLER_LEADER_ELECTION_ENABLED`
+
+Controls whether the Operator uses leader election. Leader election ensures only one Operator instance manages resources when multiple replicas run. Set to `"false"` to disable leader election (single-replica deployments only).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"true"` | `"false"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEADER_ELECTION_ENABLED
+      value: "false"
+```
+
+### `PGO_CONTROLLER_LEASE_NAME`
+
+Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default Lease `08db3feb.percona.com` .
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `""` (empty) | `"my-lease"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_NAME
+      value: "my-lease"
+```
+
+### `PGO_CONTROLLER_LEASE_DURATION`
+
+Duration that non-leader candidates wait before forcing leader acquisition. This is measured against the time of last observed acknowledgment. Uses Go duration format (for example, `60s`). You can increase this value if the Operator experiences leader election failures in high-latency or resource-constrained environments.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"60s"` | `"90s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_LEASE_DURATION
+      value: "90s"
+```
+
+### `PGO_CONTROLLER_RENEW_DEADLINE`
+
+Duration that the acting leader retries refreshing the lease before giving up. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"40s"` | `"60s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RENEW_DEADLINE
+      value: "60s"
+```
+
+### `PGO_CONTROLLER_RETRY_PERIOD`
+
+Duration between leader election retry attempts. Uses Go duration format (for example, `60s`).
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"10s"` | `"15s"` |
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PGO_CONTROLLER_RETRY_PERIOD
+      value: "15s"
+
+### `PPROF_BIND_ADDRESS`
+
+Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `"0"` (disabled) | `"127.0.0.1:6060"` |
+
+When set to `""` or `"0"`, pprof serving is disabled. Set it to an address such as `127.0.0.1:6060` to enable profiling. You can then use `kubectl port-forward` to access the pprof endpoints from your local machine.
+
+See [Profiling the Operator with pprof](troubleshoot-operator.md#profiling-the-operator-with-pprof) for usage instructions.
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: PPROF_BIND_ADDRESS
+      value: "127.0.0.1:6060"
 ```
 
 ## Update environment variables
@@ -198,7 +325,6 @@ You can update environment variables in an existing Operator Deployment by apply
     ```
 
 2. Edit the output to add or change a variable (for example `PGO_WORKERS`), then apply a patch with the full `env` list. Alternatively, patch a single entry by index (see [Configure concurrency for a cluster reconciliation](reconciliation-concurrency.md)).
-
 
 ### Using Helm
 

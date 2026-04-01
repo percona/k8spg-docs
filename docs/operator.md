@@ -34,6 +34,14 @@ Version of the Operator the Custom Resource belongs to.
 | ---------- | ------- |
 | :material-code-string: string | `{{ release }}` |
 
+### `clusterServiceDNSSuffix`
+
+A custom cluster domain to be used as a DNS suffix used when constructing internal service names. Use this when the Operator runs in a vcluster or a cluster with a custom DNS domain so it can correctly resolve services. See [Configure DNS suffix for service discovery](dns-suffix.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cluster.local` |
+
 ### `metadata.annotations`
 
 The [Kubernetes annotations  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/) metadata to be set at a global level for all resources created by the Operator.
@@ -57,6 +65,26 @@ Enforce the Operator to use only Transport Layer Security (TLS) for both interna
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
+
+### `tls.certValidityDuration`
+
+Validity duration for TLS certificates (cluster, instance, and PgBouncer). Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `2160h`). Default: `8760h` (1 year).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `2160h` |
+
+### `tls.caValidityDuration`
+
+Validity duration for the root CA certificate. Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `26280h`). Default: `8760h` (1 year).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `26280h` |
+
+### `tls.pgBackRestCertValidityDuration`
+
+Validity duration for the `pgBackRest` client and repository host certificates
 
 ### `standby.enabled`
 
@@ -105,6 +133,14 @@ Name of the pgBackRest repository in the primary cluster this standby cluster co
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `repo1` |
+
+### `standby.maxAcceptableLag`
+
+The maximum amount of WAL data that the standby cluster can be behind the primary cluster. It is measured in bytes of WAL data. When the WAL lag exceeds this value, the primary pod in the standby cluster is marked as unready, the cluster goes into the `initializing` state, and a `StandbyLagging` condition is set in the status. If unset, lag is not checked. Use Kubernetes quantity format (for example, `10Mi`, `1Gi`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `10Mi` |
 
 ### `secrets.customRootCATLSSecret.name`
 
@@ -180,11 +216,104 @@ The custom name of the user's Secret; if not specified, the default `<clusterNam
 
 ### `users.grantPublicSchemaAccess`
 
-Grants access to the `public` schema to the user for all databases associated with this user. 
+Grants access to the `public` schema to the user for all databases associated with this user.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `false` |
+
+### `authentication.rules`
+
+Defines additional authentication rules for PostgreSQL host-based authentication (`pg_hba.conf`). Rules are applied after mandatory Operator rules and before the default `scram-sha-256` fallback. Use this to configure [LDAP authentication](ldap-setup.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | See [LDAP authentication](ldap.md) for examples |
+
+### `authentication.rules.connection`
+
+Connection type for the rule: `local`, `host`, `hostssl`, `hostnossl`, `hostgssenc`, or `hostnogssenc`.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `host` |
+
+### `authentication.rules.method`
+
+Authentication method to use when a connection matches this rule (e.g., `ldap`, `scram-sha-256`, `md5`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `ldap` |
+
+### `authentication.rules.users`
+
+Users to match. An empty list matches all users.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | `["percona"]` |
+
+### `authentication.rules.databases`
+
+Databases to match. An empty list matches all databases.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | `["percona"]` |
+
+### `authentication.rules.options`
+
+Options for the authentication method. Supported LDAP authentication options are:
+
+* `ldapserver` - the LDAP server hostname
+* `ldapport` - the port on which the LDAP server is reachable: `389` for plain LDAP and `636` for LDAPS
+* `ldaptls` - Controls the connection type for the LDAP server. `1` is for LDAP over TLS.
+* `ldapscheme` - Specifies the connection type. An alternative to `ldaptls`. Must be supported by LDAP server implementations.
+* `ldapprefix` - A prefix for the username when constructing the DN. Use this option for Plain LDAP.
+* `ldappsuffix` - A suffix for the username when constructing the DN. Use this option for Plain LDAP.
+* `ldapbasedn` - The root DN in your LDAP directory tree where to start searching for the user. Use it for search+bind mode.
+* `ldapbinddn` - The bind user DN that will be used for initial bind to LDAP server and username search. Use it for search+bind mode.
+* `ldapbindpasswd` - The bind user password. Use it for search+bind mode.
+* `ldapsearchattribute` - The attribute to match against when searching for the user. When not specified, the `uid` attribute will be used.
+
+To learn more about LDAP, see [LDAP authentication](ldap.md) and the [PostgreSQL auth-ldap documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/auth-ldap.html).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>ldapserver: openldap<br>ldapport: "389"<br>ldapprefix: "uid="<br>ldapsuffix: ",ou=users,dc=example,dc=com"</pre> |
+
+### `authentication.rules.hba`
+
+The authentication rules specified as a raw `pg_hba.conf` line. When non-empty, this line is used as-is and the structured fields are ignored.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"host all all 10.0.0.0/8 md5"` |
+
+### `config.files.secret.name`
+
+The name of the Secret object that stores the CA certificates for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls). The Operator mounts this certificate under `/etc/postgres`. 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ldap-ca |
+
+### `config.files.secret.items.key`
+
+The CA certificates to use for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls). 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ca.crt |
+
+### `config.files.secret.items.path`
+
+The path to the CA certificates to use for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ldap-ca.crt |
 
 ### `databaseInitSQL.key`
 
@@ -566,6 +695,30 @@ The [Kubernetes labels :octicons-link-external-16:](https://kubernetes.io/docs/c
 | Value type | Example |
 | ---------- | ------- |
 | :material-label-outline: label | `test-label: value` |
+
+### `dataSource.apiGroup`
+
+The name of the VolumeSnapshot API. It is required for bootstrapping a new cluster from a PVC snapshot.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `snapshot.storage.k8s.io` |
+
+### `dataSource.kind`
+
+Specifies what kind of resources serves as the data source
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `VolumeSnapshot` |
+
+### `dataSource.name`
+
+Specifies what name of the PVC snapshot backup will be used as a data source for the restore.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-snapshot-backup-data` |
 
 ### `image`
 
@@ -1058,6 +1211,57 @@ Command arguments for the [custom sidecar container](sidecar.md) for PostgreSQL 
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 
+### `instances.sidecarVolumes.name`
+
+The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | sidecar-secret |
+
+### `instances.sidecarVolumes.secret.secretName`
+
+The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | mysecret |
+
+
+### `instances.sidecarVolumes.configMap.name`
+
+The name of the configMap object to attach to PostgreSQL instance Pods for use by [custom sidecar containers](sidecar.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | sidecar-config |
+
+### `instances.sidecarVolumes.nfs.server`
+
+The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `instances.sidecarVolumes.nfs.path`
+
+The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `instances.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the operator creates and mounts for [custom sidecar containers](sidecar.md) in PostgreSQL instance Pods. 
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
+
 ## Backup section
 
 The `backup` section in the
@@ -1080,6 +1284,30 @@ Enables or disables [tracking the latest restorable time](backups-restore-inplac
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
+
+### `backups.volumeSnapshots.className`
+
+Name of the [VolumeSnapshotClass :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volume-snapshots/) to use when creating [PVC snapshots](backups-pvc-snapshots.md). When set, the Operator creates a volume snapshot in coordination with each backup. Snapshots enable much faster restores when provisioning new clusters. Requires the `BackupSnapshots=true` feature gate.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `csi-gce-pd-snapshot-class` |
+
+### `backups.volumeSnapshots.mode`
+
+Specifies the type of PVC snapshot-based backups.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `offline` |
+
+### `backups.volumeSnapshots.schedule`
+
+Specifies the schedule in Cron format to run PVC snapshot-based backups automatically.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"0 3 * * *"` |
 
 ### `backups.pgbackrest.metadata.labels`
 
@@ -1337,11 +1565,62 @@ The command to use inside a custom sidecar container for pgBackRest Pods
 
 ### `backups.pgbackrest.repoHost.sidecars.securityContext`
 
-Security settings for the sifecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
+Security settings for the sidecar container. These settings control privileges, user/group IDs, and other security-related options. For more details, see the [Kubernetes documentation on SecurityContext :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/)
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `{}` |
+
+### `backups.pgbackrest.repoHost.sidecarVolumes.name`
+
+The name of the [volume :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | sidecar-secret |
+
+### `backups.pgbackrest.repoHost.sidecarVolumes.secret.secretName`
+
+The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | mysecret |
+
+
+### `backups.pgbackrest.repoHost.sidecarVolumes.configMap.name`
+
+The name of the configMap object to attach to pgBackRest repo host Pods for use by [custom sidecar containers](sidecar.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | sidecar-config |
+
+### `backups.pgbackrest.repoHost.sidecarVolumes.nfs.server`
+
+The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `backups.pgbackrest.repoHost.sidecarVolumes.nfs.path`
+
+The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods` Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `backups.pgbackrest.repoHost.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the Operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBackRest repo host Pods.
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
 
 ### `backups.pgbackrest.repoHost.resources.requests.cpu`
 
@@ -1980,6 +2259,57 @@ Command arguments for the [custom sidecar container](sidecar.md) for pgBouncer P
 | ---------- | ------- |
 | :material-application-array-outline: array | `["-c", "while true; do trap 'exit 0' SIGINT SIGTERM SIGQUIT SIGKILL; done;"]` |
 
+### `proxy.pgBouncer.sidecarVolumes.name`
+
+The name of the [volumes  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md). Supports secret, configMap, NFS, and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | sidecar-secret |
+
+### `proxy.pgBouncer.sidecarVolumes.secret.secretName`
+
+The name of the [volume Secret :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md). 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | mysecret |
+
+
+### `proxy.pgBouncer.sidecarVolumes.configMap.name`
+
+The name of the configMap object to attach to `pgBouncer` Pods for use by [custom sidecar containers](sidecar.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | sidecar-config |
+
+### `proxy.pgBouncer.sidecarVolumes.nfs.server`
+
+The hostname of the NFS server that will provide remote filesystem to the [custom sidecar containers](sidecar.md) in `pgBouncer` Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `proxy.pgBouncer.sidecarVolumes.nfs.path`
+
+The path on the NFS server that will be provided as a remote filesystem to the [custom sidecar containers](sidecar.md) in `pgBouncer` Pods.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-string: string | "nfs-service.storage.svc.cluster.local" |
+
+### `proxy.pgBouncer.sidecarPVCs`
+
+[PersistentVolumeClaims  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) that the Operator creates and mounts for [custom sidecar containers](sidecar.md) in pgBouncer Pods.
+
+You can use PVCs with sidecar containers only when you deploy a new cluster. Updates to running cluster are not supported.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: sidecar-volume-claim<br>  spec:<br>    resources:<br>      requests:<br>        storage: 1Gi<br>    volumeMode: Filesystem<br>    accessModes:<br>      - ReadWriteOnce</pre> |
+
 ## Patroni Section
 
 The `patroni` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
@@ -2116,11 +2446,11 @@ The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/c
 
 ### `extensions.builtin.pg_stat_monitor`
 
-Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension.
+Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension. Disabled by default starting with version 2.9.0.
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-toggle-switch-outline: boolean | `true` |
+| :material-toggle-switch-outline: boolean | `false` |
 
 ### `extensions.builtin.pg_stat_statements`
 
