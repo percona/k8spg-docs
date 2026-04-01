@@ -198,7 +198,7 @@ nav:
     - Configuration:
           - "Application and system users": users.md
           - LDAP authentication: 
-              - "About LDAP authentication": ldap.md
+              - "About LDAP authentication": LDAP.md
               - "Configure LDAP authentication": ldap-setup.md
           - "Exposing the cluster": expose.md
           - "Changing PostgreSQL options": options.md
@@ -299,6 +299,7 @@ nav:
             - "Trademark policy": trademark-policy.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.1.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.md

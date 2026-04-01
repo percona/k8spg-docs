@@ -37,7 +37,7 @@ To use PVC snapshots, ensure you have the following prerequisites met:
     kubectl get volumesnapshotclasses
     ```
 
-    If you don't have one, you can add it yourself. Refer to the [Add a VolumeSnapshotClass](#add-volumesnapshotclass) section.
+    If you don't have one, you can add it yourself. Refer to the [Add a VolumeSnapshotClass](#add-a-volumesnapshotclass) section.
 
 4. You must enable the `BackupSnapshots` feature gate for the **Percona Operator for PostgreSQL** deployment.  Refer to the [Enable the feature gate](#enable-the-feature-gate) section for details.
 

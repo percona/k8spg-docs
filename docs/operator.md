@@ -228,7 +228,7 @@ Defines additional authentication rules for PostgreSQL host-based authentication
 
 | Value type | Example |
 | ---------- | ------- |
-| :material-application-array-outline: array | See [LDAP authentication](ldap.md) for examples |
+| :material-application-array-outline: array | See [LDAP authentication](LDAP.md) for examples |
 
 ### `authentication.rules.connection`
 
@@ -277,7 +277,7 @@ Options for the authentication method. Supported LDAP authentication options are
 * `ldapbindpasswd` - The bind user password. Use it for search+bind mode.
 * `ldapsearchattribute` - The attribute to match against when searching for the user. When not specified, the `uid` attribute will be used.
 
-To learn more about LDAP, see [LDAP authentication](ldap.md) and the [PostgreSQL auth-ldap documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/auth-ldap.html).
+To learn more about LDAP, see [LDAP authentication](LDAP.md) and the [PostgreSQL auth-ldap documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/auth-ldap.html).
 
 | Value type | Example |
 | ---------- | ------- |

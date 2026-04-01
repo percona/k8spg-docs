@@ -288,6 +288,7 @@ spec:
     env:
     - name: PGO_CONTROLLER_RETRY_PERIOD
       value: "15s"
+```
 
 ### `PPROF_BIND_ADDRESS`
 
