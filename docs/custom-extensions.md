@@ -10,7 +10,7 @@ You can enable or disable built-in extensions in the `extensions.builtin` sectio
 extensions:
   ...
   builtin:
-    pg_stat_monitor: true
+    pg_stat_monitor: false
     pg_audit: true
     pgvector: false
     pg_repack: false
