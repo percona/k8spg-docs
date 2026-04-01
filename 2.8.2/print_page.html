@@ -11400,27 +11400,13 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </tbody>
 </table>
 <p>Following feature gates are present:</p>
-<p>&laquo;&laquo;&laquo;&lt; HEAD
-1. <code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.
-=======
-1. <code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-enable-automatic-storage-resize">Scale your cluster</a> chapter. Available as of Operator version 2.8.1.</p>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<blockquote>
-<p>Update docs/backups-pvc-setup.md</p>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
-</blockquote>
 <ol>
-<li><code>BackupSnapshots=true</code> - Enables <a href="#backups-pvc-snapshots">PVC snapshot support</a> for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.</li>
+<li>
+<p><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.</p>
+</li>
+<li>
+<p><code>BackupSnapshots=true</code> - Enables <a href="#backups-pvc-snapshots">PVC snapshot support</a> for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.</p>
+</li>
 </ol>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -11545,8 +11531,8 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg-operator&quot;</span>
 </code></pre></div>
-<h3 id="env-var-operator-pprof_bind_address"><code>PPROF_BIND_ADDRESS</code><a class="headerlink" href="#env-var-operator-pprof_bind_address" title="Permanent link">&para;</a></h3>
-<p>Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.</p>
+<h3 id="env-var-operator-pgo_controller_leader_election_enabled"><code>PGO_CONTROLLER_LEADER_ELECTION_ENABLED</code><a class="headerlink" href="#env-var-operator-pgo_controller_leader_election_enabled" title="Permanent link">&para;</a></h3>
+<p>Controls whether the Operator uses leader election. Leader election ensures only one Operator instance manages resources when multiple replicas run. Set to <code>"false"</code> to disable leader election (single-replica deployments only).</p>
 <table>
 <thead>
 <tr>
@@ -11558,15 +11544,139 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <tbody>
 <tr>
 <td>string</td>
-<td><code>"0"</code> (disabled)</td>
-<td><code>"127.0.0.1:6060"</code></td>
+<td><code>"true"</code></td>
+<td><code>"false"</code></td>
 </tr>
 </tbody>
 </table>
-<p>When set to <code>""</code> or <code>"0"</code>, pprof serving is disabled. Set it to an address such as <code>127.0.0.1:6060</code> to enable profiling. You can then use <code>kubectl port-forward</code> to access the pprof endpoints from your local machine.</p>
-<p>See <a href="#troubleshoot-operator-profiling-the-operator-with-pprof">Profiling the Operator with pprof</a> for usage instructions.</p>
 <p><strong>Example configuration:</strong></p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEADER_ELECTION_ENABLED</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;false&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_controller_lease_name"><code>PGO_CONTROLLER_LEASE_NAME</code><a class="headerlink" href="#env-var-operator-pgo_controller_lease_name" title="Permanent link">&para;</a></h3>
+<p>Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default Lease <code>08db3feb.percona.com</code> .</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>""</code> (empty)</td>
+<td><code>"my-lease"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEASE_NAME</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;my-lease&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_controller_lease_duration"><code>PGO_CONTROLLER_LEASE_DURATION</code><a class="headerlink" href="#env-var-operator-pgo_controller_lease_duration" title="Permanent link">&para;</a></h3>
+<p>Duration that non-leader candidates wait before forcing leader acquisition. This is measured against the time of last observed acknowledgment. Uses Go duration format (for example, <code>60s</code>). You can increase this value if the Operator experiences leader election failures in high-latency or resource-constrained environments.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"60s"</code></td>
+<td><code>"90s"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEASE_DURATION</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;90s&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_controller_renew_deadline"><code>PGO_CONTROLLER_RENEW_DEADLINE</code><a class="headerlink" href="#env-var-operator-pgo_controller_renew_deadline" title="Permanent link">&para;</a></h3>
+<p>Duration that the acting leader retries refreshing the lease before giving up. Uses Go duration format (for example, <code>60s</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"40s"</code></td>
+<td><code>"60s"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_RENEW_DEADLINE</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;60s&quot;</span>
+</code></pre></div>
+<h3 id="env-var-operator-pgo_controller_retry_period"><code>PGO_CONTROLLER_RETRY_PERIOD</code><a class="headerlink" href="#env-var-operator-pgo_controller_retry_period" title="Permanent link">&para;</a></h3>
+<p>Duration between leader election retry attempts. Uses Go duration format (for example, <code>60s</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Default</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"10s"</code></td>
+<td><code>"15s"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example configuration:</strong></p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
+<span class="w">    </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_RETRY_PERIOD</span>
+<span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;15s&quot;</span>
+
+<span class="c1">### `PPROF_BIND_ADDRESS`</span>
+
+<span class="l l-Scalar l-Scalar-Plain">Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.</span>
+
+<span class="p p-Indicator">|</span><span class="err"> Value type | Default | Example |</span>
+<span class="p p-Indicator">|</span><span class="err"> ---------- | ------- | ------- |</span>
+<span class="p p-Indicator">|</span><span class="err"> string     | `&quot;0&quot;` (disabled) | `&quot;127.0.0.1:6060&quot;` |</span>
+
+<span class="l l-Scalar l-Scalar-Plain">When set to `&quot;&quot;` or `&quot;0&quot;`, pprof serving is disabled. Set it to an address such as `127.0.0.1:6060` to enable profiling. You can then use `kubectl port-forward` to access the pprof endpoints from your local machine.</span>
+
+<span class="l l-Scalar l-Scalar-Plain">See [Profiling the Operator with pprof](troubleshoot-operator.md#profiling-the-operator-with-pprof) for usage instructions.</span>
+
+<span class="err">*</span><span class="nv">*Example</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">configuration:**</span>
+
+<span class="err">```</span><span class="l l-Scalar l-Scalar-Plain">yaml</span>
+<span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
 <span class="w">    </span><span class="nt">env</span><span class="p">:</span>
