@@ -1219,6 +1219,117 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LDAP authentication
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    LDAP authentication
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ldap.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About LDAP authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ldap-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure LDAP authentication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="expose.html" class="md-nav__link">
         
@@ -1340,10 +1451,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
         
           
-          <label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
             
   
   
@@ -1361,8 +1472,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_6_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_6">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1619,10 +1730,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_9" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
         
           
-          <label class="md-nav__link" for="__nav_6_9" id="__nav_6_9_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
             
   
   
@@ -1640,8 +1751,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_9_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_9">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_10">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5298,6 +5409,34 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#section-6-2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LDAP authentication
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="LDAP authentication">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ldap-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure LDAP authentication
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#expose" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5342,7 +5481,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-6-6" class="md-nav__link">
+  <a href="#section-6-7" class="md-nav__link">
     <span class="md-ellipsis">
       
         Transport encryption (TLS/SSL)
@@ -5447,7 +5586,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-6-9" class="md-nav__link">
+  <a href="#section-6-10" class="md-nav__link">
     <span class="md-ellipsis">
       
         Environment variables
@@ -9134,7 +9273,277 @@ and save it to the appropriate Secret. You can remove the old password with the
 </code></pre></div>
 <h3 id="users-superuser-and-pgbouncer">Superuser and pgBouncer<a class="headerlink" href="#users-superuser-and-pgbouncer" title="Permanent link">&para;</a></h3>
 <p>For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the <code>primary</code> service. Read more about this service in <a href="#expose">exposure documentation</a>.</p>
-<p>Otherwise you can use the <a href="#operator-proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers connection via pgBouncer.</p></section><section class="print-page" id="expose" heading-number="6.2"><h1 id="expose-exposing-cluster">Exposing cluster<a class="headerlink" href="#expose-exposing-cluster" title="Permanent link">&para;</a></h1>
+<p>Otherwise you can use the <a href="#operator-proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers connection via pgBouncer.</p></section>
+                    <section class='print-page md-section' id='section-6-2' heading-number='6.2'>
+                        <h1>LDAP authentication<a class='headerlink' href='#section-6-2' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="ldap-setup" heading-number="6.2.2"><h1 id="ldap-setup-configure-ldap-authentication">Configure LDAP authentication<a class="headerlink" href="#ldap-setup-configure-ldap-authentication" title="Permanent link">&para;</a></h1>
+<p>This document walks you through setting up LDAP authentication in your PostgreSQL cluster managed by the Operator. For more information about LDAP authentication, how it works and why you need it, see <a href="#ldap.md">LDAP authentication overview</a>.</p>
+<h2 id="ldap-setup-assumptions">Assumptions<a class="headerlink" href="#ldap-setup-assumptions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>To enable LDAP authentication, you must configure two components: an LDAP server and the Percona Operator for PostgreSQL.</li>
+</ol>
+<p>The installation and initial setup of the LDAP server are outside the scope of this document. We assume your LDAP server is already running and accessible to the Operator over the network.</p>
+<ol>
+<li>
+<p>This guide assumes you are familiar with your LDAP server’s schema.</p>
+</li>
+<li>
+<p>The examples in this document use <a href="https://www.openldap.org/">OpenLDAP :octicons-external-link-16:</a> as the LDAP server. If you are using Active Directory, please refer to their <a href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names">official documentation</a> for user and group configuration.</p>
+</li>
+<li>This example setup uses <a href="#ldap.md-bind-modes">Simple bind</a> mode and the bind user DN <code>cn=admin,dc=ldap,dc=local</code>. Make sure to add your own bind user and use it in the commands shown later in this document.</li>
+</ol>
+<p>To use search+bind mode, specify the required options in your configuration. See the <a href="https://www.postgresql.org/docs/current/auth-ldap.html">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for usage examples, and refer to the <a href="#operator-authenticationrulesoptions">Custom Resource reference</a> for a description of available options.</p>
+<h2 id="ldap-setup-prerequisites">Prerequisites<a class="headerlink" href="#ldap-setup-prerequisites" title="Permanent link">&para;</a></h2>
+<p>Before configuring LDAP authentication, ensure you have:</p>
+<ul>
+<li>A running LDAP server (e.g., OpenLDAP, Active Directory) reachable from the PostgreSQL Pods</li>
+<li>LDAP server hostname or IP and port: <code>389</code> for plain LDAP, <code>636</code> for LDAPS</li>
+<li>For LDAPS: the CA certificate that signed the LDAP server&rsquo;s TLS certificate</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">LDAPS certificate hostname</p>
+<p>For LDAPS, the LDAP server certificate must match the hostname that you will specify in the <code>ldapserver</code> option in the Custom Resource (either <code>commonName</code> or a Subject Alternative Name). If it does not match, PostgreSQL will reject the connection.</p>
+</div>
+<p>Clone the repository, because you will need to modify the default configuration in the cluster Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+</code></pre></div>
+<h2 id="ldap-setup-configure-the-openldap-server">Configure the OpenLDAP server<a class="headerlink" href="#ldap-setup-configure-the-openldap-server" title="Permanent link">&para;</a></h2>
+<p>Add users to your LDAP directory. To do that, use LDIF (LDAP Data Interchange Format) files. LDIF is a standard plain-text format for representing LDAP entries and operations. You create LDIF files to define new users, groups, or other LDAP directory entries, and then apply them to your directory using LDAP utilities like <code>ldapadd</code>. LDIF can describe any LDAP entry or modification, making it essential for managing your LDAP Data Information Tree (DIT).</p>
+<p>Add the following LDIF portions to your OpenLDAP server. This creates:</p>
+<ul>
+<li>
+<p><code>ou=perconadba,dc=ldap,dc=local</code> — This is an <strong>organizational unit (OU)</strong> entry in your LDAP directory. An OU acts like a folder or grouping mechanism to organize related LDAP objects, such as users. In this example, &ldquo;perconadba&rdquo; is the group under which users will be organized.</p>
+</li>
+<li>
+<p><code>uid=percona,ou=perconadba,dc=ldap,dc=local</code> — This is a <strong>user entry</strong> in LDAP, representing the &ldquo;percona&rdquo; user. It belongs to the organizational unit &ldquo;perconadba&rdquo;. This entry will store information like username, password, and other user attributes. This is the account PostgreSQL will try to authenticate against when the client connects using the &ldquo;percona&rdquo; username.</p>
+</li>
+<li><code>cn=admin,ou=perconadba,dc=ldap,dc=local</code> — This is a <strong>group entry</strong> in LDAP, representing a group named &ldquo;admin&rdquo; within the organizational unit &ldquo;perconadba&rdquo;. This entry groups together related users, in this case adding the user <code>uid=percona,ou=perconadba,dc=ldap,dc=local</code> as a member. Groups like this can be used to assign roles or manage access collectively within LDAP.</li>
+</ul>
+<p>Use the <code>ldapadd</code> command to add this structure. Use your LDAP server hostname and your bind user DN and password in the following command:</p>
+<div class="highlight"><pre><span></span><code>ldapadd<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://&lt;ldap-server-hostname&gt;:389<span class="w"> </span>-D<span class="w"> </span><span class="s2">&quot;cn=admin,dc=ldap,dc=local&quot;</span><span class="w"> </span>-w<span class="w"> </span>adminpassword<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">dn: ou=perconadba,dc=ldap,dc=local</span>
+<span class="s">objectClass: organizationalUnit</span>
+<span class="s">ou: perconadba</span>
+
+<span class="s">dn: uid=percona,ou=perconadba,dc=ldap,dc=local</span>
+<span class="s">objectClass: inetOrgPerson</span>
+<span class="s">uid: percona</span>
+<span class="s">cn: percona</span>
+<span class="s">sn: percona</span>
+<span class="s">userPassword: mysecretpassw</span>
+
+<span class="s">dn: cn=admin,ou=perconadba,dc=ldap,dc=local</span>
+<span class="s">objectClass: groupOfUniqueNames</span>
+<span class="s">cn: admin</span>
+<span class="s">uniqueMember: uid=percona,ou=perconadba,dc=ldap,dc=local</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<p>Verify that the user was added successfully:</p>
+<div class="highlight"><pre><span></span><code>ldapsearch<span class="w"> </span>-x<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-H<span class="w"> </span>ldap://&lt;ldap-server-hostname&gt;:389<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="s2">&quot;cn=admin,dc=ldap,dc=local&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-w<span class="w"> </span>adminpassword<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-b<span class="w"> </span><span class="s2">&quot;ou=perconadba,dc=ldap,dc=local&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">&quot;(uid=percona)&quot;</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code># LDAPv3
+# base &lt;ou=perconadba,dc=ldap,dc=local&gt; with scope subtree
+# filter: (uid=percona)
+# requesting: ALL
+#
+
+# percona, perconadba, ldap.local
+dn: uid=percona,ou=perconadba,dc=ldap,dc=local
+objectClass: inetOrgPerson
+uid: percona
+cn: percona
+sn: percona
+userPassword:: e1NTSEF9TG95OUgyK1BpU3JmbStZZ2Rpd21rYjJOajVzQ0NJYWs=
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 2
+# numEntries: 1
+</code></pre></div>
+</details>
+<h2 id="ldap-setup-configure-the-operator-and-postgresql">Configure the Operator and PostgreSQL<a class="headerlink" href="#ldap-setup-configure-the-operator-and-postgresql" title="Permanent link">&para;</a></h2>
+<h3 id="ldap-setup-plain-ldap">Plain LDAP<a class="headerlink" href="#ldap-setup-plain-ldap" title="Permanent link">&para;</a></h3>
+<p>Use plain LDAP only in trusted networks. In this connection mode, PostgreSQL connects to the LDAP server on port <code>389</code>.</p>
+<ol>
+<li>
+<p>Export the namespace where your cluster will be running as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Install the Operator deployment, following the steps from the <a href="#kubectl">Quick install guide</a></p>
+</li>
+<li>
+<p>Edit the Custom Resource manifest and specify the following configuration:</p>
+<ul>
+<li>Add the same user to the Custom Resource manifest as you defined in your LDAP directory. Specify the privileges you want this user to have in the <code>spec.users</code> section of the manifest. In this example setup this is the user <code>percona</code>.</li>
+<li>
+<p>Add authentication rules in the <code>spec.authentication.rules</code> section. The Operator will create a rule in the <code>pg_hba.conf</code> file based on this data:</p>
+</li>
+<li>
+<p><code>connection</code> - set to <code>host</code>. </p>
+</li>
+<li><code>method</code> - set to <code>ldap</code></li>
+<li><code>users</code> - add users that will authenticate using LDAP</li>
+<li><code>options.ldapserver</code> - the hostname of your LDAP server</li>
+<li><code>options.ldapport</code> - the port to connect to. Set it to <code>389</code> for plain LDAP.</li>
+<li><code>ldapprefix</code> - The string to prepend the username when forming a DN during simple bind. In our example this is <code>"uid="</code>.</li>
+<li><code>ldapsuffix</code> - The string to append to the username when forming a DN to bind as. In our example this is <code>",ou=perconadba,dc=ldap,dc=local"</code></li>
+</ul>
+<p>The example configuration looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span><span class="w"> </span>
+<span class="w">  </span><span class="c1"># The rest of your configuration</span>
+<span class="w">  </span><span class="nt">authentication</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+<span class="w">        </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap</span>
+<span class="w">        </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span><span class="w"> </span>
+<span class="w">        </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ldapport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">389</span>
+<span class="w">          </span><span class="nt">ldapprefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uid=</span>
+<span class="w">          </span><span class="nt">ldapscheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap</span>
+<span class="w">          </span><span class="nt">ldapserver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openldap</span>
+<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;,ou=perconadba,dc=ldap,dc=local&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration to create the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<h3 id="ldap-setup-ldaps-ldap-over-tls">LDAPS (LDAP over TLS)<a class="headerlink" href="#ldap-setup-ldaps-ldap-over-tls" title="Permanent link">&para;</a></h3>
+<p>LDAPS encrypts traffic between PostgreSQL and the LDAP server. Use it in production.</p>
+<p>For LDAPS connection, you must provide the LDAP server&rsquo;s certificate to PostgreSQL. To do that, create a Secret with this certificate.</p>
+<ol>
+<li>
+<p>Export the namespace where your cluster will be running as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Create a Secret with the LDAP server&rsquo;s CA certificate. Specify the path to the CA certificate:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>ldap-ca<span class="w"> </span><span class="se">\</span>
+--from-file<span class="o">=</span>ca.crt<span class="o">=</span>/path/to/ca.crt
+</code></pre></div>
+</li>
+<li>
+<p>Install the Operator deployment, following the steps from the <a href="#kubectl">Quick install guide</a></p>
+</li>
+<li>
+<p>Edit the Custom Resource manifest and specify the following configuration:</p>
+<ul>
+<li>Add the same user to the Custom Resource manifest as you defined in your LDAP directory. Specify the privileges you want this user to have in the <code>spec.users</code> section of the manifest. In this example setup this is the user <code>percona</code>.</li>
+<li>
+<p>Add authentication rules in the <code>spec.authentication.rules</code> section. The Operator will create a rule in the <code>pg_hba.conf</code> file based on this data:</p>
+</li>
+<li>
+<p><code>connection</code> - set to <code>host</code>.</p>
+</li>
+<li><code>method</code> - set to <code>ldap</code></li>
+<li><code>users</code> - add users that will authenticate using LDAP</li>
+<li><code>options.ldapserver</code> - the hostname of your LDAP server</li>
+<li><code>options.ldapport</code> - the port to connect to. Set it to <code>636</code> for LDAP over TLS connection type.</li>
+<li><code>ldapprefix</code> - The string to prepend the username when forming a DN during simple bind. In our example this is <code>"uid="</code>.</li>
+<li>
+<p><code>ldapsuffix</code> - The string to append to the username when forming a DN to bind as. In our example this is <code>",ou=perconadba,dc=ldap,dc=local"</code></p>
+</li>
+<li>
+<p>Reference the Secret with the LDAP Server CA certificate in the <code>config.files.secret</code> option. The Operator mounts the CA certificate at the path <code>/etc/postgres/ldap/ca.crt</code> and automatically sets the <code>LDAPTLS_CACERT</code> environment value to this path.</p>
+</li>
+</ul>
+<p>This is the example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span>
+
+<span class="w">  </span><span class="nt">authentication</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">connection</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host</span>
+<span class="w">        </span><span class="nt">method</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap</span>
+<span class="w">        </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona</span>
+<span class="w">        </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">ldapscheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldaps</span>
+<span class="w">          </span><span class="nt">ldapserver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openldap-tls</span>
+<span class="w">          </span><span class="nt">ldapport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">636</span>
+<span class="w">          </span><span class="nt">ldapprefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;uid=&quot;</span>
+<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;,ou=perconadba,dc=ldap,dc=local&quot;</span>
+
+<span class="w">  </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">files</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap-ca</span>
+<span class="w">          </span><span class="nt">items</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca.crt</span>
+<span class="w">              </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap/ca.crt</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="ldap-setup-verify-ldap-authentication">Verify LDAP authentication<a class="headerlink" href="#ldap-setup-verify-ldap-authentication" title="Permanent link">&para;</a></h2>
+<p>To verify the LDAP authentication, let&rsquo;s do the following:</p>
+<ul>
+<li>Create a <code>pg-client</code> Pod</li>
+<li>Connect to PostgreSQL via <code>pgBouncer</code> as the user that has LDAP authentication configured (<code>percona</code> in our example)</li>
+</ul>
+<p>Here are the steps:</p>
+<ol>
+<li>
+<p>List the services:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>Look for the <code>&lt;cluster-name&gt;-pgbouncer</code> service.</p>
+</li>
+<li>
+<p>Create a Pod where you start a container with Percona Distribution for PostgreSQL and establish a shell session inside:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:18<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w">  </span>--<span class="w"> </span>bash
+</code></pre></div>
+</li>
+<li>
+<p>Inside the Pod, connect to PostgreSQL:</p>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="s2">&quot;postgres://percona@&lt;cluster-name&gt;-pgbouncer.&lt;namespace&gt;.svc:5432/percona&quot;</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code>Password for user percona:
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Specify the LDAP password for the user. </p>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code>psql (18.3 - Percona Server for PostgreSQL 18.3.1)
+SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off, ALPN: postgresql)
+Type &quot;help&quot; for help.
+
+percona=&gt;
+</code></pre></div>
+</details>
+</li>
+</ol></section></section><section class="print-page" id="expose" heading-number="6.3"><h1 id="expose-exposing-cluster">Exposing cluster<a class="headerlink" href="#expose-exposing-cluster" title="Permanent link">&para;</a></h1>
 <p>The Operator provides entry points for accessing the database by client applications. The database cluster is exposed with regular Kubernetes <a href="https://kubernetes.io/docs/concepts/services-networking/service/">Service objects <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> configured by the Operator.</p>
 <p>This document describes the usage of <a href="#operator">Custom Resource manifest options</a> to expose the clusters deployed with the Operator. </p>
 <h2 id="expose-pgbouncer">PgBouncer<a class="headerlink" href="#expose-pgbouncer" title="Permanent link">&para;</a></h2>
@@ -9191,7 +9600,7 @@ balancer:</p>
 <span class="nn">...</span>
 <span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
-</code></pre></div></section><section class="print-page" id="options" heading-number="6.3"><h1 id="options-changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#options-changing-postgresql-options" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="options" heading-number="6.4"><h1 id="options-changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#options-changing-postgresql-options" title="Permanent link">&para;</a></h1>
 <p>You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method
 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
 <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
@@ -9282,7 +9691,7 @@ authentication.</p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host    all all ::1/128   md5</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">host    all mytest 123.123.123.123/32 reject</span>
 </code></pre></div>
-<p>Apply the changes with <code>kubectl apply -f deploy/cr.yaml</code>.</p></section><section class="print-page" id="constraints" heading-number="6.4"><h1 id="constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes">Binding Percona Distribution for PostgreSQL components to specific Kubernetes/OpenShift Nodes<a class="headerlink" href="#constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes" title="Permanent link">&para;</a></h1>
+<p>Apply the changes with <code>kubectl apply -f deploy/cr.yaml</code>.</p></section><section class="print-page" id="constraints" heading-number="6.5"><h1 id="constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes">Binding Percona Distribution for PostgreSQL components to specific Kubernetes/OpenShift Nodes<a class="headerlink" href="#constraints-binding-percona-distribution-for-postgresql-components-to-specific-kubernetesopenshift-nodes" title="Permanent link">&para;</a></h1>
 <p>The operator does good job automatically assigning new Pods to nodes
 with sufficient resources to achieve balanced distribution across the cluster.
 Still there are situations when it is worth to ensure that pods will land
@@ -9356,7 +9765,7 @@ subsections in the <code>deploy/cr.yaml</code> configuration file as follows:</p
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">connection-poolers</span>
 </code></pre></div>
 <p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Kubernetes Taints and Tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-contains more examples on this topic.</p></section><section class="print-page" id="annotations" heading-number="6.5"><h1 id="annotations-labels-and-annotations">Labels and annotations<a class="headerlink" href="#annotations-labels-and-annotations" title="Permanent link">&para;</a></h1>
+contains more examples on this topic.</p></section><section class="print-page" id="annotations" heading-number="6.6"><h1 id="annotations-labels-and-annotations">Labels and annotations<a class="headerlink" href="#annotations-labels-and-annotations" title="Permanent link">&para;</a></h1>
 <p><a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">Labels <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
 and <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/annotations/">annotations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
 are used to attach additional metadata information to Kubernetes resources.</p>
@@ -9837,10 +10246,10 @@ NAME                                 CREATED AT             LABELS</p>
 <span class="w">    </span><span class="nt">pgv2.percona.com/custom-patroni-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div></section>
-                    <section class='print-page md-section' id='section-6-6' heading-number='6.6'>
-                        <h1>Transport encryption (TLS/SSL)<a class='headerlink' href='#section-6-6' title='Permanent link'></a>
+                    <section class='print-page md-section' id='section-6-7' heading-number='6.7'>
+                        <h1>Transport encryption (TLS/SSL)<a class='headerlink' href='#section-6-7' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="tls" heading-number="6.6.1"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="tls" heading-number="6.7.1"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
 <p>The Percona Operator for PostgreSQL uses Transport Layer Security
 (TLS) cryptographic protocol for the following types of communication:</p>
 <ul>
@@ -9884,7 +10293,7 @@ Replica instances.</p>
 <li>The Operator doesn&rsquo;t delete TLS Secrets, certificates, and issuer it generated by default. </li>
 <li>The Operator removes the cert-manager Issuers and Certificates it created but keeps the Secrets.</li>
 </ul>
-<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.6.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
+<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.7.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
 <p>Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management. </p>
 <p>When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven&rsquo;t provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.</p>
 <p>The Percona Operator self-signed issuer is local to the Operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). </p>
@@ -10054,7 +10463,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
 <span class="c1"># Check certificate status</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.6.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager">Migrate from Operator-generated or custom certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
+<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.7.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager">Migrate from Operator-generated or custom certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
 <p>You can start using cert-manager for TLS certificates lifecycle management if you have previously deployed your cluster with auto-generated or custom certificates. The use of cert-manager provides automatic certificate renewal, configurable validity periods, and centralized certificate management across your Kubernetes cluster.</p>
 <p>Read more about cert-manager in <a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a>.</p>
 <h2 id="tls-migrate-to-cert-manager-migration-steps">Migration steps<a class="headerlink" href="#tls-migrate-to-cert-manager-migration-steps" title="Permanent link">&para;</a></h2>
@@ -10149,7 +10558,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="
 kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>&lt;cluster-name&gt;-cluster-cert<span class="w"> </span>&lt;cluster-name&gt;-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>You can configure certificate validity in the Custom Resource. See <a href="#tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity</a> for details.</p></section><section class="print-page" id="tls-manual" heading-number="6.6.4"><h1 id="tls-manual-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-manual-generate-certificates-manually" title="Permanent link">&para;</a></h1>
+<p>You can configure certificate validity in the Custom Resource. See <a href="#tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity</a> for details.</p></section><section class="print-page" id="tls-manual" heading-number="6.7.4"><h1 id="tls-manual-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-manual-generate-certificates-manually" title="Permanent link">&para;</a></h1>
 <p>You can customize TLS for the Operator by providing your own TLS certificates. To do this, you must create two Kubernetes Secret objects <em>before</em> deploying your cluster:</p>
 <ul>
 <li>One for external communication, later referenced by the <code>spec.secrets.customTLSSecret</code> field in the <code>deploy/cr.yaml</code></li>
@@ -10468,7 +10877,7 @@ external communications, and another set is for internal ones!</strong></p>
 </li>
 </ul>
 <p>You can find more on generating certificates this way in <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/">official Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<p>Refer to the <a href="#tls-manual-provide-pre-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p></section><section class="print-page" id="tls-update" heading-number="6.6.5"><h1 id="tls-update-update-certificates">Update certificates<a class="headerlink" href="#tls-update-update-certificates" title="Permanent link">&para;</a></h1>
+<p>Refer to the <a href="#tls-manual-provide-pre-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p></section><section class="print-page" id="tls-update" heading-number="6.7.5"><h1 id="tls-update-update-certificates">Update certificates<a class="headerlink" href="#tls-update-update-certificates" title="Permanent link">&para;</a></h1>
 <p>How your TLS certificates are updated depends on how they were created:</p>
 <ul>
 <li>Certificates generated by the Operator are long-term. The Operator automatically updates the automatically-generated certificates to ensure your applications continue operation without communication issues.</li>
@@ -10637,7 +11046,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
-</ol></section><section class="print-page" id="tls-verify-communication" heading-number="6.6.6"><h1 id="tls-verify-communication-check-tls-communication-to-the-cluster">Check TLS communication to the cluster<a class="headerlink" href="#tls-verify-communication-check-tls-communication-to-the-cluster" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="tls-verify-communication" heading-number="6.7.6"><h1 id="tls-verify-communication-check-tls-communication-to-the-cluster">Check TLS communication to the cluster<a class="headerlink" href="#tls-verify-communication-check-tls-communication-to-the-cluster" title="Permanent link">&para;</a></h1>
 <p>You can check TLS communication using <code>psql</code>, the standard interactive terminal-based frontend to PostgreSQL. </p>
 <p>For this purpose, we will create a <code>pg-client</code> Deployment, which includes the necessary tools. We will use the existing Secret object with the TLS certificates, generated by the Operator.</p>
 <p>Follow these steps:</p>
@@ -10740,7 +11149,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 <span class="nv">cluster1</span><span class="o">=</span>&gt;
 </code></pre></div>
 </li>
-</ol></section></section><section class="print-page" id="telemetry" heading-number="6.7"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
+</ol></section></section><section class="print-page" id="telemetry" heading-number="6.8"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
 <p>The Telemetry function enables the Operator gathering and sending basic anonymous data to Percona, which helps us to determine where to focus the development and what is the uptake for each release of Operator. </p>
 <p>The following information is gathered:</p>
 <ul>
@@ -10775,7 +11184,7 @@ Custom Resource ID is a unique ID generated by Kubernetes for each Custom Resour
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DISABLE_TELEMETRY</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;true&quot;</span>
 <span class="nn">...</span>
-</code></pre></div></section><section class="print-page" id="reconciliation-concurrency" heading-number="6.8"><h1 id="reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation">Configure concurrency for a cluster reconciliation<a class="headerlink" href="#reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="reconciliation-concurrency" heading-number="6.9"><h1 id="reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation">Configure concurrency for a cluster reconciliation<a class="headerlink" href="#reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation" title="Permanent link">&para;</a></h1>
 <p>Reconciliation is the process by which the Operator continuously compares the desired state with the actual state of the cluster. The desired state is defined in a Kubernetes custom resource, like PostgresCluster. </p>
 <p>If the actual state does not match the desired state, the Operator takes actions to bring the system into alignment—such as creating, updating, or deleting Kubernetes resources (Pods, Services, ConfigMaps, etc.) or performing database-specific operations like scaling, backups, or failover.</p>
 <p>Reconciliation is triggered by a variety of events, including:</p>
@@ -10867,10 +11276,10 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.template.spec.containers[0].env[?(@.name==&quot;PGO_WORKERS&quot;)].value}&#39;</span>
 </code></pre></div>
 <p>The output should be <code>2</code>.</p></section>
-                    <section class='print-page md-section' id='section-6-9' heading-number='6.9'>
-                        <h1>Environment variables<a class='headerlink' href='#section-6-9' title='Permanent link'></a>
+                    <section class='print-page md-section' id='section-6-10' heading-number='6.10'>
+                        <h1>Environment variables<a class='headerlink' href='#section-6-10' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="env-vars" heading-number="6.9.1"><h1 id="env-vars-define-environment-variables">Define environment variables<a class="headerlink" href="#env-vars-define-environment-variables" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="env-vars" heading-number="6.10.1"><h1 id="env-vars-define-environment-variables">Define environment variables<a class="headerlink" href="#env-vars-define-environment-variables" title="Permanent link">&para;</a></h1>
 <p>You can configure environment variables in Percona Operator for PostgreSQL for the following purposes:</p>
 <ol>
 <li><strong>Operator environment variables</strong> – To control the Operator&rsquo;s behavior, such as logging, telemetry, and which namespaces it watches. You set these in the Operator Deployment (for example in <code>deploy/bundle.yaml</code> or via the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">Helm chart</a> values).</li>
@@ -10902,7 +11311,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </table>
 <h2 id="env-vars-next-steps">Next steps<a class="headerlink" href="#env-vars-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#env-var-operator">Configure Operator environment variables</a>
-<a class="md-button" href="#env-var-cluster">Environment variables for cluster components</a></p></section><section class="print-page" id="env-var-operator" heading-number="6.9.2"><h1 id="env-var-operator-configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#env-var-operator-configure-the-operator-environment-variables" title="Permanent link">&para;</a></h1>
+<a class="md-button" href="#env-var-cluster">Environment variables for cluster components</a></p></section><section class="print-page" id="env-var-operator" heading-number="6.10.2"><h1 id="env-var-operator-configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#env-var-operator-configure-the-operator-environment-variables" title="Permanent link">&para;</a></h1>
 <p>You can configure the Percona Operator for PostgreSQL behavior by setting environment variables in the Operator Deployment. You can set them when you install the Operator in the following ways:</p>
 <ul>
 <li>For installations via <code>kubectl</code>, edit the Operator Deployment manifest <code>deploy/operator.yaml</code> or <code>deploy/cw-operator.yaml</code>. Alternatively you can modify the Deployment resource in <code>deploy/bundle.yaml</code>, or <code>deploy/cw-bundle.yaml</code> files.</li>
@@ -11180,7 +11589,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <h3 id="env-var-operator-using-helm">Using Helm<a class="headerlink" href="#env-var-operator-using-helm" title="Permanent link">&para;</a></h3>
 <p>For Helm installations, set or change environment variables through Helm values (for example <code>logLevel</code>, <code>logStructured</code>, <code>disableTelemetry</code>, <code>watchNamespace</code>, <code>watchAllNamespaces</code>). Refer to the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">pg-operator chart</a> documentation for the exact value names and syntax. To add variables not exposed by the chart, use a chart value that merges extra env entries if supported, or switch to patching the Deployment after install.</p>
 <h2 id="env-var-operator-after-the-update">After the update<a class="headerlink" href="#env-var-operator-after-the-update" title="Permanent link">&para;</a></h2>
-<p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p></section><section class="print-page" id="env-var-cluster" heading-number="6.9.3"><h1 id="env-var-cluster-define-environment-variables-for-cluster-components">Define environment variables for cluster components<a class="headerlink" href="#env-var-cluster-define-environment-variables-for-cluster-components" title="Permanent link">&para;</a></h1>
+<p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p></section><section class="print-page" id="env-var-cluster" heading-number="6.10.3"><h1 id="env-var-cluster-define-environment-variables-for-cluster-components">Define environment variables for cluster components<a class="headerlink" href="#env-var-cluster-define-environment-variables-for-cluster-components" title="Permanent link">&para;</a></h1>
 <p>To pass environment variables into PostgreSQL, pgBackRest, or pgBouncer Pods, use the Custom Resource options described in <a href="#operator">Custom Resource options</a>. For example:</p>
 <ul>
 <li><strong>PostgreSQL instances:</strong> use <code>spec.instances[].env</code>, <code>spec.instances[].envFrom</code>, or reference a Secret via <code>spec.instances[].envVarsSecret</code>.</li>
@@ -18280,7 +18689,7 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tbody>
 </table>
 <h3 id="operator-usersgrantpublicschemaaccess"><code>users.grantPublicSchemaAccess</code><a class="headerlink" href="#operator-usersgrantpublicschemaaccess" title="Permanent link">&para;</a></h3>
-<p>Grants access to the <code>public</code> schema to the user for all databases associated with this user. </p>
+<p>Grants access to the <code>public</code> schema to the user for all databases associated with this user.</p>
 <table>
 <thead>
 <tr>
@@ -18292,6 +18701,179 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrules"><code>authentication.rules</code><a class="headerlink" href="#operator-authenticationrules" title="Permanent link">&para;</a></h3>
+<p>Defines additional authentication rules for PostgreSQL host-based authentication (<code>pg_hba.conf</code>). Rules are applied after mandatory Operator rules and before the default <code>scram-sha-256</code> fallback. Use this to configure <a href="#ldap-setup">LDAP authentication</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H3V6h18zM6 8v10h4v-2H8v-6h2V8zm10 8h-2v2h4V8h-4v2h2z"/></svg></span> array</td>
+<td>See <a href="#ldap.md">LDAP authentication</a> for examples</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrulesconnection"><code>authentication.rules.connection</code><a class="headerlink" href="#operator-authenticationrulesconnection" title="Permanent link">&para;</a></h3>
+<p>Connection type for the rule: <code>local</code>, <code>host</code>, <code>hostssl</code>, <code>hostnossl</code>, <code>hostgssenc</code>, or <code>hostnogssenc</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>host</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrulesmethod"><code>authentication.rules.method</code><a class="headerlink" href="#operator-authenticationrulesmethod" title="Permanent link">&para;</a></h3>
+<p>Authentication method to use when a connection matches this rule (e.g., <code>ldap</code>, <code>scram-sha-256</code>, <code>md5</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>ldap</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrulesusers"><code>authentication.rules.users</code><a class="headerlink" href="#operator-authenticationrulesusers" title="Permanent link">&para;</a></h3>
+<p>Users to match. An empty list matches all users.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H3V6h18zM6 8v10h4v-2H8v-6h2V8zm10 8h-2v2h4V8h-4v2h2z"/></svg></span> array</td>
+<td><code>["percona"]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrulesdatabases"><code>authentication.rules.databases</code><a class="headerlink" href="#operator-authenticationrulesdatabases" title="Permanent link">&para;</a></h3>
+<p>Databases to match. An empty list matches all databases.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 2H3c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2m0 18H3V6h18zM6 8v10h4v-2H8v-6h2V8zm10 8h-2v2h4V8h-4v2h2z"/></svg></span> array</td>
+<td><code>["percona"]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationrulesoptions"><code>authentication.rules.options</code><a class="headerlink" href="#operator-authenticationrulesoptions" title="Permanent link">&para;</a></h3>
+<p>Options for the authentication method. Supported LDAP authentication options are:</p>
+<ul>
+<li><code>ldapserver</code> - the LDAP server hostname</li>
+<li><code>ldapport</code> - the port on which the LDAP server is reachable: <code>389</code> for plain LDAP and <code>636</code> for LDAPS</li>
+<li><code>ldaptls</code> - Controls the connection type for the LDAP server. <code>1</code> is for LDAP over TLS.</li>
+<li><code>ldapscheme</code> - Specifies the connection type. An alternative to <code>ldaptls</code>. Must be supported by LDAP server implementations.</li>
+<li><code>ldapprefix</code> - A prefix for the username when constructing the DN. Use this option for Plain LDAP.</li>
+<li><code>ldappsuffix</code> - A suffix for the username when constructing the DN. Use this option for Plain LDAP.</li>
+<li><code>ldapbasedn</code> - The root DN in your LDAP directory tree where to start searching for the user. Use it for search+bind mode.</li>
+<li><code>ldapbinddn</code> - The bind user DN that will be used for initial bind to LDAP server and username search. Use it for search+bind mode.</li>
+<li><code>ldapbindpasswd</code> - The bind user password. Use it for search+bind mode.</li>
+<li><code>ldapsearchattribute</code> - The attribute to match against when searching for the user. When not specified, the <code>uid</code> attribute will be used.</li>
+</ul>
+<p>To learn more about LDAP, see <a href="#ldap.md">LDAP authentication</a> and the <a href="https://www.postgresql.org/docs/current/auth-ldap.html">PostgreSQL auth-ldap documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td><pre>ldapserver: openldap<br>ldapport: &ldquo;389&rdquo;<br>ldapprefix: &ldquo;uid=&rdquo;<br>ldapsuffix: &ldquo;,ou=users,dc=example,dc=com&rdquo;</pre></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-authenticationruleshba"><code>authentication.rules.hba</code><a class="headerlink" href="#operator-authenticationruleshba" title="Permanent link">&para;</a></h3>
+<p>The authentication rules specified as a raw <code>pg_hba.conf</code> line. When non-empty, this line is used as-is and the structured fields are ignored.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>"host all all 10.0.0.0/8 md5"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-configfilessecretname"><code>config.files.secret.name</code><a class="headerlink" href="#operator-configfilessecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the Secret object that stores the CA certificates for <a href="#ldap-setup-ldaps-ldap-over-tls">LDAP over TLS (LDAPS)</a>. The Operator mounts this certificate under <code>/etc/postgres</code>. </p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td>ldap-ca</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-configfilessecretitemskey"><code>config.files.secret.items.key</code><a class="headerlink" href="#operator-configfilessecretitemskey" title="Permanent link">&para;</a></h3>
+<p>The CA certificates to use for <a href="#ldap-setup-ldaps-ldap-over-tls">LDAP over TLS (LDAPS)</a>. </p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td>ca.crt</td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-configfilessecretitemspath"><code>config.files.secret.items.path</code><a class="headerlink" href="#operator-configfilessecretitemspath" title="Permanent link">&para;</a></h3>
+<p>The path to the CA certificates to use for <a href="#ldap-setup-ldaps-ldap-over-tls">LDAP over TLS (LDAPS)</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td>ldap-ca.crt</td>
 </tr>
 </tbody>
 </table>
@@ -25061,37 +25643,40 @@ In addition to that:</p>
 .print-site-enumerate-headings #section-6 > h1:before { content: '6 ' }
 .print-site-enumerate-headings #users > h1:before { content: '6.1 ' }
 
-.print-site-enumerate-headings #expose > h1:before { content: '6.2 ' }
+.print-site-enumerate-headings #section-6-2 > h1:before { content: '6.2 ' }
+.print-site-enumerate-headings #ldap-setup > h1:before { content: '6.2.2 ' }
 
-.print-site-enumerate-headings #options > h1:before { content: '6.3 ' }
+.print-site-enumerate-headings #expose > h1:before { content: '6.3 ' }
 
-.print-site-enumerate-headings #constraints > h1:before { content: '6.4 ' }
+.print-site-enumerate-headings #options > h1:before { content: '6.4 ' }
 
-.print-site-enumerate-headings #annotations > h1:before { content: '6.5 ' }
+.print-site-enumerate-headings #constraints > h1:before { content: '6.5 ' }
 
-.print-site-enumerate-headings #section-6-6 > h1:before { content: '6.6 ' }
-.print-site-enumerate-headings #tls > h1:before { content: '6.6.1 ' }
+.print-site-enumerate-headings #annotations > h1:before { content: '6.6 ' }
 
-.print-site-enumerate-headings #tls-cert-manager > h1:before { content: '6.6.2 ' }
+.print-site-enumerate-headings #section-6-7 > h1:before { content: '6.7 ' }
+.print-site-enumerate-headings #tls > h1:before { content: '6.7.1 ' }
 
-.print-site-enumerate-headings #tls-migrate-to-cert-manager > h1:before { content: '6.6.3 ' }
+.print-site-enumerate-headings #tls-cert-manager > h1:before { content: '6.7.2 ' }
 
-.print-site-enumerate-headings #tls-manual > h1:before { content: '6.6.4 ' }
+.print-site-enumerate-headings #tls-migrate-to-cert-manager > h1:before { content: '6.7.3 ' }
 
-.print-site-enumerate-headings #tls-update > h1:before { content: '6.6.5 ' }
+.print-site-enumerate-headings #tls-manual > h1:before { content: '6.7.4 ' }
 
-.print-site-enumerate-headings #tls-verify-communication > h1:before { content: '6.6.6 ' }
+.print-site-enumerate-headings #tls-update > h1:before { content: '6.7.5 ' }
 
-.print-site-enumerate-headings #telemetry > h1:before { content: '6.7 ' }
+.print-site-enumerate-headings #tls-verify-communication > h1:before { content: '6.7.6 ' }
 
-.print-site-enumerate-headings #reconciliation-concurrency > h1:before { content: '6.8 ' }
+.print-site-enumerate-headings #telemetry > h1:before { content: '6.8 ' }
 
-.print-site-enumerate-headings #section-6-9 > h1:before { content: '6.9 ' }
-.print-site-enumerate-headings #env-vars > h1:before { content: '6.9.1 ' }
+.print-site-enumerate-headings #reconciliation-concurrency > h1:before { content: '6.9 ' }
 
-.print-site-enumerate-headings #env-var-operator > h1:before { content: '6.9.2 ' }
+.print-site-enumerate-headings #section-6-10 > h1:before { content: '6.10 ' }
+.print-site-enumerate-headings #env-vars > h1:before { content: '6.10.1 ' }
 
-.print-site-enumerate-headings #env-var-cluster > h1:before { content: '6.9.3 ' }
+.print-site-enumerate-headings #env-var-operator > h1:before { content: '6.10.2 ' }
+
+.print-site-enumerate-headings #env-var-cluster > h1:before { content: '6.10.3 ' }
 
 .print-site-enumerate-headings #section-7 > h1:before { content: '7 ' }
 .print-site-enumerate-headings #section-7-1 > h1:before { content: '7.1 ' }

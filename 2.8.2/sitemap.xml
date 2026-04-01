@@ -5,6 +5,10 @@
          <lastmod>2026-04-01</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/LDAP.html</loc>
+         <lastmod>2026-04-01</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/System-Requirements.html</loc>
          <lastmod>2026-04-01</lastmod>
     </url>
@@ -230,6 +234,10 @@
     </url>
     <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/kubernetes.html</loc>
+         <lastmod>2026-04-01</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/2.8.2/ldap-setup.html</loc>
          <lastmod>2026-04-01</lastmod>
     </url>
     <url>
