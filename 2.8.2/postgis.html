@@ -3584,10 +3584,10 @@ capabilities to this database.">
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deploy-the-operator-with-postgis-enabled-database-cluster" class="md-nav__link">
+  <a href="#prepare-your-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deploy the Operator with PostGIS-enabled database cluster
+        Prepare your environment
       
     </span>
   </a>
@@ -3595,13 +3595,74 @@ capabilities to this database.">
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-postgis-extension" class="md-nav__link">
+  <a href="#deploy-percona-operator-for-postgresql" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check PostGIS extension
+        Deploy Percona Operator for PostgreSQL
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-postgis-enabled-database-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy PostGIS-enabled database cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-postgis-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable PostGIS extension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable PostGIS extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-connect-to-the-primary-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1. Connect to the primary Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-grant-superuser-privileges-to-default-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2. Grant superuser privileges to default user
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-create-a-dedicated-superuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3. Create a dedicated superuser
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5053,10 +5114,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#deploy-the-operator-with-postgis-enabled-database-cluster" class="md-nav__link">
+  <a href="#prepare-your-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Deploy the Operator with PostGIS-enabled database cluster
+        Prepare your environment
       
     </span>
   </a>
@@ -5064,13 +5125,74 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-postgis-extension" class="md-nav__link">
+  <a href="#deploy-percona-operator-for-postgresql" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check PostGIS extension
+        Deploy Percona Operator for PostgreSQL
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deploy-postgis-enabled-database-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy PostGIS-enabled database cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#enable-postgis-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable PostGIS extension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Enable PostGIS extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#option-1-connect-to-the-primary-pod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 1. Connect to the primary Pod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-2-grant-superuser-privileges-to-default-user" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 2. Grant superuser privileges to default user
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#option-3-create-a-dedicated-superuser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Option 3. Create a dedicated superuser
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5110,83 +5232,50 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h1 id="use-postgis-extension-with-percona-distribution-for-postgresql">Use PostGIS extension with Percona Distribution for PostgreSQL<a class="headerlink" href="#use-postgis-extension-with-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
 <p><a href="https://postgis.net/">PostGIS <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is a PostgreSQL extension that adds GIS
 capabilities to this database.</p>
-<p>Starting from the  Operator version 2.3.0 it became possible to deploy and
-manage PostGIS-enabled PostgreSQL. </p>
-<p>Due to the large size and domain specifics of this extension, Percona provides
-separate PostgreSQL Distribution images with it.</p>
-<h2 id="deploy-the-operator-with-postgis-enabled-database-cluster">Deploy the Operator with PostGIS-enabled database cluster<a class="headerlink" href="#deploy-the-operator-with-postgis-enabled-database-cluster" title="Permanent link">&para;</a></h2>
-<p>Following steps will allow you to deploy PostgreSQL cluster with these images.</p>
+<p>You can deploy and manage PostGIS-enabled PostgreSQL starting from the  Operator version 2.3.0. Here&rsquo;s how to do it:</p>
+<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>Clone the percona-postgresql-operator repository:</p>
+<p>Clone the <code>percona-postgresql-operator</code> repository because you will need to modify the cluster&rsquo;s Custom Resource. Specify your desired version for the <code>-b</code> flag:</p>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v2.8.2<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
 <span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
 </code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>It is crucial to specify the right branch with <code>-b</code> option while cloning the
-code on this step. Please be careful.</p>
-</div>
 </li>
 <li>
-<p>The Custom Resource Definition for Percona Distribution for PostgreSQL should
-    be created from the <code>deploy/crd.yaml</code> file. Custom Resource Definition
-    extends the standard set of resources which Kubernetes “knows” about with
-    the new items (in our case ones which are the core of the Operator).
-    <a href="https://kubernetes.io/docs/reference/using-api/server-side-apply/">Apply it <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-    as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/crd.yaml
+<p>Create the namespace where the Operator and the cluster will run. Export it as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
 </code></pre></div>
 </li>
-<li>
-<p>Create the Kubernetes namespace for your cluster if needed (for example,
-    let&rsquo;s name it <code>postgres-operator</code>):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
+</ol>
+<h2 id="deploy-percona-operator-for-postgresql">Deploy Percona Operator for PostgreSQL<a class="headerlink" href="#deploy-percona-operator-for-postgresql" title="Permanent link">&para;</a></h2>
+<p>Create the Custom Resource Definition, role-based access control (RBAC) and the Operator deployment. To do that in one go, apply the <code>deploy/bundle.yaml</code> manifest:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-</li>
+<h2 id="deploy-postgis-enabled-database-cluster">Deploy PostGIS-enabled database cluster<a class="headerlink" href="#deploy-postgis-enabled-database-cluster" title="Permanent link">&para;</a></h2>
+<ol>
 <li>
-<p>The role-based access control (RBAC) for Percona Distribution for PostgreSQL
-    is configured with the <code>deploy/rbac.yaml</code> file. Role-based access is based
-    on defined roles and the available actions which correspond to each role.
-    The role and actions are defined for Kubernetes resources in the yaml file.
-    Further details about users and roles can be found in <a href="https://kubernetes.io/docs/reference/access-authn-authz/rbac/#default-roles-and-role-bindings">Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/rbac.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Setting RBAC requires your user to have cluster-admin role
-privileges. For example, those using Google Kubernetes Engine can
-grant user needed privileges with the following command:</p>
-<div class="highlight"><pre><span></span><code>$ kubectl create clusterrolebinding cluster-admin-binding --clusterrole=cluster-admin --user=$(gcloud config get-value core/account)
-</code></pre></div>
-</div>
-</li>
-<li>
-<p>Start the Operator within Kubernetes:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/operator.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
-</code></pre></div>
-</li>
-<li>
-<p>After the Operator is started, modify the <code>deploy/cr.yaml</code> configuration
-    file with PostGIS-enabled image - use <code>docker.io/percona/percona-postgresql-operator:2.8.2-ppg17.7-postgres-gis3.3.8</code> instead of <code>docker.io/percona/percona-distribution-postgresql:17.7-2</code></p>
+<p>Modify the <code>deploy/cr.yaml</code> configuration file. Specify the image for PostGIS in the <code>spec.image</code> option. Use <code>docker.io/percona/percona-distribution-postgresql-with-postgis:3.3.8</code> instead of <code>docker.io/percona/percona-distribution-postgresql:17.7-2</code></p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">image</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-postgresql-operator:2.8.2-ppg17.7-postgres-gis3.3.8</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">image</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-distribution-postgresql-with-postgis:17.7-2</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<p>When done, Percona Distribution for PostgreSQL cluster can be created at any
-time with the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+</li>
+<li>
+<p>Create a cluster with the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>The creation process may take some time. When the process is over your
-cluster will obtain the <code>ready</code> status. You can check it with the following
-command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+</li>
+<li>
+<p>The creation process may take some time. Check the cluster status with the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
+<p>When the process is over your cluster will obtain the <code>ready</code> status.</p>
 <details class="example">
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
@@ -5195,35 +5284,195 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </details>
 </li>
 </ol>
-<h2 id="check-postgis-extension">Check PostGIS extension<a class="headerlink" href="#check-postgis-extension" title="Permanent link">&para;</a></h2>
-<p>To use PostGIS extension you should enable it for a specific database. </p>
-<p>For example, you can create the new database named <code>mygisdata</code> with the  <code>psql</code>
-tool as follows:</p>
+<h2 id="enable-postgis-extension">Enable PostGIS extension<a class="headerlink" href="#enable-postgis-extension" title="Permanent link">&para;</a></h2>
+<p>To use the PostGIS extension, you should enable it for specific databases. To do that, your PostgreSQL user must be a superuser because only superusers can create extensions. By default, the Operator creates a standard database user without superuser privileges. You have several options to enable PostGIS in your databases:</p>
+<ol>
+<li>
+<p><strong>Connect as the <code>postgres</code> superuser to the primary Pod</strong>. When you execute to the primary Pod and establish the <code>psql</code> session, you are connected as the <code>postgres</code> user. Then you can create or alter databases and enable the PostGIS extension as needed.</p>
+</li>
+<li>
+<p><strong>Grant superuser privileges to the default user</strong>. Connect to the database Pod as the <code>postgres</code> user and grant superuser privileges to the default Operator-created user. After this, you can log in with this user and enable the PostGIS extension for the databases this user has access to.  </p>
+</li>
+<li>
+<p><strong>Create a separate superuser</strong>. You can create a dedicated superuser with access to the needed databases via the Custom Resource. Use this user to connect to PostgreSQL and enable the PostGIS extension for the databases this user has access to.  </p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>By default, superusers cannot connect to PostgreSQL via <code>pgBouncer</code> due to security restrictions. To connect to PostgreSQL as the superuser you can:</p>
+<ul>
+<li>Update the <code>pgBouncer</code> configuration to allow superuser access (not recommended for general security reasons), or</li>
+<li>Connect to PostgreSQL primary Pod using the <code>&lt;cluster-name&gt;-primary</code> Kubernetes Service bypassing <code>pgBouncer</code>.</li>
+</ul>
+</div>
+<p>For details on managing users, roles, and configuring <code>pgBouncer</code> access, refer to the <a href="users.html">Application and system users</a> documentation.</p>
+<h3 id="option-1-connect-to-the-primary-pod">Option 1. Connect to the primary Pod<a class="headerlink" href="#option-1-connect-to-the-primary-pod" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Find the primary Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                        READY   STATUS    RESTARTS   AGE
+cluster1-instance1-ccsr-0   4/4     Running   0          14m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Exec into the primary Pod and establish the <code>psql</code> session:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;primary-pod-name&gt;<span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+</li>
+<li>
+<p>For example, you can create the new database named <code>mygisdata</code> as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="n">mygisdata</span><span class="p">;</span>
-<span class="err">\</span><span class="k">c</span><span class="w"> </span><span class="n">mygisdata</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Connect to this database and create a schema to separate your spacial data.</p>
+<div class="highlight"><pre><span></span><code><span class="err">\</span><span class="k">c</span><span class="w"> </span><span class="n">mygisdata</span><span class="p">;</span>
 <span class="k">CREATE</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="n">gis</span><span class="p">;</span>
 </code></pre></div>
-<p>Next, enable the <code>postgis</code> extension. Make sure you are connected to the
+</li>
+<li>
+<p>Enable the <code>postgis</code> extension for this database. Make sure you are connected to the
 database you created earlier and run the following command:</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span>
 </code></pre></div>
-<p>Finally, check that the extension is enabled:</p>
+</li>
+<li>
+<p>Check that the extension is enabled:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">postgis_full_version</span><span class="p">();</span>
 </code></pre></div>
 <p>The output should resemble the following:</p>
+<details class="example">
+<summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code><span class="n">postgis_full_version</span>
-<span class="w">    </span><span class="c1">-----------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
-<span class="w"> </span><span class="n">POSTGIS</span><span class="o">=</span><span class="ss">&quot;3.3.3&quot;</span><span class="w"> </span><span class="p">[</span><span class="n">EXTENSION</span><span class="p">]</span><span class="w"> </span><span class="n">PGSQL</span><span class="o">=</span><span class="ss">&quot;140&quot;</span><span class="w"> </span><span class="n">GEOS</span><span class="o">=</span><span class="ss">&quot;3.10.2-CAPI-1.16.0&quot;</span><span class="w"> </span><span class="n">PROJ</span><span class="o">=</span><span class="ss">&quot;8.2.1&quot;</span><span class="w"> </span><span class="n">LIBXML</span><span class="o">=</span><span class="ss">&quot;2.9.13&quot;</span><span class="w"> </span><span class="n">LIBJSON</span><span class="o">=</span><span class="ss">&quot;0.15&quot;</span><span class="w"> </span><span class="n">LIBPROTOBUF</span><span class="o">=</span><span class="ss">&quot;1.3.3&quot;</span><span class="w"> </span><span class="n">WAGYU</span><span class="o">=</span><span class="ss">&quot;0.5.0 (Internal)&quot;</span>
+<span class="c1">-----------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="n">POSTGIS</span><span class="o">=</span><span class="ss">&quot;3.5.5 0&quot;</span><span class="w"> </span><span class="p">[</span><span class="n">EXTENSION</span><span class="p">]</span><span class="w"> </span><span class="n">PGSQL</span><span class="o">=</span><span class="ss">&quot;170&quot;</span><span class="w"> </span><span class="n">GEOS</span><span class="o">=</span><span class="ss">&quot;3.11.2-CAPI-1.17.2&quot;</span><span class="w"> </span><span class="n">PROJ</span><span class="o">=</span><span class="ss">&quot;9.5.1 NETWORK_ENABLED=OFF</span>
+<span class="ss">URL_ENDPOINT=https://cdn.proj.org USER_WRITABLE_DIRECTORY=/tmp/proj DATABASE_PATH=/usr/proj95/share/proj/proj.db&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">compiled</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">PROJ</span><span class="w"> </span><span class="mi">9</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">LIBXML</span><span class="o">=</span><span class="ss">&quot;2.9.13&quot;</span><span class="w"> </span><span class="n">LIBJSON</span><span class="o">=</span><span class="ss">&quot;0.14&quot;</span><span class="w"> </span><span class="n">LIBPROTOBUF</span><span class="o">=</span><span class="ss">&quot;1.3.3&quot;</span><span class="w"> </span><span class="n">WAGYU</span><span class="o">=</span><span class="ss">&quot;0.5.0 (Internal)&quot;</span>
 </code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="option-2-grant-superuser-privileges-to-default-user">Option 2. Grant superuser privileges to default user<a class="headerlink" href="#option-2-grant-superuser-privileges-to-default-user" title="Permanent link">&para;</a></h3>
+<ol>
+<li>Connect to the primary Pod following the steps from <a href="#option-1-connect-to-the-primary-pod">Option 1</a></li>
+<li>
+<p>Grant your default user superuser privileges. The following command updates privileges for the <code>cluster1</code> user. Replace with your user name of needed:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">USER</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="k">WITH</span><span class="w"> </span><span class="n">SUPERUSER</span><span class="p">;</span>
+</code></pre></div>
+<p>Exit the pod.</p>
+</li>
+<li>
+<p>Retrieve the connection string URL from a Secret. List the Secrets:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>Look for the Secret named after this pattern: <code>&lt;cluster-name&gt;-pguser-&lt;username&gt;</code>. For example, if your cluster name is <code>cluster1</code>, the Secret name is <code>cluster1-pguser-cluster1</code>.</p>
+</li>
+<li>
+<p>The <code>data.uri</code> value in the Secret contains the connection string URL to the primary service. Export it as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span><span class="sb">`</span>&lt;cluster-name&gt;-pguser-&lt;username&gt;<span class="sb">`</span><span class="w"> </span>--namespace<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span><span class="w"> </span><span class="p">|</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$URI</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create a Pod where you start Percona Distribution for PostgreSQL and connect to the database. The following command starts a Pod <code>pg-client</code> and connects it to the database using the connection string URL:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$URI</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="n">cluster1</span><span class="o">=#</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>When the Operator creates a user, it also creates the database and schema with the name that matches the username. You are now connected to this database. Create the <code>postgis</code> extension for it.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check that the extension is enabled:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">postgis_full_version</span><span class="p">();</span>
+</code></pre></div>
+<p>The output should resemble the following:</p>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="n">postgis_full_version</span>
+<span class="c1">-----------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="n">POSTGIS</span><span class="o">=</span><span class="ss">&quot;3.5.5 0&quot;</span><span class="w"> </span><span class="p">[</span><span class="n">EXTENSION</span><span class="p">]</span><span class="w"> </span><span class="n">PGSQL</span><span class="o">=</span><span class="ss">&quot;170&quot;</span><span class="w"> </span><span class="n">GEOS</span><span class="o">=</span><span class="ss">&quot;3.11.2-CAPI-1.17.2&quot;</span><span class="w"> </span><span class="n">PROJ</span><span class="o">=</span><span class="ss">&quot;9.5.1 NETWORK_ENABLED=OFF</span>
+<span class="ss">URL_ENDPOINT=https://cdn.proj.org USER_WRITABLE_DIRECTORY=/tmp/proj DATABASE_PATH=/usr/proj95/share/proj/proj.db&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">compiled</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">PROJ</span><span class="w"> </span><span class="mi">9</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">LIBXML</span><span class="o">=</span><span class="ss">&quot;2.9.13&quot;</span><span class="w"> </span><span class="n">LIBJSON</span><span class="o">=</span><span class="ss">&quot;0.14&quot;</span><span class="w"> </span><span class="n">LIBPROTOBUF</span><span class="o">=</span><span class="ss">&quot;1.3.3&quot;</span><span class="w"> </span><span class="n">WAGYU</span><span class="o">=</span><span class="ss">&quot;0.5.0 (Internal)&quot;</span>
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="option-3-create-a-dedicated-superuser">Option 3. Create a dedicated superuser<a class="headerlink" href="#option-3-create-a-dedicated-superuser" title="Permanent link">&para;</a></h3>
+<ol>
+<li>
+<p>Edit the Custom Resource and add a user that you will use to manage spatial data. For example, this user is called <code>gis</code>. List the databases this user has access to and grant it superuser privileges:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">gis</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mygisdata</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">test</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SUPERUSER&quot;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Update the cluster configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>The Operator creates a user and a Secret object with user credentials named <code>&lt;cluster-name&gt;-pguser-&lt;username&gt;</code>. List the Secrets to verify it is created:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Retrieve the connection string URI to the primary Pod from the Secret and export it as an environment variable:</p>
+<div class="highlight"><pre><span></span><code>URI=$(kubectl get secret `&lt;cluster-name&gt;-pguser-&lt;username&gt;` --namespace $NAMESPACE -o jsonpath=&#39;{.data.uri}&#39; | base64 --decode) | echo $URI
+</code></pre></div>
+</li>
+<li>
+<p>Create a Pod where you start Percona Distribution for PostgreSQL and use it to connect to the database. The following command starts a Pod <code>pg-client</code> and connects it to the database using the connection string URL:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>perconalab/percona-distribution-postgresql:17.7-2<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>psql<span class="w"> </span><span class="nv">$URI</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="n">mygisdata</span><span class="o">=#</span>
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>When the Operator creates a user, it also creates the database and schema with the name that matches the username. You are now connected to this database. Create the <code>postgis</code> extension for it.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">postgis</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check that the extension is enabled:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">postgis_full_version</span><span class="p">();</span>
+</code></pre></div>
+<p>The output should resemble the following:</p>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="n">postgis_full_version</span>
+<span class="c1">-----------------------------------------------------------------------------------------------------------------------------------------------------------------</span>
+<span class="n">POSTGIS</span><span class="o">=</span><span class="ss">&quot;3.5.5 0&quot;</span><span class="w"> </span><span class="p">[</span><span class="n">EXTENSION</span><span class="p">]</span><span class="w"> </span><span class="n">PGSQL</span><span class="o">=</span><span class="ss">&quot;170&quot;</span><span class="w"> </span><span class="n">GEOS</span><span class="o">=</span><span class="ss">&quot;3.11.2-CAPI-1.17.2&quot;</span><span class="w"> </span><span class="n">PROJ</span><span class="o">=</span><span class="ss">&quot;9.5.1 NETWORK_ENABLED=OFF</span>
+<span class="ss">URL_ENDPOINT=https://cdn.proj.org USER_WRITABLE_DIRECTORY=/tmp/proj DATABASE_PATH=/usr/proj95/share/proj/proj.db&quot;</span><span class="w"> </span><span class="p">(</span><span class="n">compiled</span><span class="w"> </span><span class="n">against</span><span class="w"> </span><span class="n">PROJ</span><span class="w"> </span><span class="mi">9</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="n">LIBXML</span><span class="o">=</span><span class="ss">&quot;2.9.13&quot;</span><span class="w"> </span><span class="n">LIBJSON</span><span class="o">=</span><span class="ss">&quot;0.14&quot;</span><span class="w"> </span><span class="n">LIBPROTOBUF</span><span class="o">=</span><span class="ss">&quot;1.3.3&quot;</span><span class="w"> </span><span class="n">WAGYU</span><span class="o">=</span><span class="ss">&quot;0.5.0 (Internal)&quot;</span>
+</code></pre></div>
+</details>
+</li>
+</ol>
 <p>You can find more about using PostGIS in the official Percona Distribution for
-PostgreSQL <a href="https://docs.percona.com/postgresql/11/solutions/postgis-deploy.html">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
+PostgreSQL <a href="https://docs.percona.com/postgresql/latest/solutions/postgis-deploy.html">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
 as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 23, 2025 16:57:21 UTC">December 23, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 15:52:16 UTC">April 1, 2026</span>
       
         <br>
         Created:

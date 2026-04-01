@@ -3121,6 +3121,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#upgrade-postgis-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade PostGIS extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrade-custom-postgresql-extensions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5063,6 +5074,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#upgrade-postgis-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade PostGIS extension
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrade-custom-postgresql-extensions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5136,6 +5158,11 @@ cluster1-instance1-fm7w-0             4/4     Running   0          2m22s   clust
 </code></pre></div>
 </li>
 </ol>
+<h2 id="upgrade-postgis-extension">Upgrade PostGIS extension<a class="headerlink" href="#upgrade-postgis-extension" title="Permanent link">&para;</a></h2>
+<p>When you <a href="update-db-minor.html">upgrade your database</a> to a new version, this process does <strong>not</strong> automatically update the PostGIS extension inside PostgreSQL. You need to manually update the PostGIS extension in every database where it is enabled.</p>
+<p>To do this, connect to PostgreSQL as a user with <code>SUPERUSER</code> privileges. You can use <a href="postgis.html#enable-postgis-extension">the same user you used to enable the PostGIS extension</a>. Then, execute the following SQL command for each relevant database:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">PostGIS_Extensions_Upgrade</span><span class="p">();</span>
+</code></pre></div>
 <h2 id="upgrade-custom-postgresql-extensions">Upgrade custom PostgreSQL extensions<a class="headerlink" href="#upgrade-custom-postgresql-extensions" title="Permanent link">&para;</a></h2>
 <p>If you have installed <a href="custom-extensions.html#add-custom-extensions">custom PostgreSQL extensions</a>, you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container. </p>
 <p>Refer to the <a href="custom-extensions.html#update-custom-extensions">Update custom extensions</a> section for step-by-step instructions.</p>
@@ -5144,7 +5171,7 @@ cluster1-instance1-fm7w-0             4/4     Running   0          2m22s   clust
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="December 16, 2025 10:21:11 UTC">December 16, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 15:52:16 UTC">April 1, 2026</span>
       
         <br>
         Created:

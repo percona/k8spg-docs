@@ -5295,7 +5295,7 @@ its own namespace. In this case upgrading Operator deployments will look as foll
 <p>Choose the upgrade instructions below based on how you originally deployed the Operator:</p>
 <p><a class="md-button" href="#manual-upgrade">Manual upgrade</a>
 <a class="md-button" href="#upgrade-via-helm">Upgrade via Helm</a>
-<a href="update-openshift.html">Upgrade on OpenShift</a>(.md-button)</p>
+<a class="md-button" href="update-openshift.html">Upgrade on OpenShift</a></p>
 <h3 id="manual-upgrade">Manual upgrade<a class="headerlink" href="#manual-upgrade" title="Permanent link">&para;</a></h3>
 <p>You can upgrade the Operator and CRD as follows, considering the Operator uses
 <code>postgres-operator</code> namespace, and you are upgrading it to the version 2.8.2.</p>
@@ -5314,7 +5314,7 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span c
 <li>Next, update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release <a href="images.html">in the list of certified images</a>. Use the following command to update the Operator to the <code>2.8.2</code> version:</li>
 </ol>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
--p<span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;operator&quot;,&quot;image&quot;:&quot;docker.io/percona/percona-postgresql-operator:2.8.2}]}}}}&#39;</span>
+-p<span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;operator&quot;,&quot;image&quot;:&quot;docker.io/percona/percona-postgresql-operator:2.8.2&quot;}]}}}}&#39;</span>
 </code></pre></div>
 </li>
 <li>
@@ -5386,7 +5386,7 @@ which you have chosen for the Operator when installing its Helm chart.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 17, 2026 08:37:25 UTC">March 17, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 15:52:16 UTC">April 1, 2026</span>
       
         <br>
         Created:
