@@ -26,7 +26,7 @@ PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. 
 
 PostgreSQL 17 is currently not recommended for production environments due to the [known limitation](#known-limitations).
 
-_Update from April 1, 2025_: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the [upgrade instructions](../update-database.md#minor-version-upgrade) for steps
+_Update from April 1, 2025_: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the [upgrade instructions](../update-db-minor.md) for steps
 
 ### `pgvector` is added to the PostgreSQL image
 

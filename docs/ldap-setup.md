@@ -1,6 +1,6 @@
 # Configure LDAP authentication
 
-This document walks you through setting up LDAP authentication in your PostgreSQL cluster managed by the Operator. For more information about LDAP authentication, how it works and why you need it, see [LDAP authentication overview](ldap.md).
+This document walks you through setting up LDAP authentication in your PostgreSQL cluster managed by the Operator. For more information about LDAP authentication, how it works and why you need it, see [LDAP authentication overview](LDAP.md).
 
 ## Assumptions
 
@@ -11,7 +11,7 @@ This document walks you through setting up LDAP authentication in your PostgreSQ
 2. This guide assumes you are familiar with your LDAP server’s schema.
 
 3. The examples in this document use [OpenLDAP :octicons-external-link-16:](https://www.openldap.org/) as the LDAP server. If you are using Active Directory, please refer to their [official documentation](https://learn.microsoft.com/en-us/previous-versions/windows/desktop/ldap/distinguished-names) for user and group configuration.
-4. This example setup uses [Simple bind](ldap.md#bind-modes) mode and the bind user DN `cn=admin,dc=ldap,dc=local`. Make sure to add your own bind user and use it in the commands shown later in this document.
+4. This example setup uses [Simple bind](LDAP.md#bind-modes) mode and the bind user DN `cn=admin,dc=ldap,dc=local`. Make sure to add your own bind user and use it in the commands shown later in this document.
    
    To use search+bind mode, specify the required options in your configuration. See the [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/auth-ldap.html) for usage examples, and refer to the [Custom Resource reference](operator.md#authenticationrulesoptions) for a description of available options.
 

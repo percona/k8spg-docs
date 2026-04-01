@@ -356,4 +356,4 @@ Let's say that your cluster name is `cluster1` and the desired namespace is
 
 You can find more on generating certificates this way in [official Kubernetes documentation :octicons-link-external-16:](https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/).
 
-Refer to the [Provide pre-existing custom certificates](#provide-pre-existing-custom-certificates) section for the steps to create Secrets and configure the Operator. Replace the values with your files. 
+Refer to the [Provide pre-existing custom certificates](#provide-existing-custom-certificates) section for the steps to create Secrets and configure the Operator. Replace the values with your files. 

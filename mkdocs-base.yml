@@ -198,7 +198,7 @@ nav:
     - Configuration:
           - "Application and system users": users.md
           - LDAP authentication: 
-              - "About LDAP authentication": ldap.md
+              - "About LDAP authentication": LDAP.md
               - "Configure LDAP authentication": ldap-setup.md
           - "Exposing the cluster": expose.md
           - "Changing PostgreSQL options": options.md

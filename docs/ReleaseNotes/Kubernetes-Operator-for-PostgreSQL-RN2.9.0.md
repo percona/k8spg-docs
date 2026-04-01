@@ -56,7 +56,7 @@ You can find details about the workflow, requirements, and limitations in [the P
 
 PVC snapshot support is released as a tech preview. We don't recommend using it in production yet, but we encourage you to try it out and share your feedback. To enable the feature, turn on the `BackupSnapshots` feature gate in your Operator Deployment.
 
-Refer to our tutorials for [setting up](../backups-pvc-gke.md) and [using](../backups-pvc-usage.md) PVC snapshots.
+Refer to our tutorials for [setting up](../backups-pvc-setup.md) and [using](../backups-pvc-usage.md) PVC snapshots.
 
 ### Improve replication for standby clusters with WAL lag detection
 
@@ -70,7 +70,7 @@ This enhancement gives you a clear view of your replication health, speeds up tr
 
 LDAP authentication is now available in Percona Operator for PostgreSQL, giving you a straightforward way to centralize database access around your existing corporate identity systems. Instead of verifying user passwords locally, PostgreSQL delegates it to an LDAP server.
 
-You have the flexibility to make a *simple LDAP bind* where the user Distinguished Name is constructed from the prefix and suffix you provide, or make a *bind and search* for a user using a specific attribute. See our [documentation](../ldap.md) to learn more.
+You have the flexibility to make a *simple LDAP bind* where the user Distinguished Name is constructed from the prefix and suffix you provide, or make a *bind and search* for a user using a specific attribute. See our [documentation](../LDAP.md) to learn more.
 
 This improvement lets users log in to the database with their existing organizational credentials and not have to remember multiple logins. You benefit from a deployment that is easier to secure, audit and operate at scale.
 
@@ -294,8 +294,8 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 
 | Image                                                                 | Digest                                                           |
 |:----------------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:2.9.0 (x86_64)  |  |
-| percona/percona-postgresql-operator:2.9.0 (ARM64)  |  |
+| percona/percona-postgresql-operator:2.9.0                            | 1990ab3568a25fbe4fbb85bc0a524c72458b6d4419f2d96a6ef61874da83ea96 |
+| percona/percona-postgresql-operator:2.9.0 (ARM64)                    | 470f0a141973c91474b9337c92773aa467a2145ff5ad74fc4731a11beb446083 |
 | percona/percona-distribution-postgresql:18.3-1 (x86_64) | f7f2af7cd155162fcffbd2a09e28918795db4ca1d1119c60b61a0d7c2f146ee7 |
 | percona/percona-distribution-postgresql:18.3-1 (ARM64) | 97531c11ffaf33f677f7e8062783e9ce13d1cd2618cb88c56d6387bf92720dcb |
 | percona/percona-distribution-postgresql:17.9-1 (x86_64)  | deca076dc5b837d9f7712de4ed007e019900d09c629fcba53d35b7ec47f4b308 |
@@ -320,8 +320,10 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 | percona/percona-pgbouncer:1.25.1-1 (ARM64)    | 6f4d7e68678a040516f729dc9a9fdf0a1e20ed3f5e5328a7b4fba23b4084c72a |
 | percona/percona-pgbackrest:2.58.0-1  (x86_64)   | 56542b3615f742a1ff4dec4eff7f53e87228085e50ebb66e3468d943e5a0f02e |
 | percona/percona-pgbackrest:2.58.0-1 (ARM64)   | d0b86dc1b725483999828cbf44b5dbad9616767da70cc1b33d2fef2841cd3f05 |
-| percona/pmm-client:2.44.1-1         | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
-| percona/pmm-client:3.6.0 (x86_64)   | 390bfd12f981e8b3890550c4927a3ece071377065e001894458047602c744e3b |
-| percona/pmm-client:3.6.0 (ARM64)    | 435a9af2083adb68ddab6a97e6d02bd6d31c54562e919ebc09618e886d58d1ae |
+| percona/pmm-client:2.44.1-1 (x86_64)                             | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
+| percona/pmm-client:2.44.1-1 (ARM64)                                  | 390bfd12f981e8b3890550c4927a3ece071377065e001894458047602c744e3b |
+| percona/pmm-client:3.6.0  (x86_64)                                  | 174fa4675d3ea4d95fd7b45d11f2bcc98b98b703662e6b2614dfe886a7187b23 |
+| percona/pmm-client:3.6.0 (ARM64)                                     | 435a9af2083adb68ddab6a97e6d02bd6d31c54562e919ebc09618e886d58d1ae |
+
 
 --8<-- [end:images]
