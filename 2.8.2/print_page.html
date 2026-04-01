@@ -4252,6 +4252,81 @@
   
   
     <li class="md-nav__item">
+      <a href="about-docs.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_11_9" id="__nav_11_9_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_9">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Legal
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="copyright.html" class="md-nav__link">
         
   
@@ -4296,6 +4371,14 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6522,6 +6605,29 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#about-docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About documentation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-11-9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legal
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Legal">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#copyright" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6540,6 +6646,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -15868,7 +15979,7 @@ percona-postgresql-operator       docker-registry.default.svc:5000/pg/percona-po
 <div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">builtin</span><span class="p p-Indicator">:</span>
-<span class="w">    </span><span class="nt">pg_stat_monitor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">pg_stat_monitor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">pg_audit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">pgvector</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 <span class="w">    </span><span class="nt">pg_repack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -23094,7 +23205,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tbody>
 </table>
 <h3 id="operator-extensionsbuiltinpg_stat_monitor"><code>extensions.builtin.pg_stat_monitor</code><a class="headerlink" href="#operator-extensionsbuiltinpg_stat_monitor" title="Permanent link">&para;</a></h3>
-<p>Enable or disable <a href="https://docs.percona.com/pg-stat-monitor/index.html">pg_stat_monitor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<p>Enable or disable <a href="https://docs.percona.com/pg-stat-monitor/index.html">pg_stat_monitor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension. Disabled by default starting with version 2.9.0.</p>
 <table>
 <thead>
 <tr>
@@ -23105,7 +23216,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <tbody>
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
-<td><code>true</code></td>
+<td><code>false</code></td>
 </tr>
 </tbody>
 </table>
@@ -24126,9 +24237,25 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td style="text-align: left;">-</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="copyright" heading-number="11.8"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="about-docs" heading-number="11.8"><h1 id="about-docs-about-documentation">About documentation<a class="headerlink" href="#about-docs-about-documentation" title="Permanent link">&para;</a></h1>
+<p>This document describes how to deploy, configure, and operate Percona Operator for PostgreSQL on Kubernetes. It also includes reference materials for Custom Resource options, backup and restore settings, and related topics.</p>
+<h2 id="about-docs-documentation-versions">Documentation versions<a class="headerlink" href="#about-docs-documentation-versions" title="Permanent link">&para;</a></h2>
+<p>We recommend that you run the latest version of Percona Operator for PostgreSQL to receive bug fixes and new features. For that reason, the default view of this site reflects the latest documentation.</p>
+<p>Starting with <strong>Percona Operator for PostgreSQL 2.7.0</strong>, the documentation site includes a <strong>version switcher</strong> in the header. You can use it to open the documentation that matches a specific Operator release line.</p>
+<p>The version switcher displays the <strong>three most recent minor versions</strong> of the documentation (for example, 2.7.0, 2.8.0, and 2.9.0). Patch releases (such as 2.8.1 or 2.8.2), if present, are also listed in the switcher because they belong to their respective minor version. When a new minor version is released (for example, 2.10.0), the oldest minor version and all its associated patch versions (like 2.8.0, 2.8.1, and 2.8.2) are removed from the switcher.</p>
+<p>Where a feature was added or behavior changed, the text often notes the Operator version. See the <a href="#releasenotes-index">Release notes</a> for detailed changes in each release.</p>
+<h2 id="about-docs-older-documentation">Older documentation<a class="headerlink" href="#about-docs-older-documentation" title="Permanent link">&para;</a></h2>
+<p>Documentation versions that are no longer supported is <strong>not</strong> available in the version switcher. Those releases are published as <strong>PDF</strong> files in the <a href="https://docs.percona.com/legacy-documentation/">Percona legacy documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="about-docs-report-an-issue-or-request-a-change">Report an issue or request a change<a class="headerlink" href="#about-docs-report-an-issue-or-request-a-change" title="Permanent link">&para;</a></h2>
+<p>To report a problem with the documentation, use the feedback widget at the bottom of the page or open a ticket in the <a href="https://jira.percona.com/projects/K8SPG/issues">Percona Operator for PostgreSQL project <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> on Jira.</p>
+<h2 id="about-docs-how-to-contribute">How to contribute<a class="headerlink" href="#about-docs-how-to-contribute" title="Permanent link">&para;</a></h2>
+<p>Thank you for your interest in improving this documentation. See the <a href="https://github.com/percona/k8spg-docs/blob/2.0/CONTRIBUTING.md">Contributing guide <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> in the documentation repository for instructions.</p></section>
+                    <section class='print-page md-section' id='section-11-9' heading-number='11.9'>
+                        <h1>Legal<a class='headerlink' href='#section-11-9' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="copyright" heading-number="11.9.1"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
 <h2 id="copyright-documentation-licensing">Documentation licensing<a class="headerlink" href="#copyright-documentation-licensing" title="Permanent link">&para;</a></h2>
-<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.9"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
+<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.9.2"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
 <p>This <a href="https://www.percona.com/trademark-policy">Trademark Policy <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is to ensure that users of Percona-branded products or
 services know that what they receive has really been developed, approved,
 tested and maintained by Percona. Trademarks help to prevent confusion in the
@@ -24181,7 +24308,7 @@ However, it is acceptable to omit the word “Percona” for brevity on the seco
 and subsequent uses, where such omission does not cause confusion.</p>
 <p>In the event of doubt as to any of the conditions or exceptions outlined in
 this Trademark Policy, please contact <a href="mailto:trademarks@percona.com">trademarks@percona.com</a> for assistance and
-we will do our very best to be helpful.</p></section></section>
+we will do our very best to be helpful.</p></section></section></section>
                     <section class='print-page md-section' id='section-12' heading-number='12'>
                         <h1>Release Notes<a class='headerlink' href='#section-12' title='Permanent link'></a>
                         </h1>
@@ -25924,9 +26051,12 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #versions > h1:before { content: '11.7 ' }
 
-.print-site-enumerate-headings #copyright > h1:before { content: '11.8 ' }
+.print-site-enumerate-headings #about-docs > h1:before { content: '11.8 ' }
 
-.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.9 ' }
+.print-site-enumerate-headings #section-11-9 > h1:before { content: '11.9 ' }
+.print-site-enumerate-headings #copyright > h1:before { content: '11.9.1 ' }
+
+.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.9.2 ' }
 
 .print-site-enumerate-headings #section-12 > h1:before { content: '12 ' }
 .print-site-enumerate-headings #releasenotes-index > h1:before { content: '12.1 ' }
