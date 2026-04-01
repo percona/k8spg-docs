@@ -216,11 +216,104 @@ The custom name of the user's Secret; if not specified, the default `<clusterNam
 
 ### `users.grantPublicSchemaAccess`
 
-Grants access to the `public` schema to the user for all databases associated with this user. 
+Grants access to the `public` schema to the user for all databases associated with this user.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `false` |
+
+### `authentication.rules`
+
+Defines additional authentication rules for PostgreSQL host-based authentication (`pg_hba.conf`). Rules are applied after mandatory Operator rules and before the default `scram-sha-256` fallback. Use this to configure [LDAP authentication](ldap-setup.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | See [LDAP authentication](ldap.md) for examples |
+
+### `authentication.rules.connection`
+
+Connection type for the rule: `local`, `host`, `hostssl`, `hostnossl`, `hostgssenc`, or `hostnogssenc`.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `host` |
+
+### `authentication.rules.method`
+
+Authentication method to use when a connection matches this rule (e.g., `ldap`, `scram-sha-256`, `md5`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `ldap` |
+
+### `authentication.rules.users`
+
+Users to match. An empty list matches all users.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | `["percona"]` |
+
+### `authentication.rules.databases`
+
+Databases to match. An empty list matches all databases.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | `["percona"]` |
+
+### `authentication.rules.options`
+
+Options for the authentication method. Supported LDAP authentication options are:
+
+* `ldapserver` - the LDAP server hostname
+* `ldapport` - the port on which the LDAP server is reachable: `389` for plain LDAP and `636` for LDAPS
+* `ldaptls` - Controls the connection type for the LDAP server. `1` is for LDAP over TLS.
+* `ldapscheme` - Specifies the connection type. An alternative to `ldaptls`. Must be supported by LDAP server implementations.
+* `ldapprefix` - A prefix for the username when constructing the DN. Use this option for Plain LDAP.
+* `ldappsuffix` - A suffix for the username when constructing the DN. Use this option for Plain LDAP.
+* `ldapbasedn` - The root DN in your LDAP directory tree where to start searching for the user. Use it for search+bind mode.
+* `ldapbinddn` - The bind user DN that will be used for initial bind to LDAP server and username search. Use it for search+bind mode.
+* `ldapbindpasswd` - The bind user password. Use it for search+bind mode.
+* `ldapsearchattribute` - The attribute to match against when searching for the user. When not specified, the `uid` attribute will be used.
+
+To learn more about LDAP, see [LDAP authentication](ldap.md) and the [PostgreSQL auth-ldap documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/auth-ldap.html).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>ldapserver: openldap<br>ldapport: "389"<br>ldapprefix: "uid="<br>ldapsuffix: ",ou=users,dc=example,dc=com"</pre> |
+
+### `authentication.rules.hba`
+
+The authentication rules specified as a raw `pg_hba.conf` line. When non-empty, this line is used as-is and the structured fields are ignored.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `"host all all 10.0.0.0/8 md5"` |
+
+### `config.files.secret.name`
+
+The name of the Secret object that stores the CA certificates for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls). The Operator mounts this certificate under `/etc/postgres`. 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ldap-ca |
+
+### `config.files.secret.items.key`
+
+The CA certificates to use for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls). 
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ca.crt |
+
+### `config.files.secret.items.path`
+
+The path to the CA certificates to use for [LDAP over TLS (LDAPS)](ldap-setup.md#ldaps-ldap-over-tls).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | ldap-ca.crt |
 
 ### `databaseInitSQL.key`
 

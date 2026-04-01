@@ -197,6 +197,9 @@ nav:
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
+          - LDAP authentication: 
+              - "About LDAP authentication": ldap.md
+              - "Configure LDAP authentication": ldap-setup.md
           - "Exposing the cluster": expose.md
           - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
