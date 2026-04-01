@@ -1,0 +1,56 @@
+5. Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner and run the following query:
+
+    ```sql
+    SELECT DISTINCT
+        indrelid::regclass::text,
+        indexrelid::regclass::text,
+        collname,
+        pg_get_indexdef(indexrelid)
+    FROM (
+        SELECT
+            indexrelid,
+            indrelid,
+            indcollation[i] coll
+        FROM
+            pg_index,
+            generate_subscripts(indcollation, 1) g(i)
+    ) s
+    JOIN pg_collation c ON coll = c.oid
+    WHERE
+        collprovider IN ('d', 'c')
+        AND collname NOT IN ('C', 'POSIX');
+    ```
+
+6. If you see the list of affected indexes, find the database names where indexes use a different collation version:
+
+    ```sql
+    SELECT * FROM pg_database;
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
+
+        -------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
+
+         5 | postgres  |     10 |        6 | c              | f             | t            |
+           -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+         |             | 2.28           |
+         1 | template1 |     10 |        6 | c              | t             | t            |
+           -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+         |             | 2.28           | {=c/postgres,postgres=CTc/postgres}
+         4 | template0 |     10 |        6 | c              | t             | f            |
+           -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+         |             |                | {=c/postgres,postgres=CTc/postgres}
+         16466 | cluster1  |     10 |        6 | c              | f             | t            |
+           -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+         |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
+        (4 rows)
+        ```
+    
+7. Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
+
+    ```sql
+    ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
+    ```
