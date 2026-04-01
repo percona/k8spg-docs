@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="A Backup resource is a Kubernetes object that tells the Operator how to create and manage your database backups. The deploy/backup.yaml file is a template for creating backup resources when you make an on-demand backup. It defines the PerconaPGBackup resource.">
+        <meta name="description" content="Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 17.x to PostgreSQL 18.x).">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/backup-resource-options.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/2.8.2/update-db-major.html">
       
       
-        <link rel="prev" href="operator.html">
+        <link rel="prev" href="update-db-minor.html">
       
       
-        <link rel="next" href="restore-options.html">
+        <link rel="next" href="update-extensions.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Backup resource options - Percona Operator for PostgreSQL</title>
+        <title>Major version upgrade - Percona Operator for PostgreSQL</title>
       
     
     
@@ -100,7 +100,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Backup resource options" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Major version upgrade" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/2.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -130,7 +130,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#backup-resource-options" class="md-skip">
+        <a href="#major-version-upgrade" class="md-skip">
           Skip to content
         </a>
       
@@ -197,7 +197,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Backup resource options
+            Major version upgrade
             
           </span>
         </div>
@@ -2803,18 +2803,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
         
           
           <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
@@ -2835,7 +2837,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2906,18 +2908,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" checked>
         
           
           <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
@@ -2938,7 +2942,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_8_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3009,10 +3013,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="update-db-major.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Major version upgrade
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="update-db-major.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3028,6 +3059,98 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Considerations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upgrade-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Upgrade steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#post-upgrade-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Post-upgrade steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cleanup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cleanup
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-upgrade-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting upgrade issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting upgrade issues">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#failed-first-restore-after-the-upgrade" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Failed first restore after the upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3887,20 +4010,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -3921,7 +4042,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3964,37 +4085,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Backup resource options
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="backup-resource-options.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="backup-resource-options.html" class="md-nav__link">
         
   
   
@@ -4010,153 +4104,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        apiVersion
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        kind
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#metadata" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        metadata
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spec" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        spec
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="spec">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#pgcluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        pgCluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reponame" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        repoName
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#method" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        method
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        options
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.env.name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvvalue" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.env.value
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvfromsecretrefname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.envFrom.secretRef.name
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5107,7 +5054,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/backup-resource-options.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/2.0/docs/update-db-major.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -5157,10 +5104,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#apiversion" class="md-nav__link">
+  <a href="#considerations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        apiVersion
+        Considerations
       
     </span>
   </a>
@@ -5168,10 +5115,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#kind" class="md-nav__link">
+  <a href="#upgrade-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        kind
+        Upgrade steps
       
     </span>
   </a>
@@ -5179,10 +5126,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#metadata" class="md-nav__link">
+  <a href="#post-upgrade-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
-        metadata
+        Post-upgrade steps
       
     </span>
   </a>
@@ -5190,88 +5137,33 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#spec" class="md-nav__link">
+  <a href="#cleanup" class="md-nav__link">
     <span class="md-ellipsis">
       
-        spec
+        Cleanup
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="spec">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-upgrade-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting upgrade issues
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Troubleshooting upgrade issues">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#pgcluster" class="md-nav__link">
+  <a href="#failed-first-restore-after-the-upgrade" class="md-nav__link">
     <span class="md-ellipsis">
       
-        pgCluster
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reponame" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        repoName
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#method" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        method
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#options" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        options
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.env.name
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvvalue" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.env.value
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#containeroptionsenvfromsecretrefname" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        containerOptions.envFrom.secretRef.name
+        Failed first restore after the upgrade
       
     </span>
   </a>
@@ -5309,150 +5201,144 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/backup-resource-options.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/2.0/docs/update-db-major.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="backup-resource-options">Backup Resource Options<a class="headerlink" href="#backup-resource-options" title="Permanent link">&para;</a></h1>
-<p>A Backup resource is a Kubernetes object that tells the Operator how to create and manage your database backups. The <code>deploy/backup.yaml</code> file is a template for creating backup resources when you make an on-demand backup. It defines the <code>PerconaPGBackup</code> resource.</p>
-<p>This document describes all available options that you can use to customize your backups.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">&para;</a></h2>
-<p>Specifies the API version of the Custom Resource.
-<code>pgv2.percona.com</code> indicates the group, and <code>v2</code> is the version of the API.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">&para;</a></h2>
-<p>Defines the type of resource being created: <code>PerconaPGBackup</code>.</p>
-<h2 id="metadata"><code>metadata</code><a class="headerlink" href="#metadata" title="Permanent link">&para;</a></h2>
-<p>The metadata part of the <code>deploy/backup.yaml</code> contains metadata about the resource, such as its name and other attributes. It includes the following keys:</p>
-<ul>
-<li><code>name</code> - The name of the backup resource used to identify it in your deployment. You also use the backup name for the restore operation.</li>
-</ul>
-<h2 id="spec"><code>spec</code><a class="headerlink" href="#spec" title="Permanent link">&para;</a></h2>
-<p>This subsection includes the configuration of a backup resource.</p>
-<h3 id="pgcluster"><code>pgCluster</code><a class="headerlink" href="#pgcluster" title="Permanent link">&para;</a></h3>
-<p>Specifies the name of the PostgreSQL cluster to back up.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>cluster1</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="reponame"><code>repoName</code><a class="headerlink" href="#reponame" title="Permanent link">&para;</a></h3>
-<p>Specifies the name of the <code>pgBackRest</code> repository where to save a backup. It must match the name you specified in the <code>spec.backups.pgBackRest.repos</code> subsection of the <code>deploy/cr.yaml</code> file.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>repo1</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="method"><code>method</code><a class="headerlink" href="#method" title="Permanent link">&para;</a></h3>
-<p>Specifies what method to use for the backup. When undefined, uses <code>pgBackRest</code> by default. Supported values are <code>volumeSnapshot</code> and <code>pgBackRest</code>. See <a href="backups-pvc-snapshots.html">PVC snapshot support</a> to learn more.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>volumeSnapshot</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="options"><code>options</code><a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
-<p>You can customize the backup by specifying different <a href="https://pgbackrest.org/configuration.html">command line options supported by pgBackRest :octicons-external-link-16:</a>.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>--type=full</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="containeroptionsenvname"><code>containerOptions.env.name</code><a class="headerlink" href="#containeroptionsenvname" title="Permanent link">&para;</a></h3>
-<p>Specifies the name of a custom environment variable that you pass to backup containers for manual backups.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>MY_ENV</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="containeroptionsenvvalue"><code>containerOptions.env.value</code><a class="headerlink" href="#containeroptionsenvvalue" title="Permanent link">&para;</a></h3>
-<p>Specifies the value for a custom environment variable that you pass to backup containers for manual backups.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>1000</code></td>
-</tr>
-</tbody>
-</table>
-<h3 id="containeroptionsenvfromsecretrefname"><code>containerOptions.envFrom.secretRef.name</code><a class="headerlink" href="#containeroptionsenvfromsecretrefname" title="Permanent link">&para;</a></h3>
-<p>Name of a Secret, key/values of which are used as environment variables for manual backups.</p>
-<table>
-<thead>
-<tr>
-<th>Value type</th>
-<th>Example</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
-<td><code>backup-env-secret</code></td>
-</tr>
-</tbody>
-</table>
+<h1 id="major-version-upgrade">Major version upgrade<a class="headerlink" href="#major-version-upgrade" title="Permanent link">&para;</a></h1>
+<p>Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 17.x to PostgreSQL 18.x).</p>
+<p>This feature is generally available starting with the Operator version 2.9.0.</p>
+<h2 id="considerations">Considerations<a class="headerlink" href="#considerations" title="Permanent link">&para;</a></h2>
+<ol>
+<li>A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.</li>
+<li>During the upgrade, the Operator duplicates the data on each PVC and doesn&rsquo;t remove the old version data automatically. Make sure your PVC has enough free space to store data.</li>
+<li>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
+</ol>
+<h2 id="upgrade-steps">Upgrade steps<a class="headerlink" href="#upgrade-steps" title="Permanent link">&para;</a></h2>
+<p>To start the upgrade, you need to create a special <code>PerconaPGUpgrade</code> resource. This resource refers to the special <em>Operator upgrade image</em> and contains the information about the existing and target major versions. Find the example <code>PerconaPGUpgrade</code> configuration file in <code>deploy/upgrade.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGUpgrade</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-17-to-18</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgresClusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-postgresql-operator:2.8.2-upgrade</span>
+<span class="w">  </span><span class="nt">fromPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">17</span>
+<span class="w">  </span><span class="nt">toPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18</span>
+<span class="w">  </span><span class="nt">toPostgresImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-distribution-postgresql:18.1-3</span>
+<span class="w">  </span><span class="nt">toPgBouncerImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-pgbouncer:1.25.0-1</span>
+<span class="w">  </span><span class="nt">toPgBackRestImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-pgbackrest:2.57.0-1</span>
+</code></pre></div>
+<p>As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them <a href="images.html">in the list of certified images</a> for the current Operator release. For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Apply this manifest to start the upgrade:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/upgrade.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>During the upgrade flow, the Operator:</p>
+<ol>
+<li>Pauses the cluster, making it unavailable for the duration of the upgrade,</li>
+<li>Annotates the cluster with a special <code>pgv2.percona.com/allow-upgrade</code>: <code>&lt;PerconaPGUpgrade.Name&gt;</code> annotation,</li>
+<li>Creates jobs to migrate the data,</li>
+<li>Starts up the cluster after the upgrade finishes.</li>
+</ol>
+<h2 id="post-upgrade-steps">Post-upgrade steps<a class="headerlink" href="#post-upgrade-steps" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="connect.html">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
+<span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
+<span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
+<span class="w">    </span><span class="n">collname</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pg_get_indexdef</span><span class="p">(</span><span class="n">indexrelid</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">indexrelid</span><span class="p">,</span>
+<span class="w">        </span><span class="n">indrelid</span><span class="p">,</span>
+<span class="w">        </span><span class="n">indcollation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">coll</span>
+<span class="w">    </span><span class="k">FROM</span>
+<span class="w">        </span><span class="n">pg_index</span><span class="p">,</span>
+<span class="w">        </span><span class="n">generate_subscripts</span><span class="p">(</span><span class="n">indcollation</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">g</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">s</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">coll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
+<span class="k">WHERE</span>
+<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;POSIX&#39;</span><span class="p">);</span>
+</code></pre></div>
+</li>
+<li>
+<p>If you see the list of affected indexes, find the database names where indexes use a different collation version:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
+
+-------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
+
+ 5 | postgres  |     10 |        6 | c              | f             | t            |
+   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+ |             | 2.28           |
+ 1 | template1 |     10 |        6 | c              | t             | t            |
+   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+ |             | 2.28           | {=c/postgres,postgres=CTc/postgres}
+ 4 | template0 |     10 |        6 | c              | t             | f            |
+   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+ |             |                | {=c/postgres,postgres=CTc/postgres}
+ 16466 | cluster1  |     10 |        6 | c              | f             | t            |
+   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
+ |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
+(4 rows)
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>You can remove old version data at your discretion by <a href="debug-shell.html">executing into containers</a> and running the following commands (example for PostgreSQL 17):</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg17
+rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg17_wal
+</code></pre></div>
+</li>
+<li>
+<p>You can also delete the <code>PerconaPGUpgrade</code> resource (this will clean up the jobs and Pods created during the upgrade):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgupgrade<span class="w"> </span>cluster1-17-to-18
+</code></pre></div>
+</li>
+</ol>
+<h2 id="troubleshooting-upgrade-issues">Troubleshooting upgrade issues<a class="headerlink" href="#troubleshooting-upgrade-issues" title="Permanent link">&para;</a></h2>
+<p>If the upgrade fails for some reason, the cluster will stay in paused mode. Resume the cluster <a href="pause.html">manually</a> to check what went wrong with upgrade (it will start with the old version). You can check the <code>PerconaPGUpgrade</code> resource with <code>kubectl get perconapgupgrade -o yaml</code> command, and <a href="debug-logs.html">check the logs</a> of the upgraded Pods to debug the issue.</p>
+<h3 id="failed-first-restore-after-the-upgrade">Failed first restore after the upgrade<a class="headerlink" href="#failed-first-restore-after-the-upgrade" title="Permanent link">&para;</a></h3>
+<p>After a major upgrade, PostgreSQL starts a new WAL timeline. PostgreSQL treats the upgraded cluster as a new logical generation, so it increments the timeline ID and begins writing WAL from that new point.</p>
+<p>In clusters with very low write traffic, the upgraded primary may generate very few WAL segments after the upgrade. </p>
+<p>When you make a first restore after the upgrade, the restored replicas need to replay WAL from the primary to catch up. To do that, PostgreSQL uses the <code>pg_rewind</code> tool. <code>pg_rewind</code> searches a common WAL ancestor — a point in history where both the primary and the replica share the same WAL record. If there are few WAL records, there may not be a common WAL ancestor and the replica may fail to rejoin the primary. When this happens, you see the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>.</p>
+<p>To address this issue, you must manually <a href="reinit.html">reinitialize</a> the failed replica. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.</p>
+<p>Alternatively, you can automate replica reinitialization with Patroni. Update the cluster configuration by setting the <code>spec.patroni.removeDataDirectoryOnDivergedTimelines</code> in the Custom Resource before the upgrade. When timeline divergence is detected, the Operator instructs Patroni
+   to automatically remove the replica&rsquo;s data and resync it from the primary.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>removeDataDirectoryOnDivergedTimelines</code> option can lead to data loss.
+When the Operator resyncs the replica automatically, some transactions may
+be lost. The risk is usually small but not zero. Use this option only if you
+understand and accept this trade-off.</p>
+</div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:50 UTC">March 30, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 18, 2025 14:58:23 UTC">July 18, 2025</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:50 UTC">March 30, 2026</span>
       
     
   </small>

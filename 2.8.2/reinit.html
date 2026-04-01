@@ -2908,9 +2908,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="update-database.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -2924,7 +2935,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Upgrade the database
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About database upgrades
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-db-minor.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minor version upgrade of Percona Distribution for PostgreSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-db-major.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Major version upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3832,6 +3943,17 @@
     <span class="md-ellipsis">
       
         Configure create_replica_methods
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#automate-replica-reinitialization-with-patroni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automate replica reinitialization with Patroni
       
     </span>
   </a>
@@ -4984,6 +5106,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#automate-replica-reinitialization-with-patroni" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Automate replica reinitialization with Patroni
+      
+    </span>
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -5024,7 +5157,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The Operator doesn&rsquo;t run <code>patronictl reload</code> in old replicas even if Patroni instance configurations are updated to put <code>pgBackRest</code> as the first method in the <code>create_replica_methods</code> list. For this configuration to run into force, you need to either restart the Pods or manually run <code>patronictl reload &lt;cluster_name&gt;</code> on all old replicas.</p>
 </div>
 <p>You may need to reinitialize cluster replicas. For example, if the data on the replica becomes corrupted or inconsistent with the primary node. Reinitialization ensures the replica is rebuilt with the correct data. Or, if the replica falls significantly behind the primary or encounters issues that prevent successful synchronization, reinitialization can reset the replica to match the current state of the primary.</p>
-<p>This document provides the ways how to do it.</p>
+<p>You can do this:</p>
+<ul>
+<li>Manually by operating the database cluster. This is the recommended approach as you have the full control over the data state in your database.</li>
+<li>Automatically via Patroni. When Patroni notices the timelines between the primary and a replica diverged and the replica cannot stream from a primary, it automatically removes the data directory and recreates the replica to ensure it rejoins the cluster. Note that in this flow the Operator cannot ensure all transactions are replicated somewhere and it might potentially result in data loss. </li>
+</ul>
+<p>This document provides the steps how to do it both ways.</p>
 <h2 id="reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim">Reinitialize by deleting replica Pod and its PersistentVolumeClaim<a class="headerlink" href="#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim" title="Permanent link">&para;</a></h2>
 <p>You can force reinitialization by deleting the Pod and its PersistentVolumeClaim:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc/cluster1-instance1-24b8-pgdata<span class="w"> </span>pod/cluster1-instance1-24b8-0
@@ -5184,12 +5322,28 @@ Success: reinitialize for member cluster1-instance1-24b8-0
 </code></pre></div>
 </details>
 <p>Though the Operator updates the ConfigMaps, it doesn&rsquo;t automatically apply the new configuration for Patroni. To make Patroni aware of the changes, reload its configuration on every instance with the <code>patronictl reload &lt;cluster_name&gt; &lt;pod-name&gt;</code> command. </p>
+<h2 id="automate-replica-reinitialization-with-patroni">Automate replica reinitialization with Patroni<a class="headerlink" href="#automate-replica-reinitialization-with-patroni" title="Permanent link">&para;</a></h2>
+<p>You can instruct Patroni to reinitialize the replica when it detects that the replica&rsquo;s timeline diverges from the primary one. Update the Custom Resource and set the <code>.spec.patroni.removeDataDirectoryOnDivergedTimelines</code> option:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">removeDataDirectoryOnDivergedTimelines</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Apply the configuration for the changes to come into force:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>removeDataDirectoryOnDivergedTimelines</code> option can lead to data loss.
+When the Operator resyncs the replica automatically, some transactions may
+be lost. The risk is usually small but not zero. Use this option only if you
+understand and accept this trade-off.</p>
+</div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:50 UTC">March 30, 2026</span>
       
         <br>
         Created:

@@ -2916,9 +2916,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="update-database.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -2932,7 +2943,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Upgrade the database
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-database.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About database upgrades
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-db-minor.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Minor version upgrade of Percona Distribution for PostgreSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="update-db-major.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Major version upgrade
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -5813,13 +5924,52 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#update-database" class="md-nav__link">
+  <a href="#section-8-3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Upgrade the database
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Upgrade the database">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#update-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About database upgrades
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-db-minor" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Minor version upgrade of Percona Distribution for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-db-major" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Major version upgrade
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -14109,35 +14259,40 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 </li>
 </ol>
 <h2 id="update-operator-next-steps">Next steps<a class="headerlink" href="#update-operator-next-steps" title="Permanent link">&para;</a></h2>
-<p><a class="md-button" href="#update-database">Upgrade the database</a></p></section><section class="print-page" id="update-database" heading-number="8.3"><h1 id="update-database-upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#update-database-upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
-<h2 id="update-database-considerations">Considerations<a class="headerlink" href="#update-database-considerations" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#update-database">Upgrade the database</a></p></section>
+                    <section class='print-page md-section' id='section-8-3' heading-number='8.3'>
+                        <h1>Upgrade the database<a class='headerlink' href='#section-8-3' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="update-database" heading-number="8.3.1"><h1 id="update-database-upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#update-database-upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
+<p>There are two types of PostgreSQL upgrades available through the Operator:</p>
+<ul>
+<li><strong>Minor upgrade</strong> is upgrading within the same major version. For example, from 15.5 to 15.7 or from 16.1 to 16.3.</li>
+<li><strong>Major upgrade</strong> is upgrading across major versions, such as from 15.5 to 16.3.</li>
+</ul>
+<p><em>Major upgrades</em> are supported starting from Operator <strong>2.4.0</strong> as a tech preview. Starting with Operator <strong>2.9.0</strong>, major upgrades are <strong>generally available (GA)</strong> and fully supported.</p>
+<p>Before Operator 2.4.0, only minor upgrades were allowed.</p>
+<p>Select the guide for a required upgrade type:</p>
+<p><a class="md-button" href="#update-db-minor">Run a minor version upgrade</a>
+<a class="md-button" href="#update-db-major">Run a major version upgrade</a></p></section><section class="print-page" id="update-db-minor" heading-number="8.3.2"><h1 id="update-db-minor-minor-version-upgrade-of-percona-distribution-for-postgresql">Minor version upgrade of Percona Distribution for PostgreSQL<a class="headerlink" href="#update-db-minor-minor-version-upgrade-of-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
+<p>A minor version upgrade is the upgrade within the same major version. For example, from 17.5.2 to 17.6.1.</p>
+<h2 id="update-db-minor-considerations">Considerations<a class="headerlink" href="#update-db-minor-considerations" title="Permanent link">&para;</a></h2>
 <ol>
-<li>
-<p>Starting from the Operator 2.4.0 you can do a <em>minor</em> upgrade (for example, from 15.5 to 15.7, or from 16.1 to 16.3) and a <em>major</em> upgrade (for example, upgrade from PostgreSQL 15.5 to PostgreSQL 16.3) of Percona Distribution for PostgreSQL. Before the Operator version 2.4.0, you could only do a minor upgrade of Percona Distribution for PostgreSQL. </p>
-</li>
-<li>
-<p>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</p>
-</li>
-<li>
-<p>Upgrading a PostgreSQL cluster may result in downtime, as well as <a href="#change-primary">failover</a> caused by updating the primary instance.</p>
-</li>
+<li>Upgrading a PostgreSQL cluster may result in downtime, as well as in <a href="#change-primary">failover</a> caused by updating the primary instance.</li>
+<li>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
 </ol>
-<h2 id="update-database-before-you-start">Before you start<a class="headerlink" href="#update-database-before-you-start" title="Permanent link">&para;</a></h2>
+<h2 id="update-db-minor-before-you-start">Before you start<a class="headerlink" href="#update-db-minor-before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
-<li>
-<p>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</p>
-</li>
-<li>
-<p>If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</p>
-</li>
+<li>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
+<li>If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. </li>
+<li>PMM2 has reached its end-of-life stage and is deprecated in the Operator. We recommend you to migrate to and use PMM3. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</li>
 </ol>
-<h2 id="update-database-minor-version-upgrade">Minor version upgrade<a class="headerlink" href="#update-database-minor-version-upgrade" title="Permanent link">&para;</a></h2>
-<p class="power-number">To make a minor upgrade of Percona Distribution for PostgreSQL (for example, from 17.5.2 to 17.6.1) , do the following:</p>
+<h2 id="update-db-minor-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-db-minor-upgrade-steps" title="Permanent link">&para;</a></h2>
+<p class="power-number">To make a minor upgrade of Percona Distribution for PostgreSQL, do the following:</p>
 <ol>
 <li>Check the version of the Operator you have in your Kubernetes environment. If you need to update it, refer to the <a href="#update-operator">Operator upgrade guide</a></li>
 <li>
 <p>Check the current version of the Custom Resource and what versions of the database and cluster components are compatible with it. Replace the Operator version with your value in the following command:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.6.0<span class="w"> </span><span class="p">|</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.8.2<span class="w"> </span><span class="p">|</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
 </code></pre></div>
 <p>You can also find this information in the <a href="#versions">Versions compatibility matrix</a>.</p>
 </li>
@@ -14146,13 +14301,13 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <p>We recommend to update the PMM Server <strong>before</strong> the upgrade of PMM Client. If you haven&rsquo;t done it yet, exclude PMM Client from the list of images to update.</p>
 <p>Since this is a working cluster, the way to update the Custom Resource is to <a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/">apply a patch  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> with the <code>kubectl patch pg</code> command.</p>
 <p>This example command updates the cluster with the name <code>cluster1</code> in the namespace <code>postgres-operator</code> to the <code>2.8.2</code> version:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="update-database-__tabbed_1_1" name="update-database-__tabbed_1" type="radio" /><input id="update-database-__tabbed_1_2" name="update-database-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="update-database-__tabbed_1_1">With PMM Client</label><label for="update-database-__tabbed_1_2">Without PMM Client</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="update-db-minor-__tabbed_1_1" name="update-db-minor-__tabbed_1" type="radio" /><input id="update-db-minor-__tabbed_1_2" name="update-db-minor-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="update-db-minor-__tabbed_1_1">With PMM Client</label><label for="update-db-minor-__tabbed_1_2">Without PMM Client</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
 <span class="s1">   &quot;spec&quot;: {</span>
 <span class="s1">      &quot;crVersion&quot;:&quot;2.8.2&quot;,</span>
-<span class="s1">      &quot;image&quot;: &quot;docker.io/percona/percona-distribution-postgresql:17.7-2,</span>
+<span class="s1">      &quot;image&quot;: &quot;docker.io/percona/percona-distribution-postgresql:17.7-2&quot;,</span>
 <span class="s1">      &quot;proxy&quot;: { &quot;pgBouncer&quot;: { &quot;image&quot;: &quot;docker.io/percona/percona-pgbouncer:1.25.0-1&quot; } },</span>
 <span class="s1">      &quot;backups&quot;: { &quot;pgbackrest&quot;:  { &quot;image&quot;: &quot;docker.io/percona/percona-pgbackrest:2.57.0-1&quot; } },</span>
 <span class="s1">      &quot;pmm&quot;: { &quot;image&quot;: &quot;docker.io/percona/pmm-client:3.5.0&quot; }</span>
@@ -14204,7 +14359,7 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </details>
 </li>
 <li>
-<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> and run the following query:</p>
+<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
 <span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
 <span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
@@ -14252,39 +14407,49 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </details>
 </li>
 <li>
-<p>Refresh collection metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
+<p>Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
 <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
 </code></pre></div>
 </li>
+</ol></section><section class="print-page" id="update-db-major" heading-number="8.3.3"><h1 id="update-db-major-major-version-upgrade">Major version upgrade<a class="headerlink" href="#update-db-major-major-version-upgrade" title="Permanent link">&para;</a></h1>
+<p>Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 17.x to PostgreSQL 18.x).</p>
+<p>This feature is generally available starting with the Operator version 2.9.0.</p>
+<h2 id="update-db-major-considerations">Considerations<a class="headerlink" href="#update-db-major-considerations" title="Permanent link">&para;</a></h2>
+<ol>
+<li>A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.</li>
+<li>During the upgrade, the Operator duplicates the data on each PVC and doesn&rsquo;t remove the old version data automatically. Make sure your PVC has enough free space to store data.</li>
+<li>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
 </ol>
-<h2 id="update-database-major-version-upgrade">Major version upgrade<a class="headerlink" href="#update-database-major-version-upgrade" title="Permanent link">&para;</a></h2>
-<p>Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 15.x to PostgreSQL 16.x).</p>
-<p>Major version upgrades feature is currently a <strong>tech preview</strong>, and it is <strong>not recommended for production environments.</strong></p>
-<p>The upgrade is triggered by applying the YAML file which refers to the special <em>Operator upgrade image</em> and contains the information about the existing and desired major versions. An example of this file is present in <code>deploy/upgrade.yaml</code>:</p>
+<h2 id="update-db-major-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-db-major-upgrade-steps" title="Permanent link">&para;</a></h2>
+<p>To start the upgrade, you need to create a special <code>PerconaPGUpgrade</code> resource. This resource refers to the special <em>Operator upgrade image</em> and contains the information about the existing and target major versions. Find the example <code>PerconaPGUpgrade</code> configuration file in <code>deploy/upgrade.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGUpgrade</span>
 <span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-15-to-16</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-17-to-18</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">postgresClusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-postgresql-operator:2.8.2-upgrade</span>
-<span class="w">  </span><span class="nt">fromPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15</span>
-<span class="w">  </span><span class="nt">toPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">16</span>
-<span class="w">  </span><span class="nt">toPostgresImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-distribution-postgresql:16.11-2</span>
+<span class="w">  </span><span class="nt">fromPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">17</span>
+<span class="w">  </span><span class="nt">toPostgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18</span>
+<span class="w">  </span><span class="nt">toPostgresImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-distribution-postgresql:18.1-3</span>
 <span class="w">  </span><span class="nt">toPgBouncerImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-pgbouncer:1.25.0-1</span>
 <span class="w">  </span><span class="nt">toPgBackRestImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-pgbackrest:2.57.0-1</span>
 </code></pre></div>
-<p>As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them <a href="#images">in the list of certified images</a> for the current Operator release. For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p>
-<p>After you apply the YAML manifest as usual (by running <code>kubectl apply -f deploy/upgrade.yaml</code> command), the actual upgrade takes place:</p>
+<p>As you can see, the manifest includes image names for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). You can find them <a href="#images">in the list of certified images</a> for the current Operator release. For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Apply this manifest to start the upgrade:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/upgrade.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>During the upgrade flow, the Operator:</p>
 <ol>
-<li>The Operator pauses the cluster, so the cluster will be unavailable for the duration of the upgrade,</li>
-<li>The cluster is specially annotated with <code>pgv2.percona.com/allow-upgrade</code>: <code>&lt;PerconaPGUpgrade.Name&gt;</code> annotation,</li>
-<li>Jobs are created to migrate the data,</li>
+<li>Pauses the cluster, making it unavailable for the duration of the upgrade,</li>
+<li>Annotates the cluster with a special <code>pgv2.percona.com/allow-upgrade</code>: <code>&lt;PerconaPGUpgrade.Name&gt;</code> annotation,</li>
+<li>Creates jobs to migrate the data,</li>
+<li>Starts up the cluster after the upgrade finishes.</li>
+</ol>
+<h2 id="update-db-major-post-upgrade-steps">Post-upgrade steps<a class="headerlink" href="#update-db-major-post-upgrade-steps" title="Permanent link">&para;</a></h2>
+<ol>
 <li>
-<p>The cluster starts up after the upgrade finishes.</p>
-</li>
-<li>
-<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> and run the following query:</p>
+<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
 <span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
 <span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
@@ -14332,23 +14497,41 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </details>
 </li>
 <li>
-<p>Refresh collection metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
+<p>Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
 <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
 </code></pre></div>
 </li>
 </ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>If the upgrade fails for some reason, the cluster will stay in paused mode. Resume the cluster <a href="#pause">manually</a> to check what went wrong with upgrade (it will start with the old version). You can check the PerconaPGUpgrade resource with <code>kubectl get perconapgupgrade -o yaml</code> command, and <a href="#debug-logs">check the logs</a> of the upgraded Pods to debug the issue.</p>
-</div>
-<p>During the upgrade data are duplicated in the same PVC for each major upgrade, and old version data are not deleted automatically. Make sure your PVC has enough free space to store data.
-You can remove data at your discretion by <a href="#debug-shell">executing into containers</a> and running the following commands (example for PostgreSQL 15):</p>
-<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15
-rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg15_wal
+<h2 id="update-db-major-cleanup">Cleanup<a class="headerlink" href="#update-db-major-cleanup" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>You can remove old version data at your discretion by <a href="#debug-shell">executing into containers</a> and running the following commands (example for PostgreSQL 17):</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg17
+rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg17_wal
 </code></pre></div>
+</li>
+<li>
 <p>You can also delete the <code>PerconaPGUpgrade</code> resource (this will clean up the jobs and Pods created during the upgrade):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgupgrade<span class="w"> </span>cluster1-15-to-16
-</code></pre></div></section><section class="print-page" id="update-extensions" heading-number="8.4"><h1 id="update-extensions-upgrade-postgresql-extensions">Upgrade PostgreSQL extensions<a class="headerlink" href="#update-extensions-upgrade-postgresql-extensions" title="Permanent link">&para;</a></h1>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgupgrade<span class="w"> </span>cluster1-17-to-18
+</code></pre></div>
+</li>
+</ol>
+<h2 id="update-db-major-troubleshooting-upgrade-issues">Troubleshooting upgrade issues<a class="headerlink" href="#update-db-major-troubleshooting-upgrade-issues" title="Permanent link">&para;</a></h2>
+<p>If the upgrade fails for some reason, the cluster will stay in paused mode. Resume the cluster <a href="#pause">manually</a> to check what went wrong with upgrade (it will start with the old version). You can check the <code>PerconaPGUpgrade</code> resource with <code>kubectl get perconapgupgrade -o yaml</code> command, and <a href="#debug-logs">check the logs</a> of the upgraded Pods to debug the issue.</p>
+<h3 id="update-db-major-failed-first-restore-after-the-upgrade">Failed first restore after the upgrade<a class="headerlink" href="#update-db-major-failed-first-restore-after-the-upgrade" title="Permanent link">&para;</a></h3>
+<p>After a major upgrade, PostgreSQL starts a new WAL timeline. PostgreSQL treats the upgraded cluster as a new logical generation, so it increments the timeline ID and begins writing WAL from that new point.</p>
+<p>In clusters with very low write traffic, the upgraded primary may generate very few WAL segments after the upgrade. </p>
+<p>When you make a first restore after the upgrade, the restored replicas need to replay WAL from the primary to catch up. To do that, PostgreSQL uses the <code>pg_rewind</code> tool. <code>pg_rewind</code> searches a common WAL ancestor — a point in history where both the primary and the replica share the same WAL record. If there are few WAL records, there may not be a common WAL ancestor and the replica may fail to rejoin the primary. When this happens, you see the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>.</p>
+<p>To address this issue, you must manually <a href="#reinit">reinitialize</a> the failed replica. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.</p>
+<p>Alternatively, you can automate replica reinitialization with Patroni. Update the cluster configuration by setting the <code>spec.patroni.removeDataDirectoryOnDivergedTimelines</code> in the Custom Resource before the upgrade. When timeline divergence is detected, the Operator instructs Patroni
+   to automatically remove the replica&rsquo;s data and resync it from the primary.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>removeDataDirectoryOnDivergedTimelines</code> option can lead to data loss.
+When the Operator resyncs the replica automatically, some transactions may
+be lost. The risk is usually small but not zero. Use this option only if you
+understand and accept this trade-off.</p>
+</div></section></section><section class="print-page" id="update-extensions" heading-number="8.4"><h1 id="update-extensions-upgrade-postgresql-extensions">Upgrade PostgreSQL extensions<a class="headerlink" href="#update-extensions-upgrade-postgresql-extensions" title="Permanent link">&para;</a></h1>
 <h2 id="update-extensions-upgrade-pg_stat_monitor-for-operator-earlier-than-260">Upgrade <code>pg_stat_monitor</code> (for Operator earlier than 2.6.0)<a class="headerlink" href="#update-extensions-upgrade-pg_stat_monitor-for-operator-earlier-than-260" title="Permanent link">&para;</a></h2>
 <p><code>pg_stat_monitor</code> is the built-in extension, which is used to provide query analytics for Percona Monitoring and Management (PMM). If you <a href="#custom-extensions-built-in-extensions">enabled it</a> in the Custom Resource (<code>deploy/cr.yaml</code> manifest), you need to manually update it <em>after the database upgrade</em> (this manual step is not required for the Operator versions 2.6.0 and newer):</p>
 <ol>
@@ -15750,18 +15933,21 @@ separate Persistent Volume, mounted in a container to the <code>/tablespaces</co
 directory.</p>
 <p><img alt="image" src="assets/images/tablespaces.svg" /></p>
 <h2 id="tablespaces-creating-a-new-tablespace">Creating a new tablespace<a class="headerlink" href="#tablespaces-creating-a-new-tablespace" title="Permanent link">&para;</a></h2>
-<p>Providing a new tablespace for your database in Kubernetes involves two parts:</p>
+<p>To provide a new tablespace for your database in Kubernetes, you should do the following:</p>
 <ol>
 <li>Configure the new tablespace storage with the Operator,</li>
 <li>Create database objects in this tablespace with PostgreSQL.</li>
 </ol>
-<p>The first part is done in the traditional way of Percona Operators, by modifying
-Custom Resource via the <code>deploy/cr.yaml</code> configuration file. It has a special
-<a href="#operator-instancestablespacevolumesname">spec.tablespaceStorages</a> section
+<h3 id="tablespaces-configure-the-new-tablespace-storage-with-the-operator">Configure the new tablespace storage with the Operator<a class="headerlink" href="#tablespaces-configure-the-new-tablespace-storage-with-the-operator" title="Permanent link">&para;</a></h3>
+<p>Modify the Custom Resource and configure the <a href="#operator-instancestablespacevolumesname">spec.instances.tablespaceVolumes</a> section
 for tablespaces.</p>
-<p>The example already present in <code>deploy/cr.yaml</code> shows how to create tablespace
-storage 1Gb in size (you can see
-<a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">official Kubernetes documentation on Persistent Volumes</a> for details):</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="tablespaces-__tabbed_1_1" name="tablespaces-__tabbed_1" type="radio" /><input id="tablespaces-__tabbed_1_2" name="tablespaces-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="tablespaces-__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m10.204 14.35.007.01-.999 2.413a5.17 5.17 0 0 1-2.075-2.597l2.578-.437.004.005a.44.44 0 0 1 .484.606zm-.833-2.129a.44.44 0 0 0 .173-.756l.002-.011L7.585 9.7a5.14 5.14 0 0 0-.73 3.255l2.514-.725zm1.145-1.98a.44.44 0 0 0 .699-.337l.01-.005.15-2.62a5.14 5.14 0 0 0-3.01 1.442l2.147 1.523zm.76 2.75.723.349.722-.347.18-.78-.5-.623h-.804l-.5.623.179.779zm1.5-3.095a.44.44 0 0 0 .7.336l.008.003 2.134-1.513a5.2 5.2 0 0 0-2.992-1.442l.148 2.615zm10.876 5.97-5.773 7.181a1.6 1.6 0 0 1-1.248.594l-9.261.003a1.6 1.6 0 0 1-1.247-.596l-5.776-7.18a1.58 1.58 0 0 1-.307-1.34L2.1 5.573c.108-.47.425-.864.863-1.073L11.305.513a1.6 1.6 0 0 1 1.385 0l8.345 3.985c.438.209.755.604.863 1.073l2.062 8.955c.108.47-.005.963-.308 1.34m-3.289-2.057c-.042-.01-.103-.026-.145-.034-.174-.033-.315-.025-.479-.038-.35-.037-.638-.067-.895-.148-.105-.04-.18-.165-.216-.216l-.201-.059a6.5 6.5 0 0 0-.105-2.332 6.5 6.5 0 0 0-.936-2.163c.052-.047.15-.133.177-.159.008-.09.001-.183.094-.282.197-.185.444-.338.743-.522.142-.084.273-.137.415-.242.032-.024.076-.062.11-.089.24-.191.295-.52.123-.736s-.506-.236-.745-.045c-.034.027-.08.062-.111.088-.134.116-.217.23-.33.35-.246.25-.45.458-.673.609-.097.056-.239.037-.303.033l-.19.135a6.55 6.55 0 0 0-4.146-2.003l-.012-.223c-.065-.062-.143-.115-.163-.25-.022-.268.015-.557.057-.905.023-.163.061-.298.068-.475.001-.04-.001-.099-.001-.142 0-.306-.224-.555-.5-.555-.275 0-.499.249-.499.555l.001.014c0 .041-.002.092 0 .128.006.177.044.312.067.475.042.348.078.637.056.906a.55.55 0 0 1-.162.258l-.012.211a6.42 6.42 0 0 0-4.166 2.003l-.18-.128c-.09.012-.18.04-.297-.029-.223-.15-.427-.358-.673-.608-.113-.12-.195-.234-.329-.349l-.111-.088a.6.6 0 0 0-.348-.132.48.48 0 0 0-.398.176c-.172.216-.117.546.123.737l.007.005.104.083c.142.105.272.159.414.242.299.185.546.338.743.522.076.082.09.226.1.288l.16.143a6.46 6.46 0 0 0-1.02 4.506l-.208.06c-.055.072-.133.184-.215.217-.257.081-.546.11-.895.147-.164.014-.305.006-.48.039-.037.007-.09.02-.133.03l-.004.002-.007.002c-.295.071-.484.342-.423.608.061.267.349.429.645.365l.007-.001.01-.003.129-.029c.17-.046.294-.113.448-.172.33-.118.604-.217.87-.256.112-.009.23.069.288.101l.217-.037a6.5 6.5 0 0 0 2.88 3.596l-.09.218c.033.084.069.199.044.282-.097.252-.263.517-.452.813-.091.136-.185.242-.268.399-.02.037-.045.095-.064.134-.128.275-.034.591.213.71.248.12.556-.007.69-.282v-.002c.02-.039.046-.09.062-.127.07-.162.094-.301.144-.458.132-.332.205-.68.387-.897.05-.06.13-.082.215-.105l.113-.205a6.45 6.45 0 0 0 4.609.012l.106.192c.086.028.18.042.256.155.136.232.229.507.342.84.05.156.074.295.145.457.016.037.043.09.062.129.133.276.442.402.69.282.247-.118.341-.435.213-.71-.02-.039-.045-.096-.065-.134-.083-.156-.177-.261-.268-.398-.19-.296-.346-.541-.443-.793-.04-.13.007-.21.038-.294-.018-.022-.059-.144-.083-.202a6.5 6.5 0 0 0 2.88-3.622c.064.01.176.03.213.038.075-.05.144-.114.28-.104.266.039.54.138.87.256.154.06.277.128.448.173.036.01.088.019.13.028l.009.003.007.001c.297.064.584-.098.645-.365.06-.266-.128-.537-.423-.608M16.4 9.701l-1.95 1.746v.005a.44.44 0 0 0 .173.757l.003.01 2.526.728a5.2 5.2 0 0 0-.108-1.674A5.2 5.2 0 0 0 16.4 9.7zm-4.013 5.325a.44.44 0 0 0-.404-.232.44.44 0 0 0-.372.233h-.002l-1.268 2.292a5.16 5.16 0 0 0 3.326.003l-1.27-2.296zm1.888-1.293a.44.44 0 0 0-.27.036.44.44 0 0 0-.214.572l-.003.004 1.01 2.438a5.15 5.15 0 0 0 2.081-2.615l-2.6-.44z"/></svg></span> kubectl</label><label for="tablespaces-__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.337 0c-.475 0-.861 1.016-.861 2.269 0 .527.069 1.011.183 1.396a8.5 8.5 0 0 0-3.961 1.22 5.2 5.2 0 0 0-.595-1.093c-.606-.866-1.34-1.436-1.79-1.43a.4.4 0 0 0-.217.066c-.39.273-.123 1.326.596 2.353.267.381.559.705.84.948a8.7 8.7 0 0 0-1.528 1.716h1.734a7.18 7.18 0 0 1 5.381-2.421 7.18 7.18 0 0 1 5.382 2.42h1.733a8.7 8.7 0 0 0-1.32-1.53c.35-.249.735-.643 1.078-1.133.719-1.027.986-2.08.596-2.353a.4.4 0 0 0-.217-.065c-.45-.007-1.184.563-1.79 1.43a4.9 4.9 0 0 0-.676 1.325 8.5 8.5 0 0 0-3.899-1.42c.12-.39.193-.887.193-1.429 0-1.253-.386-2.269-.862-2.269M1.624 9.443v5.162h1.358v-1.968h1.64v1.968h1.357V9.443H4.62v1.838H2.98V9.443zm5.912 0v5.162h3.21v-1.108H8.893v-.95h1.64v-1.142h-1.64v-.84h1.853V9.443zm4.698 0v5.162h3.218v-1.362h-1.86v-3.8zm4.706 0v5.162h1.364v-2.643l1.357 1.225 1.35-1.232v2.65h1.365V9.443h-.614l-2.1 1.914-2.109-1.914zm-11.82 7.28a8.7 8.7 0 0 0 1.412 1.548 5.2 5.2 0 0 0-.841.948c-.719 1.027-.985 2.08-.596 2.353.39.273 1.289-.338 2.007-1.364a5.2 5.2 0 0 0 .595-1.092 8.5 8.5 0 0 0 3.961 1.219 5 5 0 0 0-.183 1.396c0 1.253.386 2.269.861 2.269.476 0 .862-1.016.862-2.269 0-.542-.072-1.04-.193-1.43a8.5 8.5 0 0 0 3.9-1.42c.121.4.352.865.675 1.327.719 1.026 1.617 1.637 2.007 1.364s.123-1.326-.596-2.353c-.343-.49-.727-.885-1.077-1.135a8.7 8.7 0 0 0 1.202-1.36h-1.771a7.17 7.17 0 0 1-5.227 2.252 7.17 7.17 0 0 1-5.226-2.252z"/></svg></span> Helm</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> configuration file. Specify the volume name, access mode and resource requests. Refer to <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">official Kubernetes documentation on Persistent Volumes</a> for details.</p>
+<p>This example configuration shows how to create tablespace storage 1Gi in size:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
 <span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
@@ -15774,8 +15960,81 @@ storage 1Gb in size (you can see
 <span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
 </code></pre></div>
-<p>After you apply this by running the <code>kubectl apply -f deploy/cr.yaml</code> command,
-the new <code>/tablespaces/user/</code> mountpoint will appear for your database. Please take into
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<ol>
+<li>
+<p>Create or update the existing <code>values.yaml</code> file and specify the tablespace storage configuration:</p>
+<ul>
+<li>the name for the storage</li>
+<li>access mode</li>
+<li>resource requests</li>
+</ul>
+<p>Refer to <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">official Kubernetes documentation on Persistent Volumes</a> for details. </p>
+<p>This example configuration shows how to create tablespace storage 1Gb in size:</p>
+<div class="highlight"><span class="filename">my-values.yaml</span><pre><span></span><code><span class="nt">instances</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
+<span class="w">  </span><span class="nt">tablespaceVolumes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;ReadWriteOnce&#39;</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+</li>
+<li>
+<p>Update your release object for the database cluster:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>-f<span class="w"> </span>my-values.yaml<span class="w"> </span>&lt;release-name&gt;<span class="w"> </span>percona/pg-db<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Check if your settings took effect:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>get<span class="w"> </span>values<span class="w"> </span>&lt;release-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="nt">USER-SUPPLIED VALUES</span><span class="p">:</span>
+<span class="nt">instances</span><span class="p">:</span>
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">    </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">  </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">  </span><span class="nt">tablespaceVolumes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
+</code></pre></div>
+</details>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<p>After you apply the new configuration, the new <code>/tablespaces/user/</code> mountpoint will appear for your database. Please take into
 account that if you add your new tablespace to the already existing PostgreSQL
 cluster, it may take time for the Operator to create Persistent Volume Claims
 and get Persistent Volumes actually mounted.</p>
@@ -17288,7 +17547,12 @@ Apply these changes? [y/N]:
 <p>The Operator doesn&rsquo;t run <code>patronictl reload</code> in old replicas even if Patroni instance configurations are updated to put <code>pgBackRest</code> as the first method in the <code>create_replica_methods</code> list. For this configuration to run into force, you need to either restart the Pods or manually run <code>patronictl reload &lt;cluster_name&gt;</code> on all old replicas.</p>
 </div>
 <p>You may need to reinitialize cluster replicas. For example, if the data on the replica becomes corrupted or inconsistent with the primary node. Reinitialization ensures the replica is rebuilt with the correct data. Or, if the replica falls significantly behind the primary or encounters issues that prevent successful synchronization, reinitialization can reset the replica to match the current state of the primary.</p>
-<p>This document provides the ways how to do it.</p>
+<p>You can do this:</p>
+<ul>
+<li>Manually by operating the database cluster. This is the recommended approach as you have the full control over the data state in your database.</li>
+<li>Automatically via Patroni. When Patroni notices the timelines between the primary and a replica diverged and the replica cannot stream from a primary, it automatically removes the data directory and recreates the replica to ensure it rejoins the cluster. Note that in this flow the Operator cannot ensure all transactions are replicated somewhere and it might potentially result in data loss. </li>
+</ul>
+<p>This document provides the steps how to do it both ways.</p>
 <h2 id="reinit-reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim">Reinitialize by deleting replica Pod and its PersistentVolumeClaim<a class="headerlink" href="#reinit-reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim" title="Permanent link">&para;</a></h2>
 <p>You can force reinitialization by deleting the Pod and its PersistentVolumeClaim:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc/cluster1-instance1-24b8-pgdata<span class="w"> </span>pod/cluster1-instance1-24b8-0
@@ -17447,7 +17711,23 @@ Success: reinitialize for member cluster1-instance1-24b8-0
 <span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 </code></pre></div>
 </details>
-<p>Though the Operator updates the ConfigMaps, it doesn&rsquo;t automatically apply the new configuration for Patroni. To make Patroni aware of the changes, reload its configuration on every instance with the <code>patronictl reload &lt;cluster_name&gt; &lt;pod-name&gt;</code> command. </p></section></section>
+<p>Though the Operator updates the ConfigMaps, it doesn&rsquo;t automatically apply the new configuration for Patroni. To make Patroni aware of the changes, reload its configuration on every instance with the <code>patronictl reload &lt;cluster_name&gt; &lt;pod-name&gt;</code> command. </p>
+<h2 id="reinit-automate-replica-reinitialization-with-patroni">Automate replica reinitialization with Patroni<a class="headerlink" href="#reinit-automate-replica-reinitialization-with-patroni" title="Permanent link">&para;</a></h2>
+<p>You can instruct Patroni to reinitialize the replica when it detects that the replica&rsquo;s timeline diverges from the primary one. Update the Custom Resource and set the <code>.spec.patroni.removeDataDirectoryOnDivergedTimelines</code> option:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">removeDataDirectoryOnDivergedTimelines</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>Apply the configuration for the changes to come into force:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <code>removeDataDirectoryOnDivergedTimelines</code> option can lead to data loss.
+When the Operator resyncs the replica automatically, some transactions may
+be lost. The risk is usually small but not zero. Use this option only if you
+understand and accept this trade-off.</p>
+</div></section></section>
                     <section class='print-page md-section' id='section-11' heading-number='11'>
                         <h1>Reference<a class='headerlink' href='#section-11' title='Permanent link'></a>
                         </h1>
@@ -24727,7 +25007,12 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #update-operator > h1:before { content: '8.2 ' }
 
-.print-site-enumerate-headings #update-database > h1:before { content: '8.3 ' }
+.print-site-enumerate-headings #section-8-3 > h1:before { content: '8.3 ' }
+.print-site-enumerate-headings #update-database > h1:before { content: '8.3.1 ' }
+
+.print-site-enumerate-headings #update-db-minor > h1:before { content: '8.3.2 ' }
+
+.print-site-enumerate-headings #update-db-major > h1:before { content: '8.3.3 ' }
 
 .print-site-enumerate-headings #update-extensions > h1:before { content: '8.4 ' }
 

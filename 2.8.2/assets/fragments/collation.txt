@@ -1,4 +1,4 @@
-5. Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) and run the following query:
+5. Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner and run the following query:
 
     ```sql
     SELECT DISTINCT
@@ -49,7 +49,7 @@
         (4 rows)
         ```
     
-7. Refresh collection metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
+7. Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:
 
     ```sql
     ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
