@@ -4,7 +4,6 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 
 ## Replica management
 
-* With the Operator, you can scale your cluster up and down by changing the number of replicas. But you cannot control the order in which the Operator adds, removes or stops replicas, because the Operator manages replicas as a pool rather than as individually addressable instances. 
 * Delayed replicas are not supported
 * The Operator doesn't automatically update Patroni configuration inside running instances when  `create_replica_methods` is updated. You must manually run `patronictl reload` on each replica to make Patroni aware of the change. See [Override Patroni configuration](manage-manually.md#override-patroni-configuration) for details.
 
