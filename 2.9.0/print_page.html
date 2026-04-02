@@ -493,6 +493,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="limitations.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Known limitations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -5253,6 +5281,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known limitations
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -7349,6 +7388,37 @@ a high-availability cluster, etc.</p>
 <p><code>perconapgbackups</code> and <code>perconapgrestores</code> are in charge for making backups
     and restore them.</p>
 </li>
+</ul></section><section class="print-page" id="limitations" heading-number="2.3"><h1 id="limitations-known-limitations">Known limitations<a class="headerlink" href="#limitations-known-limitations" title="Permanent link">&para;</a></h1>
+<p>This page describes known limitations of Percona Operator for PostgreSQL. Understanding these constraints helps you plan deployments and avoid unexpected behavior.</p>
+<h2 id="limitations-replica-management">Replica management<a class="headerlink" href="#limitations-replica-management" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Delayed replicas are not supported</li>
+<li>The Operator doesn&rsquo;t automatically update Patroni configuration inside running instances when  <code>create_replica_methods</code> is updated. You must manually run <code>patronictl reload</code> on each replica to make Patroni aware of the change. See <a href="#manage-manually-override-patroni-configuration">Override Patroni configuration</a> for details.</li>
+</ul>
+<h2 id="limitations-service-control">Service control<a class="headerlink" href="#limitations-service-control" title="Permanent link">&para;</a></h2>
+<ul>
+<li>By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container. </li>
+</ul>
+<p>You can shut down the entire cluster gracefully by <a href="#pause">pausing</a> it and resuming it later to restore its operation. The Operator handles this process for you.</p>
+<p>To have a per-pod service control for maintenance, debugging, or controlled downtime requires manual operation. Refer to the <a href="#manage-manually">Manual management of database clusters</a> chapter for details how to do it.</p>
+<ul>
+<li>Due to security considerations, superusers cannot connect to PostgreSQL via <code>pgBouncer</code> by default. They can either connect via the primary service bypassing <code>pgBouncer</code>, or you must adjust <code>pgBouncer</code> configuration exposing it to superusers. Read more about it in the <a href="#users-superuser-and-pgbouncer">Superusers and pgBouncer</a> section.</li>
+</ul>
+<h2 id="limitations-backups-and-restores">Backups and restores<a class="headerlink" href="#limitations-backups-and-restores" title="Permanent link">&para;</a></h2>
+<ul>
+<li>PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.</li>
+<li>When you use the <code>dataSource</code> option to restore from a backup on a new cluster, you can use either <code>dataSource.postgresCluster</code> or <code>dataSource.pgbackrest</code>. You cannot use both options. If both are present, <code>dataSource.postgresCluster</code> takes precedence. See <a href="#backups-clone-understand-the-datasource-options">Restore the backup to a new cluster</a> to learn more.</li>
+</ul>
+<h2 id="limitations-data-management">Data management<a class="headerlink" href="#limitations-data-management" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="#tablespaces-deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
+</ul>
+<h2 id="limitations-upgrades">Upgrades<a class="headerlink" href="#limitations-upgrades" title="Permanent link">&para;</a></h2>
+<ul>
+<li>A major database upgrade introduces a downtime because the whole cluster is shut down.</li>
+<li>In clusters with very low write traffic, the first restore after a major upgrade can fail with the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>. In this case you must <a href="#reinit">reinitialize the replica</a> to ensure it starts properly and starts streaming data from the primary.</li>
+<li>PostGIS extension is not updated automatically after the database update. You must <a href="#update-extensions-upgrade-postgis-extension">manually update</a> it for each database where it is enabled. </li>
+<li>If you have installed <a href="#custom-extensions">custom PostgreSQL extensions</a>, you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container.</li>
 </ul></section></section><section class="print-page" id="get-help" heading-number="3"><h1 id="get-help-get-help-from-percona">Get help from Percona<a class="headerlink" href="#get-help-get-help-from-percona" title="Permanent link">&para;</a></h1>
 <p>Our documentation guides are packed with information, but they can’t cover everything you need to know about Percona Operator for PostgreSQL. They also won’t cover every scenario you might come across. Don’t be afraid to try things out and ask questions when you get stuck.</p>
 <h2 id="get-help-perconas-community-forum">Percona&rsquo;s Community Forum<a class="headerlink" href="#get-help-perconas-community-forum" title="Permanent link">&para;</a></h2>
@@ -26359,6 +26429,8 @@ In addition to that:</p>
 .print-site-enumerate-headings #compare > h1:before { content: '2.1 ' }
 
 .print-site-enumerate-headings #architecture > h1:before { content: '2.2 ' }
+
+.print-site-enumerate-headings #limitations > h1:before { content: '2.3 ' }
 
 .print-site-enumerate-headings #get-help > h1:before { content: '3 ' }
 
