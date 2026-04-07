@@ -53,6 +53,8 @@ jobs:
      
      # Deploy docs
       - name: Deploy docs
+        env:
+          MKDOCS_GIT_COMMITTERS_APIKEY: ${{ secrets.ROBOT_TOKEN }}
         run: |
           mike deploy $RELEASE -u latest -b publish -p
           mike set-default latest -b publish -p
