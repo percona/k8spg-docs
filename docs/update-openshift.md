@@ -33,7 +33,7 @@ The following items are replaced with the values defined in the new CSV:
 If you previously customized the Operator Deployment manually, these changes are overwritten during the upgrade. 
 
 The CRD may be updated too, if the new Operator version introduces schema changes.
-However, OLM doesn't modify the `PerconaPGCluster` Custom Resource. It remains unchanged and continues running with its current configuration. For how to update it, refer to [Update Percona Distribution for PostgreSQL](#upgrade-percona-distribution-for-postgresql).
+However, OLM doesn't modify the `PerconaPGCluster` Custom Resource. It remains unchanged and continues running with its current configuration. For how to update it, refer to [Upgrade Percona Distribution for PostgreSQL](#upgrade-percona-distribution-for-postgresql).
 
 #### Persisting custom Operator configuration
 
