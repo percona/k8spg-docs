@@ -1,8 +1,66 @@
 # Upgrade the Operator and the database on OpenShift
 
+The upgrade on OpenShift consists of two steps:
+
+* Upgrade the Operator Deployment
+* Upgrade the database cluster
+
 ## Upgrade the Operator via Operator Lifecycle Manager (OLM)
 
-You can upgrade the Operator for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager.
+You can upgrade the Operator Deployment for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager. 
+
+If you know the OLM upgrade workflow, jump to the [update Deployment steps](#before-you-start).
+
+### Understand how OLM applies Operator upgrades
+
+OLM manages the Operator using a resource called a `ClusterServiceVersion` (CSV).
+Each CSV represents a specific version of the Operator and contains:
+
+* the Operator Deployment specification
+* required RBAC permissions
+* CRD definitions
+* metadata and examples
+
+When a new Operator version is available and the upgrade is approved, OLM installs the new CSV and reconciles the Operator Deployment to match it.
+The following items are replaced with the values defined in the new CSV:
+
+* container image
+* command and arguments
+* labels and annotations
+* probes
+* most Deployment fields
+
+If you previously customized the Operator Deployment manually, these changes are overwritten during the upgrade. 
+
+The CRD may be updated too, if the new Operator version introduces schema changes.
+However, OLM doesn't modify the `PerconaPGCluster` Custom Resource. It remains unchanged and continues running with its current configuration. For how to update it, refer to [Update Percona Distribution for PostgreSQL](#upgrade-percona-distribution-for-postgresql).
+
+#### Persisting custom Operator configuration
+
+If you need to customize the Operator Deployment (for example, to adjust resource limits or set environment variables), you can do it through the Subscription. 
+
+A Subscription is the OLM resource that defines which operator you want to install and how you want it to be upgraded. A Subscription connects your cluster to an Operator package in a CatalogSource and ensures that OLM continuously manages that Operator according to your chosen update strategy.
+
+Here's how you can customize the Operator Deployment. This example command sets an environment variable for the Operator:
+
+```bash
+kubectl patch subscription percona-postgresql-operator -n <namespace> \
+  --type merge \
+  -p '{"spec":{"config":{"env":[{"name":"LOG_LEVEL","value":"DEBUG"}]}}}'
+```
+
+OLM supports overriding only the following fields through the Subscription:
+
+* env
+* envFrom
+* volumes
+* volumeMounts
+* resources
+* nodeSelector
+* tolerations
+* affinity
+
+These overrides are applied on top of the CSV and persist across upgrades. All other fields are overridden by the values from the new CSV during the Operator Deployment upgrade.
 
 ### Before you start
 
@@ -49,13 +107,13 @@ Follow these steps to upgrade the `initContainer.image`:
 
 ## Upgrade Percona Distribution for PostgreSQL
 
-## Before you start
+### Before you start
 
 1. We recommend to [update PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html) **before** upgrading PMM Client.
 
 2. If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. See [PMM upgrade documentation :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html) for how to migrate from version 2 to version 3.
 
-## Upgrade steps
+### Upgrade steps
 
 1. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
 
