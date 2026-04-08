@@ -37,7 +37,7 @@ However, OLM doesn't modify the `PerconaPGCluster` Custom Resource. It remains u
 
 #### Persisting custom Operator configuration
 
-If you need to customize the Operator Deployment (for example, to adjust resource limits or set environment variables), you can do it through the Subscription. 
+If you need to customize the Operator Deployment (for example, to adjust resource limits or set environment variables), you can do it through the Subscription.
 
 A Subscription is the OLM resource that defines which operator you want to install and how you want it to be upgraded. A Subscription connects your cluster to an Operator package in a CatalogSource and ensures that OLM continuously manages that Operator according to your chosen update strategy.
 
