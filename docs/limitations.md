@@ -30,7 +30,7 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 
 PostgreSQL recommends strict virtual memory allocation by setting `vm.overcommit_memory=2` to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats `vm.overcommit_memory` as an unsafe `sysctl` and rejects attempts to set it to `2`. Most Kubernetes node OS images also default to `1`.
 
-As a result, the Operator always operates with `vm.overcommit_memory=1` when managing PostgreSQL cluster. This mode is safe for fork-based PostgreSQL operations such as checkpoints, autovacuum, background workers, but it does not provide the strict memory guarantees recommended by [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/kernel-resources.html).
+Under this setting, PostgreSQL clusters in Kubernetes still run checkpoints, autovacuum, and background tasks normally. The gap is the stricter memory guarantees recommended by [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/kernel-resources.html).
 
 To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like `shared_buffers`, `work_mem`, `max_connections`, and so on accordingly.
 
