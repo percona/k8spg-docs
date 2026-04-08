@@ -9,7 +9,7 @@ The upgrade on OpenShift consists of two steps:
 
 You can upgrade the Operator Deployment for PostgreSQL that was [installed on the OpenShift platform using OLM](openshift.md#install-via-the-operator-lifecycle-manager-olm) directly through the Operator Lifecycle Manager. 
 
-If you know the OLM upgrade workflow, jump to the [update Deployment steps](#before-you-start).
+If you know the OLM upgrade workflow, jump to the [Operator Deployment upgrade steps](#before-you-start).
 
 ### Understand how OLM applies Operator upgrades
 
