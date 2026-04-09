@@ -9,7 +9,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Documentation">
+        <meta name="description" content="The upgrade on OpenShift consists of two steps:">
       
       
         <meta name="author" content="Percona LLC">
@@ -3289,6 +3289,34 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#understand-how-olm-applies-operator-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understand how OLM applies Operator upgrades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understand how OLM applies Operator upgrades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persisting-custom-operator-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persisting custom Operator configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3324,9 +3352,10 @@
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Upgrade Percona Distribution for PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#before-you-start_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3336,8 +3365,8 @@
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#upgrade-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3345,6 +3374,11 @@
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5364,6 +5398,34 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#understand-how-olm-applies-operator-upgrades" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Understand how OLM applies Operator upgrades
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Understand how OLM applies Operator upgrades">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persisting-custom-operator-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persisting custom Operator configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#before-you-start" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5399,9 +5461,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     </span>
   </a>
   
-</li>
-      
-        <li class="md-nav__item">
+    <nav class="md-nav" aria-label="Upgrade Percona Distribution for PostgreSQL">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#before-you-start_1" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5411,8 +5474,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
+        
+          <li class="md-nav__item">
   <a href="#upgrade-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5420,6 +5483,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       
     </span>
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5457,8 +5525,55 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="upgrade-the-operator-and-the-database-on-openshift">Upgrade the Operator and the database on OpenShift<a class="headerlink" href="#upgrade-the-operator-and-the-database-on-openshift" title="Permanent link">&para;</a></h1>
+<p>The upgrade on OpenShift consists of two steps:</p>
+<ul>
+<li>Upgrade the Operator Deployment</li>
+<li>Upgrade the database cluster</li>
+</ul>
 <h2 id="upgrade-the-operator-via-operator-lifecycle-manager-olm">Upgrade the Operator via Operator Lifecycle Manager (OLM)<a class="headerlink" href="#upgrade-the-operator-via-operator-lifecycle-manager-olm" title="Permanent link">&para;</a></h2>
-<p>You can upgrade the Operator for PostgreSQL that was <a href="openshift.html#install-via-the-operator-lifecycle-manager-olm">installed on the OpenShift platform using OLM</a> directly through the Operator Lifecycle Manager.</p>
+<p>You can upgrade the Operator Deployment for PostgreSQL that was <a href="openshift.html#install-via-the-operator-lifecycle-manager-olm">installed on the OpenShift platform using OLM</a> directly through the Operator Lifecycle Manager. </p>
+<p>If you know the OLM upgrade workflow, jump to the <a href="#before-you-start">Operator Deployment upgrade steps</a>.</p>
+<h3 id="understand-how-olm-applies-operator-upgrades">Understand how OLM applies Operator upgrades<a class="headerlink" href="#understand-how-olm-applies-operator-upgrades" title="Permanent link">&para;</a></h3>
+<p>OLM manages the Operator using a resource called a <code>ClusterServiceVersion</code> (CSV).
+Each CSV represents a specific version of the Operator and contains:</p>
+<ul>
+<li>the Operator Deployment specification</li>
+<li>required RBAC permissions</li>
+<li>CRD definitions</li>
+<li>metadata and examples</li>
+</ul>
+<p>When a new Operator version is available and the upgrade is approved, OLM installs the new CSV and reconciles the Operator Deployment to match it.
+The following items are replaced with the values defined in the new CSV:</p>
+<ul>
+<li>container image</li>
+<li>command and arguments</li>
+<li>labels and annotations</li>
+<li>probes</li>
+<li>most Deployment fields</li>
+</ul>
+<p>If you previously customized the Operator Deployment manually, these changes are overwritten during the upgrade.</p>
+<p>The CRD may be updated too, if the new Operator version introduces schema changes.
+However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resource. It remains unchanged and continues running with its current configuration. For how to update it, refer to <a href="#upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL</a>.</p>
+<h4 id="persisting-custom-operator-configuration">Persisting custom Operator configuration<a class="headerlink" href="#persisting-custom-operator-configuration" title="Permanent link">&para;</a></h4>
+<p>If you need to customize the Operator Deployment (for example, to adjust resource limits or set environment variables), you can do it through the Subscription.</p>
+<p>A Subscription is the OLM resource that defines which operator you want to install and how you want it to be upgraded. A Subscription connects your cluster to an Operator package in a CatalogSource and ensures that OLM continuously manages that Operator according to your chosen update strategy.</p>
+<p>Here&rsquo;s how you can customize the Operator Deployment. This example command sets an environment variable for the Operator:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>subscription<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;config&quot;:{&quot;env&quot;:[{&quot;name&quot;:&quot;LOG_LEVEL&quot;,&quot;value&quot;:&quot;DEBUG&quot;}]}}}&#39;</span>
+</code></pre></div>
+<p>OLM supports overriding only the following fields through the Subscription:</p>
+<ul>
+<li>env</li>
+<li>envFrom</li>
+<li>volumes</li>
+<li>volumeMounts</li>
+<li>resources</li>
+<li>nodeSelector</li>
+<li>tolerations</li>
+<li>affinity</li>
+</ul>
+<p>These overrides are applied on top of the CSV and persist across upgrades. All other fields are overridden by the values from the new CSV during the Operator Deployment upgrade.</p>
 <h3 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h3>
 <p>You must manually update the <code>initContainer.image</code> Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.</p>
 <p>Follow these steps to upgrade the <code>initContainer.image</code>:</p>
@@ -5497,7 +5612,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ol>
 <h2 id="upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#upgrade-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h2>
-<h2 id="before-you-start_1">Before you start<a class="headerlink" href="#before-you-start_1" title="Permanent link">&para;</a></h2>
+<h3 id="before-you-start_1">Before you start<a class="headerlink" href="#before-you-start_1" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/2/how-to/upgrade.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</p>
@@ -5506,7 +5621,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>If you are using PMM server version 2, use a PMM client image compatible with PMM 2. If you are using PMM server version 3, use a PMM client image compatible with PMM 3. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</p>
 </li>
 </ol>
-<h2 id="upgrade-steps">Upgrade steps<a class="headerlink" href="#upgrade-steps" title="Permanent link">&para;</a></h2>
+<h3 id="upgrade-steps">Upgrade steps<a class="headerlink" href="#upgrade-steps" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
 <p>Find the <strong>new</strong> initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the <code>kubectl get deploy</code> command:</p>
@@ -5590,7 +5705,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 13, 2026 11:38:47 UTC">March 13, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 9, 2026 09:32:37 UTC">April 9, 2026</span>
       
         <br>
         Created:
