@@ -7397,7 +7397,7 @@ a high-availability cluster, etc.</p>
 </ul>
 <h2 id="limitations-service-control">Service control<a class="headerlink" href="#limitations-service-control" title="Permanent link">&para;</a></h2>
 <ul>
-<li>By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container. </li>
+<li>By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container.</li>
 </ul>
 <p>You can shut down the entire cluster gracefully by <a href="#pause">pausing</a> it and resuming it later to restore its operation. The Operator handles this process for you.</p>
 <p>To have a per-pod service control for maintenance, debugging, or controlled downtime requires manual operation. Refer to the <a href="#manage-manually">Manual management of database clusters</a> chapter for details how to do it.</p>
@@ -7413,11 +7413,14 @@ a high-availability cluster, etc.</p>
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="#tablespaces-deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
 </ul>
+<h2 id="limitations-node-memory-overcommit">Node memory overcommit<a class="headerlink" href="#limitations-node-memory-overcommit" title="Permanent link">&para;</a></h2>
+<p><a href="https://www.postgresql.org/docs/current/kernel-resources.html">PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> recommends strict virtual memory allocation by setting <code>vm.overcommit_memory=2</code> to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats <code>vm.overcommit_memory</code> as an unsafe <code>sysctl</code> and rejects attempts to set it to <code>2</code>. Most Kubernetes node OS images also default to <code>1</code>.</p>
+<p>To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like <code>shared_buffers</code>, <code>work_mem</code>, <code>max_connections</code>, and so on accordingly.</p>
 <h2 id="limitations-upgrades">Upgrades<a class="headerlink" href="#limitations-upgrades" title="Permanent link">&para;</a></h2>
 <ul>
 <li>A major database upgrade introduces a downtime because the whole cluster is shut down.</li>
 <li>In clusters with very low write traffic, the first restore after a major upgrade can fail with the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>. In this case you must <a href="#reinit">reinitialize the replica</a> to ensure it starts properly and starts streaming data from the primary.</li>
-<li>PostGIS extension is not updated automatically after the database update. You must <a href="#update-extensions-upgrade-postgis-extension">manually update</a> it for each database where it is enabled. </li>
+<li>PostGIS extension is not updated automatically after the database update. You must <a href="#update-extensions-upgrade-postgis-extension">manually update</a> it for each database where it is enabled.</li>
 <li>If you have installed <a href="#custom-extensions">custom PostgreSQL extensions</a>, you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container.</li>
 </ul></section></section><section class="print-page" id="get-help" heading-number="3"><h1 id="get-help-get-help-from-percona">Get help from Percona<a class="headerlink" href="#get-help-get-help-from-percona" title="Permanent link">&para;</a></h1>
 <p>Our documentation guides are packed with information, but they can’t cover everything you need to know about Percona Operator for PostgreSQL. They also won’t cover every scenario you might come across. Don’t be afraid to try things out and ask questions when you get stuck.</p>
