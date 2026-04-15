@@ -2,6 +2,7 @@
 
 
 release: 2.9.0
+upgraderelease: 2.9.0-1-upgrade
 #pruned_version: 
 
 # Supported software
