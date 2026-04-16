@@ -3,7 +3,7 @@
 {{ config.extra.added_key }}
 
 <p>
-<img src="assets/images/PerconaLogostackedlightbackground.svg" />
+<img src="assets/images/Percona_Color_Dark.svg" />
 </p>
 
 <h1>Operator for PostgreSQL 2.9.0</h1>
