@@ -32,7 +32,10 @@
     flex: 0 1 calc(50% - 1rem);
 }
 
-/* Splash Box */
+/* Splash Box
+   Product accent backgrounds:
+   MySQL #e65a15 · Redis #d6362a · Kubernetes #2aa6df · Valkey #a83fef
+   MongoDB #1fa23a · PostgreSQL #005ed6 */
 
 .splash {
     display: flex;
@@ -42,7 +45,7 @@
     padding: calc(0.5em + 3%);
     border: 1px solid var(--md-default-fg-color--lightest);
     border-radius: calc(0.5rem + 0.75vw);
-    background: linear-gradient(110deg, var(--md-default-bg-color) 33%, var(--md-footer-bg-color--dark) 95%);
+    background-color: var(--md-default-bg-color);
     overflow: hidden;
     background-repeat: no-repeat;
 }
@@ -52,67 +55,30 @@
     --md-accent-fg-color: var(--white);
 }
 .splash.highlight {
-    background:
-        linear-gradient(
-            110deg,
-            rgba(44,50,62,0.9) 10%,
-            rgba(44,50,62,0.1) 90%
-        ),
-        url(../assets/highlight.jpg) center / cover var(--stone800);
+    background-color: var(--stone800);
+    background-image: url(../assets/highlight.jpg);
+    background-position: center;
+    background-size: cover;
     border: none;
     background-repeat: no-repeat;
 }
 .splash.mysql {
-    background:
-        linear-gradient(
-            110deg,
-            rgba(0,0,0,0.2) 33%,
-            rgba(0,0,0,0.1) 95%
-        ),
-        linear-gradient(
-            110deg,
-            rgb(14,95,181) 33%,
-            rgb(48,209,178) 95%
-        );
+    background-color: #e65a15;
+}
+.splash.redis {
+    background-color: #d6362a;
 }
 .splash.postgresql {
-    background:
-        linear-gradient(
-            110deg,
-            rgba(0,0,0,0.4) 33%,
-            rgba(0,0,0,0.1) 95%
-        ),
-        linear-gradient(
-            110deg,
-            rgb(78,91,150) 33%,
-            rgb(67,158,255) 95%
-        );
+    background-color: #005ed6;
 }
 .splash.mongodb {
-    background:
-        linear-gradient(
-            110deg,
-            rgba(0,0,0,0.4) 33%,
-            rgba(0,0,0,0.1) 95%
-        ),
-        linear-gradient(
-            110deg,
-            rgb(24,109,73) 33%,
-            rgb(48,209,190) 95%
-        );
+    background-color: #1fa23a;
+}
+.splash.valkey {
+    background-color: #a83fef;
 }
 .splash.operators {
-    background:
-        linear-gradient(
-            110deg,
-            transparent 33%,
-            rgba(0,0,0,0.1) 95%
-        ),
-        linear-gradient(
-            110deg,
-            rgb(11,39,140) 33%,
-            rgb(20,142,255) 95%
-        );
+    background-color: #2aa6df;
 }
 .splash.header {
     flex-direction: column;
@@ -264,7 +230,7 @@ a.splash-card img {
     bottom: 0;
     width: 4rem;
     height: 1.4em;
-    background: linear-gradient(to right, transparent 0%, var(--md-default-bg-color) 50%);
+    background-color: var(--md-default-bg-color);
 }
 [data-article] > :last-child > * {
     margin-right: 1em;
