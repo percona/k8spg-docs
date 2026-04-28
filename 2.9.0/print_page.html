@@ -13143,7 +13143,6 @@ This ensures consistency by capturing the entire database exactly as it exists a
 must support the Volume Snapshot API.</li>
 <li><strong>One snapshot backup at a time</strong> – You can only run one snapshot backup at a time on a given cluster; concurrent snapshot backups are not supported.</li>
 <li><strong>No automatic retention policy for scheduled backups yet</strong> - You must manually delete outdated backup objects. Retention policy is planned to be added in future releases.</li>
-<li><strong>No automatic retention policy for scheduled backups yet</strong> – You need to manually remove outdated backup objects for now. Automatic retention will be available in a future release.</li>
 </ul>
 <p><a class="md-button" href="#backups-pvc-setup">Configure PVC snapshots</a></p></section><section class="print-page" id="backups-pvc-setup" heading-number="7.1.5.2"><h1 id="backups-pvc-setup-configure-and-use-pvc-snapshots">Configure and use PVC snapshots<a class="headerlink" href="#backups-pvc-setup-configure-and-use-pvc-snapshots" title="Permanent link">&para;</a></h1>
 <p>This document provides step-by-step instructions for configuring and using Persistent Volume Claim (PVC) Snapshots with Percona Operator for PostgreSQL on Kubernetes. </p>
@@ -13817,10 +13816,17 @@ by using the <a href="https://pgbackrest.org/user-guide-centos7.html#async-archi
 <span class="k">[global:archive-push]</span>
 <span class="na">process-max</span><span class="o">=</span><span class="s">4</span>
 </code></pre></div>
-<p>No modifications are needed aside of setting these additional parameters.
-You can find more information about WAL asynchronous archiving in
-<a href="https://pgbackrest.org/user-guide-centos7.html#async-archiving">gpBackRest official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and in <a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">this blog post <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="backup-retention" heading-number="7.1.8"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
+<p>No modifications are needed aside of setting these additional parameters.</p>
+<h2 id="async-archiving-further-reading">Further reading<a class="headerlink" href="#async-archiving-further-reading" title="Permanent link">&para;</a></h2>
+<p>Find more information about WAL asynchronous archiving in:</p>
+<ul>
+<li>
+<p><a href="https://pgbackrest.org/user-guide-centos7.html#async-archiving">pgBackRest official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a></p>
+</li>
+<li>
+<p><a href="https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/">How pgBackRest is Addressing Slow PostgreSQL WAL Archiving Using Asynchronous Feature <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> blog post.</p>
+</li>
+</ul></section><section class="print-page" id="backup-retention" heading-number="7.1.8"><h1 id="backup-retention-backup-retention">Backup retention<a class="headerlink" href="#backup-retention-backup-retention" title="Permanent link">&para;</a></h1>
 <p>The Operator supports setting pgBackRest retention policies for full and
 differential backups. When a full backup expires according to the retention
 policy, pgBackRest cleans up all the files related to this backup and to the
