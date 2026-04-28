@@ -31,6 +31,11 @@ process-max=4
 ```
 
 No modifications are needed aside of setting these additional parameters.
-You can find more information about WAL asynchronous archiving in
-[gpBackRest official documentation :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving)
-and in [this blog post :octicons-link-external-16:](https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/).
+
+## Further reading
+
+Find more information about WAL asynchronous archiving in:
+
+* [pgBackRest official documentation :octicons-link-external-16:](https://pgbackrest.org/user-guide-centos7.html#async-archiving)
+
+* [How pgBackRest is Addressing Slow PostgreSQL WAL Archiving Using Asynchronous Feature :octicons-link-external-16:](https://www.percona.com/blog/how-pgbackrest-is-addressing-slow-postgresql-wal-archiving-using-asynchronous-feature/) blog post.
