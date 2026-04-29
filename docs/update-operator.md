@@ -1,6 +1,6 @@
 # Upgrading the Operator and CRD
 
-Upgrading Percona Operator for PostgreSQL and its associated Custom Resource Definitions (CRDs) is essential to take advantage of new features, bug fixes, and compatibility with your evolving Kubernetes environment. Before performing any upgrade, review the following considerations to ensure a smooth and reliable process.
+Upgrading Percona Operator for PostgreSQL and its Custom Resource Definitions (CRDs) lets you use new features, fixes, and supported Kubernetes versions. Read the considerations below first, then follow the upgrade path that matches how you installed the Operator.
 
 ## Considerations
 
@@ -45,6 +45,28 @@ its own namespace. In this case upgrading Operator deployments will look as foll
     * upgrade the CRD (not 3 minor versions far from the oldest Operator installation in the Kubernetes cluster) first 
     * upgrade the Operators in each namespace incrementally to the nearest minor version (e.g. first 2.4.0 to 2.5.1, then 2.5.1 to 2.6.0)
 
+## Renamed upstream CRDs (Operator 3.0.0 and later)
+
+Earlier releases reused upstream Crunchy CRDs that had the `postgres-operator.crunchydata.com` API group. That made it impossible to run Percona Operator for PostgreSQL alongside [Crunchy PostgreSQL Operator :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator) in the same Kubernetes cluster, because both saw the same CRDs and interfered with each other.
+
+Starting with version 3.0.0, Crunchy CRDs are renamed and now have the new API group `upstream.pgv2.percona.com` instead. In this way resources managed by Percona Operator for PostgreSQL are isolated from Crunchy’s CRDs.
+
+When you upgrade to **3.0.0 or newer**, apply the new CRDs and roll out the new Operator image as usual. New CRDs are installed alongside the legacy ones so existing workloads keep running during the transition.
+
+!!! important
+
+    This change is irreversible. As soon as you update the Operator to version 3.0.0, it can no longer use previous version CRDs.
+    
+    Also, renaming upstream CRDs affects all database clusters managed by the Operator.
+
+The Operator uses detects if the legacy upstream CRDs are present. If they are present, the Operator:
+
+* Finds child objects that belong to a legacy `PostgresCluster`. These child objects are: StatefulSets, Deployments, Services, Secrets, ConfigMaps, PVCs, ServiceAccounts, Endpoints, Roles, RoleBindings, Jobs, CronJobs, PodDisruptionBudgets, plus the optional cert-manager (Certificate, Issuer) and CSI snapshot (VolumeSnapshot).
+* Updates their `ownerReferences` to the new API group CRDs,
+* Deletes the legacy parent CRDs **without** cascading deletes, so data and workloads are not removed by mistake.
+
+If there are **no** legacy upstream CRDs (for example on a new cluster), the Operator creates child objects with the new parent CRDs during the database cluster deployment.
+
 ## Upgrade guides
 
 Choose the upgrade instructions below based on how you originally deployed the Operator:
@@ -71,16 +93,14 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
 
         In case of [cluster-wide installation](cluster-wide.md), use `deploy/cw-rbac.yaml` instead of `deploy/rbac.yaml`.
 
-    2. Next, update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
+2. Update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release [in the list of certified images](images.md). Use the following command to update the Operator to the `{{ release }}` version:
 
     ```bash
     kubectl -n postgres-operator patch deployment percona-postgresql-operator \
     -p'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:{{release}}"}]}}}}'
     ```
 
-3. The deployment rollout will be automatically triggered by the applied patch.
-    You can track the rollout process in real time with the
-    `kubectl rollout status` command with the name of your cluster:
+3. The deployment rollout starts automatically after the patch. Track it with:
 
     ```bash
     kubectl rollout status deployments percona-postgresql-operator -n postgres-operator
@@ -91,6 +111,8 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         ``` {.text .no-copy}
         deployment "percona-postgresql-operator" successfully rolled out
         ```
+
+4. Delete the legacy CRDs that 
 
 ## Upgrade via Helm
 
@@ -146,6 +168,8 @@ Operator deployment with the `helm upgrade` command.
             ```
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
+
+4. Delete the previous version CRDs.
 
 ## Next steps
 
