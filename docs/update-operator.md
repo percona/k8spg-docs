@@ -47,23 +47,25 @@ its own namespace. In this case upgrading Operator deployments will look as foll
 
 ## Renamed upstream CRDs (Operator 3.0.0 and later)
 
-Earlier releases reused upstream Crunchy CRDs that had the `postgres-operator.crunchydata.com` API group. That made it impossible to run Percona Operator for PostgreSQL alongside [Crunchy PostgreSQL Operator :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator) in the same Kubernetes cluster, because both saw the same CRDs and interfered with each other.
+Earlier releases of Percona Operator for PostgreSQL reused upstream Crunchy CRDs that had the `postgres-operator.crunchydata.com` API group. That made it impossible to run Percona Operator for PostgreSQL alongside [Crunchy PostgreSQL Operator :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator) in the same Kubernetes cluster, because both saw the same CRDs and interfered with each other.
 
-Starting with version 3.0.0, Crunchy CRDs are renamed and now have the new API group `upstream.pgv2.percona.com` instead. In this way resources managed by Percona Operator for PostgreSQL are isolated from Crunchy’s CRDs.
+Starting with version 3.0.0, Crunchy CRDs are renamed and now have the new API group `upstream.pgv2.percona.com` instead. In this way resources managed by Percona Operator for PostgreSQL are isolated from Crunchy’s CRDs. This change enables both Operators to coexist in the same cluster.
 
 When you upgrade to **3.0.0 or newer**, apply the new CRDs and roll out the new Operator image as usual. New CRDs are installed alongside the legacy ones so existing workloads keep running during the transition.
 
 !!! important
 
-    This change is irreversible. As soon as you update the Operator to version 3.0.0, it can no longer use previous version CRDs.
+    This change is irreversible. As soon as you update the Operator to version 3.0.0, it can no longer use Crunchy CRDs from previous versions.
     
     Also, renaming upstream CRDs affects all database clusters managed by the Operator.
 
-The Operator uses detects if the legacy upstream CRDs are present. If they are present, the Operator:
+The Operator detects the legacy upstream CRDs and:
 
-* Finds child objects that belong to a legacy `PostgresCluster`. These child objects are: StatefulSets, Deployments, Services, Secrets, ConfigMaps, PVCs, ServiceAccounts, Endpoints, Roles, RoleBindings, Jobs, CronJobs, PodDisruptionBudgets, plus the optional cert-manager (Certificate, Issuer) and CSI snapshot (VolumeSnapshot).
-* Updates their `ownerReferences` to the new API group CRDs,
+* Finds child objects that belong to a legacy `PostgresCluster`. These child objects are: StatefulSets, Deployments, Services, Secrets, ConfigMaps, PVCs, ServiceAccounts, Endpoints, Roles, RoleBindings, Jobs, CronJobs, PodDisruptionBudgets, plus the optional CSI snapshot (VolumeSnapshot). 
+* Updates their `ownerReferences` to the new API group CRDs.
 * Deletes the legacy parent CRDs **without** cascading deletes, so data and workloads are not removed by mistake.
+
+The `PerconaPGCluster` has a new status condition `APIGroupMigration` to inform you about the resource migration state. Run the `kubectl describe pg <cluster-name>` command and check the `status.conditions` list to see full details.
 
 If there are **no** legacy upstream CRDs (for example on a new cluster), the Operator creates child objects with the new parent CRDs during the database cluster deployment.
 
