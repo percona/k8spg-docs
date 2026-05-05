@@ -3,14 +3,14 @@
 There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we will focus on comparing the following open source solutions:
 
 * [Crunchy Data PostgreSQL Operator (PGO) :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator)
-* [CloudNative PG :octicons-link-external-16:](https://github.com/cloudnative-pg/cloudnative-pg) from Enterprise DB 
+* [CloudNative PG :octicons-link-external-16:](https://github.com/cloudnative-pg/cloudnative-pg), vendor-neutral, originally created by Enterprise DB 
 * [Stackgres :octicons-link-external-16:](https://github.com/ongres/stackgres) from OnGres
 * [Zalando Postgres Operator :octicons-link-external-16:](https://github.com/zalando/postgres-operator)
 * [Percona Operator for PostgreSQL :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/)
 
 ## Generic
 
-| Feature/Product        | Percona Operator for PostgreSQL |        Stackgres        |                     CrunchyData                     |     CloudNativePG (EDB)     | Zalando |
+| Feature/Product        | Percona Operator for PostgreSQL |        Stackgres        |                     CrunchyData                     |     CloudNativePG            | Zalando |
 |------------------------|:---------------------------:|:---------------------------:|:---------------------------------------------------:|:---------------------------:|:-------:|
 | Open-source license    |          Apache 2.0         |            AGPL 3           | Apache 2.0, but images are under Developer Program  |          Apache 2.0         |   MIT   |
 | PostgreSQL versions    |          13 - 18            |            14 - 18          |                      14 - 18                        |     14 - 18                 | 13 - 17 |
@@ -19,7 +19,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 ## Maintenance
 
-| Feature/Product  |   Percona Operator for PostgreSQL   |        Stackgres        |       CrunchyData       |   CloudNativePG (EDB)   |            Zalando            |
+| Feature/Product  |   Percona Operator for PostgreSQL   |        Stackgres        |       CrunchyData       |   CloudNativePG   |            Zalando            |
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
 | Operator upgrade |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |            :white_check_mark:            |
 | Database upgrade |    Automated and safe   |          Automated and safe         |          Manual         |          Manual         |             Manual            |
@@ -28,16 +28,16 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 ## PostgreSQL topologies
 
-| Feature/Product    | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG (EDB) | Zalando |
+| Feature/Product    | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG  | Zalando |
 |--------------------|:-------------------:|:---------:|:-----------:|:-------------------:|:-------:|
 | Warm standby       |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | Hot standby        |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | Connection pooling |       :white_check_mark:       |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
-| Delayed replica    |        :no_entry_sign:         |   :no_entry_sign:    |    :no_entry_sign:     |        :no_entry_sign:         |  :no_entry_sign:   |
+| Delayed replica    |        :no_entry_sign:         |   :no_entry_sign:    |    :no_entry_sign:     |        :white_check_mark:        |  :no_entry_sign:   |
 
 ## Backups
 
-| Feature/Product   | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG (EDB) | Zalando |
+| Feature/Product   | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG    | Zalando |
 |-------------------|:-------------------------------:|:---------:|:-----------:|:-------------------:|:-------:|
 | Scheduled backups |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
 | WAL archiving     |             :white_check_mark:             |  :white_check_mark:  |   :white_check_mark:   |       :white_check_mark:       | :white_check_mark: |
@@ -48,13 +48,13 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 
 ## Monitoring
 
-| Feature/Product |  Percona Operator for PostgreSQL  |               Stackgres               |           CrunchyData          |          CloudNativePG (EDB)          |  Zalando |
+| Feature/Product |  Percona Operator for PostgreSQL  |               Stackgres               |           CrunchyData          |          CloudNativePG        |  Zalando |
 |-----------------|:---------------------------------:|:-------------------------------------:|:------------------------------:|:-------------------------------------:|:--------:|
-| Solution        | Percona Monitoring and Management and sidecars | Exposing metrics in Prometheus format | Prometheus stack and pgMonitor | Exposing metrics in Prometheus format | Sidecars |
+| Solution        | Percona Monitoring and Management and sidecars | Exposing metrics in Prometheus format | Prometheus stack and pgMonitor | Prometheus metrics & Grafana dashboard | Sidecars |
 
 ## Miscellaneous
 
-| Feature/Product                      | Percona Operator for PostgreSQL |       Stackgres       |      CrunchyData      |  CloudNativePG (EDB)  |        Zalando        |
+| Feature/Product                      | Percona Operator for PostgreSQL |       Stackgres       |      CrunchyData      |  CloudNativePG   |        Zalando        |
 |--------------------------------------|:-------------------------------:|:---------------------:|:---------------------:|:---------------------:|:---------------------:|
 | Customize PostgreSQL configuration   |             :white_check_mark:             |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |        :white_check_mark:        |
 | Sidecar containers for customization |             :white_check_mark:             |        :no_entry_sign:        |        :white_check_mark:        |        :no_entry_sign:          |        :white_check_mark:        |
