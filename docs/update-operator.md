@@ -1,44 +1,52 @@
 # Upgrading the Operator and CRD
 
-Upgrading Percona Operator for PostgreSQL and its Custom Resource Definitions (CRDs) lets you use new features, fixes, and supported Kubernetes versions. Read the considerations below first, then follow the upgrade path that matches how you installed the Operator.
+Upgrading Percona Operator for PostgreSQL and its Custom Resource Definitions (CRDs) lets you use new features, fixes, and supported Kubernetes versions. 
 
-## Considerations
+Use this page to prepare for the upgrade and choose the right upgrade path.
 
-### Considerations for Kubernetes Cluster versions and upgrades
+## Quick summary
 
-1. Before upgrading the Kubernetes cluster, have a disaster recovery plan in place. Ensure that a backup is taken prior to the upgrade.
+- Upgrade the CRD and the Operator together whenever possible.
+- Upgrade incrementally by minor version (for example `2.7.x -> 2.8.x -> 2.9.x`).
+- CRD supports the latest 3 Operator minor versions.
+- **If you upgrade to `3.0.0+`**, Crunchy CRDs are renamed to a new API group. This change is irreversible. Review [Renamed upstream CRDs for Operator 3.0.0 and later](#renamed-upstream-crds-operator-300-and-later) before running upgrade steps.
 
-2. Plan your Kubernetes cluster or Operator upgrades with version compatibility in mind.
+[Pre-upgrade checklist](#pre-upgrade-checklist){.md-button}
 
-    The Operator is supported and tested on specific Kubernetes versions. Always refer to the Operator's [release notes](ReleaseNotes/index.md) to verify the supported Kubernetes platforms.
+## Version and compatibility rules
 
-    Note that while the Operator might run on unsupported or untested Kubernetes versions, this is not recommended. Doing so can cause various issues, and in some cases, the Operator may fail if deprecated API versions have been removed.
+### Kubernetes Cluster versions and upgrades
 
-3. During a Kubernetes cluster upgrade, you must also upgrade the `kubelet`. It is advisable to drain the nodes hosting the database Pods during the upgrade process.
+1. Before upgrading the Kubernetes cluster, make sure you have a tested disaster recovery plan and a fresh backup.
 
-4. During the `kubelet` upgrade, nodes transition between `Ready` and `NotReady` states. Also, in some scenarios, older nodes may be replaced entirely with new nodes. Ensure that nodes hosting database or proxy pods are functioning correctly and remain in a stable state after the upgrade.
+2. Plan your Kubernetes cluster or Operator upgrades using version compatibility. Check supported Kubernetes versions in the Operator [release notes](ReleaseNotes/index.md).
+
+    Note that the Operator might run on unsupported or untested Kubernetes versions, but this is risky and not recommended. The Operator may fail if deprecated API versions have been removed.
+
+3. During a Kubernetes cluster upgrade, also upgrade the `kubelet`. Drain the nodes hosting the database Pods during the upgrade process.
+
+4. During the `kubelet` upgrade, nodes transition between `Ready` and `NotReady` states. Older nodes may also be replaced entirely with new nodes. Ensure that nodes hosting database or proxy pods remain healthy and in a stable state after the upgrade.
 
 5. Regardless of the upgrade approach, pods will be rescheduled or recycled. Plan your Kubernetes cluster upgrade accordingly to minimize downtime and service disruption.
 
-### Considerations for the Operator upgrades
+### Operator and CRD compatibility
 
-1. The Operator version has three digits separated by a dot (`.`) in the format `major.minor.patch`. Here's how you can understand the version `2.6.0`:
+1. The Operator version follows the format `major.minor.patch`. Here's how you can understand the version `2.6.0`:
 
     * `2` - major version
     * `6` - minor version
     * `0` - patch version
 
-    You can upgrade the Operator only to the nearest `major.minor.patch` version. For example, if the next version is 2.7.1, you can go directly from 2.6.0 to 2.7.1 without any intermediate steps.
+2. You can upgrade the Operator only to the nearest `major.minor.patch` version. For example, you can go directly from 2.6.0 to 2.7.1 without any intermediate steps.
 
-    To upgrade to a newer version, which differs from the current
-    `minor.major` version by more than one, you need to make several
+    If your target version is more than one minor release ahead, make several
     incremental upgrades sequentially. 
     
-    For example, to upgrade the CRD and Operator from the version 2.4.0 to 2.6.0, first upgrade it from 2.4.0 to 2.5.1, and then from 2.5.1 to 2.6.0.
+    For example, to upgrade the CRD and Operator from the 2.4.0 to 2.6.0,  upgrade it as follows: 2.4.0 -> 2.5.1 -> 2.6.0.
 
-2. CRD supports **the last 3 minor versions of the Operator**. This means it is compatible with the newest Operator version and the two previous minor versions. If the Operator is older than the CRD by no more than two versions, you should be able to continue using the old Operator version. But updating the CRD and Operator is the recommended path.
+3. CRD is compatible **with the newest Operator and the two previous minor versions**. If the Operator  is no more than two minor versions behind the CRD, you can use it. Even so, we recommend updating both the CRD and Operator Deployment.
 
-3. Using newer CRD with older Operator is useful to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
+4. You can use newer CRDs with older Operator to upgrade multiple [single-namespace Operator deployments](cluster-wide.md#namespace-scope) 
 in one Kubernetes cluster, where each Operator controls a database cluster in
 its own namespace. In this case upgrading Operator deployments will look as follows:
 
@@ -51,7 +59,7 @@ Earlier releases of Percona Operator for PostgreSQL reused upstream Crunchy CRDs
 
 Starting with version 3.0.0, Crunchy CRDs are renamed and now have the new API group `upstream.pgv2.percona.com` instead. In this way resources managed by Percona Operator for PostgreSQL are isolated from Crunchy’s CRDs. This change enables both Operators to coexist in the same cluster.
 
-When you upgrade to **3.0.0 or newer**, apply the new CRDs and roll out the new Operator image as usual. New CRDs are installed alongside the legacy ones so existing workloads keep running during the transition.
+When you upgrade to **3.0.0 or newer**, apply the new CRDs and roll out the new Operator image as usual. New CRDs are installed alongside the legacy ones so existing workloads keep running during the transition. This means you can continue using the Operator Deployment version 2.8.0 through 2.9.0.  
 
 !!! important
 
@@ -65,19 +73,29 @@ The Operator detects the legacy upstream CRDs and:
 * Updates their `ownerReferences` to the new API group CRDs.
 * Deletes the legacy parent CRDs **without** cascading deletes, so data and workloads are not removed by mistake.
 
-The `PerconaPGCluster` has a new status condition `APIGroupMigration` to inform you about the resource migration state. Run the `kubectl describe pg <cluster-name>` command and check the `status.conditions` list to see full details.
+The `PerconaPGCluster` status condition `APIGroupMigration` informs you about the resource migration state. Run the `kubectl describe pg <cluster-name>` command and check the `status.conditions` list to see full details.
 
-If there are **no** legacy upstream CRDs (for example on a new cluster), the Operator creates child objects with the new parent CRDs during the database cluster deployment.
+If no legacy CRDs exist, the Operator creates resources with the new API group from the start.
 
-## Upgrade guides
+## Pre-upgrade checklist
+
+- Backup is complete and restorable.
+- Target Operator version and Kubernetes version are compatible.
+- CRD version is compatible with the oldest Operator still running.
+- You know your install method (`kubectl`, Helm, OpenShift).
+- For target `3.0.0+`, you reviewed the [rename behavior](#renamed-upstream-crds-operator-300-and-later).
+
+## Choose your upgrade path
 
 Choose the upgrade instructions below based on how you originally deployed the Operator:
 
-[Manual upgrade](#manual-upgrade){.md-button}
-[Upgrade via Helm](#upgrade-via-helm){.md-button}
-[Upgrade on OpenShift](update-openshift.md){.md-button}
+|You use|Go to|
+|---|---|
+|`kubectl` manifests|[Manual upgrade](#manual-upgrade)|
+|Helm chart|[Upgrade via Helm](#upgrade-via-helm)|
+|OpenShift guide|[Upgrade on OpenShift](update-openshift.md)|
 
-### Manual upgrade
+## Manual upgrade
 
 You can upgrade the Operator and CRD as follows, considering the Operator uses
 `postgres-operator` namespace, and you are upgrading it to the version {{ release }}.
@@ -114,7 +132,15 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         deployment "percona-postgresql-operator" successfully rolled out
         ```
 
-4. Delete the legacy CRDs that 
+4. Delete the previous version CRDs:
+
+    ```bash
+    kubectl detele crd \
+    crunchybridgeclusters.postgres-operator.crunchydata.com \
+    pgadmins.postgres-operator.crunchydata.com \
+    pgupgrades.postgres-operator.crunchydata.com  \
+    postgresclusters.postgres-operator.crunchydata.com 
+    ```
 
 ## Upgrade via Helm
 
@@ -171,7 +197,15 @@ Operator deployment with the `helm upgrade` command.
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
 
-4. Delete the previous version CRDs.
+4. Delete the previous version CRDs:
+    
+    ```bash
+    kubectl detele crd \
+    crunchybridgeclusters.postgres-operator.crunchydata.com \
+    pgadmins.postgres-operator.crunchydata.com \
+    pgupgrades.postgres-operator.crunchydata.com  \
+    postgresclusters.postgres-operator.crunchydata.com 
+    ```
 
 ## Next steps
 
