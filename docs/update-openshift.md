@@ -64,38 +64,147 @@ These overrides are applied on top of the CSV and persist across upgrades. All o
 
 ### Before you start
 
-You must manually update the `initContainer.image` Custom Resource option for each PostgreSQL cluster managed by the Operator. Without this, clusters may enter an error state after the Operator upgrade.
+Before you upgrade the Operator deployment, prepare your environment depending on what container images you used:
 
-Follow these steps to upgrade the `initContainer.image`:
+* For **Community images** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconcile conflicts.
+* For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
+  
+   * Update the Subscription to the `stable` channel
+   * Confirm how the Operator watches namespaces 
+   * Align `initContainer.image` on each PostgreSQL cluster Custom Resource. Without updating `initContainer.image`, clusters may enter an error state after the Operator upgrade.
 
-1. Export the namespace as environment variable
+=== "Community images"
 
-    ```bash
-    export NAMESPACE=postgres-operator
-    ```
+    1. Verify the installation mode and target namespace
 
-2. Retrieve the current Operator installation image used for `initContainer` by running:
+        === "OpenShift web console"
 
-    ```bash
-    kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o jsonpath='{.spec.template.spec.containers[*].image}'
-    ```
+            Open the YAML manifest for the Operator installation. Verify the target namespace settings for the `targetNamespace` option. 
 
-    Find the `image` value in the relevant section of the output, for example:
+        === "Command line"
 
-    ```yaml
-    registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0
-    ```
+            ```bash
+            oc get operatorgroup -n <operator-namespace> -o yaml
+            ```
+   
+        Interpret the output:
 
-3. Update your PostgreSQL cluster's Custom Resource with the image you found above, replacing `cluster1` with your cluster name:
+        * A **single-namespace** install usually defines target namespaces explicitly:
 
-    ```bash
-    kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
-        "spec": {
-          "initContainer": { "image": "<IMAGE_FROM_STEP_2>" }
-        }}'
-    ```
+           ```yaml
+           spec:
+             targetNamespaces:
+               - <target-namespace>
+           ```
 
-    Repeat this command for each cluster managed by the Operator.
+        * An **all-namespaces** install has no `spec.targetNamespaces` configured:
+
+           ```yaml
+           spec: {}
+           ```
+
+    2. In **all-namespaces** mode, the Operator watches all namespaces on the cluster. If Percona PostgreSQL custom resources already exist outside the operator’s installation namespace, the operator may start managing them after the upgrade. This may happen if you deployed several Operators in the same OpenShift cluster, all in the all namespace mode. 
+        
+        To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `sptargetNamespaces` value for each Operator to the namespace it must manage.
+
+=== "Certified container images"
+
+    1. **Switch the Subscription to the `stable` channel**
+
+        === "OpenShift web console"
+
+            1. In the Operator details, open the **Subscription** (or installation settings).
+            2. Set the update channel to **stable**. 
+            3. Save the changes.
+
+        === "Command line"
+
+            1. Update the Subscription to use the `stable` channel:
+
+                ```bash
+                oc patch subscription percona-postgresql-operator \
+                  -n <operator-namespace> \
+                  --type merge \
+                  -p '{"spec":{"channel":"stable"}}'
+                ```
+
+            2. List the InstallPlan:
+
+                ```bash
+                oc get installplan -n <operator-namespace>
+                ```
+
+            3. If approval is manual, approve the InstallPlan:
+
+                ```bash
+                oc patch installplan <installplan-name> \
+                  -n <operator-namespace> \
+                  --type merge \
+                  -p '{"spec":{"approved":true}}'
+                ```
+
+            4. Verify the upgrade
+
+                ```bash
+                oc get csv -n <operator-namespace>
+                ```
+
+                The new `ClusterServiceVersion` should reach the `Succeeded` phase.
+
+            5. Check the Operator's installation mode and what namespaces it manages.
+
+                ```bash
+                oc get deploy -n <operator-namespace> percona-postgresql-operator \
+                -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="WATCH_NAMESPACE")].valueFrom.fieldRef.fieldPath}{"\n"}'
+                ```
+
+                Interpret the output:
+
+                * For a **single-namespace** install, the output returns:
+
+                   ```text
+                   metadata.annotations['olm.targetNamespaces']
+                   ```
+
+                   This is an expected value. It means the Operator watches the namespace specified in the `olm.targetNamespaces` option.
+
+                * For **all-namespaces** installs, the value of `WATCH_NAMESPACE` is empty. That is expected and means the Operator watches all namespaces.
+       
+
+    2. **Update the `initContainer` image on each cluster**
+
+        You must manually set `spec.initContainer.image` on each `PerconaPGCluster` (`pg`) Custom Resource that this Operator manages. Without this, clusters may enter an error state after the Operator upgrade.
+
+        1. Export namespaces you use for commands (use your Operator namespace and the namespace where each cluster CR lives; they may differ in multi-namespace setups):
+
+            ```bash
+            export OPERATOR_NAMESPACE=postgres-operator
+            export CLUSTER_NAMESPACE=postgres-operator
+            ```
+
+        2. Retrieve the current Operator image to reuse for `initContainer.image`:
+
+            ```bash
+            oc get deploy percona-postgresql-operator -n "$OPERATOR_NAMESPACE" \
+              -o jsonpath='{.spec.template.spec.containers[*].image}'
+            ```
+
+            Find the `image` value in the output, for example:
+
+            ```yaml
+            registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0
+            ```
+
+        3. Patch each PostgreSQL cluster Custom Resource, replacing `cluster1` with your cluster name and using the correct cluster namespace:
+
+            ```bash
+            oc patch pg cluster1 -n "$CLUSTER_NAMESPACE" --type=merge --patch '{
+                "spec": {
+                  "initContainer": { "image": "<IMAGE_FROM_PREVIOUS_COMMAND>" }
+                }}'
+            ```
+
+        4. Repeat the previous command for every cluster managed by this Operator.
 
 ### Upgrade the Operator
 
@@ -118,7 +227,7 @@ Follow these steps to upgrade the `initContainer.image`:
 1. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
 
     ```
-    kubectl get deploy percona-postgresql-operator -n $NAMESPACE -o yaml
+    kubectl get deploy percona-postgresql-operator -n $CLUSTER_NAMESPACE -o yaml
     ```
 
     ??? example "Expected output"
@@ -158,7 +267,7 @@ Follow these steps to upgrade the `initContainer.image`:
     === "With PMM Client"
 
         ```bash
-        kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
+        kubectl patch pg cluster1 -n $CLUSTER_NAMESPACE --type=merge --patch '{
         "spec": {
         "crVersion":"{{release}}",
         "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
@@ -172,7 +281,7 @@ Follow these steps to upgrade the `initContainer.image`:
     === "Without PMM Client"
 
         ```bash
-        kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
+        kubectl patch pg cluster1 -n $CLUSTER_NAMESPACE --type=merge --patch '{
         "spec": {
         "crVersion":"{{release}}",
         "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
