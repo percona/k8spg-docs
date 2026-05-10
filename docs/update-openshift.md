@@ -66,7 +66,7 @@ These overrides are applied on top of the CSV and persist across upgrades. All o
 
 Before you upgrade the Operator deployment, prepare your environment depending on what container images you used:
 
-* For **Community images** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconcile conflicts.
+* For **Community images** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
 * For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
   
    * Update the Subscription to the `stable` channel
@@ -79,7 +79,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
         === "OpenShift web console"
 
-            Open the YAML manifest for the Operator installation. Verify the target namespace settings for the `targetNamespace` option. 
+            Open the YAML manifest for the Operator installation. Verify the target namespace settings for the `targetNamespaces` option. 
 
         === "Command line"
 
@@ -105,7 +105,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
     2. In **all-namespaces** mode, the Operator watches all namespaces on the cluster. If Percona PostgreSQL custom resources already exist outside the operator’s installation namespace, the operator may start managing them after the upgrade. This may happen if you deployed several Operators in the same OpenShift cluster, all in the all namespace mode. 
         
-        To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `sptargetNamespaces` value for each Operator to the namespace it must manage.
+        To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `spec.targetNamespaces` value for each Operator to the namespace it must manage.
 
 === "Certified container images"
 
@@ -224,10 +224,16 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
 ### Upgrade steps
 
-1. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
+1. Export the namespace where your cluster is running as an environment variable:
+    
+    ```bash
+    export CLUSTER_NAMESPACE=<my-namespace>
+    ``` 
+    
+2. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
 
     ```
-    kubectl get deploy percona-postgresql-operator -n $CLUSTER_NAMESPACE -o yaml
+    kubectl get deploy percona-postgresql-operator -n <operator-namespace> -o yaml
     ```
 
     ??? example "Expected output"
@@ -258,7 +264,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
         }
         ```
 
-2. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to update your cluster's Custom Resource. Set the `crVersion` field to match the Operator version and update the images as needed. 
+3. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to update your cluster's Custom Resource. Set the `crVersion` field to match the Operator version and update the images as needed. 
 
     Depending on whether you've already updated the PMM client, either include its image in the list of images to update in your patch command or exclude the PMM client image from the patch.
 
@@ -291,7 +297,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
         }}'
         ```
 
-3. The deployment rollout will be automatically triggered by the applied patch.
+4. The deployment rollout will be automatically triggered by the applied patch.
     You can track the rollout process in real time with the
     `kubectl rollout status` command with the name of your cluster:
 
