@@ -1,0 +1,7 @@
+## Versions used in this guide
+
+For this migration tutorial, we use the following versions of the Operators:
+
+* Crunchy PostgreSQL Operator 5.8.x
+* Percona Operator for PostgreSQL 3.x.x
+* An AWS S3 storage for backups. If you use another remote storage, ensure to configure access to it for both clusters.
