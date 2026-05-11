@@ -66,14 +66,14 @@ These overrides are applied on top of the CSV and persist across upgrades. All o
 
 Before you upgrade the Operator deployment, prepare your environment depending on what container images you used:
 
-* For **Community images** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
+* For **Community catalogues** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
 * For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
   
    * Update the Subscription to the `stable` channel
    * Confirm how the Operator watches namespaces 
    * Align `initContainer.image` on each PostgreSQL cluster Custom Resource. Without updating `initContainer.image`, clusters may enter an error state after the Operator upgrade.
 
-=== "Community images"
+=== "Community catalogues"
 
     1. Verify the installation mode and target namespace
 
