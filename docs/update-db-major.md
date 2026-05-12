@@ -54,10 +54,11 @@ During the upgrade flow, the Operator:
        SET pgaudit.log = 'none';
        ```
 
-    * Reset logging for the database:
+    * Reset logging for the database. Replace `<database-name>` with the
+      actual database name:
 
        ```sql
-       ALTER DATABASE current_database RESET pgaudit.log;
+       ALTER DATABASE <database-name> RESET pgaudit.log;
        ```
 
     * Drop and recreate the extension:
@@ -65,6 +66,12 @@ During the upgrade flow, the Operator:
        ```sql
        DROP EXTENSION pgaudit;
        CREATE EXTENSION pgaudit;
+       ```
+    
+    * Restore the audit logging settings:
+       
+       ```sql
+       ALTER DATABASE <database-name> SET pgaudit.log = 'read, write, ddl';
        ```
 
     Repeat for every database where the `pgaudit` extension is installed.
