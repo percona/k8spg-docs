@@ -64,7 +64,7 @@ These overrides are applied on top of the CSV and persist across upgrades. All o
 
 ### Before you start
 
-Before you upgrade the Operator deployment, prepare your environment depending on what container images you used:
+Before you upgrade the Operator deployment, prepare your environment depending on what catalogue you used to install it from:
 
 * For **Community catalogues** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
 * For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
@@ -107,7 +107,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
         
         To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `spec.targetNamespaces` value for each Operator to the namespace it must manage.
 
-=== "Certified container images"
+=== "Certified container catalogues"
 
     1. **Switch the Subscription to the `stable` channel**
 
