@@ -46,6 +46,29 @@ During the upgrade flow, the Operator:
 
 ## Post-upgrade steps
 
+1. The `pgaudit` extension is not upgraded automatically. If you use this extension, you must drop and recreate it **in each database** where it is installed. [Connect to PostgreSQL](connect.md) with the privileges of the superuser and run the following commands:
+   
+    * Turn off logging for the current session:
+
+       ```sql
+       SET pgaudit.log = 'none';
+       ```
+
+    * Reset logging for the database:
+
+       ```sql
+       ALTER DATABASE current_database RESET pgaudit.log;
+       ```
+
+    * Drop and recreate the extension:
+    
+       ```sql
+       DROP EXTENSION pgaudit;
+       CREATE EXTENSION pgaudit;
+       ```
+
+    Repeat for every database where the `pgaudit` extension is installed.
+
 --8<-- "collation.txt"
 
 ## Cleanup
