@@ -16,7 +16,7 @@ The upgrade process consists of these steps:
     
     Important points to consider:
     
-    * Crunchy CRDs are renamed automatically and this change affects all PostgreSQL clusters managed by the Operator. 
+    * The new CRDs with the API group `upstream.pgv2.percona.com` are created and the Operator migrates all resources to use them automatically. This change affects all PostgreSQL clusters managed by the Operator. 
     * After you upgraded the Operator to version 3.0.0, it can no longer use the previous version CRDs. 
     
     To learn more about this change, see [Upgrading the Operator and CRD](update-operator.md#renamed-upstream-crds-operator-300-and-later).

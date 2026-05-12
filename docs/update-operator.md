@@ -71,7 +71,7 @@ The Operator detects the legacy upstream CRDs and:
 
 * Finds child objects that belong to a legacy `PostgresCluster`. These child objects are: StatefulSets, Deployments, Services, Secrets, ConfigMaps, PVCs, ServiceAccounts, Endpoints, Roles, RoleBindings, Jobs, CronJobs, PodDisruptionBudgets, plus the optional CSI snapshot (VolumeSnapshot). 
 * Updates their `ownerReferences` to the new API group CRDs.
-* Deletes the legacy parent CRDs **without** cascading deletes, so data and workloads are not removed by mistake.
+
 
 The `PerconaPGCluster` status condition `APIGroupMigration` informs you about the resource migration state. Run the `kubectl describe pg <cluster-name>` command and check the `status.conditions` list to see full details.
 
@@ -132,15 +132,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         deployment "percona-postgresql-operator" successfully rolled out
         ```
 
-4. Delete the previous version CRDs:
-
-    ```bash
-    kubectl detele crd \
-    crunchybridgeclusters.postgres-operator.crunchydata.com \
-    pgadmins.postgres-operator.crunchydata.com \
-    pgupgrades.postgres-operator.crunchydata.com  \
-    postgresclusters.postgres-operator.crunchydata.com 
-    ```
+4. [Delete the previous version CRDs](#delete-the-legacy-crds-for-operator-3xx)
 
 ## Upgrade via Helm
 
@@ -197,15 +189,45 @@ Operator deployment with the `helm upgrade` command.
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
 
-4. Delete the previous version CRDs:
+## Delete the legacy CRDs (for Operator 3.x.x)
+
+After the upgrade is complete, you can delete the legacy CRDs with the API group `postgres-operator.crunchydata.com`. Make sure to do this only if you have confirmed that no objects (such as clusters or related resources) are still referencing these CRDs as their parent. Deleting the CRDs while objects still depend on them can cause orphaned resources or disruptions.
+
+1. Check if there are clusters that haven't been migrated to use the new API group CRDs. The following command finds all `PostgresCluster` objects whose `APIGroupMigration` condition is missing or `False`, and prints their namespace, name, and condition status:
     
     ```bash
-    kubectl detele crd \
+    kubectl get pg -A -o json | jq -r '
+      .items[]
+      | (
+          [.status.conditions[]? | select(.type=="APIGroupMigration") | .status]
+        ) as $conds
+      | select(($conds | length == 0) or ($conds[] == "False"))
+      | "\(.metadata.namespace)\t\(.metadata.name)\t\(($conds[0] // "MISSING"))"
+    '
+    ```
+
+    If the output is empty, you can delete the legacy CRDs.
+    
+2. Patch each `PostgresCluster` object and remove the `postgres-operator.crunchydata.com/finalizer` finalizer. This ensures the CRDs can be deleted. Replace the `<cluster-name>` and `<namespace>` placeholders with your values in the following command:
+
+    ```bash
+    kubectl patch postgresclusters.postgres-operator.crunchydata.com <cluster-name> \
+      -n <namespace> \
+      --type=json \
+      -p='[{"op":"remove","path":"/metadata/finalizers"}]'
+    ```
+    
+3. Delete the CRDs with the API group `postgres-operator.crunchydata.com`.
+    
+    ```bash
+    kubectl delete crd \
     crunchybridgeclusters.postgres-operator.crunchydata.com \
     pgadmins.postgres-operator.crunchydata.com \
     pgupgrades.postgres-operator.crunchydata.com  \
     postgresclusters.postgres-operator.crunchydata.com 
     ```
+
+    Note that deleting CRDs also deletes all `postgresclusters.postgres-operator.crunchydata.com` resources.
 
 ## Next steps
 
