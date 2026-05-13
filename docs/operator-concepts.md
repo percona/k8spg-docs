@@ -10,9 +10,9 @@ An Operator is a way to **package, deploy, and manage** a complex application li
 
 At its core, an Operator is a **custom controller**. It watches [custom resources](#custom-resources-explained), compares what *should* exist (desired state) with what *does* exist (current state), and takes steps to bring them in line. That pattern is often called a **control loop** or **reconciliation loop**.
 
-**Percona Operator for PostgreSQL** builds on patterns and components from [CrunchyData’s PostgreSQL Operator :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/v5/) and Percona’s PostgreSQL distribution practices. Percona continues to develop the Operator as open source software alongside the database and tooling stack.
+**Percona Operator for PostgreSQL** was originally built upon patterns and components from [CrunchyData’s PostgreSQL Operator :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/v5/), benefiting from industry best practices for PostgreSQL management on Kubernetes. Since version 3.0.0, Percona Operator for PostgreSQL has evolved into an independent software solution, continuing to develop the Operator as open source software alongside the database and tooling stack. The Operator leverages Percona’s expertise in PostgreSQL management, delivering a solution that addresses the unique challenges of cloud-native database operations and lifecycle management.
 
-Percona Operator for PostgreSQL is particularly valuable for stateful applications like databases, which require complex lifecycle management, including initialization, scaling, backups, updates, disaster recovery and more.
+Percona Operator for PostgreSQL PostgreSQL lifecycle management by automating tasks such as initialization, scaling, backups, updates, and disaster recovery.
 
 ## Custom Resources explained
 
@@ -47,7 +47,7 @@ The **Operator** itself is deployed as a standard Kubernetes Deployment. It runs
 3. Compares it with the current state of the cluster
 4. Takes actions to reconcile any differences - to bring the current cluster state to the desired state defined in the Custom Resource
 
-In short: the CRD defines the *shape* of the API, the CR is *your* declaration, and the Operator is the automation that *implements* it.
+In short: the CRD extends the API with the new resources and defines the *shape* of the resource, the CR is *your* declaration of the resource, and the Operator is the automation that *implements* it.
 
 The following is the components workflow:  
 
@@ -60,13 +60,13 @@ The following is the components workflow:
 
 3. **Create Custom Resource**: You create and apply a Custom Resource YAML file that describes your desired cluster state
 
-4. **Reconcile**: The Operator detects the new Custom Resource, reads its specification, and creates the necessary Kubernetes resources (StatefulSets, Services, ConfigMaps, Secrets, etc.) to bring the PostgreSQL cluster into existence.
+4. **Reconcile**: The Operator detects the new Custom Resource, reads its specification, and creates the necessary Kubernetes resources (StatefulSets, Services, ConfigMaps, Secrets, etc.) to bring the application (PostgreSQL in our case) into existence.
 
 5. **Monitor continuously**: The Operator continuously monitors both the Custom Resource and the actual cluster state, making adjustments whenever they diverge.
 
 ## Why use an Operator for a database?
 
-The Operator is a game-changer for database management on Kubernetes: it frees your team from tedious, error-prone infrastructure work, so you can focus on building the applications that matter.
+The Operator is a game-changer for database management on Kubernetes: it frees administrators and infrastructure teams from tedious, error-prone operational work, allowing them to focus on more important and interesting tasks rather than manual maintenance.
 
 Traditionally, deploying PostgreSQL in Kubernetes means you must create, wire together, and continuously maintain many objects like StatefulSets, Services, PVCs, ConfigMaps, Secrets, backup Jobs, monitoring hooks, and more. Every change or upgrade requires manual intervention and careful coordination.
 
@@ -78,7 +78,7 @@ With an Operator, all you do is describe your desired cluster in a Custom Resour
 
 Day-to-day, the Operator automates the most challenging and repetitive database tasks: seamless failovers, backup management, rolling upgrades, scaling, and self-healing. 
 
-By trusting the Operator to manage your database infrastructure, your team can focus on building features and improving your applications and not manage YAML or deal with unexpected outages. 
+By trusting the Operator to manage your database infrastructure, your team can focus on building features and improving your applications rather than deal with unexpected outages. 
 
 ## Next steps
 

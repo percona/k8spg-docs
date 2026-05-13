@@ -2,11 +2,11 @@
 
 Percona Operator for PostgreSQL is a Kubernetes-native controller that automatically manages the full lifecycle of [Percona Distribution for PostgreSQL :octicons-link-external-16:](https://www.percona.com/software/postgresql-distribution) clusters. The Operator offloads your teams from manual day-to-day database management operations empowering them to focus on tasks that matter instead. To learn how the Operator fits into Kubernetes, see [Kubernetes Operator concepts](operator-concepts.md).
 
-Here’s what the Operator brings to your infrastructure:
+Here’s what Percona Operator for PostgreSQL brings to your infrastructure:
 
 ## High availability and failover
 
-Run PostgreSQL with confidence: [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/) provides automatic leader election, failover, and coordination so your cluster stays available through node and Pod failures. For architecture details, see [Cluster architecture](architecture.md).
+Run PostgreSQL with confidence: [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/) provides automatic leader election, failover, and coordination with Distributed Configuration Store, so your cluster stays available through node and Pod failures. For architecture details, see [Cluster architecture](architecture.md).
 
 * **Automatic failover** — Patroni manages leader election and failover to ensure the cluster always has a healthy primary. See [High availability](ha-deploy.md).
 * **Zero data loss failover** — WAL-based replication limits data loss during failover; synchronous replication is available when you need stronger guarantees.

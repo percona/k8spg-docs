@@ -26,8 +26,7 @@ import argparse
 from pathlib import Path
 
 from diagrams import Cluster, Diagram, Edge
-from diagrams.k8s.compute import Pod
-from diagrams.k8s.controlplane import CM
+from diagrams.k8s.compute import Pod, Deployment
 from diagrams.k8s.others import CRD
 
 # Resolve paths so the script works when run from any cwd
@@ -108,21 +107,22 @@ def _build(outformat: str) -> Path:
         with Cluster("Kubernetes Cluster", graph_attr=_cluster_graph_attr()):
             crd = CRD("Custom Resource\nDefinition (CRD)")
             # No dedicated "Custom Resource instance" icon in k8s provider; Pod denotes workload API objects.
-            custom_resources = Pod("Custom Resources")
-            operator = CM("Operator Deployment")
+            custom_resources = CRD("Custom Resources")
+            operator = Deployment("Operator Deployment")
 
-            # Stack pods horizontally inside the group.
+            # Pods left-to-right: disconnected nodes in an LR subgraph share one rank and
+            # stack vertically; chain with invisible edges to fix order (diagrams Cluster
+            # + Graphviz limitation — see Cluster docstring in mingrammer/diagrams).
             with Cluster(
                 "Application",
                 direction="LR",
                 graph_attr=_cluster_graph_attr(),
             ):
                 # Three workload replicas (labels echo operator.svg DB Pod 1 / 2 / N pattern).
-                app_pods = [
-                    Pod("DB Pod 1"),
-                    Pod("DB Pod 2"),
-                    Pod("DB Pod N"),
-                ]
+                app_pod_1 = Pod("DB Pod 1")
+                app_pod_2 = Pod("DB Pod 2")
+                app_pod_n = Pod("DB Pod N")
+                app_pod_1 >> Edge(style="invis") >> app_pod_2 >> Edge(style="invis") >> app_pod_n
 
             # CRD defines schema available to the API; users then create CR instances.
             crd >> Edge(label="defines schema", color=_EDGE) >> custom_resources
@@ -136,7 +136,7 @@ def _build(outformat: str) -> Path:
             ) >> operator
 
             # Operator drives the managed application (StatefulSets, Services, etc.).
-            operator >> Edge(label="manages", color=_EDGE) >> app_pods[1]
+            operator >> Edge(label="manages", color=_EDGE) >> app_pod_1
 
     return _OUT_DIR / f"{_OUT_NAME}.{outformat}"
 
