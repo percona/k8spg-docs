@@ -66,7 +66,7 @@ These overrides are applied on top of the CSV and persist across upgrades. All o
 
 Before you upgrade the Operator deployment, prepare your environment depending on what catalogue you used to install it from:
 
-* For **Community catalogues** (for example from `docker.io` or a private registry), verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
+* For **Community catalogues**, verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
 * For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
   
    * Update the Subscription to the `stable` channel
@@ -105,7 +105,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
     2. In **all-namespaces** mode, the Operator watches all namespaces on the cluster. If Percona PostgreSQL custom resources already exist outside the operator’s installation namespace, the operator may start managing them after the upgrade. This may happen if you deployed several Operators in the same OpenShift cluster, all in the all namespace mode. 
         
-        To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `spec.targetNamespaces` value for each Operator to the namespace it must manage.
+        To avoid conflicts during reconciliation, repeat step 1 for **every** Operator you deployed. If more than one Operator is installed in all-namespaces mode, adjust the `spec.targetNamespaces` value for each OperatorGroup to the namespace this Operator must manage.
 
 === "Certified container catalogues"
 
@@ -119,7 +119,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
         === "Command line"
 
-            1. Update the Subscription to use the `stable` channel:
+            1. Update the Subscription to use the `stable` channel. If the InstallPlan approval is automatic, this triggers the Operator upgrade:
 
                 ```bash
                 oc patch subscription percona-postgresql-operator \
@@ -134,7 +134,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
                 oc get installplan -n <operator-namespace>
                 ```
 
-            3. If approval is manual, approve the InstallPlan:
+            3. **For manual approval**, approve the InstallPlan:
 
                 ```bash
                 oc patch installplan <installplan-name> \
