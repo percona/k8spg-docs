@@ -139,36 +139,38 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 
 | Image                                                                 | Digest                                                           |
 |:----------------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:2.9.0                            | 1990ab3568a25fbe4fbb85bc0a524c72458b6d4419f2d96a6ef61874da83ea96 |
-| percona/percona-postgresql-operator:2.9.0 (ARM64)                    | 470f0a141973c91474b9337c92773aa467a2145ff5ad74fc4731a11beb446083 |
-| percona/percona-distribution-postgresql:18.3-1 (x86_64) | f7f2af7cd155162fcffbd2a09e28918795db4ca1d1119c60b61a0d7c2f146ee7 |
-| percona/percona-distribution-postgresql:18.3-1 (ARM64) | 97531c11ffaf33f677f7e8062783e9ce13d1cd2618cb88c56d6387bf92720dcb |
-| percona/percona-distribution-postgresql:17.9-1 (x86_64)  | deca076dc5b837d9f7712de4ed007e019900d09c629fcba53d35b7ec47f4b308 |
-| percona/percona-distribution-postgresql:17.9-1 (ARM64)  | 921279b3b85c6595ba3cbd67856c456f8f4b711b270f8473ff5acbd82781a43d |
-| percona/percona-distribution-postgresql:16.13-1 (x86_64)   | 36ae43818f7e1414332549ef5361ed3874e3f3ad2c430e07dcea7552d8c8b362 |
-| percona/percona-distribution-postgresql:16.13-1 (ARM64)  | b4771737ee43d576437fa301bd0f15f7477b0058f3d8d58f5c7e8349412c0c94 |
-| percona/percona-distribution-postgresql:15.17-1 (x86_64) | 0b3faf1329c018f155aa9eb182f99b4a008f8f25b549f4cef98581002ca57d01 |
-| percona/percona-distribution-postgresql:15.17-1 (ARM64) | 64c9c06271eb24552fba4f766992b9228cfd99fbaafc93313ebba10d91bcda25 |
-| percona/percona-distribution-postgresql:14.22-1 (x86_64) | 2e854233f37877edf5a1920de5749a96eb0d81022b2270e00446889a6a3d6140 |
-| percona/percona-distribution-postgresql:14.22-1 (ARM64) | 93034300269680d1f024be3f500590f39a3eae91868ec6ec32c5689d76b2e999 |
-| percona/percona-distribution-postgresql-with-postgis:18.3-1 (x86_64)  | a2cdf2fa7b76d6f02fb249ce56efda51db476d695ae1b5e276ab89d99ab1d0a5 |
-| percona/percona-distribution-postgresql-with-postgis:18.3-1 (ARM64)  | 5058d7a615bf647ff629598e1feae0a9ffcde14dce70f35814d631d90bf57e93 |
-| percona/percona-distribution-postgresql-with-postgis:17.9-1 (x86_64) | 964a1a3116db7cd7fed0452376f43b07a9e3b45bf1ba2377307837745d285101 |
-| percona/percona-distribution-postgresql-with-postgis:17.9-1 (ARM64) | ecbabb4b2296fd1964b46cbdb71dae9d21157ac59f64ff776aff7d39aac66d1c |
-| percona/percona-distribution-postgresql-with-postgis:16.13-1 (x86_64) | 30a64dc854caf5770906e17fc4e32e4a7de3f545478c94719a8c6d7ab41b88d3 |
-| percona/percona-distribution-postgresql-with-postgis:16.13-1 (ARM64) | 6936f74de4e6f5206e5367581bcfadb49860d1572a30e9387a0479d988065778 |
-| percona/percona-distribution-postgresql-with-postgis:15.17-1 (x86_64) | 1d9a94124bbdd3939e8ad0beb6ef3ffd8db0858ba97ef1822e08f6c891ae2719 |
-| percona/percona-distribution-postgresql-with-postgis:15.17-1 (ARM64) | f2b21836b0e0d995b8187e0c770e31f9113bf6770f51d5eae92aa608b88d4d72 |
-| percona/percona-distribution-postgresql-with-postgis:14.22-1 (x86_64) | 46cf19acc553c84d643201c4ecd83a69a9d98c7432596a6907fadb093a0cd4df |
-| percona/percona-distribution-postgresql-with-postgis:14.22-1 (ARM64) | 9342ff19350446e83041e7775f8f134e0d464233fe3076e0a172a50dfc41b66c |
-| percona/percona-pgbouncer:1.25.1-1 (x86_64)  | 183f1cad97f7064745aedba96c169287ce54f2945073c28797a65bb9dc64cf8d |
-| percona/percona-pgbouncer:1.25.1-1 (ARM64)    | 6f4d7e68678a040516f729dc9a9fdf0a1e20ed3f5e5328a7b4fba23b4084c72a |
-| percona/percona-pgbackrest:2.58.0-1  (x86_64)   | 56542b3615f742a1ff4dec4eff7f53e87228085e50ebb66e3468d943e5a0f02e |
-| percona/percona-pgbackrest:2.58.0-1 (ARM64)   | d0b86dc1b725483999828cbf44b5dbad9616767da70cc1b33d2fef2841cd3f05 |
-| percona/pmm-client:2.44.1-1 (x86_64)                             | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
+| Image                                                                | Digest                                                           |
+|:---------------------------------------------------------------------|:-----------------------------------------------------------------|
+| percona/percona-postgresql-operator:3.0.0 (x86_64)                    | 813b63076f618a9361400fd66f1cf558c9e23c4b3ab934fcc8f210d402a8b4b4 |
+| percona/percona-postgresql-operator:3.0.0 (ARM64)                    | f6f9aa1357de651c74b773f2412a654452a7a1305ba379846d6b149deed09359 |
+| percona/percona-distribution-postgresql:18.3-2 (x86_64)               | 80c6b3ffdfe8ecbb0f6d1036267f77144a0ecd76a0e7b9cb8ae27faa317baa78 |
+| percona/percona-distribution-postgresql:18.3-2 (ARM64)               | 08734fd199b163a78844af3e03e252b20641483601cac91ceef950e26abb5146 |
+| percona/percona-distribution-postgresql:17.9-2 (x86_64)               | 69a8e13fee2d100fdac345faac62884b155a8092e02e58dfa5747898992353bd |
+| percona/percona-distribution-postgresql:17.9-2 (ARM64)               | d4927eb31dba1d3fbf9bff51f35faa23a0fff896128166c40242cf754a7de80d |
+| percona/percona-distribution-postgresql:16.13-2 (x86_64)              | 17ed9742ca524b7c3fc0fde8c122d49252fcebb053d6b5e208c1df35b9211931 |
+| percona/percona-distribution-postgresql:16.13-2 (ARM64)              | 8c6317fb1141e20b3ecb1d137b95439f6dbb1ffa2b1d7d5c030ddfa71d54c46a |
+| percona/percona-distribution-postgresql:15.17-2 (x86_64)              | 7977cb3884e7ccb14a82d76805fb1ac79a54076112ebc29f2cf1ba17e7b554ac |
+| percona/percona-distribution-postgresql:15.17-2 (ARM64)              | aae0d23f40cf24634d8bbed2f49ed1c075d36fe0d9436e8449c7fe9e0025e2b2 |
+| percona/percona-distribution-postgresql:14.22-2 (x86_64)               | 102e75eaaa68267dd1252a9e9d1a413e970cf3fde1de2d7ccb461ed4b8858f77 |
+| percona/percona-distribution-postgresql:14.22-2 (ARM64)              | 96be250c12e596c31ad164efba5a3431bb6acce1fdbcdbd3a53275bf3a9da1f7 |
+| percona/percona-distribution-postgresql-with-postgis:18.3-2 (x86_64)   | dc1aa4fd3cc45769b643acdead09ac2697894cae27c8d2242ae85c22830c89c6 |
+| percona/percona-distribution-postgresql-with-postgis:18.3-2 (ARM64)  | 17665e9ace6374093f4cc1797322f5e0a63a34c4f0863eed8515e9f6f4893103 |
+| percona/percona-distribution-postgresql-with-postgis:17.9-2 (x86_64)   | 99063117389f49fb43d713f731ab66f904c0db701e858cc1cb4c474bc8dfdd11 |
+| percona/percona-distribution-postgresql-with-postgis:17.9-2 (ARM64)  | 4d4f761124f627aeb61fb5153848873703d9bbc78df0f635448b25250c45c4ba |
+| percona/percona-distribution-postgresql-with-postgis:16.13-2 (x86_64) | e098e4cd437fd0b10e41711b1b7caefe951b70b5a3be115064a9f6614b8d1b98 |
+| percona/percona-distribution-postgresql-with-postgis:16.13-2 (ARM64) | f3db173951d85f77535c8fb3ff67ce9ccd82b4c68036228916ac497caa0221dd |
+| percona/percona-distribution-postgresql-with-postgis:15.17-2 (x86_64) | cfafc767f2b91e132588682a8693f6fcc0714c2dd70d98cc30814188e926e0a5 |
+| percona/percona-distribution-postgresql-with-postgis:15.17-2 (ARM64) | cd6fe1a91dac13c54653d8d97619aef5c3f4dac3bb30fce731715a4dcf2efd1d |
+| percona/percona-distribution-postgresql-with-postgis:14.22-2 (x86_64) | 3d9f1824f9d8790edbc32db22cc272f4ae543615fcdb36ceaac2685508b1149c |
+| percona/percona-distribution-postgresql-with-postgis:14.22-2 (ARM64) | 387f00c9094ff911eeb0b421924f03e89345f08ef49db7303f5ff8c9da1aad9c |
+| percona/percona-pgbackrest:2.58.0-1 (x86_64)                          | 56542b3615f742a1ff4dec4eff7f53e87228085e50ebb66e3468d943e5a0f02e |
+| percona/percona-pgbackrest:2.58.0-1 (ARM64)                          | d0b86dc1b725483999828cbf44b5dbad9616767da70cc1b33d2fef2841cd3f05 |
+| percona/percona-pgbouncer:1.25.1-1 (x86_64)                          | 183f1cad97f7064745aedba96c169287ce54f2945073c28797a65bb9dc64cf8d |
+| percona/percona-pgbouncer:1.25.1-1 (ARM64)                           | 6f4d7e68678a040516f729dc9a9fdf0a1e20ed3f5e5328a7b4fba23b4084c72a |
+| percona/pmm-client:3.7.1 (x86_64)                                    | 8b98629a469bf6360b14eb3ea121687737870261296f64e4587f6a6723a6845b |
+| percona/pmm-client:3.7.1 (ARM64)                                     | 9951a74522a6bd70531457628daca758ffa3363941938539d164e592188e23e3 |
+| percona/pmm-client:2.44.1-1 (x86_64)                                  | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
 | percona/pmm-client:2.44.1-1 (ARM64)                                  | 390bfd12f981e8b3890550c4927a3ece071377065e001894458047602c744e3b |
-| percona/pmm-client:3.6.0  (x86_64)                                  | 174fa4675d3ea4d95fd7b45d11f2bcc98b98b703662e6b2614dfe886a7187b23 |
-| percona/pmm-client:3.6.0 (ARM64)                                     | 435a9af2083adb68ddab6a97e6d02bd6d31c54562e919ebc09618e886d58d1ae |
 
 
 --8<-- [end:images]
