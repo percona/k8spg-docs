@@ -150,8 +150,16 @@ To meet these requirements, do the following:
         -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/data=postgres \
         -n "${CRUNCHY_NS}" \
         --for=condition=Ready \
-        --timeout=120s
+        --timeout=300s
     ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        pod/crunchy-source-instance1-n642-0 condition met
+        pod/crunchy-source-instance1-shr4-0 condition met
+        pod/crunchy-source-instance1-xczk-0 condition met
+        ```
 
 ## Make a full backup on the Crunchy PostgreSQL cluster before the migration
 
@@ -191,6 +199,23 @@ At this point, add a few test records to your database, then trigger a full back
       postgres-operator.crunchydata.com/pgbackrest-backup="$(date +%s)"
     ```
 
+5. Wait for the backup job to complete:
+
+    ```bash
+    kubectl wait job \
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source \
+     -l postgres-operator.crunchydata.com/pgbackrest-backup=manual \
+     -n postgres-operator \
+     --for=condition=complete \
+     --timeout=600s
+    ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        job.batch/crunchy-source-backup-ntns condition met
+        ```
+   
 ## Export data for the standby cluster
 
 If the Percona cluster runs in a **different** namespace than Crunchy, copy the Crunchy TLS secrets into the Percona namespace for mutual TLS on the replication connection:
@@ -219,24 +244,27 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 3. Export Secrets to a file:
     
     ```
-    kubectl get secret crunchy-source-cluster-cert -o json -n $CRUNCHY_NS \ | yq -o yaml '
-      {
-        "apiVersion": .apiVersion,
-        "kind": .kind,
-        "data": .data,
-        "metadata": {"name": .metadata.name},
-        "type": .type
-      }
-    ' > crunchy-source-cluster-cert.yaml
-    kubectl get secret crunchy-source-replication-cert -o json -n $CRUNCHY_NS \ | yq -o yaml '
-      {
-        "apiVersion": .apiVersion,
-        "kind": .kind,
-        "data": .data,
-        "metadata": {"name": .metadata.name},
-        "type": .type
-      }
-    ' > crunchy-source-replication-cert.yaml
+    kubectl get secret crunchy-source-cluster-cert -o json -n "$CRUNCHY_NS" \
+      | yq -o yaml '
+    {
+      "apiVersion": .apiVersion,
+      "kind": .kind,
+      "data": .data,
+      "metadata": {"name": .metadata.name},
+      "type": .type
+    }
+    ' > ~/crunchy-source-cluster-cert.yaml
+
+    kubectl get secret crunchy-source-replication-cert -o json -n "$CRUNCHY_NS" \
+      | yq -o yaml '
+    {
+      "apiVersion": .apiVersion,
+      "kind": .kind,
+      "data": .data,
+      "metadata": {"name": .metadata.name},
+      "type": .type
+    }
+    ' > ~/crunchy-source-replication-cert.yaml
     ```
 
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
@@ -280,10 +308,10 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
       
           ```yaml
           standby:
-           enabled: true
-           repoName: repo1                     
-           host: crunchy-source-ha.postgres-migration.svc.cluster.local
+           enabled: true                     
+           host: crunchy-source-ha.postgres-operator.svc.cluster.local
            port: 5432
+           repoName: repo1
           ```
 
     - For the mutual TLS communication, reference the TLS Secrets you created for the `secrets.customTLSSecret` and `secrets.customReplicationTLSSecret` options
@@ -334,8 +362,17 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 6. Wait for the cluster to report the `Ready` status:
 
     ```bash
-    kubectl get pg -n $NAMESPACE
+    kubectl wait perconapgcluster/cluster1 \
+      -n $NAMESPACE \
+      --for=jsonpath='{.status.state}'=ready \
+      --timeout=600s
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        perconapgcluster.pgv2.percona.com/cluster1 condition met
+        ```
 
 7. Verify the data is replicated on the standby. 
     
@@ -355,6 +392,12 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
        ```
        
        You should see `t` for `pg_is_in_recovery()` and a non-null LSN.
+
+    ??? example "Sample output"
+           
+        ```text
+        t                 | 0/14000000
+        ```
 
 ## Verify streaming replication lag before cutover
 
@@ -380,6 +423,17 @@ On the Crunchy **primary** Pod, confirm the Percona standby is connected and lag
         FROM pg_stat_replication;
       "
     ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        client_addr |   state   | byte_lag |    write_lag    |    flush_lag    |   replay_lag
+        -------------+-----------+----------+-----------------+-----------------+-----------------
+          10.76.0.6   | streaming |        0 | 00:00:00.004238 | 00:00:00.00733  | 00:00:00.009044
+          10.76.2.9   | streaming |        0 | 00:00:00.011289 | 00:00:00.013495 | 00:00:00.014209
+          10.76.2.11  | streaming |        0 | 00:00:00.001273 | 00:00:00.002045 | 00:00:00.002287
+        (3 rows)
+        ```
 
 Proceed only when `write_lag` and `replay_lag` are null or within your policy (for example a few seconds).
 
@@ -447,13 +501,14 @@ Once the LSN value stops changing and stays the same across two consecutive chec
       -p '{"spec": {"standby": {"enabled": false}}}'
     ```
 
-3. Verify the cluster status:
-   
-    ```bash
-    kubectl get pg cluster1 -n $NAMESPACE
-    ```
+3. Wait for the cluster to report the `Ready` status:
 
-    Wait until the cluster reports the `Ready` status.
+    ```bash
+    kubectl wait perconapgcluster/cluster1 \
+      -n $NAMESPACE \
+      --for=jsonpath='{.status.state}'=ready \
+      --timeout=600s
+    ```
 
 4. Confirm the cluster is not in a recovery mode and can accept writes:
 
@@ -472,7 +527,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
         psql -t -c "SELECT pg_is_in_recovery();"
        ```
 
-        You should see `f`. This means the instance is read-write.
+      You should see `f`. This means the instance is read-write.
     
 
 5. After promoting the Percona cluster, it is important to confirm that the `pgBackRest` stanza has been created. The stanza is required for managing backups and enabling restores; without it, regular backup operations and recovery from backup will not be possible. Waiting for `stanzaCreated` to become true ensures that backup tooling has been initialized properly before proceeding.
@@ -483,6 +538,12 @@ Once the LSN value stops changing and stays the same across two consecutive chec
       --for=jsonpath='{.status.pgbackrest.repos[0].stanzaCreated}'=true \
       --timeout=300s
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        perconapgcluster.pgv2.percona.com/cluster1 condition met
+        ```
 
 ## Take a post-migration backup 
 
