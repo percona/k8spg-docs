@@ -132,7 +132,7 @@ You can upgrade the Operator and CRD as follows, considering the Operator uses
         deployment "percona-postgresql-operator" successfully rolled out
         ```
 
-4. [Delete the previous version CRDs](#delete-the-legacy-crds-for-operator-3xx)
+4. [Delete the previous version CRDs (For Operator 3.x.x)](#delete-the-legacy-crds-for-operator-3xx)
 
 ## Upgrade via Helm
 
@@ -188,6 +188,8 @@ Operator deployment with the `helm upgrade` command.
             ```
 
     During the upgrade, you may see a warning to manually apply the CRD if it has the outdated version. In this case, refer to step 2 to upgrade the CRD and then step 3 to upgrade the deployment.
+
+4. [Delete the previous version CRDs (For Operator 3.x.x)](#delete-the-legacy-crds-for-operator-3xx)
 
 ## Delete the legacy CRDs (for Operator 3.x.x)
 
