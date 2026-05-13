@@ -193,7 +193,7 @@ Operator deployment with the `helm upgrade` command.
 
 After the upgrade is complete, you can delete the legacy CRDs with the API group `postgres-operator.crunchydata.com`. Make sure to do this only if you have confirmed that no objects (such as clusters or related resources) are still referencing these CRDs as their parent. Deleting the CRDs while objects still depend on them can cause orphaned resources or disruptions.
 
-1. Check if there are clusters that haven't been migrated to use the new API group CRDs. The following command finds all `PostgresCluster` objects whose `APIGroupMigration` condition is missing or `False`, and prints their namespace, name, and condition status:
+1. Check if there are clusters that haven't been migrated to use the new API group CRDs. The following command finds all `PerconaPGCluster` objects whose `APIGroupMigration` condition is missing or `False`, and prints their namespace, name, and condition status:
     
     ```bash
     kubectl get pg -A -o json | jq -r '
