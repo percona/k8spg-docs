@@ -163,35 +163,10 @@ To meet these requirements, do the following:
 
 ## Make a full backup on the Crunchy PostgreSQL cluster before the migration
 
-At this point, add a few test records to your database, then trigger a full backup. This ensures the standby cluster has a recent restore point and needs to replay a small amount of WAL files to synchronize.
+Make a full backup. This ensures the standby cluster has a recent restore point and needs to replay a small amount of WAL files to synchronize.
 
-1. Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:
-    
-    ```bash
-    primary=$(kubectl get pod \
-        -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=master \
-        -n "${CRUNCHY_NS}" \
-        -o jsonpath='{.items[0].metadata.name}')
-    ```
 
-2. Connect to the Crunchy PostgreSQL cluster and insert some sample data. Use the following command to exec to the primary Pod, create a database and a table and insert some data to it:
-
-    ```bash
-    kubectl exec -n "${CRUNCHY_NS}" "${primary}" -c database -- bash -c "
-        psql -c 'CREATE DATABASE migrationtest;'
-        psql -d migrationtest -c 'CREATE TABLE migration_data (id int PRIMARY KEY, value text);'
-        psql -d migrationtest -c \"INSERT INTO migration_data VALUES (1, 'initial-data-before-standby');\"
-      "
-    ```
-
-3. Verify the data insertion:
-    
-    ```bash
-    kubectl exec -n "${CRUNCHY_NS}" "${primary}" -c database -- bash -c \
-        "psql -q -t -d migrationtest -c 'SELECT id, value FROM migration_data ORDER BY id;'"
-    ```
-
-4. Make a full backup of your Crunchy PostgreSQL cluster:
+2. Make a full backup of your Crunchy PostgreSQL cluster:
 
     ```bash
     kubectl annotate postgrescluster crunchy-source \
@@ -199,7 +174,7 @@ At this point, add a few test records to your database, then trigger a full back
       postgres-operator.crunchydata.com/pgbackrest-backup="$(date +%s)"
     ```
 
-5. Wait for the backup job to complete:
+3. Wait for the backup job to complete:
 
     ```bash
     kubectl wait job \

@@ -85,9 +85,9 @@ spec:
       repos:
         - name: repo1
           s3:
-            bucket: pg-migration
-            endpoint: seaweedfs-all-in-one.postgres-migration.svc.cluster.local:8443
-            region: us-east-1
+            bucket: <YOUR-BUCKET-HERE>
+            endpoint: s3.amazonaws.com
+            region: <YOUR-ENDPOINT-HERE>
   proxy:
     pgBouncer:
       replicas: 1
@@ -109,6 +109,14 @@ kubectl wait pod \
   --timeout=300s
 ```
 
+??? example "Expected output"
+
+    ```{.text .no-copy}
+    pod/crunchy-source-instance1-9rgg-0 condition met
+    pod/crunchy-source-instance1-dz45-0 condition met
+    pod/crunchy-source-instance1-p6pl-0 condition met
+    ```
+
 Wait for the `pgBackRest` stanza to be created. The stanza initializes the backup and restore infrastructure for further backups or restore operations. 
 
 ```bash
@@ -118,13 +126,40 @@ kubectl wait postgrescluster/crunchy-source \
   --timeout=300s
 ```
 
+??? example "Expected output"
+
+    ```text
+    postgrescluster.postgres-operator.crunchydata.com/crunchy-source condition met
+    ```
+
 The `stanzaCreated` status confirms that `pgBackRest` has scanned the configuration and the data directory and is ready to manage backups for your cluster.
 
 ## Create the migration backup
 
+Add a few test records to your database, then trigger a full backup.
+
 This backup is the restore point for `cluster1` on Percona. **Stop application writes** before you trigger it if you need a consistent cutover; otherwise treat everything after this backup as disposable until cutover.
 
-1. Trigger a full backup:
+1. 1. Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:
+
+    ```bash
+    CRUNCHY_PRIMARY=$(kubectl get pod \
+        -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=master \
+        -n "${CRUNCHY_NS}" \
+        -o jsonpath='{.items[0].metadata.name}')
+    ```
+
+2. Connect to the Crunchy PostgreSQL cluster and insert some sample data. Use the following command to exec to the primary Pod, create a database and a table and insert some data to it:
+
+    ```bash
+    kubectl exec -n "${CRUNCHY_NS}" "${CRUNCHY_PRIMARY}" -c database -- bash -c "
+        psql -c 'CREATE DATABASE migrationtest;'
+        psql -d migrationtest -c 'CREATE TABLE migration_data (id int PRIMARY KEY, value text);'
+        psql -d migrationtest -c \"INSERT INTO migration_data VALUES (1, 'initial-data-before-migration');\"
+      "
+    ```
+
+2. Trigger a full backup:
 
     ```bash
     kubectl annotate postgrescluster crunchy-source \
@@ -132,7 +167,7 @@ This backup is the restore point for `cluster1` on Percona. **Stop application w
       postgres-operator.crunchydata.com/pgbackrest-backup="$(date +%s)"
     ```
 
-2. Wait for the backup Job to complete:
+3. Wait for the backup Job to complete:
 
     ```bash
     kubectl wait job \
@@ -141,6 +176,12 @@ This backup is the restore point for `cluster1` on Percona. **Stop application w
       --for=condition=Complete \
       --timeout=600s
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        job.batch/crunchy-source-backup-6pvj condition met
+        ```
 
 ## Prepare pgBackRest credentials in the Percona namespace
 
@@ -181,6 +222,12 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
       --timeout=120s
     ```
 
+    ??? example "Expected output"
+        
+        ```text
+        deployment.apps/percona-postgresql-operator condition met
+        ```
+
 ## Create the Percona PostgreSQL cluster from the Crunchy backup
 
 1. Edit the `deploy/cr.yaml` manifest and specify the following:
@@ -203,7 +250,7 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
             - secret:
                 name: percona-pgbackrest-secret
           global:
-            # Must match Crunchy spec.backups.pgbackrest.global.repo1-path exactly
+            # Must exactly match the pgBackrest settings defined in Crunchy `spec.backups.pgbackrest.global.repo1-path` 
             repo1-path: /crunchy-to-percona/repo1
             repo1-s3-uri-style: path
             repo1-s3-verify-tls: "n" # Omit or set to "y" for AWS S3 with valid TLS
@@ -225,6 +272,7 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
             repo1-s3-verify-tls: "n"
           repos:
             - name: repo1
+            # The storage is shared, use the same settings here 
               s3:
                 bucket: <YOUR_BUCKET_HERE>
                 endpoint: s3.amazonaws.com
@@ -255,9 +303,22 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
 
         ```bash
         PERCONA_PRIMARY=$(kubectl get pod -n "${NAMESPACE}" \
-        --selector postgres-operator.crunchydata.com/cluster=cluster1,    postgres-operator.crunchydata.com/role=primary \
+        --selector postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
         -o jsonpath='{.items[0].metadata.name}')
         ```
+    
+    - Verify the data insertion:
+
+       ```bash
+       kubectl exec -n "${NAMESPACE}" "${PERCONA_PRIMARY}" -c database -- bash -c \
+        "psql -q -t -d migrationtest -c 'SELECT id, value FROM migration_data ORDER BY id;'"
+       ```
+
+       ??? example "Expected output"
+
+           ```{.sql .no-copy}
+           1 | initial-data-before-migration
+           ```
     
     - Exec into the Pod and check that it is not in recovery state:
 
@@ -276,6 +337,12 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
       --for=jsonpath='{.status.pgbackrest.repos[0].stanzaCreated}'=true \
       --timeout=300s
     ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        perconapgcluster.pgv2.percona.com/cluster1 condition met
+        ```
 
 ## Take a post-migration backup
 
