@@ -57,6 +57,12 @@ The PostgreSQL **major version** on the Percona cluster must match the Crunchy s
       --timeout=120s
     ```
 
+    ??? example "Expected output"
+        
+        ```text
+        deployment.apps/percona-postgresql-operator condition met
+        ```
+
 ## Deploy the Crunchy source cluster 
 
 If you already have a PostgreSQL cluster running in the Crunchy namespace, make sure it is set up so that only one database server (replica) is running. This means changing the configuration so `instances.replicas` is set to `1`.
@@ -103,11 +109,17 @@ spec:
 
     ```bash
     kubectl wait pod \
-      -l postgres-operator.crunchydata.com/cluster=crunchy-source,    postgres-operator.crunchydata.com/role=master \
-      -n "${CRUNCHY_NS}" \
-      --for=condition=Ready \
-      --timeout=300s
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/data=postgres \
+     -n "${CRUNCHY_NS}" \
+     --for=condition=Ready \
+     --timeout=300s
     ```
+
+    ??? example "Expected output"
+
+        ```text
+        pod/crunchy-source-instance1-gpx4-0 condition met
+        ```
 
 ## Stop writes and identify the primary's Persistent Volume
 
@@ -118,7 +130,7 @@ Next, identify the primary Pod, its data PVC, and backing PV
 1. Identify the primary Pod:
 
     ```bash
-    PRIMARY=$(kubectl get pod -n "${CRUNCHY_NS}" \
+    CRUNCHY_PRIMARY=$(kubectl get pod -n "${CRUNCHY_NS}" \
       --selector postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=master \
       -o jsonpath='{.items[0].metadata.name}')
     ```
@@ -126,7 +138,7 @@ Next, identify the primary Pod, its data PVC, and backing PV
 2. Retrieve the PVC:
 
     ```bash
-    PVC_NAME=$(kubectl get pod -n "${CRUNCHY_NS}" "${PRIMARY}" \
+    PVC_NAME=$(kubectl get pod -n "${CRUNCHY_NS}" "${CRUNCHY_PRIMARY}" \
       -o jsonpath='{.spec.volumes[?(@.name=="postgres-data")].persistentVolumeClaim.claimName}')
     ```
 
@@ -140,10 +152,18 @@ Next, identify the primary Pod, its data PVC, and backing PV
 4. Verify the retrieved data:
     
     ```bash
-    echo "Primary pod: ${PRIMARY}"
+    echo "Primary pod: ${CRUNCHY_PRIMARY}"
     echo "PVC:         ${PVC_NAME}"
     echo "PV:          ${PV_NAME}"
     ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        Primary pod: crunchy-source-instance1-gpx4-0
+        PVC:         crunchy-source-instance1-gpx4-pgdata
+        PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
+        ```
 
     If your Crunchy Pod uses a volume name other than `postgres-data`, adjust the JSONPath filter.
 
@@ -189,6 +209,12 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
       --for=jsonpath='{.status.phase}'=Available \
       --timeout=60s
     ```
+
+    ??? example "Expected output"
+        
+        ```text
+        persistentvolume/pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd condition met
+        ```
 
 7. Label the PV so the Percona PVC selector binds to it exclusively, avoiding accidental binding to another released volume:
 
@@ -261,6 +287,12 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
       --timeout=600s
     ```
 
+    ??? example "Expected output"
+
+        ```text
+        perconapgcluster.pgv2.percona.com/cluster1 condition met
+        ```
+
 4. Verify that the data is intact by checking the primary pod state:
 
     * Identify the primary pod:
@@ -306,6 +338,12 @@ While the selector is present in the cluster configuration, it blocks the Operat
       --for=jsonpath='{.status.state}'=ready \
       --timeout=300s
     ```
+    
+    ??? example "Expected output"
+
+        ```text
+        perconapgcluster.pgv2.percona.com/cluster1 condition met
+        ```
 
 ## Take a post-migration backup
 
