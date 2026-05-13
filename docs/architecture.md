@@ -6,41 +6,17 @@ This document provides a high-level overview of Percona Operator for PostgreSQL 
 
 The StatefulSet, deployed with the Operator includes the following components:
 
-* The [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/) database management system, including:
+* [**Percona Distribution for PostgreSQL** :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/index.html) - a suite of open source software, tools and services required to deploy and maintain a reliable production cluster for PostgreSQL. It includes the set of extensions such as  [pgAudit :octicons-link-external-16:](https://www.pgaudit.org/) for audit logging, [`pg_stat_monitor` :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) for query performance statistics and [additional supplied modules and extensions :octicons-link-external-16:](https://www.postgresql.org/docs/current/contrib.html).
+  
+* [**Patroni** :octicons-link-external-16:](https://patroni.readthedocs.io/) - a high-availability solution for PostgreSQL that automates replication and **failover**. It maintains the cluster state and coordinates leader election to ensure that a healthy primary node is always available. Patroni simplifies building and operating resilient PostgreSQL clusters by handling node monitoring, failover, and recovery automatically. 
 
-    * [PostgreSQL Additional Supplied Modules :octicons-link-external-16:](https://www.postgresql.org/docs/current/contrib.html),
+* [**pgBouncer** :octicons-link-external-16:](http://pgbouncer.github.io/) is a **lightweight connection pooler** in front of PostgreSQL. It sits between client applications and the database server to manage and reuse connections efficiently. Instead of each client opening its own database connection, pgBouncer maintains a pool of connections and serves them to clients on demand, significantly reducing connection overhead and improving performance, especially for applications with many short-lived or concurrent connections.
 
-    * [pgAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL auditing extension,
-
-    * [PostgreSQL set_user Extension Module :octicons-link-external-16:](https://github.com/pgaudit/set_user),
-
-    * [wal2json output plugin :octicons-link-external-16:](https://github.com/eulerto/wal2json),
-
-* The [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) Backup & Restore utility,
-
-* The [pgBouncer :octicons-link-external-16:](http://pgbouncer.github.io/) connection pooler for PostgreSQL,
-
-* The PostgreSQL high-availability implementation based on the [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/) template,
-
-* The [pg_stat_monitor :octicons-link-external-16:](https://github.com/percona/pg_stat_monitor/) PostgreSQL query performance monitoring utility,
-
+* [**pgBackRest** :octicons-link-external-16:](https://pgbackrest.org/) is a backup and restore tool. It handles **full, incremental, and differential** backups, compression and encryption, parallel processing, and point-in-time recovery using WAL archives. 
+  
 * LLVM (for JIT compilation).
-* PMM Client for observability
 
 ![Operator overview](assets/images/pgo.svg)
-
-### Role of each component
-
-* **Percona Distribution for PostgreSQL** is a suite of open source software, tools and services required to deploy and maintain a reliable production cluster for PostgreSQL.
-  
-* **Patroni** — a high-availability solution for PostgreSQL that automates replication and **failover**. It maintains the cluster state and coordinates leader election to ensure that a healthy primary node is always available. Patroni simplifies building and operating resilient PostgreSQL clusters by handling node monitoring, failover, and recovery automatically. See the [Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/) for how it integrates with your environment.
-
-* **pgBouncer** — A **lightweight connection pooler** in front of PostgreSQL. It sits between client applications and the database server to manage and reuse connections efficiently. Instead of each client opening its own database connection, pgBouncer maintains a pool of connections and serves them to clients on demand, significantly reducing connection overhead and improving performance, especially for applications with many short-lived or concurrent connections.
-
-* **pgBackRest** — Handles **full, incremental, and differential** backups, compression and encryption, parallel processing, and point-in-time recovery using WAL archives. pgBackRest helps ensure data safety by providing efficient, consistent backups and fast restores for both small and large PostgreSQL environments. Backup and restore are integrated with Custom Resources (`PerconaPGBackup`, `PerconaPGRestore`). See [About backups](backups.md) to learn more.
-
-* **pg_stat_monitor** — Collects **query performance** statistics.
-* **PMM Client** - a lightweight agent installed on database hosts to collect metrics, logs, and performance data and send them to Percona Monitoring and Management (PMM) Server. It gathers detailed insights from databases and the operating system such as query performance, resource usage, and health metrics. It enables centralized monitoring, troubleshooting, and performance optimization for PostgreSQL clusters.
 
 ### How components work together
 
