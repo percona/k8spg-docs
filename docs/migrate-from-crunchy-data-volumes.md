@@ -38,7 +38,7 @@ The PostgreSQL **major version** on the Percona cluster must match the Crunchy s
 
 ## Deploy Operators
 
-1. Install Crunchy Operator for PostgreSQL into `$CRUNCHY_NS` if it is not already installed. Ssee the [Crunchy quickstart :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart))for the steps.
+1. Install Crunchy Operator for PostgreSQL into `$CRUNCHY_NS` if it is not already installed. See the [Crunchy quickstart :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart) for the steps.
 
 2. Install Percona Operator for PostgreSQL into `$NAMESPACE`:
 
