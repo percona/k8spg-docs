@@ -1,6 +1,6 @@
 # Deploy a standby cluster for Disaster Recovery
 
-A standby cluster is a special type of PostgreSQL cluster designed to maintain a continually updated, read-only copy of your primary PostgreSQL cluster. A standby cluster applies made on the primary cluster either through backups or streaming replication. This ensures you always have an up-to-date replica ready to take over if the primary becomes unavailable.
+A standby cluster is a special type of PostgreSQL cluster designed to maintain a continually updated, read-only copy of your primary PostgreSQL cluster. A standby cluster applies changes made on the primary cluster either through backups or streaming replication. This ensures you always have an up-to-date replica ready to take over if the primary becomes unavailable.
 
 In disaster recovery scenarios, standby clusters are invaluable. They let you minimize downtime and data loss by quickly promoting the standby to a writable primary when needed. This is especially important in multi-cloud or multi-regional environments, where your PostgreSQL workloads may span across various platforms and geographies.
 
