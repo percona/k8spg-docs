@@ -38,7 +38,7 @@ The PostgreSQL **major version** on the Percona cluster must match the Crunchy s
     - For Crunchy PostgreSQL Operator:
   
        ```bash
-       git clone git@github.com:CrunchyData/postgres-operator.git
+       git clone https://github.com/CrunchyData/postgres-operator.git
        ```
     
     - For Percona Operator for PostgreSQL:
