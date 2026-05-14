@@ -274,7 +274,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 
 4. Edit the `deploy/cr.yaml` and specify the following configuration:
    
-    * For the standup cluster:
+    * For the standby cluster:
   
         * Set `standby.enabled` to `true`
         * Specify the repository name to restore from in the `standby.repoName` option
