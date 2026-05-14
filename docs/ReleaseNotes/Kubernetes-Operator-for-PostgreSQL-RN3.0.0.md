@@ -24,7 +24,7 @@ This change delivers these benefits:
 * Cleaner API boundaries and predictable Operator behavior
 * Smooth migration from Crunchy Operator to Percona Operator using native PostgreSQL techniques and without re-architecting your deployments
 
-For how to migrate to Percona Operator from Crunchy PGO, see the blog post series by Slava Sarzhan: <https://www.percona.com/blog/migrate-to-freedom-choosing-a-truly-open-source-postgresql-operator/>
+For how to migrate to Percona Operator from Crunchy PGO, see our [documentaton](../migration-from-crunchy.md).
 
 ### Improved namespace scoping for Operator OLM installations from Community catalogues
 
@@ -69,7 +69,8 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 
 ### Documentation updates
 
-Improved the [major upgrade description](../update-db-major.md#post-upgrade-steps) for users of `pgAudit` extension.
+* Created [Migration from Crunchy Postgres Operator to Percona Operator for PostgreSQL tutorials](../migration-from-crunchy.md)
+* Improved the [major upgrade description](../update-db-major.md#post-upgrade-steps) for users of `pgAudit` extension.
 
 ## Changelog
 
