@@ -51,7 +51,7 @@ The PostgreSQL **major version** on the Percona cluster must match the Crunchy s
 
 Skip this step if you already run Crunchy Operator for PostgreSQL.
 
-If you don't, install the Operator Deployment following the [official Crunchy documentation :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart)
+If you don't, install the Operator Deployment following the [official Crunchy documentation :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart).
 
 ## Adapt the configuration for Crunchy PostgreSQL cluster
 
