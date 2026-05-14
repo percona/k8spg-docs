@@ -55,6 +55,7 @@ See the [standby migration guide](migrate-from-crunchy-standby.md#adapt-the-conf
 Here's the example configuration of the Crunchy `PostgresCluster` object:
 
 ```yaml title="postgres.yaml"
+apiVersion: postgres-operator.crunchydata.com/v1beta1
 kind: PostgresCluster
 metadata:
   name: crunchy-source
