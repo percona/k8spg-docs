@@ -193,3 +193,7 @@ kubectl get certificate <cluster-name>-cluster-ca-cert -n <namespace> -o yaml
 
 The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. `<cluster-name>-cluster-ca-cert`, `<cluster-name>-cluster-cert`, `<cluster-name>-replication-cert`).
 
+## Related
+
+If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md).
+

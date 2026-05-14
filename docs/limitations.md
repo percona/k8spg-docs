@@ -32,6 +32,15 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 
 To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like `shared_buffers`, `work_mem`, `max_connections`, and so on accordingly.
 
+## TLS and cert-manager
+
+**For the Operator upgraded to version 2.9.0**: If you had cert-manager installed and used the Operator-generated TLS certificates, the Operator switches TLS management to cert-manager. The Operator creates cert-manager `Issuer` and `Certificate` resources and the cert-manager handles TLS certificate issuance and renewal for your cluster from that point.
+  
+If you are in that situation and prefer **not** to use cert-manager, you can switch to **custom** TLS Secrets; see [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md).
+
+This limitation is lifted in version 3.0.0.
+
+
 ## Upgrades
 
 * A major database upgrade introduces a downtime because the whole cluster is shut down.
