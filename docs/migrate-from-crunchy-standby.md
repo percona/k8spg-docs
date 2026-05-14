@@ -216,7 +216,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 
     The Secrets we are interested in are `crunchy-source-cluster-cert` and `crunchy-source-replication-cert`
 
-3. Export Secrets to a file:
+2. Export Secrets to a file:
     
     ```
     kubectl get secret crunchy-source-cluster-cert -o json -n "$CRUNCHY_NS" \
