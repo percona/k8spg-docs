@@ -35,7 +35,7 @@ The PostgreSQL **major version** on the Percona cluster must match the Crunchy s
 
 2. Clone the repositories to edit the manifests during the migration setup:   
     
-    - For for Crunchy PostgreSQL Operator:
+    - For Crunchy PostgreSQL Operator:
   
        ```bash
        git clone git@github.com:CrunchyData/postgres-operator.git
