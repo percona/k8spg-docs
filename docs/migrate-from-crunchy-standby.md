@@ -528,14 +528,14 @@ This creates a clean recovery point on the new timeline. Note that after you mak
 
 After you migrated to Percona Operator for PostgreSQL, update your application connection string to use the new Percona cluster:
 
-1. Get the name of the `pgBouncer` service exposed by the Percona Operator:
+1. Get the `pgBouncer` service exposed by the Percona Operator:
 
     ```bash
-    kubectl get service -n $NAMESPACE \
-      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
+    kubectl get service -n $NAMESPACE cluster1-pgbouncer
     ```
 
-   The output will show the service name (for example, `cluster1-pgbouncer`), along with its ClusterIP and port.
+   The output will show the `cluster1-pgbouncer` service, along with its
+   ClusterIP and port.
 
 2. Update your application's connection string to use the `pgBouncer` service name (from the previous step) as the PostgreSQL host. For example:
 
