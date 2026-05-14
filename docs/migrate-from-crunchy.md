@@ -24,8 +24,8 @@ This guide provides three migration methods. Pick the one that best matches your
 
 Review the method comparison first, then follow the detailed steps for your selected path.
 
-| Migration Method                                                                                                                              | Pros                                                                                  | Cons                                                                |
-| -------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [Migrate using a standby cluster](migrate-from-crunchy-standby.md) – set up a new standby cluster in Percona Operator and replicate from Crunchy      | - Near-zero downtime <br> - Validate new cluster while old remains online                | - Requires both clusters running in parallel <br> - Higher resource usage   |
+| Migration Method | Pros                   | Cons                     |
+| ---------------- | ---------------------- | ------------------------ |
+| [Migrate using a standby cluster](migrate-from-crunchy-standby.md) – set up a new standby cluster in Percona Operator and replicate from Crunchy      | - Near-zero downtime <br> - Validate new cluster while old remains online  | - Requires both clusters running in parallel <br> - Higher resource usage   |
 | [Migrate with backup and restore](migrate-from-crunchy-backup-restore.md) – back up data in Crunchy and restore it in Percona Operator        | - Safer migration path <br> - Allows test runs of migration <br> - Can be rolled back | - Introduces downtime, which depends on data size         |
 | [Migrate reusing data volumes](migrate-from-crunchy-data-volumes.md) – reuse the Persistent Volume Claims (PVCs) from a Crunchy cluster           | - Simple and straightforward <br> - No need to move large data over the network        | - Requires downtime <br> - Irreversible and requires thorough testing |

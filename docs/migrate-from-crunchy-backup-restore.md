@@ -88,7 +88,7 @@ spec:
           s3:
             bucket: <YOUR-BUCKET-HERE>
             endpoint: s3.amazonaws.com
-            region: <YOUR-ENDPOINT-HERE>
+            region: <YOUR-REGION-HERE>
   proxy:
     pgBouncer:
       replicas: 1
@@ -141,7 +141,7 @@ Add a few test records to your database, then trigger a full backup.
 
 This backup is the restore point for `cluster1` on Percona. **Stop application writes** before you trigger it if you need a consistent cutover; otherwise treat everything after this backup as disposable until cutover.
 
-1. 1. Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:
+1. Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:
 
     ```bash
     CRUNCHY_PRIMARY=$(kubectl get pod \
@@ -284,7 +284,7 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
 2. Apply the manifest:
 
     ```bash
-    kubectl apply -f deploy/cr-cluster1-restore.yaml -n "${NAMESPACE}"
+    kubectl apply -f deploy/cr.yaml -n "${NAMESPACE}"
     ```
 
 3. Wait until the cluster reports the `Ready` state:
@@ -364,7 +364,7 @@ Create a baseline backup on Percona's own repository path so future restores do 
 2. Apply the configuration to start the backup:
    
     ```bash
-    kubectl apply -f deploy/post-migration-backup.yaml -n "${NAMESPACE}"
+    kubectl apply -f deploy/backup.yaml -n "${NAMESPACE}"
     ```
 
 3. Wait for the backup job to complete:

@@ -180,7 +180,7 @@ Make a full backup. This ensures the standby cluster has a recent restore point 
     kubectl wait job \
      -l postgres-operator.crunchydata.com/cluster=crunchy-source \
      -l postgres-operator.crunchydata.com/pgbackrest-backup=manual \
-     -n postgres-operator \
+     -n "${CRUNCHY_NS}" \
      --for=condition=complete \
      --timeout=600s
     ```
@@ -276,10 +276,16 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
    
     * For the standby cluster:
   
-        * Set `standby.enabled` to `true`
-        * Specify the repository name to restore from in the `standby.repoName` option
-        * Specify the name of the service of the Crunchy PostgreSQL to stream data from
-        * Specify the port of this service
+        * Set `standby.enabled` to `true`.
+        * Specify the repository name to restore from in the `standby.repoName` option.
+        - Specify the name of the service of the Crunchy PostgreSQL to stream data from. The Service name follows the pattern `<service-name>.<namespace>.svc.cluster.local`. 
+        * Specify the port of this service.
+        
+        Replace example names such as `crunchy-source-ha`,
+           `crunchy-source-pgbackrest`, and `cluster1-pgbouncer` if you use
+           different cluster names. The service name `crunchy-source-ha` in
+           the following example is derived from the source `PostgresCluster`
+           name `crunchy-source`.
       
           ```yaml
           standby:
@@ -414,7 +420,7 @@ Proceed only when `write_lag` and `replay_lag` are null or within your policy (f
 
 ## Cut over the Crunchy PostgreSQL cluster
 
-Now you are ready for the cutover. Note that this step causes downtime as both cluster will be in standby mode and will not accept writes.
+Now you are ready for the cutover. Note that this step causes downtime as both clusters will be in standby mode and will not accept writes.
 
 1. Patch the Crunchy PostgreSQL cluster to the standby mode. Specify `repo1` so that Patroni archives the final WAL:
 
@@ -523,6 +529,33 @@ Once the LSN value stops changing and stays the same across two consecutive chec
 ## Take a post-migration backup 
 
 This creates a clean recovery point on the new timeline. Note that after you make the backup, you can no longer roll back to the Crunchy PostgreSQL.
+
+1. Edit the `deploy/backup.yaml` configuration file:
+
+    ```yaml
+    apiVersion: pgv2.percona.com/v2
+    kind: PerconaPGBackup
+    metadata:
+      name: post-migration-backup
+    spec:
+      pgCluster: cluster1
+      repoName: repo1
+    ```
+
+2. Apply the configuration to start the backup:
+
+    ```bash
+    kubectl apply -f deploy/post-migration-backup.yaml -n "${NAMESPACE}"
+    ```
+
+3. Wait for the backup job to complete:
+
+    ```bash
+    kubectl wait perconapgbackup/post-migration-backup \
+      -n "${NAMESPACE}" \
+      --for=jsonpath='{.status.state}'=Succeeded \
+      --timeout=600s
+    ```
 
 ## Update the application connection string 
 

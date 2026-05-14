@@ -123,7 +123,7 @@ spec:
 
 ## Stop writes and identify the primary's Persistent Volume
 
-Stopping application from writing to the database. This marks the **start of downtime**. 
+Stop application from writing to the database. This marks the **start of downtime**. 
 
 Next, identify the primary Pod, its data PVC, and backing PV
 
@@ -271,7 +271,7 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
 2. Apply the manifest:
 
     ```bash
-    kubectl apply -f deploy/cr-cluster1-pv.yaml -n "${NAMESPACE}"
+    kubectl apply -f deploy/cr.yaml -n "${NAMESPACE}"
     ```
 
     The Percona Operator creates a PersistentVolumeClaim (PVC) using the selector you specified in the manifest. This PVC binds to the labelled PersistentVolume (PV) that contains the migrated PostgreSQL data. PostgreSQL then starts directly on the existing `PGDATA` directory, so no backup restore, WAL download, or object storage is needed. 
@@ -347,7 +347,7 @@ While the selector is present in the cluster configuration, it blocks the Operat
 
 ## Take a post-migration backup
 
-Create a new baseline for further point-in-time restores by making a full backup. You can reuse the volume-based backup repository (like the `repo1` shown earlier) to keep local backups on persistent storage within your cluster.Or [Configure backup storage](backups-storage.md) to stream backups there.
+Create a new baseline for further point-in-time restores by making a full backup. You can reuse the volume-based backup repository, such as `repo1`, that this guide uses to keep local backups on persistent storage within your cluster. Or see [Configure backup storage](backups-storage.md) to stream backups there.
 
 1. Edit the `deploy/backup.yaml`. This example configures backups to a volume-based backup repository following the cluster configuration in this guide:
 
@@ -364,7 +364,7 @@ Create a new baseline for further point-in-time restores by making a full backup
 2. Apply the configuration to start a backup:
 
     ```bash
-    kubectl apply -f deploy/post-migration-backup.yaml -n "${NAMESPACE}"
+    kubectl apply -f deploy/backup.yaml -n "${NAMESPACE}"
     ```
 
 3. Wait for the backup Job to complete:
