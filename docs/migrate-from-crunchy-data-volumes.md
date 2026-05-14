@@ -1,7 +1,7 @@
 # Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes
 
-This guide shows how to migrate to Percona Operator for PostgreSQL using the **primary** PostgreSQL data volume from your Crunchy `PostgresCluster` .
-In this approach,  Percona `PerconaPGCluster` (`cluster1`) starts on the existing `PGDATA` data directory without running a backup-restore cycle over the network.
+This guide shows how to migrate to Percona Operator for PostgreSQL using the **primary** PostgreSQL data volume from your Crunchy `PostgresCluster`.
+In this approach, Percona `PerconaPGCluster` (`cluster1`) starts on the existing `PGDATA` data directory without running a backup-restore cycle over the network.
 
 | Benefits | Trade-offs |
 |----------|------------|
