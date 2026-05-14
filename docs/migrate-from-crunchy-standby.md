@@ -268,7 +268,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
       s3.conf: |
         [global]
         repo1-s3-key="<your-access-key>"
-        repo1-s3-key-secret="<your-access-secret>""
+        repo1-s3-key-secret="<your-access-secret>"
     " | kubectl apply -n $NAMESPACE -f -
     ```
 
