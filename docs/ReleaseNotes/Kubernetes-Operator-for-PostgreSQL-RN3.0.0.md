@@ -6,13 +6,7 @@ We are excited to announce the release of Percona Operator for PostgreSQL 3.0.0 
 
 Version 3.0.0 establishes Percona Operator for PostgreSQL as a **hard fork of the [Crunchy PGO project :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator)**. This is not just a version bump — it represents a fundamental shift in how the Operator is developed and maintained.
 
-With 3.0.0, you benefit from Percona Operator for PostgreSQL being fully independent from the upstream Crunchy PGO project. Now, you can:
-
-* Get new features, enhancements, and bug fixes as soon as they’re ready, without having to wait for upstream releases.
-* See your needs and feedback prioritized directly, as the Operator evolves based on what matters to you and your workloads.
-* Benefit from using a truly open source, transparent, and community-driven solution.
-
-With this shift you get faster innovation, quicker responses, and an Operator that grows with your requirements.
+As a hard fork, Percona Operator for PostgreSQL is now fully independent, empowering the Percona team and community to drive and rapidly deliver features and improvements tailored to user needs. This shift brings long-term sustainability, greater flexibility, and a product that evolves in direct response to community feedback and real-world requirements.
 
 ## Release highlights
 
