@@ -2,11 +2,11 @@
 
 A standby cluster is a PostgreSQL cluster that doesn't have a writable primary. Instead, it applies changes from backups or from streaming replication from another database that acts as the source.
 
-Using a standby cluster when migrating your PostgreSQL workloads, you maintain a live, synchronized copy of your original Crunchy cluster in Percona Operator for PostgreSQL. This approach minimizes downtime and gives you a way to validate the new cluster before switching over. 
+Using a standby cluster when migrating your PostgreSQL workloads, you maintain a live, synchronized copy of your original Crunchy cluster in Percona Operator for PostgreSQL. This approach minimizes downtime and gives you a way to validate the new cluster before switching over.
 
-In this migration guide, we deploy Percona Operator PostgreSQL as a standby cluster to Crunchy PostgreSQL cluster.  using a combination of backup and streaming replication. This ensures a fast initial data sync and keeps your data up-to-date with minimal downtime during cutover. Read more about [standby cluster types](standby.md#types-of-standby-clusters)
+In this migration guide, we deploy Percona Operator for PostgreSQL as a standby cluster for a Crunchy PostgreSQL cluster by using a combination of backup and streaming replication. This approach ensures a fast initial data sync and keeps your data up to date with minimal downtime during cutover. For more information about standby cluster types, see [standby cluster types](standby.md#types-of-standby-clusters).
 
-Then we cut over Crunchy PostgreSQL cluster and promote Percona Operator PostgreSQL.
+Then we cut over the Crunchy PostgreSQL cluster and promote Percona Operator for PostgreSQL.
 
 This migration provides minimal downtime that happens only during the cutover.
 
