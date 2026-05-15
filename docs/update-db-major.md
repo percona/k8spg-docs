@@ -24,7 +24,7 @@ spec:
   image: docker.io/percona/percona-postgresql-operator:{{ upgraderelease }}
   fromPostgresVersion: 17
   toPostgresVersion: 18
-  toPostgresImage: docker.io/percona/percona-distribution-postgresql:{{ postgres18recommended }}
+  toPostgresImage: docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}
   toPgBouncerImage: docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}
   toPgBackRestImage: docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}
 ```

@@ -71,6 +71,7 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 
 * Created [Migration from Crunchy Postgres Operator to Percona Operator for PostgreSQL tutorials](../migration-from-crunchy.md)
 * Improved the [major upgrade description](../update-db-major.md#post-upgrade-steps) for users of `pgAudit` extension.
+* Database cluster upgrade documentation now uses PostgreSQL 18 as the default example in upgrade commands. If you are upgrading a cluster running PostgreSQL 17 or below, refer to the [certified images list](../images.md) to determine the correct version and image tags.
 
 ## Changelog
 
