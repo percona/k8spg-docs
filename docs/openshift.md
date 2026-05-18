@@ -46,7 +46,7 @@ Follow these steps to deploy the Operator and Percona Distribution for PostgreSQ
 
     !!! note
 
-        To install the Operator in [multi-namespace (cluster-wide) mode](cluster-wide.md), choose values with `-cw` suffix for the channel and version, and select the "All namespaces on the cluster" radio button for the installation mode instead of choosing a specific Namespace:
+        To install the Operator in [multi-namespace (cluster-wide) mode](cluster-wide.md), choose the value with the `-cw` suffix for the version, and select the "All namespaces on the cluster" radio button for the installation mode instead of choosing a specific Namespace:
 
         ![image](assets/images/olm2-create-ns-cw.svg)
 
