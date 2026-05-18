@@ -4,7 +4,7 @@ This document provides a high-level overview of Percona Operator for PostgreSQL 
 
 ## Components 
 
-The StatefulSet, deployed with the Operator includes the following components:
+The Operator components are the following:
 
 * [**Percona Distribution for PostgreSQL** :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/index.html) - a suite of open source software, tools and services required to deploy and maintain a reliable production cluster for PostgreSQL. It includes the set of extensions such as  [pgAudit :octicons-link-external-16:](https://www.pgaudit.org/) for audit logging, [`pg_stat_monitor` :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) for query performance statistics and [additional supplied modules and extensions :octicons-link-external-16:](https://www.postgresql.org/docs/current/contrib.html).
   
@@ -15,6 +15,8 @@ The StatefulSet, deployed with the Operator includes the following components:
 * [**pgBackRest** :octicons-link-external-16:](https://pgbackrest.org/) is a backup and restore tool. It handles **full, incremental, and differential** backups, compression and encryption, parallel processing, and point-in-time recovery using WAL archives. 
   
 * LLVM (for JIT compilation).
+  
+* **PMM Client for observability** – The PMM Client is an optional, yet valuable, component that you can enable to gain deeper insights into your database performance. When monitoring is [configured](monitoring.md), the PMM Client is deployed as a sidecar container alongside PostgreSQL Pods, empowering you with detailed monitoring and management capabilities.
 
 ![Operator overview](assets/images/pgo.svg)
 
@@ -22,8 +24,8 @@ The StatefulSet, deployed with the Operator includes the following components:
 
 This workflow shows how cluster components work together:
 
-1. Your **application** uses a Kubernetes **Service** aimed at pgBouncer.
-2. **pgBouncer** accepts many client connections and forwards work through a smaller set of server connections to PostgreSQL Pods.
+1. Your **application** connects through a Kubernetes **Service** that routes the traffic to pgBouncer.
+2. **pgBouncer** accepts many client connections and forwards them through a smaller set of server connections to PostgreSQL Pods.
 3. **PostgreSQL** executes queries. **Writes** go to the **primary**. **Reads** can target the primary or **replicas**.
 4. Primary streams WAL to replicas via instance Services
 5. Patroni monitors the cluster state and coordinates the leader elections if the primary node fails
@@ -37,8 +39,8 @@ The default Percona Distribution for PostgreSQL configuration includes:
 
 * 3 PostgreSQL servers, one primary and two replicas.
 * 3 pgBouncer instances.
-* a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest .
-* a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor and manage your database. It runs as a sidecar container in the database Pods.
+* a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest.
+* (optional) a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor your database health and performance. PMM Client is disabled by default and runs as a sidecar container in the database Pods when you [configure monitoring](monitoring.md)
 
 ### Primary, replicas, and high availability
 
@@ -56,7 +58,8 @@ If a node fails, Kubernetes automatically reschedules the affected Pod on anothe
 
 ## Storage and persistent volumes
 
-Stateful workloads rely on durable disk. Kubernetes attaches storage through **PersistentVolumeClaims (PVCs)**; the cluster’s CSI driver provisions **PersistentVolumes** and can **reattach** storage if a Pod moves to another node (subject to your storage class and platform).
+Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through **PersistentVolumeClaims (PVCs)**, which request storage resources. The cluster’s CSI driver provisions **PersistentVolumes**, and can **reattach** storage if a Pod moves to another
+node, thereby ensuring data continuity.
 
 If a node fails, the expectation is that the volume can be mounted elsewhere and the Pod recreated, while Patroni and PostgreSQL recover the database layer. For storage troubleshooting, see [Check storage](debug-storage.md).
 
