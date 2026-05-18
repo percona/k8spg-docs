@@ -30,7 +30,7 @@ This dynamically applies the changes to PostgreSQL instances both for new cluste
 
 Most options take effect without
 a PostgreSQL server restart. Some options, such as `wal_level` and `shared_buffers`, have the
-[postmaster context :octicons-link-external-16:](https://www.postgresql.org/docs/16/view-pg-settings.html)
+[postmaster context :octicons-link-external-16:](https://www.postgresql.org/docs/current/view-pg-settings.html)
 and require a PostgreSQL restart. For these options, Patroni performs a rolling
 restart of all instances after you apply the change. To check whether an option
 requires a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
@@ -50,9 +50,9 @@ files. You can set it in `patroni.dynamicConfiguration.postgresql.parameters`:
 
 * `replica` (PostgreSQL default) — sufficient for physical replication and most
   workloads
-* `logical` — required for logical replication; increases WAL volume and I/O.
+* `logical` (Operator default) — required for logical replication; increases WAL volume and I/O.
 
-Read more about `wal_level` values in [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS)
+Read more about `wal_level` values in [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS).
 
 !!! note
     
