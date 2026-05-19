@@ -25,7 +25,7 @@ For background on cert-manager integration, see [Configure TLS security with the
     export NAMESPACE=<namespace>
     ```
 
-2. Record the CA certificate fingerprint so you can confirm it is unchanged after migration:
+2. Record the CA certificate fingerprint so you can confirm it is unchanged after migration. Use `root.crt` for the Operator 2.9.0 split state, or `tls.crt` if cert-manager already manages the CA:
 
     ```bash
     kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
@@ -35,14 +35,27 @@ For background on cert-manager integration, see [Configure TLS security with the
 
 3. Decode the CA certificate and private key to local files. You will use them only to sign new leaf certificates; you are **not** replacing the CA in the cluster trust store.
 
-    ```bash
-    kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
-      -o jsonpath='{.data.tls\.crt}' | base64 -d > cluster-ca.crt
-    kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
-      -o jsonpath='{.data.tls\.key}' | base64 -d > cluster-ca.key
-    ```
+    === "cert-manager or post-recovery Secret (`tls.crt` / `tls.key`)"
 
-    If your Secret uses different key names, adjust the `jsonpath` keys accordingly (inspect the Secret with `kubectl get secret ... -o yaml`).
+        ```bash
+        kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
+          -o jsonpath='{.data.tls\.crt}' | base64 -d > cluster-ca.crt
+        kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
+          -o jsonpath='{.data.tls\.key}' | base64 -d > cluster-ca.key
+        ```
+
+    === "Operator 2.9.0 split state (`root.crt` / `root.key`)"
+
+        If the root CA Secret still uses internal-PKI key names after the 2.9.0 upgrade, extract the CA with:
+
+        ```bash
+        kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
+          -o jsonpath='{.data.root\.crt}' | base64 -d > cluster-ca.crt
+        kubectl get secret "${CLUSTER}-cluster-ca-cert" -n "${NAMESPACE}" \
+          -o jsonpath='{.data.root\.key}' | base64 -d > cluster-ca.key
+        ```
+
+    Inspect the Secret with `kubectl get secret ... -o yaml` if you are unsure which key names it uses.
 
 ## 2. Generate new certificates with the same CA certificate
 
