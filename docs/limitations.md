@@ -37,4 +37,5 @@ To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  li
 * A major database upgrade introduces a downtime because the whole cluster is shut down.
 * In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](reinit.md) to ensure it starts properly and starts streaming data from the primary.
 * PostGIS extension is not updated automatically after the database update. You must [manually update](update-extensions.md#upgrade-postgis-extension) it for each database where it is enabled.
+* `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](update-db-major.md#post-upgrade-steps) it manually for each database where it is installed. 
 * If you have installed [custom PostgreSQL extensions](custom-extensions.md), you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container.
