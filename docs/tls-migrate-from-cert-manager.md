@@ -92,7 +92,9 @@ kubectl create secret generic "${CLUSTER}-custom-replication-tls" -n "${NAMESPAC
 
 Optionally, if you use a dedicated root CA Secret in the Custom Resource, create it as described in [Provide a pre-existing custom root CA certificate to the Operator](tls-manual.md#provide-a-pre-existing-custom-root-ca-certificate-to-the-operator). For many migrations it is enough that each leaf Secret includes the same `ca.crt`.
 
-## 4. Patch the PostgreSQL Custom Resource
+## 4. Update the PostgreSQL Custom Resource
+
+At this stage, you need to update the cluster configuration to reference the new certificates. To do so, you must pause the cluster to prevent the Operator from automatically reconciling (making changes or reverting your edits) while you update the certificate references. Note that pausing the cluster will make it temporarily unavailable to users and applications, resulting in some planned downtime.
 
 1. [Pause the cluster](pause.md) so the Operator does not reconcile conflicting TLS state while you change references:
 

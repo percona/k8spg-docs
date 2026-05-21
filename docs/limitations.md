@@ -47,15 +47,15 @@ If you are in this situation, you have these options:
 
 To restore the cluster from the inconsistent state, reconfigure it to use only the certificates managed by the cert-manager:
 
-1. Delete the CA Secret `<cluster-name>-ca-cert` that still remains on the Operator's internal PKI:
+1. Delete the CA Secret `<cluster-name>-cluster-ca-cert` that still remains on the Operator's internal PKI:
     
     ```bash
-    kubectl delete Secret <cluster-name>-ca-cert> -n <namespace>
+    kubectl delete Secret <cluster-name>cluster-ca-cert> -n <namespace>
     ```
 
     This makes the Operator to recreate the Secret through the cert-manager, with the correct keys.
 
-2. Trigger the cluster reconciliation by deleting the `pgBouncer` Pod:
+2. Trigger the cluster reconciliation. You can do so by deleting the `pgBouncer` Pod:
    
     ```bash
     kubectl delete pod <cluster-name>-pgbouncer-<hash> -n <namespace>
