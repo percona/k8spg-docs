@@ -1,6 +1,6 @@
 # Microsoft Azure Blob Storage
 
-!!! admonition
+!!! admonition ""
 
     Azure Blob Storage support is currently in tech preview.
 

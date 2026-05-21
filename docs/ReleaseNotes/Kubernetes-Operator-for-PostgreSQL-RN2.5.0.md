@@ -44,7 +44,7 @@ spec:
 
 ### Azure Kubernetes Service and Azure Blob Storage support
 
-[Azure Kubernetes Service (AKS)](../aks.md) is now officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for PostgreSQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage-azure.md).
+[Azure Kubernetes Service (AKS)](../aks.md) is now an officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for PostgreSQL images; also, [Azure Blob Storage can now be used for backups](../backups-storage-azure.md).
 
 ## New features
 

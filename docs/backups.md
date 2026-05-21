@@ -54,8 +54,8 @@ You have the following options to store PostgreSQL backups:
 
 * Cloud storage:
 
-    * [Amazon S3](backups-storage-s3.md), or any S3-compatible storage(backups-storage-s3-compatible.md),
-    * [Google Cloud Storage](backups-storage-gcs.md),
+    * [Amazon S3](backups-storage-s3.md) or any S3-compatible storage
+    * [Google Cloud Storage](backups-storage-gcs.md)
     * [Azure Blob Storage](backups-storage-azure.md)
 
 * A [Persistent Volume](backups-storage-pv.md) attached to the pgBackRest Pod.
