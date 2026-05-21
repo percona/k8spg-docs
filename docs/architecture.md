@@ -1,67 +1,66 @@
-# Design overview
+# Architecture
 
-The Percona Operator for PostgreSQL automates and simplifies
-deploying and managing open source PostgreSQL clusters on Kubernetes.
-The Operator is based on [CrunchyData’s PostgreSQL Operator :octicons-link-external-16:](https://access.crunchydata.com/documentation/postgres-operator/v5/).
+This document provides a high-level overview of Percona Operator for PostgreSQL architecture, explaining how the various components connect to create a production-ready PostgreSQL cluster on Kubernetes. See also [How the Operator works](operator-how-it-works.md).
 
-![image](assets/images/pgo.svg)
+## Components 
 
-PostgreSQL containers deployed with the Operator include the following components:
+The Operator components are the following:
 
-* The [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/) database management system, including:
+* [**Percona Distribution for PostgreSQL** :octicons-link-external-16:](https://docs.percona.com/postgresql/latest/index.html) - a suite of open source software, tools and services required to deploy and maintain a reliable production cluster for PostgreSQL. It includes the set of extensions such as [pgAudit :octicons-link-external-16:](https://www.pgaudit.org/) for audit logging, [`pg_stat_monitor` :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) for query performance statistics and [additional supplied modules and extensions :octicons-link-external-16:](https://www.postgresql.org/docs/current/contrib.html). It also comes with LLVM library for JIT compilation.
+  
+* [**Patroni** :octicons-link-external-16:](https://patroni.readthedocs.io/) - a high-availability solution for PostgreSQL that automates replication and **failover**. It maintains the cluster state and coordinates leader election to ensure that a healthy primary node is always available. Patroni simplifies building and operating resilient PostgreSQL clusters by handling node monitoring, failover, and recovery automatically. 
 
-    * [PostgreSQL Additional Supplied Modules :octicons-link-external-16:](https://www.postgresql.org/docs/current/contrib.html),
+* [**pgBouncer** :octicons-link-external-16:](http://pgbouncer.github.io/) is a **lightweight connection pooler** in front of PostgreSQL. It sits between client applications and the database server to manage and reuse connections efficiently. Instead of each client opening its own database connection, pgBouncer maintains a pool of connections and serves them to clients on demand, significantly reducing connection overhead and improving performance, especially for applications with many short-lived or concurrent connections.
 
-    * [pgAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL auditing extension,
+* [**pgBackRest** :octicons-link-external-16:](https://pgbackrest.org/) is a backup and restore tool. It handles **full, incremental, and differential** backups, compression and encryption, parallel processing, and point-in-time recovery using WAL archives. 
+  
+* **PMM Client for observability** – The PMM Client is an optional, yet valuable, component that you can enable to gain deeper insights into your database performance. When monitoring is [configured](monitoring.md), the PMM Client is deployed as a sidecar container alongside PostgreSQL Pods, empowering you with detailed monitoring and management capabilities.
 
-    * [PostgreSQL set_user Extension Module :octicons-link-external-16:](https://github.com/pgaudit/set_user),
+![Operator overview](assets/images/pgo.svg)
 
-    * [wal2json output plugin :octicons-link-external-16:](https://github.com/eulerto/wal2json),
+### How components work together
 
-* The [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/) Backup & Restore utility,
+This workflow shows how cluster components work together:
 
-* The [pgBouncer :octicons-link-external-16:](http://pgbouncer.github.io/) connection pooler for PostgreSQL,
+1. Your **application** connects through a Kubernetes **Service** that routes the traffic to pgBouncer.
+2. **pgBouncer** accepts many client connections and forwards them through a smaller set of server connections to PostgreSQL Pods.
+3. **PostgreSQL** executes queries. **Writes** go to the **primary**. **Reads** can target the primary or **replicas**.
+4. Primary streams WAL to replicas via instance Services
+5. Patroni monitors the cluster state and coordinates the leader elections if the primary node fails
+6. pgBackRest makes backups according the schedule that you defined or when you manually create a backup object. pgBackRest saves backups to the backup storage your configured. To learn more about backups, their workflow and setup, refer to the [About backups](backups.md)
+7. PMM Client collects performance metrics and sends them to the PMM Server for you to see and analyze. See [Monitor the database with PMM](monitoring.md) to learn more.
 
-* The PostgreSQL high-availability implementation based on the [Patroni template :octicons-link-external-16:](https://patroni.readthedocs.io/),
 
-* the [pg_stat_monitor :octicons-link-external-16:](https://github.com/percona/pg_stat_monitor/) PostgreSQL Query Performance Monitoring utility,
+## Default cluster configuration
 
-* LLVM (for JIT compilation).
+The default Percona Distribution for PostgreSQL configuration includes:
 
-Each PostgreSQL cluster includes one member available for read/write transactions (PostgreSQL primary instance, or leader in terms of Patroni) and a number of replicas which can serve read requests only (standby members of the cluster).
+* 3 PostgreSQL servers, one primary and two replicas.
+* 3 pgBouncer instances.
+* a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest.
+* (optional) a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor your database health and performance. PMM Client is disabled by default and runs as a sidecar container in the database Pods when you [configure monitoring](monitoring.md)
 
-To provide high availability from the Kubernetes side the Operator involves [node affinity :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
-to run PostgreSQL Cluster instances on separate worker nodes if possible. If
-some node fails, the Pod with it is automatically re-created on another node.
+### Primary, replicas, and high availability
 
-![image](assets/images/operator.svg)
+Each PostgreSQL cluster has **one primary** instance that accepts read/write transactions. **Replicas** are standbys: they replicate from the primary and typically serve **read-only** traffic (depending on how you expose them).
 
-To provide data storage for stateful applications, Kubernetes uses
-Persistent Volumes. A *PersistentVolumeClaim* (PVC) is used to implement
-the automatic storage provisioning to pods. If a failure occurs, the
-Container Storage Interface (CSI) should be able to re-mount storage on
-a different node.
+The Operator provides high availability through multiple layers of protection:
 
-The Operator functionality extends the Kubernetes API with [Custom Resources
-Definitions :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions).
-These CRDs provide extensions to the Kubernetes API, and, in the case of the
-Operator, allow you to perform actions such as creating a PostgreSQL Cluster,
-updating PostgreSQL Cluster resource allocations, adding additional utilities to
-a PostgreSQL cluster, e.g. [pgBouncer :octicons-link-external-16:](https://www.pgbouncer.org/) for
-connection pooling and more.
+#### Pod distribution
 
-When a new Custom Resource is created or an existing one undergoes some changes
-or deletion, the Operator automatically creates/changes/deletes all needed
-Kubernetes objects with the appropriate settings to provide a proper Percona
-PostgreSQL Cluster operation.
+The Operator uses [node affinity and anti-affinity :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity) to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.
 
-Following CRDs are created while the Operator installation:
+#### Automatic recovery
 
-* `perconapgclusters` stores information required to manage a PostgreSQL cluster.
-This includes things like the cluster name, what storage and resource classes
-to use, which version of PostgreSQL to run, information about how to maintain
-a high-availability cluster, etc.
+If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](ha-deploy.md).
 
-* `perconapgbackups` and `perconapgrestores` are in charge for making backups
-    and restore them.
+## Storage and persistent volumes
 
+Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through **PersistentVolumeClaims (PVCs)**, which request storage resources. The cluster’s CSI driver provisions **PersistentVolumes**, and can **reattach** storage if a Pod moves to another
+node, thereby ensuring data continuity.
+
+If a node fails, the expectation is that the volume can be mounted elsewhere and the Pod recreated, while Patroni and PostgreSQL recover the database layer. For storage troubleshooting, see [Check storage](debug-storage.md).
+
+## Next steps 
+
+For a comparison of Percona’s approach with other deployment models, see [Comparison with other solutions](compare.md).

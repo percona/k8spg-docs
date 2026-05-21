@@ -10,7 +10,7 @@ This document focuses on vertical scaling. For deploying high-availability, see 
 
 ### Scale compute
 
-There are multiple components that the Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others (See [Architecture](architecture.md) for the full list of components.)
+There are multiple components that the Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others (see [Architecture](architecture.md) for the full list of components).
 
 You can manage compute resources for a specific component using the corresponding section in the Custom Resource manifest. We follow the structure for [requests and limits  :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/) that Kubernetes provides.
 
