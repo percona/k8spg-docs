@@ -7,7 +7,7 @@
 </p>
 
 <h1>Operator for PostgreSQL 3.0.0</h1>
-<h2>(May 20, 2026)</h2>
+<h2>(May 22, 2026)</h2>
 
 <!--<h3>Percona Technical Documentation Team</h3>-->
 
