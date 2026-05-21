@@ -73,6 +73,8 @@ The Operator detects the legacy upstream CRDs and:
 * Updates their `ownerReferences` to the new API group CRDs.
 
 
+As part of the API group migration, the common name in the `pgBackRest` client certificate is updated. The Operator automatically updates both the `pgBackRest` configuration and the related certificate Secret. However, you may experience brief disruptions to `pgBackRest` operations while Kubernetes propagates these changes to the containers. This process typically completes within 1–2 minutes.
+
 The `PerconaPGCluster` status condition `APIGroupMigration` informs you about the resource migration state. Run the `kubectl describe pg <cluster-name>` command and check the `status.conditions` list to see full details.
 
 If no legacy CRDs exist, the Operator creates resources with the new API group from the start.
