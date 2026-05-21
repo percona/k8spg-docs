@@ -291,8 +291,9 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Backup resource options": backup-resource-options.md
-          - "Restore options": restore-options.md
+          - "Restore resourceoptions": restore-options.md
           - "Secrets options": secret-options.md
+          - "Upgrade resource options": upgrade-options.md
           - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
