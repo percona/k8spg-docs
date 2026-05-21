@@ -1807,7 +1807,7 @@ The [Kubernetes PersistentVolumeClaim :octicons-link-external-16:](https://kuber
 
 ### `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName`
 
-Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PostgreSQL backups stored on [Persistent Volume](backups-storage.md#__tabbed_1_4).
+Set the [Kubernetes Storage Class :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/storage-classes/) to use with the Percona Operator for PostgreSQL backups stored on [Persistent Volume](backups-storage-pv.md).
 
 | Value type | Example |
 | ---------- | ------- |

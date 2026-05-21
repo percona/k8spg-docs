@@ -221,7 +221,12 @@ nav:
     - Management:
           - Back up and restore: 
             - "About backups": backups.md
-            - "Configure storage for backups": backups-storage.md
+            - Configure storage for backups:
+              - "Overview": backups-storage.md
+              - "Amazon S3 storage": backups-storage-s3.md
+              - "Google Cloud Storage": backups-storage-gcs.md
+              - "Microsoft Azure Blob Storage": backups-storage-azure.md
+              - "Persistent Volume": backups-storage-pv.md
             - Make a backup:
               - Scheduled backup: backups-schedule.md
               - On-demand backup: backups-ondemand.md
