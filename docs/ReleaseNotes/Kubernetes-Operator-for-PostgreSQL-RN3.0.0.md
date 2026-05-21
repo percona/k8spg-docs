@@ -16,6 +16,10 @@ With this release, all Crunchy CRDs are renamed and moved under a new API group 
 
 When you update from the earlier Operator versions to 3.0.0 and newer, new API group CRDs are created alongside the legacy CRDs to keep existing workflows uninterrupted. Then the Operator automatically migrates all resources that depend on the legacy CRDs to the new API group. No manual intervention is required.
 
+!!! important
+
+    As part of the API group migration, the common name in the `pgBackRest` client certificate is updated. The Operator automatically updates both the `pgBackRest` configuration and the related certificate Secret. However, you may experience brief disruptions to `pgBackRest` operations while Kubernetes propagates these changes to the containers. This process typically completes within 1–2 minutes.
+
 The migration event is recorded in cluster conditions and logs, so you have full visibility into what happened and when.
 
 This change delivers these benefits:
