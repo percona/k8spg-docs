@@ -13,3 +13,4 @@ mkdocs-htmlproofer-plugin
 mkdocs-meta-descriptions-plugin
 mike
 mkdocs-git-committers-plugin-2
+diagrams>=0.23.0

@@ -172,10 +172,12 @@ extra: # Used in main.html template and can't be externalized
 nav:
 
     - Home: index.md
-    - Discover the Operator:
+    - Understand the Operator:
+          - "Kubernetes Operator concepts": operator-concepts.md
+          - "Features and capabilities": features.md
+          - "How the Operator works": operator-how-it-works.md
+          - "Cluster architecture": architecture.md
           - "Comparison with other solutions": compare.md
-          - "Design and architecture": architecture.md
-          - limitations.md
     - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md

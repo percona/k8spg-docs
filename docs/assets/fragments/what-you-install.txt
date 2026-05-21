@@ -15,4 +15,4 @@ The default Percona Distribution for PostgreSQL configuration includes:
 * a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest - a backup and restore utility. 
 * a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor and manage your database. It runs as a sidecar container in the database Pods.
 
-Read more about the default components in the [Architecture](architecture.md) section.
+Read more about the default components in [Architecture](architecture.md).
