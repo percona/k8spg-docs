@@ -66,7 +66,7 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 
 ### Official Docker image for major version upgrades
 
-Starting with this release, the Operator performs major upgrades using the official Percona Docker image: `percona/percona-postgresql-operator:3.0.0-upgrade`.
+Starting with this release, the Operator performs major upgrades using the official Percona Docker image: `percona/percona-distribution-postgresql-upgrade:<available-upgrade-versions>`.
 
 Refer to our [major upgrade documentation](../update-db-major.md) for detailed instructions, including the updated image path.
 
@@ -146,11 +146,12 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 |:---------------------------------------------------------------------|:-----------------------------------------------------------------|
 | percona/percona-postgresql-operator:3.0.0 (x86_64)                    | 3bcbaec261b2e67c81b3812a4b220c859434b6791c53ee1fb7ecb66bd179de56 |
 | percona/percona-postgresql-operator:3.0.0 (ARM64)                    | 5aacf965c3d7bc89a23e1292ae47c2ef89d590e77677d793e15f56b11e5d67f7 |
-| percona/percona-postgresql-operator:3.0.0-upgrade            | 1b5d990e236cb4e4fb2f10b1447e1c1afe934e87f5181c4a4fe70abdea1fcc2a |
+| percona/percona-distribution-postgresql-upgrade:18.4-17.10-16.14-15.18-14.23-1 (x86_64) | 31a9612320d3b08cb74d5e98f86b054c4562e4b900140152b28476be62f086f5 |
+| percona/percona-distribution-postgresql-upgrade:18.4-17.10-16.14-15.18-14.23-1 (ARM64) | 81a831086fc4aaee83af8d86b1422b64ce77e200a8f27627c27282c9af6ad9b8 |
 | percona/percona-distribution-postgresql:18.4-1 (x86_64)               | ca25cc5e291cf2307d9ec4c29811c6f6d93171f98dd2cb4c69d2036f07517a7d |
 | percona/percona-distribution-postgresql:18.4-1 (ARM64)               | fae3368e04b80f4eb887621724074db4db279ca59743aacb47de51b468d514f5 |
 | percona/percona-distribution-postgresql:17.10-1 (x86_64)               | 720bf87ef8cda340f833981a674d5dc71283cb39af3fd4ef97eff4ccf910b87a |
-| percona/percona-distribution-postgresql:17.10-1 (ARM64)               | 055474ccc68a4a9885e0a6fed78129ffa8faefd451dc7643ac22dd266babc35f |
+| percona/percona-distribution-postgresql:17.10-1 (ARM64)               | 6416424e58765b9434f18905f0338d466cb79bafc42e6a5570030c71a1323eee |
 | percona/percona-distribution-postgresql:16.14-1 (x86_64)              | ad84dc4fa537a5ba03c7c1f51f9a1ee959132155b6943d02cb0d614fc57e4271 |
 | percona/percona-distribution-postgresql:16.14-1 (ARM64)              | f377d7fd5e5e3eae56ef5886aa77691c436269bae5decb706130061286080465 |
 | percona/percona-distribution-postgresql:15.18-1 (x86_64)              | 60728795a6e954d9255526a208e8e9e8e93278d4c1e89004f2999a6ccb196eea |
@@ -160,7 +161,7 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 | percona/percona-distribution-postgresql-with-postgis:18.4-1 (x86_64)   | a8e812334907791ca4e0e8df25cdaaa809e6824be2f20f6d802df06b5eff3276 |
 | percona/percona-distribution-postgresql-with-postgis:18.4-1 (ARM64)  | 1f9972814c8dd66c3e127f40ef790fd2f2e885d9c15daa39f4b79146c3db7375 |
 | percona/percona-distribution-postgresql-with-postgis:17.10-1 (x86_64)   | aa217c9563d5a372f6bd3ce9ac06ec198393cf1299760f458f02aeb94b7e5b51 |
-| percona/percona-distribution-postgresql-with-postgis:17.10-1 (ARM64)  | 9aa1bf71193d11a53da6a70586aee92cdfe27cfc5f68f1d03bac751226be4116 |
+| percona/percona-distribution-postgresql-with-postgis:17.10-1 (ARM64)  | e4c00ec25549c14b9a3665b0481b9a7df173bff8ca92cb79daf1a2abd2ef391e |
 | percona/percona-distribution-postgresql-with-postgis:16.14-1 (x86_64) | 771effe967782ca9485d0fc100012f3664cb087c77627e0e68015935634d5b96 |
 | percona/percona-distribution-postgresql-with-postgis:16.14-1 (ARM64) | 48608ea56e5943d245f207268a173794c55667904116840f39ccde96507763e8 |
 | percona/percona-distribution-postgresql-with-postgis:15.18-1 (x86_64) | 920f2a8b6e4f446e96401be0b0fa253e47ecf9478ad3fee0ed8fa730f24288eb |

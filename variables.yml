@@ -2,7 +2,7 @@
 
 
 release: 3.0.0
-upgraderelease: 2.9.0-1-upgrade
+upgraderelease: 18.4-17.10-16.14-15.18-14.23-1
 pruned_version: 2.7.0
 
 # Supported software
