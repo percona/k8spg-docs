@@ -28,7 +28,7 @@ This change delivers these benefits:
 * Cleaner API boundaries and predictable Operator behavior
 * Smooth migration from Crunchy Operator to Percona Operator using native PostgreSQL techniques and without re-architecting your deployments
 
-For how to migrate to Percona Operator from Crunchy PGO, see our [documentaton](../migration-from-crunchy.md).
+For how to migrate to Percona Operator from Crunchy PGO, see our [documentaton](../migrate-from-crunchy.md).
 
 ### Improved namespace scoping for Operator OLM installations from Community catalogues
 
@@ -98,7 +98,7 @@ Refer to our [major upgrade documentation](../update-db-major.md) for detailed i
 
 ### Documentation updates
 
-* Created [Migration from Crunchy Postgres Operator to Percona Operator for PostgreSQL tutorials](../migration-from-crunchy.md)
+* Created [Migration from Crunchy Postgres Operator to Percona Operator for PostgreSQL tutorials](../migrate-from-crunchy.md)
 * Improved the [major upgrade description](../update-db-major.md#post-upgrade-steps) for users of `pgAudit` extension.
 * Database cluster upgrade documentation now uses PostgreSQL 18 as the default example in upgrade commands. If you are upgrading a cluster running PostgreSQL 17 or below, refer to the [certified images list](../images.md) to determine the correct version and image tags.
 
