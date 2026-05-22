@@ -262,10 +262,12 @@ nav:
             - update-db-major.md
           - "Upgrade PostgreSQL extensions": update-extensions.md
           - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
-          - Upgrade from version 1 to version 2:
-              - "Using data volumes": update-data-volumes.md
-              - "Using backup and restore": update-backup-restore.md
-              - "Using standby": update-standby.md
+          - Migrate from Crunchy Operator for PostgreSQL: 
+              - "About migration from Crunchy to Percona Operator for PostgreSQL": migrate-from-crunchy.md
+              - "Migrate using a standby cluster": migrate-from-crunchy-standby.md
+              - "Migrate using backup and restore": migrate-from-crunchy-backup-restore.md
+              - "Migrate using data volumes": migrate-from-crunchy-data-volumes.md
+ 
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md

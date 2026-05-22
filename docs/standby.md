@@ -1,10 +1,14 @@
 # Deploy a standby cluster for Disaster Recovery
 
-Disaster recovery is not optional for businesses operating in the digital age. With the ever-increasing reliance on data, system outages or data loss can be catastrophic, causing significant business disruptions and financial losses.
+A standby cluster is a special type of PostgreSQL cluster designed to maintain a continually updated, read-only copy of your primary PostgreSQL cluster. A standby cluster applies changes made on the primary cluster either through backups or streaming replication. This ensures you always have an up-to-date replica ready to take over if the primary becomes unavailable.
 
-With multi-cloud or multi-regional PostgreSQL deployments, the complexity of managing disaster recovery only increases. This is where the Percona Operators come in, providing a solution to streamline disaster recovery for PostgreSQL clusters running on Kubernetes. With the Percona Operators, businesses can manage multi-cloud or hybrid-cloud PostgreSQL deployments with ease, ensuring that critical data is always available and secure, no matter what happens.
+In disaster recovery scenarios, standby clusters are invaluable. They let you minimize downtime and data loss by quickly promoting the standby to a writable primary when needed. This is especially important in multi-cloud or multi-regional environments, where your PostgreSQL workloads may span across various platforms and geographies.
 
-Operators automate routine tasks and remove toil. Percona Operator for PostgreSQL supports the following types of standby clusters:
+The Percona Operator for PostgreSQL makes it straightforward to deploy and manage standby clusters on Kubernetes. By automating complex tasks and integrating tightly with Kubernetes, the operator helps you protect critical data and achieve high availability, while simplifying your operational experience.
+
+## Types of standby clusters
+
+You can use the Percona Operator for PostgreSQL to set up several types of standby clusters, each suited to different recovery strategies:
 
 1. A repo-based standby that recovers WAL files from a `pgBackRest` repo stored in external storage. For this setup, you reference the `pgBackRest` repo name and the cloud-based backup configuration that matches the one from the primary site. Refer to the [Standby cluster deployment based on pgBackRest](standby-backup.md) tutorial for the setup steps.
 2. A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the [Standby cluster deployment based on streaming replication](standby-streaming.md) tutorial.
