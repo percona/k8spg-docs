@@ -69,9 +69,9 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 * For **Community catalogues**, verify whether the Operator runs in single-namespace or all-namespaces mode and which namespace it targets. That helps you avoid reconciliation conflicts.
 * For **Certified container images** (Red Hat / OperatorHub), the `stable` installation channel supports both single- and all-namespace modes starting with version 3.0.0. The `stable-cw` channel is therefore deprecated. As the pre-upgrade steps, you must do the following:
   
-   * Update the Subscription to the `stable` channel
-   * Confirm how the Operator watches namespaces 
-   * Align `initContainer.image` on each PostgreSQL cluster Custom Resource. Without updating `initContainer.image`, clusters may enter an error state after the Operator upgrade.
+    * Update the Subscription to the `stable` channel (recommended)
+    * Confirm how the Operator watches namespaces 
+    * Align `initContainer.image` on each PostgreSQL cluster Custom Resource. Without updating `initContainer.image`, clusters may enter an error state after the Operator upgrade.
 
 === "Community catalogues"
 
@@ -109,69 +109,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
 === "Certified container catalogues"
 
-    1. **Switch the Subscription to the `stable` channel**
-
-        === "OpenShift web console"
-
-            1. In the Operator details, open the **Subscription** (or installation settings).
-            2. Set the update channel to **stable**. 
-            3. Save the changes.
-
-        === "Command line"
-
-            1. Update the Subscription to use the `stable` channel. If the InstallPlan approval is automatic, this triggers the Operator upgrade:
-
-                ```bash
-                oc patch subscription percona-postgresql-operator \
-                  -n <operator-namespace> \
-                  --type merge \
-                  -p '{"spec":{"channel":"stable"}}'
-                ```
-
-            2. List the InstallPlan:
-
-                ```bash
-                oc get installplan -n <operator-namespace>
-                ```
-
-            3. **For manual approval**, approve the InstallPlan:
-
-                ```bash
-                oc patch installplan <installplan-name> \
-                  -n <operator-namespace> \
-                  --type merge \
-                  -p '{"spec":{"approved":true}}'
-                ```
-
-            4. Verify the upgrade
-
-                ```bash
-                oc get csv -n <operator-namespace>
-                ```
-
-                The new `ClusterServiceVersion` should reach the `Succeeded` phase.
-
-            5. Check the Operator's installation mode and what namespaces it manages.
-
-                ```bash
-                oc get deploy -n <operator-namespace> percona-postgresql-operator \
-                -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="WATCH_NAMESPACE")].valueFrom.fieldRef.fieldPath}{"\n"}'
-                ```
-
-                Interpret the output:
-
-                * For a **single-namespace** install, the output returns:
-
-                   ```text
-                   metadata.annotations['olm.targetNamespaces']
-                   ```
-
-                   This is an expected value. It means the Operator watches the namespace specified in the `olm.targetNamespaces` option.
-
-                * For **all-namespaces** installs, the value of `WATCH_NAMESPACE` is empty. That is expected and means the Operator watches all namespaces.
-       
-
-    2. **Update the `initContainer` image on each cluster**
+    1. Update the `initContainer` image on each cluster
 
         You must manually set `spec.initContainer.image` on each `PerconaPGCluster` (`pg`) Custom Resource that this Operator manages. Without this, clusters may enter an error state after the Operator upgrade.
 
