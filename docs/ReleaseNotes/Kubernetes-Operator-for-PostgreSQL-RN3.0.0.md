@@ -111,8 +111,8 @@ This Operator version is developed, tested and based on:
 * PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1 as the database. Other versions may also work but have not been tested.
 * pgBackRest 2.58.0-2 for backup and recovery
 * pgBouncer 1.25.2-1 for connection pooling
-* Patroni version 4.1.0 for high-availability
-* PostGIS version 3.5.5
+* Patroni version 4.1.3 for high-availability
+* PostGIS version 3.5.6
 * PMM Client version 2.44.1-1 and 3.7.1
 
 
