@@ -1,0 +1,60 @@
+When the Operator deploys a database cluster, it generates several
+[Secrets :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/secret/). Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. 
+{.power-number}
+
+1. Use `{{ commandName }} get secrets -n <namespace>` command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    `<cluster_name>-pguser-<cluster_name>` (where the `<cluster_name>` is
+    the [name of your Percona Distribution for PostgreSQL Cluster](operator.md#metadata-name)). For example, if your cluster name is `cluster1`, the Secret name will be `cluster1-pguser-cluster1`. 
+
+2.  Use the
+    following command to get the password of this user. Replace the `<cluster_name>` and `<namespace>` placeholders with your values:
+    
+    ```bash
+    {{ commandName }} get secret <cluster_name>-<user_name>-<cluster_name> -n <namespace> --template='{{"{{"}}.data.password | base64decode{{"}}"}}{{"{{"}}"\n"{{"}}"}}'
+    ```
+
+3. To connect to PostgreSQL, you will use the `pgbouncer` service as the entry point to your cluster. To find this service, use the following command:
+
+    ```bash
+    kubectl get svc -n <namespace>
+    ```
+
+    Look for the service named `<cluster-name>-pgbouncer`.
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        cluster1-ha          ClusterIP   34.118.234.155   <none>        5432/TCP   51m
+        cluster1-ha-config   ClusterIP   None             <none>        <none>     51m
+        cluster1-pgbouncer   ClusterIP   34.118.239.5     <none>        5432/TCP   51m
+        cluster1-pods        ClusterIP   None             <none>        <none>     51m
+        cluster1-primary     ClusterIP   None             <none>        5432/TCP   51m
+        cluster1-replicas    ClusterIP   34.118.234.19    <none>        5432/TCP   51m
+        ```
+
+4. Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod `pg-client`:
+
+    ```bash
+    {{ commandName }} run -n <namespace> -i --rm --tty pg-client --image=percona/percona-distribution-postgresql:{{ postgresrecommended }} --restart=Never -- bash -il
+    ```
+    
+    It may require some time to execute the command and deploy the corresponding Pod.
+
+4. Run a container with `psql` tool and connect its console output to your
+    terminal. Substitute the `<namespace>` placeholder with your value in the following command to connect as a `cluster1` user to the `cluster1` database
+    via the PostgreSQL interactive terminal.
+
+    ```bash
+    [postgres@pg-client /]$ PGPASSWORD='pguser_password' psql -h cluster1-pgbouncer.<namespace>.svc.cluster.local -p 5432 -U cluster1 cluster1
+    ```
+
+    ??? example "Sample output"
+
+        ```bash
+        psql ({{ postgresrecommended }})
+        SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
+        Type "help" for help.
+        pgdb=>
+        ```

@@ -1,0 +1,60 @@
+Switch the Subscription to the `stable` channel
+
+        === "OpenShift web console"
+
+            1. In the Operator details, open the **Subscription** (or installation settings).
+            2. Set the update channel to **stable**. 
+            3. Save the changes.
+
+        === "Command line"
+
+            1. Update the Subscription to use the `stable` channel. If the InstallPlan approval is automatic, this triggers the Operator upgrade:
+
+                ```bash
+                oc patch subscription percona-postgresql-operator \
+                  -n <operator-namespace> \
+                  --type merge \
+                  -p '{"spec":{"channel":"stable"}}'
+                ```
+
+            2. List the InstallPlan:
+
+                ```bash
+                oc get installplan -n <operator-namespace>
+                ```
+
+            3. **For manual approval**, approve the InstallPlan:
+
+                ```bash
+                oc patch installplan <installplan-name> \
+                  -n <operator-namespace> \
+                  --type merge \
+                  -p '{"spec":{"approved":true}}'
+                ```
+
+            4. Verify the upgrade
+
+                ```bash
+                oc get csv -n <operator-namespace>
+                ```
+
+                The new `ClusterServiceVersion` should reach the `Succeeded` phase.
+
+            5. Check the Operator's installation mode and what namespaces it manages.
+
+                ```bash
+                oc get deploy -n <operator-namespace> percona-postgresql-operator \
+                -o jsonpath='{.spec.template.spec.containers[0].env[?(@.name=="WATCH_NAMESPACE")].valueFrom.fieldRef.fieldPath}{"\n"}'
+                ```
+
+                Interpret the output:
+
+                * For a **single-namespace** install, the output returns:
+
+                   ```text
+                   metadata.annotations['olm.targetNamespaces']
+                   ```
+
+                   This is an expected value. It means the Operator watches the namespace specified in the `olm.targetNamespaces` option.
+
+                * For **all-namespaces** installs, the value of `WATCH_NAMESPACE` is empty. That is expected and means the Operator watches all namespaces.    
