@@ -82,7 +82,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
         kubectl patch pg cluster1 -n postgres-operator --type=merge --patch '{
            "spec": {
               "crVersion":"{{ release }}",
-              "image": "docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgresrecommended }}",
+              "image": "docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgrespostgisrecommended }}",
               "proxy": { "pgBouncer": { "image": "docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}" } },
               "backups": { "pgbackrest":  { "image": "docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}" } }
            }}'
@@ -90,7 +90,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
 
         The following image names in the above example were taken from the [list of certified images](images.md):
     
-        * `docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgresrecommended }}`,
+        * `docker.io/percona/percona-distribution-postgresql-with-postgis:{{ postgrespostgisrecommended }}`,
         * `docker.io/percona/percona-pgbouncer:{{ pgbouncerrecommended }}`,
         * `docker.io/percona/percona-pgbackrest:{{ pgbackrestrecommended }}`
 

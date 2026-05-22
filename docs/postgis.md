@@ -31,7 +31,7 @@ kubectl apply --server-side -f deploy/bundle.yaml -n $NAMESPACE
 
 ## Deploy PostGIS-enabled database cluster
 
-1. Modify the `deploy/cr.yaml` configuration file. Specify the image for PostGIS in the `spec.image` option. Use `docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgresrecommended}}` instead of `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`
+1. Modify the `deploy/cr.yaml` configuration file. Specify the image for PostGIS in the `spec.image` option. Use `docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgrespostgisrecommended}}` instead of `docker.io/percona/percona-distribution-postgresql:{{ postgresrecommended }}`
     
     ```yaml
     apiVersion: pgv2.percona.com/v2
@@ -40,7 +40,7 @@ kubectl apply --server-side -f deploy/bundle.yaml -n $NAMESPACE
       name: cluster1
     spec:
       ...
-      image: docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgresrecommended}}
+      image: docker.io/percona/percona-distribution-postgresql-with-postgis:{{postgrespostgisrecommended}}
       ...
     ```
 
