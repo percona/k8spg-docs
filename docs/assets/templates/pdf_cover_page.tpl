@@ -6,8 +6,8 @@
 <img src="assets/images/Percona_Color_Dark.svg" />
 </p>
 
-<h1>Operator for PostgreSQL 2.9.0</h1>
-<h2>(April 1, 2026)</h2>
+<h1>Operator for PostgreSQL 3.0.0</h1>
+<h2>(May 22, 2026)</h2>
 
 <!--<h3>Percona Technical Documentation Team</h3>-->
 

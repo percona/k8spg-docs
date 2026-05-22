@@ -17,7 +17,7 @@ Run PostgreSQL with confidence: [Patroni :octicons-link-external-16:](https://pa
 
 Safeguard your data at any scale: the Operator automates backups and restores using [pgBackRest :octicons-link-external-16:](https://pgbackrest.org/), a robust open source solution trusted for PostgreSQL in production. Read [About backups](backups.md) for the full workflow.
 
-Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-snapshots.md) for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.
+Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-pvc-snapshots.md) for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.
 
 * **Full, incremental, and differential backups** — Select the backup strategy that matches your recovery objectives and storage requirements.
 * **Point-in-time recovery (PITR)** — Achieve low Recovery Point Objectives (RPO) by [restoring to any specific time](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery) using WAL archives.

@@ -21,7 +21,7 @@ You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manag
 
     If you had **cert-manager** installed and used the Operator-generated TLS certificates, upgrading the Operator to version **2.9.0** could put the cluster in an inconsistent state: the root CA stayed on internal PKI, but leaf certificates were handed to cert-manager. See [TLS and cert-manager (Operator 2.9.0)](limitations.md#tls-and-cert-manager) for more information. 
 
-    To fix this, either move fully to cert-manager ([Recover from split TLS state to cert-manager](tls-recover-split-state-to-cert-manager.md)) or switch to custom TLS Secrets ([Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md)). This issue is fixed in Operator **3.0.0** and later.
+    To fix this, either [move fully to cert-manager](limitations.md#switch-to-use-only-the-certificates-managed-by-the-cert-manager) or [switch to custom TLS Secrets](tls-migrate-from-cert-manager.md). This issue is fixed in Operator **3.0.0** and later.
 
 Additionally, you can *force* your database cluster to use only encrypted channels for both internal and external communications. To do this, set the `tlsOnly` Custom Resource option to `true`.
 
