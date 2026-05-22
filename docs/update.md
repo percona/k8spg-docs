@@ -1,13 +1,25 @@
 # Upgrade Percona Operator for PostgreSQL
 
-Starting from the version 2.2.0, you can upgrade Percona Operator for PostgreSQL 
-to newer 2.x versions.
-
 The upgrade process consists of these steps:
 
 * Upgrade the [Custom Resource Definition (CRD) :octicons-link-external-16:](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) 
 * Upgrade the Operator deployment
 * Upgrade the database (Percona Distribution for PostgreSQL)
+
+!!! important "Breaking changes for the upgrade to Operator 3.0.0"
+
+    From version **3.0.0**, upstream Crunchy CRDs are renamed and use the API
+    group `upstream.pgv2.percona.com` instead of the previous
+    `postgres-operator.crunchydata.com` group. This change enables you to
+    deploy both Percona and Crunchy Operators in the same Kubernetes cluster
+    and provides a way for smooth migration from one to another.
+    
+    Important points to consider:
+    
+    * The new CRDs with the API group `upstream.pgv2.percona.com` are created and the Operator migrates all resources to use them automatically. This change affects all PostgreSQL clusters managed by the Operator. 
+    * After you upgraded the Operator to version 3.0.0, it can no longer use the previous version CRDs. 
+    
+    To learn more about this change, see [Upgrading the Operator and CRD](update-operator.md#renamed-upstream-crds-operator-300-and-later).
 
 ## Update scenarios
 
