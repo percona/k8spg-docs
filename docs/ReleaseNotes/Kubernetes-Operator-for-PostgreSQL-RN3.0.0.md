@@ -54,6 +54,7 @@ spec:
 
 If you run more than one Operator in the same cluster, switch each one to single-namespace mode so their reconciliation work does not overlap in ways you did not intend.
 
+<!--
 ### All-namespace support added to the `stable` channel for Certified Operator catalogues on OpenShift
 
 With this release the `stable` channel now supports both single-namespace and all-namespace installation modes. For this reason, the `stable-cw` channel is now deprecated and will be removed. We encourage users to switch to using the `stable` channel.
@@ -63,6 +64,7 @@ If you use OLM console, change the channel to `stable`, preview and approve the 
 If you use the command-line, update the subscription and approve the Install Plan in case of manual approval is required.
 
 See our [documentation](../update-openshift.md#before-you-start) for the step-by-step instructions.
+-->
 
 ### Official Docker image for major version upgrades
 
