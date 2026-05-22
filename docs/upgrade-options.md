@@ -37,7 +37,7 @@ Specifies the special upgrade image used for the major upgrade.
 
 | Value type  | Example    |
 | ----------- | ---------- |
-| :material-code-string: string     | `docker.io/percona/percona-postgresql-operator:{{ upgraderelease }}` |
+| :material-code-string: string     | `docker.io/percona/percona-distribution-postgresql-upgrade:{{upgraderelease}}` |
 
 ### `fromPostgresVersion`
 
