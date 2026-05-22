@@ -1,0 +1,18 @@
+## What you will install
+
+* The Operator - the custom controller that uses the custom resources to install and manage the lifecycle of your database cluster. It consists of the following components:
+
+    * the Operator Deployment - the controller Pod
+    * The CustomResourceDefinitions (CRDs) add new API types (custom resources) to Kubernetes so that it can understand and manage them
+    * Role-based access control (RBAC) is the system that controls who can perform which actions on which resources, using roles and bindings to enforce safe, predictable access.
+
+* The database cluster - the actual Percona Distribution for PostgreSQL cluster that the Operator creates for you when you apply the Custom Resource or install the Helm chart. It includes StatefulSets for PostgreSQL servers, Services and Secrets. 
+
+The default Percona Distribution for PostgreSQL configuration includes:
+
+* 3 PostgreSQL servers, one Primary and two replicas. 
+* 3 pgBouncer instances - a lightweight connection pooler for PostgreSQL that sits between client applications and the database server to manage and reuse connections efficiently.
+* a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest - a backup and restore utility. 
+* a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor and manage your database. It runs as a sidecar container in the database Pods.
+
+Read more about the default components in [Architecture](architecture.md).
