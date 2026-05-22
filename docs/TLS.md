@@ -17,6 +17,12 @@ You can configure TLS in these ways:
 
 You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manager.md) to benefit from automatic renewal and centralized management.
 
+!!! important "Known limitation for Operator 2.9.0"
+
+    If you had **cert-manager** installed and used the Operator-generated TLS certificates, upgrading the Operator to version **2.9.0** could put the cluster in an inconsistent state: the root CA stayed on internal PKI, but leaf certificates were handed to cert-manager. See [TLS and cert-manager (Operator 2.9.0)](limitations.md#tls-and-cert-manager) for more information. 
+
+    To fix this, either move fully to cert-manager ([Recover from split TLS state to cert-manager](tls-recover-split-state-to-cert-manager.md)) or switch to custom TLS Secrets ([Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md)). This issue is fixed in Operator **3.0.0** and later.
+
 Additionally, you can *force* your database cluster to use only encrypted channels for both internal and external communications. To do this, set the `tlsOnly` Custom Resource option to `true`.
 
 ## Automatic certificate generation by the Operator
@@ -38,15 +44,11 @@ Upon cluster creation, the Operator reviews the Custom Resource configuration to
 The following sections provide guidelines how to:
 
 * [Configure TLS security with the Operator using cert-manager](tls-cert-manager.md)
-* [Migrate from Operator-generated certificates to cert-manager](tls-migrate-to-cert-manager.md)
 * [Generate certificates manually](tls-manual.md)
+* [Migrate from Operator-generated certificates to cert-manager](tls-migrate-to-cert-manager.md)
+* [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md)
 * [Update certificates](tls-update.md)
 * [Check TLS communication to a cluster](tls-verify-communication.md)
-
-
-
-
-
 
 ## Keep certificates after deleting the cluster
 
