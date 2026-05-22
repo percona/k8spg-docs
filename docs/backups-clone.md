@@ -303,4 +303,4 @@ The `dataSource.pgbackrest` section stays the same; only the new cluster's backu
 
 ### GCS and Azure Blob Storage
 
-For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the `repo.s3` block with `repo.gcs` or `repo.azure` and the matching configuration. See [Configure storage for backups](backups-storage.md) for examples.
+For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the `repo.s3` block with `repo.gcs` or `repo.azure` and the matching configuration. See [Google Cloud Storage](backups-storage-gcs.md) and [Microsoft Azure Blob Storage](backups-storage-azure.md) for examples.
