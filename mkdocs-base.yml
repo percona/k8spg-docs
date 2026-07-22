@@ -301,6 +301,7 @@ nav:
           - "Custom Resource options": operator.md
           - "Backup resource options": backup-resource-options.md
           - "Restore resourceoptions": restore-options.md
+          - "Custom resource statuses": cr-statuses.md
           - "Secrets options": secret-options.md
           - "Upgrade resource options": upgrade-options.md
           - "Immutable options": immutable-options.md
