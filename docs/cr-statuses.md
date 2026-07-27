@@ -179,17 +179,21 @@ Backup progress and results are in `status.state`. You also get destination, typ
 
 Common fields are:
 
-* `status.state` – backup job state
-* `status.backupType` – backup type (`full`, `differential`, `incremental`, or `snapshot`)
-* `status.storageType` – storage backend (`s3`, `gcs`, `azure`, or `filesystem`)
-* `status.destination` – backup path or URL
 * `status.backupName` – pgBackRest backup name
-* `status.jobName` – Kubernetes Job that ran the backup
+* `status.backupType` – backup type (`full`, `differential`, `incremental`, or `snapshot`)
 * `status.completed` – completion timestamp
-* `status.latestRestorableTime` – latest point for point-in-time recovery from this backup
-* `status.error` – error details when the backup fails
-* `status.snapshot` – VolumeSnapshot references when the backup method is `volumeSnapshot`
+* `status.crVersion` - the Operator version that took the backup
 * `status.conditions` – backup-related conditions (for example, lease acquisition)
+* `status.destination` – backup path or URL
+* `status.image` - the Operator image
+* `status.error` – error details when the backup fails
+* `status.jobName` – Kubernetes Job that ran the backup
+* `status.latestRestorableTime` – latest point for point-in-time recovery from this backup
+* `status.repo` – the details of the pgBackRest repository where the backup is stored
+* `status.size` - the size of the backup taken. Applies for full, incremental and differential backups.
+* `status.snapshot` – VolumeSnapshot references when the backup method is `volumeSnapshot`
+* `status.state` – backup job state
+* `status.storageType` – storage backend (`s3`, `gcs`, `azure`, or `filesystem`)
 
 ### Backup state values
 
