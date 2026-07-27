@@ -143,7 +143,7 @@ Common condition fields:
 | `APIGroupMigration` | Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See [Upgrade the Operator](update-operator.md). |
 | `RepoDeploymentNotFound` | A pgBackRest repository deployment was not found during reconciliation. |
 | `RepoHostCreated` | A pgBackRest repository host was created. |
-| `UnableToCreateStanzas` | 
+
 
 `status.conditions[].status` values:
 
