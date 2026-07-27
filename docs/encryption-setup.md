@@ -102,13 +102,14 @@ Using the root token for authentication is not recommended, as it poses signific
     ```bash
     kubectl -n "${NAMESPACE}" exec pod/vault-0 -- vault token create -policy="${POLICY_NAME}" -format=json > "${WORKDIR}/vault-token.json"
     ```
-4. Export the non-root token as an environment variable:
+
+3. Export the non-root token as an environment variable:
 
     ```bash
     export NEW_TOKEN=$(jq -r '.auth.client_token' "${WORKDIR}/vault-token.json")
     ```
 
-5. Verify the token:
+4. Verify the token:
 
     ```bash
     echo "New Vault Token: $NEW_TOKEN"
@@ -151,9 +152,13 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
 
 1. Edit the `deploy/cr.yaml` file and specify the following:
 
-    * `extensions.pg_tde` - set to `true`
-    * Add Vault-specific options to the `extensions.pg_tde.vault` section.
-     
+    * Set `extensions.pg_tde.enabled` to `true`
+    * Add Vault-specific options under `extensions.pg_tde.vault`:
+        
+        * `caSecret` is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in he example below
+        * `mountPath` – Specify the Vault mount path where you enabled the KV v2 secrets engine for encryption. In this guide, the mount path is `tde`.
+   
+
     The example configuration looks like this:
 
     ```yaml
@@ -179,11 +184,13 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
     kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
     ```
 
-3. Check the pg_tde status:
+3. Check the `pg_tde` status:
 
-     ```bash
-    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE
+    ```bash
+    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml
     ```
+
+    Look for both conditions under `status.conditions`:
 
     ??? example "Expected output"
 
@@ -197,7 +204,15 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
             reason: Enabled
             status: "True"
             type: PGTDEEnabled
+          - lastTransitionTime: "2026-03-04T13:29:51Z"
+            message: pg_tde vault key provider matches the spec
+            observedGeneration: 1
+            reason: Configured
+            status: "True"
+            type: PGTDEVaultProviderReady
         ```
+
+    If `PGTDEEnabled` is `True` but encryption does not work, check `PGTDEVaultProviderReady` and the Operator logs.
 
 ## Verify the encryption
 
@@ -311,4 +326,6 @@ After you finish the setup and ensure everything works as expected, you can clea
 rm -rf $WORKDIR
 ```
 
-Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, as it removes an important layer of security that protects your data at rest. However, if you must disable encryption, you can follow the steps in the [Disable encryption](encryption-disable.md) tutorial.
+## Next steps
+
+[Disable encryption](encryption-disable.md){.md-button}

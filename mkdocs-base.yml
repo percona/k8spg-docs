@@ -213,6 +213,7 @@ nav:
           - Data-at-rest encryption:
             - About data-at-rest encryption: encryption.md
             - Configure data-at-rest encryption with HashiCorp Vault: encryption-setup.md
+            - Disable encryption: encryption-disable.md
           - Transport encryption (TLS/SSL):
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md

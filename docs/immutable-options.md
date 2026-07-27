@@ -43,25 +43,32 @@ The Operator sets and enforces the following PostgreSQL parameters. You cannot o
 
 When you enable built-in extensions, the Operator appends or sets the following parameters. You cannot override these values while the extension is enabled.
 
-**When `spec.extensions.builtin.pg_stat_statements` is `true`:**
+**When `spec.extensions.pg_stat_statements.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pg_stat_statements` |
 | `pg_stat_statements.track` | `all` |
 
-**When `spec.extensions.builtin.pg_stat_monitor` is `true`:**
+**When `spec.extensions.pg_stat_monitor.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pg_stat_monitor` |
 | `pg_stat_monitor.pgsm_query_max_len` | `2048` |
 
-**When `spec.extensions.builtin.pg_audit` is `true`:**
+**When `spec.extensions.pg_audit.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pgaudit` |
+
+**When `spec.extensions.pg_tde.enabled` is `true`:**
+
+| Parameter | Value |
+| --------- | ----- |
+| `shared_preload_libraries` | Appended with `pg_tde` |
+| `pg_tde.wal_encrypt` | `off` |
 
 !!! note
 
