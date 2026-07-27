@@ -6,7 +6,7 @@ Use status values to confirm progress, detect failures and decide when it is saf
 
 ## How to view custom resource statuses
 
-To check the status of your Percona custom resources, use the `kubectl get <resource-name>` or `kubectl describe <resource-name>` commands. See how to use them to get the quick overview, in-depth details, and targeted queries.
+To check the status of your Percona custom resources, use the `kubectl get <resource-type>` or `kubectl describe <resource-type>` commands. See how to use them to get the quick overview, in-depth details, and targeted queries.
 
 ### Get a quick overview
 
@@ -141,9 +141,8 @@ Common condition fields:
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
 | `APIGroupMigration` | Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See [Upgrade the Operator](update-operator.md). |
-| `RepoDeploymentNotFound` | A pgBackRest repository was not
-found during reconciliation | 
-| `RepoHostCreated` | A pgBackRest repository host was created | 
+| `RepoDeploymentNotFound` | A pgBackRest repository deployment was not found during reconciliation. |
+| `RepoHostCreated` | A pgBackRest repository host was created. |
 | `UnableToCreateStanzas` | 
 
 `status.conditions[].status` values:
