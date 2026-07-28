@@ -13,7 +13,7 @@ see the [RKE2 official documentation :octicons-link-external-16:](https://docs.r
 
 The following tools and access are required:
 
-1. **Linux hosts** that meet the [RKE2 requirements :octicons-link-external-16:](https://docs.rke2.io/install/requirements). For a production-like setup, use at least 3 nodes so the Operator can schedule instance Pods according to the [system requirements](System-Requirements.md#resource-limits).
+1. **Linux hosts** that meet the [RKE2 requirements :octicons-link-external-16:](https://docs.rke2.io/install/requirements). For a production-like setup, use at least 3 nodes so the Operator can schedule instance Pods according to the [system requirements](System-Requirements.md).
 
 2. **Root or sudo** access on each host to install and start RKE2 services.
 
