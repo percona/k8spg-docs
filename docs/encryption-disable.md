@@ -16,12 +16,27 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
     export CLUSTER_NAMESPACE=<namespace>
     ```
 
-2. Unencrypt **all encrypted databases** in your database. Connect to the primary database Pod as the `postgres` user, connect to each encrypted database and run the following command to unencrypt **every** encrypted table
+2. Unencrypt **all encrypted databases** in your database. 
+    
+    * Identify the primary pod:    
 
-    ```sql
-    ALTER TABLE <table_name> SET ACCESS METHOD heap;
-    ```
+        ```bash
+        export PRIMARY_POD=$(kubectl get pods -n "$CLUSTER_NAMESPACE" \
+        -l postgres-operator.crunchydata.com/role=primary \
+        -o jsonpath='{.items[0].metadata.name}')
+        ```
 
+    * Connect to the primary database Pod as the `postgres` user:
+
+        ```bash
+        kubectl -n $CLUSTER_NAMESPACE exec -it $PRIMARY_POD -- psql
+        ```
+
+    * Connect to each encrypted database and run the following command to unencrypt **every** encrypted table.
+
+        ```sql
+        ALTER TABLE <table_name> SET ACCESS METHOD heap;
+        ```
 
     Repeat for every encrypted table, index, and related object in every database. Leaving encrypted objects behind causes disable to fail.
 
@@ -64,8 +79,19 @@ Disabling `pg_tde` (Transparent Data Encryption) is generally not recommended, a
 6. Wait until the `PGTDEEnabled` condition reports `False`:
 
     ```bash
-    kubectl get pg <cluster-name> -n $CLUSTER_NAMESPACE -o yaml
+    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml | yq '.status.conditions.[] | select(.type == "PGTDEEnabled")' 
     ```
+
+    ??? example "Expected output"
+        
+        ```{.yaml .no-copy}
+        lastTransitionTime: "2026-07-28T10:24:15Z"
+        message: pg_tde is disabled in PerconaPGCluster
+        observedGeneration: 3
+        reason: Disabled
+        status: "False"
+        type: PGTDEEnabled
+        ```
 
     Confirm that Pods have finished restarting and the cluster is ready before continuing.
 

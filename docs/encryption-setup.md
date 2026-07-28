@@ -165,6 +165,7 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
     spec:
       ....
       extensions:
+        image: docker.io/perconalab/percona-postgresql-operator:{{release}}
         pg_tde: 
           enabled: true
           vault:
@@ -187,17 +188,12 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
 3. Check the `pg_tde` status:
 
     ```bash
-    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml
+    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml | yq '.status.conditions.[] | select(.type == "PGTDEEnabled" or .type == "PGTDEVaultProviderReady")'
     ```
-
-    Look for both conditions under `status.conditions`:
 
     ??? example "Expected output"
 
         ```{.yaml .no-copy}
-        status:
-          conditions:
-          .....
           - lastTransitionTime: "2026-03-04T13:29:51Z"
             message: pg_tde is enabled in PerconaPGCluster
             observedGeneration: 1
