@@ -70,7 +70,7 @@ For production, use a CSI driver appropriate for your infrastructure, such as
 
 ## Install the Operator and deploy your PostgreSQL cluster
 
-1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. :
+1. Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace.
 
     ```bash
     kubectl create namespace <namespace name>
