@@ -82,7 +82,7 @@ For production, use a CSI driver appropriate for your infrastructure, such as
 2. Deploy the Operator using the following command:
 
     ```bash
-    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n postgres-operator
+    kubectl apply --server-side -f https://raw.githubusercontent.com/percona/percona-postgresql-operator/v{{ release }}/deploy/bundle.yaml -n <namespace name>
     ```
 
     ??? example "Expected output"
