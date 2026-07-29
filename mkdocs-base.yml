@@ -261,6 +261,9 @@ nav:
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
+          - Logging:
+              - "Persistent logging": persistent-logging.md
+              - "Log rotation": log-rotation.md
     
     - Upgrade:
           - About upgrades: update.md
