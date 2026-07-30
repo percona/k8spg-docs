@@ -39,7 +39,7 @@ In addition to that:
 
 * Run up to 4 pgBackrest repositories
 * [Bootstrap the cluster](../backups.md) from the existing backup through Custom Resource
-* [Azure Blob Storage support](../backups-storage.md)
+* [Azure Blob Storage support](../backups-storage-azure.md)
 
 ## Operations
 

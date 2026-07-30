@@ -22,7 +22,7 @@ openssl rand -base64 48
 
 ## Configure backup storage
 
-Follow the general [backup storage configuration](backups-storage.md)
+Follow the general [backup storage configuration](backups-storage.md#storage-setup-guides)
 instruction relevant to the backup storage you are using. The only difference is in encoding your cloud credentials and the pgBackRest repository name to be used for backups: you also add the encryption key to the configuration file as the `repo-cipher-pass` option. The repo name within the option must match the pgBackRest repo name.
 
 The following example shows the configuration for S3-compatible storage and the pgBackRest repo name `repo2` (other cloud storages are configured similarly).
@@ -51,7 +51,7 @@ The following example shows the configuration for S3-compatible storage and the 
          EOF
          ``` 
 
-2. Create the Secrets configuration file and the Secrets object as described in steps 2-3 of the [S3-compatible backup storage configuration](backups-storage.md). Follow the instructions relevant to the backup storage you are using. 
+2. Create the Secrets configuration file and the Secrets object following steps 2-3 of the [S3-compatible backup storage configuration](backups-storage-s3.md#__tabbed_1_1). For other storage types, consult the [relevant configuration tutorial](backups-storage.md#storage-setup-guides).
 
 3. Update the `deploy/cr.yaml` configuration. Specify the following information:
 

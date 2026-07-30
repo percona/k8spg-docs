@@ -9,7 +9,7 @@ copyright:
 use_directory_urls: false
 repo_name: percona/k8spg-docs
 repo_url: https://github.com/percona/k8spg-docs
-edit_uri: edit/2.0/docs/
+edit_uri: edit/3.0/docs/
 
 theme:
   name: material
@@ -63,11 +63,13 @@ extra_css:
   - css/operators.css
   - css/extra.css
   - css/rating.css
+  - css/kapa.css
 
 extra_javascript:
   - js/promptremover.js
   - js/consent.js
   - js/rating.js
+  - js/kapa.js
 #  - js/percona-select.js
 #  - js/version-select.js
 #  - js/toctree.js
@@ -178,6 +180,7 @@ nav:
           - "How the Operator works": operator-how-it-works.md
           - "Cluster architecture": architecture.md
           - "Comparison with other solutions": compare.md
+          - "Known limitations": limitations.md
     - get-help.md
     - Quickstart guide:
           - "Overview": quickstart.md
@@ -211,6 +214,7 @@ nav:
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
             - "Migrate from Operator-generated certificates to cert-manager": tls-migrate-to-cert-manager.md
+            - "Migrate from cert-manager to custom TLS certificates": tls-migrate-from-cert-manager.md
             - "Generate certificates manually": tls-manual.md
             - "Update TLS/SSL certificates": tls-update.md
             - "Check TLS communication": tls-verify-communication.md
@@ -223,7 +227,12 @@ nav:
     - Management:
           - Back up and restore: 
             - "About backups": backups.md
-            - "Configure storage for backups": backups-storage.md
+            - Configure storage for backups:
+              - "Overview": backups-storage.md
+              - "Amazon S3 storage": backups-storage-s3.md
+              - "Google Cloud Storage": backups-storage-gcs.md
+              - "Microsoft Azure Blob Storage": backups-storage-azure.md
+              - "Persistent Volume": backups-storage-pv.md
             - Make a backup:
               - Scheduled backup: backups-schedule.md
               - On-demand backup: backups-ondemand.md
@@ -262,10 +271,12 @@ nav:
             - update-db-major.md
           - "Upgrade PostgreSQL extensions": update-extensions.md
           - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
-          - Upgrade from version 1 to version 2:
-              - "Using data volumes": update-data-volumes.md
-              - "Using backup and restore": update-backup-restore.md
-              - "Using standby": update-standby.md
+          - Migrate from Crunchy Operator for PostgreSQL: 
+              - "About migration from Crunchy to Percona Operator for PostgreSQL": migrate-from-crunchy.md
+              - "Migrate using a standby cluster": migrate-from-crunchy-standby.md
+              - "Migrate using backup and restore": migrate-from-crunchy-backup-restore.md
+              - "Migrate using data volumes": migrate-from-crunchy-data-volumes.md
+ 
     - How-to:
           - "Install the database with customized parameters": custom-install.md
           - "Run Initialization SQL commands at cluster creation time": initsql.md
@@ -291,8 +302,9 @@ nav:
     - Reference:
           - "Custom Resource options": operator.md
           - "Backup resource options": backup-resource-options.md
-          - "Restore options": restore-options.md
+          - "Restore resourceoptions": restore-options.md
           - "Secrets options": secret-options.md
+          - "Upgrade resource options": upgrade-options.md
           - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
           - "Versions compatibility": versions.md
@@ -300,8 +312,10 @@ nav:
           - Legal:
             - "Copyright and licensing information": copyright.md
             - "Trademark policy": trademark-policy.md
+            - "Legal notice": legal-notice.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.0.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.1.md

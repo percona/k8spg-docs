@@ -2,7 +2,7 @@ name: Build Percona Operator for PostgreSQL docs
 on:
   push:
     branches: 
-      - 2.0
+      - 3.0
 
      
 jobs:

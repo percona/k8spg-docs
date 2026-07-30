@@ -43,66 +43,65 @@ Install cert-manager before deploying the Operator and cluster. You can use eith
 
 By default the cert-manager is installed in the `cert-manager` namespace. 
 
-===  "with kubectl"
+=== "with kubectl"
 
-     ```bash
-     kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v{{certmanagerrecommended}}/cert-manager.yaml 
-     ```
+    ```bash
+    kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v{{certmanagerrecommended}}/cert-manager.yaml 
+    ```
  
-     ??? example "Expected output"
+    ??? example "Expected output"
 
-         ```{.text .no-copy}
-         namespace/cert-manager created
-         customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
-         customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
-         customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io created
-         customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io created
-         customresourcedefinition.apiextensions.k8s.io/issuers.cert-manager.io created
-         customresourcedefinition.apiextensions.k8s.io/orders.acme.cert-manager.io created
-         serviceaccount/cert-manager-cainjector created
-         serviceaccount/cert-manager created
-         serviceaccount/cert-manager-webhook created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-cainjector created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-issuers created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificates created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-orders created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-challenges created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-cluster-view created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-view created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-edit created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
-         clusterrole.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-cainjector created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-issuers created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificates created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-orders created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-challenges created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
-         clusterrolebinding.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
-         role.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
-         role.rbac.authorization.k8s.io/cert-manager:leaderelection created
-         role.rbac.authorization.k8s.io/cert-manager-tokenrequest created
-         role.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
-         rolebinding.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
-         rolebinding.rbac.authorization.k8s.io/cert-manager:leaderelection created
-         rolebinding.rbac.authorization.k8s.io/cert-manager-cert-manager-tokenrequest created
-         rolebinding.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
-         service/cert-manager-cainjector created
-         service/cert-manager created
-         service/cert-manager-webhook created
-         deployment.apps/cert-manager-cainjector created
-         deployment.apps/cert-manager created
-         deployment.apps/cert-manager-webhook created
-         mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
-         validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
-         ```
-
+        ```{.text .no-copy}
+        namespace/cert-manager created
+        customresourcedefinition.apiextensions.k8s.io/certificaterequests.cert-manager.io created
+        customresourcedefinition.apiextensions.k8s.io/certificates.cert-manager.io created
+        customresourcedefinition.apiextensions.k8s.io/challenges.acme.cert-manager.io created
+        customresourcedefinition.apiextensions.k8s.io/clusterissuers.cert-manager.io created
+        customresourcedefinition.apiextensions.k8s.io/issuers.cert-manager.io created
+        customresourcedefinition.apiextensions.k8s.io/orders.acme.cert-manager.io created
+        serviceaccount/cert-manager-cainjector created
+        serviceaccount/cert-manager created
+        serviceaccount/cert-manager-webhook created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-cainjector created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-orders created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-cluster-view created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-view created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-edit created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+        clusterrole.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-cainjector created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-issuers created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-clusterissuers created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificates created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-orders created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-challenges created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-ingress-shim created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-approve:cert-manager-io created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-controller-certificatesigningrequests created
+        clusterrolebinding.rbac.authorization.k8s.io/cert-manager-webhook:subjectaccessreviews created
+        role.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+        role.rbac.authorization.k8s.io/cert-manager:leaderelection created
+        role.rbac.authorization.k8s.io/cert-manager-tokenrequest created
+        role.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+        rolebinding.rbac.authorization.k8s.io/cert-manager-cainjector:leaderelection created
+        rolebinding.rbac.authorization.k8s.io/cert-manager:leaderelection created
+        rolebinding.rbac.authorization.k8s.io/cert-manager-cert-manager-tokenrequest created
+        rolebinding.rbac.authorization.k8s.io/cert-manager-webhook:dynamic-serving created
+        service/cert-manager-cainjector created
+        service/cert-manager created
+        service/cert-manager-webhook created
+        deployment.apps/cert-manager-cainjector created
+        deployment.apps/cert-manager created
+        deployment.apps/cert-manager-webhook created
+        mutatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+        validatingwebhookconfiguration.admissionregistration.k8s.io/cert-manager-webhook created
+        ```
 
 === "with Helm"
 
@@ -192,4 +191,8 @@ kubectl get certificate <cluster-name>-cluster-ca-cert -n <namespace> -o yaml
 ```
 
 The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. `<cluster-name>-cluster-ca-cert`, `<cluster-name>-cluster-cert`, `<cluster-name>-replication-cert`).
+
+## Related
+
+If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md).
 
