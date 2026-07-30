@@ -34,7 +34,7 @@ When the WAL lag exceeds the value you specified in the `standby.maxAcceptableLa
 
 * The primary pod in the standby cluster is marked as `Unready`
 * The cluster goes into the `initializing` state
-* The `StandbyLagging` condition is set in the cluster status. You can check the conditions with the `kubectl describe pg <cluster-name> -n <namespace>` command.
+* The `StandbyLagging` condition is set in the cluster status. You can check the conditions with the `kubectl describe pg <cluster-name> -n <namespace>` command. See [Custom resource statuses](cr-statuses.md#conditions) for the full list of conditions.
 
 ### Monitor lag in the cluster status
 

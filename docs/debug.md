@@ -18,7 +18,7 @@ kubectl get pg
 
     --8<-- "kubectl-get-pg-response.txt"
 
-The Custom Resource should have `Ready` status.
+The Custom Resource should have the `ready` status. See [Custom resource statuses](cr-statuses.md) for other possible values.
 
 !!! note
 
