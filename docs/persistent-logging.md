@@ -17,7 +17,7 @@ By default, Fluent Bit ships collected records as JSON lines to standard output.
 kubectl logs <instance-pod-name> -c logs -n <namespace>
 ```
 
-You can additionally configure Fluent Bit outputs such as S3 or OTel envelope and have the logs forwarded there. Refer to the [Customize Fluent Bit](#customize-fluent-bit) section for details.
+You can additionally configure Fluent Bit outputs such as S3 or an OpenTelemetry (OTel) envelope and have the logs forwarded there. Refer to the [Customize Fluent Bit](#customize-fluent-bit) section for details.
 
 Log collection is available starting with Operator version 3.1.0. It is **disabled by default**. When enabled, the Operator also adds a `logrotate` sidecar that manages retention of the on-disk log files. See [Log rotation](log-rotation.md) for details.
 

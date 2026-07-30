@@ -5,7 +5,7 @@ database Pods and the Operator Pod.
 
 If you enable [persistent logging](persistent-logging.md), the Operator also runs a `logs` (Fluent Bit) sidecar container on each PostgreSQL instance Pod. That sidecar streams collected PostgreSQL and pgBackRest log records to its own stdout, and the source files remain on the instance data volume across Pod restarts. 
 
-Following flags are helpful for checking the
+The following flags are helpful for checking the
 logs with the `kubectl logs` command:
 
 | Flag                                |  Description                                                              |

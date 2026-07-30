@@ -2040,7 +2040,7 @@ Extra Fluent Bit configuration merged with the Operator-managed pipeline. Must b
 
 ### `logcollector.env.name`
 
-The name of a custom environment variable for the `logs`  sidecar containers.
+The name of a custom environment variable for the `logs` sidecar containers.
 
 | Value type | Example |
 | ---------- | ------- |

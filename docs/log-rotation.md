@@ -13,7 +13,7 @@ By default, `logrotate` rotates logs as follows:
   
     * Rotates log files when they reach 100 megabytes in size (`size 100M`). This acts as a safety measure to prevent the logs from using too much disk space. The rotation by size does not replace or interfere with PostgreSQL's built-in log rotation, which is based on the age or time of the log files using the `logging_collector` setting. This ensures both rotation methods work together without causing conflicts.
     * Keeps up to 7 rotated files
-  * Uses `copytruncate`, which means `logrotate` copies the log file contents to a rotated file and empties the original file in place. This allows processes like PostgreSQL and pgBackRest to keep writing to the same log file without needing to close and reopen it, ensuring uninterrupted logging during rotation.
+    * Uses `copytruncate`, which means `logrotate` copies the log file contents to a rotated file and empties the original file in place. This allows processes like PostgreSQL and pgBackRest to keep writing to the same log file without needing to close and reopen it, ensuring uninterrupted logging during rotation.
 
 * **pgBackRest client logs on instance Pods** under `/pgdata/pgbackrest/log/*.log`:
   
@@ -42,7 +42,7 @@ Use the `spec.logcollector.logRotate.configuration` section in the Custom Resour
 
     You must provide the full `logrotate` configuration because the Operator replaces the default configuration with the one you provide. Refer to the [default configuration :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/build/postgres-operator/logcollector/logrotate/logrotate.conf) to see the built-in rules and use it as a guide for your custom settings.
 
-Here's the examples configuration that rotates PostgreSQL logs hourly and keeps three copies:
+Here's an example configuration that rotates PostgreSQL logs hourly and keeps three copies:
 
 ```yaml
 spec:
@@ -86,7 +86,7 @@ For example, you want to record that a log rotation ran. To do that, add a postr
     kind: ConfigMap
     metadata:
       name: my-logrotate-extra
-      namespace: kech1
+      namespace: <namespace>
     data:
       extra.conf: |
         /pgdata/pg18/log/*.log {
