@@ -4509,6 +4509,34 @@
   
   
     <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom resource statuses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secret-options.html" class="md-nav__link">
         
   
@@ -4685,10 +4713,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_11" >
         
           
-          <label class="md-nav__link" for="__nav_11_10" id="__nav_11_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11_11" id="__nav_11_11_label" tabindex="0">
             
   
   
@@ -4706,8 +4734,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -7189,6 +7217,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#cr-statuses" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom resource statuses
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#secret-options" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7255,7 +7294,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-11-10" class="md-nav__link">
+  <a href="#section-11-11" class="md-nav__link">
     <span class="md-ellipsis">
       
         Legal
@@ -14934,7 +14973,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <ul>
 <li>The primary pod in the standby cluster is marked as <code>Unready</code></li>
 <li>The cluster goes into the <code>initializing</code> state</li>
-<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command.</li>
+<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command. See <a href="#cr-statuses-conditions">Custom resource statuses</a> for the full list of conditions.</li>
 </ul>
 <h3 id="standby-monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a class="headerlink" href="#standby-monitor-lag-in-the-cluster-status" title="Permanent link">&para;</a></h3>
 <p>When lag detection is enabled, the cluster status includes a <code>standby</code> section that shows the current lag and when it was last computed. Use <code>kubectl get pg &lt;cluster-name&gt; -n &lt;namespace&gt; -o yaml</code> and look at <code>status.standby</code>:</p>
@@ -20245,7 +20284,7 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </code></pre></div>
 </details>
-<p>The Custom Resource should have <code>Ready</code> status.</p>
+<p>The Custom Resource should have the <code>ready</code> status. See <a href="#cr-statuses">Custom resource statuses</a> for other possible values.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You can check which Percona’s Custom Resources are present and get some information about them as follows:</p>
@@ -26108,7 +26147,371 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td><code>restore-env-secret</code></td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="secret-options" heading-number="11.4"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="cr-statuses" heading-number="11.4"><h1 id="cr-statuses-custom-resource-statuses">Custom resource statuses<a class="headerlink" href="#cr-statuses-custom-resource-statuses" title="Permanent link">&para;</a></h1>
+<p>Status fields show the current state of a Custom Resource (CR). The Operator sets these fields in the <code>.status</code> section of a Custom Resource. You do not edit the status.</p>
+<p>Use status values to confirm progress, detect failures and decide when it is safe to run the next action. For example, start a backup after the cluster is ready for backups, or start a restore after a backup has succeeded.</p>
+<h2 id="cr-statuses-how-to-view-custom-resource-statuses">How to view custom resource statuses<a class="headerlink" href="#cr-statuses-how-to-view-custom-resource-statuses" title="Permanent link">&para;</a></h2>
+<p>To check the status of your Percona custom resources, use the <code>kubectl get &lt;resource-type&gt;</code> or <code>kubectl describe &lt;resource-type&gt;</code> commands. See how to use them to get the quick overview, in-depth details, and targeted queries.</p>
+<h3 id="cr-statuses-get-a-quick-overview">Get a quick overview<a class="headerlink" href="#cr-statuses-get-a-quick-overview" title="Permanent link">&para;</a></h3>
+<p>List your resources and check their high-level STATUS:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<details class="example">
+<summary>Sample output for PerconaPGCluster</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                            STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.default.svc      ready    3          3           30m
+</code></pre></div>
+</details>
+<h3 id="cr-statuses-view-full-details">View full details<a class="headerlink" href="#cr-statuses-view-full-details" title="Permanent link">&para;</a></h3>
+<p>See all status details as well as conditions and events:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
+kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>Check for the <code>.status</code> field in the output to find the current state, readiness, messages, and conditions.</p>
+<h3 id="cr-statuses-query-a-status-field-directly">Query a status field directly<a class="headerlink" href="#cr-statuses-query-a-status-field-directly" title="Permanent link">&para;</a></h3>
+<p>You can extract specific status fields using <code>jsonpath</code>.</p>
+<p><strong>Example 1. Check whether the cluster is ready for backups:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{range .status.conditions[?(@.type==&quot;ReadyForBackup&quot;)]}{.lastTransitionTime}{&quot;\n&quot;}{.reason}{&quot;\n&quot;}{.status}{&quot;\n&quot;}{.type}{&quot;\n&quot;}{end}&#39;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>2026-07-22T12:34:56Z
+AllConditionsAreTrue
+True
+ReadyForBackup
+</code></pre></div>
+</details>
+<p><strong>Example 2. Get the latest restorable backup time:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>2026-07-22 12:22:17.000000+0000
+</code></pre></div>
+</details>
+<p><strong>Example 3. Check standby replication lag:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.standby.lagBytes}{&quot;\n&quot;}{.status.standby.lagLastComputedAt}{&quot;\n&quot;}&#39;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>2343212
+2026-07-22T12:07:05Z
+</code></pre></div>
+</details>
+<h2 id="cr-statuses-perconapgcluster-status">PerconaPGCluster status<a class="headerlink" href="#cr-statuses-perconapgcluster-status" title="Permanent link">&para;</a></h2>
+<p>The main cluster state is recorded in <code>status.state</code>. For component-level readiness, see <code>status.postgres</code> and <code>status.pgbouncer</code>. Backup repository details appear under <code>status.pgbackrest</code>, and Patroni details under <code>status.patroni</code>.</p>
+<p>Common fields:</p>
+<ul>
+<li><code>status.state</code> – overall cluster state</li>
+<li><code>status.postgres.ready</code> / <code>status.postgres.size</code> – number of ready PostgreSQL Pods and the configured size</li>
+<li><code>status.postgres.instances</code> – readiness per instance set</li>
+<li><code>status.pgbouncer.ready</code> / <code>status.pgbouncer.size</code> – number of ready PgBouncer Pods and the configured size</li>
+<li><code>status.host</code> – connection endpoint (primary Service or PgBouncer, depending on your proxy configuration)</li>
+<li><code>status.pgbackrest</code> – pgBackRest repository host, repos, and backup or restore job status</li>
+<li><code>status.patroni</code> – Patroni version and status (system identifier, switchover tracking)</li>
+<li><code>status.standby</code> – replication lag for standby clusters when lag detection is enabled</li>
+<li><code>status.conditions</code> – detailed condition list with reason and message. See <a href="#cr-statuses-conditions">Conditions</a> for details.</li>
+<li><code>status.observedGeneration</code> – the generation of the Custom Resource that the Operator last successfully wrote into status.</li>
+<li><code>status.installedCustomExtensions</code> – names of custom extensions installed from the Custom Resource</li>
+</ul>
+<h3 id="cr-statuses-cluster-state-values">Cluster state values<a class="headerlink" href="#cr-statuses-cluster-state-values" title="Permanent link">&para;</a></h3>
+<p><code>status.state</code> values are:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>initializing</code></td>
+<td>The Operator is creating or reconciling the cluster. PostgreSQL Pods, PgBouncer Pods, or the pgBackRest repo host are not ready yet, or an update is still rolling out.</td>
+</tr>
+<tr>
+<td><code>stopping</code></td>
+<td>The cluster is paused (<code>spec.pause: true</code>) but some PostgreSQL Pods are still ready.</td>
+</tr>
+<tr>
+<td><code>paused</code></td>
+<td>The cluster is paused and no PostgreSQL Pods are ready.</td>
+</tr>
+<tr>
+<td><code>ready</code></td>
+<td>PostgreSQL and PgBouncer Pods match the desired size, the pgBackRest repo host is ready, and instance updates have finished.</td>
+</tr>
+</tbody>
+</table>
+<p>Unlike some other Percona Operators, <code>PerconaPGCluster</code> does not use an <code>error</code> value for <code>status.state</code>. Investigate problems through conditions, events, and Pod or Job status.</p>
+<h3 id="cr-statuses-conditions">Conditions<a class="headerlink" href="#cr-statuses-conditions" title="Permanent link">&para;</a></h3>
+<p>Conditions show more detail about cluster state changes. You can see them in <code>status.conditions[]</code>.</p>
+<p>Common condition fields:</p>
+<ul>
+<li><code>type</code> – condition type</li>
+<li><code>status</code> – condition status</li>
+<li><code>reason</code> – short reason string</li>
+<li><code>message</code> – human-readable details</li>
+</ul>
+<p><code>status.conditions[].type</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ReadyForBackup</code></td>
+<td>The cluster is ready for backup operations. Set to <code>True</code> when the pgBackRest repo host is ready and a replica-create backup is available.</td>
+</tr>
+<tr>
+<td><code>PGBackRestRepoHostReady</code></td>
+<td>The dedicated pgBackRest repository host is ready.</td>
+</tr>
+<tr>
+<td><code>PGBackRestReplicaCreate</code></td>
+<td>pgBackRest can be used for replica creation (a suitable backup exists).</td>
+</tr>
+<tr>
+<td><code>PGBackRestReplicaRepoReady</code></td>
+<td>The pgBackRest repository used for creating replicas is ready.</td>
+</tr>
+<tr>
+<td><code>PGBackRestManualBackupSuccessful</code></td>
+<td>Indicates whether or not the latest on-demand backup for the current backup ID completed successfully.</td>
+</tr>
+<tr>
+<td><code>PGBackRestoreProgressing</code></td>
+<td>An in-place pgBackRest restore is in progress.</td>
+</tr>
+<tr>
+<td><code>PostgresDataInitialized</code></td>
+<td>The PostgreSQL data directory has been initialized (for example, via a restore).</td>
+</tr>
+<tr>
+<td><code>ProxyAvailable</code></td>
+<td>The PgBouncer Deployment is available.</td>
+</tr>
+<tr>
+<td><code>Progressing</code></td>
+<td>The cluster is progressing through a reconciliation or change.</td>
+</tr>
+<tr>
+<td><code>PersistentVolumeResizing</code></td>
+<td>A Persistent Volume resize is in progress.</td>
+</tr>
+<tr>
+<td><code>StandbyLagging</code></td>
+<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="#standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
+</tr>
+<tr>
+<td><code>APIGroupMigration</code></td>
+<td>Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See <a href="#update-operator">Upgrade the Operator</a>.</td>
+</tr>
+<tr>
+<td><code>RepoDeploymentNotFound</code></td>
+<td>A pgBackRest repository deployment was not found during reconciliation.</td>
+</tr>
+<tr>
+<td><code>RepoHostCreated</code></td>
+<td>A pgBackRest repository host was created.</td>
+</tr>
+</tbody>
+</table>
+<p><code>status.conditions[].status</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>True</code></td>
+<td>The condition is currently true.</td>
+</tr>
+<tr>
+<td><code>False</code></td>
+<td>The condition is currently false.</td>
+</tr>
+<tr>
+<td><code>Unknown</code></td>
+<td>The Operator could not determine the condition state.</td>
+</tr>
+</tbody>
+</table>
+<p>The Operator sets <code>reason</code> and <code>message</code> values as free-form strings. Common reasons include:</p>
+<ul>
+<li><code>AllConditionsAreTrue</code>, <code>PGBackRestRepoHostReady</code>, <code>PGBackRestReplicaCreate</code> (for <code>ReadyForBackup</code>)</li>
+<li><code>RepoHostReady</code>, <code>RepoHostNotReady</code>, <code>RepoHostStatusMissing</code></li>
+<li><code>LagDetected</code>, <code>LagNotDetected</code>, <code>ErrorGettingLag</code>, <code>MainSiteNotFound</code> (for <code>StandbyLagging</code>)</li>
+<li><code>APIGroupMigrationCompleted</code>, <code>APIGroupMigrationInProgress</code>, <code>APIGroupMigrationNotNeeded</code></li>
+<li><code>ReadyForRestore</code>, <code>RestoreInPlaceRequested</code>, <code>PGBackRestRestoreComplete</code>, <code>PGBackRestRestoreFailed</code></li>
+<li><code>ManualBackupComplete</code>, <code>ManualBackupFailed</code></li>
+</ul>
+<h3 id="cr-statuses-standby-status">Standby status<a class="headerlink" href="#cr-statuses-standby-status" title="Permanent link">&para;</a></h3>
+<p>When you enable replication lag detection on a <a href="#standby">standby cluster</a>, the Operator also populates <code>status.standby</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>status.standby.lagBytes</code></td>
+<td>Current WAL lag in bytes</td>
+</tr>
+<tr>
+<td><code>status.standby.lagLastComputedAt</code></td>
+<td>Timestamp of the last lag check</td>
+</tr>
+</tbody>
+</table>
+<p>When lag exceeds your threshold, <code>status.state</code> becomes <code>initializing</code>, the standby primary Pod is marked unready, and the <code>StandbyLagging</code> condition is set to <code>True</code>.</p>
+<h2 id="cr-statuses-perconapgbackup-status">PerconaPGBackup status<a class="headerlink" href="#cr-statuses-perconapgbackup-status" title="Permanent link">&para;</a></h2>
+<p>Backup progress and results are in <code>status.state</code>. You also get destination, type, and timing details that help you validate backups and point-in-time recovery ranges. Backups are managed with <code>pgBackRest</code> (or <code>VolumeSnapshots</code> when you choose that method).</p>
+<p>Common fields are:</p>
+<ul>
+<li><code>status.backupName</code> – pgBackRest backup name</li>
+<li><code>status.backupType</code> – backup type (<code>full</code>, <code>differential</code>, <code>incremental</code>, or <code>snapshot</code>)</li>
+<li><code>status.completed</code> – completion timestamp</li>
+<li><code>status.crVersion</code> - the Operator version that took the backup</li>
+<li><code>status.conditions</code> – backup-related conditions (for example, lease acquisition)</li>
+<li><code>status.destination</code> – backup path or URL</li>
+<li><code>status.image</code> - the Operator image</li>
+<li><code>status.error</code> – error details when the backup fails</li>
+<li><code>status.jobName</code> – Kubernetes Job that ran the backup</li>
+<li><code>status.latestRestorableTime</code> – latest point for point-in-time recovery from this backup</li>
+<li><code>status.repo</code> – the details of the pgBackRest repository where the backup is stored</li>
+<li><code>status.size</code> - the size of the backup taken. Applies for full, incremental and differential backups.</li>
+<li><code>status.snapshot</code> – VolumeSnapshot references when the backup method is <code>volumeSnapshot</code></li>
+<li><code>status.state</code> – backup job state</li>
+<li><code>status.storageType</code> – storage backend (<code>s3</code>, <code>gcs</code>, <code>azure</code>, or <code>filesystem</code>)</li>
+</ul>
+<h3 id="cr-statuses-backup-state-values">Backup state values<a class="headerlink" href="#cr-statuses-backup-state-values" title="Permanent link">&para;</a></h3>
+<p><code>status.state</code> values are:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>""</code></td>
+<td>Backup is created but not processed yet.</td>
+</tr>
+<tr>
+<td><code>Starting</code></td>
+<td>The Operator is preparing the backup Job.</td>
+</tr>
+<tr>
+<td><code>Running</code></td>
+<td>Backup is in progress.</td>
+</tr>
+<tr>
+<td><code>Succeeded</code></td>
+<td>Backup completed successfully.</td>
+</tr>
+<tr>
+<td><code>Failed</code></td>
+<td>Backup failed. Check <code>status.error</code> and related Jobs.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="cr-statuses-backup-conditions">Backup conditions<a class="headerlink" href="#cr-statuses-backup-conditions" title="Permanent link">&para;</a></h3>
+<p><code>PerconaPGBackup</code> may include conditions such as:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>BackupLeaseAcquired</code></td>
+<td>The backup acquired the lease required to run. When <code>False</code>, another backup may still hold the lease.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cr-statuses-perconapgrestore-status">PerconaPGRestore status<a class="headerlink" href="#cr-statuses-perconapgrestore-status" title="Permanent link">&para;</a></h2>
+<p>Restore progress and results are in <code>status.state</code>. Use these fields to confirm when a restore starts, finishes, or fails.</p>
+<p>Common fields:</p>
+<ul>
+<li><code>status.state</code> – restore job state</li>
+<li><code>status.jobName</code> – Kubernetes Job that ran the restore</li>
+<li><code>status.completed</code> – completion timestamp</li>
+</ul>
+<p>For in-place restores driven through the cluster Custom Resource, also check the <code>PGBackRestoreProgressing</code> condition on the related <code>PerconaPGCluster</code>.</p>
+<h3 id="cr-statuses-restore-state-values">Restore state values<a class="headerlink" href="#cr-statuses-restore-state-values" title="Permanent link">&para;</a></h3>
+<p><code>status.state</code> values are:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>""</code></td>
+<td>Restore is created but not processed yet.</td>
+</tr>
+<tr>
+<td><code>Starting</code></td>
+<td>The Operator is preparing the restore Job.</td>
+</tr>
+<tr>
+<td><code>Running</code></td>
+<td>Restore is in progress.</td>
+</tr>
+<tr>
+<td><code>Succeeded</code></td>
+<td>Restore completed successfully.</td>
+</tr>
+<tr>
+<td><code>Failed</code></td>
+<td>Restore failed. Check Jobs, events, and cluster conditions.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="cr-statuses-perconapgupgrade-status">PerconaPGUpgrade status<a class="headerlink" href="#cr-statuses-perconapgupgrade-status" title="Permanent link">&para;</a></h2>
+<p>Major PostgreSQL upgrades use the <code>PerconaPGUpgrade</code> Custom Resource. Progress is reported through conditions rather than a single <code>status.state</code> field.</p>
+<p>Common fields:</p>
+<ul>
+<li><code>status.conditions</code> – upgrade progress and result</li>
+<li><code>status.observedGeneration</code> – the resource generation that the Operator last reconciled</li>
+</ul>
+<p><code>status.conditions[].type</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Progressing</code></td>
+<td>A major PostgreSQL upgrade is in progress.</td>
+</tr>
+<tr>
+<td><code>Succeeded</code></td>
+<td>The major upgrade finished successfully when the condition status is <code>True</code>.</td>
+</tr>
+</tbody>
+</table></section><section class="print-page" id="secret-options" heading-number="11.5"><h1 id="secret-options-secrets-resource-options">Secrets Resource options<a class="headerlink" href="#secret-options-secrets-resource-options" title="Permanent link">&para;</a></h1>
 <p>A Kubernetes Secret is an object used to store sensitive data, such as passwords, tokens, or keys in a secure and manageable way. Unlike ConfigMaps, Secrets are specifically designed to hold confidential information and can be mounted as volumes or injected into environment variables within Pods.</p>
 <h2 id="secret-options-apiversion"><code>apiVersion</code><a class="headerlink" href="#secret-options-apiversion" title="Permanent link">&para;</a></h2>
 <p>Specifies the API version of the Custom Resource.</p>
@@ -26133,7 +26536,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td><code>PMM_SERVER_TOKEN</code></td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="upgrade-options" heading-number="11.5"><h1 id="upgrade-options-upgrade-resource-options">Upgrade Resource options<a class="headerlink" href="#upgrade-options-upgrade-resource-options" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="upgrade-options" heading-number="11.6"><h1 id="upgrade-options-upgrade-resource-options">Upgrade Resource options<a class="headerlink" href="#upgrade-options-upgrade-resource-options" title="Permanent link">&para;</a></h1>
 <p>When you upgrade from one major version of Percona Distribution for PostgreSQL to another one (for example, from 17 to 18), the Operator creates a special Upgrade resource, <code>PerconaPGUpgrade</code>.</p>
 <p>This document describes all available options that you can use to configure the major upgrade flow.</p>
 <h2 id="upgrade-options-apiversion"><code>apiVersion</code><a class="headerlink" href="#upgrade-options-apiversion" title="Permanent link">&para;</a></h2>
@@ -26259,7 +26662,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td><code>docker.io/percona/percona-pgbackrest:2.58.0-2</code></td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="immutable-options" heading-number="11.6"><h1 id="immutable-options-immutable-options">Immutable options<a class="headerlink" href="#immutable-options-immutable-options" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="immutable-options" heading-number="11.7"><h1 id="immutable-options-immutable-options">Immutable options<a class="headerlink" href="#immutable-options-immutable-options" title="Permanent link">&para;</a></h1>
 <p>Percona Operator for PostgreSQL manages certain options internally to ensure cluster health, backup integrity, and security. You cannot change these options through the Custom Resource or other configuration methods. If you try to modify them, the Operator reconciles the cluster and reverts your changes.</p>
 <p>There are some options that you can override and some of them have modification limits.</p>
 <p>This document lists all of them:</p>
@@ -26468,7 +26871,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <h3 id="immutable-options-storage-size">Storage size<a class="headerlink" href="#immutable-options-storage-size" title="Permanent link">&para;</a></h3>
 <p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="#scaling-scale-storage">Scale storage</a>.</p>
 <h2 id="immutable-options-patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#immutable-options-patroni-dynamic-configuration" title="Permanent link">&para;</a></h2>
-<p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="#options">Changing PostgreSQL options</a>.</p></section><section class="print-page" id="images" heading-number="11.7"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
+<p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="#options">Changing PostgreSQL options</a>.</p></section><section class="print-page" id="images" heading-number="11.8"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL 3.0.0. </p>
 <p>To find images for a specific Operator version, see <a href="#image-query">Retrieve Percona certified images</a></p>
 <p><strong>Images released with the Operator version 3.0.0:</strong></p>
@@ -26610,7 +27013,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </tr>
 </tbody>
 </table>
-<p>For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p></section><section class="print-page" id="versions" heading-number="11.8"><h1 id="versions-versions-compatibility">Versions compatibility<a class="headerlink" href="#versions-versions-compatibility" title="Permanent link">&para;</a></h1>
+<p>For older versions, please refer to the <a href="https://docs.percona.com/legacy-documentation/">old releases documentation archive <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p></section><section class="print-page" id="versions" heading-number="11.9"><h1 id="versions-versions-compatibility">Versions compatibility<a class="headerlink" href="#versions-versions-compatibility" title="Permanent link">&para;</a></h1>
 <p>Versions of the cluster components and platforms tested with different Operator releases are shown below. Other version combinations may also work but have not been tested.</p>
 <p>Cluster components:</p>
 <table>
@@ -26975,7 +27378,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <td style="text-align: left;">-</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="about-docs" heading-number="11.9"><h1 id="about-docs-about-documentation">About documentation<a class="headerlink" href="#about-docs-about-documentation" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="about-docs" heading-number="11.10"><h1 id="about-docs-about-documentation">About documentation<a class="headerlink" href="#about-docs-about-documentation" title="Permanent link">&para;</a></h1>
 <p>This document describes how to deploy, configure, and operate Percona Operator for PostgreSQL on Kubernetes. It also includes reference materials for Custom Resource options, backup and restore settings, and related topics.</p>
 <h2 id="about-docs-documentation-versions">Documentation versions<a class="headerlink" href="#about-docs-documentation-versions" title="Permanent link">&para;</a></h2>
 <p>We recommend that you run the latest version of Percona Operator for PostgreSQL to receive bug fixes and new features. For that reason, the default view of this site reflects the latest documentation.</p>
@@ -26988,12 +27391,12 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <p>To report a problem with the documentation, use the feedback widget at the bottom of the page or open a ticket in the <a href="https://jira.percona.com/projects/K8SPG/issues">Percona Operator for PostgreSQL project <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> on Jira.</p>
 <h2 id="about-docs-how-to-contribute">How to contribute<a class="headerlink" href="#about-docs-how-to-contribute" title="Permanent link">&para;</a></h2>
 <p>Thank you for your interest in improving this documentation. See the <a href="https://github.com/percona/k8spg-docs/blob/2.0/CONTRIBUTING.md">Contributing guide <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> in the documentation repository for instructions.</p></section>
-                    <section class='print-page md-section' id='section-11-10' heading-number='11.10'>
-                        <h1>Legal<a class='headerlink' href='#section-11-10' title='Permanent link'></a>
+                    <section class='print-page md-section' id='section-11-11' heading-number='11.11'>
+                        <h1>Legal<a class='headerlink' href='#section-11-11' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="copyright" heading-number="11.10.1"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="copyright" heading-number="11.11.1"><h1 id="copyright-copyright-and-licensing-information">Copyright and licensing information<a class="headerlink" href="#copyright-copyright-and-licensing-information" title="Permanent link">&para;</a></h1>
 <h2 id="copyright-documentation-licensing">Documentation licensing<a class="headerlink" href="#copyright-documentation-licensing" title="Permanent link">&para;</a></h2>
-<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.10.2"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
+<p>Percona Operator for PostgreSQL documentation is (C)2009-2023 Percona LLC and/or its affiliates and is distributed under the <a href="https://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="trademark-policy" heading-number="11.11.2"><h1 id="trademark-policy-trademark-policy">Trademark policy<a class="headerlink" href="#trademark-policy-trademark-policy" title="Permanent link">&para;</a></h1>
 <p>This <a href="https://www.percona.com/trademark-policy">Trademark Policy <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is to ensure that users of Percona-branded products or
 services know that what they receive has really been developed, approved,
 tested and maintained by Percona. Trademarks help to prevent confusion in the
@@ -27046,7 +27449,7 @@ However, it is acceptable to omit the word “Percona” for brevity on the seco
 and subsequent uses, where such omission does not cause confusion.</p>
 <p>In the event of doubt as to any of the conditions or exceptions outlined in
 this Trademark Policy, please contact <a href="mailto:trademarks@percona.com">trademarks@percona.com</a> for assistance and
-we will do our very best to be helpful.</p></section><section class="print-page" id="legal-notice" heading-number="11.10.3"><h1 id="legal-notice-legal-notice">Legal Notice<a class="headerlink" href="#legal-notice-legal-notice" title="Permanent link">&para;</a></h1>
+we will do our very best to be helpful.</p></section><section class="print-page" id="legal-notice" heading-number="11.11.3"><h1 id="legal-notice-legal-notice">Legal Notice<a class="headerlink" href="#legal-notice-legal-notice" title="Permanent link">&para;</a></h1>
 <p>You are interacting with an AI-powered chatbot that provides automated responses for general information about our IT services and software. Responses may be inaccurate or incomplete and do not constitute professional or contractual advice. Do not submit personal data, confidential information, credentials, or other sensitive information through this chat. Conversations may be logged and processed to improve our services in accordance with our <a href="https://www.percona.com/privacy-policy#h.c033wws8ytgb">Privacy Policy</a> and applicable laws, including the GDPR. If you require assistance, please contact a <a href="https://www.percona.com/about/contact">human representative</a>.</p></section></section></section>
                     <section class='print-page md-section' id='section-12' heading-number='12'>
                         <h1>Release Notes<a class='headerlink' href='#section-12' title='Permanent link'></a>
@@ -29436,24 +29839,26 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #restore-options > h1:before { content: '11.3 ' }
 
-.print-site-enumerate-headings #secret-options > h1:before { content: '11.4 ' }
+.print-site-enumerate-headings #cr-statuses > h1:before { content: '11.4 ' }
 
-.print-site-enumerate-headings #upgrade-options > h1:before { content: '11.5 ' }
+.print-site-enumerate-headings #secret-options > h1:before { content: '11.5 ' }
 
-.print-site-enumerate-headings #immutable-options > h1:before { content: '11.6 ' }
+.print-site-enumerate-headings #upgrade-options > h1:before { content: '11.6 ' }
 
-.print-site-enumerate-headings #images > h1:before { content: '11.7 ' }
+.print-site-enumerate-headings #immutable-options > h1:before { content: '11.7 ' }
 
-.print-site-enumerate-headings #versions > h1:before { content: '11.8 ' }
+.print-site-enumerate-headings #images > h1:before { content: '11.8 ' }
 
-.print-site-enumerate-headings #about-docs > h1:before { content: '11.9 ' }
+.print-site-enumerate-headings #versions > h1:before { content: '11.9 ' }
 
-.print-site-enumerate-headings #section-11-10 > h1:before { content: '11.10 ' }
-.print-site-enumerate-headings #copyright > h1:before { content: '11.10.1 ' }
+.print-site-enumerate-headings #about-docs > h1:before { content: '11.10 ' }
 
-.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.10.2 ' }
+.print-site-enumerate-headings #section-11-11 > h1:before { content: '11.11 ' }
+.print-site-enumerate-headings #copyright > h1:before { content: '11.11.1 ' }
 
-.print-site-enumerate-headings #legal-notice > h1:before { content: '11.10.3 ' }
+.print-site-enumerate-headings #trademark-policy > h1:before { content: '11.11.2 ' }
+
+.print-site-enumerate-headings #legal-notice > h1:before { content: '11.11.3 ' }
 
 .print-site-enumerate-headings #section-12 > h1:before { content: '12 ' }
 .print-site-enumerate-headings #releasenotes-index > h1:before { content: '12.1 ' }

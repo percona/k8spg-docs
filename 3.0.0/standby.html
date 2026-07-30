@@ -4624,6 +4624,34 @@
   
   
     <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom resource statuses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secret-options.html" class="md-nav__link">
         
   
@@ -4800,10 +4828,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_11" >
         
           
-          <label class="md-nav__link" for="__nav_11_10" id="__nav_11_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11_11" id="__nav_11_11_label" tabindex="0">
             
   
   
@@ -4821,8 +4849,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5918,7 +5946,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <ul>
 <li>The primary pod in the standby cluster is marked as <code>Unready</code></li>
 <li>The cluster goes into the <code>initializing</code> state</li>
-<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command.</li>
+<li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command. See <a href="cr-statuses.html#conditions">Custom resource statuses</a> for the full list of conditions.</li>
 </ul>
 <h3 id="monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a class="headerlink" href="#monitor-lag-in-the-cluster-status" title="Permanent link">&para;</a></h3>
 <p>When lag detection is enabled, the cluster status includes a <code>standby</code> section that shows the current lag and when it was last computed. Use <code>kubectl get pg &lt;cluster-name&gt; -n &lt;namespace&gt; -o yaml</code> and look at <code>status.standby</code>:</p>
@@ -5945,7 +5973,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:44:40 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 30, 2026 14:29:56 UTC">July 30, 2026</span>
       
         <br>
         Created:
