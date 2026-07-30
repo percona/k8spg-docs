@@ -35,7 +35,7 @@ The needed extension may not be in the list of extensions supplied with Percona 
 
 To add such a custom extension is not straightforward in a containerized database in a Kubernetes environment. It requires building a custom PostgreSQL image.
 
-Starting with version 2.3, the Operator provides an alternative way to extend Percona Distribution for PostgreSQL by downloading pre-packaged extensions from and external storage on the fly. 
+Starting with version 2.3, the Operator provides an alternative way to extend Percona Distribution for PostgreSQL by downloading pre-packaged extensions from external storage on the fly.
 
 !!! warning "Advanced configuration"
 
@@ -65,7 +65,7 @@ The archive must be created with `usr` at the root and must include all the requ
 1. The control file and any shared library must be in the `LIBDIR` directory
 2. All required SQL script files must be in the `SHAREDIR/extension` directory. At least one SQL script is required.
 
-The `SHAREDIR` corresponds to `/usr/pgsql-${PG_MAJOR}/share/extension/` and `LIBDIR` to `/usr/pgsql-${PG_MAJOR}/lib`.
+The `SHAREDIR` corresponds to `/usr/pgsql-${PG_MAJOR}/share` and `LIBDIR` to `/usr/pgsql-${PG_MAJOR}/lib`.
 
 For example, the directory for `pg_stat_kcache` extension should look as follows:
 
@@ -264,7 +264,7 @@ Run the following commands as the root user or with `sudo` privileges.
       percona-release setup ppg18
       ```
 
-    * Disable the `potsgresql` module supplied with the operating system:
+    * Disable the `postgresql` module supplied with the operating system:
 
        ```bash
        dnf -qy module disable postgresql
@@ -326,8 +326,7 @@ Run the following commands as the root user or with `sudo` privileges.
 3. Copy the archive to the local machine. Run this command on the local machine:
 
     ```bash
-    docker cp pg:/pg_stat_kcache-pg18-2.3.1.tar.gz ./
-    ```
+    docker cp pg:/pg_stat_kcache-pg18-2.3.2.tar.gz ./
 
 ### Upload a custom extension to the cloud storage
 
@@ -402,10 +401,10 @@ Resource so the Operator can download and install it.
 
 1. Configure the `extensions` subsection of the Custom Resource as follows:
 
-    * `image` - Specify the Operator image to use when uploading the extension
+    * `image` - Specify the image for the custom PostgreSQL extension loader sidecar container
     * `storage` - Specify storage details such as the bucket where your extension resides, region, endpoint to access the storage and the Secret name with the storage credentials that you created before.
     * `custom` - Specify the extension name and version
-    * `pg_stat_kcache` requires `pg_stat_statements` to be installed in PostgreSQL. If you haven't done it before, enable the `pg_stat_statements`:
+    * `pg_stat_kcache` requires `pg_stat_statements` to be installed in PostgreSQL. If you haven't done it before, enable `pg_stat_statements` in `extensions.builtin`:
 
       ```yaml
       extensions:

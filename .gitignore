@@ -1,4 +1,5 @@
 __pycache__/
 site/
 docs/assets/.DS_Store 
-.DS_Store 
+.DS_Store
+.cursor/agents
