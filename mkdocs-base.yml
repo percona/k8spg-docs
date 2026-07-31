@@ -218,6 +218,7 @@ nav:
             - "Generate certificates manually": tls-manual.md
             - "Update TLS/SSL certificates": tls-update.md
             - "Check TLS communication": tls-verify-communication.md
+            - tls-cert-management-policy.md
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
           - Environment variables: 
