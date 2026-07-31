@@ -2198,6 +2198,14 @@ Custom configuration options for pgBouncer. Please note that configuration chang
 | ---------- | ------- |
 | :material-text-long: subdoc | <pre>global:<br>pool_mode: transaction</pre> |
 
+### `proxy.pgBouncer.additionalTrustedCAs`
+
+Additional CA bundles that PgBouncer trusts when verifying client certificates. Each item names a Secret in the same namespace as the cluster. The Secret must contain a PEM-encoded CA certificate or bundle in the `ca.crt` key. The Operator appends these CAs to the PgBouncer frontend trust bundle and keeps managing the PgBouncer frontend certificate. See [Trust additional CAs for PgBouncer client mTLS](tls-pgbouncer-trusted-cas.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-application-array-outline: array | <pre>- name: client-ca</pre> |
+
 ## proxy.pgBouncer.sidecars subsection
 
 The `proxy.pgBouncer.sidecars` subsection in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)

@@ -47,6 +47,7 @@ The following sections provide guidelines how to:
 * [Generate certificates manually](tls-manual.md)
 * [Migrate from Operator-generated certificates to cert-manager](tls-migrate-to-cert-manager.md)
 * [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md)
+* [Trust additional CAs for PgBouncer client mTLS](tls-pgbouncer-trusted-cas.md)
 * [Update certificates](tls-update.md)
 * [Check TLS communication to a cluster](tls-verify-communication.md)
 
