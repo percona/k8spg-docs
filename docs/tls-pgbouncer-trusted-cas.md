@@ -1,9 +1,9 @@
 # Trust additional CAs for PgBouncer client mTLS
 
-To establish a mutual TLS (mTLS) between clients and PgBouncer,  PgBouncer must trust the Certificate Authority (CA) that signed the client certificates. 
+To establish a mutual TLS (mTLS) between clients and PgBouncer, PgBouncer must trust the Certificate Authority (CA) that signed the client certificates.
 
-By default, pgBouncer trusts only the CA that the Operator manages when it creates TLS material for the cluster. 
-Client certificates signed by an external CA fail verification. If you provide your custom CA via the `proxy.pgBouncer.customTLSSecret`, pgBouncer trusts that certificate but you need to manage the whole certificate lifecycle yourself. 
+By default, pgBouncer trusts only the CA that the Operator manages when it creates TLS material for the cluster.
+Client certificates signed by an external CA fail verification. If you provide your custom CA via the `proxy.pgBouncer.customTLSSecret`, pgBouncer trusts that certificate, but you need to manage the whole certificate lifecycle yourself.
 
 You can extend the PgBouncer CA bundle with your external CA. The Operator appends those CAs to the frontend trust bundle that
   PgBouncer uses for client certificate verification. 
@@ -29,11 +29,10 @@ certificates. Replace `client-ca.crt` with the path to your CA file:
       -n <namespace>
     ```
 
-2. Reference the Secret in the cluster and configure pgBouncer to verify client certificated. Edit the `deploy/cr.yaml` and specify the following:
-  
-    * Add the Secret name under `proxy.pgBouncer.additionalTrustedCAs` 
-    * set `proxy.pgBouncer.config.global.client_tls_sslmode` to `verify-ca` or `verify-full`:
+2. Reference the Secret in the cluster and configure PgBouncer to verify client certificates. Edit the `deploy/cr.yaml` and specify the following:
 
+    * Add the Secret name under `proxy.pgBouncer.additionalTrustedCAs`.
+    * Set `proxy.pgBouncer.config.global.client_tls_sslmode` to `verify-ca` or `verify-full`:
     ```yaml
     spec:
       proxy:
@@ -55,24 +54,24 @@ certificates. Replace `client-ca.crt` with the path to your CA file:
         Changes under `proxy.pgBouncer.config` apply without validation.
         An invalid PgBouncer configuration can make the pooler unavailable.
 
-3. Apply the configuration
-    
+3. Apply the configuration:
+
     ```bash
     kubectl apply -f deploy/cr.yaml -n <namespace>
     ```
 
- 4. Confirm the merged CA bundle
+4. Confirm the merged CA bundle.
 
-Check that the `<cluster-name>-pgbouncer` Secret contains more than one
-certificate in `pgbouncer-frontend.ca-roots`. For a cluster named
-`cluster1`:
+    Check that the `<cluster-name>-pgbouncer` Secret contains more than one
+    certificate in `pgbouncer-frontend.ca-roots`. For a cluster named
+    `cluster1`:
 
-```bash
-kubectl get secret cluster1-pgbouncer -n <namespace> \
-  -o jsonpath='{.data.pgbouncer-frontend\.ca-roots}' \
-  | base64 --decode \
-  | grep -c 'BEGIN CERTIFICATE'
-```
+    ```bash
+    kubectl get secret cluster1-pgbouncer -n <namespace> \
+      -o jsonpath='{.data.pgbouncer-frontend\.ca-roots}' \
+      | base64 --decode \
+      | grep -c 'BEGIN CERTIFICATE'
+    ```
 
 The count is at least `2` when the Operator-managed CA and your external
 CA are both present.
