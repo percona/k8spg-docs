@@ -259,6 +259,7 @@ nav:
           - "High-availability": ha-deploy.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
+          - "Add extra volumes": extra-volumes.md
           - "Restart or pause the cluster": pause.md
           - "Monitor the database with PMM": monitoring.md
     

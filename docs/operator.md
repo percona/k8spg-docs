@@ -1150,6 +1150,50 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
+## `instances.extraVolumes` subsection
+
+The `instances.extraVolumes` subsection defines additional volumes that the Operator mounts into the PostgreSQL database container. Use this to supply files that PostgreSQL reads from disk, such as full-text search dictionaries. Changing this option causes PostgreSQL to restart.
+
+### `instances.extraVolumes.name`
+
+The name of the extra volume. Must be unique within the instance Pod.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `fts-dicts` |
+
+### `instances.extraVolumes.volumeSource`
+
+The [Kubernetes volume source :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) for the extra volume. Supports ConfigMap, Secret, PersistentVolumeClaim, emptyDir, and other volume types.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>configMap:<br>  name: my-fts-dicts</pre> |
+
+### `instances.extraVolumes.mounts.mountPath`
+
+The path within the PostgreSQL container at which the volume is mounted.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `/usr/pgsql-17/share/tsearch_data/mydict.dict` |
+
+### `instances.extraVolumes.mounts.subPath`
+
+The path within the volume to mount. Defaults to the volume root. Use `subPath` to mount a single file from the volume without replacing the contents of the target directory.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `mydict.dict` |
+
+### `instances.extraVolumes.mounts.readOnly`
+
+Mounts the volume as read-only when set to `true`. Defaults to read-write when omitted.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
 ## `instances.sidecars` subsection
 
 The `instances.sidecars` subsection in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
