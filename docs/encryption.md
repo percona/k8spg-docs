@@ -8,9 +8,11 @@ Data-at-rest encryption ensures that data stored on disk remains protected even 
 
 The Operator supports transparent data encryption (TDE) via the [pg_tde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) extension. When enabled, `pg_tde` encrypts user data in tables, indexes, and temporary tables on disk so that data remains unreadable without the proper encryption keys, even if someone gains access to the storage.
 
+`pg_tde` can also encrypt write-ahead log (WAL) segments stored on disk. To enable WAL encryption, you must explicitly set this option in the Custom Resource. When WAL encryption is enabled, the Operator automatically reconfigures PostgreSQL and pgBackRest to ensure compatibility. `pg_tde` uses the same global principal key that the Operator sets up in Vault. See [WAL encryption](#wal-encryption) to learn more.
+
 This feature is available with Percona Distribution for PostgreSQL 17 and above. 
 
-To store encryption keys, the Operator uses a key management system (KMS). The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases. WAL encryption is not yet supported.
+To store encryption keys, the Operator uses a key management system (KMS). The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases.
 
 ## How it works
 
@@ -20,9 +22,35 @@ When you enable `pg_tde` and provide Vault configuration, the Operator automates
 2. Mounts the Vault token and CA certificate secrets into the database containers at `/pgconf/tde`.
 3. Creates the `pg_tde` extension with the `CREATE EXTENSION pg_tde;` command in all databases.
 4. Registers Vault as the key provider, creates a global encryption key and sets it as a default key using the functions provided by `pg_tde`.
-5. Sets `pg_tde.wal_encrypt` to `off`.
+5. Sets `pg_tde.wal_encrypt` to `off`. 
 
 For restore, the Operator also enables `pg_tde` in the restore job and mounts the Vault secrets so encrypted backups can be restored.
+
+## WAL encryption
+
+WAL encryption protects write-ahead log segments on the database Pod storage. When you set `extensions.pg_tde.walEncryption` to `true`, the Operator:
+
+1. Sets the PostgreSQL parameter `pg_tde.wal_encrypt` to `on`.
+2. Wraps the PostgreSQL `archive_command` with `pg_tde_archive_decrypt` so that pgBackRest archives a decrypted copy of each WAL segment.
+3. Wraps the PostgreSQL `restore_command` with `pg_tde_restore_encrypt` so that WAL segments fetched from the repository are encrypted again on disk.
+4. Adjusts `pgBackRest` settings to ensure compatibility with encrypted WAL (`archive-async=n`, `checksum-page=n`, and `archive-header-check=n`).
+
+!!! important
+
+    Enable WAL encryption only after `pg_tde` is already enabled and the cluster is ready. Do not set `enabled` and `walEncryption` to `true` at the same time on a new cluster. Patroni fails to bootstrap the cluster when WAL encryption is turned on during the initial cluster creation. For the step-by-step procedure, see [Enable WAL encryption](encryption-setup.md#enable-wal-encryption).
+
+### How WAL encryption interacts with backups
+
+`pg_tde` keeps WAL segments encrypted on the Pod disks. The archive command decrypts each segment before upload, and the restore command encrypts it after download. As a result, WAL files in the pgBackRest repository are stored in plaintext unless you also configure [pgBackRest repository encryption](backup-encryption.md) with `repo-cipher-pass`.
+
+Disabling asynchronous WAL archival (`archive-async=n`) can reduce archive throughput compared to clusters without WAL encryption.
+
+### Considerations for WAL encryption
+
+1. To enable WAL encryption, you must first enable `pg_tde` in the cluster. Wait for the cluster to become ready with `pg_tde` enabled, and only then enable WAL encryption as a separate step. Creating a new cluster with both `enabled` and `walEncryption` set to `true` causes Patroni bootstrap to fail.
+2. The safest time to enable WAL encryption is before the cluster has application writes. Enabling WAL encryption on clusters that already have data needs further validation.
+3. WAL segments in the pgBackRest repository are stored in plaintext unless you configure [pgBackRest repository encryption](backup-encryption.md).
+4. WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.
 
 ## Status and conditions
 
@@ -77,13 +105,12 @@ and without TLS. The `caSecret` field is optional; omit it only when you intenti
 
    Initially, the Operator uses the key provider configuration from the source cluster to write data on the standby. If the standby cluster is promoted to become the new primary, it will generate its own key provider configuration. The data previously written remains accessible, provided that the proper key provider setup was completed on the standby before promotion. In summary, both the source and standby clusters require correct `pg_tde` and key provider configuration for seamless operation and failover.
 
-7. The Operator does not drop or rewrite encrypted objects for you. Before you disable `pg_tde`, you must remove encrypted objects yourself. See [Disable encryption](encryption-disable.md) to learn more.
-8. If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.
+8. The Operator does not drop or rewrite encrypted objects for you. Before you disable `pg_tde`, you must remove encrypted objects yourself. See [Disable encryption](encryption-disable.md) to learn more.
+9. If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.
 
 ## Known limitations
 
-1. WAL encryption is not yet supported. The Operator forces `pg_tde.wal_encrypt=off`. WAL encryption will be added in future releases.
-2. Only HashiCorp Vault is currently supported as a key provider. Other providers and KMIP support are planned for future releases.
+Only HashiCorp Vault is currently supported as a key provider. Other providers and KMIP support are planned for future releases.
 
 ## Next steps
 

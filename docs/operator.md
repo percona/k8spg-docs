@@ -2559,6 +2559,16 @@ This extension is compatible **with Percona Distribution for PostgreSQL 17 and a
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `extensions.pg_tde.walEncryption`
+
+Encrypt write-ahead log (WAL) segments on disk. Requires `extensions.pg_tde.enabled` to be `true`.
+
+Enable `pg_tde` first and wait until the cluster is ready. Then set `walEncryption` to `true` in a separate change. Enabling both at cluster creation causes Patroni bootstrap to fail. Read more in [WAL encryption](encryption.md#wal-encryption) and [Enable WAL encryption](encryption-setup.md#enable-wal-encryption).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
 ### `extensions.pg_tde.vault.host`
 
 The Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format `<service-name>.<namespace>.svc.cluster.local`. Use the HTTPS protocol for encrypted communication with TLS and HTTP protocol for communication without TLS.

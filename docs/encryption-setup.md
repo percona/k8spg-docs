@@ -153,9 +153,10 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
 1. Edit the `deploy/cr.yaml` file and specify the following:
 
     * Set `extensions.pg_tde.enabled` to `true`
+    * Do **not** set `walEncryption` to `true` yet
     * Add Vault-specific options under `extensions.pg_tde.vault`:
         
-        * `caSecret` is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in he example below
+        * `caSecret` is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in the example below
         * `mountPath` – Specify the Vault mount path where you enabled the KV v2 secrets engine for encryption. In this guide, the mount path is `tde`.
    
 
@@ -185,7 +186,14 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
     kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
     ```
 
-3. Check the `pg_tde` status:
+3. Wait until the cluster is ready:
+
+    ```bash
+    kubectl -n $CLUSTER_NAMESPACE wait --for=condition=Ready \
+      perconapgcluster/cluster1 --timeout=600s
+    ```
+
+4. Check the `pg_tde` status:
 
     ```bash
     kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml | yq '.status.conditions.[] | select(.type == "PGTDEEnabled" or .type == "PGTDEVaultProviderReady")'
@@ -209,6 +217,87 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
         ```
 
     If `PGTDEEnabled` is `True` but encryption does not work, check `PGTDEVaultProviderReady` and the Operator logs.
+
+## Enable WAL encryption
+
+After `pg_tde` is enabled and the cluster is ready, you can encrypt write-ahead log (WAL) segments on disk. The Operator then sets `pg_tde.wal_encrypt` to `on` and adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.
+
+To learn how WAL encryption works with backups, see [WAL encryption](encryption.md#wal-encryption).
+
+!!! important
+
+    Enable WAL encryption before the cluster has application writes.
+
+To enable WAL encryption, do the following:
+
+1. Verify that the cluster is Ready and `PGTDEEnabled` is `True`:
+    
+    ```bash
+    kubectl -n $CLUSTER_NAMESPACE get pg cluster1
+    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml | yq '.status.conditions[] | select(.type == "PGTDEEnabled")'
+    ```
+
+2. Edit the `deploy/cr.yaml` file and set `extensions.pg_tde.walEncryption` to `true`:
+
+    ```yaml
+    spec:
+      ....
+      extensions:
+        image: docker.io/perconalab/percona-postgresql-operator:{{release}}
+        pg_tde:
+          enabled: true
+          walEncryption: true
+          vault:
+            host: https://vault.vault.svc.cluster.local:8200
+            mountPath: tde
+            tokenSecret:
+              name: cluster1-vault
+              key: token
+            caSecret:
+              name: cluster1-vault
+              key: ca.crt
+    ```
+
+3. Apply the configuration:
+
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
+    ```
+
+    The Operator makes a rolling restart of the database Pods so that `pg_tde.wal_encrypt=on` takes effect.
+
+4. Wait until the cluster is ready again:
+
+    ```bash
+    kubectl -n $CLUSTER_NAMESPACE wait --for=condition=Ready \
+      perconapgcluster/cluster1 --timeout=600s
+    ```
+
+5. Verify that WAL encryption is on. Find the primary Pod and check the setting:
+
+    ```bash
+    export PRIMARY_POD=$(kubectl get pods -n "$CLUSTER_NAMESPACE" \
+     -l postgres-operator.crunchydata.com/role=primary \
+     -o jsonpath='{.items[0].metadata.name}')
+    ```
+
+    ```bash
+    kubectl -n $CLUSTER_NAMESPACE exec -it $PRIMARY_POD -- \
+      psql -c "SHOW pg_tde.wal_encrypt;"
+    ```
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+         pg_tde.wal_encrypt
+        --------------------
+         on
+        (1 row)
+        ```
+
+!!! note
+
+    WAL files that pgBackRest stores in the backup repository are decrypted before upload. To keep repository contents encrypted, configure [backup encryption](backup-encryption.md) with `repo-cipher-pass`.
 
 ## Verify the encryption
 

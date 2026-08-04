@@ -68,7 +68,7 @@ When you enable built-in extensions, the Operator appends or sets the following 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pg_tde` |
-| `pg_tde.wal_encrypt` | `off` |
+| `pg_tde.wal_encrypt` | `on` when `spec.extensions.pg_tde.walEncryption` is `true`; otherwise `off` |
 
 !!! note
 
