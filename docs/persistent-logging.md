@@ -19,13 +19,9 @@ kubectl logs <instance-pod-name> -c logs -n <namespace>
 
 You can additionally configure Fluent Bit outputs such as S3 or an OpenTelemetry (OTel) envelope and have the logs forwarded there. Refer to the [Customize Fluent Bit](#customize-fluent-bit) section for details.
 
-Log collection is available starting with Operator version 3.1.0. It is **disabled by default**. When enabled, the Operator also adds a `logrotate` sidecar that manages retention of the on-disk log files. See [Log rotation](log-rotation.md) for details.
+Log collection **enabled by default only for new clusters**. After you upgrade your deployment from earlier versions, you must [enable log collector](#enable-log-collector) explicitly in the Custom Resource to use it. When enabled, the Operator also adds a `logrotate` sidecar that manages retention of the on-disk log files. See [Log rotation](log-rotation.md) for details.
 
-!!! note
-
-    Sidecars are added only to **PostgreSQL instance** Pods. PgBouncer and other cluster components are not collected by the built-in Fluent Bit pipeline. Repo-host pgBackRest log paths appear in the default logrotate configuration for compatibility, but the collector sidecars are wired to instance Pods only.
-
-## Configure log collector
+## Enable log collector
 
 Enable persistent logging with the `logcollector.enabled` key in the `deploy/cr.yaml` Custom Resource manifest:
 
@@ -42,7 +38,7 @@ Apply the Custom Resource:
 kubectl apply -f deploy/cr.yaml -n <namespace>
 ```
 
-### Customize Fluent Bit
+## Customize Fluent Bit
 
 You can further customize Fluent Bit to add filters, processors (for example OpenTelemetry envelope), or outputs such as S3. 
 
