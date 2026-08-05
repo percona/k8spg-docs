@@ -24,7 +24,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
 | Operator upgrade |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |            :white_check_mark:            |
 | Database upgrade | Automated | Automated | Declarative (offline)† | Declarative (offline)† | Automated (offline) |
-| Storage scaling  | Manual | Manual | Automatic (auto-grow) | Manual | Manual (live resize)‡ |
+| Storage scaling  | Automatic (auto-grow) | Manual | Automatic (auto-grow) | Manual | Manual (live resize)‡ |
 
 † Both trigger via a version/image bump in the manifest; the cluster shuts down while pg_upgrade runs.
 
