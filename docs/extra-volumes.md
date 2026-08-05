@@ -4,7 +4,7 @@ You can mount additional Kubernetes volumes into the PostgreSQL container so eve
 
 * Add full-text search dictionaries, synonym maps, and thesaurus files under the server's shared data directory (SHAREDIR), in `tsearch_data`.
 
-* Add other shared support files that you want to supply without rebuilding  the PostgreSQL image
+* Add other shared support files that you want to supply without rebuilding the PostgreSQL image
 
 Use a ConfigMap, Secret, PersistentVolumeClaim, emptyDir, or another volume source that Kubernetes supports. The Operator mounts these volumes on the database container for the instance set that you configure. After you apply the change, the Operator
 restarts PostgreSQL so the new mounts take effect.
