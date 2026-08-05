@@ -2,8 +2,9 @@
 
 !!! admonition "Version added: [3.1.0](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md)"
 
-You can run the Operator
-against **community PostgreSQL images**. For example, to use extensions that not included in Percona Distribution for PostgreSQL such as TimescaleDB or Citus.
+You can run the Operator against **community PostgreSQL images**. Use community
+images when you need extensions that are not included in Percona Distribution
+for PostgreSQL, such as TimescaleDB or Citus.
 
 Community PostgreSQL images are built from the official
 PostgreSQL packages on [download.postgresql.org :octicons-link-external-16:](https://www.postgresql.org/download/)
