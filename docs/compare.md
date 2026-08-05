@@ -23,10 +23,8 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Feature/Product  |   Percona Operator for PostgreSQL   |        Stackgres        |       CrunchyData       |   CloudNativePG   |            Zalando            |
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
 | Operator upgrade |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |            :white_check_mark:            |
-| Database upgrade | Automated | Automated | Declarative (offline)† | Declarative (offline)† | Automated (offline) |
+| Database upgrade | Automated | Automated | Automated | Automated | Automated |
 | Storage scaling  | Automatic (auto-grow) | Manual | Automatic (auto-grow) | Manual | Manual (live resize)‡ |
-
-† Both trigger via a version/image bump in the manifest; the cluster shuts down while pg_upgrade runs.
 
 ‡ Live EBS resize (no pod restart) via direct AWS API integration; other clouds use standard K8s PVC resize.
 
