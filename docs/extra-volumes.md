@@ -2,7 +2,7 @@
 
 You can mount additional Kubernetes volumes into the PostgreSQL container so every instance in the cluster sees the same files. Use this in scenarios when PostgreSQL needs files outside the data directory. For example:
 
-* Add full-text search dictionaries,synonym maps, and thesaurus files under the server's shared data directory (SHAREDIR), in `tsearch_data`.
+* Add full-text search dictionaries, synonym maps, and thesaurus files under the server's shared data directory (SHAREDIR), in `tsearch_data`.
 
 * Add other shared support files that you want to supply without rebuilding  the PostgreSQL image
 
