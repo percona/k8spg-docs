@@ -2664,6 +2664,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#datasourcevolumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataSource.volumes
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -2769,6 +2780,56 @@
     <span class="md-ellipsis">
       
         GCS and Azure Blob Storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-using-data-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore using data volumes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restore using data volumes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choose-your-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose your approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-source-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the source cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-new-cluster-from-the-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the new cluster from the volumes
       
     </span>
   </a>
@@ -5929,6 +5990,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#datasourcevolumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dataSource.volumes
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6045,6 +6117,56 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#restore-using-data-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore using data volumes
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Restore using data volumes">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#choose-your-approach" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose your approach
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-source-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the source cluster
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-new-cluster-from-the-volumes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the new cluster from the volumes
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6085,6 +6207,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Cloning a cluster to a new namespace or Kubernetes environment</li>
 <li>Creating a copy for development, testing, or reporting</li>
 <li>Restoring from a cloud storage when the source cluster no longer exists</li>
+<li>Bootstrapping a new cluster from existing data volumes</li>
 </ul>
 <p>You can make a full restore or restore the database to a specific point in time. For each restore scenario, you must define the Custom Resource for a <strong>new</strong> cluster with these configuration options:</p>
 <ul>
@@ -6092,13 +6215,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><code>backups</code> section. The new cluster needs its own backup configuration.</li>
 </ul>
 <h2 id="understand-the-datasource-options">Understand the <code>dataSource</code> options<a class="headerlink" href="#understand-the-datasource-options" title="Permanent link">&para;</a></h2>
-<p>The <code>dataSource</code> section in the Custom Resource includes two subsections: <code>dataSource.postgresCluster</code> and <code>dataSource.pgbackrest</code>.</p>
+<p>The <code>dataSource</code> section in the Custom Resource includes three subsections: <code>dataSource.postgresCluster</code>, <code>dataSource.pgbackrest</code>, and <code>dataSource.volumes</code>. Use one of them to tell the Operator where to take the data from when the new cluster starts.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>You cannot use both <code>dataSource.postgresCluster</code> and <code>dataSource.pgbackrest</code> at the same time. If both are present in the Custom Resource, the <code>dataSource.postgresCluster</code> option will take precedence and the Operator will use it to restore the data.</p>
 </div>
 <h3 id="datasourcepostgrescluster"><code>dataSource.postgresCluster</code><a class="headerlink" href="#datasourcepostgrescluster" title="Permanent link">&para;</a></h3>
-<p>Configure this subsection <strong>to clone an existing cluster</strong>. The key options are:</p>
+<p>Configure this subsection <strong>to clone an existing cluster</strong> in the same Kubernetes cluster. The source can be in the same namespace or a different one. The key options are:</p>
 <ul>
 <li>
 <p><code>dataSource.postgresCluster.clusterName</code> is the name of the cluster you restore from. This is the source cluster. The option value corresponds to the <code>metadata.name</code> of the source cluster Custom Resource.</p>
@@ -6114,9 +6237,35 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ul>
 <p>Read more about all available options in the <a href="operator.html#datasource-subsection">Custom Resource reference</a></p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Simplest path when the source cluster still exists</td>
+<td>Source cluster must be available</td>
+</tr>
+<tr>
+<td>Creates an independent copy; the source stays intact</td>
+<td>Not for a deleted cluster or a different Kubernetes cluster</td>
+</tr>
+<tr>
+<td>Supports point-in-time recovery</td>
+<td>Needs restore time and storage for a full data copy</td>
+</tr>
+<tr>
+<td>Works in the same or a different namespace.</td>
+<td>Requires the Operator in the <a href="cluster-wide.html#install-the-operator-cluster-wide">cluster-wide mode</a> for cross-namespace restores</td>
+</tr>
+</tbody>
+</table>
 <h3 id="datasourcepgbackrest"><code>dataSource.pgbackrest</code><a class="headerlink" href="#datasourcepgbackrest" title="Permanent link">&para;</a></h3>
-<p>Configure this subsection <strong>to restore from backup repository stored in a cloud storage</strong>.</p>
-<p>Its structure closely matches the source cluster&rsquo;s <code>backups.pgbackrest</code> section, with these main points:</p>
+<p>Configure this subsection <strong>to restore from a backup repository stored in cloud storage</strong>. Use it when the source cluster no longer exists, or when you restore into a different Kubernetes cluster that can reach the same object storage.</p>
+<p>The <strong>new</strong> cluster&rsquo;s Custom Resource structure closely matches the source cluster&rsquo;s <code>backups.pgbackrest</code> section, with these main points:</p>
 <ul>
 <li>Define the backup source using a single <code>repo</code> object (not an array as in <code>backups.pgbackrest</code>).</li>
 <li>Specify <code>stanza</code> (usually <code>db</code>), required to identify the backup.</li>
@@ -6138,6 +6287,64 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ul>
 <p>For all options, see the <a href="operator.html#datasourcepgbackrestconfigurationsecretname">Custom Resource reference</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Works without a live source cluster</td>
+<td>You must match the repository path, stanza, Secret, and storage settings exactly</td>
+</tr>
+<tr>
+<td>Fits disaster recovery and multi-cluster restores</td>
+<td>Cloud credentials must exist in the target namespace</td>
+</tr>
+<tr>
+<td>Source cluster may already be deleted</td>
+<td>Restore time and network or storage cost</td>
+</tr>
+</tbody>
+</table>
+<h3 id="datasourcevolumes"><code>dataSource.volumes</code><a class="headerlink" href="#datasourcevolumes" title="Permanent link">&para;</a></h3>
+<p>Configure this subsection <strong>to bootstrap a new cluster from existing PersistentVolumeClaims</strong> instead of restoring from a <code>pgBackRest</code> backup. The Operator attaches the volumes you name and starts PostgreSQL on that data.</p>
+<p>Use this when you need a fast cutover on the same storage in the <strong>same namespace</strong>. You must stop the source cluster first. Two clusters cannot use the same volumes at the same time. If source and target are in different namespaces, rebind the PersistentVolumes instead — see <a href="#choose-your-approach">Choose your approach</a>. For the same-namespace procedure, see <a href="#restore-using-data-volumes">Restore using data volumes</a>.</p>
+<p>Key options are:</p>
+<ul>
+<li><code>dataSource.volumes.pgDataVolume</code> – the PVC (and optional directory) with the PostgreSQL data directory</li>
+<li><code>dataSource.volumes.pgWALVolume</code> – optional; use it if the source cluster stored WAL on a separate volume</li>
+<li><code>dataSource.volumes.pgBackRestVolume</code> – the PVC (and optional directory) for the local pgBackRest repository</li>
+</ul>
+<p>For all options, see the <a href="operator.html#datasourcevolumespgdatavolumepvcname">Custom Resource reference</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Fastest option for large datasets — no full restore copy</td>
+<td>Downtime from stopping the source until the new cluster accepts writes</td>
+</tr>
+<tr>
+<td>No object storage required for bootstrap</td>
+<td>Ownership of the volumes moves to the new cluster</td>
+</tr>
+<tr>
+<td>Avoids double storage during a backup-based restore</td>
+<td>Weak rollback once the new cluster writes (take a backup first)</td>
+</tr>
+<tr>
+<td>Good for same-namespace cutovers when PVCs can be retained</td>
+<td>Same PostgreSQL major version; same Kubernetes cluster and compatible storage</td>
+</tr>
+</tbody>
+</table>
 <h2 id="clone-from-an-existing-cluster">Clone from an existing cluster<a class="headerlink" href="#clone-from-an-existing-cluster" title="Permanent link">&para;</a></h2>
 <h3 id="make-a-full-data-clone">Make a full data clone<a class="headerlink" href="#make-a-full-data-clone" title="Permanent link">&para;</a></h3>
 <p>To create an independent copy of your cluster, add the <code>dataSource.postgresCluster</code> section to the Custom Resource of the <em>new</em> cluster.</p>
@@ -6376,12 +6583,229 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The <code>dataSource.pgbackrest</code> section stays the same; only the new cluster&rsquo;s backup destination changes.</p>
 <h3 id="gcs-and-azure-blob-storage">GCS and Azure Blob Storage<a class="headerlink" href="#gcs-and-azure-blob-storage" title="Permanent link">&para;</a></h3>
 <p>For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the <code>repo.s3</code> block with <code>repo.gcs</code> or <code>repo.azure</code> and the matching configuration. See <a href="backups-storage-gcs.html">Google Cloud Storage</a> and <a href="backups-storage-azure.html">Microsoft Azure Blob Storage</a> for examples.</p>
+<h2 id="restore-using-data-volumes">Restore using data volumes<a class="headerlink" href="#restore-using-data-volumes" title="Permanent link">&para;</a></h2>
+<p>Instead of restoring from a <code>pgBackRest</code> backup, you can start a <strong>new</strong> cluster on the PersistentVolumeClaims that already hold your PostgreSQL data. The Operator takes ownership of those volumes and starts PostgreSQL on the existing data directory — with no backup copy over the network.</p>
+<p>Use this when:</p>
+<ul>
+<li>Your dataset is large and a full restore would take too long</li>
+<li>You can accept downtime while the source cluster is stopped</li>
+<li>The source and target run in the same Kubernetes cluster, and you can set the PersistentVolume reclaim policy to <code>Retain</code> before you delete the source cluster.</li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>This operation moves volume ownership to the new cluster. After the new cluster accepts writes, you cannot roll back by simply restarting the old cluster on the same disks. Take a backup first if you may need a fallback.</p>
+</div>
+<h3 id="choose-your-approach">Choose your approach<a class="headerlink" href="#choose-your-approach" title="Permanent link">&para;</a></h3>
+<p>A PersistentVolumeClaim (PVC) is a namespaced object. How you hand the disks to the target depends on whether source and target share a namespace:</p>
+<table>
+<thead>
+<tr>
+<th>Source and target</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Same namespace</td>
+<td>Keep the existing PVCs and point <code>dataSource.volumes</code> at their names. Follow the procedure in this section.</td>
+</tr>
+<tr>
+<td>Different namespaces</td>
+<td>You cannot reference a PVC from another namespace. Instead, rebind the underlying PersistentVolumes. For the full steps, see <a href="migrate-from-crunchy-data-volumes.html">Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes</a>. The same PV rebind pattern applies when you move a Percona cluster between namespaces.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="prepare-the-source-cluster">Prepare the source cluster<a class="headerlink" href="#prepare-the-source-cluster" title="Permanent link">&para;</a></h3>
+<p>Export the namespace where your source cluster runs:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+<p class="power-number">Complete these steps on the <strong>source</strong> cluster before you create the target.</p>
+<ol>
+<li>
+<p>Stop application writes to the source cluster. Downtime starts here.</p>
+</li>
+<li>
+<p>Identify the primary Pod, its data PVC, and (if you use a local <code>pgBackRest</code> repo) the repository PVC:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+
+<span class="nv">PGDATA_PVC</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumes[?(@.name==&quot;postgres-data&quot;)].persistentVolumeClaim.claimName}&#39;</span><span class="k">)</span>
+
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Primary pod: </span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Data PVC:    </span><span class="nv">$PGDATA_PVC</span><span class="s2">&quot;</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PVC</span><span class="s2"> |cluster1-repo&quot;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Primary pod: cluster1-instance1-abcd-0
+Data PVC:    cluster1-instance1-abcd-pgdata
+NAME                             STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+cluster1-instance1-abcd-pgdata   Bound    ...      10Gi       RWO            standard-rwo   3d
+cluster1-repo1                   Bound    ...      10Gi       RWO            standard-rwo   3d
+</code></pre></div>
+</details>
+<p>If the source uses a separate WAL volume (<code>walVolumeClaimSpec</code>), also note the <code>*-pgwal</code> PVC bound to the primary Pod.</p>
+</li>
+<li>
+<p>Confirm the data directory name on the volume. It is usually <code>pg&lt;major&gt;</code> (for example <code>pg18</code> for PostgreSQL 18):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>ls<span class="w"> </span>-1<span class="w"> </span>/pgdata
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>pg18
+pg18_wal
+pgbackrest
+</code></pre></div>
+</details>
+<p>You will use that directory name later in <code>dataSource.volumes.pgDataVolume.directory</code>.</p>
+</li>
+<li>
+<p>Identify the PersistentVolume your cluster&rsquo;s PVC is bound to and update the PersistentVolume reclaim policy to <code>Retain</code> for every volume you plan to reuse (data, and optionally WAL and the local pgBackRest repo). Dynamically provisioned volumes often default to <code>Delete</code>, which destroys the disk when its PVC is removed.</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PGDATA_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PVC</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumeName}&#39;</span><span class="k">)</span>
+
+kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Retain&quot;}}&#39;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>persistentvolume/pvc-e57276f9-359d-4ca6-81d8-5ed2114ec50b patched
+</code></pre></div>
+</details>
+<p>Repeat for the repository PVC (and WAL PVC, if you use one):</p>
+<div class="highlight"><pre><span></span><code><span class="nv">REPO_PVC</span><span class="o">=</span>cluster1-repo1
+<span class="nv">REPO_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PVC</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumeName}&#39;</span><span class="k">)</span>
+
+kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Retain&quot;}}&#39;</span>
+</code></pre></div>
+<p>Confirm the policy:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span>custom-columns<span class="o">=</span>NAME:.metadata.name,RECLAIM:.spec.persistentVolumeReclaimPolicy
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                                       RECLAIM
+pvc-e57276f9-359d-4ca6-81d8-5ed2114ec50b   Retain
+pvc-0f26234a-7a5d-4c38-bd59-ec22e731cb07   Retain
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>(Recommended) Take a full backup of the source cluster so you can recover with <a href="#clone-from-cloud-storage-s3-gcs-azure-blob"><code>dataSource.pgbackrest</code></a> or an <a href="backups-restore-inplace.html">in-place restore</a> if the volume cutover fails.</p>
+</li>
+<li>
+<p>Delete the source cluster Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>perconapgcluster<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Confirm the data (and repo) PVCs are still present:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<h3 id="create-the-new-cluster-from-the-volumes">Create the new cluster from the volumes<a class="headerlink" href="#create-the-new-cluster-from-the-volumes" title="Permanent link">&para;</a></h3>
+<p class="power-number">Create a new <code>PerconaPGCluster</code> that points <code>dataSource.volumes</code> at the retained PVCs.</p>
+<ol>
+<li>
+<p>Edit <code>deploy/cr.yaml</code> for the <strong>new</strong> cluster. Set:</p>
+<ul>
+<li>A new cluster name (for example <code>cluster2</code>), or reuse the old name if you prefer</li>
+<li>Set the same <code>postgresVersion</code> (and matching images) as the source</li>
+<li>Set the <code>instances[].replicas</code> to <code>1</code> for the first start</li>
+<li>Set the <code>dataVolumeClaimSpec</code> storage size and access mode at least as large as the existing data PVC</li>
+<li>Set the <code>dataSource.volumes</code> with the PVC names and directories you collected</li>
+</ul>
+<p>Example configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster2</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">crVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3.0.0</span>
+<span class="w">  </span><span class="nt">postgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18</span>
+<span class="w">  </span><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pgDataVolume</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">pvcName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-instance1-abcd-pgdata</span>
+<span class="w">        </span><span class="nt">directory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg18</span>
+<span class="w">      </span><span class="nt">pgBackRestVolume</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">pvcName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-repo1</span>
+<span class="w">      </span><span class="c1"># Include only if the source used a separate WAL volume:</span>
+<span class="w">      </span><span class="c1"># pgWALVolume:</span>
+<span class="w">      </span><span class="c1">#   pvcName: cluster1-instance1-abcd-pgwal</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">volume</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">              </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10Gi</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/percona-pgbouncer:1.25.2-1</span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Set <code>directory</code> under <code>pgDataVolume</code> to the directory you listed under <code>/pgdata</code> on the source (for example <code>pg17</code>). Add <code>pgWALVolume</code> only when the source stored WAL on a separate PVC. If you reuse a local pgBackRest repo PVC, set <code>pgBackRestVolume.pvcName</code> to that claim (for example <code>cluster1-repo1</code>).</p>
+</div>
+</li>
+<li>
+<p>Deploy the new cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Wait until the cluster is ready:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster2<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="o">=</span>600s
+</code></pre></div>
+</li>
+<li>
+<p>Verify that PostgreSQL is writable on the primary:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster2,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+</code></pre></div>
+<p>Expect <code>f</code> for a primary that can accept writes. Spot-check application data as needed.</p>
+</li>
+<li>
+<p>Remove <code>spec.dataSource.volumes</code> from the manifest and re-apply it. The volumes already belong to the new cluster; the bootstrap configuration is no longer required.</p>
+</li>
+<li>
+<p>If you need high availability, increase <code>instances[].replicas</code> after the primary is healthy so the Operator creates fresh PVCs for the additional replicas.</p>
+</li>
+</ol>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:50:19 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 5, 2026 12:55:15 UTC">August 5, 2026</span>
       
         <br>
         Created:

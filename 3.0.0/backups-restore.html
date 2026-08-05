@@ -9,7 +9,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="You can restore your PostgreSQL data from a backup in these ways:">
+        <meta name="description" content="You can restore PostgreSQL data in these ways:">
       
       
         <meta name="author" content="Percona LLC">
@@ -2573,6 +2573,28 @@
       Table of contents
     </label>
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choose-a-restore-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose a restore option
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#if-you-clone-choose-a-data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If you clone: choose a data source
+      
+    </span>
+  </a>
+  
+</li>
       
         <li class="md-nav__item">
   <a href="#next-steps" class="md-nav__link">
@@ -5757,6 +5779,28 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#choose-a-restore-option" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose a restore option
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#if-you-clone-choose-a-data-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If you clone: choose a data source
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#next-steps" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5801,31 +5845,98 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="restore-options-in-place-restore-vs-cluster-clone">Restore options: in-place restore vs cluster clone<a class="headerlink" href="#restore-options-in-place-restore-vs-cluster-clone" title="Permanent link">&para;</a></h1>
-<p>You can restore your PostgreSQL data from a backup in these ways:</p>
+<p>You can restore PostgreSQL data in these ways:</p>
 <ul>
-<li><a href="backups-restore-inplace.html"><strong>In-place restore</strong></a> – restore data into the same cluster using the <a href="restore-options.html">PerconaPGRestore</a> custom resource. By default, the Operator restores the most recent backup. You can specify what backup to restore from using the <code>--set</code> option. </li>
-<li>
-<p><a href="backups-clone.html"><strong>Cluster clone</strong></a> – create a new cluster from a backup using the <code>dataSource</code> option in the Custom Resource of a <strong>new</strong> cluster. Use this approach to deploy a copy of your cluster in a new namespace or a different Kubernetes cluster to:</p>
-<ul>
-<li>Test your disaster recovery strategy</li>
-<li>Analyze the data without affecting the production cluster</li>
-<li>Restore the database from a cloud storage when the source cluster no longer exists.</li>
+<li><a href="backups-restore-inplace.html"><strong>In-place restore</strong></a> – restore
+data into the same cluster using the [PerconaPGRestore]
+(restore-options.md) custom resource. By default, the Operator
+restores the most recent backup. You can specify what backup to
+restore from using the <code>--set</code> option.</li>
+<li><a href="backups-clone.html"><strong>Cluster clone</strong></a> – create a new cluster using the <code>spec.dataSource</code> option in the Custom
+Resource of a <strong>new</strong> cluster. The data source can be a source cluster (<code>postgresCluster</code>), its data volume (<code>volumes</code>) or a <code>pgBackrest</code> backup from a cloud storage (<code>pgbackrest</code>).</li>
 </ul>
-</li>
-</ul>
-<p>Both approaches support full restore and point-in-time recovery. Choose the method that fits your scenario.</p>
+<p>Both approaches support full restore and point-in-time recovery.
+Choose the method that fits your scenario.</p>
+<h2 id="choose-a-restore-option">Choose a restore option<a class="headerlink" href="#choose-a-restore-option" title="Permanent link">&para;</a></h2>
+<p>Use this flow to pick a restore path:</p>
+<pre class="mermaid"><code>%%{ init : { "theme": "base", "themeVariables": {
+  "primaryColor": "#93D0FF",
+  "primaryTextColor": "#ffffff",
+  "lineColor": "#ffffff",
+  "background": "#1e1e1e"
+} }}%%
+flowchart LR
+    q1{Must the same cluster&lt;br/&gt;come back quickly&lt;br/&gt;with the same endpoints?}
+    q1 --&gt;|Yes| inplace[In-place restore&lt;br/&gt;PerconaPGRestore]
+    q1 --&gt;|No| q2{Is the source cluster&lt;br/&gt;still running in this&lt;br/&gt;Kubernetes cluster?}
+    q2 --&gt;|Yes| q3{Reuse existing disks&lt;br/&gt;for a fast cutover?}
+    q2 --&gt;|No| pgbackrest[Clone with&lt;br/&gt;dataSource.pgbackrest&lt;br/&gt;object storage]
+    q3 --&gt;|Yes| volumes[Clone with&lt;br/&gt;dataSource.volumes]
+    q3 --&gt;|No| postgresCluster[Clone with&lt;br/&gt;dataSource.postgresCluster]</code></pre>
+<table>
+<thead>
+<tr>
+<th>Restore option</th>
+<th>When to use</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="backups-restore-inplace.html">In-place restore</a></td>
+<td>- Roll the <strong>same</strong> cluster back after a bad migration, accidental <code>DELETE</code>/<code>DROP</code> or data corruption <br> - You need service restored quickly on the existing endpoints</td>
+<td>- Keeps the same cluster name, Services, and app connection strings <br> - Simple to run <br> - Supports full restore and PITR</td>
+<td>- <strong>Destructive</strong> — overwrites live data; <br> - Introduces downtime; <br> - No side-by-side validation; <br> - A failed restore can leave the cluster non-operational</td>
+</tr>
+<tr>
+<td><a href="backups-clone.html">Cluster clone</a></td>
+<td>- Create a <strong>side</strong> cluster to test disaster recovery, investigate or recover without touching production data; <br> - Spin up a copy for reporting, or rebuild when the source is gone</td>
+<td>- Source stays intact for backup-based clones; <br> - You can validate restored data before cutover; <br> - Safer default for most recovery scenarios</td>
+<td>- Needs extra cluster resources and storage; <br> - Apps must switch endpoints for cutover; <br> - Restore from cloud-based backups takes time</td>
+</tr>
+</tbody>
+</table>
+<h2 id="if-you-clone-choose-a-data-source">If you clone: choose a data source<a class="headerlink" href="#if-you-clone-choose-a-data-source" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>When to use</th>
+<th>Pros</th>
+<th>Cons</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="backups-clone.html#datasourcepostgrescluster"><code>dataSource.postgresCluster</code></a></td>
+<td>- Source still runs in this Kubernetes cluster; <br> - You want a side copy in the same or another namespace</td>
+<td>- Easiest clone when the source exists; <br> - supports PITR; <br> - source stays untouched</td>
+<td>- Source must be available; <br> - Doesn&rsquo;t apply for a deleted cluster or another Kubernetes cluster; <br> - Needs restore time and a full data copy</td>
+</tr>
+<tr>
+<td><a href="backups-clone.html#datasourcepgbackrest"><code>dataSource.pgbackrest</code></a></td>
+<td>Source is deleted, you restore into another Kubernetes cluster, or you only have object-storage backups</td>
+<td>- Works without a live source; <br> - Fits multi-cluster disaster recovery scenarios</td>
+<td>- You must match path, stanza, Secret, and storage settings; <br> - Restore time and network cost</td>
+</tr>
+<tr>
+<td><a href="backups-clone.html#datasourcevolumes"><code>dataSource.volumes</code></a></td>
+<td>- Same-infrastructure cutover on existing disks; <br> - Large dataset where a backup restore is too slow</td>
+<td>- Fastest bootstrap; <br> - No object storage required for the cutover</td>
+<td>- Source must stop; <br> - Weak rollback after the new cluster writes</td>
+</tr>
+</tbody>
+</table>
 <h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
-<ul>
-<li><a href="backups-restore-inplace.html">In-place restore</a> – restore to the same cluster</li>
-<li><a href="backups-clone.html">Cluster clone</a> – restore to a new cluster</li>
-<li><a href="restore-options.html">Restore options reference</a> – PerconaPGRestore spec</li>
-</ul>
+<p><a class="md-button" href="backups-restore-inplace.html">In-place restore</a>
+<a class="md-button" href="backups-clone.html">Cluster clone</a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 19, 2026 19:16:43 UTC">February 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 5, 2026 12:55:15 UTC">August 5, 2026</span>
       
         <br>
         Created:
