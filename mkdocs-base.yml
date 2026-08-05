@@ -52,6 +52,7 @@ theme:
     #- content.action.edit
     - content.action.view
     - content.code.copy
+    - content.footnote.tooltips
     - toc.follow
 
 extra_css:
@@ -89,6 +90,7 @@ markdown_extensions:
   def_list: {}
   meta: {}
   smarty: { smart_angled_quotes: true }
+  footnotes: {}
   pymdownx.details: {}
   pymdownx.mark: {}
   pymdownx.smartsymbols: {}

@@ -24,9 +24,9 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 |------------------|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------:|:-----------------------------:|
 | Operator upgrade |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |         :white_check_mark:         |            :white_check_mark:            |
 | Database upgrade | Automated | Automated | Automated | Automated | Automated |
-| Storage scaling  | Automatic (auto-grow) | Manual | Automatic (auto-grow) | Manual | Manual (live resize)‡ |
+| Storage scaling  | Automatic (auto-grow) | Manual | Automatic (auto-grow) | Manual | Manual (live resize)[^1] |
 
-‡ Live EBS resize (no pod restart) via direct AWS API integration; other clouds use standard K8s PVC resize.
+[^1]: Live EBS resize (no pod restart) via direct AWS API integration; other clouds use standard K8s PVC resize.
 
 ## PostgreSQL topologies
 
@@ -60,14 +60,14 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Feature/Product | Percona Operator for PostgreSQL | Stackgres | CrunchyData | CloudNativePG | Zalando |
 |---|:---:|:---:|:---:|:---:|:---:|
 | Transport encryption | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: |
-| Data-at-rest encryption | Through storage class, or native TDE (pg_tde)* | Through storage class | Through storage class | Through storage class | Through storage class |
+| Data-at-rest encryption | Through storage class, or native TDE (`pg_tde`)[^2] | Through storage class | Through storage class | Through storage class | Through storage class |
 | Create users/roles | :white_check_mark: | :white_check_mark: | :white_check_mark: | :white_check_mark: | limited |
 | LDAP authentication | Simple bind / search+bind | :no_entry_sign: | TLS-enabled LDAP (custom pg_hba) | Simple bind / search+bind (dedicated `ldap` field) | :no_entry_sign: |
-| Certificate (mTLS) authentication | :white_check_mark: (cert-manager) | Partial (CA not passed to PgBouncer — client verification broken) § | :white_check_mark: (MFA/SSO with cert-manager) | :white_check_mark: (auto-issued via cnpg plugin) | :white_check_mark: (custom `spec.tls`) |
+| Certificate (mTLS) authentication | :white_check_mark: (cert-manager) | Partial (CA not passed to PgBouncer — client verification broken) [^3] | :white_check_mark: (MFA/SSO with cert-manager) | :white_check_mark: (auto-issued via cnpg plugin) | :white_check_mark: (custom `spec.tls`) |
 
-\* Percona's pg_tde provides table/tablespace-level encryption with KMS integration (HashiCorp Vault, Thales, Fortanix, OpenBao).
+[^2]: Percona's `pg_tde` provides table/tablespace-level encryption with KMS integration (HashiCorp Vault).
 
-§ Reported against StackGres 1.17.1 in [gitlab.com/ongresinc/stackgres#3056](https://gitlab.com/ongresinc/stackgres/-/issues/3056) — no CA secret selector exists for PgBouncer, so `client_tls_ca_file` never gets set and TLS handshakes fail under `sslmode=require`/`prefer`. Open/unresolved as of this writing; re-check before relying on this if you're on a newer version.
+[^3]: Reported against StackGres 1.17.1 in [gitlab.com/ongresinc/stackgres#3056 :octicons-link-external-16:](https://gitlab.com/ongresinc/stackgres/-/issues/3056) — no CA secret selector exists for PgBouncer, so `client_tls_ca_file` never gets set and TLS handshakes fail under `sslmode=require`/`prefer`. Open/unresolved as of this writing; re-check before relying on this if you're on a newer version.
 
 ## Extensibility & Customization
 
