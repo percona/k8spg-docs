@@ -48,7 +48,7 @@ Disabling asynchronous WAL archival (`archive-async=n`) can reduce archive throu
 ### Considerations for WAL encryption
 
 1. To enable WAL encryption, you must first enable `pg_tde` in the cluster. Wait for the cluster to become ready with `pg_tde` enabled, and only then enable WAL encryption as a separate step. Creating a new cluster with both `enabled` and `walEncryption` set to `true` causes Patroni bootstrap to fail.
-2. The safest time to enable WAL encryption is before the cluster has application writes. Enabling WAL encryption on clusters that already have data needs further validation.
+2. The safest time to enable WAL encryption is before the cluster has application writes. 
 3. WAL segments in the pgBackRest repository are stored in plaintext unless you configure [pgBackRest repository encryption](backup-encryption.md).
 4. WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.
 

@@ -226,7 +226,7 @@ To learn how WAL encryption works with backups, see [WAL encryption](encryption.
 
 !!! important
 
-    Enable WAL encryption before the cluster has application writes.
+    We recommend that you enable WAL encryption before the cluster has application writes.
 
 To enable WAL encryption, do the following:
 
