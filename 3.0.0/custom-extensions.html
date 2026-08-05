@@ -4054,8 +4054,7 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Upload a custom extension to the cloud storage">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#create-a-secret-with-the-storage-credentials" class="md-nav__link">
@@ -4077,7 +4076,8 @@
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Configure the Operator to load and install the custom extension">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#enable-custom-extension-in-postgresql" class="md-nav__link">
@@ -6006,8 +6006,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Upload a custom extension to the cloud storage">
-      <ul class="md-nav__list">
+</li>
         
           <li class="md-nav__item">
   <a href="#create-a-secret-with-the-storage-credentials" class="md-nav__link">
@@ -6029,7 +6028,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Configure the Operator to load and install the custom extension">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#enable-custom-extension-in-postgresql" class="md-nav__link">
@@ -6099,20 +6099,31 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h1 id="manage-postgresql-extensions">Manage PostgreSQL extensions<a class="headerlink" href="#manage-postgresql-extensions" title="Permanent link">&para;</a></h1>
 <p>One of the specific PostgreSQL features is the ability to provide it with additional functionality via <a href="https://www.postgresql.org/download/products/6-postgresql-extensions/">Extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Percona Distribution for PostgreSQL <a href="https://docs.percona.com/postgresql/latest/extensions.html">comes with a number of extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. These extensions are available for the database cluster managed by the Operator as well.</p>
 <h2 id="built-in-extensions">Built-in extensions<a class="headerlink" href="#built-in-extensions" title="Permanent link">&para;</a></h2>
-<p>You can enable or disable built-in extensions in the <code>extensions.builtin</code> section of your <code>deploy/cr.yaml</code> file. Set an option to <code>true</code> to enable an extension, or to <code>false</code> to disable it. To see which extensions are enabled by default, check the <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.0.0/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Custom Resource manifest.</p>
+<p>You can enable or disable built-in extensions in the <code>extensions</code> section of your <code>deploy/cr.yaml</code> file. Set an option to <code>true</code> to enable an extension, or to <code>false</code> to disable it. To see which extensions are enabled by default, check the <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.0.0/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Custom Resource manifest.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">builtin</span><span class="p p-Indicator">:</span>
-<span class="w">    </span><span class="nt">pg_stat_monitor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">    </span><span class="nt">pg_audit</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">pgvector</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">    </span><span class="nt">pg_repack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">pg_stat_monitor</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pg_stat_statements</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pg_audit</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">pgvector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pg_repack</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pg_cron</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">set_user</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">  </span><span class="nt">pg_tde</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <p>Apply changes after editing with <code>kubectl apply -f deploy/cr.yaml</code> command. This causes the Operator to restart the Pods of your cluster.</p>
 <h2 id="add-custom-extensions">Add custom extensions<a class="headerlink" href="#add-custom-extensions" title="Permanent link">&para;</a></h2>
-<p>The needed extension may not be in the list of extensions supplied with Percona Distribution for PostgreSQL, or it&rsquo;s a custom extension developed by the end-user.
-To add such a custom extension is not straightforward in a containerized database in a Kubernetes environment. It requires building a custom PostgreSQL image.</p>
-<p>Starting with version 2.3, the Operator provides an alternative way to extend Percona Distribution for PostgreSQL by downloading pre-packaged extensions from and external storage on the fly. </p>
+<p>The needed extension may not be in the list of extensions supplied with Percona Distribution for PostgreSQL, or it&rsquo;s a custom extension developed by the end-user.</p>
+<p>To add such a custom extension is not straightforward in a containerized database in a Kubernetes environment. It requires building a custom PostgreSQL image.</p>
+<p>Starting with version 2.3, the Operator provides an alternative way to extend Percona Distribution for PostgreSQL by downloading pre-packaged extensions from external storage on the fly.</p>
 <div class="admonition warning">
 <p class="admonition-title">Advanced configuration</p>
 <p>Custom extensions configuration is an advanced feature that requires careful consideration. Adding custom extensions may violate the immutability of Pod images, which can lead to unexpected behavior and maintenance challenges. Use this feature only if you are certain what you are doing and understand the implications. Or <a href="get-help.html#percona-experts">reach out to our experts</a> for assistance with adding custom extensions into your infrastructure.</p>
@@ -6120,7 +6131,7 @@ To add such a custom extension is not straightforward in a containerized databas
 <p>Here&rsquo;s how it works:</p>
 <ol>
 <li>You build and package a custom extension. The package must have a strict structure. See <a href="#packaging-requirements">Packaging requirements</a> for details.</li>
-<li>You upload the extension to a cloud storage. </li>
+<li>You upload the extension to a cloud storage. Currently, s3 and s3-compatible storage is supported.</li>
 <li>In the <code>extensions</code> section of the Custom Resource, specify the storage configuration and the extension information.</li>
 <li>The Operator downloads the extension and installs it.</li>
 <li>In PostgreSQL, you create the extension for every database where you want to use it.</li>
@@ -6137,28 +6148,45 @@ The package must be a <code>.tar.gz</code> archive that follows this naming form
 <li>All required SQL script files must be in the <code>SHAREDIR/extension</code> directory. At least one SQL script is required.</li>
 </ol>
 <p>The <code>SHAREDIR</code> corresponds to <code>/usr/pgsql-${PG_MAJOR}/share</code> and <code>LIBDIR</code> to <code>/usr/pgsql-${PG_MAJOR}/lib</code>.</p>
-<p>For example, the directory for <code>pg_cron</code> extension should look as follows:</p>
-<div class="highlight"><pre><span></span><code>tree<span class="w"> </span>~/pg_cron-1.6.7/
-/home/user/pg_cron-1.6.7/
+<p>For example, the directory for <code>pg_stat_kcache</code> extension should look as follows:</p>
+<div class="highlight"><pre><span></span><code>tree<span class="w"> </span>~/pg_stat_kcache-2.3.2/
+/home/user/pg_stat_kcache-2.3.2/
 └──<span class="w"> </span>usr
-<span class="w">    </span>└──<span class="w"> </span>pgsql-17
+<span class="w">    </span>└──<span class="w"> </span>pgsql-18
 <span class="w">        </span>├──<span class="w"> </span>lib
-<span class="w">        </span>│<span class="w">   </span>└──<span class="w"> </span>pg_cron.so
+<span class="w">        </span>│<span class="w">   </span>├──<span class="w"> </span>bitcode
+<span class="w">        </span>│<span class="w">   </span>│<span class="w">   </span>├──<span class="w"> </span>pg_stat_kcache
+<span class="w">        </span>│<span class="w">   </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>pg_stat_kcache.bc
+<span class="w">        </span>│<span class="w">   </span>│<span class="w">   </span>└──<span class="w"> </span>pg_stat_kcache.index.bc
+<span class="w">        </span>│<span class="w">   </span>└──<span class="w"> </span>pg_stat_kcache.so
 <span class="w">        </span>└──<span class="w"> </span>share
 <span class="w">            </span>└──<span class="w"> </span>extension
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.0--1.1.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.0.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.1--1.2.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.2--1.3.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.3--1.4.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.4--1.4-1.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.4-1--1.5.sql
-<span class="w">                </span>├──<span class="w"> </span>pg_cron--1.5--1.6.sql
-<span class="w">                </span>└──<span class="w"> </span>pg_cron.control
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.0--2.1.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.0.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.1--2.1.2.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.2--2.1.3.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.2.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.3--2.2.0.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.1.3.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.0--2.2.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.0.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.1--2.2.2.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.2--2.2.3.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.2.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.3--2.3.0.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.2.3.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.3.0--2.3.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.3.0.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.3.1--2.3.2.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.3.1.sql
+<span class="w">                </span>├──<span class="w"> </span>pg_stat_kcache--2.3.2.sql
+<span class="w">                </span>└──<span class="w"> </span>pg_stat_kcache.control<span class="w">           </span>
 </code></pre></div>
-<p>The resulting <code>.tar</code> archive has the name <code>pg_cron-pg17-1.6.7.tar.gz</code>.</p>
+<p>The resulting <code>.tar</code> archive has the name <code>pg_stat_kcache-pg18-2.3.2.tar.gz</code>.</p>
 <h3 id="example-configuration">Example configuration<a class="headerlink" href="#example-configuration" title="Permanent link">&para;</a></h3>
-<p>The following is an <strong>example workflow</strong> showing how to build and package the <code>pg_cron</code> extension. This example is intended to illustrate the general process and give you an idea of the required steps. However, the exact workflow and specifics may differ for your custom extension. Always review your extension&rsquo;s build and packaging requirements and adapt accordingly.</p>
+<p>The following is an <strong>example workflow</strong> showing how to build and package the <a href="https://github.com/powa-team/pg_stat_kcache"><code>pg_stat_kcache</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> extension. This example is intended to illustrate the general process and give you an idea of the required steps. However, the exact workflow and specifics may differ for your custom extension. Always review your extension&rsquo;s build and packaging requirements and adapt accordingly.</p>
 <h4 id="considerations">Considerations<a class="headerlink" href="#considerations" title="Permanent link">&para;</a></h4>
 <ol>
 <li>
@@ -6176,23 +6204,27 @@ The package must be a <code>.tar.gz</code> archive that follows this naming form
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>percona-release-1.0-32.noarch
-percona-postgresql17-libs-17.6-1.el9.x86_64
-percona-postgresql17-17.6-1.el9.x86_64
-percona-postgresql-client-common-280-1.el9.noarch
-percona-telemetry-agent-1.0.5-1.el9.x86_64
-percona-pg-telemetry17-1.1.3-1.el9.x86_64
-percona-postgresql17-server-17.6-1.el9.x86_64
-percona-pgbackrest-2.56.0-1.el9.x86_64
-percona-pg_stat_monitor17-2.2.0-1.el9.x86_64
-percona-pgaudit17-17.1-1.el9.x86_64
-percona-pgvector_17-0.8.0-3.el9.x86_64
-percona-wal2json17-2.6-1.el9.x86_64
-percona-postgresql17-contrib-17.6-1.el9.x86_64
-percona-postgresql-common-280-1.el9.noarch
-percona-pg_repack17-1.5.2-2.el9.x86_64
-percona-pgaudit17_set_user-4.1.0-3.el9.x86_64
-percona-patroni-4.0.6-1.el9.x86_64
+<div class="no-copy highlight"><pre><span></span><code>percona-release-1.0-33.noarch
+percona-postgresql18-libs-18.4-2.el9.x86_64
+percona-postgresql18-18.4-2.el9.x86_64
+percona-postgresql-client-common-290-2.el10.noarch
+percona-postgresql18-server-18.4-2.el9.x86_64
+percona-pgvector_18-0.8.3-2.el9.x86_64
+percona-pgvector_18-llvmjit-0.8.3-2.el9.x86_64
+percona-pg_cron_18-1.6.7-2.el9.x86_64
+percona-pg_stat_monitor18-2.3.2-3.el9.x86_64
+percona-pgaudit18-18.0-3.el9.x86_64
+percona-postgresql18-llvmjit-18.4-2.el9.x86_64
+percona-wal2json18-2.6-4.el9.x86_64
+percona-postgresql18-contrib-18.4-2.el9.x86_64
+percona-postgresql-common-290-2.el10.noarch
+percona-pg_oidc_validator18-1.0-3.el9.x86_64
+percona-pg_repack18-1.5.3-3.el9.x86_64
+percona-pgaudit18_set_user-4.2.0-3.el9.x86_64
+percona-pg_tde18-2.2.1-2.el9.x86_64
+percona-pgbackrest-2.58.0-3.el9.x86_64
+percona-patroni-etcd-4.1.3-2.el9.x86_64
+percona-patroni-4.1.3-2.el9.x86_64
 </code></pre></div>
 </details>
 </li>
@@ -6202,7 +6234,7 @@ percona-patroni-4.0.6-1.el9.x86_64
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>Red Hat Enterprise Linux release 9.6 (Plow)
+<div class="no-copy highlight"><pre><span></span><code>Red Hat Enterprise Linux release 9.8 (Plow)
 </code></pre></div>
 </details>
 </li>
@@ -6214,12 +6246,12 @@ percona-patroni-4.0.6-1.el9.x86_64
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>docker.io/perconalab/percona-postgresql-operator:main-ppg17-postgres
+<div class="no-copy highlight"><pre><span></span><code>docker.io/perconalab/percona-postgresql-operator:main-ppg18-postgres
 </code></pre></div>
 </details>
 </li>
 <li>
-<p>In this example configuration, we use a Docker container to build the <code>pg_cron</code> extension. However, you can use any environment that matches the distribution&rsquo;s operating system, such as a virtual machine or a Kubernetes Pod, not just Docker.</p>
+<p>In this example configuration, we use a Docker container to build the <code>pg_stat_kcache</code> extension. However, you can use any environment that matches the distribution&rsquo;s operating system, such as a virtual machine or a Kubernetes Pod, not just Docker.</p>
 </li>
 <li>We assume you have deployed a Percona Distribution for PostgreSQL cluster in Kubernetes. If not, use the <a href="kubectl.html">Quickstart guide</a> to deploy it.</li>
 </ol>
@@ -6227,8 +6259,8 @@ percona-patroni-4.0.6-1.el9.x86_64
 <p>Run the following commands as the root user or with <code>sudo</code> privileges.</p>
 <ol>
 <li>
-<p>Start a Docker container and establish a shell session inside. In this example we use a Red Hat Universal Base Image 9 on <code>x86_64</code> architecture.</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--name<span class="w"> </span>pg<span class="w"> </span>redhat/ubi9:latest<span class="w"> </span>/bin/bash
+<p>Start a Docker container and establish a shell session inside. In this example we use a RockyLinux 9 on <code>x86_64</code> architecture.</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>run<span class="w"> </span>-it<span class="w"> </span>--name<span class="w"> </span>pg<span class="w"> </span>rockylinux:9<span class="w"> </span>/bin/bash
 </code></pre></div>
 </li>
 <li>
@@ -6271,6 +6303,11 @@ dnf<span class="w"> </span>clean<span class="w"> </span>all<span class="w"> </sp
 <p>Then retry the installation.</p>
 </li>
 <li>
+<p>Install PostgreSQL 18 compatible LLVM toolchain and Clang library. Certain extensions such as <code>pg_stat_kcache</code> may require LLVM and Clang to build correctly, as they use modern C/C++ features and sometimes depend on LLVM infrastructure for compiling code or enabling advanced extension capabilities. </p>
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>-y<span class="w"> </span>llvm-toolset<span class="w"> </span>clang
+</code></pre></div>
+</li>
+<li>
 <p>Install PostgreSQL developer packages from Percona repositories:</p>
 <ul>
 <li>Install <code>percona-release</code> repository management tool:</li>
@@ -6280,17 +6317,17 @@ dnf<span class="w"> </span>clean<span class="w"> </span>all<span class="w"> </sp
 <ul>
 <li>Enable PostgreSQL repository:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>percona-release<span class="w"> </span>setup<span class="w"> </span>ppg17
+<div class="highlight"><pre><span></span><code>percona-release<span class="w"> </span>setup<span class="w"> </span>ppg18
 </code></pre></div>
 <ul>
-<li>Disable the <code>potsgresql</code> module supplied with the operating system:</li>
+<li>Disable the <code>postgresql</code> module supplied with the operating system:</li>
 </ul>
 <div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>-qy<span class="w"> </span>module<span class="w"> </span>disable<span class="w"> </span>postgresql
 </code></pre></div>
 <ul>
 <li>Install PostgreSQL developer packages:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>percona-postgresql17-devel<span class="w"> </span>percona-postgresql17-libs<span class="w"> </span>percona-postgresql17
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>percona-postgresql18-devel<span class="w"> </span>percona-postgresql18-libs<span class="w"> </span>percona-postgresql18
 </code></pre></div>
 </li>
 </ol>
@@ -6298,34 +6335,40 @@ dnf<span class="w"> </span>clean<span class="w"> </span>all<span class="w"> </sp
 <ol>
 <li>
 <p>Download the extension source:</p>
-<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/citusdata/pg_cron.git
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/powa-team/pg_stat_kcache.git
 </code></pre></div>
 </li>
 <li>
-<p>Navigate to the cloned extension and switch to the desired version. In this example we use version <code>1.6.7</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>pg_cron
-git<span class="w"> </span>checkout<span class="w"> </span>v1.6.7
+<p>Navigate to the cloned extension and switch to the desired version. In this example we use <code>pg_stat_kcache</code> version 2.3.2:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">cd</span><span class="w"> </span>pg_stat_kcache
+git<span class="w"> </span>checkout<span class="w"> </span>REL2_3_2
 </code></pre></div>
 </li>
 <li>
 <p>Ensure <code>pg_config</code> is in your path:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/usr/pgsql-17/bin:<span class="nv">$PATH</span>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PATH</span><span class="o">=</span>/usr/pgsql-18/bin:<span class="nv">$PATH</span>
 </code></pre></div>
 </li>
 <li>
-<p>Build and install the extension</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>sudo<span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span><span class="w"> </span>make<span class="w"> </span>install
+<p>Build the extension with PGXS flags neutralized:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="nv">PG_CFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">USE_PGXS</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
-<p>As the result you should see the binaries in the following paths: <code>/usr/pgsql-17/share/extension/pg_cron</code> and <code>/usr/pgsql-17/lib/</code>.</p>
+</li>
+<li>
+<p>Install the extension</p>
+<div class="highlight"><pre><span></span><code>sudo<span class="w"> </span><span class="nv">PATH</span><span class="o">=</span><span class="nv">$PATH</span><span class="w"> </span>make<span class="w"> </span>install
+</code></pre></div>
+<p>As the result you should see the binaries in the following paths: <code>/usr/pgsql-18/share/extension/pg_stat_kcache</code> and <code>/usr/pgsql-18/lib/</code>.</p>
 </li>
 </ol>
 <h4 id="package-the-extension">Package the extension<a class="headerlink" href="#package-the-extension" title="Permanent link">&para;</a></h4>
 <ol>
 <li>
 <p>Create a <code>.tar</code> archive of the extension:</p>
-<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-czvf<span class="w"> </span>pg_cron-pg17-1.6.7.tar.gz<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>/usr/pgsql-17/lib/pg_cron.so<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>/usr/pgsql-17/share/extension/pg_cron*
+<div class="highlight"><pre><span></span><code>tar<span class="w"> </span>-czvf<span class="w"> </span>pg_stat_kcache-pg18-2.3.2.tar.gz<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/usr/pgsql-18/lib/bitcode/*<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/usr/pgsql-18/lib/pg_stat_kcache.so<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>/usr/pgsql-18/share/extension/pg_stat_kcache*
 </code></pre></div>
 </li>
 <li>
@@ -6333,8 +6376,8 @@ git<span class="w"> </span>checkout<span class="w"> </span>v1.6.7
 </li>
 <li>
 <p>Copy the archive to the local machine. Run this command on the local machine:</p>
-<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>cp<span class="w"> </span>pg:/pg_cron-pg17-1.6.7.tar.gz<span class="w"> </span>./
-</code></pre></div>
+<p>```bash
+docker cp pg:/pg_stat_kcache-pg18-2.3.2.tar.gz ./</p>
 </li>
 </ol>
 <h3 id="upload-a-custom-extension-to-the-cloud-storage">Upload a custom extension to the cloud storage<a class="headerlink" href="#upload-a-custom-extension-to-the-cloud-storage" title="Permanent link">&para;</a></h3>
@@ -6350,9 +6393,9 @@ git<span class="w"> </span>checkout<span class="w"> </span>v1.6.7
 <p>Upload the extension to your storage. Use your value for the bucket and specify your path to the archive:</p>
 </li>
 </ol>
-<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>s3<span class="w"> </span>cp<span class="w"> </span>path/to/pg_cron-pg17-1.6.7.tar.gz<span class="w"> </span>s3://my-bucket
+<div class="highlight"><pre><span></span><code>aws<span class="w"> </span>s3<span class="w"> </span>cp<span class="w"> </span>path/to/pg_stat_kcache-pg18-2.3.1.tar.gz<span class="w"> </span>s3://my-bucket
 </code></pre></div>
-<h4 id="create-a-secret-with-the-storage-credentials">Create a Secret with the storage credentials<a class="headerlink" href="#create-a-secret-with-the-storage-credentials" title="Permanent link">&para;</a></h4>
+<h3 id="create-a-secret-with-the-storage-credentials">Create a Secret with the storage credentials<a class="headerlink" href="#create-a-secret-with-the-storage-credentials" title="Permanent link">&para;</a></h3>
 <p>After the upload is complete, place the access credentials for the cloud storage in a Secret.</p>
 <ol>
 <li>
@@ -6398,46 +6441,47 @@ git<span class="w"> </span>checkout<span class="w"> </span>v1.6.7
 </code></pre></div>
 </li>
 </ol>
-<h4 id="configure-the-operator-to-load-and-install-the-custom-extension">Configure the Operator to load and install the custom extension<a class="headerlink" href="#configure-the-operator-to-load-and-install-the-custom-extension" title="Permanent link">&para;</a></h4>
+<h3 id="configure-the-operator-to-load-and-install-the-custom-extension">Configure the Operator to load and install the custom extension<a class="headerlink" href="#configure-the-operator-to-load-and-install-the-custom-extension" title="Permanent link">&para;</a></h3>
 <p>Specify both the storage and extension details in the Custom
 Resource so the Operator can download and install it.</p>
 <ol>
 <li>
-<p>In the <code>extensions.storage</code> subsection of the Custom Resource, specify the following information:</p>
+<p>Configure the <code>extensions</code> subsection of the Custom Resource as follows:</p>
 <ul>
-<li>storage details such as the bucket where your extension resides, region and endpoint to access the storage</li>
-<li>the Secret name with the storage credentials that you created before.</li>
+<li><code>image</code> - Specify the image for the custom PostgreSQL extension loader sidecar container</li>
+<li><code>storage</code> - Specify storage details such as the bucket where your extension resides, region, endpoint to access the storage and the Secret name with the storage credentials that you created before.</li>
+<li><code>custom</code> - Specify the extension name and version</li>
+<li><code>pg_stat_kcache</code> requires <code>pg_stat_statements</code> to be installed in PostgreSQL. If you haven&rsquo;t done it before, enable <code>pg_stat_statements</code> in <code>extensions.builtin</code>:</li>
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:3.0.0</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">storage</span><span class="p p-Indicator">:</span>
+<span class="w">  </span><span class="nt">storage</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3</span>
 <span class="w">    </span><span class="nt">bucket</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg-extensions</span>
 <span class="w">    </span><span class="nt">region</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">eu-central-1</span>
 <span class="w">    </span><span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3.eu-central-1.amazonaws.com</span>
 <span class="w">    </span><span class="nt">secret</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-extensions-secret</span>
-</code></pre></div>
-</li>
-<li>
-<p>In the <code>extensions.custom</code> subsection, specify the extension name and version:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">custom</span><span class="p p-Indicator">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_cron</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.6.1</span>
+<span class="w">  </span><span class="nt">pg_stat_statements</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">custom</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_stat_kcache</span>
+<span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.3.1</span>
+<span class="w">  </span><span class="nt">pg_stat_statements</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 </li>
 <li>
-<p>Some extensions (such as <code>pg_cron</code> in our example) may require additional shared memory. If this is the case, you need to configure PostgreSQL to preload it at startup:</p>
-<p>```yaml
-&hellip;
-patroni:
-  dynamicConfiguration:
-    postgresql:
-      parameters:
-        shared_preload_libraries: pg_cron
-        &hellip;</p>
+<p>Some extensions (such as <code>pg_stat_kcache</code> in our example) may require additional shared memory. If this is the case, you need to configure PostgreSQL to preload it at startup:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">...</span>
+<span class="nt">patroni</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">shared_preload_libraries</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg_stat_statements,pg_stat_kcache&quot;</span>
+<span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+</code></pre></div>
 </li>
 <li>
 <p>Apply the configuration: </p>
@@ -6452,12 +6496,15 @@ patroni:
 <ol>
 <li>
 <p>Connect to the primary Pod:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-69r8-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--<span class="w"> </span>bash
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--<span class="w"> </span>psql
 </code></pre></div>
 </li>
 <li>
 <p>Connect to the required database in PostgreSQL and create the extension for this database using the <code>CREATE EXTENSION</code> statement:</p>
-<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_cron</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pg_stat_kcache</span><span class="p">;</span>
 </code></pre></div>
 </li>
 </ol>
@@ -6466,12 +6513,12 @@ patroni:
 <ol>
 <li>Prepare the <code>*.tar</code> archive of the extension&rsquo;s new version. See the <a href="#packaging-requirements">Packaging requirements</a> section for the archive&rsquo;s structure and naming format</li>
 <li>
-<p>Reference the new version of the extension in the Custom Resource. For example, you update <code>pg_cron</code> extension to version 1.6.8. Then your configuration looks like this:</p>
+<p>Reference the new version of the extension in the Custom Resource. For example, you update <code>pg_stat_kcache</code> extension to version 2.3.3. Then your configuration looks like this:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">custom</span><span class="p p-Indicator">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_cron</span>
-<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.6.8</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_stat_kcache</span>
+<span class="w">    </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.3.3</span>
 </code></pre></div>
 </li>
 <li>
@@ -6485,7 +6532,7 @@ patroni:
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 17:18:40 UTC">April 1, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 5, 2026 13:43:15 UTC">August 5, 2026</span>
       
         <br>
         Created:
