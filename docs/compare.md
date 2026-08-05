@@ -67,7 +67,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | LDAP authentication | Simple bind / search+bind | :no_entry_sign: | TLS-enabled LDAP (custom pg_hba) | Simple bind / search+bind (dedicated `ldap` field) | :no_entry_sign: |
 | Certificate (mTLS) authentication | :white_check_mark: (cert-manager) | Partial (CA not passed to PgBouncer — client verification broken) § | :white_check_mark: (MFA/SSO with cert-manager) | :white_check_mark: (auto-issued via cnpg plugin) | :white_check_mark: (custom `spec.tls`) |
 
-\* Percona's pg_tde provides table/tablespace-level encryption with KMS integration (HashiCorp Vault, Thales, Fortanix, OpenBao); WAL encryption is still in beta.
+\* Percona's pg_tde provides table/tablespace-level encryption with KMS integration (HashiCorp Vault, Thales, Fortanix, OpenBao).
 
 § Reported against StackGres 1.17.1 in [gitlab.com/ongresinc/stackgres#3056](https://gitlab.com/ongresinc/stackgres/-/issues/3056) — no CA secret selector exists for PgBouncer, so `client_tls_ca_file` never gets set and TLS handshakes fail under `sslmode=require`/`prefer`. Open/unresolved as of this writing; re-check before relying on this if you're on a newer version.
 
