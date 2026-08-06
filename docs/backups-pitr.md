@@ -17,7 +17,7 @@ Point-in-time recovery combines a base backup with Write-Ahead Log (WAL) archive
 
 The Operator automatically creates an initial full backup when it creates a new cluster for you. That backup is the starting point for point-in-time recovery. It is required internally and does not appear when you run `kubectl get pg-backup`.
 
-By default, the Operator uses the latest successful full backup as the base. You can point restore at another backup by its ID. See [Specify a base backup for point-in-time restore](backups-pitr-inplace.md#specify-a-base-backup-for-point-in-time-restore).
+By default, the Operator uses the latest successful full backup as the base. You can point the restore at another backup by its ID. See [Specify a base backup for point-in-time restore](backups-pitr-inplace.md#specify-a-base-backup-for-point-in-time-restore).
 
 ## What you need
 

@@ -1283,7 +1283,7 @@ Controls [tracking of the latest restorable time](backups-pitr.md#latest-restora
 
 When enabled, the Operator maintains `status.latestRestorableTime` on the latest successful backup. That value is the timestamp of the latest committed transaction archived to the backup repository. Use it when you choose a point-in-time restore target.
 
-When disabled, the Operator stops updating that helper field. Starting from Operator 2.8.0, it also does not inject the tracking logic into `archive_command`. Backups and restores continue to work without the helper. See [Point-in-time recovery](backups-pitr.md) for details.
+When disabled, the Operator stops updating that helper field. Starting with Operator 2.8.0, it also does not inject the tracking logic into `archive_command`. Backups and restores continue to work without the helper. See [Point-in-time recovery](backups-pitr.md) for details.
 
 | Value type | Example |
 | ---------- | ------- |

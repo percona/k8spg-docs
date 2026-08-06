@@ -33,7 +33,7 @@ Add the `dataSource.postgresCluster` section to the Custom Resource of the *new*
 
         See [Latest restorable time](backups-pitr.md#latest-restorable-time) for more information.
 
-    * `--set` (optional): Allows you to specify a particular backup as the starting point for point-in-time recovery. For more information how to do it, refer to the [Specify a base backup for point-in-time restore](backups-pitr-inplace.md#specify-a-base-backup-for-point-in-time-restore) section.
+    * `--set` (optional): Allows you to specify a particular backup as the starting point for point-in-time recovery. For more information on how to do this, see [Specify a base backup for point-in-time restore](backups-pitr-inplace.md#specify-a-base-backup-for-point-in-time-restore).
 
 You also need to configure the storage and backup settings for the new cluster:
 

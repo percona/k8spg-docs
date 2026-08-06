@@ -9,7 +9,7 @@ This is useful for:
 * Restoring from a cloud storage when the source cluster no longer exists
 * Bootstrapping a new cluster from existing data volumes
 
-Use this page to make a full restore onto a new cluster. For a restore to a specific moment, see [Cluster clone with point-in-time recovery](backups-pitr-cluster-clone.md). 
+Use this page to make a full restore to a new cluster. For a restore to a specific moment, see [Cluster clone with point-in-time recovery](backups-pitr-cluster-clone.md).
 
 For each restore scenario, you must define the Custom Resource for a **new** cluster with these configuration options:
 

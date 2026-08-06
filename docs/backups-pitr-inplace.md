@@ -48,8 +48,8 @@ Here's the sequence of steps to follow:
     * `repoName` - the name of the pgBackRest repository, where the backup is located. The repo with the same name must already be configured in the `backups.pgbackrest.repos` subsection of the cluster Custom Resource
     * Configure the `options` section:
     
-        * `--type` - set to `time`,
-        * `--target` set the target time that you retrieved at the previous step. The format is `<YYYY-MM-DD HH:MM:DD>`, optionally followed by a timezone offset: `"2021-04-16 15:13:32+00"` (`+00` here means UTC). 
+        * `--type` - set to `time`.
+        * `--target` - set the target time that you retrieved at the previous step. The format is `<YYYY-MM-DD HH:MM:DD>`, optionally followed by a timezone offset: "2021-04-16 15:13:32+00" (`+00` here means UTC).
  
     Here's the example configuration:
 
