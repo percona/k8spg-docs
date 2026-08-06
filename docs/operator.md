@@ -1279,7 +1279,11 @@ Enables to turn on/off backups for the cluster. Use this option with caution. Re
 
 ### `backups.trackLatestRestorableTime`
 
-Enables or disables [tracking the latest restorable time](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery) for latest successful backup (on by default). It can be turned off to reduce the S3 API usage.
+Controls [tracking of the latest restorable time](backups-pitr.md#latest-restorable-time) for point-in-time recovery. The default is `true`.
+
+When enabled, the Operator maintains `status.latestRestorableTime` on the latest successful backup. That value is the timestamp of the latest committed transaction archived to the backup repository. Use it when you choose a point-in-time restore target.
+
+When disabled, the Operator stops updating that helper field. Starting from Operator 2.8.0, it also does not inject the tracking logic into `archive_command`. Backups and restores continue to work without the helper. See [Point-in-time recovery](backups-pitr.md) for details.
 
 | Value type | Example |
 | ---------- | ------- |

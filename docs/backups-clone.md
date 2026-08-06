@@ -9,7 +9,9 @@ This is useful for:
 * Restoring from a cloud storage when the source cluster no longer exists
 * Bootstrapping a new cluster from existing data volumes
 
-You can make a full restore or restore the database to a specific point in time. For each restore scenario, you must define the Custom Resource for a **new** cluster with these configuration options:
+Use this page to make a full restore onto a new cluster. For a restore to a specific moment, see [Cluster clone with point-in-time recovery](backups-pitr-cluster-clone.md). 
+
+For each restore scenario, you must define the Custom Resource for a **new** cluster with these configuration options:
 
 * `dataSource` section - where to take the data from
 * `backups` section. The new cluster needs its own backup configuration.
@@ -32,7 +34,7 @@ Configure this subsection **to clone an existing cluster** in the same Kubernete
 
 * `dataSource.postgresCluster.repoName` is the name of the `pgBackRest` repository on the source cluster where the backup you restore from is located. It must exist on the source.
 
-* `dataSource.postgresCluster.options` are additional `pgBackRest` options that you pass for the restore. For example, you configure them for point-in-time recovery.
+* `dataSource.postgresCluster.options` are additional `pgBackRest` options that you pass for the restore. For example, you configure them for [point-in-time recovery](backups-pitr-cluster-clone.md).
 
 Read more about all available options in the [Custom Resource reference](operator.md#datasource-subsection)
 
@@ -40,7 +42,7 @@ Read more about all available options in the [Custom Resource reference](operato
 | --- | --- |
 | Simplest path when the source cluster still exists | Source cluster must be available |
 | Creates an independent copy; the source stays intact | Not for a deleted cluster or a different Kubernetes cluster |
-| Supports point-in-time recovery | Needs restore time and storage for a full data copy |
+| Supports [point-in-time recovery](backups-pitr-cluster-clone.md) | Needs restore time and storage for a full data copy |
 | Works in the same or a different namespace. | Requires the Operator in the [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) for cross-namespace restores | |
 
 ### `dataSource.pgbackrest`
@@ -151,60 +153,9 @@ Deploy the new cluster:
 kubectl apply -f deploy/cr.yaml -n percona-db-2
 ```
 
-This configuration allows your new cluster to both restore data from the source backup and operate as a fully functioning, independently backed-up PostgreSQL cluster. 
+This configuration allows your new cluster to both restore data from the source backup and operate as a fully functioning, independently backed-up PostgreSQL cluster.
 
-### Make a clone with point-in-time recovery
-
-To restore from a backup up to a specific point in time, you need the following:
-
-* A backup that finished before your target time. You cannot restore to the time where there was no backup
-* All relevant WAL files must be successfully archived
-* Use the `--type=time` and `--target` options in the `options` subsection of the `deploy/restore.yaml` configuration file.
-
-Use the same settings as for [a full data clone](#make-a-full-data-clone). Also, add `pgBackRest` options for point-in-time recovery to `dataSource.postgresCluster.options`. These options are:
-
-* `--type=time`: Instructs pgBackRest to initiate a point-in-time recovery.
-* `--target`: The timestamp up to which to restore the data. To get the timestamp, run this command on the **source cluster**: `kubectl get pg-backup <backup_name> -n <namespace> -o jsonpath='{.status.latestRestorableTime}'`
-* `--set` (optional): Allows you to specify a particular backup as the starting point for point-in-time recovery. For more information how to do it, refer to the [Specify a base backup for point-in-time restore](backups-restore-inplace.md#specify-a-base-backup-for-point-in-time-restore) section.
-
-```yaml
-apiVersion: pgv2.percona.com/v2
-kind: PerconaPGCluster
-metadata:
-  name: cluster2
-spec:
-  crVersion: {{ release }}
-  dataSource:
-    postgresCluster:
-      clusterName: cluster1
-      clusterNamespace: percona-db-1
-      repoName: repo1
-      options:
-      - --type=time
-      - --target="2025-11-30 15:12:11+03"
-  instances:
-    - name: instance1
-      replicas: 1
-      dataVolumeClaimSpec:
-        accessModes:
-          - ReadWriteOnce
-        resources:
-          requests:
-            storage: 1Gi
-  backups:
-    pgbackrest:
-      repos:
-      - name: repo1
-        volume:
-          volumeClaimSpec:
-            accessModes:
-              - ReadWriteOnce
-            resources:
-              requests:
-                storage: 1Gi
-```
-
-The new cluster will be restored to the specified point in time and then promoted. You can start accessing it from that specific timestamp.
+To restore the clone to a specific moment, see [Cluster clone with point-in-time recovery](backups-pitr-cluster-clone.md).
 
 ### Restore specific databases
 

@@ -70,7 +70,7 @@ This method allows you to migrate from the version 1.x to version 2.x cluster by
           repoName: repo1
     ```
 
-    You can also provide other pgBackRest restore options, e.g. if you wish to restore to a specific [point-in-time (PITR)](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery).
+    You can also provide other pgBackRest restore options. For example, if you wish to restore to a specific [point-in-time (PITR)](backups-pitr.md).
 
 5. Create the version 2.x cluster:
 

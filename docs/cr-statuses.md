@@ -56,7 +56,7 @@ kubectl get pg <cluster-name> -n <namespace> \
     ReadyForBackup
     ```
 
-**Example 2. Get the latest restorable backup time:**
+**Example 2. Get the [latest restorable time](backups-pitr.md#latest-restorable-time):**
 
 ```bash
 kubectl get pg-backup <backup-name> -n <namespace> \
@@ -188,7 +188,7 @@ Common fields are:
 * `status.image` - the Operator image
 * `status.error` – error details when the backup fails
 * `status.jobName` – Kubernetes Job that ran the backup
-* `status.latestRestorableTime` – latest point for point-in-time recovery from this backup
+* `status.latestRestorableTime` – timestamp of the latest committed transaction archived after this backup; use it as a safe upper bound for [point-in-time recovery](backups-pitr.md#latest-restorable-time). Updated only while [backups.trackLatestRestorableTime](operator.md#backupstracklatestrestorabletime) is enabled
 * `status.repo` – the details of the pgBackRest repository where the backup is stored
 * `status.size` - the size of the backup taken. Applies for full, incremental and differential backups.
 * `status.snapshot` – VolumeSnapshot references when the backup method is `volumeSnapshot`
