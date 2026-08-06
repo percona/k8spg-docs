@@ -7895,7 +7895,7 @@ node, thereby ensuring data continuity.</p>
 <td style="text-align: center;">14 - 18</td>
 <td style="text-align: center;">14 - 18</td>
 <td style="text-align: center;">14 - 18</td>
-<td style="text-align: center;">13 - 17</td>
+<td style="text-align: center;">14 - 18</td>
 </tr>
 <tr>
 <td>Kubernetes conformance</td>
@@ -7904,6 +7904,14 @@ node, thereby ensuring data continuity.</p>
 <td style="text-align: center;">Various versions are tested</td>
 <td style="text-align: center;">Various versions are tested</td>
 <td style="text-align: center;">AWS EKS</td>
+</tr>
+<tr>
+<td>Helm</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
 </tr>
 <tr>
 <td>Web-based GUI</td>
@@ -7938,27 +7946,19 @@ node, thereby ensuring data continuity.</p>
 </tr>
 <tr>
 <td>Database upgrade</td>
-<td style="text-align: center;">Automated and safe</td>
-<td style="text-align: center;">Automated and safe</td>
-<td style="text-align: center;">Manual</td>
-<td style="text-align: center;">Manual</td>
-<td style="text-align: center;">Manual</td>
-</tr>
-<tr>
-<td>Compute scaling</td>
-<td style="text-align: center;">Horizontal and vertical</td>
-<td style="text-align: center;">Horizontal and vertical</td>
-<td style="text-align: center;">Horizontal and vertical</td>
-<td style="text-align: center;">Horizontal and vertical</td>
-<td style="text-align: center;">Horizontal and vertical</td>
+<td style="text-align: center;">Automated</td>
+<td style="text-align: center;">Automated</td>
+<td style="text-align: center;">Automated</td>
+<td style="text-align: center;">Automated</td>
+<td style="text-align: center;">Automated</td>
 </tr>
 <tr>
 <td>Storage scaling</td>
+<td style="text-align: center;">Automatic (auto-grow)</td>
 <td style="text-align: center;">Manual</td>
+<td style="text-align: center;">Automatic (auto-grow)</td>
 <td style="text-align: center;">Manual</td>
-<td style="text-align: center;">Manual</td>
-<td style="text-align: center;">Manual</td>
-<td style="text-align: center;">Manual, automated for AWS EBS</td>
+<td style="text-align: center;">Manual (live resize)<sup id="fnref:1"><a class="footnote-ref" href="#compare-fn:1">1</a></sup></td>
 </tr>
 </tbody>
 </table>
@@ -8070,6 +8070,14 @@ node, thereby ensuring data continuity.</p>
 <td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
 <td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
 </tr>
+<tr>
+<td>Snapshot-based backups</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (tech preview)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (feature-gated)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="🚫" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6ab.svg" title=":no_entry_sign:" /></td>
+</tr>
 </tbody>
 </table>
 <h2 id="compare-monitoring">Monitoring<a class="headerlink" href="#compare-monitoring" title="Permanent link">&para;</a></h2>
@@ -8095,7 +8103,62 @@ node, thereby ensuring data continuity.</p>
 </tr>
 </tbody>
 </table>
-<h2 id="compare-miscellaneous">Miscellaneous<a class="headerlink" href="#compare-miscellaneous" title="Permanent link">&para;</a></h2>
+<h2 id="compare-security-authentication">Security &amp; Authentication<a class="headerlink" href="#compare-security-authentication" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Feature/Product</th>
+<th style="text-align: center;">Percona Operator for PostgreSQL</th>
+<th style="text-align: center;">Stackgres</th>
+<th style="text-align: center;">CrunchyData</th>
+<th style="text-align: center;">CloudNativePG</th>
+<th style="text-align: center;">Zalando</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Transport encryption</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+</tr>
+<tr>
+<td>Data-at-rest encryption</td>
+<td style="text-align: center;">Through storage class, or native TDE (<code>pg_tde</code>)<sup id="fnref:2"><a class="footnote-ref" href="#compare-fn:2">2</a></sup></td>
+<td style="text-align: center;">Through storage class</td>
+<td style="text-align: center;">Through storage class</td>
+<td style="text-align: center;">Through storage class</td>
+<td style="text-align: center;">Through storage class</td>
+</tr>
+<tr>
+<td>Create users/roles</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
+<td style="text-align: center;">limited</td>
+</tr>
+<tr>
+<td>LDAP authentication</td>
+<td style="text-align: center;">Simple bind / search+bind</td>
+<td style="text-align: center;"><img alt="🚫" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6ab.svg" title=":no_entry_sign:" /></td>
+<td style="text-align: center;">TLS-enabled LDAP (custom pg_hba)</td>
+<td style="text-align: center;">Simple bind / search+bind (dedicated <code>ldap</code> field)</td>
+<td style="text-align: center;"><img alt="🚫" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6ab.svg" title=":no_entry_sign:" /></td>
+</tr>
+<tr>
+<td>Certificate (mTLS) authentication</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (cert-manager)</td>
+<td style="text-align: center;">Partial (CA not passed to PgBouncer — client verification broken) <sup id="fnref:3"><a class="footnote-ref" href="#compare-fn:3">3</a></sup></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (MFA/SSO with cert-manager)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (auto-issued via cnpg plugin)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (custom <code>spec.tls</code>)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="compare-extensibility-customization">Extensibility &amp; Customization<a class="headerlink" href="#compare-extensibility-customization" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
@@ -8125,39 +8188,29 @@ node, thereby ensuring data continuity.</p>
 <td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
 </tr>
 <tr>
-<td>Helm</td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-</tr>
-<tr>
-<td>Transport encryption</td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-</tr>
-<tr>
-<td>Data-at-rest encryption</td>
-<td style="text-align: center;">Through storage class</td>
-<td style="text-align: center;">Through storage class</td>
-<td style="text-align: center;">Through storage class</td>
-<td style="text-align: center;">Through storage class</td>
-<td style="text-align: center;">Through storage class</td>
-</tr>
-<tr>
-<td>Create users/roles</td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /></td>
-<td style="text-align: center;">limited</td>
+<td>Extension installation (without rebuilding image)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (tar archive)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (extension repository)</td>
+<td style="text-align: center;"><img alt="🚫" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6ab.svg" title=":no_entry_sign:" /> (custom image required)</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:" /> (Image Volumes, PG 18+ / K8s 1.33+ only)</td>
+<td style="text-align: center;"><img alt="🚫" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/1f6ab.svg" title=":no_entry_sign:" /> (custom image required)</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="limitations" heading-number="2.6"><h1 id="limitations-known-limitations">Known limitations<a class="headerlink" href="#limitations-known-limitations" title="Permanent link">&para;</a></h1>
+</table>
+<div class="footnote">
+<hr />
+<ol>
+<li id="compare-fn:1">
+<p>Live EBS resize (no pod restart) via direct AWS API integration; other clouds use standard K8s PVC resize.&#160;<a class="footnote-backref" href="#compare-fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="compare-fn:2">
+<p>Percona&rsquo;s <code>pg_tde</code> provides table/tablespace-level encryption with KMS integration (HashiCorp Vault).&#160;<a class="footnote-backref" href="#compare-fnref:2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="compare-fn:3">
+<p>Reported against StackGres 1.17.1 in <a href="https://gitlab.com/ongresinc/stackgres/-/issues/3056">gitlab.com/ongresinc/stackgres#3056 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> — no CA secret selector exists for PgBouncer, so <code>client_tls_ca_file</code> never gets set and TLS handshakes fail under <code>sslmode=require</code>/<code>prefer</code>. Open/unresolved as of this writing; re-check before relying on this if you&rsquo;re on a newer version.&#160;<a class="footnote-backref" href="#compare-fnref:3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div></section><section class="print-page" id="limitations" heading-number="2.6"><h1 id="limitations-known-limitations">Known limitations<a class="headerlink" href="#limitations-known-limitations" title="Permanent link">&para;</a></h1>
 <p>This page describes known limitations of Percona Operator for PostgreSQL. Understanding these constraints helps you plan deployments and avoid unexpected behavior.</p>
 <h2 id="limitations-replica-management">Replica management<a class="headerlink" href="#limitations-replica-management" title="Permanent link">&para;</a></h2>
 <ul>
@@ -30371,7 +30424,7 @@ In addition to that:</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "/percona-operator-for-postgresql/3.0.0", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "/percona-operator-for-postgresql/3.0.0", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
