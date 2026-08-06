@@ -86,12 +86,14 @@ With `pg_tde` enabled you can make backups and restores as usual. For restore, t
 
 ## Key rotation 
 
+To rotate the Vault token, create a new Secret containing the updated token and modify the Custom Resource to reference this new Secret.
+
 When you change Vault token, the Operator updates the key provider in two phases:
 
 1. The Operator keeps the old secret mounted in the Pod and stages the new Secret contents in temporary files in `/pgdata` directory. Then it updates the key provider configuration using the  `pg_tde_change_global_key_provider_vault_v2` function.
 2. The Operator mounts the new secret, restarts the Pods, runs the provider change again with the standard credential paths, and cleans up temporary files.
 
-During the change, the `PGTDEVaultProviderReady` condition becomes `False`. When the rotation finishes successfully, it returns to `True`. For the step-by-step procedure, see [Rotate Vault credentials](encryption-rotate.md).
+During the change, the `PGTDEVaultProviderReady` condition becomes `False`. When the rotation finishes successfully, it returns to `True`. 
 
 ## Implementation specifics
 
