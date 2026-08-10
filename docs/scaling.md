@@ -162,6 +162,6 @@ To enable automated storage resizing, do the following:
                     storage: 5Gi
     ```
 
-When usage on a volume exceeds 75%, the Operator calculates a new size by increasing the current volume size by 50%, up to the configured limit, and expands the PVC.
+When usage on a volume exceeds 75%, the Operator calculates a new size by increasing the current volume size by 50%, up to the configured limit, and expands the PVC. If the calculated size exceeds the limit, the Operator expands the PVC only up to the limit and records a warning in the logs. 
 
 For pgBackRest repositories, the Operator stores the latest suggested size in the `status.pgbackrest.repos[].desiredRepoVolume` field of the Custom Resource.
