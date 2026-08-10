@@ -1,36 +1,16 @@
 # Configure TLS security with the Operator using cert-manager
 
-Percona Operator for PostgreSQL integrates with [cert-manager :octicons-link-external-16:](https://cert-manager.io/) for TLS certificate management. 
+Percona Operator for PostgreSQL integrates with [cert-manager :octicons-link-external-16:](https://cert-manager.io/) for TLS certificate management.
 
-When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven't provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer or ClusterIssuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.
+When the Operator creates a database cluster, it checks whether cert-manager is installed and whether you have provided custom TLS secrets. If cert-manager is available and you have not set custom secrets, the Operator requests certificates from cert-manager, stores them in Kubernetes Secrets, and uses those Secrets for TLS. cert-manager then manages issuance, renewal, and rotation. You do not need to restart the cluster when certificates are renewed.
 
 You can use cert-manager in these ways:
 
-* **Operator-managed issuers (default)** — By default, the Operator creates a Kubernetes `Issuer` resource, which is namespace-scoped, along with a local self-signed Certificate Authority (CA) in the same database namespace. The `Issuer` is used for clusters that are deployed within a single namespace and handles certificate generation for that specific namespace.
+* **Operator-managed issuers (default)** — The Operator creates a namespace-scoped `Issuer` and a local self-signed CA in the database namespace. For [multi-namespace](cluster-wide.md) deployments, configure a cluster-scoped `ClusterIssuer` instead. Managing `ClusterIssuer` resources requires extra RBAC permissions that are not in the default Operator roles. See [Operator-managed issuers with ClusterIssuer scope](#operator-managed-issuers-with-clusterissuer-scope).
 
-     For deployments spanning multiple namespaces, the Operator can instead use a `ClusterIssuer` resource, which is cluster-scoped and can issue certificates across any namespace. Use a `ClusterIssuer` for [multi-namespace](cluster-wide.md) setups. Both approaches are automated by the Operator and require no additional PKI configuration from you.
-
-* **Your existing issuer** — You point the Operator at a cert-manager `ClusterIssuer` or another issuer kind your platform team already manages (for example Vault or ACME). Percona Distribution for PostgreSQL certificates are then signed and renewed under your organization's PKI policies.
-
-Percona Distribution for PostgreSQL requires all certificates in a cluster to be issued by the same CA. When the Operator manages the CA chain, it creates that shared CA for you. When you use an external issuer, that issuer must sign every leaf certificate the Operator requests for the cluster, such as cluster, instance, replication, PgBouncer, and pgBackRest.
+* **Your existing issuer** — Point the Operator at a cert-manager `ClusterIssuer` or another issuer your platform already manages (for example Vault or ACME). Certificates are then signed and renewed under your organization's PKI policies. Percona Distribution for PostgreSQL requires all certificates in a cluster to come from the same CA, so that issuer must sign every leaf certificate the Operator requests (cluster, instance, replication, PgBouncer, and pgBackRest).
 
 If cert-manager is not installed or not ready, the Operator falls back to its built-in certificate generation.
-
-This approach gives you:
-
-* **Automatic renewal** – cert-manager renews certificates before they expire (by default, 30 days before expiry)
-* **Configurable validity** – you can set certificate and CA validity durations via Custom Resource options
-* **Centralized management** – use cert-manager’s tooling and policies for all TLS certificates in the cluster
-
-## Certificate lifecycle management
-
-The cert-manager handles:
-
-* **Issuance** – creates certificates when the cluster is created
-* **Renewal** – renews certificates before expiry (default: 30 days before). You can configure the certificate duration in the Custom Resource
-* **Rotation** – updates Secrets when certificates are renewed
-
-The Operator does not renew certificates when using cert-manager; cert-manager does. You do not need to restart the cluster when certificates are renewed.
 
 ## Prerequisites
 
@@ -203,25 +183,44 @@ cert-manager issues short-lived certificates and renews them on schedule. You ca
 
 If you want the Operator to manage the CA chain and issue certificates across all namespaces, use the `ClusterIssuer` resource rather than namespace-scoped `Issuer` resources.
 
-Configure the Custom Resource as follows:
+The Operator requires additional permissions to create and manage the `ClusterIssuer` resource. Default Operator RBAC covers only namespace-scoped objects. Therefore, you must grant cluster-scoped access to let the Operator create and update the shared CA `ClusterIssuer` resources across the Kubernetes cluster.
 
-```yaml
-spec:
-  tls:
-    issuerConf:
-      name: shared-pg-issuer   # required: base name for Operator-managed ClusterIssuers
-      kind: ClusterIssuer
-      group: cert-manager.io
-```
+1. Create a ClusterRole and ClusterRoleBinding. Replace the `<operator-namespace>` placeholder with the namespace where the Operator is deployed:
 
-Set `tls.issuerConf.kind` to `ClusterIssuer` and provide a unique `name`. Do not pre-create issuers yourself for this mode.
+    ```bash
+    kubectl create clusterrole pg-clusterissuer-manager \
+      --verb=get,list,watch,create,update,patch \
+      --resource=clusterissuers.cert-manager.io
 
-The Operator creates:
+    kubectl create clusterrolebinding pg-clusterissuer-manager \
+      --clusterrole=pg-clusterissuer-manager \
+      --serviceaccount=<operator-namespace>:percona-postgresql-operator
+    ```
 
-* a self-signed CA `ClusterIssuer` named `<name>-ca-issuer`,
-* a CA `Certificate` and Secret named `<name>-ca-cert` in the cert-manager namespace (`cert-manager` by default),
-* a CA-backed `ClusterIssuer` named `<name>` that signs leaf certificates,
-* leaf `Certificate` resources in the database namespace that reference the CA-backed `ClusterIssuer`.
+2. Configure the Custom Resource. Set `tls.issuerConf.kind` to `ClusterIssuer` and provide a unique `name`. Do not pre-create issuers yourself for this mode:
+
+    ```yaml
+    spec:
+      tls:
+        issuerConf:
+          name: shared-pg-issuer   # required: base name for Operator-managed ClusterIssuers
+          kind: ClusterIssuer
+          group: cert-manager.io
+    ```
+
+
+3. Apply the configuration. Replace the `<namespace>` with the namespace where your cluster is deployed:
+   
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
+
+    The Operator creates:
+
+    * a self-signed CA `ClusterIssuer` named `<name>-ca-issuer`,
+    * a CA `Certificate` and Secret named `<name>-ca-cert` in the cert-manager namespace (`cert-manager` by default),
+    * a CA-backed `ClusterIssuer` named `<name>` that signs leaf certificates,
+    * leaf `Certificate` resources in the database namespace that reference the CA-backed `ClusterIssuer`.
 
 If you installed cert-manager in a custom namespace, set the [`CERTMANAGER_NAMESPACE`](env-var-operator.md#certmanager_namespace) environment variable on the Operator Deployment.
 
