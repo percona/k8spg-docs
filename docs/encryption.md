@@ -45,6 +45,8 @@ WAL encryption protects write-ahead log segments on the database Pod storage. Wh
 
 Disabling asynchronous WAL archival (`archive-async=n`) can reduce archive throughput compared to clusters without WAL encryption.
 
+After you change the Vault provider or token, create a new backup. Restoring from backups taken before that change fails. See [Key rotation](#key-rotation).
+
 ### Considerations for WAL encryption
 
 1. To enable WAL encryption, you must first enable `pg_tde` in the cluster. Wait for the cluster to become ready with `pg_tde` enabled, and only then enable WAL encryption as a separate step. Creating a new cluster with both `enabled` and `walEncryption` set to `true` causes Patroni bootstrap to fail.
@@ -93,7 +95,11 @@ When you change Vault token, the Operator updates the key provider in two phases
 1. The Operator keeps the old secret mounted in the Pod and stages the new Secret contents in temporary files in `/pgdata` directory. Then it updates the key provider configuration using the  `pg_tde_change_global_key_provider_vault_v2` function.
 2. The Operator mounts the new secret, restarts the Pods, runs the provider change again with the standard credential paths, and cleans up temporary files.
 
-During the change, the `PGTDEVaultProviderReady` condition becomes `False`. When the rotation finishes successfully, it returns to `True`. 
+During the change, the `PGTDEVaultProviderReady` condition becomes `False`. When the rotation finishes successfully, it returns to `True`.
+
+!!! important
+
+    If WAL encryption is enabled, create a new backup after you change the Vault provider or token. Restoring from backups taken before that change fails.
 
 ## Implementation specifics
 
@@ -107,8 +113,8 @@ and without TLS. The `caSecret` field is optional; omit it only when you intenti
 
    Initially, the Operator uses the key provider configuration from the source cluster to write data on the standby. If the standby cluster is promoted to become the new primary, it will generate its own key provider configuration. The data previously written remains accessible, provided that the proper key provider setup was completed on the standby before promotion. In summary, both the source and standby clusters require correct `pg_tde` and key provider configuration for seamless operation and failover.
 
-8. The Operator does not drop or rewrite encrypted objects for you. Before you disable `pg_tde`, you must remove encrypted objects yourself. See [Disable encryption](encryption-disable.md) to learn more.
-9. If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.
+7. The Operator does not drop or rewrite encrypted objects for you. Before you disable `pg_tde`, you must remove encrypted objects yourself. See [Disable encryption](encryption-disable.md) to learn more.
+8. If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.
 
 ## Known limitations
 
