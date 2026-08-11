@@ -1120,7 +1120,7 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 
 ### `instances.dataVolumeClaimSpec.resources.limits.storage`
 
-The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
+The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use. When the [`AutoGrowVolumes`](env-var-operator.md#pgo_feature_gates) feature gate is enabled, this value sets the maximum size the Operator may scale the data volume up to. See [Automated scaling with auto-growable disks](scaling.md#automated-scaling-with-auto-growable-disks) for details.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1820,6 +1820,14 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
+
+### `backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage`
+
+The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the pgBackRest repository volume. Starting with Operator version 3.1.0, when the [`AutoGrowVolumes`](env-var-operator.md#pgo_feature_gates) feature gate is enabled, this value sets the maximum size the Operator may scale the repository volume up to. See [Automated scaling with auto-growable disks](scaling.md#automated-scaling-with-auto-growable-disks) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `5Gi` |
 
 ### `backups.pgbackrest.repos.s3.bucket`
 
