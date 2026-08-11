@@ -5871,7 +5871,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>You can provide custom parameters to Helm using either the <code>--set</code> flag or a <code>values.yaml</code> file. The <code>--set</code> flag is convenient for overriding a small number of parameters directly in the command line, while a <code>values.yaml</code> file is preferable when you want to manage many custom settings in one place. Both methods are fully supported by Helm and can be used as needed for your deployment.</p>
 <p><strong>Using <code>--set</code> flags</strong></p>
 <p>To pass a custom parameter to Helm, use the <code>--set key=value</code> flag with the <code>helm install</code> command.</p>
-<p>For example, to enable <a href="https://docs.percona.com/percona-monitoring-and-management/2/index.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the database cluster, run:</p>
+<p>For example, to enable <a href="https://docs.percona.com/percona-monitoring-and-management/3/index.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the database cluster, run:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>my-db<span class="w"> </span>percona/pg-db<span class="w"> </span>--version<span class="w"> </span><span class="m">3</span>.0.0<span class="w"> </span>--namespace<span class="w"> </span>my-namespace<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span><span class="nv">postgresVersion</span><span class="o">=</span><span class="m">18</span>.4-1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--set<span class="w"> </span>pmm.enabled<span class="o">=</span><span class="nb">true</span>
@@ -5972,7 +5972,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="February 26, 2026 11:50:48 UTC">February 26, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 10:47:51 UTC">August 11, 2026</span>
       
         <br>
         Created:
