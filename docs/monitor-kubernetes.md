@@ -30,6 +30,32 @@ The token must have the format `glsa_*************************_9e35351b`.
 
 ## Install the Victoria Metrics Kubernetes monitoring stack
 
+??? admonition "Install on Openshift"
+
+    When installing the chart on OpenShift, some components might require additional Security Context Constraints (SCCs), depending on the permissions they need at runtime.
+
+    The `prometheus-node-exporter` component runs as a DaemonSet and requires access to host-level resources such as `/proc`, `/sys`, and other node-level paths. Because these are exposed through `hostPath` mounts, the service account used by `prometheus-node-exporter` must be granted an SCC that allows host access, such as `hostaccess`, `hostmount-anyuid`, or a custom SCC with equivalent permissions.
+
+    For example:
+
+    ```bash
+    oc adm policy add-scc-to-user node-exporter \
+    -z prometheus-node-exporter \
+    -n <namespace>
+    ```
+
+    Similarly, for `kube-state-metrics`, if the `restricted` SCC is enforced, avoid setting fixed user, group, or filesystem group IDs. Allow OpenShift to assign these values from the namespace UID/GID range by either adding the service account to the required SCC or by adding the following entries to the values YAML file:
+
+    ```yaml
+    kube-state-metrics:
+    securityContext:
+    runAsUser: null
+    runAsGroup: null
+    fsGroup: null
+    ```
+
+    Next, follow the steps to install Victoria Metrics Kubernetes Monitoring stack.
+
 === ":material-run-fast: Quick install"
 
     1. To install the Victoria Metrics Kubernetes monitoring stack with the default parameters, use the quick install command. Replace the following placeholders with your values:
@@ -38,7 +64,7 @@ The token must have the format `glsa_*************************_9e35351b`.
         * `PMM-SERVER-URL` - The URL to access the PMM Server 
         * `UNIQUE-K8s-CLUSTER-IDENTIFIER` - Identifier for the Kubernetes cluster. It can be the name you defined during the cluster creation.
 
-           You should use a unique identifier for each Kubernetes cluster. The use of the same identifier for more than one Kubernetes cluster will result in the conflicts during the metrics collection.
+            You should use a unique identifier for each Kubernetes cluster. The use of the same identifier for more than one Kubernetes cluster will result in the conflicts during the metrics collection.
 
         * `NAMESPACE` - The namespace where the Victoria metrics Kubernetes stack will be installed. If you haven't created the namespace before, it will be created during the command execution.
 
@@ -149,14 +175,14 @@ The token must have the format `glsa_*************************_9e35351b`.
 
     9. Install the Victoria Metrics Kubernetes monitoring stack Helm chart. You need to specify the following configuration:
 
-        * the URL to access the PMM server in the `externalVM.write.url` option in the format `<PMM-SERVER-URL>/victoriametrics/api/v1/write`. The URL can contain either the IP address or the hostname of the PMM server.
+        * the URL to access the PMM server in the `external.vm.write.url` option in the format `<PMM-SERVER-URL>/victoriametrics/api/v1/write`. The URL can contain either the IP address or the hostname of the PMM server.
         * the unique name or an ID of the Kubernetes cluster in the `vmagent.spec.externalLabels.k8s_cluster_id` option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. 
         * the `<namespace>` placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap
 
         ```bash
         helm install vm-k8s vm/victoria-metrics-k8s-stack \
         -f https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/{{k8s_monitor_tag}}/vm-operator-k8s-stack/values.yaml \
-        --set externalVM.write.url=<PMM-SERVER-URL>/victoriametrics/api/v1/write \
+        --set external.vm.write.url=<PMM-SERVER-URL>/victoriametrics/api/v1/write \
         --set vmagent.spec.externalLabels.k8s_cluster_id=<UNIQUE-CLUSTER-IDENTIFIER/NAME> \
         -n <namespace>
         ```
@@ -166,10 +192,11 @@ The token must have the format `glsa_*************************_9e35351b`.
         ```bash
         helm install vm-k8s vm/victoria-metrics-k8s-stack \
         -f https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/{{k8s_monitor_tag}}/vm-operator-k8s-stack/values.yaml \
-        --set externalVM.write.url=https://pmm-example.com/victoriametrics/api/v1/write \
+        --set external.vm.write.url=https://pmm-example.com/victoriametrics/api/v1/write \
         --set vmagent.spec.externalLabels.k8s_cluster_id=test-cluster \
         -n monitoring-system
         ```
+
 
 ## Validate the successful installation
 
