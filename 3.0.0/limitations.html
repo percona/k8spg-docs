@@ -716,6 +716,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#community-postgresql-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Community PostgreSQL images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#node-memory-overcommit" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4032,6 +4043,34 @@
   
   
     <li class="md-nav__item">
+      <a href="install-community.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="custom-extensions.html" class="md-nav__link">
         
   
@@ -5880,6 +5919,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#community-postgresql-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Community PostgreSQL images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#node-memory-overcommit" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5987,6 +6037,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="tablespaces.html#deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
 </ul>
+<h2 id="community-postgresql-images">Community PostgreSQL images<a class="headerlink" href="#community-postgresql-images" title="Permanent link">&para;</a></h2>
+<p>Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use <a href="images.html">Percona certified images</a>. See <a href="install-community.html">Deploy a cluster with community PostgreSQL images</a> for deployment steps.</p>
 <h2 id="node-memory-overcommit">Node memory overcommit<a class="headerlink" href="#node-memory-overcommit" title="Permanent link">&para;</a></h2>
 <p><a href="https://www.postgresql.org/docs/current/kernel-resources.html">PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> recommends strict virtual memory allocation by setting <code>vm.overcommit_memory=2</code> to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats <code>vm.overcommit_memory</code> as an unsafe <code>sysctl</code> and rejects attempts to set it to <code>2</code>. Most Kubernetes node OS images also default to <code>1</code>.</p>
 <p>To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like <code>shared_buffers</code>, <code>work_mem</code>, <code>max_connections</code>, and so on accordingly.</p>
@@ -6035,7 +6087,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:45:16 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:13:01 UTC">August 11, 2026</span>
       
         <br>
         Created:

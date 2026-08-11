@@ -9,21 +9,21 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="When cleaning up your Kubernetes environment (e.g., moving from a trial
-deployment to a production one, or testing experimental configurations), you may
-need to remove some (or all) of the following objects:">
+        <meta name="description" content="You can run the Operator against community PostgreSQL images. Use community
+images when you need extensions that are not included in Percona Distribution
+for PostgreSQL, such as TimescaleDB or Citus.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/delete.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/install-community.html">
       
       
-        <link rel="prev" href="dns-suffix.html">
+        <link rel="prev" href="custom-registry.html">
       
       
-        <link rel="next" href="image-query.html">
+        <link rel="next" href="custom-extensions.html">
       
       
         
@@ -34,7 +34,7 @@ need to remove some (or all) of the following objects:">
     
     
       
-        <title>Delete the Operator - Percona Operator for PostgreSQL</title>
+        <title>Deploy a cluster with community PostgreSQL images - Percona Operator for PostgreSQL</title>
       
     
     
@@ -104,7 +104,7 @@ need to remove some (or all) of the following objects:">
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Delete the Operator" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Deploy a cluster with community PostgreSQL images" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -134,7 +134,7 @@ need to remove some (or all) of the following objects:">
     <div data-md-component="skip">
       
         
-        <a href="#delete-percona-operator-for-postgresql" class="md-skip">
+        <a href="#deploy-a-cluster-with-community-postgresql-images" class="md-skip">
           Skip to content
         </a>
       
@@ -233,7 +233,7 @@ need to remove some (or all) of the following objects:">
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Delete the Operator
+            Deploy a cluster with community PostgreSQL images
             
           </span>
         </div>
@@ -3890,10 +3890,37 @@ need to remove some (or all) of the following objects:">
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="install-community.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="install-community.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3909,6 +3936,103 @@ need to remove some (or all) of the following objects:">
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#known-limitations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Known limitations
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-community-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available community images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-your-own-community-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build your own community images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4086,37 +4210,10 @@ need to remove some (or all) of the following objects:">
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Delete the Operator
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="delete.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="delete.html" class="md-nav__link">
         
   
   
@@ -4132,70 +4229,6 @@ need to remove some (or all) of the following objects:">
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#delete-a-database-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Delete a database cluster
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#delete-the-operator" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Delete the Operator
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#delete-custom-resource-definition" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Delete Custom Resource Definition
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#clean-up-resources" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Clean up resources
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5757,7 +5790,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/delete.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/install-community.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -5816,10 +5849,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#delete-a-database-cluster" class="md-nav__link">
+  <a href="#known-limitations" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Delete a database cluster
+        Known limitations
       
     </span>
   </a>
@@ -5827,10 +5860,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-the-operator" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Delete the Operator
+        Prerequisites
       
     </span>
   </a>
@@ -5838,10 +5871,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#delete-custom-resource-definition" class="md-nav__link">
+  <a href="#procedure" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Delete Custom Resource Definition
+        Procedure
       
     </span>
   </a>
@@ -5849,10 +5882,43 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#clean-up-resources" class="md-nav__link">
+  <a href="#available-community-images" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Clean up resources
+        Available community images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#build-your-own-community-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Build your own community images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#see-also" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        See also
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
       
     </span>
   </a>
@@ -5885,223 +5951,200 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/delete.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/install-community.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
-<p>When cleaning up your Kubernetes environment (e.g., moving from a trial
-deployment to a production one, or testing experimental configurations), you may
-need to remove some (or all) of the following objects:</p>
-<ul>
-<li>Percona Distribution for PosgreSQL cluster managed by the Operator</li>
-<li>Percona Operator for PostgreSQL itself</li>
-<li>Custom Resource Definition deployed with the Operator</li>
-<li>Resources like PVCs and Secrets</li>
-</ul>
-<h2 id="delete-a-database-cluster">Delete a database cluster<a class="headerlink" href="#delete-a-database-cluster" title="Permanent link">&para;</a></h2>
-<p>You can delete the Percona Distribution for PosgreSQL cluster managed by the
-Operator by deleting the appropriate Custom Resource.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>There are two <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/#finalizers">finalizers <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> defined in the Custom Resource, which define whether TLS-related objects and data volumes should be deleted or preserved when the cluster is deleted.</p>
-<ul>
-<li><code>finalizers.percona.com/delete-ssl</code>: if present, deletes <a href="TLS.html">objects, created for SSL</a> (Secret, certificate, and issuer) when the cluster deletion occurs.</li>
-<li><code>finalizers.percona.com/delete-pvc</code>: if present, deletes <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claims <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the database cluster Pods and user Secrets when the cluster deletion occurs.</li>
-</ul>
-<p>Both finalizers are off by default in the <code>deploy/cr.yaml</code> configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.</p>
+<h1 id="deploy-a-cluster-with-community-postgresql-images">Deploy a cluster with community PostgreSQL images<a class="headerlink" href="#deploy-a-cluster-with-community-postgresql-images" title="Permanent link">&para;</a></h1>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
 </div>
+<p>You can run the Operator against <strong>community PostgreSQL images</strong>. Use community
+images when you need extensions that are not included in Percona Distribution
+for PostgreSQL, such as TimescaleDB or Citus.</p>
+<p>Community PostgreSQL images are built from the official
+PostgreSQL packages on <a href="https://www.postgresql.org/download/">download.postgresql.org <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+(the PGDG repositories), so you can pull them from a registry you control
+instead of relying only on Percona Distribution images. </p>
+<p>You can also <a href="#build-your-own-community-images">build and
+publish your own community images</a> and point the Operator at them.</p>
+<p>This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. In this example, we use images from the <a href="https://hub.docker.com/repository/docker/perconalab/percona-postgresql-operator/">perconalab</a> repository, which are intended for testing purposes only. For production environments, you should build, sign, and use your own images to ensure security and compliance.</p>
+<p>The flow consist of two steps:</p>
+<ul>
+<li>First, install the Percona Operator for PostgreSQL Deployment.</li>
+<li>Next, use the Operator to create a PostgreSQL cluster.</li>
+</ul>
+<h2 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">&para;</a></h2>
+<p>Community images do not include Percona-specific features such as Transparent
+Data Encryption (TDE). Those features ship only with Percona Distribution for
+PostgreSQL images.</p>
+<p>If you need TDE or other Percona-specific features, follow the
+<a href="kubectl.html">Quickstart</a> and deploy the cluster with
+<a href="images.html">Percona certified images</a>.</p>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>To deploy a cluster with community images, you need the following:</p>
+<ol>
+<li>
+<p>The <strong>kubectl</strong> tool to manage and deploy applications on Kubernetes. If it
+   is not already installed, <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">follow the official installation instructions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+</li>
+<li>
+<p>A Kubernetes environment. You can deploy it on
+   <a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for
+   testing or use any cloud provider of your choice. Check the list of our
+   <a href="System-Requirements.html#supported-platforms">officially supported platforms</a>.</p>
+</li>
+</ol>
+<h2 id="procedure">Procedure<a class="headerlink" href="#procedure" title="Permanent link">&para;</a></h2>
 <p class="power-number">Here&rsquo;s a sequence of steps to follow:</p>
 <ol>
 <li>
-<p>List Custom Resources, replacing the <code>&lt;namespace&gt;</code> placeholder with your
-    namespace.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Clone the <code>percona-postgresql-operator</code> repository. You will edit the
+   cluster Custom Resource. Specify your desired version with the <code>-b</code> flag:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v3.0.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Create the Kubernetes namespace for your cluster and export it as an environment variable. Isolating workloads in a
+   custom namespace is a good practice. Replace the <code>&lt;my-namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;my-namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;my-namespace&gt;
 </code></pre></div>
 <details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
-cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>namespace/&lt;my-namespace&gt; was created
 </code></pre></div>
 </details>
 </li>
 <li>
-<p>Delete the Custom Resource with the name of your cluster (for example, let&rsquo;s
-    use the default <code>cluster1</code> name).</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Create the Operator Deployment with the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 <details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com &quot;cluster1&quot; deleted
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io/crunchybridgeclusters.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgupgrades.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgadmins.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgupgrades.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
+serviceaccount/percona-postgresql-operator serverside-applied
+role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
+deployment.apps/percona-postgresql-operator serverside-applied
+</code></pre></div>
+</details>
+<p>At this point, the Operator Pod is up and running.</p>
+</li>
+<li>
+<p>Edit <code>deploy/cr.yaml</code> and point the cluster at community images. Change
+   these fields:</p>
+<ul>
+<li><code>postgresVersion</code> - Set to the required major version</li>
+<li><code>spec.image</code>, <code>spec.proxy.pgBouncer.image</code>, and
+<code>spec.backups.pgbackrest.image</code> - specify the community images for PostgreSQL, pgBouncer and pgbackrest.</li>
+<li>Keep the rest of <code>deploy/cr.yaml</code>
+unchanged. The Operator manages instances, backups, replication
+and the rest of the cluster lifecycle the same way.</li>
+</ul>
+<p>This is the example for PostgreSQL 18:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-postgres18-community</span>
+<span class="w">  </span><span class="nt">postgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community</span>
+</code></pre></div>
+</li>
+<li>
+<p>Deploy the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com/cluster1 created
 </code></pre></div>
 </details>
 </li>
 <li>
-<p>Check that the cluster is deleted by listing the available Custom Resources
-    once again.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>Check the Operator and cluster Pods status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
+<p>The creation process may take some time. When the process is over, your
+cluster obtains the <code>ready</code> status.</p>
 <details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>No resources found in &lt;namespace&gt; namespace.
-</code></pre></div>
-</details>
-</li>
-</ol>
-<h2 id="delete-the-operator">Delete the Operator<a class="headerlink" href="#delete-the-operator" title="Permanent link">&para;</a></h2>
-<p class="power-number">You can uninstall the Operator by deleting the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployments <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-related to it.</p>
-<ol>
-<li>
-<p>List the deployments. Replace the <code>&lt;namespace&gt;</code> placeholder with your
-    namespace.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deploy<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                          READY   UP-TO-DATE   AVAILABLE   AGE
-percona-postgresql-operator   1/1     1            1           13m
-</code></pre></div>
-</details>
-</li>
-<li>
-<p>Delete the <code>percona-*</code> deployment</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>deploy<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Check that the Operator is deleted by listing the Pods. As a result you
-    should have no Pods related to it.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>No resources found in &lt;namespace&gt; namespace.
-</code></pre></div>
-</details>
-</li>
-</ol>
-<h2 id="delete-custom-resource-definition">Delete Custom Resource Definition<a class="headerlink" href="#delete-custom-resource-definition" title="Permanent link">&para;</a></h2>
-<p>If you are not just deleting the Operator and PostgreSQL cluster from a specific
-namespace, but want to clean up your entire Kubernetes environment,
-you can also delete the <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions">CustomResourceDefinitions (CRDs) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>CRDs in Kubernetes are non-namespaced but are available to the whole
-environment. This means that you shouldn&rsquo;t delete CRD if you still have the
-Operator and database cluster in some namespace.</p>
-</div>
-<p class="power-number">You can delete CRD as follows:</p>
-<ol>
-<li>
-<p>List the CRDs:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>crd
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>allowlistedv2workloads.auto.gke.io                   2023-09-07T14:15:30Z
-allowlistedworkloads.auto.gke.io                     2023-09-07T14:15:29Z
-audits.warden.gke.io                                 2023-09-07T14:15:32Z
-backendconfigs.cloud.google.com                      2023-09-07T14:15:41Z
-capacityrequests.internal.autoscaling.gke.io         2023-09-07T14:15:25Z
-frontendconfigs.networking.gke.io                    2023-09-07T14:15:41Z
-managedcertificates.networking.gke.io                2023-09-07T14:15:41Z
-memberships.hub.gke.io                               2023-09-07T14:15:30Z
-perconapgbackups.pgv2.percona.com                    2023-09-07T14:28:59Z
-perconapgclusters.pgv2.percona.com                   2023-09-07T14:29:02Z
-perconapgrestores.pgv2.percona.com                   2023-09-07T14:29:03Z
-postgresclusters.postgres-operator.crunchydata.com   2023-09-07T14:29:06Z
-serviceattachments.networking.gke.io                 2023-09-07T14:15:44Z
-servicenetworkendpointgroups.networking.gke.io       2023-09-07T14:15:43Z
-storagestates.migration.k8s.io                       2023-09-07T14:15:53Z
-storageversionmigrations.migration.k8s.io            2023-09-07T14:15:53Z
-updateinfos.nodemanagement.gke.io                    2023-09-07T14:15:55Z
-volumesnapshotclasses.snapshot.storage.k8s.io        2023-09-07T14:15:52Z
-volumesnapshotcontents.snapshot.storage.k8s.io       2023-09-07T14:15:52Z
-volumesnapshots.snapshot.storage.k8s.io              2023-09-07T14:15:52Z
-</code></pre></div>
-</details>
-</li>
-<li>
-<p>Now delete the <code>percona*.pgv2.percona.com</code> CRDs:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>crd<span class="w"> </span>perconapgbackups.pgv2.percona.com<span class="w"> </span>perconapgclusters.pgv2.percona.com<span class="w"> </span>perconapgrestores.pgv2.percona.com
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io &quot;perconapgbackups.pgv2.percona.com&quot; deleted
-customresourcedefinition.apiextensions.k8s.io &quot;perconapgclusters.pgv2.percona.com&quot; deleted
-customresourcedefinition.apiextensions.k8s.io &quot;perconapgrestores.pgv2.percona.com&quot; deleted
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
 </code></pre></div>
 </details>
 </li>
 </ol>
-<h2 id="clean-up-resources">Clean up resources<a class="headerlink" href="#clean-up-resources" title="Permanent link">&para;</a></h2>
-<p>By default, TLS-related objects and data volumes remain in Kubernetes environment after you delete the cluster to allow you to recreate it without losing the data.</p>
-<p>You can automate resource cleanup by turning on <code>percona.com/delete-pvc</code> and/or <code>percona.com/delete-ssl</code> <a href="operator.html#metadata-name">finalizers</a>). You can also delete TLS-related objects and PVCs manually.</p>
-<p class="power-number">To manually clean up resources, do the following:</p>
-<ol>
-<li>
-<p>Delete Persistent Volume Claims.</p>
-<ol>
-<li>
-<p>List PVCs. Replace the <code>&lt;namespace&gt;</code> placeholder with your namespace:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>You have successfully deployed the Operator with a PostgreSQL cluster that uses
+community images.</p>
+<h2 id="available-community-images">Available community images<a class="headerlink" href="#available-community-images" title="Permanent link">&para;</a></h2>
+<p>The following UBI9 (EL9) images are published for evaluation:</p>
+<div class="highlight"><pre><span></span><code>docker.io/perconalab/percona-postgresql-operator:main-postgres14-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres15-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres16-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres17-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
+docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
+docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
+docker.io/perconalab/percona-postgresql-operator:main-upgrade-community
 </code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   AGE
-cluster1-instance1-mkwh-pgdata   Bound    pvc-c22220e9-c5e9-40b8-91b5-3d437b40bdec   1Gi        RWO            standard-rwo   &lt;unset&gt;                 4m17s
-cluster1-instance1-nvh4-pgdata   Bound    pvc-61a64aca-5165-4d25-b055-efc455d545b8   1Gi        RWO            standard-rwo   &lt;unset&gt;                 4m17s
-cluster1-instance1-qknb-pgdata   Bound    pvc-87bc6549-ee49-47f5-9f5e-83a315f78fd9   1Gi        RWO            standard-rwo   &lt;unset&gt;                 4m18s
-cluster1-repo1                   Bound    pvc-380e1100-b679-4716-ae8f-78372448b5f0   1Gi        RWO            standard-rwo   &lt;unset&gt;                 4m15s
+<p>UBI8 (EL8) variants use a <code>main-ubi8-</code> prefix, for example
+<code>main-ubi8-postgres18-community</code>.</p>
+<h2 id="build-your-own-community-images">Build your own community images<a class="headerlink" href="#build-your-own-community-images" title="Permanent link">&para;</a></h2>
+<p>The Dockerfile, package list, and sample build targets ship in
+<a href="https://github.com/percona/percona-docker/tree/main/postgresql-containers/community">percona-docker/postgresql-containers/community <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> repository.</p>
+<p>To build and push UBI9 images to your registry, use the following commands:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>buildx<span class="w"> </span>create<span class="w"> </span>--use<span class="w"> </span>--name<span class="w"> </span>multiarch
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/percona/percona-docker
+<span class="nb">cd</span><span class="w"> </span>percona-docker/postgresql-containers/community
+make<span class="w"> </span>all<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
 </code></pre></div>
-</details>
-</li>
-<li>
-<p>Delete PVCs related to your cluster. The following command deletes PVCs for the <code>cluster1</code> cluster:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-mkwh-pgdata<span class="w"> </span>cluster1-instance1-nvh4-pgdata<span class="w"> </span>cluster1-instance1-qknb-pgdata<span class="w"> </span>cluster1-repo1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<p>To build a single PostgreSQL major version, run:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>postgres17<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
 </code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>persistentvolumeclaim &quot;cluster1-instance1-mkwh-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-instance1-nvh4-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-instance1-qknb-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
+<p>To build UBI8 variants, run:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>all-ubi8<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0-ubi8<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
 </code></pre></div>
-</details>
-<p>Note that if your Custom Resource manifest includes the <code>percona.com/delete-pvc</code> finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.</p>
-</li>
-<li>
-<p>Delete the Secrets</p>
-<ol>
-<li>
-<p>List Secrets:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Delete the Secret:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="w"> </span>&lt;secret_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-</ol>
-</li>
-</ol>
-</li>
-</ol>
+<p><code>make all</code> builds the PostgreSQL, pgBouncer, and pgBackRest images so that they
+stay version-aligned. After the images are in your registry, set
+<code>spec.image</code>, <code>spec.proxy.pgBouncer.image</code>, and
+<code>spec.backups.pgbackrest.image</code> in your Custom Resource to those paths.</p>
+<p>For full build and contribution details, see the
+<a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/community/README.md">community containers README <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and
+<a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/community/CONTRIBUTING.md">CONTRIBUTING.md <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="see-also">See also<a class="headerlink" href="#see-also" title="Permanent link">&para;</a></h2>
+<p>Percona Blog: <a href="https://www.percona.com/blog/postgresql-community-images-operator/">Community Docker Images: keeping the operator open without a vendor registry lock-in</a></p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="connect.html"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.56 14.723a.5.5 0 0 0-.057-.12q-.21-.395-1.007-.231c-1.654.34-2.294.13-2.526-.02 1.342-2.048 2.445-4.522 3.041-6.83.272-1.05.798-3.523.122-4.73a1.6 1.6 0 0 0-.15-.236C21.693.91 19.8.025 17.51.001c-1.495-.016-2.77.346-3.116.479a10 10 0 0 0-.516-.082 8 8 0 0 0-1.312-.127c-1.182-.019-2.203.264-3.05.84C8.66.79 4.729-.534 2.296 1.19.935 2.153.309 3.873.43 6.304c.041.818.507 3.334 1.243 5.744q.69 2.26 1.433 3.582.83 1.493 1.714 1.79c.448.148 1.133.143 1.858-.729a56 56 0 0 1 1.945-2.206c.435.235.906.362 1.39.377v.004a11 11 0 0 0-.247.305c-.339.43-.41.52-1.5.745-.31.064-1.134.233-1.146.811a.6.6 0 0 0 .091.327c.227.423.922.61 1.015.633 1.335.333 2.505.092 3.372-.679-.017 2.231.077 4.418.345 5.088.221.553.762 1.904 2.47 1.904q.375.001.829-.094c1.782-.382 2.556-1.17 2.855-2.906.15-.87.402-2.875.539-4.101.017-.07.036-.12.057-.136 0 0 .07-.048.427.03l.044.007.254.022.015.001c.847.039 1.911-.142 2.531-.43.644-.3 1.806-1.033 1.595-1.67M2.37 11.876c-.744-2.435-1.178-4.885-1.212-5.571-.109-2.172.417-3.683 1.562-4.493 1.837-1.299 4.84-.54 6.108-.13l-.01.01C6.795 3.734 6.843 7.226 6.85 7.44c0 .082.006.199.016.36.034.586.1 1.68-.074 2.918-.16 1.15.194 2.276.973 3.089q.12.126.252.237c-.347.371-1.1 1.193-1.903 2.158-.568.682-.96.551-1.088.508-.392-.13-.813-.587-1.239-1.322-.48-.839-.963-2.032-1.415-3.512m6.007 5.088a1.6 1.6 0 0 1-.432-.178c.089-.039.237-.09.483-.14 1.284-.265 1.482-.451 1.915-1 .099-.127.211-.27.367-.443a.4.4 0 0 0 .074-.13c.17-.151.272-.11.436-.042.156.065.308.26.37.475.03.102.062.295-.045.445-.904 1.266-2.222 1.25-3.168 1.013m2.094-3.988-.052.14c-.133.357-.257.689-.334 1.004-.667-.002-1.317-.288-1.81-.803-.628-.655-.913-1.566-.783-2.5.183-1.308.116-2.447.08-3.059l-.013-.22c.296-.262 1.666-.996 2.643-.772.446.102.718.406.83.928.585 2.704.078 3.83-.33 4.736a9 9 0 0 0-.23.546m7.364 4.572q-.024.266-.062.596l-.146.438a.4.4 0 0 0-.018.108c-.006.475-.054.649-.115.87-.064.229-.135.488-.18 1.057-.11 1.414-.878 2.227-2.417 2.556-1.515.325-1.784-.496-2.02-1.221a7 7 0 0 0-.078-.227c-.215-.586-.19-1.412-.157-2.555.016-.561-.025-1.901-.33-2.646q.006-.44.019-.892a.4.4 0 0 0-.016-.113 2 2 0 0 0-.044-.208c-.122-.428-.42-.786-.78-.935-.142-.059-.403-.167-.717-.087.067-.276.183-.587.309-.925l.053-.142c.06-.16.134-.325.213-.5.426-.948 1.01-2.246.376-5.178-.237-1.098-1.03-1.634-2.232-1.51-.72.075-1.38.366-1.709.532a6 6 0 0 0-.196.104c.092-1.106.439-3.174 1.736-4.482a4 4 0 0 1 .303-.276.35.35 0 0 0 .145-.064c.752-.57 1.695-.85 2.802-.833q.616.01 1.174.081c1.94.355 3.244 1.447 4.036 2.383.814.962 1.255 1.931 1.431 2.454-1.323-.134-2.223.127-2.68.78-.992 1.418.544 4.172 1.282 5.496.135.242.252.452.289.54.24.583.551.972.778 1.256.07.087.138.171.189.245-.4.116-1.12.383-1.055 1.717-.013.156-.043.447-.084.815-.046.208-.07.46-.1.766m.89-1.621c-.04-.832.27-.919.597-1.01l.135-.041a1 1 0 0 0 .134.103c.57.376 1.583.421 3.007.134-.202.177-.519.4-.953.601-.41.19-1.096.333-1.747.364-.72.034-1.086-.08-1.173-.151m.57-9.271c-.006.35-.054.669-.105 1.001-.055.358-.112.728-.127 1.177-.014.436.04.89.093 1.33.107.887.216 1.8-.207 2.701a4 4 0 0 1-.188-.385 8 8 0 0 0-.325-.617c-.616-1.104-2.057-3.69-1.32-4.744.38-.543 1.342-.566 2.179-.463m.228 7.013-.085-.107-.035-.044c.726-1.2.584-2.387.457-3.439-.052-.432-.1-.84-.088-1.222.013-.407.066-.755.118-1.092.064-.415.13-.844.111-1.35a.6.6 0 0 0 .012-.19c-.046-.486-.6-1.938-1.73-3.253a7.8 7.8 0 0 0-2.688-2.04A9.3 9.3 0 0 1 17.62.746c2.052.046 3.675.814 4.824 2.283a1 1 0 0 1 .067.1c.723 1.356-.276 6.275-2.987 10.54m-8.816-6.116c-.025.18-.31.423-.621.423a1 1 0 0 1-.081-.006.8.8 0 0 1-.506-.315c-.046-.06-.12-.178-.106-.285a.22.22 0 0 1 .093-.149c.118-.089.352-.122.61-.086.316.044.642.193.61.418m7.93-.411c.011.08-.049.2-.153.31a.72.72 0 0 1-.408.223 1 1 0 0 1-.075.005c-.293 0-.541-.234-.56-.371-.024-.177.264-.31.56-.352.298-.042.612.009.636.185"/></svg></span> Connect to PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:13:01 UTC">August 11, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 14, 2023 16:35:49 UTC">September 14, 2023</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:13:01 UTC">August 11, 2026</span>
       
     
   </small>

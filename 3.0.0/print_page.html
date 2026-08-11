@@ -3897,6 +3897,34 @@
   
   
     <li class="md-nav__item">
+      <a href="install-community.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="custom-extensions.html" class="md-nav__link">
         
   
@@ -6985,6 +7013,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#install-community" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy a cluster with community PostgreSQL images
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#custom-extensions" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -8235,6 +8274,8 @@ node, thereby ensuring data continuity.</p>
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="#tablespaces-deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
 </ul>
+<h2 id="limitations-community-postgresql-images">Community PostgreSQL images<a class="headerlink" href="#limitations-community-postgresql-images" title="Permanent link">&para;</a></h2>
+<p>Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use <a href="#images">Percona certified images</a>. See <a href="#install-community">Deploy a cluster with community PostgreSQL images</a> for deployment steps.</p>
 <h2 id="limitations-node-memory-overcommit">Node memory overcommit<a class="headerlink" href="#limitations-node-memory-overcommit" title="Permanent link">&para;</a></h2>
 <p><a href="https://www.postgresql.org/docs/current/kernel-resources.html">PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> recommends strict virtual memory allocation by setting <code>vm.overcommit_memory=2</code> to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats <code>vm.overcommit_memory</code> as an unsafe <code>sysctl</code> and rejects attempts to set it to <code>2</code>. Most Kubernetes node OS images also default to <code>1</code>.</p>
 <p>To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like <code>shared_buffers</code>, <code>work_mem</code>, <code>max_connections</code>, and so on accordingly.</p>
@@ -8965,7 +9006,7 @@ kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;pod_name&gt;<span
 <li>Deepen your monitoring insights by setting up <a href="#monitor-kubernetes">Kubernetes monitoring with PMM</a></li>
 <li>Control Pods assignment on specific Kubernetes Nodes by setting up <a href="#constraints">affinity / anti-affinity</a></li>
 <li>Ready to adopt the Operator for production use and need to delete the testing deployment? Use <a href="#delete">this guide</a> to do it</li>
-<li>You can also try operating the Operator and database clusters via the web interface with <a href="https://docs.percona.com/everest/index.html">Percona Everest</a> - an open-source web-based database provisioning tool based on Percona Operators. See <a href="https://docs.percona.com/everest/quickstart-guide/quick-install.html">Get started with Percona Everest</a> on how to start using it</li>
+<li>You can also try operating the Operator and database clusters via the web interface with <a href="https://openeverest.io/docs/">OpenEverest</a> - an open-source web-based database provisioning tool based on Percona Operators.</li>
 </ul></section></section>
                     <section class='print-page md-section' id='section-5' heading-number='5'>
                         <h1>Installation<a class='headerlink' href='#section-5' title='Permanent link'></a>
@@ -19016,7 +19057,183 @@ percona-postgresql-operator       docker-registry.default.svc:5000/pg/percona-po
 <li>
 <p>Now follow the standard Percona Operator for PostgreSQL <a href="#openshift">installation instruction</a>.</p>
 </li>
-</ol></section><section class="print-page" id="custom-extensions" heading-number="9.5"><h1 id="custom-extensions-manage-postgresql-extensions">Manage PostgreSQL extensions<a class="headerlink" href="#custom-extensions-manage-postgresql-extensions" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="install-community" heading-number="9.5"><h1 id="install-community-deploy-a-cluster-with-community-postgresql-images">Deploy a cluster with community PostgreSQL images<a class="headerlink" href="#install-community-deploy-a-cluster-with-community-postgresql-images" title="Permanent link">&para;</a></h1>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="#releasenotes-kubernetes-operator-for-postgresql-rn3.1.0.md">3.1.0</a></p>
+</div>
+<p>You can run the Operator against <strong>community PostgreSQL images</strong>. Use community
+images when you need extensions that are not included in Percona Distribution
+for PostgreSQL, such as TimescaleDB or Citus.</p>
+<p>Community PostgreSQL images are built from the official
+PostgreSQL packages on <a href="https://www.postgresql.org/download/">download.postgresql.org <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+(the PGDG repositories), so you can pull them from a registry you control
+instead of relying only on Percona Distribution images. </p>
+<p>You can also <a href="#install-community-build-your-own-community-images">build and
+publish your own community images</a> and point the Operator at them.</p>
+<p>This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. In this example, we use images from the <a href="https://hub.docker.com/repository/docker/perconalab/percona-postgresql-operator/">perconalab</a> repository, which are intended for testing purposes only. For production environments, you should build, sign, and use your own images to ensure security and compliance.</p>
+<p>The flow consist of two steps:</p>
+<ul>
+<li>First, install the Percona Operator for PostgreSQL Deployment.</li>
+<li>Next, use the Operator to create a PostgreSQL cluster.</li>
+</ul>
+<h2 id="install-community-known-limitations">Known limitations<a class="headerlink" href="#install-community-known-limitations" title="Permanent link">&para;</a></h2>
+<p>Community images do not include Percona-specific features such as Transparent
+Data Encryption (TDE). Those features ship only with Percona Distribution for
+PostgreSQL images.</p>
+<p>If you need TDE or other Percona-specific features, follow the
+<a href="#kubectl">Quickstart</a> and deploy the cluster with
+<a href="#images">Percona certified images</a>.</p>
+<h2 id="install-community-prerequisites">Prerequisites<a class="headerlink" href="#install-community-prerequisites" title="Permanent link">&para;</a></h2>
+<p>To deploy a cluster with community images, you need the following:</p>
+<ol>
+<li>
+<p>The <strong>kubectl</strong> tool to manage and deploy applications on Kubernetes. If it
+   is not already installed, <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">follow the official installation instructions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+</li>
+<li>
+<p>A Kubernetes environment. You can deploy it on
+   <a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for
+   testing or use any cloud provider of your choice. Check the list of our
+   <a href="#system-requirements-supported-platforms">officially supported platforms</a>.</p>
+</li>
+</ol>
+<h2 id="install-community-procedure">Procedure<a class="headerlink" href="#install-community-procedure" title="Permanent link">&para;</a></h2>
+<p class="power-number">Here&rsquo;s a sequence of steps to follow:</p>
+<ol>
+<li>
+<p>Clone the <code>percona-postgresql-operator</code> repository. You will edit the
+   cluster Custom Resource. Specify your desired version with the <code>-b</code> flag:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v3.0.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Create the Kubernetes namespace for your cluster and export it as an environment variable. Isolating workloads in a
+   custom namespace is a good practice. Replace the <code>&lt;my-namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;my-namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;my-namespace&gt;
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>namespace/&lt;my-namespace&gt; was created
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create the Operator Deployment with the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io/crunchybridgeclusters.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgupgrades.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgadmins.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgupgrades.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
+serviceaccount/percona-postgresql-operator serverside-applied
+role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
+deployment.apps/percona-postgresql-operator serverside-applied
+</code></pre></div>
+</details>
+<p>At this point, the Operator Pod is up and running.</p>
+</li>
+<li>
+<p>Edit <code>deploy/cr.yaml</code> and point the cluster at community images. Change
+   these fields:</p>
+<ul>
+<li><code>postgresVersion</code> - Set to the required major version</li>
+<li><code>spec.image</code>, <code>spec.proxy.pgBouncer.image</code>, and
+<code>spec.backups.pgbackrest.image</code> - specify the community images for PostgreSQL, pgBouncer and pgbackrest.</li>
+<li>Keep the rest of <code>deploy/cr.yaml</code>
+unchanged. The Operator manages instances, backups, replication
+and the rest of the cluster lifecycle the same way.</li>
+</ul>
+<p>This is the example for PostgreSQL 18:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-postgres18-community</span>
+<span class="w">  </span><span class="nt">postgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">18</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community</span>
+</code></pre></div>
+</li>
+<li>
+<p>Deploy the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com/cluster1 created
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Check the Operator and cluster Pods status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>The creation process may take some time. When the process is over, your
+cluster obtains the <code>ready</code> status.</p>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                                   STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.postgres-operator.svc   ready    3          3           143m
+</code></pre></div>
+</details>
+</li>
+</ol>
+<p>You have successfully deployed the Operator with a PostgreSQL cluster that uses
+community images.</p>
+<h2 id="install-community-available-community-images">Available community images<a class="headerlink" href="#install-community-available-community-images" title="Permanent link">&para;</a></h2>
+<p>The following UBI9 (EL9) images are published for evaluation:</p>
+<div class="highlight"><pre><span></span><code>docker.io/perconalab/percona-postgresql-operator:main-postgres14-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres15-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres16-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres17-community
+docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
+docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
+docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
+docker.io/perconalab/percona-postgresql-operator:main-upgrade-community
+</code></pre></div>
+<p>UBI8 (EL8) variants use a <code>main-ubi8-</code> prefix, for example
+<code>main-ubi8-postgres18-community</code>.</p>
+<h2 id="install-community-build-your-own-community-images">Build your own community images<a class="headerlink" href="#install-community-build-your-own-community-images" title="Permanent link">&para;</a></h2>
+<p>The Dockerfile, package list, and sample build targets ship in
+<a href="https://github.com/percona/percona-docker/tree/main/postgresql-containers/community">percona-docker/postgresql-containers/community <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> repository.</p>
+<p>To build and push UBI9 images to your registry, use the following commands:</p>
+<div class="highlight"><pre><span></span><code>docker<span class="w"> </span>buildx<span class="w"> </span>create<span class="w"> </span>--use<span class="w"> </span>--name<span class="w"> </span>multiarch
+git<span class="w"> </span>clone<span class="w"> </span>https://github.com/percona/percona-docker
+<span class="nb">cd</span><span class="w"> </span>percona-docker/postgresql-containers/community
+make<span class="w"> </span>all<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
+</code></pre></div>
+<p>To build a single PostgreSQL major version, run:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>postgres17<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
+</code></pre></div>
+<p>To build UBI8 variants, run:</p>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span>all-ubi8<span class="w"> </span><span class="nv">TAG</span><span class="o">=</span><span class="m">1</span>.0.0-ubi8<span class="w"> </span><span class="nv">REGISTRY</span><span class="o">=</span>myrepo/percona-postgresql-operator
+</code></pre></div>
+<p><code>make all</code> builds the PostgreSQL, pgBouncer, and pgBackRest images so that they
+stay version-aligned. After the images are in your registry, set
+<code>spec.image</code>, <code>spec.proxy.pgBouncer.image</code>, and
+<code>spec.backups.pgbackrest.image</code> in your Custom Resource to those paths.</p>
+<p>For full build and contribution details, see the
+<a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/community/README.md">community containers README <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+and
+<a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/community/CONTRIBUTING.md">CONTRIBUTING.md <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="install-community-see-also">See also<a class="headerlink" href="#install-community-see-also" title="Permanent link">&para;</a></h2>
+<p>Percona Blog: <a href="https://www.percona.com/blog/postgresql-community-images-operator/">Community Docker Images: keeping the operator open without a vendor registry lock-in</a></p>
+<h2 id="install-community-next-steps">Next steps<a class="headerlink" href="#install-community-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#connect"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.56 14.723a.5.5 0 0 0-.057-.12q-.21-.395-1.007-.231c-1.654.34-2.294.13-2.526-.02 1.342-2.048 2.445-4.522 3.041-6.83.272-1.05.798-3.523.122-4.73a1.6 1.6 0 0 0-.15-.236C21.693.91 19.8.025 17.51.001c-1.495-.016-2.77.346-3.116.479a10 10 0 0 0-.516-.082 8 8 0 0 0-1.312-.127c-1.182-.019-2.203.264-3.05.84C8.66.79 4.729-.534 2.296 1.19.935 2.153.309 3.873.43 6.304c.041.818.507 3.334 1.243 5.744q.69 2.26 1.433 3.582.83 1.493 1.714 1.79c.448.148 1.133.143 1.858-.729a56 56 0 0 1 1.945-2.206c.435.235.906.362 1.39.377v.004a11 11 0 0 0-.247.305c-.339.43-.41.52-1.5.745-.31.064-1.134.233-1.146.811a.6.6 0 0 0 .091.327c.227.423.922.61 1.015.633 1.335.333 2.505.092 3.372-.679-.017 2.231.077 4.418.345 5.088.221.553.762 1.904 2.47 1.904q.375.001.829-.094c1.782-.382 2.556-1.17 2.855-2.906.15-.87.402-2.875.539-4.101.017-.07.036-.12.057-.136 0 0 .07-.048.427.03l.044.007.254.022.015.001c.847.039 1.911-.142 2.531-.43.644-.3 1.806-1.033 1.595-1.67M2.37 11.876c-.744-2.435-1.178-4.885-1.212-5.571-.109-2.172.417-3.683 1.562-4.493 1.837-1.299 4.84-.54 6.108-.13l-.01.01C6.795 3.734 6.843 7.226 6.85 7.44c0 .082.006.199.016.36.034.586.1 1.68-.074 2.918-.16 1.15.194 2.276.973 3.089q.12.126.252.237c-.347.371-1.1 1.193-1.903 2.158-.568.682-.96.551-1.088.508-.392-.13-.813-.587-1.239-1.322-.48-.839-.963-2.032-1.415-3.512m6.007 5.088a1.6 1.6 0 0 1-.432-.178c.089-.039.237-.09.483-.14 1.284-.265 1.482-.451 1.915-1 .099-.127.211-.27.367-.443a.4.4 0 0 0 .074-.13c.17-.151.272-.11.436-.042.156.065.308.26.37.475.03.102.062.295-.045.445-.904 1.266-2.222 1.25-3.168 1.013m2.094-3.988-.052.14c-.133.357-.257.689-.334 1.004-.667-.002-1.317-.288-1.81-.803-.628-.655-.913-1.566-.783-2.5.183-1.308.116-2.447.08-3.059l-.013-.22c.296-.262 1.666-.996 2.643-.772.446.102.718.406.83.928.585 2.704.078 3.83-.33 4.736a9 9 0 0 0-.23.546m7.364 4.572q-.024.266-.062.596l-.146.438a.4.4 0 0 0-.018.108c-.006.475-.054.649-.115.87-.064.229-.135.488-.18 1.057-.11 1.414-.878 2.227-2.417 2.556-1.515.325-1.784-.496-2.02-1.221a7 7 0 0 0-.078-.227c-.215-.586-.19-1.412-.157-2.555.016-.561-.025-1.901-.33-2.646q.006-.44.019-.892a.4.4 0 0 0-.016-.113 2 2 0 0 0-.044-.208c-.122-.428-.42-.786-.78-.935-.142-.059-.403-.167-.717-.087.067-.276.183-.587.309-.925l.053-.142c.06-.16.134-.325.213-.5.426-.948 1.01-2.246.376-5.178-.237-1.098-1.03-1.634-2.232-1.51-.72.075-1.38.366-1.709.532a6 6 0 0 0-.196.104c.092-1.106.439-3.174 1.736-4.482a4 4 0 0 1 .303-.276.35.35 0 0 0 .145-.064c.752-.57 1.695-.85 2.802-.833q.616.01 1.174.081c1.94.355 3.244 1.447 4.036 2.383.814.962 1.255 1.931 1.431 2.454-1.323-.134-2.223.127-2.68.78-.992 1.418.544 4.172 1.282 5.496.135.242.252.452.289.54.24.583.551.972.778 1.256.07.087.138.171.189.245-.4.116-1.12.383-1.055 1.717-.013.156-.043.447-.084.815-.046.208-.07.46-.1.766m.89-1.621c-.04-.832.27-.919.597-1.01l.135-.041a1 1 0 0 0 .134.103c.57.376 1.583.421 3.007.134-.202.177-.519.4-.953.601-.41.19-1.096.333-1.747.364-.72.034-1.086-.08-1.173-.151m.57-9.271c-.006.35-.054.669-.105 1.001-.055.358-.112.728-.127 1.177-.014.436.04.89.093 1.33.107.887.216 1.8-.207 2.701a4 4 0 0 1-.188-.385 8 8 0 0 0-.325-.617c-.616-1.104-2.057-3.69-1.32-4.744.38-.543 1.342-.566 2.179-.463m.228 7.013-.085-.107-.035-.044c.726-1.2.584-2.387.457-3.439-.052-.432-.1-.84-.088-1.222.013-.407.066-.755.118-1.092.064-.415.13-.844.111-1.35a.6.6 0 0 0 .012-.19c-.046-.486-.6-1.938-1.73-3.253a7.8 7.8 0 0 0-2.688-2.04A9.3 9.3 0 0 1 17.62.746c2.052.046 3.675.814 4.824 2.283a1 1 0 0 1 .067.1c.723 1.356-.276 6.275-2.987 10.54m-8.816-6.116c-.025.18-.31.423-.621.423a1 1 0 0 1-.081-.006.8.8 0 0 1-.506-.315c-.046-.06-.12-.178-.106-.285a.22.22 0 0 1 .093-.149c.118-.089.352-.122.61-.086.316.044.642.193.61.418m7.93-.411c.011.08-.049.2-.153.31a.72.72 0 0 1-.408.223 1 1 0 0 1-.075.005c-.293 0-.541-.234-.56-.371-.024-.177.264-.31.56-.352.298-.042.612.009.636.185"/></svg></span> Connect to PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p></section><section class="print-page" id="custom-extensions" heading-number="9.6"><h1 id="custom-extensions-manage-postgresql-extensions">Manage PostgreSQL extensions<a class="headerlink" href="#custom-extensions-manage-postgresql-extensions" title="Permanent link">&para;</a></h1>
 <p>One of the specific PostgreSQL features is the ability to provide it with additional functionality via <a href="https://www.postgresql.org/download/products/6-postgresql-extensions/">Extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Percona Distribution for PostgreSQL <a href="https://docs.percona.com/postgresql/latest/extensions.html">comes with a number of extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. These extensions are available for the database cluster managed by the Operator as well.</p>
 <h2 id="custom-extensions-built-in-extensions">Built-in extensions<a class="headerlink" href="#custom-extensions-built-in-extensions" title="Permanent link">&para;</a></h2>
 <p>You can enable or disable built-in extensions in the <code>extensions</code> section of your <code>deploy/cr.yaml</code> file. Set an option to <code>true</code> to enable an extension, or to <code>false</code> to disable it. To see which extensions are enabled by default, check the <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.0.0/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Custom Resource manifest.</p>
@@ -19446,7 +19663,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 </li>
-</ol></section><section class="print-page" id="cluster-wide" heading-number="9.6"><h1 id="cluster-wide-percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment">Percona Operator for PostgreSQL single-namespace and multi-namespace deployment<a class="headerlink" href="#cluster-wide-percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="cluster-wide" heading-number="9.7"><h1 id="cluster-wide-percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment">Percona Operator for PostgreSQL single-namespace and multi-namespace deployment<a class="headerlink" href="#cluster-wide-percona-operator-for-postgresql-single-namespace-and-multi-namespace-deployment" title="Permanent link">&para;</a></h1>
 <p>There are two design patterns that you can choose from when deploying Percona Operator for PostgreSQL and PostgreSQL clusters in Kubernetes:</p>
 <ul>
 <li>
@@ -19647,7 +19864,7 @@ Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class=
 </code></pre></div>
 </details>
 </li>
-</ol></section><section class="print-page" id="tablespaces" heading-number="9.7"><h1 id="tablespaces-using-postgresql-tablespaces-with-percona-operator-for-postgresql">Using PostgreSQL tablespaces with Percona Operator for PostgreSQL<a class="headerlink" href="#tablespaces-using-postgresql-tablespaces-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="tablespaces" heading-number="9.8"><h1 id="tablespaces-using-postgresql-tablespaces-with-percona-operator-for-postgresql">Using PostgreSQL tablespaces with Percona Operator for PostgreSQL<a class="headerlink" href="#tablespaces-using-postgresql-tablespaces-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <p>Tablespaces allow DBAs to store a database on multiple file systems within the
 same server and to control where (on which file systems) specific parts of the
 database are stored. You can think about it as if you were giving names to your
@@ -19826,7 +20043,7 @@ for the <code>lake</code> tablespace will look as follows:</p>
 <code>DROP TABLESPACE &lt;tablespace_name&gt;;</code> command.</p>
 <p>Now, when the PostgreSQL part is finished, you can remove the tablespace entry
 from the <code>tablespaceStorages</code> section (don’t forget to run the
-<code>kubectl apply -f deploy/cr.yaml</code> command to apply changes).</p></section><section class="print-page" id="monitor-kubernetes" heading-number="9.8"><h1 id="monitor-kubernetes-monitor-kubernetes">Monitor Kubernetes<a class="headerlink" href="#monitor-kubernetes-monitor-kubernetes" title="Permanent link">&para;</a></h1>
+<code>kubectl apply -f deploy/cr.yaml</code> command to apply changes).</p></section><section class="print-page" id="monitor-kubernetes" heading-number="9.9"><h1 id="monitor-kubernetes-monitor-kubernetes">Monitor Kubernetes<a class="headerlink" href="#monitor-kubernetes-monitor-kubernetes" title="Permanent link">&para;</a></h1>
 <p>Monitoring the state of the database is crucial to timely identify and react to performance issues. <a href="#monitoring">Percona Monitoring and Management (PMM) solution enables you to do just that</a>.</p>
 <p>However, the database state also depends on the state of the Kubernetes cluster itself. Hence it&rsquo;s important to have metrics that can depict the state of the Kubernetes cluster.</p>
 <p>This document describes how to set up monitoring of the Kubernetes cluster health. This setup has been tested with the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> as the centralized data storage and the Victoria Metrics Kubernetes monitoring stack as the metrics collector. These steps may also apply if you use another Prometheus-compatible storage.</p>
@@ -20061,7 +20278,7 @@ vmagent-vm-k8s-stack-victoria-metrics-k8s-stack-55fd8fc4fbcxwhx   2/2     Runnin
 <p>The output should provide the empty list.</p>
 <p>If you face any issues with the removal, uninstall the stack manually:</p>
 <div class="highlight"><pre><span></span><code>helm<span class="w"> </span>uninstall<span class="w"> </span>vm-k8s-stack<span class="w"> </span>-n<span class="w"> </span>&lt;<span class="w"> </span>namespace&gt;<span class="w"> </span>
-</code></pre></div></section><section class="print-page" id="postgis" heading-number="9.9"><h1 id="postgis-use-postgis-extension-with-percona-distribution-for-postgresql">Use PostGIS extension with Percona Distribution for PostgreSQL<a class="headerlink" href="#postgis-use-postgis-extension-with-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="postgis" heading-number="9.10"><h1 id="postgis-use-postgis-extension-with-percona-distribution-for-postgresql">Use PostGIS extension with Percona Distribution for PostgreSQL<a class="headerlink" href="#postgis-use-postgis-extension-with-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
 <p><a href="https://postgis.net/">PostGIS <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is a PostgreSQL extension that adds GIS
 capabilities to this database.</p>
 <p>You can deploy and manage PostGIS-enabled PostgreSQL starting from the  Operator version 2.3.0. Here&rsquo;s how to do it:</p>
@@ -20298,7 +20515,7 @@ database you created earlier and run the following command:</p>
 </ol>
 <p>You can find more about using PostGIS in the official Percona Distribution for
 PostgreSQL <a href="https://docs.percona.com/postgresql/latest/solutions/postgis-deploy.html">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="dns-suffix" heading-number="9.10"><h1 id="dns-suffix-configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#dns-suffix-configure-dns-suffix-for-service-discovery" title="Permanent link">&para;</a></h1>
+as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="dns-suffix" heading-number="9.11"><h1 id="dns-suffix-configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#dns-suffix-configure-dns-suffix-for-service-discovery" title="Permanent link">&para;</a></h1>
 <p>In Kubernetes, services are assigned a DNS name to be accessible within the cluster. The domain name follows the pattern <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.&lt;cluster-domain&gt;</code>. The default cluster domain is <code>cluster.local</code>, so a typical FQDN looks like <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
 <p>When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.</p>
 <p>Clusters with custom DNS configurations may use a domain suffix different from the default <code>cluster.local</code>. This includes scenarios such as running inside a vcluster, which may respond to DNS queries with records that do not match the actual cluster domain.</p>
@@ -20313,7 +20530,7 @@ as well as in this <a href="https://www.percona.com/blog/working-with-postgresql
 </code></pre></div>
 <p>Apply the change:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div></section><section class="print-page" id="delete" heading-number="9.11"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="delete" heading-number="9.12"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <p>When cleaning up your Kubernetes environment (e.g., moving from a trial
 deployment to a production one, or testing experimental configurations), you may
 need to remove some (or all) of the following objects:</p>
@@ -20512,7 +20729,7 @@ persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
 </li>
 </ol>
 </li>
-</ol></section><section class="print-page" id="image-query" heading-number="9.12"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="image-query" heading-number="9.13"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>When preparing for the upgrade, you must have the list of compatible images for a specific Operator version and the database version you wish to update to. You can either manually find the images in the <a href="#images">list of certified images</a> or you can get this list by querying the <strong>Version Service</strong> server. </p>
 <h3 id="image-query-what-is-the-version-service">What is the Version Service?<a class="headerlink" href="#image-query-what-is-the-version-service" title="Permanent link">&para;</a></h3>
 <p>The <strong>Version Service</strong> is a centralized repository that the Percona Operator for PostgreSQL connects to at scheduled times to get the latest information on compatible versions and valid image paths. This service is a crucial part of the automatic upgrade process, and it is enabled by default. Its landing page, <code>check.percona.com</code>, provides more details about the service itself.</p>
@@ -27401,7 +27618,8 @@ ReadyForBackup
 <h2 id="immutable-options-patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#immutable-options-patroni-dynamic-configuration" title="Permanent link">&para;</a></h2>
 <p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="#options">Changing PostgreSQL options</a>.</p></section><section class="print-page" id="images" heading-number="11.8"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL 3.0.0. </p>
-<p>To find images for a specific Operator version, see <a href="#image-query">Retrieve Percona certified images</a></p>
+<p>To find images for a specific Operator version, see <a href="#image-query">Retrieve Percona certified images</a>.</p>
+<p>To run the Operator against upstream-built PostgreSQL images instead of Percona Distribution images, see <a href="#install-community">Deploy a cluster with community PostgreSQL images</a> (tech preview).</p>
 <p><strong>Images released with the Operator version 3.0.0:</strong></p>
 <table>
 <thead>
@@ -30329,21 +30547,23 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #custom-registry > h1:before { content: '9.4 ' }
 
-.print-site-enumerate-headings #custom-extensions > h1:before { content: '9.5 ' }
+.print-site-enumerate-headings #install-community > h1:before { content: '9.5 ' }
 
-.print-site-enumerate-headings #cluster-wide > h1:before { content: '9.6 ' }
+.print-site-enumerate-headings #custom-extensions > h1:before { content: '9.6 ' }
 
-.print-site-enumerate-headings #tablespaces > h1:before { content: '9.7 ' }
+.print-site-enumerate-headings #cluster-wide > h1:before { content: '9.7 ' }
 
-.print-site-enumerate-headings #monitor-kubernetes > h1:before { content: '9.8 ' }
+.print-site-enumerate-headings #tablespaces > h1:before { content: '9.8 ' }
 
-.print-site-enumerate-headings #postgis > h1:before { content: '9.9 ' }
+.print-site-enumerate-headings #monitor-kubernetes > h1:before { content: '9.9 ' }
 
-.print-site-enumerate-headings #dns-suffix > h1:before { content: '9.10 ' }
+.print-site-enumerate-headings #postgis > h1:before { content: '9.10 ' }
 
-.print-site-enumerate-headings #delete > h1:before { content: '9.11 ' }
+.print-site-enumerate-headings #dns-suffix > h1:before { content: '9.11 ' }
 
-.print-site-enumerate-headings #image-query > h1:before { content: '9.12 ' }
+.print-site-enumerate-headings #delete > h1:before { content: '9.12 ' }
+
+.print-site-enumerate-headings #image-query > h1:before { content: '9.13 ' }
 
 .print-site-enumerate-headings #section-10 > h1:before { content: '10 ' }
 .print-site-enumerate-headings #troubleshoot-operator > h1:before { content: '10.1 ' }
