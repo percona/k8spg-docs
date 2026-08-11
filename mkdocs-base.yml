@@ -284,6 +284,7 @@ nav:
           - "Run Initialization SQL commands at cluster creation time": initsql.md
           - "Change PostgreSQL primary instance": change-primary.md
           - "How to use private registry": custom-registry.md
+          - "Deploy a cluster with community PostgreSQL images": install-community.md
           - "Manage PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md

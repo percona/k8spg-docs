@@ -26,6 +26,10 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 
 * Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see [Delete existing tablespaces](tablespaces.md#deleting-an-existing-tablespace).
 
+## Community PostgreSQL images
+
+Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use [Percona certified images](images.md). See [Deploy a cluster with community PostgreSQL images](install-community.md) for deployment steps.
+
 ## Node memory overcommit
 
 [PostgreSQL :octicons-link-external-16:](https://www.postgresql.org/docs/current/kernel-resources.html) recommends strict virtual memory allocation by setting `vm.overcommit_memory=2` to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats `vm.overcommit_memory` as an unsafe `sysctl` and rejects attempts to set it to `2`. Most Kubernetes node OS images also default to `1`.
