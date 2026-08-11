@@ -48,11 +48,10 @@ The token must have the format `glsa_*************************_9e35351b`.
 
     ```yaml
     kube-state-metrics:
-    securityContext:
-    runAsUser: null
-    runAsGroup: null
-    fsGroup: null
-    ```
+      securityContext:
+        runAsUser: null
+        runAsGroup: null
+        fsGroup: null
 
     Next, follow the steps to install Victoria Metrics Kubernetes Monitoring stack.
 
