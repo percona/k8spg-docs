@@ -110,7 +110,7 @@ You cannot change encryption settings after backups are established. To enable e
 
 ### Storage size
 
-You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See [Scale storage](scaling.md#scale-storage).
+You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See [Scale storage](scaling-vertical.md#scale-storage).
 
 ## Patroni dynamic configuration
 

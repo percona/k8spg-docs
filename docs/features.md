@@ -42,11 +42,11 @@ Reduce connection churn and spread read load without extra operational burden.
 Scale your cluster up or down to match demand while keeping changes declarative.
 
 * **Declarative clusters** — Describe desired cluster state in YAML; the Operator automatically reconciles Kubernetes resources to match.
-* **Replica scaling** — [Adjust replica count](scaling.md#understand-horizontal-scaling) in the Custom Resource to scale horizontally.
+* **Replica scaling** — [Adjust replica count](scaling-horizontal.md) in the Custom Resource to scale horizontally.
 * **Dynamic configuration** — [Update PostgreSQL parameters](options.md) without a full cluster restart.
 * **Self-healing** — The Operator automatically detects and recovers from Pod crashes, node issues, and common network problems.
 * **Rolling updates** — Apply configuration and image updates with controlled rollouts.
-* **Storage expansion** — Automatically [increase storage size](scaling.md#scale-storage) for PostgreSQL instances when supported by your environment and configuration.
+* **Storage expansion** — Automatically [increase storage size](scaling-vertical.md#scale-storage) for PostgreSQL instances when supported by your environment and configuration.
 
 ## PostgreSQL-specific features
 

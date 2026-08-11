@@ -2,7 +2,7 @@
 
 High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/) for automated failover, and PostgreSQL streaming replication for data consistency.
 
-Adding members can also increase read capacity. That is a [scaling](scaling.md) concern. This document focuses on keeping the cluster alive and consistent through failures.
+Adding members can also increase read capacity. That is a [horizontal scaling](scaling-horizontal.md) concern. This document focuses on keeping the cluster alive and consistent through failures.
 
 ## Understand cluster members
 
@@ -26,7 +26,7 @@ By default, the cluster uses **asynchronous replication**: the primary sends cha
 * **Minimum:** 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.
 * **Recommended:** **3 or more** PostgreSQL members for production HA.
 
-For how to add or remove members, see [Scale your cluster](scaling.md#understand-horizontal-scaling).
+For how to add or remove members, see [Scale horizontally](scaling-horizontal.md).
 
 ## Place Pods for resilience
 
