@@ -6287,7 +6287,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Following feature gates are present:</p>
 <ol>
 <li>
-<p><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the <a href="scaling.html#automated-scaling-with-auto-growable-disk">Scale your cluster</a> chapter.</p>
+<p><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for PostgreSQL data volumes and, starting with Operator version 3.1.0, for pgBackRest repository volumes on the repo host. To learn more, refer to the <a href="scaling.html#automated-scaling-with-auto-growable-disks">Scale your cluster</a> chapter.</p>
 </li>
 <li>
 <p><code>BackupSnapshots=true</code> - Enables <a href="backups-pvc-snapshots.html">PVC snapshot support</a> for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.</p>
@@ -6596,7 +6596,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 18:07:48 UTC">April 1, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:11:42 UTC">August 11, 2026</span>
       
         <br>
         Created:

@@ -6953,6 +6953,17 @@ deploy/cr.yaml  file.">
 </li>
         
           <li class="md-nav__item">
+  <a href="#backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#backupspgbackrestreposs3bucket" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -11648,6 +11659,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#backupspgbackrestreposs3bucket" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -14806,7 +14828,7 @@ file contains configuration options for PostgreSQL instances. This section conta
 </tbody>
 </table>
 <h3 id="instancesdatavolumeclaimspecresourceslimitsstorage"><code>instances.dataVolumeClaimSpec.resources.limits.storage</code><a class="headerlink" href="#instancesdatavolumeclaimspecresourceslimitsstorage" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the storage the PostgreSQL instance will use.</p>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the storage the PostgreSQL instance will use. When the <a href="env-var-operator.html#pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the data volume up to. See <a href="scaling.html#automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
 <table>
 <thead>
 <tr>
@@ -16151,6 +16173,22 @@ Percona Distribution for PostgreSQL backups.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage"><code>backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage</code><a class="headerlink" href="#backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the pgBackRest repository volume. Starting with Operator version 3.1.0, when the <a href="env-var-operator.html#pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the repository volume up to. See <a href="scaling.html#automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>5Gi</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="backupspgbackrestreposs3bucket"><code>backups.pgbackrest.repos.s3.bucket</code><a class="headerlink" href="#backupspgbackrestreposs3bucket" title="Permanent link">&para;</a></h3>
 <p>The <a href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html">Amazon S3 bucket <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 
 name used for backups</p>
@@ -17450,7 +17488,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:50:19 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:11:42 UTC">August 11, 2026</span>
       
         <br>
         Created:

@@ -3157,10 +3157,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scale-compute" class="md-nav__link">
+  <a href="#scale-compute-resources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scale compute
+        Scale compute resources
       
     </span>
   </a>
@@ -3180,10 +3180,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scaling-with-volume-expansion-capability" class="md-nav__link">
+  <a href="#storage-resizing-with-volume-expansion-capability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scaling with Volume Expansion capability
+        Storage resizing with Volume Expansion capability
       
     </span>
   </a>
@@ -3191,10 +3191,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#automated-scaling-with-auto-growable-disk" class="md-nav__link">
+  <a href="#automated-scaling-with-auto-growable-disks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automated scaling with auto-growable disk
+        Automated scaling with auto-growable disks
       
     </span>
   </a>
@@ -5821,10 +5821,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scale-compute" class="md-nav__link">
+  <a href="#scale-compute-resources" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scale compute
+        Scale compute resources
       
     </span>
   </a>
@@ -5844,10 +5844,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#scaling-with-volume-expansion-capability" class="md-nav__link">
+  <a href="#storage-resizing-with-volume-expansion-capability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Scaling with Volume Expansion capability
+        Storage resizing with Volume Expansion capability
       
     </span>
   </a>
@@ -5855,10 +5855,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#automated-scaling-with-auto-growable-disk" class="md-nav__link">
+  <a href="#automated-scaling-with-auto-growable-disks" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automated scaling with auto-growable disk
+        Automated scaling with auto-growable disks
       
     </span>
   </a>
@@ -5910,16 +5910,19 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 <h1 id="scale-percona-distribution-for-postgresql-on-kubernetes">Scale Percona Distribution for PostgreSQL on Kubernetes<a class="headerlink" href="#scale-percona-distribution-for-postgresql-on-kubernetes" title="Permanent link">&para;</a></h1>
 <p>One of the great advantages brought by Kubernetes is the ease of an application scaling. Scaling an application results in adding resources or Pods and scheduling them to available Kubernetes nodes.</p>
-<p>Scaling can be <a href="#vertical-scaling">vertical</a> and horizontal. Vertical scaling adds more compute or storage resources to PostgreSQL nodes; horizontal scaling is about adding more nodes to the cluster. High availability looks technically similar, because it also involves additional nodes, but the reason is maintaining liveness of the system in case of server or network failures. </p>
-<p>This document focuses on vertical scaling. For deploying high-availability, see <a href="ha-deploy.html">High-availability</a> guide.</p>
+<p>Scaling can be <a href="#vertical-scaling">vertical</a> and horizontal. Vertical scaling adds more compute or storage resources to PostgreSQL nodes; horizontal scaling is about adding more nodes to the cluster. High availability looks technically similar, because it also involves additional nodes, but the reason is maintaining liveness of the system in case of server or network failures.</p>
+<p>This document focuses on vertical scaling. For deploying high availability, see the <a href="ha-deploy.html">High availability</a> guide.</p>
 <h2 id="vertical-scaling">Vertical scaling<a class="headerlink" href="#vertical-scaling" title="Permanent link">&para;</a></h2>
-<h3 id="scale-compute">Scale compute<a class="headerlink" href="#scale-compute" title="Permanent link">&para;</a></h3>
-<p>There are multiple components that the Operator deploys and manages: PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others (see <a href="architecture.html">Architecture</a> for the full list of components).</p>
-<p>You can manage compute resources for a specific component using the corresponding section in the Custom Resource manifest. We follow the structure for <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">requests and limits  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that Kubernetes provides.</p>
-<p>The most common resources to specify are CPU and memory (RAM).</p>
-<p>You can specify a <strong>request</strong> for CPU or memory for a component&rsquo;s Pod. In this case, the Kubernetes scheduler uses these values to decide on which Kubernetes node to place the Pod, ensuring the node has at least the requested resources available. The Pod will only be scheduled on a node that can satisfy all its resource requests.</p>
-<p>If you specify a <strong>limit</strong> for the resources, this is the maximum amount of CPU or memory the container is allowed to use. If the container tries to use more than the limit, it may be throttled (for CPU) or terminated (for memory).</p>
-<p>You can set both <code>requests</code> and <code>limits</code> in the <code>resources</code> section of your Custom Resource. For example:</p>
+<h3 id="scale-compute-resources">Scale compute resources<a class="headerlink" href="#scale-compute-resources" title="Permanent link">&para;</a></h3>
+<p>The Operator deploys and manages multiple components, such as PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others. For the full list, refer to the <a href="architecture.html">Architecture</a> section. </p>
+<p>You can manage CPU or memory for every component separately by editing the corresponding sections in the Custom Resource. We follow the structure for <code>requests</code> and <code>limits</code> that <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Kubernetes provides <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>The most common resources to specify are CPU and memory (RAM):</p>
+<ul>
+<li>You can specify a <strong>request</strong> for CPU or memory for a
+component&rsquo;s Pod. This tells the Kubernetes scheduler how much CPU or memory the Pod needs. The scheduler places the Pod only on a node that can satisfy all resource requests.</li>
+<li>If you specify a <strong>limit</strong>, this sets the maximum CPU or memory the container may use. If the container exceeds a CPU limit, it may be throttled. If it exceeds a memory limit, it may be terminated.</li>
+</ul>
+<p>You can set both <code>requests</code> and <code>limits</code> in the <code>resources</code> section of your Custom Resource. For example, to add more resources to your PostgreSQL instances:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="nn">...</span>
 <span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
@@ -5933,20 +5936,23 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
 <span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
 </code></pre></div>
-<p>If you only set <code>limits</code> and omit <code>requests</code>, Kubernetes will default the request to the limit value.</p>
+<p>If you only set <code>limits</code> and omit <code>requests</code>, Kubernetes defaults the request to the limit value.</p>
 <p>Use our reference documentation for the <a href="operator.html">Custom Resource options</a> for more details about other components.</p>
 <h3 id="scale-storage">Scale storage<a class="headerlink" href="#scale-storage" title="Permanent link">&para;</a></h3>
-<p>Kubernetes manages storage with a PersistentVolume (PV), a segment of
-storage supplied by the administrator, and a PersistentVolumeClaim
-(PVC), a request for storage from a user. In Kubernetes v1.11 the
-feature was added to allow a user to increase the size of an existing
-PVC object (considered stable since Kubernetes v1.24).
-The user cannot shrink the size of an existing PVC object.</p>
-<h4 id="scaling-with-volume-expansion-capability">Scaling with Volume Expansion capability<a class="headerlink" href="#scaling-with-volume-expansion-capability" title="Permanent link">&para;</a></h4>
-<p>Certain volume types support PVCs expansion (exact details about
-PVCs and the supported volume types can be found in <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims">Kubernetes
-documentation  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>).</p>
-<p>You can run the following command to check if your storage supports the expansion capability:</p>
+<p>Kubernetes manages storage with the following components:</p>
+<ul>
+<li>a PersistentVolume (PV) - a segment of storage supplied by the Kubernetes administrator</li>
+<li>a PersistentVolumeClaim (PVC) - a request for storage from a user</li>
+</ul>
+<p>Starting with Kubernetes v1.11, you can increase the size of an existing PVC object (considered stable since Kubernetes v1.24).
+Note that you <strong>cannot</strong> shrink the size of an existing PVC object.</p>
+<p>Use storage scaling to keep up with growing data while keeping the cluster online. Starting with Operator version 2.5.0, the Operator supports the following scaling options:</p>
+<ul>
+<li>storage resizing with Volume Expansion capability - instruct the Operator to scale the storage by updating the Custom Resource manifest</li>
+<li>automated scaling with auto-growable disks - the Operator monitors storage usage and scales the storage automatically when you enable the <code>AutoGrowVolumes</code> feature gate. Starting with Operator version 3.1.0, this also covers pgBackRest repository volumes on the repo host</li>
+</ul>
+<p>For either option, the volume type must support PVC expansion.
+To check if your storage supports the expansion capability, run the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>sc<span class="w"> </span>&lt;storage<span class="w"> </span>class<span class="w"> </span>name&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>AllowVolumeExpansion
 </code></pre></div>
 <details class="example">
@@ -5954,9 +5960,13 @@ documentation  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" vie
 <div class="no-copy highlight"><pre><span></span><code>AllowVolumeExpansion: true
 </code></pre></div>
 </details>
-<p>The Operator versions 2.5.0 and higher will automatically expand such storage
-for you when you change the appropriate options in the Custom Resource.</p>
-<p>For example, you can do it by editing and applying the <code>deploy/cr.yaml</code> file:</p>
+<p>Find exact details about PVCs and the supported volume types in <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims">Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h4 id="storage-resizing-with-volume-expansion-capability">Storage resizing with Volume Expansion capability<a class="headerlink" href="#storage-resizing-with-volume-expansion-capability" title="Permanent link">&para;</a></h4>
+<p>Starting with Operator version 2.5.0, the Operator automatically expands storage that supports Volume Expansion when you change the size in the Custom Resource.</p>
+<p class="power-number">To resize storage, do the following:</p>
+<ol>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> file and set the new size under <code>instances[].dataVolumeClaimSpec.resources.requests.storage</code>:</p>
 <div class="no-copy highlight"><pre><span></span><code>spec:
   ...
   instances:
@@ -5966,15 +5976,28 @@ for you when you change the appropriate options in the Custom Resource.</p>
         requests:
           storage: &lt;NEW STORAGE SIZE&gt;
 </code></pre></div>
-<p>Apply changes as usual:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cr.yaml
+</li>
+<li>
+<p>Apply the changes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<h4 id="automated-scaling-with-auto-growable-disk">Automated scaling with auto-growable disk<a class="headerlink" href="#automated-scaling-with-auto-growable-disk" title="Permanent link">&para;</a></h4>
-<p>The Operator 2.5.0 and newer is able to detect if the storage usage on the PVC
-reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs
-the upstream &ldquo;auto-growable disk&rdquo; feature turned on when deploying the Operator.
-This is done via the <code>PGO_FEATURE_GATES</code> environment variable set in the
-<code>deploy/operator.yaml</code> manifest (or in the appropriate part of <code>deploy/bundle.yaml</code>):</p>
+</li>
+</ol>
+<h4 id="automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks<a class="headerlink" href="#automated-scaling-with-auto-growable-disks" title="Permanent link">&para;</a></h4>
+<p>Starting with Operator version 2.5.0, the Operator can detect when storage usage on a PVC reaches a certain threshold and trigger a PVC resize. Starting with Operator version 3.1.0, the Operator automatically resizes pgBackRest repository volumes on the repo host.</p>
+<p>This autoscaling needs the upstream auto-growable disk feature turned on when you deploy the Operator.</p>
+<p>This feature gives you:</p>
+<ul>
+<li>fewer outages from full disks because storage grows with demand</li>
+<li>less guesswork on capacity planning and fewer last-minute fixes</li>
+<li>lower operational effort for developers and platform engineers</li>
+<li>cost control by expanding only when needed</li>
+<li>a more predictable environment so teams can focus on delivery</li>
+</ul>
+<p class="power-number">To enable automated storage resizing, do the following:</p>
+<ol>
+<li>
+<p>Turn on the feature gate via the <code>PGO_FEATURE_GATES</code> environment variable in the <code>deploy/operator.yaml</code> manifest (or in the appropriate part of <code>deploy/bundle.yaml</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">subjects</span><span class="p">:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
@@ -5988,27 +6011,47 @@ This is done via the <code>PGO_FEATURE_GATES</code> environment variable set in 
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;AutoGrowVolumes=true&quot;</span>
 <span class="nn">...</span>
 </code></pre></div>
-<p>When the support for auto-growable disks is turned on, the auto grow
-will be working automatically if the maximum value available for the Operator to
-scale up is set in the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code>
-Custom Resource option:</p>
-<div class="no-copy highlight"><pre><span></span><code>spec:
-  ...
-  instances:
-    ...
-    dataVolumeClaimSpec:
-      resources:
-        requests:
-          storage: 1Gi
-        limits:
-          storage: 5Gi
+</li>
+<li>
+<p>Set the maximum storage size the Operator may scale up to for the volumes you want to autoscale.</p>
+<ul>
+<li>For PostgreSQL data volumes, use the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code> Custom Resource option</li>
+<li>For pgBackRest repository volumes, use the <code>spec.backups.pgbackrest.repos[].volume.volumeClaimSpec.resources.limits.storage</code> Custom Resource option:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">instances</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">dataVolumeClaimSpec</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">        </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">        </span><span class="nt">volume</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">volumeClaimSpec</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">            </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+<span class="w">              </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
 </code></pre></div>
+</li>
+</ol>
+<p>When usage on a volume exceeds 75%, the Operator calculates a new size by increasing the current volume size by 50%, up to the configured limit, and expands the PVC. If the calculated size exceeds the limit, the Operator expands the PVC only up to the limit and records a warning in the logs. </p>
+<p>For pgBackRest repositories, the Operator stores the latest suggested size in the <code>status.pgbackrest.repos[].desiredRepoVolume</code> field of the Custom Resource.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 21, 2026 08:36:03 UTC">May 21, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:11:42 UTC">August 11, 2026</span>
       
         <br>
         Created:
