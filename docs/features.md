@@ -35,6 +35,7 @@ Reduce connection churn and spread read load without extra operational burden.
 * **Transaction-level pooling** — Manage connections at the transaction level efficiently
 * **Read balancing** — Distribute read queries across replicas where configured
 * **High availability** — Replica pgBouncer instances provide high availability
+* **Pause and resume connections** — [Pause pgBouncer](pause-pgbouncer.md) for planned restarts, maintenance, or switchover without dropping client connections
 * **Integrated lifecycle** — Automatically configured and managed by the Operator
 
 ## Automated scaling and resource management

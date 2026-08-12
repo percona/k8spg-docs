@@ -137,6 +137,7 @@ Common condition fields:
 | `PGBackRestoreProgressing` | An in-place pgBackRest restore is in progress. |
 | `PostgresDataInitialized` | The PostgreSQL data directory has been initialized (for example, via a restore). |
 | `ProxyAvailable` | The PgBouncer Deployment is available. |
+| `PGBouncerPaused` | pgBouncer connections are paused. The Operator removes this condition when you resume. See [Pause and resume pgBouncer connections](pause-pgbouncer.md). |
 | `Progressing` | The cluster is progressing through a reconciliation or change. |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
@@ -161,6 +162,7 @@ The Operator sets `reason` and `message` values as free-form strings. Common rea
 * `APIGroupMigrationCompleted`, `APIGroupMigrationInProgress`, `APIGroupMigrationNotNeeded`
 * `ReadyForRestore`, `RestoreInPlaceRequested`, `PGBackRestRestoreComplete`, `PGBackRestRestoreFailed`
 * `ManualBackupComplete`, `ManualBackupFailed`
+* `Paused` (for `PGBouncerPaused`)
 
 ### Standby status
 
