@@ -82,3 +82,17 @@ spec:
   expose:
     type: LoadBalancer
 ```
+
+## Expose a logical replica
+
+A [logical replica](logical-replication.md) has its own Service, `<cluster-name>-lr-<replica-name>`. It is not behind pgBouncer. Set `spec.logicalReplicas[].expose` the same way as `spec.expose`:
+
+```yaml
+spec:
+  logicalReplicas:
+    - name: analytics
+      expose:
+        type: LoadBalancer
+```
+
+See [`logicalReplicas.expose`](operator.md#logicalreplicasexpose).

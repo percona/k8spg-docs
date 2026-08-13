@@ -142,6 +142,63 @@ The maximum amount of WAL data that the standby cluster can be behind the primar
 | ---------- | ------- |
 | :material-code-string: string | `10Mi` |
 
+### `logicalReplicas.name`
+
+Name of a [logical replica](logical-replication.md). Required. 
+This name is used in the StatefulSet, Service, PVC, publications, subscriptions, and replication slots. Must be unique, 20 characters max, match `^[a-z][a-z0-9-]*[a-z0-9]$`, and must not collide with `spec.instances[].name`. Requires Operator 3.1.0 or later and `postgresVersion` 17 or later.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `analytics` |
+
+### `logicalReplicas.databases`
+
+Databases that keep receiving changes after the full seed. If omitted, all databases receive changes except templates and `postgres`. Every table in the listed databases is included.
+
+| Value type | Example |
+| ---------- | ------- |
+| array | `- cluster1` |
+
+### `logicalReplicas.bootstrapMethod`
+
+How the data volume is seeded before conversion: `pgbackrest` (default) or `pg_basebackup`. Use `pg_basebackup` when backups are disabled. Read only during bootstrap; changing it later has no effect. Required.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgbackrest` |
+
+### `logicalReplicas.dataVolumeClaimSpec`
+
+Required. PersistentVolumeClaim spec for the replica data directory.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>accessModes:<br>  - ReadWriteOnce<br>resources:<br>  requests:<br>    storage: 1Gi</pre> |
+
+### `logicalReplicas.resources`
+
+CPU and memory requests and limits for the logical replica Pod.
+
+### `logicalReplicas.affinity`
+
+Pod affinity and anti-affinity for the logical replica.
+
+### `logicalReplicas.tolerations`
+
+Tolerations for the logical replica Pod.
+
+### `logicalReplicas.priorityClassName`
+
+Priority class for the logical replica Pod.
+
+### `logicalReplicas.metadata`
+
+Labels and annotations for logical replica objects.
+
+### `logicalReplicas.expose`
+
+Service settings for the logical replica (`type`, `annotations`, `labels`, `loadBalancerSourceRanges`). See [Exposing the cluster](expose.md).
+
 ### `secrets.customRootCATLSSecret.name`
 
 Name of the secret with the custom root CA certificate and key for secure connections to the PostgreSQL server, see [Transport Layer Security (TLS)](TLS.md) for details.

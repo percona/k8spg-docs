@@ -140,3 +140,20 @@ The result in your `deploy/cr.yaml` manifest may look as follows:
 You will have the desired amount of replicas switched to synchronous replication after applying changes as usual, with `kubectl apply -f deploy/cr.yaml` command.
 
 Find more options useful to tune how your database cluster should operate in synchronous mode [in the official Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode).
+
+## Logical replicas and failover
+
+[Logical replicas](logical-replication.md) are not Patroni members and are not promoted during failover. Their replication slots live on the PostgreSQL instance that created them. After failover, the new primary often does not have those slots, and the logical replica status becomes `broken` with reason `SourceSlotMissing`.
+
+The Operator tells Patroni not to drop logical `pgoutput` slots on the current primary. That does not copy slots to other instances.
+
+Patroni copies slots only when `use_slots` is enabled (off by default):
+
+```yaml
+spec:
+  patroni:
+    dynamicConfiguration:
+      use_slots: true
+```
+
+Apply with `kubectl apply -f deploy/cr.yaml`. If replication still breaks after failover, [reseed the logical replica](logical-replication.md#reseed-a-logical-replica).

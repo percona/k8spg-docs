@@ -6,7 +6,7 @@ You can make a full restore or restore the database to a specific point in time.
 
 !!! important
     
-    This operation overwrites the current data and is destructive.
+    This operation overwrites the current data and is destructive. An in-place restore also invalidates [logical replicas](logical-replication.md). After the restore, [reseed](logical-replication.md#reseed-a-logical-replica) each replica.
 
 Configure `PerconaPGRestore` custom resource using a *backup restore*
 configuration file. The example of the backup configuration file is

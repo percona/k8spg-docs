@@ -7,6 +7,16 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 * Delayed replicas are not supported
 * The Operator doesn't automatically update Patroni configuration inside running instances when  `create_replica_methods` is updated. You must manually run `patronictl reload` on each replica to make Patroni aware of the change. See [Override Patroni configuration](manage-manually.md#override-patroni-configuration) for details.
 
+## Logical replicas
+
+* Logical replicas require Operator 3.1.0 or later and PostgreSQL 17 or later. See [Deploy a logical replica](logical-replication.md).
+* Patroni does not manage logical replicas and does not promote them.
+* Failover often breaks replication because slots stay on the old primary. [Reseed](logical-replication.md#reseed-a-logical-replica) the replica, or see [Logical replicas and failover](ha-deploy.md#logical-replicas-and-failover).
+* An in-place restore invalidates logical replicas. Reseed each replica after the restore.
+* A failed bootstrap does not retry on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
+* Pausing the cluster does not stop the logical replica Pod.
+* Removing a logical replica always deletes its PVC, even if the cluster `delete-pvc` finalizer is off.
+
 ## Service control
 
 * By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container.

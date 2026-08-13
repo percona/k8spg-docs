@@ -259,6 +259,7 @@ nav:
             - "Failover": standby-failover.md
           - "Scale your cluster": scaling.md
           - "High-availability": ha-deploy.md
+          - Deploy logical replicas: logical-replication.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md

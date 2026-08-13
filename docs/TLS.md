@@ -59,3 +59,7 @@ When you [delete the cluster](delete.md), the Operator handles SSL objects (Secr
 
 If you want to clean up SSL objects, set the `finalizers.percona.com/delete-ssl` finalizer in the Custom Resource. The Operator deletes the all SSL objects.
 
+## Logical replica connections
+
+A [logical replica](logical-replication.md) presents the cluster TLS certificate. Prefer `sslmode=verify-ca`. Hostname verification (`sslmode=verify-full`) can fail because the certificate SANs may not include the logical replica Service DNS name (`<cluster-name>-lr-<replica-name>`). If you use custom certificates, add that name to the server certificate. See [Generate certificates manually](tls-manual.md).
+
