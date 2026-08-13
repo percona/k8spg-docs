@@ -33,8 +33,10 @@ Note that with `spec.proxy.pgBouncer.paused` you control only the connection poo
 
 * Check that pgBouncer is enabled with a non-zero replica
   count.
-* Prefer transaction pooling for this workflow. In session pooling mode,
-  `PAUSE` waits until clients disconnect, which can delay or block the pause.
+* Prefer `transaction` pooling mode for this workflow (set `spec.proxy.pgBouncer.config.global.pool_mode` to `transaction`). 
+  
+   By default, pgBouncer uses the `session` pooling mode. In `session` mode, `PAUSE` waits until clients fully disconnect, which may significantly delay or even block the pause operation.
+   
 * Keep the paused window short. Queued clients still observe latency, and
   client-side timeouts still apply.
 
