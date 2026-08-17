@@ -72,18 +72,29 @@ You can see the explanation of these affinity options [in Kubernetes documentati
 
 ## Tolerations
 
-*Tolerations* allow Pods having them to be able to land onto nodes with matching
-*taints*. Toleration is expressed as a `key` with and `operator`, which is
-either `exists` or `equal` (the latter variant also requires a `value` the key
-is equal to). Moreover, toleration should have a specified `effect`, which may
-be a self-explanatory `NoSchedule`, less strict `PreferNoSchedule`, or
-`NoExecute`. The last variant means that if a *taint* with `NoExecute` is
-assigned to node, then any Pod not tolerating this *taint* will be removed from
-the node, immediately or after the `tolerationSeconds` interval, like in the
-following example.
+You can label a Kubernetes node so that Pods cannot schedule on it unless they are allowed to. That label is called a *taint*.
+A *toleration* is a matching permission slip that you put on a Pod. A Pod with a matching toleration can schedule on a tainted node.
+A typical use case is to reserve nodes for workloads that belong there. For example, a database or backup node.
 
-You can use `instances.tolerations` and `backups.pgbackrest.jobs.tolerations`
-subsections in the `deploy/cr.yaml` configuration file as follows:
+Each toleration is defined by: 
+* a `key` 
+* an `operator`. The default Kubernetes `operator` is `Exists`. You can set it to `Equal`. `Equal` requires a `value`
+* an `effect`:
+
+    * `NoSchedule` — Pods without a matching toleration are not scheduled on the node
+    * `PreferNoSchedule` — Kubernetes prefers other nodes, but can still schedule there
+    * `NoExecute` — Pods without a matching toleration are evicted, immediately or after `tolerationSeconds`
+
+You can set tolerations in these Custom Resource sections of `deploy/cr.yaml`:
+
+* `instances.tolerations` — PostgreSQL instance Pods
+* `proxy.pgBouncer.tolerations` — pgBouncer Pods
+* `backups.pgbackrest.repoHost.tolerations` — pgBackRest repository host
+* `backups.pgbackrest.jobs.tolerations` — backup jobs
+* `backups.pgbackrest.restore.tolerations` — restore jobs. If you do not set `backups.pgbackrest.restore.tolerations`, the Operator applies `backups.pgbackrest.jobs.tolerations` to restore jobs.
+* `dataSource.*.tolerations` — data migration and clone jobs (see [Custom Resource options](operator.md))
+
+Example:
 
 ```yaml
 tolerations:
@@ -93,5 +104,4 @@ tolerations:
   value: connection-poolers
 ```
 
-The [Kubernetes Taints and Tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
-contains more examples on this topic.
+For more details and examples, see [Kubernetes Taints and Tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/).

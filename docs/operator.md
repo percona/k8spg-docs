@@ -1872,33 +1872,33 @@ Name of the [Azure Blob Storage container :octicons-link-external-16:](https://d
 | ---------- | ------- |
 | :material-code-string: string | `my-container` |
 
-### `backups.restore.tolerations.effect`
+### `backups.pgbackrest.restore.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the restore job. Starting with Operator 3.1.0, if you omit restore tolerations, the Operator applies [`backups.pgbackrest.jobs.tolerations`](#backupspgbackrestjobstolerationseffect). See [Tolerations](constraints.md#tolerations).
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `NoSchedule` |
 
-### `backups.restore.tolerations.key`
+### `backups.pgbackrest.restore.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `role` |
 
-### `backups.restore.tolerations.operator`
+### `backups.pgbackrest.restore.tolerations.operator`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `Equal` |
 
-### `backups.restore.tolerations.value`
+### `backups.pgbackrest.restore.tolerations.value`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
