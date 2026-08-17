@@ -22,7 +22,7 @@ Apply the change:
 kubectl apply -f deploy/cr.yaml
 ```
 
-The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs). [Logical replica](logical-replication.md) Pods keep running. Apply workers on those replicas fail while the primary is down.
+The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs). [Logical replica](logical-replication.md) Pods keep running, but the apply workers stop while the primary is down.
 
 ### How to resume
 
