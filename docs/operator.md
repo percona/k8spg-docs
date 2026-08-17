@@ -161,7 +161,7 @@ Databases that keep receiving changes after the full seed. If omitted, all datab
 
 ### `logicalReplicas.bootstrapMethod`
 
-How the data volume is seeded before conversion: `pgbackrest` (default) or `pg_basebackup`. Use `pg_basebackup` when backups are disabled. Read only during bootstrap; changing it later has no effect. Required.
+How the data volume is seeded before conversion: `pgbackrest` (default) or `pg_basebackup`. Use `pg_basebackup` when backups are disabled. The Operator reads this only during bootstrap; changing it later has no effect.
 
 | Value type | Example |
 | ---------- | ------- |
