@@ -85,7 +85,7 @@ spec:
 
 ## Expose a logical replica
 
-A [logical replica](logical-replication.md) has its own Service, `<cluster-name>-lr-<replica-name>`. It is not behind pgBouncer. Set `spec.logicalReplicas[].expose` the same way as `spec.expose`:
+A [logical replica](logical-replication.md) has its own Service, `<cluster-name>-lr-<replica-name>`. It is not behind pgBouncer. Set `spec.logicalReplicas[].expose` in the same way as `spec.expose`:
 
 ```yaml
 spec:
