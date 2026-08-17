@@ -147,7 +147,7 @@ If the primary is down during removal, status keeps the replica with reason `Awa
 [PostgreSQL logical replication restrictions :octicons-link-external-16:](https://www.postgresql.org/docs/current/logical-replication-restrictions.html) still apply. Also keep these Operator behaviors in mind:
 
 * **Do not write to the replica.** A local write can stop replication. [Reseed](#reseed-a-logical-replica) the replica to recover.
-* **Schema changes are not replicated.** Apply `ALTER TABLE` on the replica yourself. Add columns on the replica first; drop them on the primary first. Do not change the schema during bootstrap.
+* **Schema changes are not replicated.** Apply `ALTER TABLE` on both the primary and the replica. Add columns on the replica first; drop them on the primary first. Do not change the schema during bootstrap.
 * **After seed, only row changes continue** (`INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`) for the databases you named. New tables and databases are ignored. Sequences and large objects drift after the seed. Updates and deletes need a primary key, a non-null unique key, or `REPLICA IDENTITY FULL`.
 * **Failover often breaks replication.** Slots stay on the old primary (`SourceSlotMissing`). [Reseed](#reseed-a-logical-replica) a logical replica or see [Logical replicas and failover](ha-deploy.md#logical-replicas-and-failover).
 * **A failed bootstrap does not retry** on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
