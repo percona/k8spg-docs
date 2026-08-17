@@ -72,9 +72,9 @@ You can see the explanation of these affinity options [in Kubernetes documentati
 
 ## Tolerations
 
-You can label a Kubernetes node so that Pods cannot schedule on it unless they are allowed to. That label is called a *taint*.
-A *toleration* is a matching permission slip that you put on a Pod. A Pod with a matching toleration can schedule on a tainted node.
-A typical use case is to reserve nodes for workloads that belong there. For example, a database or backup node.
+You can taint a Kubernetes node to prevent Pods from scheduling on the node unless the Pods tolerate the taint.
+A toleration is a Pod setting that matches a taint and enables the Pod to schedule on a tainted node.
+Use taints and tolerations to reserve nodes for specific workloads, such as database or backup workloads.
 
 Each toleration is defined by: 
 * a `key` 
