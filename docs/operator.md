@@ -1874,7 +1874,7 @@ Name of the [Azure Blob Storage container :octicons-link-external-16:](https://d
 
 ### `backups.pgbackrest.restore.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the restore job. Starting with Operator 3.1.0, if you omit restore tolerations, the Operator applies [`backups.pgbackrest.jobs.tolerations`](#backupspgbackrestjobstolerationseffect). See [Tolerations](constraints.md#tolerations).
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the restore job. Starting with Operator version 3.1.0, if you do not set `backups.pgbackrest.restore.tolerations`, the Operator applies [`backups.pgbackrest.jobs.tolerations`](#backupspgbackrestjobstolerationseffect). See [Tolerations](constraints.md#tolerations).
 
 | Value type | Example |
 | ---------- | ------- |
