@@ -30,7 +30,7 @@ After you apply the configuration, the Operator waits until the cluster is `read
 
 [Add a logical replica](#add-a-logical-replica){.md-button}
 
-## Why to use logical replicas
+## Why use logical replicas
 
 Use a logical replica when you need:
 
