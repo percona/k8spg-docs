@@ -23,7 +23,7 @@ Operator by deleting the appropriate Custom Resource.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
-    Removing a [logical replica](logical-replication.md) from `spec.logicalReplicas` always deletes its PVC (`<cluster>-lr-<name>-pgdata`), even if `percona.com/delete-pvc` is off. If the primary is down during removal, the replica stays in status with reason `AwaitingCleanup` until slots can be dropped. See [Remove a logical replica](logical-replication.md#remove-a-logical-replica).
+    Removing a [logical replica](logical-replication.md) from `spec.logicalReplicas` always deletes its PVC (`<cluster>-lr-<name>-pgdata`), even if `finalizers.percona.com/delete-pvc` is not set. If the primary is down during removal, the replica stays in status with reason `AwaitingCleanup` until slots can be dropped. See [Remove a logical replica](logical-replication.md#remove-a-logical-replica).
 
 Here's a sequence of steps to follow:
 {.power-number}
