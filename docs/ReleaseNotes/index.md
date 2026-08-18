@@ -2,6 +2,8 @@
 
 Use the [public roadmap :octicons-link-external-16:](https://github.com/orgs/percona/projects/10/views/6) to see what the team is working on next. For planned release windows, see the [release timeline :octicons-link-external-16:](https://github.com/orgs/percona/projects/10/views/9).
 
+* [Percona Operator for PostgreSQL 3.1.0 ({{date.3_1_0}})](Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md)
+* 
 * [Percona Operator for PostgreSQL 3.0.0 ({{date.3_0_0}})](Kubernetes-Operator-for-PostgreSQL-RN3.0.0.md)
 
 * [Percona Operator for PostgreSQL 2.9.0 ({{date.2_9_0}})](Kubernetes-Operator-for-PostgreSQL-RN2.9.0.md)
