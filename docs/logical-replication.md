@@ -97,7 +97,7 @@ You can add logical replicas when you create the cluster, or add it later to an 
     ??? example "Sample output"
 
         ```{.text .no-copy}
-        [{"name":"analytics","state":"ready","databases":["cluster1"],"seededAt":"2026-08-13T10:15:04Z"}]
+        [{"name":"analytics","state":"ready","databases":["cluster1"],"seededAt":"2026-08-13T10:15:04Z","state":"ready"}]
         ```
 
     While bootstrap runs, `state` is `bootstrapping`. If it stays there, check the Job:
@@ -153,6 +153,6 @@ If the primary is down during removal, status keeps the replica with reason `Awa
 * **A failed bootstrap does not retry** on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
 * **Connect to the replica Service.** It is not behind pgBouncer, not in PMM, and not in the HA Services (`*-ha`, `*-replicas`).
 * **Deleting a replica always deletes its PVC**, even if the cluster `delete-pvc` finalizer is off.
-* **Pausing the cluster does not stop the logical replica Pod.** Apply workers fail while the primary is down.
+* **Pausing the cluster stops the logical replica Pod.** Apply workers fail while the primary is down.
 * **`logicalrepl` is reserved.** Do not define it in `spec.users`. See [Users](users.md#considerations).
 * **`bootstrapMethod` is read only during bootstrap.** Changing it later has no effect.

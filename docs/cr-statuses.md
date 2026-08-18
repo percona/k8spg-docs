@@ -196,7 +196,7 @@ When you define [logical replicas](logical-replication.md), the Operator populat
 | `bootstrapping` | Waiting for the primary, databases, or volume, or the bootstrap Job is still running |
 | `ready` | Slots exist on the primary and apply workers are running |
 | `broken` | Replication cannot continue until you [reseed](logical-replication.md#reseed-a-logical-replica) a replica, or teardown is waiting for the primary |
-| `suspended` | The Operator stopped the replica because the source cluster is being restored |
+| `suspended` | The Operator stopped the replica because the source cluster is being restored or paused|
 
 Common `reason` values: `PrimaryNotReady`, `WaitingForDatabases`, `WaitingForDataVolume`, `BootstrapFailed`, `SourceSlotMissing`, `SubscriptionDisabled`, `ApplyWorkerDown`, `SourceRestoring`, `SourceRestored`, `AwaitingCleanup`.
 
