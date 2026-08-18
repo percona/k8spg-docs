@@ -2,7 +2,7 @@
 
 The Percona Operator for PostgreSQL includes built-in functionality to simplify management of users and databases within your PostgreSQL cluster. By default, the Operator creates a single unprivileged user and the database that matches the cluster name. 
 
-However, many production workloads require more granular user access, separate databases for different applications, or restricted privileges for security and compliance. With the Operator, you can define custom users and manage their access to your database cluster resources:
+However, many production workloads require more granular user access, separate databases for different applications, or restricted privileges for security and compliance. With the Operator, you can define custom users and manage their access to your database cluster resources.
 
 This document explains how you can customize user and database management for your specific use case.
 
@@ -296,6 +296,96 @@ DROP DATABASE pgtest;
 
 ### Superuser and pgBouncer
 
-For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the `primary` service. Read more about this service in [exposure documentation](expose.md).
+For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the `primary` service. Read more about this service in [Expose the cluster documentation](expose.md).
 
-Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxypgbouncerexposesuperusers) Custom Resource option to enable superusers connection via pgBouncer.
+Otherwise you can use the [proxy.pgBouncer.exposeSuperusers](operator.md#proxypgbouncerexposesuperusers) Custom Resource option to enable superusers to connect via pgBouncer.
+
+#### Add extra users to the pgBouncer authentication file
+
+By default the Operator generates the pgBouncer user list and stores it in the `<cluster-name>-pgbouncer` Secret as `pgbouncer-users.txt` key. If you edit that Secret, the Operator can overwrite your changes the next time it reconciles the cluster, such as when you update the Custom Resource.
+
+To add extra pgBouncer users  that persist, create your own Secret and reference it with `spec.proxy.pgBouncer.usersSecret`. A typical use is a dedicated user for a monitoring agent that queries pgBouncer.
+
+The steps are:
+
+1. Export your namespace as an environment variable:
+
+    ```bash
+    export NAMESPACE=<my-namespace>
+    ```
+
+2. Create a Secret. Each key is a pgBouncer username and each value is the password:
+
+    ```bash
+    kubectl apply -n $NAMESPACE -f - <<EOF
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: pgbouncer-users
+    type: Opaque
+    stringData:
+      monitoring_user: monitoring-password
+    EOF
+    ```
+
+    !!! example "Sample output"
+
+        ```{.text .no-copy}
+        secret/pgbouncer-users created
+        ```
+
+3. Reference the Secret in the Custom Resource:
+
+    === "via cr.yaml"
+
+        ```yaml
+        spec:
+          proxy:
+            pgBouncer:
+              usersSecret:
+                name: pgbouncer-users
+        ```
+
+        Apply the configuration:
+
+        ```bash
+        kubectl apply -f deploy/cr.yaml -n $NAMESPACE
+        ```
+
+    === "via kubectl patch"
+
+        To update a running cluster, use the `kubectl patch` command:
+
+        ```bash
+        kubectl patch pg cluster1 -n $NAMESPACE --type=merge --patch '{
+          "spec": {
+            "proxy": {
+              "pgBouncer": {
+                "usersSecret": {
+                  "name": "pgbouncer-users"
+                }
+              }
+            }
+          }
+        }'
+        ```
+
+4. Verify that the Operator appended the user to the generated authentication file:
+
+    ```bash
+    kubectl get secret cluster1-pgbouncer -n $NAMESPACE \
+      -o jsonpath='{.data.pgbouncer-users.txt}' | base64 --decode
+    ```
+
+    The output includes `"monitoring_user" "monitoring-password"` along with the Operator-managed users.
+
+!!! note
+
+    Do not edit the Operator-managed `<cluster-name>-pgbouncer` Secret. Put extra users in `usersSecret` so they persist across reconciles.
+
+Keep the following in mind:
+
+- The Secret must be in the same namespace as the cluster.
+- When you add, change, or remove keys in the Secret, the Operator updates the authentication file. You do not need to re-apply the Custom Resource.
+- Passwords must not contain newline characters.
+- Do not use the reserved names `_crunchypgbouncer` or `_crunchypgbounceradmin`. The Operator rejects the Secret if a key matches a user it manages.
