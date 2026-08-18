@@ -102,14 +102,14 @@ Here's a sequence of steps to follow:
     metadata:
       name: cluster1
     spec:
-      image: docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
+      image: docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
       postgresVersion: 18
       proxy:
         pgBouncer:
-          image: docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
+          image: docker.io/percona/percona-postgresql-operator:pgbouncer-community
       backups:
         pgbackrest:
-          image: docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
+          image: docker.io/percona/percona-postgresql-operator:pgbackrest-community
     ```
 
 5. Deploy the cluster:

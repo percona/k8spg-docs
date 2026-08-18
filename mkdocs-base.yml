@@ -319,6 +319,7 @@ nav:
             - "Legal notice": legal-notice.md
     - Release Notes:
           - "Release notes index": ReleaseNotes/index.md
+          - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.0.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.md
           - ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.md
