@@ -172,7 +172,7 @@ This compatibility gives you full control and transparency over your infrastruct
 
 Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images.
 
-For more information about using community images and building your own ones, refer to the Percona Blog: [Community Docker Images: keeping the operator open without a vendor registry lock in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan and our [documentation](install-community.md).
+For more information about using community images and building your own ones, refer to the Percona Blog: [Community Docker Images: keeping the operator open without a vendor registry lock in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan and our [documentation](../install-community.md).
 
 ### Support of PostgreSQL 19 (tech preview)
 
@@ -269,6 +269,8 @@ All Operator images are now available for ARM64, giving you native support on AR
 * [K8SPG-1113](https://perconadev.atlassian.net/browse/K8SPG-1113) - Fixed a bug where `latestRestorableTime` on older backups was overwritten with the newest restorable timestamp. Each backup now keeps its own restorable time for accurate point-in-time recovery choices.
 
 * [K8SPG-1119](https://perconadev.atlassian.net/browse/K8SPG-1119) - Fixed restores from `dataSource.volumes` that failed validation because `repoName` was required. Volume-based bootstraps no longer need a pgBackRest repository name.
+ 
+* [K8SPG-1138](https://perconadev.atlassian.net/browse/K8SPG-1138) - Fixed the issue snapshot restore-prepare job not being scheduled on tainted nodes because of missing tolerations. You can now assign tolerations to snapshot restore jobs. 
 
 ### Documentation updates
 
