@@ -2561,9 +2561,7 @@ This extension is compatible **with Percona Distribution for PostgreSQL 17 and a
 
 ### `extensions.pg_tde.walEncryption`
 
-Encrypt write-ahead log (WAL) segments on disk. Requires `extensions.pg_tde.enabled` to be `true`.
-
-Enable `pg_tde` first and wait until the cluster is ready. Then set `walEncryption` to `true` in a separate change. Enabling both at cluster creation causes Patroni bootstrap to fail. Read more in [WAL encryption](encryption.md#wal-encryption) and [Enable WAL encryption](encryption-setup.md#enable-wal-encryption).
+Encrypt write-ahead log (WAL) segments on disk. Requires `extensions.pg_tde.enabled` to be `true`. You can set `walEncryption` in the same change as enabling `pg_tde`. Read more in [WAL encryption](encryption.md#wal-encryption) and [Configure pg_tde](encryption-setup.md#configure-pg_tde-in-the-custom-resource-manifest).
 
 | Value type | Example |
 | ---------- | ------- |

@@ -29,7 +29,6 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 ## Data-at-rest encryption (`pg_tde`)
 
 * Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.
-* WAL encryption is not yet supported. 
 * Before you disable `pg_tde`, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See [Disable encryption](encryption-disable.md).
 
 ## Node memory overcommit

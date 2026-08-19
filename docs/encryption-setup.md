@@ -1,6 +1,6 @@
-# Configure data-at-rest encryption with HashiCorp Vault
+# Configure transparent data encryption (TDE) with HashiCorp Vault
 
-This document guides you through setting up data-at-rest encryption with `pg_tde` and HashiCorp Vault as the key provider. To learn more about data-at-rest encryption and how it works, see [Data-at-rest encryption](encryption.md).
+This document guides you through setting up transparent data encryption (TDE) with `pg_tde` and HashiCorp Vault as the key provider. To learn more about TDE and how it works, see [Transparent data encryption](encryption.md).
 
 ## Assumptions
 
@@ -10,7 +10,7 @@ This document guides you through setting up data-at-rest encryption with `pg_tde
 
 ## Prerequisites
 
-To configure data-at-rest encryption, you need the following:
+To configure TDE, you need the following:
 
 * `kubectl`- Kubernetes command-line interface
 * `helm` - Helm package manager
@@ -139,7 +139,15 @@ kubectl get secret -n $CLUSTER_NAMESPACE
 
 ## Configure `pg_tde` in the Custom Resource manifest
 
-Now, enable the `pg_tde` extension for your cluster and configure Vault as the key provider. For this you need the following information:
+Now, enable the `pg_tde` extension for your cluster and configure Vault as the key provider. Also enable write-ahead log (WAL) segments encryption on disk. When WAL encryption is enabled, the Operator then adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.
+
+To learn how WAL encryption works with backups, see [WAL encryption](encryption.md#wal-encryption).
+
+!!! important
+
+    We recommend that you enable WAL encryption before the cluster has application writes.
+
+For this you need the following information:
 
 * A Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format `<service-name>.<namespace>.svc.cluster.local`.
 * The Secret name with the Vault token 
@@ -153,12 +161,11 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
 1. Edit the `deploy/cr.yaml` file and specify the following:
 
     * Set `extensions.pg_tde.enabled` to `true`
-    * Do **not** set `walEncryption` to `true` yet
+    * Set `extensions.pg_tde.walEncryption` to `true` to encrypt WAL segments on disk. Omit this option if you only need table encryption.
     * Add Vault-specific options under `extensions.pg_tde.vault`:
         
         * `caSecret` is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in the example below
         * `mountPath` – Specify the Vault mount path where you enabled the KV v2 secrets engine for encryption. In this guide, the mount path is `tde`.
-   
 
     The example configuration looks like this:
 
@@ -169,6 +176,7 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
         image: docker.io/perconalab/percona-postgresql-operator:{{release}}
         pg_tde: 
           enabled: true
+          walEncryption: true
           vault:
             host: https://vault.vault.svc.cluster.local:8200
             mountPath: tde
@@ -217,61 +225,6 @@ Now, enable the `pg_tde` extension for your cluster and configure Vault as the k
         ```
 
     If `PGTDEEnabled` is `True` but encryption does not work, check `PGTDEVaultProviderReady` and the Operator logs.
-
-## Enable WAL encryption
-
-After `pg_tde` is enabled and the cluster is ready, you can encrypt write-ahead log (WAL) segments on disk. The Operator then sets `pg_tde.wal_encrypt` to `on` and adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.
-
-To learn how WAL encryption works with backups, see [WAL encryption](encryption.md#wal-encryption).
-
-!!! important
-
-    We recommend that you enable WAL encryption before the cluster has application writes.
-
-To enable WAL encryption, do the following:
-
-1. Verify that the cluster is Ready and `PGTDEEnabled` is `True`:
-    
-    ```bash
-    kubectl -n $CLUSTER_NAMESPACE get pg cluster1
-    kubectl get pg cluster1 -n $CLUSTER_NAMESPACE -o yaml | yq '.status.conditions[] | select(.type == "PGTDEEnabled")'
-    ```
-
-2. Edit the `deploy/cr.yaml` file and set `extensions.pg_tde.walEncryption` to `true`:
-
-    ```yaml
-    spec:
-      ....
-      extensions:
-        image: docker.io/perconalab/percona-postgresql-operator:{{release}}
-        pg_tde:
-          enabled: true
-          walEncryption: true
-          vault:
-            host: https://vault.vault.svc.cluster.local:8200
-            mountPath: tde
-            tokenSecret:
-              name: cluster1-vault
-              key: token
-            caSecret:
-              name: cluster1-vault
-              key: ca.crt
-    ```
-
-3. Apply the configuration:
-
-    ```bash
-    kubectl apply -f deploy/cr.yaml -n $CLUSTER_NAMESPACE
-    ```
-
-    The Operator makes a rolling restart of the database Pods so that `pg_tde.wal_encrypt=on` takes effect.
-
-4. Wait until the cluster is ready again:
-
-    ```bash
-    kubectl -n $CLUSTER_NAMESPACE wait --for=condition=Ready \
-      perconapgcluster/cluster1 --timeout=600s
-    ```
 
 5. Verify that WAL encryption is on. Find the primary Pod and check the setting:
 

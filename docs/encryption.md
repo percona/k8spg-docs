@@ -1,10 +1,10 @@
-# Data-at-rest encryption
+# Transparent data encryption (TDE)
 
 !!! admonition
 
     This feature is in tech preview stage.
 
-Data-at-rest encryption ensures that data stored on disk remains protected even if the underlying storage is compromised. This process is transparent to your applications, meaning you don't need to change your application code. If an unauthorized user gains access to the storage, they can't read the data files.
+Transparent Data Encryption (TDE) protects your data stored on disk even if the underlying storage is compromised. This process is transparent to your applications, meaning you don't need to change your application code. If an unauthorized user gains access to the storage, they can't read the data files.
 
 The Operator supports transparent data encryption (TDE) via the [pg_tde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) extension. When enabled, `pg_tde` encrypts user data in tables, indexes, and temporary tables on disk so that data remains unreadable without the proper encryption keys, even if someone gains access to the storage.
 
@@ -22,7 +22,7 @@ When you enable `pg_tde` and provide Vault configuration, the Operator automates
 2. Mounts the Vault token and CA certificate secrets into the database containers at `/pgconf/tde`.
 3. Creates the `pg_tde` extension with the `CREATE EXTENSION pg_tde;` command in all databases.
 4. Registers Vault as the key provider, creates a global encryption key and sets it as a default key using the functions provided by `pg_tde`.
-5. Sets `pg_tde.wal_encrypt` to `off`. 
+5. Sets `pg_tde.wal_encrypt` to `off` unless you [Enable WAL encryption](#wal-encryption). 
 
 For restore, the Operator also enables `pg_tde` in the restore job and mounts the Vault secrets so encrypted backups can be restored.
 
@@ -35,9 +35,7 @@ WAL encryption protects write-ahead log segments on the database Pod storage. Wh
 3. Wraps the PostgreSQL `restore_command` with `pg_tde_restore_encrypt` so that WAL segments fetched from the repository are encrypted again on disk.
 4. Adjusts `pgBackRest` settings to ensure compatibility with encrypted WAL (`archive-async=n`, `checksum-page=n`, and `archive-header-check=n`).
 
-!!! important
-
-    Enable WAL encryption only after `pg_tde` is already enabled and the cluster is ready. Do not set `enabled` and `walEncryption` to `true` at the same time on a new cluster. Patroni fails to bootstrap the cluster when WAL encryption is turned on during the initial cluster creation. For the step-by-step procedure, see [Enable WAL encryption](encryption-setup.md#enable-wal-encryption).
+For the step-by-step procedure, see [Configure transparent data encryption](encryption-setup.md).
 
 ### How WAL encryption interacts with backups
 
@@ -49,10 +47,9 @@ After you change the Vault provider or token, create a new backup. Restoring fro
 
 ### Considerations for WAL encryption
 
-1. To enable WAL encryption, you must first enable `pg_tde` in the cluster. Wait for the cluster to become ready with `pg_tde` enabled, and only then enable WAL encryption as a separate step. Creating a new cluster with both `enabled` and `walEncryption` set to `true` causes Patroni bootstrap to fail.
-2. The safest time to enable WAL encryption is before the cluster has application writes. 
-3. WAL segments in the pgBackRest repository are stored in plaintext unless you configure [pgBackRest repository encryption](backup-encryption.md).
-4. WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.
+1. The safest time to enable WAL encryption is before the cluster has application writes. 
+2. WAL segments in the pgBackRest repository are stored in plaintext unless you configure [pgBackRest repository encryption](backup-encryption.md).
+3. WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.
 
 ## Status and conditions
 
@@ -61,7 +58,7 @@ The Operator tracks the `pg_tde` configuration with a revision hash and exposes 
 To see the `pg_tde` status, run:
 
 ```bash
-kubectl get pg <cluster-name> -n <namespace> -o yaml
+kubectl describe pg <cluster-name> -n <namespace> 
 ```
 
 ### `PGTDEEnabled`
@@ -122,4 +119,4 @@ Only HashiCorp Vault is currently supported as a key provider. Other providers a
 
 ## Next steps
 
-[Configure data-at-rest encryption](encryption-setup.md){.md-button}
+[Configure transparent data encryption](encryption-setup.md){.md-button}
