@@ -1319,7 +1319,7 @@ The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.
 
 ### `backups.volumeSnapshots.jobs.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the snapshot restore prepare Job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the PVC snapshot restore preparation job.
 
 | Value type | Example |
 | ---------- | ------- |
