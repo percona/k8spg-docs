@@ -6056,7 +6056,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-138">K8SPG-138</a>: Users are now able to use AWS <a href="https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html">IAM role  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to provide access to the S3 bucket used for backups</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-254">K8SPG-254</a>: Now the Operator <a href="../update-db-major.html">automates</a> upgrading PostgreSQL major versions</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-459">K8SPG-459</a>: PostgreSQL tablespaces <a href="../tablespaces.html">are now supported</a> by the Operator</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-479">K8SPG-479</a> and <a href="https://jira.percona.com/browse/K8SPG-492">K8SPG-492</a>: It is now possible to specify  tolerations for the  <a href="../operator.html#backupsrestoretolerationseffect">backup restore jobs</a> as well as for the <a href="../operator.html#datasourcepostgresclustertolerationseffect">data move jobs</a> created when the Operator 1.x is upgraded to 2.x; this is useful in environments with dedicated Kubernetes worker nodes protected by taints</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-479">K8SPG-479</a> and <a href="https://jira.percona.com/browse/K8SPG-492">K8SPG-492</a>: It is now possible to specify tolerations for the <a href="../operator.html#backupspgbackrestrestoretolerationseffect">backup restore jobs</a> as well as for the <a href="../operator.html#datasourcepostgresclustertolerationseffect">data move jobs</a> created when the Operator 1.x is upgraded to 2.x; this is useful in environments with dedicated Kubernetes worker nodes protected by taints</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-503">K8SPG-503</a> and <a href="https://jira.percona.com/browse/K8SPG-513">K8SPG-513</a>: It is now possible to specify <a href="../operator.html#instancescontainersreplicacertcopyresourceslimitscpu">resources for the sidecar containers</a> of database instance Pods</li>
 </ul>
 <h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h2>
@@ -6105,7 +6105,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:50:19 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2026 14:30:56 UTC">August 19, 2026</span>
       
         <br>
         Created:

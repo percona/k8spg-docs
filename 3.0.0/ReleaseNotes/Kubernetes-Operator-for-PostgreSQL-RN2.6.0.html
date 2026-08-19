@@ -6095,7 +6095,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>
 <p>The new versions of Percona distribution for PostgreSQL used by the Operator come with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions.  </p>
 <p>To maintain backward compatibility, the Operator detects the Patroni version used in the image. It is also possible to disable this auto-detection feature by manually setting the Patroni version via the [following annotation set in the metadata part](../annotations.md#customizing-patroni-version-for-the-operator-version-260&mdash;270 of the Custom Resource:   </p>
-<div class="highlight"><pre><span></span><code>pgv2.percona.com/custom-patroni-version: &quot;4&quot;
+<div class="highlight"><pre><span></span><code>pgv2.percona.com/custom-patroni-version: "4"
 </code></pre></div>
 </li>
 <li>

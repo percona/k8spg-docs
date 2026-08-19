@@ -6011,7 +6011,7 @@ If you want to exit from the infinite sleep, remove the pgdata/sleep-forever fil
 <summary>Expected output</summary>
 <div class="highlight"><pre><span></span><code>2025-04-01 16:27:41.850 UTC [1434] LOG:  pgaudit extension initialized
 2025-04-01 16:27:42.075 UTC [1434] LOG:  redirecting log output to logging collector process
-2025-04-01 16:27:42.075 UTC [1434] HINT:  Future log output will appear in directory &quot;log&quot;.
+2025-04-01 16:27:42.075 UTC [1434] HINT:  Future log output will appear in directory "log".
  done
 server started
 </code></pre></div>
@@ -6119,30 +6119,30 @@ server started
 <div class="highlight"><pre><span></span><code>loop_wait: 10
 postgresql:
   parameters:
-    archive_command: &#39;pgbackrest --stanza=db archive-push &quot;%p&quot; &amp;&amp; timestamp=$(pg_waldump &quot;%p&quot; | grep -oP &quot;COMMIT \K[^;]+&quot; | sed -E &quot;s/([0-9]{4}-[0-9]{2}-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}) (UTC|[\\+\\-][0-9]{2})/\1T\2\3/&quot; | sed &quot;s/UTC/Z/&quot; | tail -n 1 | grep -E &quot;^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}(Z|[\+\-][0-9]{2})$&quot;); if [ ! -z ${timestamp} ]; then echo ${timestamp} &gt; /pgdata/latest_commit_timestamp.txt; fi&#39;
-    archive_mode: &#39;on&#39;
+    archive_command: 'pgbackrest --stanza=db archive-push "%p" &amp;&amp; timestamp=$(pg_waldump "%p" | grep -oP "COMMIT \K[^;]+" | sed -E "s/([0-9]{4}-[0-9]{2}-[0-9]{2}) ([0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}) (UTC|[\\+\\-][0-9]{2})/\1T\2\3/" | sed "s/UTC/Z/" | tail -n 1 | grep -E "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{6}(Z|[\+\-][0-9]{2})$"); if [ ! -z ${timestamp} ]; then echo ${timestamp} &gt; /pgdata/latest_commit_timestamp.txt; fi'
+    archive_mode: 'on'
     archive_timeout: 60s
-    huge_pages: &#39;off&#39;
-    jit: &#39;off&#39;
+    huge_pages: 'off'
+    jit: 'off'
     password_encryption: scram-sha-256
-    restore_command: pgbackrest --stanza=db archive-get %f &quot;%p&quot;
-    ssl: &#39;on&#39;
+    restore_command: pgbackrest --stanza=db archive-get %f "%p"
+    ssl: 'on'
     ssl_ca_file: /pgconf/tls/ca.crt
     ssl_cert_file: /pgconf/tls/tls.crt
     ssl_key_file: /pgconf/tls/tls.key
-    track_commit_timestamp: &#39;true&#39;
+    track_commit_timestamp: 'true'
     unix_socket_directories: /tmp/postgres
     wal_level: logical
   pg_hba:
-  - local all &quot;postgres&quot; peer
-  - hostssl replication &quot;_crunchyrepl&quot; all cert
-  - hostssl &quot;postgres&quot; &quot;_crunchyrepl&quot; all cert
-  - host all &quot;_crunchyrepl&quot; all reject
-  - host all &quot;monitor&quot; &quot;127.0.0.0/8&quot; scram-sha-256
-  - host all &quot;monitor&quot; &quot;::1/128&quot; scram-sha-256
-  - host all &quot;monitor&quot; all reject
-  - hostssl all &quot;_crunchypgbouncer&quot; all scram-sha-256
-  - host all &quot;_crunchypgbouncer&quot; all reject
+  - local all "postgres" peer
+  - hostssl replication "_crunchyrepl" all cert
+  - hostssl "postgres" "_crunchyrepl" all cert
+  - host all "_crunchyrepl" all reject
+  - host all "monitor" "127.0.0.0/8" scram-sha-256
+  - host all "monitor" "::1/128" scram-sha-256
+  - host all "monitor" all reject
+  - hostssl all "_crunchypgbouncer" all scram-sha-256
+  - host all "_crunchypgbouncer" all reject
   - hostssl all all all md5
   use_pg_rewind: true
   use_slots: false
@@ -6158,12 +6158,12 @@ ttl: 30
 <div class="highlight"><pre><span></span><code>---
 +++
 @@ -9,7 +9,7 @@
-     huge_pages: &#39;off&#39;
-     jit: &#39;off&#39;
+     huge_pages: 'off'
+     jit: 'off'
      password_encryption: scram-sha-256
--    restore_command: pgbackrest --stanza=db archive-get %f &quot;%p&quot;
+-    restore_command: pgbackrest --stanza=db archive-get %f "%p"
 +    restore_command: /bin/true
-     ssl: &#39;on&#39;
+     ssl: 'on'
      ssl_ca_file: /pgconf/tls/ca.crt
      ssl_cert_file: /pgconf/tls/tls.crt    
 
@@ -6171,7 +6171,7 @@ Apply these changes? [y/N]:
 </code></pre></div>
 </details>
 <p>This command changes the <code>shared_preload_libraries</code> parameter:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">shared_preload_libraries</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--pg<span class="w"> </span><span class="nv">shared_preload_libraries</span><span class="o">=</span><span class="s2">""</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6179,10 +6179,10 @@ Apply these changes? [y/N]:
 +++
 @@ -11,7 +11,6 @@
      password_encryption: scram-sha-256
-     pg_stat_monitor.pgsm_query_max_len: &#39;2048&#39;
-     restore_command: pgbackrest --stanza=db archive-get %f &quot;%p&quot;
+     pg_stat_monitor.pgsm_query_max_len: '2048'
+     restore_command: pgbackrest --stanza=db archive-get %f "%p"
 -    shared_preload_libraries: pg_stat_monitor
-     ssl: &#39;on&#39;
+     ssl: 'on'
      ssl_ca_file: /pgconf/tls/ca.crt
      ssl_cert_file: /pgconf/tls/tls.crt    
 
@@ -6203,10 +6203,10 @@ Apply these changes? [y/N]:
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">reject all all all</span>
 </code></pre></div>
 <p>The order of parameters matters in <code>pg_hba.conf</code>, so consider overriding the list completely. For this, you can use the <code>patronictl edit-config</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--set<span class="w"> </span>postgresql.pg_hba<span class="o">=</span><span class="s1">&#39;[</span>
-<span class="s1">  &quot;local all all trust&quot;,</span>
-<span class="s1">  &quot;reject all all all&quot;</span>
-<span class="s1">]&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>edit-config<span class="w"> </span>--set<span class="w"> </span>postgresql.pg_hba<span class="o">=</span><span class="s1">'[</span>
+<span class="s1">  "local all all trust",</span>
+<span class="s1">  "reject all all all"</span>
+<span class="s1">]'</span>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>

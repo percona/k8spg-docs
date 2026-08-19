@@ -5957,7 +5957,7 @@ for tablespaces.</p>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
 <span class="w">        </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;ReadWriteOnce&#39;</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'ReadWriteOnce'</span>
 <span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
 <span class="w">              </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
@@ -5994,7 +5994,7 @@ for tablespaces.</p>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
 <span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&#39;ReadWriteOnce&#39;</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">'ReadWriteOnce'</span>
 <span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
@@ -6045,7 +6045,7 @@ and get Persistent Volumes actually mounted.</p>
 create objects in it (of course, your user should have appropriate <code>CREATE</code>
 privileges to make it possible):</p>
 <div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="n">TABLESPACE</span><span class="w"> </span><span class="n">user121</span>
-<span class="k">LOCATION</span><span class="w"> </span><span class="s1">&#39;/tablespaces/user/data&#39;</span><span class="p">;</span>
+<span class="k">LOCATION</span><span class="w"> </span><span class="s1">'/tablespaces/user/data'</span><span class="p">;</span>
 </code></pre></div>
 <p>Now when the tablespace is created you can append <code>TABLESPACE &lt;tablespace_name&gt;</code>
 to your <code>CREATE</code> SQL statements to implicitly create tables, indexes, or even
@@ -6078,7 +6078,7 @@ tablespace empty (it is impossible to drop a tablespace until
 Tablespaces are listed in the <code>pg_tablespace</code> table, and you can use it to
 find out which objects are stored in a specific tablespace. The example command
 for the <code>lake</code> tablespace will look as follows:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_class</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">reltablespace</span><span class="o">=</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">oid</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_tablespace</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">spcname</span><span class="o">=</span><span class="s1">&#39;user121&#39;</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">relname</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_class</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">reltablespace</span><span class="o">=</span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="n">oid</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_tablespace</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">spcname</span><span class="o">=</span><span class="s1">'user121'</span><span class="p">);</span>
 </code></pre></div>
 <p>When your tablespace is empty, you can log in to the
 <em>PostgreSQL Primary instance</em> as a <em>superuser</em>, and then execute the

@@ -6010,8 +6010,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="p">)</span><span class="w"> </span><span class="n">s</span>
 <span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">coll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
 <span class="k">WHERE</span>
-<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;d&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;c&#39;</span><span class="p">)</span>
-<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">&#39;C&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;POSIX&#39;</span><span class="p">);</span>
+<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
 </code></pre></div>
 </li>
 <li>

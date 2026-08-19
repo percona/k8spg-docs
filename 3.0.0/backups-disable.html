@@ -5952,18 +5952,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>Since it is a running cluster, we will use the <code>kubectl patch</code> command to update its configuration:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;metadata&quot;: {</span>
-<span class="s1">      &quot;annotations&quot;: {</span>
-<span class="s1">        &quot;pgv2.percona.com/authorizeBackupRemoval&quot;: &quot;true&quot;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "metadata": {</span>
+<span class="s1">      "annotations": {</span>
+<span class="s1">        "pgv2.percona.com/authorizeBackupRemoval": "true"</span>
 <span class="s1">      }</span>
 <span class="s1">    },</span>
-<span class="s1">    &quot;spec&quot;: {</span>
-<span class="s1">      &quot;backups&quot;: {</span>
-<span class="s1">        &quot;enabled&quot;: false</span>
+<span class="s1">    "spec": {</span>
+<span class="s1">      "backups": {</span>
+<span class="s1">        "enabled": false</span>
 <span class="s1">      }</span>
 <span class="s1">    }</span>
-<span class="s1">  }&#39;</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<span class="s1">  }'</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
@@ -5980,13 +5980,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>
 <p>Apply the patch to your running cluster and enable backups:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">    &quot;spec&quot;: {</span>
-<span class="s1">      &quot;backups&quot;: {</span>
-<span class="s1">        &quot;enabled&quot;: true</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">    "spec": {</span>
+<span class="s1">      "backups": {</span>
+<span class="s1">        "enabled": true</span>
 <span class="s1">      }</span>
 <span class="s1">    }</span>
-<span class="s1">  }&#39;</span>
+<span class="s1">  }'</span>
 </code></pre></div>
 </li>
 </ol>

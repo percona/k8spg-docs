@@ -6099,7 +6099,7 @@ Status:
 </li>
 <li>
 <p>Determine the target restore time. The Operator tracks the latest restorable time for each backup by default. To view this value, run:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6125,7 +6125,7 @@ Status:
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">  </span><span class="nt">options</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2025-11-30 15:12:11+03&quot;</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target="2025-11-30 15:12:11+03"</span>
 </code></pre></div>
 </li>
 <li>
@@ -6183,8 +6183,8 @@ kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">  </span><span class="nt">options</span><span class="p">:</span>
 <span class="hll"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2024-04-01 17:36:57+00&quot;</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set=&quot;20240401-173403F&quot;</span>
+</span><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target="2024-04-01 17:36:57+00"</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--set="20240401-173403F"</span>
 </code></pre></div>
 </li>
 <li>
@@ -6199,7 +6199,7 @@ kubectl apply -f deploy/restore.yaml -n $NAMESPACE</code></p>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">postgresql</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">restore_command</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pgbackrest</span><span class="nv"> </span><span class="s">--stanza=db</span><span class="nv"> </span><span class="s">archive-get</span><span class="nv"> </span><span class="s">%f</span><span class="nv"> </span><span class="s">\&quot;%p\&quot;&quot;</span>
+<span class="w">        </span><span class="nt">restore_command</span><span class="p">:</span><span class="w"> </span><span class="s">"pgbackrest</span><span class="nv"> </span><span class="s">--stanza=db</span><span class="nv"> </span><span class="s">archive-get</span><span class="nv"> </span><span class="s">%f</span><span class="nv"> </span><span class="s">\"%p\""</span>
 </code></pre></div>
 <p>The <code>%f</code> template in the above example is replaced by the name of the file to
 retrieve from the archive, and <code>%p</code> is replaced by the copy destination path

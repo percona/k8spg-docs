@@ -6301,7 +6301,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p>Changes in image pulling on OpenShift</p>
 <p>Starting with OpenShift version 4.19, the way Operator images are pulled has changed. Now the registry name must be specified for image paths to ensure the images are pulled successfully from DockerHub. </p>
 <p>All Custom Resource manifests now include the registry name in image paths. This enables you to successfully install the Operator using the default manifests from Git repositories. If you upgrade the Operator and the database cluster via the command line interface, add the <code>docker.io</code> registry name to image paths for all components in the format:</p>
-<div class="highlight"><pre><span></span><code>&quot;docker.io/percona/percona-postgresql-operator:2.7.0-ppg18.4-1-postgres&quot;
+<div class="highlight"><pre><span></span><code>"docker.io/percona/percona-postgresql-operator:2.7.0-ppg18.4-1-postgres"
 </code></pre></div>
 <p>Follow our <a href="../update.html">upgrade documentation</a> for update guidelines.</p>
 </li>

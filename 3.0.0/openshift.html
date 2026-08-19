@@ -6131,7 +6131,7 @@ privileges with:</p>
 <li>
 <p>If you use the <a href="https://docs.openshift.com/container-platform/4.21/authentication/managing-security-context-constraints.html">anyuid <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
 security context constraint, modify the Operator manifest before applying:</p>
-<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">&#39;/disable_auto_failover: &quot;false&quot;/a \ \ \ \ disable_fsgroup: &quot;false&quot;&#39;</span><span class="w"> </span>deploy/operator.yaml
+<div class="highlight"><pre><span></span><code>sed<span class="w"> </span>-i<span class="w"> </span><span class="s1">'/disable_auto_failover: "false"/a \ \ \ \ disable_fsgroup: "false"'</span><span class="w"> </span>deploy/operator.yaml
 </code></pre></div>
 </li>
 <li>
@@ -6179,7 +6179,7 @@ user has the same username as the cluster name. </p>
 <li>
 <p>Use the
     following command to get the password of this user. Replace the <code>&lt;cluster_name&gt;</code> and <code>&lt;namespace&gt;</code> placeholders with your values:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">&#39;{{.data.password | base64decode}}{{&quot;\n&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">'{{.data.password | base64decode}}{{"\n"}}'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6208,13 +6208,13 @@ cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP  
 <p>Run a container with <code>psql</code> tool and connect its console output to your
     terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
     via the PostgreSQL interactive terminal.</p>
-<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">&#39;pguser_password&#39;</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">'pguser_password'</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
 <div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4-1<span class="o">)</span>
 SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
-Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">pgdb</span><span class="o">=</span>&gt;
 </code></pre></div>
 </details>

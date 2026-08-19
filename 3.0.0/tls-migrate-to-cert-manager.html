@@ -5873,10 +5873,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 <li>
 <p><a href="pause.html">Pause the cluster</a> to stop reconciliation before you change TLS resources. Run the following command to patch your running cluster:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">&quot;spec&quot;: {</span>
-<span class="s1">  &quot;pause&quot;: true}</span>
-<span class="s1">  }&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">"spec": {</span>
+<span class="s1">  "pause": true}</span>
+<span class="s1">  }'</span>
 </code></pre></div>
 </li>
 <li>
@@ -5916,15 +5916,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <ol>
 <li>
 <p>Update the Custom Resource and remove all references to Secrets that contain your custom certificates:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;spec&quot;: {</span>
-<span class="s1">    &quot;secrets&quot;: {</span>
-<span class="s1">      &quot;customRootCATLSSecret&quot;: null,</span>
-<span class="s1">      &quot;customTLSSecret&quot;: null,</span>
-<span class="s1">      &quot;customReplicationTLSSecret&quot;: null</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="nv">$CLUSTER</span><span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">  "spec": {</span>
+<span class="s1">    "secrets": {</span>
+<span class="s1">      "customRootCATLSSecret": null,</span>
+<span class="s1">      "customTLSSecret": null,</span>
+<span class="s1">      "customReplicationTLSSecret": null</span>
 <span class="s1">    }</span>
 <span class="s1">  }</span>
-<span class="s1">}&#39;</span>
+<span class="s1">}'</span>
 </code></pre></div>
 <p>If <code>pgBouncer</code> also uses a custom certificate, clear the <code>spec.proxy.pgBouncer.customTLSSecret</code> option too.</p>
 </li>
@@ -5941,10 +5941,10 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="
 </li>
 <li>
 <p>Resume the cluster. Set <code>spec.pause</code> back to <code>false</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">&quot;spec&quot;: {</span>
-<span class="s1">  &quot;pause&quot;: false}</span>
-<span class="s1">  }&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="w"> </span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">"spec": {</span>
+<span class="s1">  "pause": false}</span>
+<span class="s1">  }'</span>
 </code></pre></div>
 </li>
 </ol>

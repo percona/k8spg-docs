@@ -6123,8 +6123,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>To limit which namespaces an Operator reconciles, set <code>spec.targetNamespaces</code> explicitly:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">targetNamespaces</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&lt;namespace-1&gt;&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;&lt;namespace-2&gt;&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"&lt;namespace-1&gt;"</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">"&lt;namespace-2&gt;"</span>
 </code></pre></div>
 <p>If you run more than one Operator in the same cluster, switch each one to single-namespace mode so their reconciliation work does not overlap in ways you did not intend.</p>
 <!--

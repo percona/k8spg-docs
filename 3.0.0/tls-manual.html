@@ -5981,10 +5981,10 @@ Secret named <code>cluster1-ca-cert</code> in the <code>postgres-operator</code>
 <span class="w">  </span><span class="nt">customRootCATLSSecret</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-ca-cert</span>
 <span class="w">    </span><span class="nt">items</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tls.crt&quot;</span>
-<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;root.crt&quot;</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;tls.key&quot;</span>
-<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;root.key&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">"tls.crt"</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">"root.crt"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="s">"tls.key"</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">"root.key"</span>
 </code></pre></div>
 <p>Now, you can create the cluster with the <code>kubectl apply -f deploy/cr.yaml</code> command. The Operator should use the root CA certificate you had provided.</p>
 <div class="admonition warning">
@@ -6017,7 +6017,7 @@ cluster1-replication-cert       Opaque   3      143m
 </li>
 <li>
 <p>You can examine the auto-generated CA certificate (<code>ca.crt</code>) as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.ca\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6043,7 +6043,7 @@ cluster1-replication-cert       Opaque   3      143m
 <div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">External communication</label><label for="__tabbed_1_2">Internal communication</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6084,7 +6084,7 @@ cluster1-replication-cert       Opaque   3      143m
 </details>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-text<span class="w"> </span>-noout
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6146,10 +6146,10 @@ external communications, and another set is for internal ones!</strong></p>
 <p>Generate the root CA certificate:</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -initca - | cfssljson -bare ca</span>
 <span class="s">  {</span>
-<span class="s">    &quot;CN&quot;: &quot;*&quot;,</span>
-<span class="s">    &quot;key&quot;: {</span>
-<span class="s">      &quot;algo&quot;: &quot;ecdsa&quot;,</span>
-<span class="s">      &quot;size&quot;: 384</span>
+<span class="s">    "CN": "*",</span>
+<span class="s">    "key": {</span>
+<span class="s">      "algo": "ecdsa",</span>
+<span class="s">      "size": 384</span>
 <span class="s">    }</span>
 <span class="s">  }</span>
 <span class="s">  EOF</span>
@@ -6174,10 +6174,10 @@ external communications, and another set is for internal ones!</strong></p>
 <p>Define the CA signing policy for certificates signed by the CA.</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF &gt; ca-config.json</span>
 <span class="s">  {</span>
-<span class="s">     &quot;signing&quot;: {</span>
-<span class="s">       &quot;default&quot;: {</span>
-<span class="s">          &quot;expiry&quot;: &quot;87600h&quot;,</span>
-<span class="s">          &quot;usages&quot;: [&quot;digital signature&quot;, &quot;key encipherment&quot;, &quot;content commitment&quot;]</span>
+<span class="s">     "signing": {</span>
+<span class="s">       "default": {</span>
+<span class="s">          "expiry": "87600h",</span>
+<span class="s">          "usages": ["digital signature", "key encipherment", "content commitment"]</span>
 <span class="s">        }</span>
 <span class="s">     }</span>
 <span class="s">  }</span>
@@ -6200,21 +6200,21 @@ external communications, and another set is for internal ones!</strong></p>
 <p>Generate the custom TLS certificates for external communication and sign them using the previously created CA certificate.  These certificates have the Common Name (CN) <code>cluster1-primary.postgres-operator.svc.cluster.local</code></p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem  -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare server</span>
 <span class="s">  {</span>
-<span class="s">     &quot;hosts&quot;: [</span>
-<span class="s">       &quot;localhost&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-primary&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-primary.${NAMESPACE}&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-primary.${NAMESPACE}.svc&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-replicas.${NAMESPACE}.svc.cluster.local&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-replicas.${NAMESPACE}.svc&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-replicas.${NAMESPACE}&quot;,</span>
-<span class="s">       &quot;${CLUSTER_NAME}-tls-replicas&quot;</span>
+<span class="s">     "hosts": [</span>
+<span class="s">       "localhost",</span>
+<span class="s">       "${CLUSTER_NAME}-primary",</span>
+<span class="s">       "${CLUSTER_NAME}-primary.${NAMESPACE}",</span>
+<span class="s">       "${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local",</span>
+<span class="s">       "${CLUSTER_NAME}-primary.${NAMESPACE}.svc",</span>
+<span class="s">       "${CLUSTER_NAME}-replicas.${NAMESPACE}.svc.cluster.local",</span>
+<span class="s">       "${CLUSTER_NAME}-replicas.${NAMESPACE}.svc",</span>
+<span class="s">       "${CLUSTER_NAME}-replicas.${NAMESPACE}",</span>
+<span class="s">       "${CLUSTER_NAME}-tls-replicas"</span>
 <span class="s">     ],</span>
-<span class="s">     &quot;CN&quot;: &quot;${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local&quot;, </span>
-<span class="s">     &quot;key&quot;: {</span>
-<span class="s">       &quot;algo&quot;: &quot;ecdsa&quot;,</span>
-<span class="s">       &quot;size&quot;: 384</span>
+<span class="s">     "CN": "${CLUSTER_NAME}-primary.${NAMESPACE}.svc.cluster.local", </span>
+<span class="s">     "key": {</span>
+<span class="s">       "algo": "ecdsa",</span>
+<span class="s">       "size": 384</span>
 <span class="s">     }</span>
 <span class="s">  }</span>
 <span class="s">EOF</span>
@@ -6229,10 +6229,10 @@ external communications, and another set is for internal ones!</strong></p>
 <p>Generate the custom TLS certificates for internal communication and sign them using the previously created CA certificate. These certificates have the Common Name (CN) <code>_crunchyrepl</code>.</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="s">&lt;&lt;EOF | cfssl gencert -ca=ca.pem -ca-key=ca-key.pem -config=./ca-config.json - | cfssljson -bare replication</span>
 <span class="s">  {</span>
-<span class="s">    &quot;CN&quot;: &quot;_crunchyrepl&quot;,</span>
-<span class="s">    &quot;key&quot;: {</span>
-<span class="s">      &quot;algo&quot;: &quot;ecdsa&quot;,</span>
-<span class="s">      &quot;size&quot;: 384</span>
+<span class="s">    "CN": "_crunchyrepl",</span>
+<span class="s">    "key": {</span>
+<span class="s">      "algo": "ecdsa",</span>
+<span class="s">      "size": 384</span>
 <span class="s">    }</span>
 <span class="s">  }</span>
 <span class="s">  EOF</span>

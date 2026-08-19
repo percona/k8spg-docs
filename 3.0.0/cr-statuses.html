@@ -6185,7 +6185,7 @@ kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"
 <p>You can extract specific status fields using <code>jsonpath</code>.</p>
 <p><strong>Example 1. Check whether the cluster is ready for backups:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{range .status.conditions[?(@.type==&quot;ReadyForBackup&quot;)]}{.lastTransitionTime}{&quot;\n&quot;}{.reason}{&quot;\n&quot;}{.status}{&quot;\n&quot;}{.type}{&quot;\n&quot;}{end}&#39;</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .status.conditions[?(@.type=="ReadyForBackup")]}{.lastTransitionTime}{"\n"}{.reason}{"\n"}{.status}{"\n"}{.type}{"\n"}{end}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6197,7 +6197,7 @@ ReadyForBackup
 </details>
 <p><strong>Example 2. Get the latest restorable backup time:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6206,7 +6206,7 @@ ReadyForBackup
 </details>
 <p><strong>Example 3. Check standby replication lag:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.standby.lagBytes}{&quot;\n&quot;}{.status.standby.lagLastComputedAt}{&quot;\n&quot;}&#39;</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.standby.lagBytes}{"\n"}{.status.standby.lagLastComputedAt}{"\n"}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>

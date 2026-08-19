@@ -6183,7 +6183,7 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span c
 <li>
 <p>Update the Percona Operator for PostgreSQL Deployment in Kubernetes by changing the container image of the Operator Pod to the latest version. Find the image name for the current Operator release <a href="images.html">in the list of certified images</a>. Use the following command to update the Operator to the <code>3.0.0</code> version:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>patch<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
--p<span class="s1">&#39;{&quot;spec&quot;:{&quot;template&quot;:{&quot;spec&quot;:{&quot;containers&quot;:[{&quot;name&quot;:&quot;operator&quot;,&quot;image&quot;:&quot;docker.io/percona/percona-postgresql-operator:3.0.0&quot;}]}}}}&#39;</span>
+-p<span class="s1">'{"spec":{"template":{"spec":{"containers":[{"name":"operator","image":"docker.io/percona/percona-postgresql-operator:3.0.0"}]}}}}'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6192,7 +6192,7 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span c
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>deployment &quot;percona-postgresql-operator&quot; successfully rolled out
+<div class="no-copy highlight"><pre><span></span><code>deployment "percona-postgresql-operator" successfully rolled out
 </code></pre></div>
 </details>
 </li>
@@ -6257,14 +6257,14 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <ol>
 <li>
 <p>Check if there are clusters that haven&rsquo;t been migrated to use the new API group CRDs. The following command finds all <code>PerconaPGCluster</code> objects whose <code>APIGroupMigration</code> condition is missing or <code>False</code>, and prints their namespace, name, and condition status:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-A<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-A<span class="w"> </span>-o<span class="w"> </span>json<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'</span>
 <span class="s1">  .items[]</span>
 <span class="s1">  | (</span>
-<span class="s1">      [.status.conditions[]? | select(.type==&quot;APIGroupMigration&quot;) | .status]</span>
+<span class="s1">      [.status.conditions[]? | select(.type=="APIGroupMigration") | .status]</span>
 <span class="s1">    ) as $conds</span>
-<span class="s1">  | select(($conds | length == 0) or ($conds[] == &quot;False&quot;))</span>
-<span class="s1">  | &quot;\(.metadata.namespace)\t\(.metadata.name)\t\(($conds[0] // &quot;MISSING&quot;))&quot;</span>
-<span class="s1">&#39;</span>
+<span class="s1">  | select(($conds | length == 0) or ($conds[] == "False"))</span>
+<span class="s1">  | "\(.metadata.namespace)\t\(.metadata.name)\t\(($conds[0] // "MISSING"))"</span>
+<span class="s1">'</span>
 </code></pre></div>
 <p>If the output is empty, you can delete the legacy CRDs.</p>
 </li>
@@ -6273,7 +6273,7 @@ which you have chosen for the Operator when installing its Helm chart.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgresclusters.postgres-operator.crunchydata.com<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="o">=</span><span class="s1">&#39;[{&quot;op&quot;:&quot;remove&quot;,&quot;path&quot;:&quot;/metadata/finalizers&quot;}]&#39;</span>
+<span class="w">  </span>-p<span class="o">=</span><span class="s1">'[{"op":"remove","path":"/metadata/finalizers"}]'</span>
 </code></pre></div>
 </li>
 <li>

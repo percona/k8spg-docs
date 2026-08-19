@@ -6377,8 +6377,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="nt">stringData</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">s3.conf</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
 <span class="w">    </span><span class="no">[global]</span>
-<span class="w">    </span><span class="no">repo1-s3-key=&quot;&lt;your-access-key&gt;&quot;</span>
-<span class="w">    </span><span class="no">repo1-s3-key-secret=&quot;&lt;your-access-secret&gt;&quot;</span>
+<span class="w">    </span><span class="no">repo1-s3-key="&lt;your-access-key&gt;"</span>
+<span class="w">    </span><span class="no">repo1-s3-key-secret="&lt;your-access-secret&gt;"</span>
 </code></pre></div>
 <p>For more configuration examples for other storages, see <a href="backups-storage.html">Configure backup storage</a> </p>
 </li>
@@ -6425,7 +6425,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">      </span><span class="nt">global</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/crunchy-to-percona/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;n&quot;</span><span class="w"> </span><span class="c1"># Skip if you use AWS S3</span>
+<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span><span class="w"> </span><span class="c1"># Skip if you use AWS S3</span>
 <span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">          </span><span class="nt">s3</span><span class="p">:</span>
@@ -6446,7 +6446,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Wait for the cluster to report the &ldquo;Ready&rdquo; status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
@@ -6465,8 +6465,8 @@ pod/crunchy-source-instance1-xczk-0 condition met
 <li>
 <p>Make a full backup of your Crunchy PostgreSQL cluster:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
@@ -6474,7 +6474,7 @@ pod/crunchy-source-instance1-xczk-0 condition met
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>job<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span>manual<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span><span class="nb">complete</span><span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
@@ -6508,27 +6508,27 @@ crunchy-source-replication-cert       Opaque               3      7h29m
 </li>
 <li>
 <p>Export Secrets to a file:</p>
-<div class="highlight"><pre><span></span><code>kubectl get secret crunchy-source-cluster-cert -o json -n &quot;$CRUNCHY_NS&quot; \
-  | yq -o yaml &#39;
+<div class="highlight"><pre><span></span><code>kubectl get secret crunchy-source-cluster-cert -o json -n "$CRUNCHY_NS" \
+  | yq -o yaml '
 {
-  &quot;apiVersion&quot;: .apiVersion,
-  &quot;kind&quot;: .kind,
-  &quot;data&quot;: .data,
-  &quot;metadata&quot;: {&quot;name&quot;: .metadata.name},
-  &quot;type&quot;: .type
+  "apiVersion": .apiVersion,
+  "kind": .kind,
+  "data": .data,
+  "metadata": {"name": .metadata.name},
+  "type": .type
 }
-&#39; &gt; ~/crunchy-source-cluster-cert.yaml
+' &gt; ~/crunchy-source-cluster-cert.yaml
 
-kubectl get secret crunchy-source-replication-cert -o json -n &quot;$CRUNCHY_NS&quot; \
-  | yq -o yaml &#39;
+kubectl get secret crunchy-source-replication-cert -o json -n "$CRUNCHY_NS" \
+  | yq -o yaml '
 {
-  &quot;apiVersion&quot;: .apiVersion,
-  &quot;kind&quot;: .kind,
-  &quot;data&quot;: .data,
-  &quot;metadata&quot;: {&quot;name&quot;: .metadata.name},
-  &quot;type&quot;: .type
+  "apiVersion": .apiVersion,
+  "kind": .kind,
+  "data": .data,
+  "metadata": {"name": .metadata.name},
+  "type": .type
 }
-&#39; &gt; ~/crunchy-source-replication-cert.yaml
+' &gt; ~/crunchy-source-replication-cert.yaml
 </code></pre></div>
 </li>
 </ol>
@@ -6547,16 +6547,16 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> <
 </li>
 <li>
 <p>Create the shared Secret for the backup storage. You can reuse the same Secret configuration file from the <a href="#adapt-the-configuration-for-crunchy-postgresql-cluster">Adapt the configuration for Crunchy PostgreSQL cluster</a> step:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;apiVersion: v1   </span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"apiVersion: v1   </span>
 <span class="s2">kind: Secret</span>
 <span class="s2">metadata:</span>
 <span class="s2">  name: percona-pgbackrest-secret</span>
 <span class="s2">stringData:</span>
 <span class="s2">  s3.conf: |</span>
 <span class="s2">    [global]</span>
-<span class="s2">    repo1-s3-key=&quot;</span>&lt;your-access-key&gt;<span class="s2">&quot;</span>
-<span class="s2">    repo1-s3-key-secret=&quot;</span>&lt;your-access-secret&gt;<span class="s2">&quot;</span>
-<span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-f<span class="w"> </span>-
+<span class="s2">    repo1-s3-key="</span>&lt;your-access-key&gt;<span class="s2">"</span>
+<span class="s2">    repo1-s3-key-secret="</span>&lt;your-access-secret&gt;<span class="s2">"</span>
+<span class="s2">"</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-f<span class="w"> </span>-
 </code></pre></div>
 </li>
 <li>
@@ -6605,7 +6605,7 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> <
 <span class="w">        </span><span class="c1"># Must match repo1-path in the Crunchy source cluster exactly.</span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/crunchy-to-percona/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;n&quot;</span><span class="w"> </span><span class="c1"># Skip for AWS S3</span>
+<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span><span class="w"> </span><span class="c1"># Skip for AWS S3</span>
 <span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">          </span><span class="nt">s3</span><span class="p">:</span>
@@ -6630,7 +6630,7 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> <
 <p>Wait for the cluster to report the <code>Ready</code> status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 <details class="example">
@@ -6644,15 +6644,15 @@ kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> <
 <ul>
 <li>Export one of the Pods as an environment variable</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="nv">STANDBY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nv">STANDBY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 -l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
--o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 <ul>
 <li>Connect to the pod and verify the cluster is replicating:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery(), pg_last_wal_replay_lsn();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery(), pg_last_wal_replay_lsn();"</span>
 </code></pre></div>
 <p>You should see <code>t</code> for <code>pg_is_in_recovery()</code> and a non-null LSN.</p>
 <details class="example">
@@ -6669,19 +6669,19 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 <p>Identify the primary:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 -l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>master<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Exec to the primary and verify the replication lag:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
 <span class="s2">    SELECT client_addr, state,</span>
 <span class="s2">           pg_wal_lsn_diff(sent_lsn, replay_lsn) AS byte_lag,</span>
 <span class="s2">           write_lag, flush_lag, replay_lag</span>
 <span class="s2">    FROM pg_stat_replication;</span>
-<span class="s2">  &quot;</span>
+<span class="s2">  "</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6704,13 +6704,13 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;standby&quot;: {&quot;enabled&quot;: true, &quot;repoName&quot;: &quot;repo1&quot;}}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Check that the former primary reports recovery:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6724,7 +6724,7 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;shutdown&quot;: true}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"shutdown": true}}'</span>
 </code></pre></div>
 <h2 id="promote-percona-postgresql-cluster">Promote Percona PostgreSQL cluster<a class="headerlink" href="#promote-percona-postgresql-cluster" title="Permanent link">&para;</a></h2>
 <p>Before promoting the Percona PostgreSQL cluster, make sure it has finished replaying all WAL (Write-Ahead Log) data. </p>
@@ -6734,8 +6734,8 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 <ol>
 <li>
 <p>Verify the Percona standby cluster has stopped replaying WAL files by running:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_last_wal_replay_lsn();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_last_wal_replay_lsn();"</span>
 </code></pre></div>
 <p>Repeat this command several times until the LSN value stops advancing.</p>
 </li>
@@ -6744,14 +6744,14 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;standby&quot;: {&quot;enabled&quot;: false}}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"standby": {"enabled": false}}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the cluster to report the <code>Ready</code> status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 </li>
@@ -6762,21 +6762,21 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 </ul>
 <div class="highlight"><pre><span></span><code><span class="nv">PERCONA_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 <ul>
 <li>Connect to the Pod and check if it is in the recovery mode:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <p>You should see <code>f</code>. This means the instance is read-write.</p>
 </li>
 <li>
 <p>After promoting the Percona cluster, it is important to confirm that the <code>pgBackRest</code> stanza has been created. The stanza is required for managing backups and enabling restores; without it, regular backup operations and recovery from backup will not be possible. Waiting for <code>stanzaCreated</code> to become true ensures that backup tooling has been initialized properly before proceeding.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.pgbackrest.repos[0].stanzaCreated}&#39;</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.repos[0].stanzaCreated}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <details class="example">
@@ -6802,14 +6802,14 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 </li>
 <li>
 <p>Apply the configuration to start the backup:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/post-migration-backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/post-migration-backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the backup job to complete:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgbackup/post-migration-backup<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 </li>
@@ -6846,50 +6846,50 @@ Port:   5432
 <li>
 <p>Put <code>cluster1</code> back into standby so it stops acting as the primary (Patroni will follow the Custom Resource). The <code>standby.host</code>, <code>standby.port</code>, and <code>standby.repoName</code> you configured earlier should still be present; merge only toggles standby on:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;standby&quot;: {&quot;enabled&quot;: true, &quot;repoName&quot;: &quot;repo1&quot;}}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>If you applied <a href="#optional-shut-down-the-crunchy-cluster">(Optional) Shut down the Crunchy cluster</a>, clear shutdown before promoting Crunchy again:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;shutdown&quot;: false}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"shutdown": false}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Take Crunchy out of standby so Patroni can promote it back to primary:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;standby&quot;: {&quot;enabled&quot;: false}}}&#39;</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"standby": {"enabled": false}}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Confirm roles: Crunchy should accept writes and <code>cluster1</code> should be in recovery until replication catches up.</p>
 <div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>master<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 
-kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <p>You should see <code>f</code> on Crunchy.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">STANDBY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nv">STANDBY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 
-kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <p>You should see <code>t</code> on Percona while it follows Crunchy.</p>
 </li>
 <li>
 <p>Point applications back at the Crunchy <code>pgBouncer</code> Service:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
 </code></pre></div>
 </li>
@@ -6900,13 +6900,13 @@ kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="percona-standby-cannot-resolve-or-reach-the-crunchy-primary">Percona standby cannot resolve or reach the Crunchy primary<a class="headerlink" href="#percona-standby-cannot-resolve-or-reach-the-crunchy-primary" title="Permanent link">&para;</a></h3>
 <p>Confirm the PostgreSQL HA Service for <code>crunchy-source</code> resolves from the Percona database Pod. Replace <code>crunchy-source-ha</code> if your Service name differs.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;getent hosts crunchy-source-ha.</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">.svc.cluster.local&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"getent hosts crunchy-source-ha.</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">.svc.cluster.local"</span>
 </code></pre></div>
 <p>If DNS fails, check Service names and namespaces. If DNS succeeds but TCP fails, check NetworkPolicies, service mesh rules, and firewalls between namespaces.</p>
 <h3 id="replication-authentication-errors">Replication authentication errors<a class="headerlink" href="#replication-authentication-errors" title="Permanent link">&para;</a></h3>
 <p>The Percona standby connects to Crunchy as the PostgreSQL role <code>_crunchyreplication</code> using the replication TLS material. Ensure <code>crunchy-source-replication-cert</code> exists in <code>"${NAMESPACE}"</code> and matches what Crunchy generated (re-export from <code>"${CRUNCHY_NS}"</code> if you rotated certificates).</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>Verify the <code>PerconaPGCluster</code> still references it under <code>secrets.customReplicationTLSSecret</code> and <code>secrets.customTLSSecret</code> as in <a href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode">Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode</a>.</p>
 <h3 id="pgbackrest-restore-or-wal-archive-problems"><code>pgBackRest</code> restore or WAL archive problems<a class="headerlink" href="#pgbackrest-restore-or-wal-archive-problems" title="Permanent link">&para;</a></h3>
@@ -6914,11 +6914,11 @@ kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;
 <ol>
 <li>
 <p>Confirm <code>repo1-path</code> is <strong>identical</strong> on Crunchy and on <code>cluster1</code> (for example <code>/crunchy-to-percona/repo1</code> in this guide).</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.backups.pgbackrest.global.repo1-path}{&quot;\n&quot;}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'</span>
 
-kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.backups.pgbackrest.global.repo1-path}{&quot;\n&quot;}&#39;</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6929,25 +6929,25 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>s3-check<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--image<span class="o">=</span>perconalab/awscli<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">    AWS_ACCESS_KEY_ID=&#39;&lt;your-access-key&gt;&#39; \</span>
-<span class="s2">    AWS_SECRET_ACCESS_KEY=&#39;&lt;your-secret-key&gt;&#39; \</span>
-<span class="s2">    AWS_DEFAULT_REGION=&#39;&lt;your-region&gt;&#39; \</span>
-<span class="s2">    aws --endpoint-url &#39;https://&lt;your-s3-endpoint&gt;&#39; \</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">    AWS_ACCESS_KEY_ID='&lt;your-access-key&gt;' \</span>
+<span class="s2">    AWS_SECRET_ACCESS_KEY='&lt;your-secret-key&gt;' \</span>
+<span class="s2">    AWS_DEFAULT_REGION='&lt;your-region&gt;' \</span>
+<span class="s2">    aws --endpoint-url 'https://&lt;your-s3-endpoint&gt;' \</span>
 <span class="s2">        --no-verify-ssl \</span>
 <span class="s2">        s3 ls s3://&lt;your-bucket&gt;</span>
-<span class="s2">  &quot;</span>
+<span class="s2">  "</span>
 </code></pre></div>
 </li>
 </ol>
 <h3 id="timeline-history-file-missing-after-promotion-crunchy-archive">Timeline history file missing after promotion (Crunchy archive)<a class="headerlink" href="#timeline-history-file-missing-after-promotion-crunchy-archive" title="Permanent link">&para;</a></h3>
 <p>Some Crunchy PGO configurations using async archive mode can hit a missing timeline history file on the archive after promotion (see <a href="https://github.com/CrunchyData/postgres-operator/issues/4472">Crunchy PGO issue #4472 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>). If <code>pgBackRest</code> or replicas complain about <code>*.history</code> on the archive, push the file once from the <strong>new</strong> primary:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
 <span class="s2">    pgbackrest --stanza=db --no-archive-async \</span>
-<span class="s2">      archive-push \&quot;\${PGDATA}/pg_wal/00000002.history\&quot; || true</span>
-<span class="s2">  &quot;</span>
+<span class="s2">      archive-push \"\${PGDATA}/pg_wal/00000002.history\" || true</span>
+<span class="s2">  "</span>
 </code></pre></div>
 <p>Adjust the filename to match the timeline file reported in your logs.</p>
 <hr>

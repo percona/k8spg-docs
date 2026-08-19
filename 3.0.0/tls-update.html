@@ -5899,8 +5899,8 @@ cluster1-replication-cert       Opaque   3      11m
 <p>Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:</p>
 <div class="highlight"><pre><span></span><code><span class="o">{</span>
-<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
-<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.ca\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
 <span class="w">  </span><span class="o">}</span>
 </code></pre></div>
 <p>The resulting output will be self-explanatory:</p>
@@ -5933,7 +5933,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-cert.yaml
 </code></pre></div>
 </li>
@@ -5943,13 +5943,13 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replica.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replica-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-replication-cert.yaml
 </code></pre></div>
 </li>
 <li>
 <p>Apply the manifests to update the Secrets:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 </ol>
@@ -5995,7 +5995,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Pause the cluster to prevent the Operator to restart the Pods mid-update.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: true}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">'{"spec": {"pause": true}}'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
@@ -6003,31 +6003,31 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Specify details about new custom certificates in the <code>deploy/cr.yaml</code>. Since this is a provisioned cluster, apply the patch as follows:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">        &quot;spec&quot;: {</span>
-<span class="s1">            &quot;secrets&quot;: {</span>
-<span class="s1">                &quot;customRootCATLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-ca-cert-new&quot;,</span>
-<span class="s1">                    &quot;items&quot;: [</span>
+<span class="w">    </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">        "spec": {</span>
+<span class="s1">            "secrets": {</span>
+<span class="s1">                "customRootCATLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-ca-cert-new",</span>
+<span class="s1">                    "items": [</span>
 <span class="s1">                        {</span>
-<span class="s1">                            &quot;key&quot;: &quot;ca.crt&quot;,</span>
-<span class="s1">                            &quot;path&quot;: &quot;root.crt&quot;</span>
+<span class="s1">                            "key": "ca.crt",</span>
+<span class="s1">                            "path": "root.crt"</span>
 <span class="s1">                        },</span>
 <span class="s1">                        {</span>
-<span class="s1">                            &quot;key&quot;: &quot;ca.key&quot;,</span>
-<span class="s1">                            &quot;path&quot;: &quot;root.key&quot;</span>
+<span class="s1">                            "key": "ca.key",</span>
+<span class="s1">                            "path": "root.key"</span>
 <span class="s1">                        }</span>
 <span class="s1">                    ]</span>
 <span class="s1">                },</span>
-<span class="s1">                &quot;customTLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-tls&quot;</span>
+<span class="s1">                "customTLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-tls"</span>
 <span class="s1">                },</span>
-<span class="s1">                &quot;customReplicationTLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-replication-tls&quot;</span>
+<span class="s1">                "customReplicationTLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-replication-tls"</span>
 <span class="s1">                }</span>
 <span class="s1">            }</span>
 <span class="s1">        }</span>
-<span class="s1">    }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="s1">    }'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
@@ -6035,7 +6035,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Unpause the cluster to resume the Operator control:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: false}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">'{"spec": {"pause": false}}'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>

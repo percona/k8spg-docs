@@ -5771,7 +5771,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-init-sql</span>
 <span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator</span>
 <span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">init.sql</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CREATE ROLE someonenew WITH createdb superuser login password &#39;someonenew&#39;;</span><span class="w"> </span>
+<span class="w">  </span><span class="nt">init.sql</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CREATE ROLE someonenew WITH createdb superuser login password 'someonenew';</span><span class="w"> </span>
 </code></pre></div>
 <p>The <code>namespace</code> field should point to the namespace of your database cluster, and the <code>init.sql</code> key contains the sequence of commands, which will be passed to the psql.</p>
 <p>Create the ConfigMap by applying your manifest:</p>

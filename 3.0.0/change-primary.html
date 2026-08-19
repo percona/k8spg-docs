@@ -5790,21 +5790,21 @@ cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   clust
 <span class="w">    </span><span class="nt">targetInstance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;instance-name&gt;</span>
 </code></pre></div>
 <p>You can do it with <code>kubectl patch</code> command, specifying the name of the instance that you want to be the new primary. For example, let&rsquo;s set the <code>cluster1-instance1-bmdp</code> as a new PostgreSQL primary:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;spec&quot;: {</span>
-<span class="s1">    &quot;patroni&quot;: {</span>
-<span class="s1">      &quot;switchover&quot;: {</span>
-<span class="s1">        &quot;enabled&quot;: true,</span>
-<span class="s1">        &quot;targetInstance&quot;: &quot;cluster1-instance1-bmdp&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">  "spec": {</span>
+<span class="s1">    "patroni": {</span>
+<span class="s1">      "switchover": {</span>
+<span class="s1">        "enabled": true,</span>
+<span class="s1">        "targetInstance": "cluster1-instance1-bmdp"</span>
 <span class="s1">      }</span>
 <span class="s1">    }</span>
 <span class="s1">  }</span>
-<span class="s1">}&#39;</span>
+<span class="s1">}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 <p>The <code>--overwrite</code> flag in the above command allows you to overwrite the annotation if it already exists (useful if that&rsquo;s not the first switchover you do).</p>
 </li>
@@ -5820,7 +5820,7 @@ metadata:
   annotations:
     kubectl.kubernetes.io/last-applied-configuration: |
       {....
-      &quot;patroni&quot;:{&quot;switchover&quot;:{&quot;enabled&quot;:true,&quot;targetInstance&quot;:&quot;cluster1-instance1-bmdp&quot;}},}
+      "patroni":{"switchover":{"enabled":true,"targetInstance":"cluster1-instance1-bmdp"}},}
 </code></pre></div>
 </details>
 </li>
@@ -5840,15 +5840,15 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
 </li>
 <li>
 <p>Set <code>patroni.switchover.enabled</code> Custom Resource option to <code>false</code> once the switchover is done:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">  &quot;spec&quot;: {</span>
-<span class="s1">    &quot;patroni&quot;: {</span>
-<span class="s1">      &quot;switchover&quot;: {</span>
-<span class="s1">        &quot;enabled&quot;: false</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">  "spec": {</span>
+<span class="s1">    "patroni": {</span>
+<span class="s1">      "switchover": {</span>
+<span class="s1">        "enabled": false</span>
 <span class="s1">      }</span>
 <span class="s1">    }</span>
 <span class="s1">  }</span>
-<span class="s1">}&#39;</span>
+<span class="s1">}'</span>
 </code></pre></div>
 </li>
 </ol>

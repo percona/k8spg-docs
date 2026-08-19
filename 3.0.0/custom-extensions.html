@@ -6270,7 +6270,7 @@ percona-patroni-4.1.3-2.el9.x86_64
 </li>
 <li>
 <p>Your extension must be compatible with PostgreSQL version you are running. To check the version, run the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span>go-template<span class="o">=</span><span class="s1">&#39;{{.spec.image}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span>go-template<span class="o">=</span><span class="s1">'{{.spec.image}}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6293,7 +6293,7 @@ percona-patroni-4.1.3-2.el9.x86_64
 </li>
 <li>
 <p>Install basic tools:</p>
-<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>make<span class="w"> </span><span class="s1">&#39;dnf-command(config-manager)&#39;</span>
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>install<span class="w"> </span>git<span class="w"> </span>make<span class="w"> </span><span class="s1">'dnf-command(config-manager)'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6321,7 +6321,7 @@ percona-patroni-4.1.3-2.el9.x86_64
 </li>
 <li>
 <p>Install build tools:</p>
-<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">&quot;Development tools&quot;</span>
+<div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>groupinstall<span class="w"> </span><span class="s2">"Development tools"</span>
 </code></pre></div>
 <p>Troubleshooting tip: If development tools fail to install, add BaseOS and AppStream repos:</p>
 <div class="highlight"><pre><span></span><code>dnf<span class="w"> </span>config-manager<span class="w"> </span>--add-repo<span class="w"> </span>https://dl.rockylinux.org/pub/rocky/9/BaseOS/x86_64/os/
@@ -6379,7 +6379,7 @@ git<span class="w"> </span>checkout<span class="w"> </span>REL2_3_2
 </li>
 <li>
 <p>Build the extension with PGXS flags neutralized:</p>
-<div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="nv">PG_CFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="nv">USE_PGXS</span><span class="o">=</span><span class="m">1</span>
+<div class="highlight"><pre><span></span><code>make<span class="w"> </span><span class="nv">PG_CFLAGS</span><span class="o">=</span><span class="s2">""</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">""</span><span class="w"> </span><span class="nv">CPPFLAGS</span><span class="o">=</span><span class="s2">""</span><span class="w"> </span><span class="nv">USE_PGXS</span><span class="o">=</span><span class="m">1</span>
 </code></pre></div>
 </li>
 <li>
@@ -6440,12 +6440,12 @@ docker cp pg:/pg_stat_kcache-pg18-2.3.2.tar.gz ./</p>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>For GNU/Linux:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;plain-text-string&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--wrap<span class="o">=</span><span class="m">0</span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s1">'plain-text-string'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--wrap<span class="o">=</span><span class="m">0</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
 <p>For Apple macOS:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s1">&#39;plain-text-string&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span><span class="s1">'plain-text-string'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64
 </code></pre></div>
 </div>
 </div>
@@ -6507,7 +6507,7 @@ Resource so the Operator can download and install it.</p>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">postgresql</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">shared_preload_libraries</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;pg_stat_statements,pg_stat_kcache&quot;</span>
+<span class="w">        </span><span class="nt">shared_preload_libraries</span><span class="p">:</span><span class="w"> </span><span class="s">"pg_stat_statements,pg_stat_kcache"</span>
 <span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 </li>
@@ -6526,7 +6526,7 @@ Resource so the Operator can download and install it.</p>
 <p>Connect to the primary Pod:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--<span class="w"> </span>psql
 </code></pre></div>
 </li>

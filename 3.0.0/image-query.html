@@ -5852,7 +5852,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The <strong>Version Service</strong> is a centralized repository that the Percona Operator for PostgreSQL connects to at scheduled times to get the latest information on compatible versions and valid image paths. This service is a crucial part of the automatic upgrade process, and it is enabled by default. Its landing page, <code>check.percona.com</code>, provides more details about the service itself.</p>
 <h3 id="how-to-query-the-version-service">How to query the Version Service<a class="headerlink" href="#how-to-query-the-version-service" title="Permanent link">&para;</a></h3>
 <p>You can manually query the Version Service using the <code>curl</code> command. The basic syntax is:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/&lt;operator-version&gt;/&lt;pg-version&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/&lt;operator-version&gt;/&lt;pg-version&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.versions[].matrix'</span>
 </code></pre></div>
 <p>where:</p>
 <ul>
@@ -5860,75 +5860,75 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong><code>&lt;pg-version&gt;</code></strong> is the version of PostgreSQL you want to get images for. This part is optional and helps filter the results. It can be a specific PostgreSQL version (e.g.16.3), a recommended version (e.g. 16-recommended), or the latest available version (e.g. 16-latest).</li>
 </ul>
 <p>For example, to retrieve the list of images for Operator version <code>2.4.0</code> for PostgreSQL version <code>16.3</code>, use the following command:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0/16.3<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0/16.3<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.versions[].matrix'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
 <div class="no-copy highlight"><pre><span></span><code>{
-&quot;pmm&quot;: {
-    &quot;2.42.0&quot;: {
-        &quot;imagePath&quot;: &quot;percona/pmm-client:2.42.0&quot;,
-        &quot;imageHash&quot;: &quot;14cb96de47e3bc239bf285f22ec6f170b4a1181301b19100f5b7dc22c210bf8c&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"pmm": {
+    "2.42.0": {
+        "imagePath": "percona/pmm-client:2.42.0",
+        "imageHash": "14cb96de47e3bc239bf285f22ec6f170b4a1181301b19100f5b7dc22c210bf8c",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 },
-&quot;operator&quot;: {
-    &quot;2.4.0&quot;: {
-        &quot;imagePath&quot;: &quot;percona/percona-postgresql-operator:2.4.0&quot;,
-        &quot;imageHash&quot;: &quot;3012437bcfe793eaf34258aa44bb3bc404e7702711aefe4183324ee2d6928240&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"operator": {
+    "2.4.0": {
+        "imagePath": "percona/percona-postgresql-operator:2.4.0",
+        "imageHash": "3012437bcfe793eaf34258aa44bb3bc404e7702711aefe4183324ee2d6928240",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 },
-&quot;postgresql&quot;: {
-    &quot;16.3&quot;: {
-        &quot;imagePath&quot;: &quot;percona/percona-postgresql-operator:2.4.0-ppg16.3-postgres&quot;,
-        &quot;imageHash&quot;: &quot;8248b290a88b881f1871fbca0de7da1acace31f94f795d1990e3ca3ca5dd3636&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"postgresql": {
+    "16.3": {
+        "imagePath": "percona/percona-postgresql-operator:2.4.0-ppg16.3-postgres",
+        "imageHash": "8248b290a88b881f1871fbca0de7da1acace31f94f795d1990e3ca3ca5dd3636",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 },
-&quot;pgbackrest&quot;: {
-    &quot;16.3&quot;: {
-        &quot;imagePath&quot;: &quot;percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbackrest2.51-1&quot;,
-        &quot;imageHash&quot;: &quot;3e59b19b619e5580292c4fa8f9efedea3e9d05b79af8e186643490b13a6f83a5&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"pgbackrest": {
+    "16.3": {
+        "imagePath": "percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbackrest2.51-1",
+        "imageHash": "3e59b19b619e5580292c4fa8f9efedea3e9d05b79af8e186643490b13a6f83a5",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 },
-&quot;pgbackrestRepo&quot;: {},
-&quot;pgbadger&quot;: {},
-&quot;pgbouncer&quot;: {
-    &quot;16.3&quot;: {
-        &quot;imagePath&quot;: &quot;percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbouncer1.22.1&quot;,
-        &quot;imageHash&quot;: &quot;37f466cea2330939f16c890a327b1d88b16cd85063ce45aff8255b8108accb08&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"pgbackrestRepo": {},
+"pgbadger": {},
+"pgbouncer": {
+    "16.3": {
+        "imagePath": "percona/percona-postgresql-operator:2.4.0-ppg16.3-pgbouncer1.22.1",
+        "imageHash": "37f466cea2330939f16c890a327b1d88b16cd85063ce45aff8255b8108accb08",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 },
-&quot;postgis&quot;: {
-    &quot;16.3&quot;: {
-        &quot;imagePath&quot;: &quot;percona/percona-postgresql-operator:2.4.0-ppg16.3-postgres-gis3.3.6&quot;,
-        &quot;imageHash&quot;: &quot;7ca3172329ade3be97b9bd837a3315fcb87179357e420f76662a9d0e9a4a74d3&quot;,
-        &quot;imageHashArm64&quot;: &quot;&quot;,
-        &quot;status&quot;: &quot;recommended&quot;,
-        &quot;critical&quot;: false
+"postgis": {
+    "16.3": {
+        "imagePath": "percona/percona-postgresql-operator:2.4.0-ppg16.3-postgres-gis3.3.6",
+        "imageHash": "7ca3172329ade3be97b9bd837a3315fcb87179357e420f76662a9d0e9a4a74d3",
+        "imageHashArm64": "",
+        "status": "recommended",
+        "critical": false
     }
 }
 }
 </code></pre></div>
 </details>
 <p>To narrow down the results to the recommended version of PostgreSQL 16, you can use:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0/16-recommended<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[].matrix&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0/16-recommended<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.versions[].matrix'</span>
 </code></pre></div>
 <p>This command helps you retrieve the PostgreSQL images available for a specific Operator version (<code>2.4.0</code> in the following example):</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">&#39;.versions[0].matrix.postgresql | to_entries[] | &quot;\(.key)\t\(.value.imagePath)\t\(.value.status)&quot;&#39;</span>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>https://check.percona.com/versions/v1/pg-operator/2.4.0<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.versions[0].matrix.postgresql | to_entries[] | "\(.key)\t\(.value.imagePath)\t\(.value.status)"'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>

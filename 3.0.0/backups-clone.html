@@ -6450,7 +6450,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">      </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">      </span><span class="nt">options</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2025-11-30 15:12:11+03&quot;</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target="2025-11-30 15:12:11+03"</span>
 <span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
 <span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
@@ -6656,14 +6656,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Identify the primary Pod, its data PVC, and (if you use a local <code>pgBackRest</code> repo) the repository PVC:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 
-<span class="nv">PGDATA_PVC</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumes[?(@.name==&quot;postgres-data&quot;)].persistentVolumeClaim.claimName}&#39;</span><span class="k">)</span>
+<span class="nv">PGDATA_PVC</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PRIMARY</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.volumes[?(@.name=="postgres-data")].persistentVolumeClaim.claimName}'</span><span class="k">)</span>
 
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Primary pod: </span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Data PVC:    </span><span class="nv">$PGDATA_PVC</span><span class="s2">&quot;</span>
-kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PVC</span><span class="s2"> |cluster1-repo&quot;</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Primary pod: </span><span class="nv">$PRIMARY</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"Data PVC:    </span><span class="nv">$PGDATA_PVC</span><span class="s2">"</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>-E<span class="w"> </span><span class="s2">"</span><span class="nv">$PGDATA_PVC</span><span class="s2"> |cluster1-repo"</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6678,7 +6678,7 @@ cluster1-repo1                   Bound    ...      10Gi       RWO            sta
 </li>
 <li>
 <p>Confirm the data directory name on the volume. It is usually <code>pg&lt;major&gt;</code> (for example <code>pg18</code> for PostgreSQL 18):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PRIMARY</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>ls<span class="w"> </span>-1<span class="w"> </span>/pgdata
 </code></pre></div>
 <details class="example">
@@ -6692,11 +6692,11 @@ pgbackrest
 </li>
 <li>
 <p>Identify the PersistentVolume your cluster&rsquo;s PVC is bound to and update the PersistentVolume reclaim policy to <code>Retain</code> for every volume you plan to reuse (data, and optionally WAL and the local pgBackRest repo). Dynamically provisioned volumes often default to <code>Delete</code>, which destroys the disk when its PVC is removed.</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PGDATA_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PVC</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumeName}&#39;</span><span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGDATA_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PGDATA_PVC</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.volumeName}'</span><span class="k">)</span>
 
-kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Retain&quot;}}&#39;</span>
+kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="nv">$PGDATA_PV</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6705,14 +6705,14 @@ kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> <
 </details>
 <p>Repeat for the repository PVC (and WAL PVC, if you use one):</p>
 <div class="highlight"><pre><span></span><code><span class="nv">REPO_PVC</span><span class="o">=</span>cluster1-repo1
-<span class="nv">REPO_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PVC</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumeName}&#39;</span><span class="k">)</span>
+<span class="nv">REPO_PV</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">"</span><span class="nv">$REPO_PVC</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.volumeName}'</span><span class="k">)</span>
 
-kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Retain&quot;}}&#39;</span>
+kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="nv">$REPO_PV</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'</span>
 </code></pre></div>
 <p>Confirm the policy:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PGDATA_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REPO_PV</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="nv">$PGDATA_PV</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="nv">$REPO_PV</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span>custom-columns<span class="o">=</span>NAME:.metadata.name,RECLAIM:.spec.persistentVolumeReclaimPolicy
 </code></pre></div>
 <details class="example">
@@ -6806,7 +6806,7 @@ pvc-0f26234a-7a5d-4c38-bd59-ec22e731cb07   Retain
 <p>Wait until the cluster is ready:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster2<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 </li>
@@ -6814,10 +6814,10 @@ pvc-0f26234a-7a5d-4c38-bd59-ec22e731cb07   Retain
 <p>Verify that PostgreSQL is writable on the primary:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster2,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 
-kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$PRIMARY</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="s2">"</span><span class="nv">$PRIMARY</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <p>Expect <code>f</code> for a primary that can accept writes. Spot-check application data as needed.</p>
 </li>

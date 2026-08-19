@@ -6246,13 +6246,13 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 <p>Install Percona Operator for PostgreSQL into <code>$NAMESPACE</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v3.0.0/deploy/bundle.yaml<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the Percona Operator Deployment to become available:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Available<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>120s
 </code></pre></div>
@@ -6305,7 +6305,7 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 <p>Wait for the cluster to report the <code>Ready</code> status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
@@ -6322,28 +6322,28 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 <ol>
 <li>
 <p>Identify the primary Pod:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>master<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Retrieve the PVC:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PVC_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumes[?(@.name==&quot;postgres-data&quot;)].persistentVolumeClaim.claimName}&#39;</span><span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PVC_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.volumes[?(@.name=="postgres-data")].persistentVolumeClaim.claimName}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Retrieve the PV this PVC is bound to:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PV_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PVC_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.volumeName}&#39;</span><span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PV_NAME</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PVC_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.volumeName}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Verify the retrieved data:</p>
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Primary pod: </span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PVC:         </span><span class="si">${</span><span class="nv">PVC_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;PV:          </span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"Primary pod: </span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"PVC:         </span><span class="si">${</span><span class="nv">PVC_NAME</span><span class="si">}</span><span class="s2">"</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"PV:          </span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -6360,21 +6360,21 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <ol>
 <li>
 <p>Set the PV reclaim policy to <code>Retain</code> so the disk survives PVC deletion:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;:{&quot;persistentVolumeReclaimPolicy&quot;:&quot;Retain&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Patch the Crunchy <code>PostgresCluster</code> object to remove finalizers.
    Kubernetes &ldquo;finalizers&rdquo; block resource deletion until certain cleanup steps finish, such as the operator deleting related pods, PVCs, and secrets. Since we want to keep the PersistentVolume (PV) and avoid extra cleanup (like deleting the PV or data), we remove the finalizers to force Kubernetes to delete the <code>PostgresCluster</code> resource immediately. This lets us proceed with detaching the data volume for migration without waiting for the Crunchy Operator&rsquo;s normal deletion behavior.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="o">=</span><span class="s1">&#39;[{&quot;op&quot;:&quot;remove&quot;,&quot;path&quot;:&quot;/metadata/finalizers&quot;}]&#39;</span>
+<span class="w">  </span>-p<span class="o">=</span><span class="s1">'[{"op":"remove","path":"/metadata/finalizers"}]'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Now, delete the <code>PostgresCluster</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
@@ -6382,14 +6382,14 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </li>
 <li>
 <p>After the data PVC is gone, the PV enters the <code>Released</code> state. However, it still references the old claim and cannot be claimed by a new PVC. Therefore, you need to clear its <code>claimRef</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>--type<span class="o">=</span>json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="o">=</span><span class="s1">&#39;[{&quot;op&quot;:&quot;remove&quot;,&quot;path&quot;:&quot;/spec/claimRef&quot;}]&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="o">=</span><span class="s1">'[{"op":"remove","path":"/spec/claimRef"}]'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait until the PV status becomes <code>Available</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}&#39;</span><span class="o">=</span>Available<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.phase}'</span><span class="o">=</span>Available<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>60s
 </code></pre></div>
 <details class="example">
@@ -6400,7 +6400,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </li>
 <li>
 <p>Label the PV so the Percona PVC selector binds to it exclusively, avoiding accidental binding to another released volume:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>percona-pv-migration<span class="o">=</span>migrated
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>percona-pv-migration<span class="o">=</span>migrated
 </code></pre></div>
 </li>
 </ol>
@@ -6450,7 +6450,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </li>
 <li>
 <p>Apply the manifest:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>The Percona Operator creates a PersistentVolumeClaim (PVC) using the selector you specified in the manifest. This PVC binds to the labelled PersistentVolume (PV) that contains the migrated PostgreSQL data. PostgreSQL then starts directly on the existing <code>PGDATA</code> directory, so no backup restore, WAL download, or object storage is needed. </p>
 <p>By default, <code>pgBackRest</code> uses a local, PVC-backed repository (<code>repo1.volume</code>) for backups and restores, so you do not need to configure S3 credentials or external storage for this migration path (unless you choose to use S3 for backups).</p>
@@ -6458,8 +6458,8 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <li>
 <p>Wait for the cluster to have the <code>Ready</code> status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 <details class="example">
@@ -6473,15 +6473,15 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <ul>
 <li>Identify the primary pod:</li>
 </ul>
-<div class="highlight"><pre><span></span><code><span class="nv">PERCONA_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PERCONA_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 <ul>
 <li>Check the primary pod state:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 <p>Expect <code>f</code> for a writable primary.</p>
 </li>
@@ -6493,19 +6493,19 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <li>
 <p>Update the cluster configuration by removing the selector and increasing the number of replicas:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>json<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-p<span class="o">=</span><span class="s1">&#39;[</span>
-<span class="s1">    {&quot;op&quot;:&quot;remove&quot;,&quot;path&quot;:&quot;/spec/instances/0/dataVolumeClaimSpec/selector&quot;},</span>
-<span class="s1">    {&quot;op&quot;:&quot;replace&quot;,&quot;path&quot;:&quot;/spec/instances/0/replicas&quot;,&quot;value&quot;:3}</span>
-<span class="s1">  ]&#39;</span>
+<span class="w">  </span>-p<span class="o">=</span><span class="s1">'[</span>
+<span class="s1">    {"op":"remove","path":"/spec/instances/0/dataVolumeClaimSpec/selector"},</span>
+<span class="s1">    {"op":"replace","path":"/spec/instances/0/replicas","value":3}</span>
+<span class="s1">  ]'</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the cluster to report the <code>Ready</code> status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <details class="example">
@@ -6531,14 +6531,14 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </li>
 <li>
 <p>Apply the configuration to start a backup:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the backup Job to complete:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgbackup/post-migration-backup<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 </li>
@@ -6547,7 +6547,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <ol>
 <li>
 <p>Discover the <code>pgBouncer</code> Service for <code>cluster1</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
 </code></pre></div>
 </li>
@@ -6561,19 +6561,19 @@ Port:   5432
 <p>Replace <code>${NAMESPACE}</code> with your cluster&rsquo;s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
 <h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">&para;</a></h2>
 <p>Remove the migration label from the PV after you no longer need to pin binding:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>percona-pv-migration-
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>percona-pv-migration-
 </code></pre></div>
 <h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">&para;</a></h2>
 <p>PV reuse is the least rollback-friendly path: once <code>cluster1</code> runs on the old directory, the previous Crunchy timeline is no longer authoritative. If you need a fallback, take a full Crunchy <code>pgBackRest</code> backup <strong>before</strong> you delete <code>crunchy-source</code>, and treat that backup as your recovery source for a new Crunchy deployment.</p>
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="pvc-stays-pending">PVC stays <code>Pending</code><a class="headerlink" href="#pvc-stays-pending" title="Permanent link">&para;</a></h3>
 <p>Confirm the PV label and phase:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>--show-labels
-kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.phase}{&quot;\n&quot;}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--show-labels
+kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.phase}{"\n"}'</span>
 </code></pre></div>
 <h3 id="postgresql-fails-to-start">PostgreSQL fails to start<a class="headerlink" href="#postgresql-fails-to-start" title="Permanent link">&para;</a></h3>
 <p>Inspect database container logs:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>logs<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>logs<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database
 </code></pre></div>
 <p>Unclean shutdowns may require crash recovery; follow Patroni and PostgreSQL logs for progress.</p>
 <h3 id="pv-was-deleted">PV was deleted<a class="headerlink" href="#pv-was-deleted" title="Permanent link">&para;</a></h3>

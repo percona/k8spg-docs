@@ -6548,15 +6548,15 @@ NAME                                 CREATED AT             LABELS</p>
 <p>perconapgclusters.pgv2.percona.com   2025-07-01T13:13:36Z   pgv2.percona.com/version=v3.0.0
     ```</p>
 <p>To check <strong>annotations</strong> associated with an object, use the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>&lt;resource&gt;<span class="w"> </span>&lt;resource-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>&lt;resource&gt;<span class="w"> </span>&lt;resource-name&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.annotations}'</span>
 </code></pre></div>
 <p>For example, this command lists annotations assigned to a <code>cluster1-pgbouncer</code> Service:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>cluster1-instance1-xvbt-0<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.metadata.annotations}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>cluster1-instance1-xvbt-0<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.annotations}'</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
 <div class="no-copy highlight"><pre><span></span><code><span class="p">{</span>
-<span class="w">  </span><span class="nt">&quot;cloud.google.com/neg&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{\&quot;ingress\&quot;:true}&quot;</span>
+<span class="w">  </span><span class="nt">"cloud.google.com/neg"</span><span class="p">:</span><span class="w"> </span><span class="s2">"{\"ingress\":true}"</span>
 <span class="p">}</span>
 </code></pre></div>
 </details>
@@ -6582,7 +6582,7 @@ NAME                                 CREATED AT             LABELS</p>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">  </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">pgv2.percona.com/custom-patroni-version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;4&quot;</span>
+<span class="w">    </span><span class="nt">pgv2.percona.com/custom-patroni-version</span><span class="p">:</span><span class="w"> </span><span class="s">"4"</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
 <hr>

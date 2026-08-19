@@ -5970,7 +5970,7 @@ my-snapshot-backup                      cluster1   repo1                 Succeed
 <span class="w">    </span><span class="nt">volumeSnapshots</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">className</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-snapshot-class</span>
 <span class="w">      </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">offline</span>
-<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;0</span><span class="nv"> </span><span class="s">3</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*&quot;</span><span class="w">   </span><span class="c1"># Every day at 3:00 AM</span>
+<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">"0</span><span class="nv"> </span><span class="s">3</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*"</span><span class="w">   </span><span class="c1"># Every day at 3:00 AM</span>
 </code></pre></div>
 </li>
 <li>
@@ -6055,7 +6055,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 <ul>
 <li>For a <code>pgBackRest</code> backup run the following command to get the target time:</li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.latestRestorableTime}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
 </li>
 <li>
@@ -6089,7 +6089,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">  </span><span class="nt">options</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target=&quot;2026-02-16T11:00:00Z&quot;</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target="2026-02-16T11:00:00Z"</span>
 </code></pre></div>
 </li>
 <li>

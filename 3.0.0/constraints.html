@@ -5929,31 +5929,40 @@ file as follows:</p>
 </code></pre></div>
 <p>You can see the explanation of these affinity options <a href="https://kubernetes.io/docs/concepts/scheduling-eviction/topology-spread-constraints/">in Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <h2 id="tolerations">Tolerations<a class="headerlink" href="#tolerations" title="Permanent link">&para;</a></h2>
-<p><em>Tolerations</em> allow Pods having them to be able to land onto nodes with matching
-<em>taints</em>. Toleration is expressed as a <code>key</code> with and <code>operator</code>, which is
-either <code>exists</code> or <code>equal</code> (the latter variant also requires a <code>value</code> the key
-is equal to). Moreover, toleration should have a specified <code>effect</code>, which may
-be a self-explanatory <code>NoSchedule</code>, less strict <code>PreferNoSchedule</code>, or
-<code>NoExecute</code>. The last variant means that if a <em>taint</em> with <code>NoExecute</code> is
-assigned to node, then any Pod not tolerating this <em>taint</em> will be removed from
-the node, immediately or after the <code>tolerationSeconds</code> interval, like in the
-following example.</p>
-<p>You can use <code>instances.tolerations</code> and <code>backups.pgbackrest.jobs.tolerations</code>
-subsections in the <code>deploy/cr.yaml</code> configuration file as follows:</p>
+<p>You can taint a Kubernetes node to prevent Pods from scheduling on the node unless the Pods tolerate the taint.
+A toleration is a Pod setting that matches a taint and enables the Pod to schedule on a tainted node.
+Use taints and tolerations to reserve nodes for specific workloads, such as database or backup workloads.</p>
+<p>Each toleration is defined by: 
+* a <code>key</code> 
+* an <code>operator</code>. The default Kubernetes <code>operator</code> is <code>Exists</code>. You can set it to <code>Equal</code>. <code>Equal</code> requires a <code>value</code>
+* an <code>effect</code>:</p>
+<div class="highlight"><pre><span></span><code>* `NoSchedule` — Pods without a matching toleration are not scheduled on the node
+* `PreferNoSchedule` — Kubernetes prefers other nodes, but can still schedule there
+* `NoExecute` — Pods without a matching toleration are evicted, immediately or after `tolerationSeconds`
+</code></pre></div>
+<p>You can set tolerations in these Custom Resource sections of <code>deploy/cr.yaml</code>:</p>
+<ul>
+<li><code>instances.tolerations</code> — PostgreSQL instance Pods</li>
+<li><code>proxy.pgBouncer.tolerations</code> — pgBouncer Pods</li>
+<li><code>backups.pgbackrest.repoHost.tolerations</code> — pgBackRest repository host</li>
+<li><code>backups.pgbackrest.jobs.tolerations</code> — backup jobs</li>
+<li><code>backups.pgbackrest.restore.tolerations</code> — restore jobs. If you do not set <code>backups.pgbackrest.restore.tolerations</code>, the Operator applies <code>backups.pgbackrest.jobs.tolerations</code> to restore jobs.</li>
+<li><code>dataSource.*.tolerations</code> — data migration and clone jobs (see <a href="operator.html">Custom Resource options</a>)</li>
+</ul>
+<p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">tolerations</span><span class="p">:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">effect</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NoSchedule</span>
 <span class="w">  </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">role</span>
 <span class="w">  </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Equal</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">connection-poolers</span>
 </code></pre></div>
-<p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Kubernetes Taints and Tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-contains more examples on this topic.</p>
+<p>For more details and examples, see <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/">Kubernetes Taints and Tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 3, 2025 10:23:06 UTC">November 3, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 19, 2026 14:30:56 UTC">August 19, 2026</span>
       
         <br>
         Created:

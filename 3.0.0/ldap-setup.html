@@ -6014,7 +6014,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><code>cn=admin,ou=perconadba,dc=ldap,dc=local</code> — This is a <strong>group entry</strong> in LDAP, representing a group named &ldquo;admin&rdquo; within the organizational unit &ldquo;perconadba&rdquo;. This entry groups together related users, in this case adding the user <code>uid=percona,ou=perconadba,dc=ldap,dc=local</code> as a member. Groups like this can be used to assign roles or manage access collectively within LDAP.</li>
 </ul>
 <p>Use the <code>ldapadd</code> command to add this structure. Use your LDAP server hostname and your bind user DN and password in the following command:</p>
-<div class="highlight"><pre><span></span><code>ldapadd<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://&lt;ldap-server-hostname&gt;:389<span class="w"> </span>-D<span class="w"> </span><span class="s2">&quot;cn=admin,dc=ldap,dc=local&quot;</span><span class="w"> </span>-w<span class="w"> </span>adminpassword<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>ldapadd<span class="w"> </span>-x<span class="w"> </span>-H<span class="w"> </span>ldap://&lt;ldap-server-hostname&gt;:389<span class="w"> </span>-D<span class="w"> </span><span class="s2">"cn=admin,dc=ldap,dc=local"</span><span class="w"> </span>-w<span class="w"> </span>adminpassword<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
 <span class="s">dn: ou=perconadba,dc=ldap,dc=local</span>
 <span class="s">objectClass: organizationalUnit</span>
 <span class="s">ou: perconadba</span>
@@ -6035,10 +6035,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Verify that the user was added successfully:</p>
 <div class="highlight"><pre><span></span><code>ldapsearch<span class="w"> </span>-x<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-H<span class="w"> </span>ldap://&lt;ldap-server-hostname&gt;:389<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-D<span class="w"> </span><span class="s2">&quot;cn=admin,dc=ldap,dc=local&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-D<span class="w"> </span><span class="s2">"cn=admin,dc=ldap,dc=local"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-w<span class="w"> </span>adminpassword<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-b<span class="w"> </span><span class="s2">&quot;ou=perconadba,dc=ldap,dc=local&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span><span class="s2">&quot;(uid=percona)&quot;</span>
+<span class="w">  </span>-b<span class="w"> </span><span class="s2">"ou=perconadba,dc=ldap,dc=local"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="s2">"(uid=percona)"</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6111,7 +6111,7 @@ result: 0 Success
 <span class="w">          </span><span class="nt">ldapprefix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">uid=</span>
 <span class="w">          </span><span class="nt">ldapscheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldap</span>
 <span class="w">          </span><span class="nt">ldapserver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openldap</span>
-<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;,ou=perconadba,dc=ldap,dc=local&quot;</span>
+<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">",ou=perconadba,dc=ldap,dc=local"</span>
 </code></pre></div>
 </li>
 <li>
@@ -6177,8 +6177,8 @@ result: 0 Success
 <span class="w">          </span><span class="nt">ldapscheme</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ldaps</span>
 <span class="w">          </span><span class="nt">ldapserver</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">openldap-tls</span>
 <span class="w">          </span><span class="nt">ldapport</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">636</span>
-<span class="w">          </span><span class="nt">ldapprefix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;uid=&quot;</span>
-<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;,ou=perconadba,dc=ldap,dc=local&quot;</span>
+<span class="w">          </span><span class="nt">ldapprefix</span><span class="p">:</span><span class="w"> </span><span class="s">"uid="</span>
+<span class="w">          </span><span class="nt">ldapsuffix</span><span class="p">:</span><span class="w"> </span><span class="s">",ou=perconadba,dc=ldap,dc=local"</span>
 
 <span class="w">  </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">files</span><span class="p">:</span>
@@ -6216,7 +6216,7 @@ result: 0 Success
 </li>
 <li>
 <p>Inside the Pod, connect to PostgreSQL:</p>
-<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="s2">&quot;postgres://percona@&lt;cluster-name&gt;-pgbouncer.&lt;namespace&gt;.svc:5432/percona&quot;</span>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="s2">"postgres://percona@&lt;cluster-name&gt;-pgbouncer.&lt;namespace&gt;.svc:5432/percona"</span>
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
@@ -6230,7 +6230,7 @@ result: 0 Success
 <summary>Expected output</summary>
 <div class="highlight"><pre><span></span><code>psql (18.3 - Percona Server for PostgreSQL 18.3.1)
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, compression: off, ALPN: postgresql)
-Type &quot;help&quot; for help.
+Type "help" for help.
 
 percona=&gt;
 </code></pre></div>

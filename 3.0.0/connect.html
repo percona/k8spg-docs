@@ -5850,10 +5850,10 @@ the <a href="operator.html#metadata-name">name of your Percona Distribution for 
 </li>
 <li>
 <p>Retrieve the pgBouncer URI from your secret, decode and pass it as the <code>PGBOUNCER_URI</code> environment variable. Replace the <code>&lt;secret&gt;</code>, <code>&lt;namespace&gt;</code> placeholders with your Secret object and namespace accordingly:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;secret&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-uri}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 <p>The following example shows how to pass the pgBouncer URI from the default Secret object <code>cluster1-pguser-cluster1</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_URI</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>--namespace<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-uri}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
@@ -5865,7 +5865,7 @@ the <a href="operator.html#metadata-name">name of your Percona Distribution for 
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>psql (18.4-1)
 SSL connection (protocol: TLSv1.3, cipher: TLS_AES_256_GCM_SHA384, bits: 256, compression: off)
-Type &quot;help&quot; for help.
+Type "help" for help.
 cluster1=&gt;
 </code></pre></div>
 </details>

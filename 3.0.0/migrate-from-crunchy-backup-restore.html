@@ -6277,7 +6277,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">      </span><span class="nt">global</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/crunchy-to-percona/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;n&quot;</span>
+<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span>
 <span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">          </span><span class="nt">s3</span><span class="p">:</span>
@@ -6294,7 +6294,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Wait for the cluster to report the &ldquo;Ready&rdquo; status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
@@ -6307,8 +6307,8 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </details>
 <p>Wait for the <code>pgBackRest</code> stanza to be created. The stanza initializes the backup and restore infrastructure for further backups or restore operations. </p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster/crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.pgbackrest.repos[0].stanzaCreated}&#39;</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.repos[0].stanzaCreated}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <details class="example">
@@ -6325,31 +6325,31 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <p>Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>master<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+<span class="w">    </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Connect to the Crunchy PostgreSQL cluster and insert some sample data. Use the following command to exec to the primary Pod, create a database and a table and insert some data to it:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;</span>
-<span class="s2">    psql -c &#39;CREATE DATABASE migrationtest;&#39;</span>
-<span class="s2">    psql -d migrationtest -c &#39;CREATE TABLE migration_data (id int PRIMARY KEY, value text);&#39;</span>
-<span class="s2">    psql -d migrationtest -c \&quot;INSERT INTO migration_data VALUES (1, &#39;initial-data-before-migration&#39;);\&quot;</span>
-<span class="s2">  &quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">    psql -c 'CREATE DATABASE migrationtest;'</span>
+<span class="s2">    psql -d migrationtest -c 'CREATE TABLE migration_data (id int PRIMARY KEY, value text);'</span>
+<span class="s2">    psql -d migrationtest -c \"INSERT INTO migration_data VALUES (1, 'initial-data-before-migration');\"</span>
+<span class="s2">  "</span>
 </code></pre></div>
 </li>
 <li>
 <p>Trigger a full backup:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the backup Job to complete:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>job<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span>manual,postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Complete<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
@@ -6363,7 +6363,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <h2 id="prepare-pgbackrest-credentials-in-the-percona-namespace">Prepare pgBackRest credentials in the Percona namespace<a class="headerlink" href="#prepare-pgbackrest-credentials-in-the-percona-namespace" title="Permanent link">&para;</a></h2>
 <p>Create a Secret in <code>$NAMESPACE</code> with the <strong>same</strong> credentials and storage information such as endpoint and region that you used to configure <code>pgBackRest</code> in the Crunchy PostgreSQL cluster.</p>
 <p>The following example command creates a Secret with the name <code>percona-pgbackrest-secret</code> for the Percona cluster; keep that name if you copy the manifest below.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
 <span class="s">apiVersion: v1</span>
 <span class="s">kind: Secret</span>
 <span class="s">metadata:</span>
@@ -6371,8 +6371,8 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="s">stringData:</span>
 <span class="s">  s3.conf: |</span>
 <span class="s">    [global]</span>
-<span class="s">    repo1-s3-key=&quot;&lt;your-access-key&gt;&quot;</span>
-<span class="s">    repo1-s3-key-secret=&quot;&lt;your-access-secret&gt;&quot;</span>
+<span class="s">    repo1-s3-key="&lt;your-access-key&gt;"</span>
+<span class="s">    repo1-s3-key-secret="&lt;your-access-secret&gt;"</span>
 <span class="s">EOF</span>
 </code></pre></div>
 <p>If you use different Secret names, use your name consistently in <code>spec.dataSource.pgbackrest.configuration</code> and <code>spec.backups.pgbackrest.configuration</code> on <code>PerconaPGCluster</code> <code>cluster1</code>.</p>
@@ -6386,7 +6386,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <li>
 <p>Wait for the Percona Operator Deployment to become available:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Available<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>120s
 </code></pre></div>
@@ -6421,7 +6421,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="w">        </span><span class="c1"># Must exactly match the pgBackrest settings defined in Crunchy `spec.backups.pgbackrest.global.repo1-path` </span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/crunchy-to-percona/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;n&quot;</span><span class="w"> </span><span class="c1"># Omit or set to &quot;y&quot; for AWS S3 with valid TLS</span>
+<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span><span class="w"> </span><span class="c1"># Omit or set to "y" for AWS S3 with valid TLS</span>
 <span class="w">      </span><span class="nt">repo</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">        </span><span class="nt">s3</span><span class="p">:</span>
@@ -6437,7 +6437,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="w">        </span><span class="c1"># Must be different from the Crunchy repo1-path</span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/percona/cluster1/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
-<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;n&quot;</span>
+<span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span>
 <span class="w">      </span><span class="nt">repos</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
 <span class="w">        </span><span class="c1"># The storage is shared, use the same settings here </span>
@@ -6450,14 +6450,14 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </li>
 <li>
 <p>Apply the manifest:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait until the cluster reports the <code>Ready</code> state:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <p>The Percona Operator deploys the cluster and bootstraps it from the storage referenced in the <code>dataSource</code> section.</p>
@@ -6467,17 +6467,17 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <ul>
 <li>
 <p>Identify the primary Pod and export it as an environment variable:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PERCONA_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PERCONA_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 --selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
--o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
 </code></pre></div>
 </li>
 <li>
 <p>Verify the data insertion:</p>
 </li>
 </ul>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
-<span class="w"> </span><span class="s2">&quot;psql -q -t -d migrationtest -c &#39;SELECT id, value FROM migration_data ORDER BY id;&#39;&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span><span class="s2">"psql -q -t -d migrationtest -c 'SELECT id, value FROM migration_data ORDER BY id;'"</span>
 </code></pre></div>
 <p>??? example &ldquo;Expected output&rdquo;</p>
 <div class="highlight"><pre><span></span><code>   ```{.sql .no-copy}
@@ -6487,8 +6487,8 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <ul>
 <li>
 <p>Exec into the Pod and check that it is not in recovery state:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;SELECT pg_is_in_recovery();&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
 </li>
 </ul>
@@ -6497,8 +6497,8 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <li>
 <p>Wait until the new cluster’s <code>pgBackRest</code> stanza exists for ongoing backups:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.pgbackrest.repos[0].stanzaCreated}&#39;</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.repos[0].stanzaCreated}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <details class="example">
@@ -6524,14 +6524,14 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </li>
 <li>
 <p>Apply the configuration to start the backup:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
 <p>Wait for the backup job to complete:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgbackup/post-migration-backup<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.status.state}&#39;</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 </li>
@@ -6540,7 +6540,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <ol>
 <li>
 <p>Discover the <code>pgBouncer</code> Service for <code>cluster1</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
 </code></pre></div>
 </li>
@@ -6554,7 +6554,7 @@ Port:   5432
 <p>Replace <code>${NAMESPACE}</code> with your cluster&rsquo;s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
 <h2 id="decommission-the-crunchy-cluster">Decommission the Crunchy cluster<a class="headerlink" href="#decommission-the-crunchy-cluster" title="Permanent link">&para;</a></h2>
 <p>After traffic runs on Percona and you are satisfied with validation, you can delete the Crunchy PostgreSQL cluster:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>Uninstall Crunchy Operator from its namespace when no <code>PostgresCluster</code> resources remain.</p>
 <h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">&para;</a></h2>
@@ -6563,11 +6563,11 @@ Port:   5432
 <h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
 <h3 id="archiveinfo-missing-or-restore-errors"><code>archive.info</code> missing or restore errors<a class="headerlink" href="#archiveinfo-missing-or-restore-errors" title="Permanent link">&para;</a></h3>
 <p>The value of <code>spec.dataSource.pgbackrest.global.repo1-path</code> must match the Crunchy cluster’s <code>spec.backups.pgbackrest.global.repo1-path</code> exactly.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.backups.pgbackrest.global.repo1-path}{&quot;\n&quot;}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'</span>
 
-kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.dataSource.pgbackrest.global.repo1-path}{&quot;\n&quot;}&#39;</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.dataSource.pgbackrest.global.repo1-path}{"\n"}'</span>
 </code></pre></div>
 <h3 id="restore-job-failures-tls-endpoint">Restore job failures (TLS, endpoint)<a class="headerlink" href="#restore-job-failures-tls-endpoint" title="Permanent link">&para;</a></h3>
 <p><code>pgBackRest</code> uses HTTPS for S3-compatible endpoints. Fix TLS trust (correct CA or <code>repo1-s3-verify-tls</code>) and confirm network reachability from the restore Pod to the bucket endpoint. See <a href="backups-storage.html">Configure backup storage</a>.</p>
@@ -6575,7 +6575,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <p>Inspect restore Pods or Jobs and <code>pgBackRest</code> logs:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/pgbackrest-restore<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-c<span class="w"> </span>pgbackrest
 </code></pre></div>
 <h3 id="wrong-or-incomplete-data">Wrong or incomplete data<a class="headerlink" href="#wrong-or-incomplete-data" title="Permanent link">&para;</a></h3>

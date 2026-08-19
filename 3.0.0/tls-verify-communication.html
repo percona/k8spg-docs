@@ -5817,10 +5817,10 @@ cluster1-replication-cert       Opaque   3      37m
 <span class="s">          command:</span>
 <span class="s">          - sleep</span>
 <span class="s">          args:</span>
-<span class="s">          - &quot;100500&quot;</span>
+<span class="s">          - "100500"</span>
 <span class="s">          volumeMounts:</span>
 <span class="s">            - name: root</span>
-<span class="s">              mountPath: &quot;/tmp/tls&quot;</span>
+<span class="s">              mountPath: "/tmp/tls"</span>
 <span class="s">      volumes:</span>
 <span class="s">      - name: root</span>
 <span class="s">        secret:</span>
@@ -5834,7 +5834,7 @@ cluster1-replication-cert       Opaque   3      37m
 </li>
 <li>
 <p>Retrieve the <code>pgBouncer</code> URI to connect to PostgreSQL. It is stored in the Secret object with user credentials: <code>&lt;cluster-name&gt;-pguser-&lt;db-name&gt;</code>. The default value is <code>cluster1-pguser-cluster1</code>. Run the following command and replace the <code>cluster1-pguser-cluster1</code> Secret name with your value:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.pgbouncer-uri}&#39;</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-uri}'</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
@@ -5854,11 +5854,11 @@ postgresql://cluster1:<password>@cluster1-pgbouncer.default.svc:5432/cluster1</p
 </li>
 <li>
 <p>Launch the <code>psql</code> interactive terminal to check connectivity over the encrypted channel. Make sure to use your cluster name, the pgBouncer URL you retrieved at the previous step, and the CA certificate you provided when you created the <code>pg-client</code> deployment:</p>
-<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>verify-ca<span class="w"> </span><span class="nv">PGSSLROOTCERT</span><span class="o">=</span>/tmp/tls/root.crt<span class="w"> </span>psql<span class="w"> </span><span class="s1">&#39;postgresql://cluster1:&lt;password&gt;@cluster1-pgbouncer.default.svc:5432/cluster1&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="nv">PGSSLMODE</span><span class="o">=</span>verify-ca<span class="w"> </span><span class="nv">PGSSLROOTCERT</span><span class="o">=</span>/tmp/tls/root.crt<span class="w"> </span>psql<span class="w"> </span><span class="s1">'postgresql://cluster1:&lt;password&gt;@cluster1-pgbouncer.default.svc:5432/cluster1'</span>
 </code></pre></div>
 <p>Now you should see the prompt of PostgreSQL interactive terminal:</p>
 <div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4-1<span class="o">)</span>
-Type<span class="w"> </span><span class="s2">&quot;help&quot;</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">cluster1</span><span class="o">=</span>&gt;
 </code></pre></div>
 </li>

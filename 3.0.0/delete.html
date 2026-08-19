@@ -5935,7 +5935,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com &quot;cluster1&quot; deleted
+<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com "cluster1" deleted
 </code></pre></div>
 </details>
 </li>
@@ -6031,9 +6031,9 @@ volumesnapshots.snapshot.storage.k8s.io              2023-09-07T14:15:52Z
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io &quot;perconapgbackups.pgv2.percona.com&quot; deleted
-customresourcedefinition.apiextensions.k8s.io &quot;perconapgclusters.pgv2.percona.com&quot; deleted
-customresourcedefinition.apiextensions.k8s.io &quot;perconapgrestores.pgv2.percona.com&quot; deleted
+<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io "perconapgbackups.pgv2.percona.com" deleted
+customresourcedefinition.apiextensions.k8s.io "perconapgclusters.pgv2.percona.com" deleted
+customresourcedefinition.apiextensions.k8s.io "perconapgrestores.pgv2.percona.com" deleted
 </code></pre></div>
 </details>
 </li>
@@ -6066,10 +6066,10 @@ cluster1-repo1                   Bound    pvc-380e1100-b679-4716-ae8f-78372448b5
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>persistentvolumeclaim &quot;cluster1-instance1-mkwh-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-instance1-nvh4-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-instance1-qknb-pgdata&quot; deleted
-persistentvolumeclaim &quot;cluster1-repo1&quot; deleted
+<div class="no-copy highlight"><pre><span></span><code>persistentvolumeclaim "cluster1-instance1-mkwh-pgdata" deleted
+persistentvolumeclaim "cluster1-instance1-nvh4-pgdata" deleted
+persistentvolumeclaim "cluster1-instance1-qknb-pgdata" deleted
+persistentvolumeclaim "cluster1-repo1" deleted
 </code></pre></div>
 </details>
 <p>Note that if your Custom Resource manifest includes the <code>percona.com/delete-pvc</code> finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.</p>

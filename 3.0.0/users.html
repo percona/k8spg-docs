@@ -6180,7 +6180,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 <p>Your application may have stricter requirements to password creation. For example, if you need passwords without special characters, set the <code>spec.users.password.type</code> field for that user to <code>AlphaNumeric</code>.</p>
 <p>To have the Operator generate a new password, remove the existing <code>password</code> field from the user Secret.</p>
 <p>For example, to generate a new password for the user <code>cluster1</code> in the PostgreSQL cluster <code>cluster1</code> running in the <code>postgres-operator</code> namespace, use the following <code>kubectl patch</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;data&quot;:{&quot;password&quot;:&quot;&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"data":{"password":""}}'</span>
 </code></pre></div>
 <p>Replace the namespace and the secret name with your values to reuse this command.</p>
 <h4 id="custom-passwords">Custom passwords<a class="headerlink" href="#custom-passwords" title="Permanent link">&para;</a></h4>
@@ -6217,7 +6217,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 <span class="s">  name: cat-credentials</span>
 <span class="s">type: Opaque</span>
 <span class="s">data:</span>
-<span class="s">  password: $(echo -n &#39;mySuperStr0ngp@ssword&#39; | base64)</span>
+<span class="s">  password: $(echo -n 'mySuperStr0ngp@ssword' | base64)</span>
 <span class="s">EOF</span>
 </code></pre></div>
 <div class="admonition example">
@@ -6235,7 +6235,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cat</span>
 <span class="w">    </span><span class="nt">databases</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">zoo</span>
-<span class="w">    </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;cat-credentials&quot;</span>
+<span class="w">    </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="s">"cat-credentials"</span>
 <span class="w">    </span><span class="nt">grantPublicSchemaAccess</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 <p>Apply the configuration:</p>
@@ -6244,18 +6244,18 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 </div>
 <div class="tabbed-block">
 <p>To update a running cluster, use the <code>kubectl patch</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">&quot;spec&quot;: {</span>
-<span class="s1">  &quot;users&quot;: [</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">"spec": {</span>
+<span class="s1">  "users": [</span>
 <span class="s1">    {</span>
-<span class="s1">      &quot;name&quot;: &quot;cat&quot;,</span>
-<span class="s1">      &quot;databases&quot;: [&quot;zoo&quot;],</span>
-<span class="s1">      &quot;secretName&quot;: &quot;cat-credentials&quot;,</span>
-<span class="s1">      &quot;grantPublicSchemaAccess&quot;: true</span>
+<span class="s1">      "name": "cat",</span>
+<span class="s1">      "databases": ["zoo"],</span>
+<span class="s1">      "secretName": "cat-credentials",</span>
+<span class="s1">      "grantPublicSchemaAccess": true</span>
 <span class="s1">     }</span>
 <span class="s1">    ]</span>
 <span class="s1">  }</span>
-<span class="s1">}&#39;</span><span class="w"> </span>
+<span class="s1">}'</span><span class="w"> </span>
 </code></pre></div>
 </div>
 </div>
@@ -6275,10 +6275,10 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 corresponding Secret: the Operator will immediately generate a new password
 and save it to the appropriate Secret. You can remove the old password with the
 <code>kubectl patch secret</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;data&quot;:{&quot;password&quot;:&quot;&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"data":{"password":""}}'</span>
 </code></pre></div>
 <p>In the same way you can update a password with your custom one for the user. Do it as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">&#39;{&quot;stringData&quot;:{&quot;password&quot;:&quot;&lt;custom_password&gt;&quot;, &quot;verifier&quot;:&quot;&quot;}}&#39;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"stringData":{"password":"&lt;custom_password&gt;", "verifier":""}}'</span>
 </code></pre></div>
 <h3 id="adjusting-privileges">Adjusting privileges<a class="headerlink" href="#adjusting-privileges" title="Permanent link">&para;</a></h3>
 <p>You can set role privileges by using the standard <a href="https://www.postgresql.org/docs/current/role-attributes.html">role attributes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that PostgreSQL provides and adding them to the <code>spec.users.options</code> subsection in the Custom Resource. </p>
@@ -6290,7 +6290,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">perconapg</span>
 <span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgtest</span>
-<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;SUPERUSER&quot;</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">"SUPERUSER"</span>
 </code></pre></div>
 <p>Apply changes with the usual <code>kubectl apply -f deploy/cr.yaml</code> command.</p>
 <p>If you want to add multiple privileges, you can use a space-separated list as follows:</p>
@@ -6300,7 +6300,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">perconapg</span>
 <span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgtest</span>
-<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;CREATEDB</span><span class="nv"> </span><span class="s">CREATEROLE&quot;</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">"CREATEDB</span><span class="nv"> </span><span class="s">CREATEROLE"</span>
 </code></pre></div>
 <p><strong>Revoke privileges</strong></p>
 <p>To revoke the superuser privilege afterwards, apply the following configuration:</p>
@@ -6310,7 +6310,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">perconapg</span>
 <span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgtest</span>
-<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;NOSUPERUSER&quot;</span>
+<span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">"NOSUPERUSER"</span>
 </code></pre></div>
 <h3 id="postgres-user"><code>postgres</code> User<a class="headerlink" href="#postgres-user" title="Permanent link">&para;</a></h3>
 <p>By default, the Operator does not create the <code>postgres</code> user. You can create it by applying the following change to your Custom Resource:</p>
