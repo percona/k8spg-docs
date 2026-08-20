@@ -24,6 +24,7 @@
 
 ### Images and platforms
 
+* [UBI 8, 9, and 10 images](#support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql)
 * [Community PostgreSQL images and custom registries](#support-for-community-postgresql-images)
 * [PostgreSQL 19 support](#support-of-postgresql-19-tech-preview) (tech preview)
 * [Official support for Rancher Kubernetes Engine (RKE2)](#official-support-for-rancher-kubernetes-engine-rke2)
@@ -163,6 +164,32 @@ remain running until they finish, then the Pod changes its state
 to `paused`. If a pgBouncer Pod restarts while paused, a startup
 probe re-applies `PAUSE`
 so the intended state survives restarts.
+
+### Support for UBI 8, UBI 9, and UBI 10 images for Percona Distribution for PostgreSQL 
+
+You can now choose Red Hat Universal Base Image (UBI) 8, 9, or 10 for Percona Distribution clusters. That lets you migrate to Percona Operator without changing the OS inside the PostgreSQL container, so you can keep working extensions, stay aligned with your Enterprise Linux version, or move to a newer UBI when you are ready.
+
+UBI is the operating system inside the PostgreSQL container. PostgreSQL uses OS-provided `glibc` and ICU libraries to sort and compare text, and each UBI major version ships different library versions. The UBI choice is part of the database runtime.
+
+By default, images that ship with the Operator are based on UBI 9 and have no OS version in the tag, for example `docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}`. UBI 8 and UBI 10 images add the OS version to the tag:
+
+```text
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8-arm64
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi10
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi10-arm64
+```
+
+Use UBI 9 as the baseline for PostgreSQL 14–18. Find the list of UBI 9 images in the [certified images list](../images.md).
+Stay on UBI 8 when older extensions or Enterprise Linux 8 requirements still apply. Choose UBI 10 to align with RHEL 10 or OpenShift nodes that run Enterprise Linux 10, and to stay on an OS with a longer remaining support window and newer system libraries. 
+
+!!! important
+
+    Switching UBI major versions changes `glibc` and ICU. PostgreSQL reports a collation version mismatch, and indexes on `text`, `varchar`, `char`, and similar types can return incorrect results until you rebuild them. After you switch, identify affected indexes, run `REINDEX`, then run `ALTER DATABASE ... REFRESH COLLATION VERSION`. See the [minor upgrade](../update-db-minor.md) and [major upgrade](../update-db-major.md) documentation.
+
+
+
+Keep every instance in a cluster on the same UBI version. Treat a UBI change as an OS upgrade: take a backup first, and confirm that custom extensions are built for the target UBI.
 
 ### Support for community PostgreSQL images
 
