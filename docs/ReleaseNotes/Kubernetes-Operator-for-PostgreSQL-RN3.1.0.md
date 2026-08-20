@@ -105,11 +105,14 @@ If you manage TLS certificates manually, such as through Kubernetes Secrets sync
 
 By default, the Operator treats a missing TLS Secret as a signal to create new certificates, restart the database Pods, and apply the new CA. Applications that still trust your original CA may lose connectivity.
 
-Starting with this release, you can control the Operator’s behavior with the `spec.tls.certManagementPolicy` option in the Custom Resource. Available policies are:
+Starting with this release, set `spec.tls.certManagementPolicy` in the Custom Resource to control the Operator's behavior. The policies are:
 
-* `auto` (default) — Keeps the existing behavior. If TLS Secrets are missing, the Operator creates new certificates automatically.
-* `userProvidedOnly` — Certificate lifecycle stays entirely under your control. The Operator does not create or replace TLS certificates, if a TLS Secret is temporarily unavailable. In this way, your applications can keep using the existing certificates while you restore access to the Secret.
-  
+* `auto` (default) — If TLS Secrets are missing, the Operator creates certificates. It may use cert-manager when cert-manager is installed.
+* `userProvidedOnly` — You own the certificate lifecycle. The Operator does not create or replace TLS certificates if a Secret is temporarily unavailable. Applications can keep using the certificates already loaded while you restore the Secret.
+* `operatorProvidedOnly` — The Operator always manages TLS with its own PKI and does not use cert-manager.
+
+For manually provided TLS, use `userProvidedOnly`:
+
 ```yaml
 spec:
   tls:
@@ -117,9 +120,13 @@ spec:
     certManagementPolicy: userProvidedOnly
     allowInvalidCertificates: false
   secrets:
-    ssl: my-cluster-name-ssl
-    sslInternal: my-cluster-name-ssl-internal
+    customTLSSecret:
+      name: cluster1-cert
+    customReplicationTLSSecret:
+      name: replication1-cert
 ```
+
+See [TLS certificate management policy](../tls-cert-management-policy.md) for more information.
 
 ### Enable Mutual TLS (mTLS) between clients and pgBouncer
 
@@ -225,7 +232,7 @@ All Operator images are now available for ARM64, giving you native support on AR
    
    You must do these changes simultaneously for the same reconciliation loop. Just removing the extension `extensions.custom` list instructs the Operator to delete it.
 
-
+* Field descriptions were removed from the inherited `CrunchyBridgeCluster` CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running `kubectl explain` for those fields no longer shows help text.
 
 ## Changelog
 
