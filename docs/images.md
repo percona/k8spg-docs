@@ -6,6 +6,44 @@ To find images for a specific Operator version, see [Retrieve Percona certified 
 
 To run the Operator against upstream-built PostgreSQL images instead of Percona Distribution images, see [Deploy a cluster with community PostgreSQL images](install-community.md) (tech preview).
 
+## Image path
+
+Each certified image uses this path:
+
+```text
+<registry>/<namespace>/<image-name>:<tag>
+```
+
+For example, `docker.io` is the registry, `percona` is the publisher, `percona-distribution-postgresql` is the component, and `{{postgresrecommended}}` is the tag:
+
+```text
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}
+```
+
+The same pattern applies to other components, for example:
+
+```text
+docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}
+docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}
+```
+
+The table below omits `docker.io/`. You can add it if your cluster requires an explicit registry.
+
+## UBI version tags
+
+Starting with Operator 3.1.0, Percona Distribution images are available on UBI, UBI 9 and UBI 10.
+
+UBI 9 is the default. Those tags have no OS version, for example `{{postgresrecommended}}`. For UBI 8 and UBI 10, add `-ubi8` to the tag, and `-arm64` for ARM64:
+
+```text
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8-arm64
+docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}-ubi8
+docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}-ubi8
+```
+
+Keep every instance in a cluster on the same UBI version. Switching UBI majors changes collation libraries. See [Minor version upgrade](update-db-minor.md) and [Major version upgrade](update-db-major.md).
+
 **Images released with the Operator version {{release}}:**
 
 --8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:images"
