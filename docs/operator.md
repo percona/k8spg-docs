@@ -68,10 +68,11 @@ Enforce the Operator to use only Transport Layer Security (TLS) for both interna
 
 ### `tls.certManagementPolicy`
 
-Controls how the Operator manages TLS certificates when it loses access to the Secret that stores them. Supported values are:
+Controls how the Operator creates and manages TLS certificates, including when TLS Secrets are missing and whether cert-manager is used. Supported values are:
 
-* `auto` (default) — Keeps the existing behavior. If TLS Secrets are missing, the Operator creates new certificates automatically.
+* `auto` (default) — If TLS Secrets are missing, the Operator creates new certificates automatically. If [cert-manager](tls-cert-manager.md) is installed, the Operator uses it, including `spec.tls.issuerConf` when you set it.
 * `userProvidedOnly` — The Operator does not create or replace TLS certificates if a TLS Secret is temporarily unavailable. Certificate lifecycle stays entirely under user control. The Operator reports the `TLSSecretsReady=False` cluster condition and pauses the reconciliation. Restore the Secrets to return the cluster to a healthy state.
+* `operatorProvidedOnly` — The Operator always generates and manages TLS with its own PKI. It does not use cert-manager and ignores `spec.tls.issuerConf`. Use this when cert-manager is installed in the cluster but you want PostgreSQL to stay on Operator-generated certificates.
 
 See [Configure the TLS certificate management policy](tls-cert-management-policy.md) for details.
 
