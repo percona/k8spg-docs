@@ -1,9 +1,5 @@
 # Transparent data encryption (TDE)
 
-!!! admonition
-
-    This feature is in tech preview stage.
-
 Transparent Data Encryption (TDE) protects your data stored on disk even if the underlying storage is compromised. This process is transparent to your applications, meaning you don't need to change your application code. If an unauthorized user gains access to the storage, they can't read the data files.
 
 The Operator supports transparent data encryption (TDE) via the [pg_tde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) extension. When enabled, `pg_tde` encrypts user data in tables, indexes, and temporary tables on disk so that data remains unreadable without the proper encryption keys, even if someone gains access to the storage.
