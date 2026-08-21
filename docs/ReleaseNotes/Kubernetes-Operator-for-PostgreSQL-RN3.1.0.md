@@ -1,5 +1,9 @@
 # Percona Operator for PostgreSQL 3.1.0 ({{date.3_1_0}})
 
+!!! warning ""
+
+    Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](update-operator.md) to keep your clusters current and protected.
+
 [Get started with the Operator :material-arrow-right:](../quickstart.md){.md-button}
 
 ## What's new at a glance
@@ -33,7 +37,7 @@
 ### Upgrade notes
 
 * [PMM2 support removed](#deprecation-change-rename-and-removal) — upgrade to PMM3
-* [Operator 2.8.0 support dropped from CRDs](#deprecation-change-rename-and-removal)
+* [Operator 2.8.0 has reached end of life](#deprecation-change-rename-and-removal)
 * [`extensions.builtin` deprecated](#deprecation-change-rename-and-removal) — use `extensions.<extension>.enabled`
 * [`pg_cron` and `set_user` are now built-in extensions](#deprecation-change-rename-and-removal)
 
@@ -224,7 +228,7 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 * Removed support for PMM2. This Operator release no longer supports PMM2 as it has reached the end-of-life state. Upgrade to PMM3 as soon as possible. For how to upgrade, refer to [PMM documentation :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html).
 
-* The support of version 2.8.0 is dropped from CRDs. 
+* The Operator version 2.8.0 and all 2.8.x patch versions have reached end of life and are no longer supported. 
 * The `extensions.builtin` section is deprecated and will be removed after version 3.4.0. We encourage you to use `extensions.<extension>.enabled`. You can still use the old form during the transition. If both forms are set at the same time, `extensions.builtin` takes precedence.
 * `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via the `extensions.custom` remains unchanged and works as expected after the upgrade. To switch to using built-in extensions, do the following:
    * Remove the extension from the `extensions.custom` list
