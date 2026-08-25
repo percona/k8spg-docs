@@ -262,7 +262,10 @@ nav:
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
-          - "Monitor the database with PMM": monitoring.md
+          - Monitoring:
+             - "Monitor the database with PMM": monitoring.md
+             - "Monitor Kubernetes": monitor-kubernetes.md 
+             - postgres-exporter.md
     
     - Upgrade:
           - About upgrades: update.md
@@ -288,7 +291,6 @@ nav:
           - "Manage PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md
-          - "Monitor Kubernetes": monitor-kubernetes.md
           - "Use PostGIS extension": postgis.md
           - dns-suffix.md
           - "Delete the Operator": delete.md
