@@ -3,7 +3,7 @@
 You can expose PostgreSQL metrics in Prometheus format by running
 [postgres_exporter :octicons-link-external-16:](https://github.com/prometheus-community/postgres_exporter)
 as a sidecar container in each PostgreSQL instance Pod. Prometheus or another
-Prometheus-compatible scraper then collects those metrics from the `/metrcis:9187` endpoint.
+Prometheus-compatible scraper then collects those metrics from the `/metrics` endpoint on port `9187`.
 
 This setup is an alternative to [Percona Monitoring and Management (PMM)](monitoring.md).
 Use it when you already scrape targets with Prometheus and want PostgreSQL
@@ -51,7 +51,7 @@ Export the namespace where your PostgreSQL cluster is running as an environment 
 export NAMESPACE=<namespace>
 ```
 
-This example setup uses `prometheus_exporter` version 0.20.1. Replace it with your required version. 
+This example setup uses `postgres_exporter` version 0.20.1. Replace it with your required version.
 
 ## Create a monitoring user
 

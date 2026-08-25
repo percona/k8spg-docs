@@ -264,7 +264,7 @@ nav:
           - "Restart or pause the cluster": pause.md
           - Monitoring:
              - "Monitor the database with PMM": monitoring.md
-             - "Monitor Kubernetes": monitor-kubernetes.md 
+             - "Monitor Kubernetes": monitor-kubernetes.md
              - postgres-exporter.md
     
     - Upgrade:
