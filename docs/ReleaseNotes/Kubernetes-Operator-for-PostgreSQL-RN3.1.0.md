@@ -262,7 +262,7 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 * [K8SPG-949](https://perconadev.atlassian.net/browse/K8SPG-949) - Added official support for Rancher Kubernetes Engine (RKE2). Every Operator release is now tested on RKE2 so you can run on Rancher-managed clusters with confidence.
 
-* [K8SPG-951](https://perconadev.atlassian.net/browse/K8SPG-951) - Added the support of custom CA issuer so you can plug in your own cert-manager Issuer or ClusterIssuer instead of the hardcoded self-signed CA. This lets you issue cluster TLS certificates from Vault, ACME, or an existing corporate CA.
+* [K8SPG-951](https://perconadev.atlassian.net/browse/K8SPG-951) - Added the support of custom CA issuer so you can plug in your own cert-manager Issuer or ClusterIssuer instead of the hardcoded self-signed CA. This lets you issue cluster TLS certificates from Vault or an existing corporate CA.
 
 * [K8SPG-952](https://perconadev.atlassian.net/browse/K8SPG-952) - Added the ability to provide additional trusted CA to pgBouncer. This way you can enable client mTLS while cluster components communicate using Operator-managed PKI and the Operator continues to manage cluster TLS rotation.
 
