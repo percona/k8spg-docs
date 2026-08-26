@@ -14,7 +14,7 @@ instead of relying only on Percona Distribution images.
 You can also [build and
 publish your own community images](#build-your-own-community-images) and point the Operator at them.
 
-This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. In this example, we use images from the [perconalab](https://hub.docker.com/repository/docker/perconalab/percona-postgresql-operator/) repository, which are intended for testing purposes only. For production environments, you should build, sign, and use your own images to ensure security and compliance.
+This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. The image tags in this guide are for evaluation. For production environments, you should build, sign, and use your own images to ensure security and compliance.
 
 The flow consist of two steps:
 
@@ -106,10 +106,10 @@ Here's a sequence of steps to follow:
       postgresVersion: 18
       proxy:
         pgBouncer:
-          image: docker.io/percona/percona-postgresql-operator:pgbouncer-community
+          image: docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
       backups:
         pgbackrest:
-          image: docker.io/percona/percona-postgresql-operator:pgbackrest-community
+          image: docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
     ```
 
 5. Deploy the cluster:
@@ -145,21 +145,31 @@ community images.
 
 ## Available community images
 
-The following UBI9 (EL9) images are published for evaluation:
+The following UBI 9 (EL9) images are published for evaluation:
 
 ```text
-docker.io/perconalab/percona-postgresql-operator:main-postgres14-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres15-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres16-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres17-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
-docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
-docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
-docker.io/perconalab/percona-postgresql-operator:main-upgrade-community
+docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
+docker.io/percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi9
+docker.io/percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi9
+docker.io/percona/percona-postgresql-operator:postgresql15.18-1-community-ubi9
+docker.io/percona/percona-postgresql-operator:postgresql14.23-1-community-ubi9
+docker.io/percona/percona-postgresql-operator:postgresql19-community-ubi9
+docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
+docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
+docker.io/percona/percona-postgresql-operator:upgrade-community
 ```
 
-UBI8 (EL8) variants use a `main-ubi8-` prefix, for example
-`main-ubi8-postgres18-community`.
+UBI 8 (EL8) variants add `-ubi8` to the PostgreSQL and upgrade tags, for example
+`postgresql{{postgresrecommended}}-community-ubi8`.
+
+```text
+docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi8
+docker.io/percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi8
+docker.io/percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi8
+docker.io/percona/percona-postgresql-operator:postgresql15.18-1-community-ubi8
+docker.io/percona/percona-postgresql-operator:postgresql14.23-1-community-ubi8
+docker.io/percona/percona-postgresql-operator:upgrade-community-ubi8
+```
 
 ## Build your own community images
 

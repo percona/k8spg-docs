@@ -208,7 +208,7 @@ With this release, you can deploy PostgreSQL Community images or your own Postgr
 
 This compatibility gives you full control and transparency over your infrastructure enabling you to use extensions not available in Percona images. However, you cannot use features such as [Transparent data encryption](#transparent-data-encryption-support-with-pg_tde) that are available only in Percona images, and you are fully responsible for the image lifecycle and support.
 
-Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images.
+Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images. Refer to [PostgreSQL Community images](#postgresql-community-images) for the list of available images. 
 
 For more information about using community images and building your own ones, refer to the Percona Blog: [Community Docker Images: keeping the operator open without a vendor registry lock in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan and our [documentation](../install-community.md).
 
@@ -354,6 +354,43 @@ Our release process includes targeted testing and validation on major cloud prov
 
 This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.
 
+## PostgreSQL Community images
+
+Find the list of PostgreSQL Community images available for UBI 8 and UBI 9 base images. 
+UBI 9:
+
+```text
+percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
+percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi9
+percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi9
+percona/percona-postgresql-operator:postgresql15.18-1-community-ubi9
+percona/percona-postgresql-operator:postgresql14.23-1-community-ubi9
+percona/percona-postgresql-operator:postgresql19-community-ubi9
+percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
+percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
+percona/percona-postgresql-operator:upgrade-community
+```
+
+UBI 8:
+
+```text
+percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi8
+percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi8
+percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi8
+percona/percona-postgresql-operator:postgresql15.18-1-community-ubi8
+percona/percona-postgresql-operator:postgresql14.23-1-community-ubi8
+percona/percona-postgresql-operator:upgrade-community-ubi8
+```
+
+PostgreSQL 19 (tech preview):
+
+```text
+percona/percona-postgresql-operator:postgresql19-community-ubi9
+percona/percona-postgresql-operator:ppg19-postgres
+percona/percona-postgresql-operator:pgbackrest19
+percona/percona-postgresql-operator:pgbouncer19
+```
+
 ## Percona certified images
 
 Find Percona's certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
@@ -398,3 +435,4 @@ Find Percona's certified Docker images that you can use with the Percona Operato
 
 
 --8<-- [end:images]
+
