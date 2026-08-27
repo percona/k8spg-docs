@@ -6,7 +6,7 @@ of storage classes, hostPath, and NFS.
 
 ## Supported versions
 
-The Operator {{ release }} is developed, tested and based on:
+The Operator {{ release }} is developed and tested with:
 
 --8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:software"
 

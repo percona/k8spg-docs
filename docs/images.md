@@ -44,8 +44,8 @@ docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}-ubi8
 
 Keep every instance in a cluster on the same UBI version. Switching UBI majors changes collation libraries. See [Minor version upgrade](update-db-minor.md) and [Major version upgrade](update-db-major.md).
 
-**Images released with the Operator version {{release}}:**
+**Percona Distribution for PostgreSQL images released with the Operator version {{release}}:**
 
 --8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:images"
 
-For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/)).
+For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/).
