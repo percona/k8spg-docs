@@ -208,7 +208,9 @@ With this release, you can deploy PostgreSQL Community images or your own Postgr
 
 This compatibility gives you full control and transparency over your infrastructure enabling you to use extensions not available in Percona images. However, you cannot use features such as [Transparent data encryption](#transparent-data-encryption-support-with-pg_tde) that are available only in Percona images, and you are fully responsible for the image lifecycle and support.
 
-Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images. Refer to [PostgreSQL Community images](#postgresql-community-images) for the list of available images. 
+Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images. Refer to [PostgreSQL Community images](#postgresql-community-images) for the list of available images.
+
+Community images are an experimental project. We want to see how you adopt them so we can decide what to invest in next. Try them out and tell us what works, what is missing, and what you want the Operator to support.
 
 For more information about using community images and building your own ones, refer to the Percona Blog: [Community Docker Images: keeping the operator open without a vendor registry lock in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan and our [documentation](../install-community.md).
 
@@ -231,6 +233,7 @@ All Operator images are now available for ARM64, giving you native support on AR
 * The Operator version 2.8.0 and all 2.8.x patch versions have reached end of life and are no longer supported. 
 * The `extensions.builtin` section is deprecated and will be removed after version 3.4.0. We encourage you to use `extensions.<extension>.enabled`. You can still use the old form during the transition. If both forms are set at the same time, `extensions.builtin` takes precedence.
 * `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via the `extensions.custom` remains unchanged and works as expected after the upgrade. To switch to using built-in extensions, do the following:
+  
    * Remove the extension from the `extensions.custom` list
    * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`. 
    
@@ -322,17 +325,25 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 ## Supported software
 
-This Operator version is developed, tested and based on:
+This Operator version is developed and tested with Percona Distribution for PostgreSQL and PostgreSQL Community.
 
 --8<-- [start:software]
+
+### Percona Distribution for PostgreSQL
 
 * PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1 as the database. Other versions may also work but have not been tested.
 * pgBackRest 2.58.0-2 for backup and recovery
 * pgBouncer 1.25.2-1 for connection pooling
 * Patroni version 4.1.3 for high-availability
 * PostGIS version 3.5.6
-* PMM Client version 2.44.1-1 and 3.7.1
+* PMM Client version 3.7.1
 
+### PostgreSQL Community
+
+* PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1, and 19 (tech preview) as the database. 
+* pgBackRest 2.58.0-2 for backup and recovery
+* pgBouncer 1.25.2-1 for connection pooling
+* Patroni version 4.1.3 for high-availability
 
 --8<-- [end:software]
 
