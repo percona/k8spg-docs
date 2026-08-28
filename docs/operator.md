@@ -68,7 +68,7 @@ Enforce the Operator to use only Transport Layer Security (TLS) for both interna
 
 ### `tls.certManagementPolicy`
 
-Controls how the Operator creates and manages TLS certificates, including when TLS Secrets are missing and whether cert-manager is used. Supported values are:
+Controls how the Operator creates and manages TLS certificates, including when TLS Secrets are missing and whether cert-manager is used. You can set this option only when you create the cluster; you cannot change it later. Supported values are:
 
 * `auto` (default) — If TLS Secrets are missing, the Operator creates new certificates automatically. If [cert-manager](tls-cert-manager.md) is installed, the Operator uses it, including `spec.tls.issuerConf` when you set it.
 * `userProvidedOnly` — The Operator does not create or replace TLS certificates if a TLS Secret is temporarily unavailable. Certificate lifecycle stays entirely under user control. The Operator reports the `TLSSecretsReady=False` cluster condition and pauses the reconciliation. Restore the Secrets to return the cluster to a healthy state.
