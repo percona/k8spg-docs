@@ -223,18 +223,19 @@ A disabled subscription looks like this:
 ```yaml
 - databases:
     - myapp
-  message: subscription "pgo_lr_slot_myapp_cluster1_875a65d6" on database "myapp" is disabled, most likely because applying a change from the primary failed; check the logical replica's logs for the error
+  message: subscription "pgo_lr_sub_myapp_cluster1_875a65d6" on database "myapp" is disabled, most likely because applying a change from the primary failed; check the logical replica's logs for the error
   name: l1
   reason: SubscriptionDisabled
   state: broken
 ```
 
-Check the logical replica Pod logs for the underlying error (for example a closed SSL connection during failover). To re-enable the subscription, exec into the logical replica Pod and run:
+Check the logical replica Pod logs for the underlying error (for example a closed SSL connection during failover). To re-enable the subscription, exec into the logical replica Pod as the subscription owner and run:
 
 ```sql
 \c myapp
 SELECT * FROM pg_subscription;
-ALTER SUBSCRIPTION "pgo_lr_slot_myapp_cluster1_875a65d6" ENABLE;
+SET default_transaction_read_only = off;
+ALTER SUBSCRIPTION "pgo_lr_sub_myapp_cluster1_875a65d6" ENABLE;
 ```
 
 Repeat for each disabled subscription. If you need the database name for a subscription, use:

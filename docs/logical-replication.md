@@ -51,7 +51,7 @@ To use logical replicas, the following requirements must be met:
 * PostgreSQL **17 or later**.
 * `wal_level` must be set to `logical`. 
 * Enough free replication slots and WAL senders on the primary. Raise `max_replication_slots` and `max_wal_senders` through [`patroni.dynamicConfiguration`](operator.md#patronidynamicconfiguration) if bootstrap reports that the primary is short of capacity.
-* A successful backup in the cluster repository if you use the default `pgbackrest` bootstrap method
+* A successful backup in the cluster repository if you use the default `pgbackrest` bootstrap method. After you create the databases the replica will follow, take a [new backup](backups-ondemand.md) before you add the replica. Otherwise bootstrap may restore an older backup that does not contain those databases and fail. 
 * If [backups are disabled](backups-disable.md), you **must** set `bootstrapMethod: pg_basebackup`
 * The replica name must be unique and must not collide with an `spec.instances[].name`. The name length is maximum 20 characters.
 
@@ -77,7 +77,7 @@ You can add logical replicas when you create the cluster, or add it later to an 
                 storage: 1Gi
     ```
 
-    `dataVolumeClaimSpec` is required. `bootstrapMethod` defaults to `pgbackrest`. Use `pg_basebackup` if [backups are disabled](backups-disable.md).
+    `dataVolumeClaimSpec` is required. `bootstrapMethod` defaults to `pgbackrest`. After you create the databases that the replica will follow, take a [new backup](backups-ondemand.md) before you add the replica. Use `pg_basebackup` if [backups are disabled](backups-disable.md).
 
     To expose the replica outside the cluster, set `expose.type`. See [Exposing the cluster](expose.md) and [`logicalReplicas` options](operator.md#logicalreplicasname).
 
