@@ -1837,7 +1837,6 @@ name used for backups
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `"my-bucket"` |
-.
 
 ### `backups.pgbackrest.repos.s3.endpoint`
 
@@ -2456,6 +2455,8 @@ The [Kubernetes secret :octicons-link-external-16:](https://kubernetes.io/docs/c
 
 Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension. Disabled by default starting with version 2.9.0.
 
+This option is deprecated. Use the [`extensions.pg_stat_monitor`](#extensionspg_stat_monitor) option instead.
+
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
@@ -2463,6 +2464,8 @@ Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.per
 ### `extensions.builtin.pg_stat_statements`
 
 Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.postgresql.org/docs/current/pgstatstatements.html) PostgreSQL extension.
+
+This option is deprecated. Use the [`extensions.pg_stat_statements`](#extensionspg_stat_statements) option instead.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -2472,6 +2475,8 @@ Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.p
 
 Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
 
+This option is deprecated. Use the [`extensions.pg_audit`](#extensionspg_audit) option instead.
+
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `true` |
@@ -2479,6 +2484,8 @@ Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/
 ### `extensions.builtin.pgvector`
 
 Enable or disable [pgvector :octicons-link-external-16:](https://github.com/pgvector/pgvector) PostgreSQL extension. **This extension is not compatible with PostgreSQL 12!**
+
+This option is deprecated. Use the [`extensions.pgvector`](#extensionspgvector) option instead.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -2488,9 +2495,133 @@ Enable or disable [pgvector :octicons-link-external-16:](https://github.com/pgve
 
 Enable or disable [pg_repack :octicons-link-external-16:](https://github.com/reorg/pg_repack) PostgreSQL extension. 
 
+This option is deprecated. Use the [`extensions.pg_repack`](#extensionspg_repack) option instead.
+
 | Value type | Example |
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_stat_monitor`
+
+Enable or disable [pg_stat_monitor :octicons-link-external-16:](https://docs.percona.com/pg-stat-monitor/index.html) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
+### `extensions.pg_stat_statements`
+
+Enable or disable [pg_stat_statements :octicons-link-external-16:](https://www.postgresql.org/docs/current/pgstatstatements.html) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_audit`
+
+Enable or disable [PGAudit :octicons-link-external-16:](https://www.pgaudit.org/) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
+### `extensions.pgvector`
+
+Enable or disable [pgvector :octicons-link-external-16:](https://github.com/pgvector/pgvector) PostgreSQL extension. **This extension is not compatible with PostgreSQL 12!**
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_repack`
+
+Enable or disable [pg_repack :octicons-link-external-16:](https://github.com/reorg/pg_repack) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_cron`
+
+Enable or disable [pg_cron :octicons-link-external-16:](https://github.com/citusdata/pg_cron) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.set_user`
+
+Enable or disable [set_user :octicons-link-external-16:](https://github.com/pgaudit/set_user) PostgreSQL extension.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_tde.enabled`
+
+Enable or disable [pg_tde :octicons-link-external-16:](https://docs.percona.com/pg-tde/index.html) PostgreSQL extension for data-at-rest encryption. Read more in [Data-at-rest encryption](encryption.md).
+
+This extension is compatible **with Percona Distribution for PostgreSQL 17 and above**. When you set `enabled` to `true`, you must also configure the key provider (`extensions.pg_tde.vault` section). You cannot remove the `pg_tde` or `vault` sections while encryption is still enabled; first set `enabled` to `false` and wait for Pod restarts. See [Disable encryption](encryption-disable.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_tde.walEncryption`
+
+Encrypt write-ahead log (WAL) segments on disk. Requires `extensions.pg_tde.enabled` to be `true`. You can set `walEncryption` in the same change as enabling `pg_tde`. Read more in [WAL encryption](encryption.md#wal-encryption) and [Configure pg_tde](encryption-setup.md#configure-pg_tde-in-the-custom-resource-manifest).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `extensions.pg_tde.vault.host`
+
+The Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format `<service-name>.<namespace>.svc.cluster.local`. Use the HTTPS protocol for encrypted communication with TLS and HTTP protocol for communication without TLS.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `https://vault-service:8200` |
+
+### `extensions.pg_tde.vault.mountPath`
+
+The secrets mount path for a KV secrets engine v2 in Vault. Default path is `secret/data`. Use the path you specified when creating the secrets engine in Vault (for example, `tde`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `tde` |
+
+### `extensions.pg_tde.vault.tokenSecret.name`
+
+The name of the Secret object that stores a token to access Vault.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pg-tde-vault-secret` |
+
+### `extensions.pg_tde.vault.tokenSecret.key`
+
+Specifies the key in the Secret that holds the Vault token.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `token` |
+
+### `extensions.pg_tde.vault.caSecret.name`
+
+The name of the Secret object that stores the CA certificate for TLS verification with Vault. Required for TLS communication with Vault, optional if you use HTTP. You can use the same Secret for the token and the CA certificate.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pg-tde-vault-secret` |
+
+### `extensions.pg_tde.vault.caSecret.key`
+
+Specifies the key in the Secret that holds the CA certificate for Vault.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `ca.crt` |
 
 ### `extensions.custom.name`
 
@@ -2507,4 +2638,5 @@ Version of the PostgreSQL custom extension.
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `1.6.1` |
+
 

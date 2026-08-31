@@ -26,6 +26,11 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 
 * Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see [Delete existing tablespaces](tablespaces.md#deleting-an-existing-tablespace).
 
+## Data-at-rest encryption (`pg_tde`)
+
+* Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.
+* Before you disable `pg_tde`, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See [Disable encryption](encryption-disable.md).
+
 ## Community PostgreSQL images
 
 Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use [Percona certified images](images.md). See [Deploy a cluster with community PostgreSQL images](install-community.md) for deployment steps.
