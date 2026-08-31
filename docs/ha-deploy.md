@@ -236,6 +236,7 @@ Check the logical replica Pod logs for the underlying error (for example a close
 SELECT * FROM pg_subscription;
 SET default_transaction_read_only = off;
 ALTER SUBSCRIPTION "pgo_lr_sub_myapp_cluster1_875a65d6" ENABLE;
+ALTER SUBSCRIPTION "pgo_lr_sub_myapp_cluster1_875a65d6"  SET (disable_on_error = false);
 ```
 
 Repeat for each disabled subscription. If you need the database name for a subscription, use:

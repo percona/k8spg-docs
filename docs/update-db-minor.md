@@ -6,6 +6,7 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 
 1. Upgrading a PostgreSQL cluster may result in downtime, as well as in [failover](change-primary.md) caused by updating the primary instance.
 2. Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library `glibc` and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+3. [Logical replicas](logical-replication.md) can keep replicating after a minor upgrade if you [configured replication slots](ha-deploy.md#persist-replication-slots-across-failover). Without slots, a failover during the upgrade can break replication. [Reseed](logical-replication.md#reseed-a-logical-replica) the replica if the status becomes `broken`.
 
 ## Before you start
 

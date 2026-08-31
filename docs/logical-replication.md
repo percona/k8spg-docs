@@ -123,7 +123,7 @@ Prefer `sslmode=verify-ca`. See [TLS](TLS.md#logical-replica-connections) if you
 
 ## Reseed a logical replica
 
-Reseed after a failed bootstrap, a missing slot, a disabled subscription, or an [in-place restore](backups-restore-inplace.md). Changing fields on an existing replica does not rebuild it.
+Reseed after a failed bootstrap, a missing slot, a disabled subscription, an [in-place restore](backups-restore-inplace.md), or a [major upgrade](update-db-major.md). Changing fields on an existing replica does not rebuild it.
 
 1. Remove the replica from `spec.logicalReplicas` and apply the Custom Resource.
 2. Wait until it disappears from `status.logicalReplicas`.
@@ -150,6 +150,7 @@ If the primary is down during removal, status keeps the replica with reason `Awa
 * **Schema changes are not replicated.** Apply `ALTER TABLE` on both the primary and the replica. Add columns on the replica first; drop them on the primary first. Do not change the schema during bootstrap.
 * **After seed, only row changes continue** (`INSERT`, `UPDATE`, `DELETE`, `TRUNCATE`) for the databases you named. New tables and databases are ignored. Sequences and large objects drift after the seed. Updates and deletes need a primary key, a non-null unique key, or `REPLICA IDENTITY FULL`.
 * **Failover often breaks replication.** Slots stay on the old primary (`SourceSlotMissing`). [Reseed](#reseed-a-logical-replica) a logical replica or see [Logical replicas and failover](ha-deploy.md#logical-replicas-and-failover).
+* **A major upgrade invalidates the replica.** Before the upgrade, ensure the replication is healthy. If it isn't, you must [remove the replica](#remove-a-logical-replica). After a successful major upgrade, [reseed](#reseed-a-logical-replica). A minor upgrade can continue if you [configured replication slots](ha-deploy.md#persist-replication-slots-across-failover). See [Major version upgrade](update-db-major.md) and [Minor version upgrade](update-db-minor.md).
 * **A failed bootstrap does not retry** on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
 * **Connect to the replica Service.** It is not behind pgBouncer, not in PMM, and not in the HA Services (`*-ha`, `*-replicas`).
 * **Deleting a replica always deletes its PVC**, even if the cluster `delete-pvc` finalizer is off.
