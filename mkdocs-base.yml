@@ -52,6 +52,7 @@ theme:
     #- content.action.edit
     - content.action.view
     - content.code.copy
+    - content.footnote.tooltips
     - toc.follow
 
 extra_css:
@@ -89,6 +90,7 @@ markdown_extensions:
   def_list: {}
   meta: {}
   smarty: { smart_angled_quotes: true }
+  footnotes: {}
   pymdownx.details: {}
   pymdownx.mark: {}
   pymdownx.smartsymbols: {}
@@ -259,7 +261,10 @@ nav:
             - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
-          - "Scale your cluster": scaling.md
+          - Scale your cluster:
+            - "Overview": scaling.md
+            - "Horizontal scaling": scaling-horizontal.md
+            - "Vertical scaling": scaling-vertical.md
           - "High-availability": ha-deploy.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
@@ -286,6 +291,7 @@ nav:
           - "Run Initialization SQL commands at cluster creation time": initsql.md
           - "Change PostgreSQL primary instance": change-primary.md
           - "How to use private registry": custom-registry.md
+          - "Deploy a cluster with community PostgreSQL images": install-community.md
           - "Manage PostgreSQL extensions": custom-extensions.md
           - "Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment": cluster-wide.md
           - "Use PostgreSQL tablespaces with Percona Operator for PostgreSQL": tablespaces.md

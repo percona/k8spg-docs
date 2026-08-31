@@ -7,15 +7,16 @@ This is useful for:
 * Cloning a cluster to a new namespace or Kubernetes environment
 * Creating a copy for development, testing, or reporting
 * Restoring from a cloud storage when the source cluster no longer exists
+* Bootstrapping a new cluster from existing data volumes
 
 You can make a full restore or restore the database to a specific point in time. For each restore scenario, you must define the Custom Resource for a **new** cluster with these configuration options:
 
 * `dataSource` section - where to take the data from
-*  `backups` section. The new cluster needs its own backup configuration.
+* `backups` section. The new cluster needs its own backup configuration.
 
 ## Understand the `dataSource` options
 
-The `dataSource` section in the Custom Resource includes two subsections: `dataSource.postgresCluster` and `dataSource.pgbackrest`.
+The `dataSource` section in the Custom Resource includes three subsections: `dataSource.postgresCluster`, `dataSource.pgbackrest`, and `dataSource.volumes`. Use one of them to tell the Operator where to take the data from when the new cluster starts.
 
 !!! note
 
@@ -23,7 +24,7 @@ The `dataSource` section in the Custom Resource includes two subsections: `dataS
 
 ### `dataSource.postgresCluster` 
 
-Configure this subsection **to clone an existing cluster**. The key options are:
+Configure this subsection **to clone an existing cluster** in the same Kubernetes cluster. The source can be in the same namespace or a different one. The key options are:
 
 * `dataSource.postgresCluster.clusterName` is the name of the cluster you restore from. This is the source cluster. The option value corresponds to the `metadata.name` of the source cluster Custom Resource.
 
@@ -35,11 +36,18 @@ Configure this subsection **to clone an existing cluster**. The key options are:
 
 Read more about all available options in the [Custom Resource reference](operator.md#datasource-subsection)
 
+| Pros | Cons |
+| --- | --- |
+| Simplest path when the source cluster still exists | Source cluster must be available |
+| Creates an independent copy; the source stays intact | Not for a deleted cluster or a different Kubernetes cluster |
+| Supports point-in-time recovery | Needs restore time and storage for a full data copy |
+| Works in the same or a different namespace. | Requires the Operator in the [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) for cross-namespace restores | |
+
 ### `dataSource.pgbackrest`
 
-Configure this subsection **to restore from backup repository stored in a cloud storage**.
+Configure this subsection **to restore from a backup repository stored in cloud storage**. Use it when the source cluster no longer exists, or when you restore into a different Kubernetes cluster that can reach the same object storage.
 
-Its structure closely matches the source cluster's `backups.pgbackrest` section, with these main points:
+The **new** cluster's Custom Resource structure closely matches the source cluster's `backups.pgbackrest` section, with these main points:
 
 * Define the backup source using a single `repo` object (not an array as in `backups.pgbackrest`).
 * Specify `stanza` (usually `db`), required to identify the backup.
@@ -56,6 +64,33 @@ Key options are:
 * `dataSource.pgbackrest.repo` is the name of the `pgBackRest` repository. It is the same on both source and new clusters.
 
 For all options, see the [Custom Resource reference](operator.md#datasourcepgbackrestconfigurationsecretname).
+
+| Pros | Cons |
+| --- | --- |
+| Works without a live source cluster | You must match the repository path, stanza, Secret, and storage settings exactly |
+| Fits disaster recovery and multi-cluster restores | Cloud credentials must exist in the target namespace |
+| Source cluster may already be deleted | Restore time and network or storage cost |
+
+### `dataSource.volumes`
+
+Configure this subsection **to bootstrap a new cluster from existing PersistentVolumeClaims** instead of restoring from a `pgBackRest` backup. The Operator attaches the volumes you name and starts PostgreSQL on that data.
+
+Use this when you need a fast cutover on the same storage in the **same namespace**. You must stop the source cluster first. Two clusters cannot use the same volumes at the same time. If source and target are in different namespaces, rebind the PersistentVolumes instead — see [Choose your approach](#choose-your-approach). For the same-namespace procedure, see [Restore using data volumes](#restore-using-data-volumes).
+
+Key options are:
+
+* `dataSource.volumes.pgDataVolume` – the PVC (and optional directory) with the PostgreSQL data directory
+* `dataSource.volumes.pgWALVolume` – optional; use it if the source cluster stored WAL on a separate volume
+* `dataSource.volumes.pgBackRestVolume` – the PVC (and optional directory) for the local pgBackRest repository
+
+For all options, see the [Custom Resource reference](operator.md#datasourcevolumespgdatavolumepvcname).
+
+| Pros | Cons |
+| --- | --- |
+| Fastest option for large datasets — no full restore copy | Downtime from stopping the source until the new cluster accepts writes |
+| No object storage required for bootstrap | Ownership of the volumes moves to the new cluster |
+| Avoids double storage during a backup-based restore | Weak rollback once the new cluster writes (take a backup first) |
+| Good for same-namespace cutovers when PVCs can be retained | Same PostgreSQL major version; same Kubernetes cluster and compatible storage |
 
 ## Clone from an existing cluster
 
@@ -304,3 +339,234 @@ The `dataSource.pgbackrest` section stays the same; only the new cluster's backu
 ### GCS and Azure Blob Storage
 
 For Google Cloud Storage or Azure Blob Storage, use the same structure but replace the `repo.s3` block with `repo.gcs` or `repo.azure` and the matching configuration. See [Google Cloud Storage](backups-storage-gcs.md) and [Microsoft Azure Blob Storage](backups-storage-azure.md) for examples.
+
+## Restore using data volumes
+
+Instead of restoring from a `pgBackRest` backup, you can start a **new** cluster on the PersistentVolumeClaims that already hold your PostgreSQL data. The Operator takes ownership of those volumes and starts PostgreSQL on the existing data directory — with no backup copy over the network.
+
+Use this when:
+
+* Your dataset is large and a full restore would take too long
+* You can accept downtime while the source cluster is stopped
+* The source and target run in the same Kubernetes cluster, and you can set the PersistentVolume reclaim policy to `Retain` before you delete the source cluster.
+
+!!! important
+
+    This operation moves volume ownership to the new cluster. After the new cluster accepts writes, you cannot roll back by simply restarting the old cluster on the same disks. Take a backup first if you may need a fallback.
+
+### Choose your approach
+
+A PersistentVolumeClaim (PVC) is a namespaced object. How you hand the disks to the target depends on whether source and target share a namespace:
+
+| Source and target | Approach |
+| --- | --- |
+| Same namespace | Keep the existing PVCs and point `dataSource.volumes` at their names. Follow the procedure in this section. |
+| Different namespaces | You cannot reference a PVC from another namespace. Instead, rebind the underlying PersistentVolumes. For the full steps, see [Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes](migrate-from-crunchy-data-volumes.md). The same PV rebind pattern applies when you move a Percona cluster between namespaces. |
+
+### Prepare the source cluster
+
+Export the namespace where your source cluster runs:
+
+```bash
+export NAMESPACE=<namespace>
+```
+
+Complete these steps on the **source** cluster before you create the target.
+{.power-number}
+
+1. Stop application writes to the source cluster. Downtime starts here.
+
+2. Identify the primary Pod, its data PVC, and (if you use a local `pgBackRest` repo) the repository PVC:
+
+    ```bash
+    PRIMARY=$(kubectl get pod -n $NAMESPACE \
+      --selector postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
+      -o jsonpath='{.items[0].metadata.name}')
+
+    PGDATA_PVC=$(kubectl get pod -n $NAMESPACE "$PRIMARY" \
+      -o jsonpath='{.spec.volumes[?(@.name=="postgres-data")].persistentVolumeClaim.claimName}')
+
+    echo "Primary pod: $PRIMARY"
+    echo "Data PVC:    $PGDATA_PVC"
+    kubectl get pvc -n $NAMESPACE | grep -E "$PGDATA_PVC |cluster1-repo"
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        Primary pod: cluster1-instance1-abcd-0
+        Data PVC:    cluster1-instance1-abcd-pgdata
+        NAME                             STATUS   VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+        cluster1-instance1-abcd-pgdata   Bound    ...      10Gi       RWO            standard-rwo   3d
+        cluster1-repo1                   Bound    ...      10Gi       RWO            standard-rwo   3d
+        ```
+
+    If the source uses a separate WAL volume (`walVolumeClaimSpec`), also note the `*-pgwal` PVC bound to the primary Pod.
+
+3. Confirm the data directory name on the volume. It is usually `pg<major>` (for example `pg18` for PostgreSQL 18):
+
+    ```bash
+    kubectl exec -n $NAMESPACE "$PRIMARY" -c database -- \
+      ls -1 /pgdata
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        pg18
+        pg18_wal
+        pgbackrest
+        ```
+
+    You will use that directory name later in `dataSource.volumes.pgDataVolume.directory`.
+
+4. Identify the PersistentVolume your cluster's PVC is bound to and update the PersistentVolume reclaim policy to `Retain` for every volume you plan to reuse (data, and optionally WAL and the local pgBackRest repo). Dynamically provisioned volumes often default to `Delete`, which destroys the disk when its PVC is removed.
+
+    ```bash
+    PGDATA_PV=$(kubectl get pvc -n $NAMESPACE "$PGDATA_PVC" \
+      -o jsonpath='{.spec.volumeName}')
+
+    kubectl patch pv "$PGDATA_PV" \
+      -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        persistentvolume/pvc-e57276f9-359d-4ca6-81d8-5ed2114ec50b patched
+        ```
+
+    Repeat for the repository PVC (and WAL PVC, if you use one):
+
+    ```bash
+    REPO_PVC=cluster1-repo1
+    REPO_PV=$(kubectl get pvc -n $NAMESPACE "$REPO_PVC" \
+      -o jsonpath='{.spec.volumeName}')
+
+    kubectl patch pv "$REPO_PV" \
+      -p '{"spec":{"persistentVolumeReclaimPolicy":"Retain"}}'
+    ```
+
+    Confirm the policy:
+
+    ```bash
+    kubectl get pv "$PGDATA_PV" "$REPO_PV" \
+      -o custom-columns=NAME:.metadata.name,RECLAIM:.spec.persistentVolumeReclaimPolicy
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        NAME                                       RECLAIM
+        pvc-e57276f9-359d-4ca6-81d8-5ed2114ec50b   Retain
+        pvc-0f26234a-7a5d-4c38-bd59-ec22e731cb07   Retain
+        ```
+
+5. (Recommended) Take a full backup of the source cluster so you can recover with [`dataSource.pgbackrest`](#clone-from-cloud-storage-s3-gcs-azure-blob) or an [in-place restore](backups-restore-inplace.md) if the volume cutover fails.
+
+6. Delete the source cluster Custom Resource:
+
+    ```bash
+    kubectl delete perconapgcluster <cluster-name> -n $NAMESPACE
+    ```
+
+7. Confirm the data (and repo) PVCs are still present:
+
+    ```bash
+    kubectl get pvc -n $NAMESPACE
+    ```
+
+### Create the new cluster from the volumes
+
+Create a new `PerconaPGCluster` that points `dataSource.volumes` at the retained PVCs.
+{.power-number}
+
+1. Edit `deploy/cr.yaml` for the **new** cluster. Set:
+
+    * A new cluster name (for example `cluster2`), or reuse the old name if you prefer
+    * Set the same `postgresVersion` (and matching images) as the source
+    * Set the `instances[].replicas ` to `1` for the first start
+    * Set the `dataVolumeClaimSpec` storage size and access mode at least as large as the existing data PVC
+    * Set the `dataSource.volumes` with the PVC names and directories you collected
+
+    Example configuration:
+
+    ```yaml
+    apiVersion: pgv2.percona.com/v2
+    kind: PerconaPGCluster
+    metadata:
+      name: cluster2
+    spec:
+      crVersion: {{ release }}
+      postgresVersion: 18
+      dataSource:
+        volumes:
+          pgDataVolume:
+            pvcName: cluster1-instance1-abcd-pgdata
+            directory: pg18
+          pgBackRestVolume:
+            pvcName: cluster1-repo1
+          # Include only if the source used a separate WAL volume:
+          # pgWALVolume:
+          #   pvcName: cluster1-instance1-abcd-pgwal
+      instances:
+        - name: instance1
+          replicas: 1
+          dataVolumeClaimSpec:
+            accessModes:
+              - ReadWriteOnce
+            resources:
+              requests:
+                storage: 10Gi
+      backups:
+        pgbackrest:
+          repos:
+          - name: repo1
+            volume:
+              volumeClaimSpec:
+                accessModes:
+                  - ReadWriteOnce
+                resources:
+                  requests:
+                    storage: 10Gi
+      proxy:
+        pgBouncer:
+          replicas: 1
+          image: docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}
+    ```
+
+    !!! note
+
+        Set `directory` under `pgDataVolume` to the directory you listed under `/pgdata` on the source (for example `pg17`). Add `pgWALVolume` only when the source stored WAL on a separate PVC. If you reuse a local pgBackRest repo PVC, set `pgBackRestVolume.pvcName` to that claim (for example `cluster1-repo1`).
+
+2. Deploy the new cluster:
+
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n $NAMESPACE
+    ```
+
+3. Wait until the cluster is ready:
+
+    ```bash
+    kubectl wait perconapgcluster/cluster2 \
+      -n $NAMESPACE \
+      --for=jsonpath='{.status.state}'=ready \
+      --timeout=600s
+    ```
+
+4. Verify that PostgreSQL is writable on the primary:
+
+    ```bash
+    PRIMARY=$(kubectl get pod -n $NAMESPACE \
+      --selector postgres-operator.crunchydata.com/cluster=cluster2,postgres-operator.crunchydata.com/role=primary \
+      -o jsonpath='{.items[0].metadata.name}')
+
+    kubectl exec -n $NAMESPACE "$PRIMARY" -c database -- \
+      psql -t -c "SELECT pg_is_in_recovery();"
+    ```
+
+    Expect `f` for a primary that can accept writes. Spot-check application data as needed.
+
+5. Remove `spec.dataSource.volumes` from the manifest and re-apply it. The volumes already belong to the new cluster; the bootstrap configuration is no longer required.
+
+6. If you need high availability, increase `instances[].replicas` after the primary is healthy so the Operator creates fresh PVCs for the additional replicas.

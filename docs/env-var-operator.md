@@ -69,7 +69,7 @@ The value is a comma-separated list of feature gate key-value pairs. By default 
 
 Following feature gates are present:
 
-1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#automated-scaling-with-auto-growable-disk) chapter.
+1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for PostgreSQL data volumes and, starting with Operator version 3.1.0, for pgBackRest repository volumes on the repo host. To learn more, refer to [Automated scaling with auto-growable disks](scaling-vertical.md#automated-scaling-with-auto-growable-disks).
 
 2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.
 

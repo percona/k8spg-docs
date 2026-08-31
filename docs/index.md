@@ -14,6 +14,9 @@ environment is key.
 
     This is the documentation for the latest release, **{{release}}** ([Release Notes](ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md)).
 
+    Explore planned features on the [public roadmap :octicons-link-external-16:](https://github.com/orgs/percona/projects/10/views/6). 
+    Check upcoming releases on the [release timeline :octicons-link-external-16:](https://github.com/orgs/percona/projects/10/views/9).
+
 Starting with Percona Kubernetes Operator is easy. Follow our documentation guides, and you'll be set up in a minute.
 
 <div data-grid markdown><div data-banner markdown>

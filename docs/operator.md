@@ -1120,7 +1120,7 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 
 ### `instances.dataVolumeClaimSpec.resources.limits.storage`
 
-The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use.
+The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the storage the PostgreSQL instance will use. When the [`AutoGrowVolumes`](env-var-operator.md#pgo_feature_gates) feature gate is enabled, this value sets the maximum size the Operator may scale the data volume up to. See [Automated scaling with auto-growable disks](scaling-vertical.md#automated-scaling-with-auto-growable-disks) for details.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1821,6 +1821,14 @@ The [Kubernetes storage requests :octicons-link-external-16:](https://kubernetes
 | ---------- | ------- |
 | :material-code-string: string | `1Gi` |
 
+### `backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage`
+
+The [Kubernetes storage limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the pgBackRest repository volume. Starting with Operator version 3.1.0, when the [`AutoGrowVolumes`](env-var-operator.md#pgo_feature_gates) feature gate is enabled, this value sets the maximum size the Operator may scale the repository volume up to. See [Automated scaling with auto-growable disks](scaling-vertical.md#automated-scaling-with-auto-growable-disks) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `5Gi` |
+
 ### `backups.pgbackrest.repos.s3.bucket`
 
 The [Amazon S3 bucket :octicons-link-external-16:](https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingBucket.html) 
@@ -1863,33 +1871,33 @@ Name of the [Azure Blob Storage container :octicons-link-external-16:](https://d
 | ---------- | ------- |
 | :material-code-string: string | `my-container` |
 
-### `backups.restore.tolerations.effect`
+### `backups.pgbackrest.restore.tolerations.effect`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the restore job. Starting with Operator version 3.1.0, if you do not set `backups.pgbackrest.restore.tolerations`, the Operator applies [`backups.pgbackrest.jobs.tolerations`](#backupspgbackrestjobstolerationseffect). See [Tolerations](constraints.md#tolerations).
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `NoSchedule` |
 
-### `backups.restore.tolerations.key`
+### `backups.pgbackrest.restore.tolerations.key`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `role` |
 
-### `backups.restore.tolerations.operator`
+### `backups.pgbackrest.restore.tolerations.operator`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
 | :material-code-string: string | `Equal` |
 
-### `backups.restore.tolerations.value`
+### `backups.pgbackrest.restore.tolerations.value`
 
-The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the backup restore job.
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the restore job.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1902,7 +1910,7 @@ file contains configuration options for Percona Monitoring and Management.
 
 ### `pmm.enabled`
 
-Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/setting-up/client/postgresql.html).
+Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with PMM :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/install-pmm/install-pmm-client/connect-database/postgresql.html).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -1910,7 +1918,7 @@ Enables or disables [monitoring Percona Distribution for PostgreSQL cluster with
 
 ### `pmm.image`
 
-[Percona Monitoring and Management (PMM) Client :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/2/details/architecture.html#pmm-client) Docker image.
+[Percona Monitoring and Management (PMM) Client :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client) Docker image.
 
 | Value type | Example |
 | ---------- | ------- |
