@@ -257,7 +257,10 @@ nav:
             - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
-          - "Scale your cluster": scaling.md
+          - Scale your cluster:
+            - "Overview": scaling.md
+            - "Horizontal scaling": scaling-horizontal.md
+            - "Vertical scaling": scaling-vertical.md
           - "High-availability": ha-deploy.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md

@@ -21,7 +21,7 @@ Starting from this release, the Operator is able to detect if the storage usage 
 
 When the support for auto-growable disks is turned on, the `spec.instances[].dataVolumeClaimSpec.resources.limits.storage` Custom Resource option sets the maximum value available for the Operator to scale up.
 
-See [official documentation](../scaling.md#scale-storage) for more details and limitations of the feature.
+See [official documentation](../scaling-vertical.md#scale-storage) for more details and limitations of the feature.
 
 ### Major versions upgrade improvements
 
@@ -49,7 +49,7 @@ spec:
 ## New features
 
 * {{ k8spgjira(227) }} and {{ k8spgjira(157) }}: Add support for the [Azure Kubernetes Service (AKS)](../aks.md) platform and allow [using Azure Blob Storage](../backups-storage-azure.md) for backups
-* {{ k8spgjira(244) }}: [Automated storage scaling](../scaling.md#scale-storage) is now supported
+* {{ k8spgjira(244) }}: [Automated storage scaling](../scaling-vertical.md#scale-storage) is now supported
 
 ## Improvements
 
