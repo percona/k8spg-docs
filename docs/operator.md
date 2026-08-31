@@ -66,6 +66,20 @@ Enforce the Operator to use only Transport Layer Security (TLS) for both interna
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `tls.certManagementPolicy`
+
+Controls how the Operator creates and manages TLS certificates, including when TLS Secrets are missing and whether cert-manager is used. You can set this option only when you create the cluster; you cannot change it later. Supported values are:
+
+* `auto` (default) — If TLS Secrets are missing, the Operator creates new certificates automatically. If [cert-manager](tls-cert-manager.md) is installed, the Operator uses it, including `spec.tls.issuerConf` when you set it.
+* `userProvidedOnly` — The Operator does not create or replace TLS certificates if a TLS Secret is temporarily unavailable. Certificate lifecycle stays entirely under user control. The Operator reports the `TLSSecretsReady=False` cluster condition and pauses the reconciliation. Restore the Secrets to return the cluster to a healthy state.
+* `operatorProvidedOnly` — The Operator always generates and manages TLS with its own PKI. It does not use cert-manager and ignores `spec.tls.issuerConf`. Use this when cert-manager is installed in the cluster but you want PostgreSQL to stay on Operator-generated certificates.
+
+See [Configure the TLS certificate management policy](tls-cert-management-policy.md) for details.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `auto` |
+
 ### `tls.certValidityDuration`
 
 Validity duration for TLS certificates (cluster, instance, and PgBouncer). Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `2160h`). Default: `8760h` (1 year).
@@ -160,7 +174,7 @@ Name of the secret with the custom root CA certificate and key for secure connec
 
 ### `secrets.customTLSSecret.name`
 
-A secret with TLS certificate generated for *external* communications, see [Transport Layer Security (TLS)](TLS.md) for details.
+Name of the Secret with the PostgreSQL **server** TLS certificate used for external communications. Use this when you provide certificates yourself. If you set this field, you must also set `secrets.customReplicationTLSSecret`, and both Secrets must use the same `ca.crt`. See [Transport Layer Security (TLS)](TLS.md) for details.
 
 | Value type | Example |
 | ---------- | ------- |
@@ -168,7 +182,7 @@ A secret with TLS certificate generated for *external* communications, see [Tran
 
 ### `secrets.customReplicationTLSSecret.name`
 
-A secret with TLS certificate generated for *internal* communications, see [Transport Layer Security (TLS)](TLS.md) for details.
+Name of the Secret with the **replication client** TLS certificate (`tls.crt`, `tls.key`, and `ca.crt`) used for streaming replication and `pg_rewind`. Use this when you provide certificates yourself. If you set this field, you must also set `secrets.customTLSSecret`, and both Secrets must use the same `ca.crt`. See [Transport Layer Security (TLS)](TLS.md) for details.
 
 | Value type | Example |
 | ---------- | ------- |

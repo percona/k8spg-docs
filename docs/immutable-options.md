@@ -102,6 +102,10 @@ Initialization SQL runs only at cluster creation time. You cannot add or change 
 
 The `dataSource` subsection configures restore-from-backup for a *new* cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.
 
+### `tls.certManagementPolicy`
+
+You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See [TLS certificate management policy](tls-cert-management-policy.md).
+
 ## Backup options
 
 ### Backup encryption

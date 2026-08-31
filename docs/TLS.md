@@ -9,13 +9,24 @@ The Percona Operator for PostgreSQL uses Transport Layer Security
 The internal certificate is also used as an authorization method for PostgreSQL
 Replica instances.
 
+These certificates are stored in Secrets. The default Secret names are derived from the cluster name. When you deploy a cluster, you see these Secrets:
+
+| Secret | What it is | Who uses it |
+| -------- | ------------ | ------------- |
+| `<cluster-name>-cluster-ca-cert` | Root certificate authority (CA) for this cluster | Signs the other certificates. Clients use it to verify the server. |
+| `<cluster-name>-cluster-cert` | PostgreSQL **server** certificate | Presented to applications (and used when verifying Postgres on the backend of PgBouncer). |
+| `<cluster-name>-replication-cert` | **Client** certificate | Used for streaming replication and `pg_rewind` between instances. Postgres accepts only certificate authentication for this user. |
+| `<cluster-name>-pgbouncer` | PgBouncer Secret, including its **frontend** TLS material | Presented to applications that connect through PgBouncer. |
+
+## Ways to provide TLS certificates
+
 You can configure TLS in these ways:
 
 * Have the Operator generate certificates automatically during cluster creation,
 * Use the [cert-manager](tls-cert-manager.md) to manage certificates and their lifecycle,
 * [Generate certificates manually](tls-manual.md).
 
-You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manager.md) to benefit from automatic renewal and centralized management.
+You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manager.md) to benefit from automatic renewal and centralized management. 
 
 !!! important "Known limitation for Operator 2.9.0"
 
@@ -25,14 +36,14 @@ You can [migrate your running cluster to cert-manager](tls-migrate-to-cert-manag
 
 Additionally, you can *force* your database cluster to use only encrypted channels for both internal and external communications. To do this, set the `tlsOnly` Custom Resource option to `true`.
 
-## Automatic certificate generation by the Operator
+### How the Operator chooses TLS source
 
-The Operator can generate long-term certificates automatically and enable encryption automatically during cluster creation.
+The Operator can generate long-term certificates and enable TLS encryption automatically during cluster creation.
 
-Upon cluster creation, the Operator reviews the Custom Resource configuration to determine the TLS approach:
+Upon cluster creation, the Operator reviews the Custom Resource configuration and chooses a TLS source in this order:
 
-* If you created custom certificate Secrets and referenced them in the cluster spec, the Operator uses them for TLS.
-* If custom Secrets are not specified but [cert-manager](tls-cert-manager.md) is installed, the Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.
+* Your custom TLS certificate Secrets if you created and referenced them in the cluster spec.
+* [cert-manager](tls-cert-manager.md), if it is installed and no custom Secrets are specified. The Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.
 * If neither condition is met, the Operator generates the necessary certificates and Secrets itself.
 
 !!! note
@@ -48,6 +59,7 @@ The following sections provide guidelines how to:
 * [Migrate from Operator-generated certificates to cert-manager](tls-migrate-to-cert-manager.md)
 * [Migrate from cert-manager to custom TLS certificates](tls-migrate-from-cert-manager.md)
 * [Update certificates](tls-update.md)
+* [Configure the TLS certificate management policy](tls-cert-management-policy.md)
 * [Check TLS communication to a cluster](tls-verify-communication.md)
 
 ## Keep certificates after deleting the cluster
