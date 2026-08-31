@@ -206,6 +206,6 @@ Pay particular attention to extensions that contain native C/C++ libraries. Thos
 
 ## Before you cut over
 
-Perform at least **three successful trial runs** in a comparable test environment and run application validation tests. Prepare detailed, environment-specific runbooks before you migrate production workloads.
+Perform at least **three successful trial runs** in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.
 
 After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.
