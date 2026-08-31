@@ -218,6 +218,7 @@ nav:
             - "Migrate from Operator-generated certificates to cert-manager": tls-migrate-to-cert-manager.md
             - "Migrate from cert-manager to custom TLS certificates": tls-migrate-from-cert-manager.md
             - "Generate certificates manually": tls-manual.md
+            - "Trust additional CAs for PgBouncer client mTLS": tls-pgbouncer-trusted-cas.md
             - "Update TLS/SSL certificates": tls-update.md
             - "Check TLS communication": tls-verify-communication.md
           - "Telemetry": telemetry.md
