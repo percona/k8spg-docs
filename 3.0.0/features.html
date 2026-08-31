@@ -3230,9 +3230,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="scaling.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -3246,7 +3257,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6036,11 +6147,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Scale your cluster up or down to match demand while keeping changes declarative.</p>
 <ul>
 <li><strong>Declarative clusters</strong> — Describe desired cluster state in YAML; the Operator automatically reconciles Kubernetes resources to match.</li>
-<li><strong>Replica scaling</strong> — <a href="ha-deploy.html#adding-nodes-to-a-cluster">Adjust replica count</a> in the Custom Resource to scale horizontally.</li>
+<li><strong>Replica scaling</strong> — <a href="scaling-horizontal.html">Adjust replica count</a> in the Custom Resource to scale horizontally.</li>
 <li><strong>Dynamic configuration</strong> — <a href="options.html">Update PostgreSQL parameters</a> without a full cluster restart.</li>
 <li><strong>Self-healing</strong> — The Operator automatically detects and recovers from Pod crashes, node issues, and common network problems.</li>
 <li><strong>Rolling updates</strong> — Apply configuration and image updates with controlled rollouts.</li>
-<li><strong>Storage expansion</strong> — Automatically <a href="scaling.html#scale-storage">increase storage size</a> for PostgreSQL instances when supported by your environment and configuration.</li>
+<li><strong>Storage expansion</strong> — Automatically <a href="scaling-vertical.html#scale-storage">increase storage size</a> for PostgreSQL instances when supported by your environment and configuration.</li>
 </ul>
 <h2 id="postgresql-specific-features">PostgreSQL-specific features<a class="headerlink" href="#postgresql-specific-features" title="Permanent link">&para;</a></h2>
 <p>Use PostgreSQL capabilities that operators expect in production.</p>
@@ -6083,7 +6194,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 18:05:58 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
         <br>
         Created:

@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Status fields show the current state of a Custom Resource (CR). The Operator sets these fields in the .status section of a Custom Resource. You do not edit the status.">
+        <meta name="description" content="Horizontal scaling means adding members to your PostgreSQL cluster. New members join as standbys via streaming replication.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/cr-statuses.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/scaling-horizontal.html">
       
       
-        <link rel="prev" href="restore-options.html">
+        <link rel="prev" href="scaling.html">
       
       
-        <link rel="next" href="secret-options.html">
+        <link rel="next" href="scaling-vertical.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Custom resource statuses - Percona Operator for PostgreSQL</title>
+        <title>Horizontal scaling - Percona Operator for PostgreSQL</title>
       
     
     
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Custom resource statuses" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Horizontal scaling" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#custom-resource-statuses" class="md-skip">
+        <a href="#scale-a-postgresql-cluster-horizontally" class="md-skip">
           Skip to content
         </a>
       
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Custom resource statuses
+            Horizontal scaling
             
           </span>
         </div>
@@ -2031,18 +2031,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -2063,7 +2065,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3080,18 +3082,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" checked>
         
           
           <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
@@ -3112,7 +3116,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_3">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3155,10 +3159,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="scaling-horizontal.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="scaling-horizontal.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3174,6 +3205,59 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#choose-between-replicas-and-instance-sets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose between replicas and instance sets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-replicas-in-an-instance-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add replicas in an instance set
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#add-an-extra-instance-set" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Add an extra instance set
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4506,20 +4590,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11" >
         
           
           <label class="md-nav__link" for="__nav_11" id="__nav_11_label" tabindex="0">
@@ -4540,7 +4622,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4639,37 +4721,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Custom resource statuses
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="cr-statuses.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
         
   
   
@@ -4685,204 +4740,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-to-view-custom-resource-statuses" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        How to view custom resource statuses
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="How to view custom resource statuses">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get-a-quick-overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get a quick overview
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#view-full-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        View full details
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#query-a-status-field-directly" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Query a status field directly
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgcluster-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGCluster status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGCluster status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cluster-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cluster state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conditions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conditions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#standby-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Standby status
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgbackup-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGBackup status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGBackup status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#backup-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backup-conditions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup conditions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgrestore-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGRestore status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGRestore status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#restore-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Restore state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgupgrade-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGUpgrade status
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6000,7 +5857,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/cr-statuses.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/scaling-horizontal.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6059,177 +5916,32 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#how-to-view-custom-resource-statuses" class="md-nav__link">
+  <a href="#choose-between-replicas-and-instance-sets" class="md-nav__link">
     <span class="md-ellipsis">
       
-        How to view custom resource statuses
+        Choose between replicas and instance sets
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="How to view custom resource statuses">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#get-a-quick-overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Get a quick overview
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#view-full-details" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        View full details
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#query-a-status-field-directly" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Query a status field directly
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#perconapgcluster-status" class="md-nav__link">
+  <a href="#add-replicas-in-an-instance-set" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PerconaPGCluster status
+        Add replicas in an instance set
       
     </span>
   </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGCluster status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#cluster-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Cluster state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#conditions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Conditions
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#standby-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Standby status
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#perconapgbackup-status" class="md-nav__link">
+  <a href="#add-an-extra-instance-set" class="md-nav__link">
     <span class="md-ellipsis">
       
-        PerconaPGBackup status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGBackup status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#backup-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#backup-conditions" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Backup conditions
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgrestore-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGRestore status
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="PerconaPGRestore status">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#restore-state-values" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Restore state values
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#perconapgupgrade-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        PerconaPGUpgrade status
+        Add an extra instance set
       
     </span>
   </a>
@@ -6262,388 +5974,130 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/cr-statuses.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/scaling-horizontal.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="custom-resource-statuses">Custom resource statuses<a class="headerlink" href="#custom-resource-statuses" title="Permanent link">&para;</a></h1>
-<p>Status fields show the current state of a Custom Resource (CR). The Operator sets these fields in the <code>.status</code> section of a Custom Resource. You do not edit the status.</p>
-<p>Use status values to confirm progress, detect failures and decide when it is safe to run the next action. For example, start a backup after the cluster is ready for backups, or start a restore after a backup has succeeded.</p>
-<h2 id="how-to-view-custom-resource-statuses">How to view custom resource statuses<a class="headerlink" href="#how-to-view-custom-resource-statuses" title="Permanent link">&para;</a></h2>
-<p>To check the status of your Percona custom resources, use the <code>kubectl get &lt;resource-type&gt;</code> or <code>kubectl describe &lt;resource-type&gt;</code> commands. See how to use them to get the quick overview, in-depth details, and targeted queries.</p>
-<h3 id="get-a-quick-overview">Get a quick overview<a class="headerlink" href="#get-a-quick-overview" title="Permanent link">&para;</a></h3>
-<p>List your resources and check their high-level STATUS:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<details class="example">
-<summary>Sample output for PerconaPGCluster</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                            STATUS   POSTGRES   PGBOUNCER   AGE
-cluster1   cluster1-pgbouncer.default.svc      ready    3          3           30m
-</code></pre></div>
-</details>
-<h3 id="view-full-details">View full details<a class="headerlink" href="#view-full-details" title="Permanent link">&para;</a></h3>
-<p>See all status details as well as conditions and events:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
-kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<p>Check for the <code>.status</code> field in the output to find the current state, readiness, messages, and conditions.</p>
-<h3 id="query-a-status-field-directly">Query a status field directly<a class="headerlink" href="#query-a-status-field-directly" title="Permanent link">&para;</a></h3>
-<p>You can extract specific status fields using <code>jsonpath</code>.</p>
-<p><strong>Example 1. Check whether the cluster is ready for backups:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .status.conditions[?(@.type=="ReadyForBackup")]}{.lastTransitionTime}{"\n"}{.reason}{"\n"}{.status}{"\n"}{.type}{"\n"}{end}'</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>2026-07-22T12:34:56Z
-AllConditionsAreTrue
-True
-ReadyForBackup
-</code></pre></div>
-</details>
-<p><strong>Example 2. Get the latest restorable backup time:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>2026-07-22 12:22:17.000000+0000
-</code></pre></div>
-</details>
-<p><strong>Example 3. Check standby replication lag:</strong></p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.standby.lagBytes}{"\n"}{.status.standby.lagLastComputedAt}{"\n"}'</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>2343212
-2026-07-22T12:07:05Z
-</code></pre></div>
-</details>
-<h2 id="perconapgcluster-status">PerconaPGCluster status<a class="headerlink" href="#perconapgcluster-status" title="Permanent link">&para;</a></h2>
-<p>The main cluster state is recorded in <code>status.state</code>. For component-level readiness, see <code>status.postgres</code> and <code>status.pgbouncer</code>. Backup repository details appear under <code>status.pgbackrest</code>, and Patroni details under <code>status.patroni</code>.</p>
-<p>Common fields:</p>
+<h1 id="scale-a-postgresql-cluster-horizontally">Scale a PostgreSQL cluster horizontally<a class="headerlink" href="#scale-a-postgresql-cluster-horizontally" title="Permanent link">&para;</a></h1>
+<p>Horizontal scaling means adding members to your PostgreSQL cluster. New members join as standbys via streaming replication.</p>
+<p>Horizontal scaling enhances your cluster’s <strong>read</strong> capacity and increases the number of available failover candidates. However, it does not increase write throughput. PostgreSQL still has only <strong>one primary</strong> member that handles all write operations. Standbys are read-only.</p>
+<p>You can add extra nodes in two ways:</p>
 <ul>
-<li><code>status.state</code> – overall cluster state</li>
-<li><code>status.postgres.ready</code> / <code>status.postgres.size</code> – number of ready PostgreSQL Pods and the configured size</li>
-<li><code>status.postgres.instances</code> – readiness per instance set</li>
-<li><code>status.pgbouncer.ready</code> / <code>status.pgbouncer.size</code> – number of ready PgBouncer Pods and the configured size</li>
-<li><code>status.host</code> – connection endpoint (primary Service or PgBouncer, depending on your proxy configuration)</li>
-<li><code>status.pgbackrest</code> – pgBackRest repository host, repos, and backup or restore job status</li>
-<li><code>status.patroni</code> – Patroni version and status (system identifier, switchover tracking)</li>
-<li><code>status.standby</code> – replication lag for standby clusters when lag detection is enabled</li>
-<li><code>status.conditions</code> – detailed condition list with reason and message. See <a href="#conditions">Conditions</a> for details.</li>
-<li><code>status.observedGeneration</code> – the generation of the Custom Resource that the Operator last successfully wrote into status.</li>
-<li><code>status.installedCustomExtensions</code> – names of custom extensions installed from the Custom Resource</li>
+<li>Change the number of replicas in the existing instance set</li>
+<li>Change the number of instance sets</li>
 </ul>
-<h3 id="cluster-state-values">Cluster state values<a class="headerlink" href="#cluster-state-values" title="Permanent link">&para;</a></h3>
-<p><code>status.state</code> values are:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>initializing</code></td>
-<td>The Operator is creating or reconciling the cluster. PostgreSQL Pods, PgBouncer Pods, or the pgBackRest repo host are not ready yet, or an update is still rolling out.</td>
-</tr>
-<tr>
-<td><code>stopping</code></td>
-<td>The cluster is paused (<code>spec.pause: true</code>) but some PostgreSQL Pods are still ready.</td>
-</tr>
-<tr>
-<td><code>paused</code></td>
-<td>The cluster is paused and no PostgreSQL Pods are ready.</td>
-</tr>
-<tr>
-<td><code>ready</code></td>
-<td>PostgreSQL and PgBouncer Pods match the desired size, the pgBackRest repo host is ready, and instance updates have finished.</td>
-</tr>
-</tbody>
-</table>
-<p>Unlike some other Percona Operators, <code>PerconaPGCluster</code> does not use an <code>error</code> value for <code>status.state</code>. Investigate problems through conditions, events, and Pod or Job status.</p>
-<h3 id="conditions">Conditions<a class="headerlink" href="#conditions" title="Permanent link">&para;</a></h3>
-<p>Conditions show more detail about cluster state changes. You can see them in <code>status.conditions[]</code>.</p>
-<p>Common condition fields:</p>
+<p>Key concepts to understand:</p>
 <ul>
-<li><code>type</code> – condition type</li>
-<li><code>status</code> – condition status</li>
-<li><code>reason</code> – short reason string</li>
-<li><code>message</code> – human-readable details</li>
+<li>An <strong>instance set</strong> is one entry under <code>spec.instances</code>. Members in the same set share the same resources, storage, sidecars, and related settings. The Operator manages each PostgreSQL member as its own StatefulSet within that set.</li>
+<li><strong><code>replicas</code></strong> is how many PostgreSQL members belong to that instance set. One member becomes primary; the others are standbys.</li>
 </ul>
-<p><code>status.conditions[].type</code> values:</p>
+<h2 id="choose-between-replicas-and-instance-sets">Choose between replicas and instance sets<a class="headerlink" href="#choose-between-replicas-and-instance-sets" title="Permanent link">&para;</a></h2>
 <table>
 <thead>
 <tr>
-<th>Value</th>
-<th>Meaning</th>
+<th>Approach</th>
+<th>What the Operator does</th>
+<th>Prefer when</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>ReadyForBackup</code></td>
-<td>The cluster is ready for backup operations. Set to <code>True</code> when the pgBackRest repo host is ready and a replica-create backup is available.</td>
+<td>Increase <code>replicas</code> on one set</td>
+<td>Adds or removes members in that instance set</td>
+<td>Standard high availability and read replicas with the same settings (storage, compute resources, affinity rules)</td>
 </tr>
 <tr>
-<td><code>PGBackRestRepoHostReady</code></td>
-<td>The dedicated pgBackRest repository host is ready.</td>
-</tr>
-<tr>
-<td><code>PGBackRestReplicaCreate</code></td>
-<td>pgBackRest can be used for replica creation (a suitable backup exists).</td>
-</tr>
-<tr>
-<td><code>PGBackRestReplicaRepoReady</code></td>
-<td>The pgBackRest repository used for creating replicas is ready.</td>
-</tr>
-<tr>
-<td><code>PGBackRestManualBackupSuccessful</code></td>
-<td>Indicates whether or not the latest on-demand backup for the current backup ID completed successfully.</td>
-</tr>
-<tr>
-<td><code>PGBackRestoreProgressing</code></td>
-<td>An in-place pgBackRest restore is in progress.</td>
-</tr>
-<tr>
-<td><code>PostgresDataInitialized</code></td>
-<td>The PostgreSQL data directory has been initialized (for example, via a restore).</td>
-</tr>
-<tr>
-<td><code>ProxyAvailable</code></td>
-<td>The PgBouncer Deployment is available.</td>
-</tr>
-<tr>
-<td><code>Progressing</code></td>
-<td>The cluster is progressing through a reconciliation or change.</td>
-</tr>
-<tr>
-<td><code>PersistentVolumeResizing</code></td>
-<td>A Persistent Volume resize is in progress.</td>
-</tr>
-<tr>
-<td><code>StandbyLagging</code></td>
-<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="standby.html#detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
-</tr>
-<tr>
-<td><code>APIGroupMigration</code></td>
-<td>Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See <a href="update-operator.html">Upgrade the Operator</a>.</td>
-</tr>
-<tr>
-<td><code>RepoDeploymentNotFound</code></td>
-<td>A pgBackRest repository deployment was not found during reconciliation.</td>
-</tr>
-<tr>
-<td><code>RepoHostCreated</code></td>
-<td>A pgBackRest repository host was created.</td>
+<td>Add another <code>instances</code> entry</td>
+<td>Creates a new instance set with its own members and settings</td>
+<td>Different configuration or hardware, migration</td>
 </tr>
 </tbody>
 </table>
-<p><code>status.conditions[].status</code> values:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>True</code></td>
-<td>The condition is currently true.</td>
-</tr>
-<tr>
-<td><code>False</code></td>
-<td>The condition is currently false.</td>
-</tr>
-<tr>
-<td><code>Unknown</code></td>
-<td>The Operator could not determine the condition state.</td>
-</tr>
-</tbody>
-</table>
-<p>The Operator sets <code>reason</code> and <code>message</code> values as free-form strings. Common reasons include:</p>
+<h2 id="add-replicas-in-an-instance-set">Add replicas in an instance set<a class="headerlink" href="#add-replicas-in-an-instance-set" title="Permanent link">&para;</a></h2>
+<p>Use this approach when you want a cluster with <strong>identical</strong> members for high availability or to serve more read traffic.</p>
+<p>For example, you have three members (one primary and 2 standbys):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<p>Increase the replica count:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="hll"><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span></code></pre></div>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>The Operator adds two more members in the same instance set. The new standbys are ready after they synchronize from the primary.</p>
+<p><strong>Best practices</strong></p>
 <ul>
-<li><code>AllConditionsAreTrue</code>, <code>PGBackRestRepoHostReady</code>, <code>PGBackRestReplicaCreate</code> (for <code>ReadyForBackup</code>)</li>
-<li><code>RepoHostReady</code>, <code>RepoHostNotReady</code>, <code>RepoHostStatusMissing</code></li>
-<li><code>LagDetected</code>, <code>LagNotDetected</code>, <code>ErrorGettingLag</code>, <code>MainSiteNotFound</code> (for <code>StandbyLagging</code>)</li>
-<li><code>APIGroupMigrationCompleted</code>, <code>APIGroupMigrationInProgress</code>, <code>APIGroupMigrationNotNeeded</code></li>
-<li><code>ReadyForRestore</code>, <code>RestoreInPlaceRequested</code>, <code>PGBackRestRestoreComplete</code>, <code>PGBackRestRestoreFailed</code></li>
-<li><code>ManualBackupComplete</code>, <code>ManualBackupFailed</code></li>
+<li>Prefer <strong>3</strong> members for production high availability. Two is a fragile minimum. See <a href="ha-deploy.html">High availability</a>.</li>
+<li>Pair scaling with <a href="constraints.html">anti-affinity and topology spread</a> so members do not share a single Kubernetes node.</li>
+<li>More replicas do not increase write capacity. Only the primary accepts writes. To spread read load, connect read-only clients to the replica Service or pgBouncer. See <a href="expose.html">Exposing cluster</a>.</li>
+<li>Each new standby needs its own PVC and copies data from the primary. Plan for that storage and network load.</li>
+<li>Raise the replica count gradually. Wait until each new standby finishes syncing before you rely on it.</li>
+<li>If you reduce the number of replicas in the instance set, the Operator keeps the primary and removes a standby Pod. You can set the target count but you cannot define which standby Pod to remove.</li>
 </ul>
-<h3 id="standby-status">Standby status<a class="headerlink" href="#standby-status" title="Permanent link">&para;</a></h3>
-<p>When you enable replication lag detection on a <a href="standby.html">standby cluster</a>, the Operator also populates <code>status.standby</code>:</p>
-<table>
-<thead>
-<tr>
-<th>Field</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>status.standby.lagBytes</code></td>
-<td>Current WAL lag in bytes</td>
-</tr>
-<tr>
-<td><code>status.standby.lagLastComputedAt</code></td>
-<td>Timestamp of the last lag check</td>
-</tr>
-</tbody>
-</table>
-<p>When lag exceeds your threshold, <code>status.state</code> becomes <code>initializing</code>, the standby primary Pod is marked unready, and the <code>StandbyLagging</code> condition is set to <code>True</code>.</p>
-<h2 id="perconapgbackup-status">PerconaPGBackup status<a class="headerlink" href="#perconapgbackup-status" title="Permanent link">&para;</a></h2>
-<p>Backup progress and results are in <code>status.state</code>. You also get destination, type, and timing details that help you validate backups and point-in-time recovery ranges. Backups are managed with <code>pgBackRest</code> (or <code>VolumeSnapshots</code> when you choose that method).</p>
-<p>Common fields are:</p>
+<h2 id="add-an-extra-instance-set">Add an extra instance set<a class="headerlink" href="#add-an-extra-instance-set" title="Permanent link">&para;</a></h2>
+<p>Add another <code>spec.instances</code> entry when members need a <strong>different</strong> configuration, or when you want to scale one group independently of another.</p>
+<p>Each instance set can have its own configuration for resources, storage class, sidecars, and more. The Operator creates a separate StatefulSet for each configured set. However, all these sets remain part of the same PostgreSQL/Patroni cluster and synchronize the data through replication.</p>
+<p>Typical use cases:</p>
 <ul>
-<li><code>status.backupName</code> – pgBackRest backup name</li>
-<li><code>status.backupType</code> – backup type (<code>full</code>, <code>differential</code>, <code>incremental</code>, or <code>snapshot</code>)</li>
-<li><code>status.completed</code> – completion timestamp</li>
-<li><code>status.crVersion</code> - the Operator version that took the backup</li>
-<li><code>status.conditions</code> – backup-related conditions (for example, lease acquisition)</li>
-<li><code>status.destination</code> – backup path or URL</li>
-<li><code>status.image</code> - the Operator image</li>
-<li><code>status.error</code> – error details when the backup fails</li>
-<li><code>status.jobName</code> – Kubernetes Job that ran the backup</li>
-<li><code>status.latestRestorableTime</code> – latest point for point-in-time recovery from this backup</li>
-<li><code>status.repo</code> – the details of the pgBackRest repository where the backup is stored</li>
-<li><code>status.size</code> - the size of the backup taken. Applies for full, incremental and differential backups.</li>
-<li><code>status.snapshot</code> – VolumeSnapshot references when the backup method is <code>volumeSnapshot</code></li>
-<li><code>status.state</code> – backup job state</li>
-<li><code>status.storageType</code> – storage backend (<code>s3</code>, <code>gcs</code>, <code>azure</code>, or <code>filesystem</code>)</li>
+<li>Migrate to new hardware or a new storage class</li>
+<li>Blue-green style rollout of a new configuration</li>
+<li>Try new sidecar versions or sizing next to the existing set</li>
+<li>Control <strong>which group</strong> of members you add, drain, or stop, and in which sequence you apply those Custom Resource changes.</li>
 </ul>
-<h3 id="backup-state-values">Backup state values<a class="headerlink" href="#backup-state-values" title="Permanent link">&para;</a></h3>
-<p><code>status.state</code> values are:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>""</code></td>
-<td>Backup is created but not processed yet.</td>
-</tr>
-<tr>
-<td><code>Starting</code></td>
-<td>The Operator is preparing the backup Job.</td>
-</tr>
-<tr>
-<td><code>Running</code></td>
-<td>Backup is in progress.</td>
-</tr>
-<tr>
-<td><code>Succeeded</code></td>
-<td>Backup completed successfully.</td>
-</tr>
-<tr>
-<td><code>Failed</code></td>
-<td>Backup failed. Check <code>status.error</code> and related Jobs.</td>
-</tr>
-</tbody>
-</table>
-<h3 id="backup-conditions">Backup conditions<a class="headerlink" href="#backup-conditions" title="Permanent link">&para;</a></h3>
-<p><code>PerconaPGBackup</code> may include conditions such as:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>BackupLeaseAcquired</code></td>
-<td>The backup acquired the lease required to run. When <code>False</code>, another backup may still hold the lease.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="perconapgrestore-status">PerconaPGRestore status<a class="headerlink" href="#perconapgrestore-status" title="Permanent link">&para;</a></h2>
-<p>Restore progress and results are in <code>status.state</code>. Use these fields to confirm when a restore starts, finishes, or fails.</p>
-<p>Common fields:</p>
+<p>For example, migrate from <code>old-ssd</code> to <code>new-ssd</code> while keeping the existing instance set intact:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance2</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-ssd</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
+</code></pre></div>
+<p>Apply the Custom Resource, wait until the new members are healthy and caught up, then scale down or remove the old instance set when you are ready.</p>
+<p><strong>Best practices</strong></p>
 <ul>
-<li><code>status.state</code> – restore job state</li>
-<li><code>status.jobName</code> – Kubernetes Job that ran the restore</li>
-<li><code>status.completed</code> – completion timestamp</li>
+<li>Extra instance sets fit migration and mixed configuration. For identical members, increasing <code>replicas</code> on one set is usually simpler.</li>
+<li>Name instance sets clearly (for example <code>instance1</code>, <code>instance2-new-ssd</code>).</li>
+<li>Members in each instance set get dedicated PVC. When you deploy several instance sets, you need storage and replication capacity for all of them. Plan for that before you scale.</li>
+<li>Decide which set should host the primary during cutover, then remove the old set deliberately. See <a href="change-primary.html">Change the primary</a>.</li>
+<li>Apply <a href="constraints.html">affinity and topology rules</a> so new members are spread across failure domains.</li>
+<li>Scale each set on its own: for example, bring <code>instance2</code> up first, then set <code>instance1</code> replicas to <code>0</code> or remove that entry after cutover.</li>
 </ul>
-<p>For in-place restores driven through the cluster Custom Resource, also check the <code>PGBackRestoreProgressing</code> condition on the related <code>PerconaPGCluster</code>.</p>
-<h3 id="restore-state-values">Restore state values<a class="headerlink" href="#restore-state-values" title="Permanent link">&para;</a></h3>
-<p><code>status.state</code> values are:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>""</code></td>
-<td>Restore is created but not processed yet.</td>
-</tr>
-<tr>
-<td><code>Starting</code></td>
-<td>The Operator is preparing the restore Job.</td>
-</tr>
-<tr>
-<td><code>Running</code></td>
-<td>Restore is in progress.</td>
-</tr>
-<tr>
-<td><code>Succeeded</code></td>
-<td>Restore completed successfully.</td>
-</tr>
-<tr>
-<td><code>Failed</code></td>
-<td>Restore failed. Check Jobs, events, and cluster conditions.</td>
-</tr>
-</tbody>
-</table>
-<h2 id="perconapgupgrade-status">PerconaPGUpgrade status<a class="headerlink" href="#perconapgupgrade-status" title="Permanent link">&para;</a></h2>
-<p>Major PostgreSQL upgrades use the <code>PerconaPGUpgrade</code> Custom Resource. Progress is reported through conditions rather than a single <code>status.state</code> field.</p>
-<p>Common fields:</p>
-<ul>
-<li><code>status.conditions</code> – upgrade progress and result</li>
-<li><code>status.observedGeneration</code> – the resource generation that the Operator last reconciled</li>
-</ul>
-<p><code>status.conditions[].type</code> values:</p>
-<table>
-<thead>
-<tr>
-<th>Value</th>
-<th>Meaning</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><code>Progressing</code></td>
-<td>A major PostgreSQL upgrade is in progress.</td>
-</tr>
-<tr>
-<td><code>Succeeded</code></td>
-<td>The major upgrade finished successfully when the condition status is <code>True</code>.</td>
-</tr>
-</tbody>
-</table>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 30, 2026 14:29:56 UTC">July 30, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="July 30, 2026 14:29:56 UTC">July 30, 2026</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
     
   </small>

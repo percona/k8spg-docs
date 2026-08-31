@@ -3082,9 +3082,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="scaling.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -3098,7 +3109,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6397,7 +6508,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h3 id="backup-encryption">Backup encryption<a class="headerlink" href="#backup-encryption" title="Permanent link">&para;</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="backup-encryption.html">Backup encryption</a>.</p>
 <h3 id="storage-size">Storage size<a class="headerlink" href="#storage-size" title="Permanent link">&para;</a></h3>
-<p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="scaling.html#scale-storage">Scale storage</a>.</p>
+<p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="scaling-vertical.html#scale-storage">Scale storage</a>.</p>
 <h2 id="patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#patroni-dynamic-configuration" title="Permanent link">&para;</a></h2>
 <p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="options.html">Changing PostgreSQL options</a>.</p>
 <hr>
@@ -6405,7 +6516,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="April 1, 2026 18:07:48 UTC">April 1, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
         <br>
         Created:

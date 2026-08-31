@@ -9,7 +9,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="High availability (HA) ensures that your PostgreSQL database remains accessible even in the event of node or pod failures. With the Percona Operator for PostgreSQL, high availability is achieved by running multiple PostgreSQL nodes in a cluster, using the Patroni framework for automated failover and PostgreSQL streaming replication for data consistency.">
+        <meta name="description" content="High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, Patroni  for automated failover, and PostgreSQL streaming replication for data consistency.">
       
       
         <meta name="author" content="Percona LLC">
@@ -18,7 +18,7 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/ha-deploy.html">
       
       
-        <link rel="prev" href="scaling.html">
+        <link rel="prev" href="scaling-vertical.html">
       
       
         <link rel="next" href="huge-pages.html">
@@ -3084,9 +3084,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="scaling.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -3100,7 +3111,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3173,52 +3284,57 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#adding-nodes-to-a-cluster" class="md-nav__link">
+  <a href="#understand-cluster-members" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding nodes to a cluster
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Adding nodes to a cluster">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-specinstancesreplicas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using spec.instances.replicas
+        Understand cluster members
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#using-specinstances" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#choose-a-replication-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using spec.instances
+        Choose a replication mode
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#using-synchronous-replication" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#size-your-high-availability-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using Synchronous replication
+        Size your high availability cluster
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#place-pods-for-resilience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Place Pods for resilience
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-synchronous-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure synchronous replication
+      
+    </span>
+  </a>
   
 </li>
       
@@ -5820,52 +5936,57 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#adding-nodes-to-a-cluster" class="md-nav__link">
+  <a href="#understand-cluster-members" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Adding nodes to a cluster
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Adding nodes to a cluster">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#using-specinstancesreplicas" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Using spec.instances.replicas
+        Understand cluster members
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#using-specinstances" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#choose-a-replication-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using spec.instances
+        Choose a replication mode
       
     </span>
   </a>
   
 </li>
-        
-          <li class="md-nav__item">
-  <a href="#using-synchronous-replication" class="md-nav__link">
+      
+        <li class="md-nav__item">
+  <a href="#size-your-high-availability-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Using Synchronous replication
+        Size your high availability cluster
       
     </span>
   </a>
   
 </li>
-        
-      </ul>
-    </nav>
+      
+        <li class="md-nav__item">
+  <a href="#place-pods-for-resilience" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Place Pods for resilience
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-synchronous-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure synchronous replication
+      
+    </span>
+  </a>
   
 </li>
       
@@ -5903,104 +6024,36 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="high-availability">High availability<a class="headerlink" href="#high-availability" title="Permanent link">&para;</a></h1>
-<p>High availability (HA) ensures that your PostgreSQL database remains accessible even in the event of node or pod failures. With the Percona Operator for PostgreSQL, high availability is achieved by running multiple PostgreSQL nodes in a cluster, using the Patroni framework for automated failover and PostgreSQL streaming replication for data consistency.</p>
-<p>A PostgreSQL cluster consists of the following members:</p>
+<p>High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, <a href="https://patroni.readthedocs.io/">Patroni <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for automated failover, and PostgreSQL streaming replication for data consistency.</p>
+<p>Adding members can also increase read capacity. That is a <a href="scaling-horizontal.html">horizontal scaling</a> concern. This document focuses on keeping the cluster alive and consistent through failures.</p>
+<h2 id="understand-cluster-members">Understand cluster members<a class="headerlink" href="#understand-cluster-members" title="Permanent link">&para;</a></h2>
+<p>A PostgreSQL cluster includes:</p>
 <ul>
-<li>A Primary node handles all write operations. The Primary continuously streams changes to its Standby nodes.</li>
-<li>Read-only (Standby in PostgreSQL terminology) replicas that continuously receive and replay changes from the Primary node. If the Primary fails, one of the Standbys can be automatically promoted to become the new Primary.</li>
+<li>A <strong>primary</strong> that handles all write operations and streams changes to standbys.</li>
+<li>One or more <strong>standbys</strong> (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.</li>
 </ul>
-<p><strong>Data replication</strong></p>
-<p>Percona Operator leverages PostgreSQL streaming replication to keep Standby nodes up-to-date.</p>
-<p>By default, <strong>asynchronous replication</strong> is used: the Primary sends changes to Standbys, but does not wait for confirmation before committing transactions. This offers better performance but presents a risk of minimal data loss (transactions not yet copied to a Standby could be lost in a failure).</p>
-<p><strong>Synchronous replication</strong> is also supported. In this replication type the Primary waits for at least one Standby to acknowledge receipt of data before marking a transaction as committed. This minimizes the risk of data loss, but can be slightly slower since each transaction must wait for a confirmation.</p>
-<p><strong>Minimum and recommended number of nodes for high availability:</strong></p>
-<p>The absolute minimum that can technically work for high availability is <strong>2 nodes</strong>. But this does not provide full high availability or protection against split-brain scenarios since the loss of either node can impact availability and data safety.</p>
-<p>The recommended number of nodes for high availability setups is <strong>3 or more PostgreSQL nodes</strong>.</p>
-<h2 id="adding-nodes-to-a-cluster">Adding nodes to a cluster<a class="headerlink" href="#adding-nodes-to-a-cluster" title="Permanent link">&para;</a></h2>
-<p>There are two ways how to control the number replicas in your HA cluster:</p>
-<ol>
-<li>Through changing <code>spec.instances.replicas</code> value</li>
-<li>By adding new entry into <code>spec.instances</code></li>
-</ol>
-<h3 id="using-specinstancesreplicas">Using <code>spec.instances.replicas</code><a class="headerlink" href="#using-specinstancesreplicas" title="Permanent link">&para;</a></h3>
-<p>For example, you have the following Custom Resource manifest:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-</code></pre></div>
-<p>This will provision a cluster with two nodes - one Primary and one Replica.
-Add the node by changing the manifest&hellip;</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="hll"><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span></code></pre></div>
-<p>&hellip;and applying the Custom Resource:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
-</code></pre></div>
-<p>The Operator will provision a new replica node. It will be ready and available
-once data is synchronized from Primary.</p>
-<h3 id="using-specinstances">Using <code>spec.instances</code><a class="headerlink" href="#using-specinstances" title="Permanent link">&para;</a></h3>
-<p>Each instance&rsquo;s entry has its own set of parameters, like resources, storage
-configuration, sidecars, etc. When you add a new entry into instances, this
-creates replica PostgreSQL nodes, but with a new set of parameters. This can be
-useful in various cases:</p>
+<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="expose.html">Exposing cluster</a>.</p>
+<h2 id="choose-a-replication-mode">Choose a replication mode<a class="headerlink" href="#choose-a-replication-mode" title="Permanent link">&para;</a></h2>
+<p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
+<p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
+<p><strong>Synchronous replication</strong> is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See <a href="#configure-synchronous-replication">Configure synchronous replication</a>.</p>
+<h2 id="size-your-high-availability-cluster">Size your high availability cluster<a class="headerlink" href="#size-your-high-availability-cluster" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Test or migrate to new hardware</li>
-<li>Blue-green deployment of a new configuration</li>
-<li>Try out new versions of your sidecar containers</li>
+<li><strong>Minimum:</strong> 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.</li>
+<li><strong>Recommended:</strong> <strong>3 or more</strong> PostgreSQL members for production HA.</li>
 </ul>
-<p>For example, you have the following Custom Resource manifest:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-</code></pre></div>
-<p>Now you have a goal to migrate to new disks, which are coming with the <code>new-ssd</code>
-storage class. You can create a new instance entry. This will instruct the
-Operator to create additional nodes with the new configuration keeping your
-existing nodes intact.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance2</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-</code></pre></div>
-<h3 id="using-synchronous-replication">Using Synchronous replication<a class="headerlink" href="#using-synchronous-replication" title="Permanent link">&para;</a></h3>
-<p>Synchronous replication offers the ability to confirm that all changes made by a transaction have been transferred to one or more synchronous standby servers. When requesting synchronous replication, each commit of a write transaction will wait until confirmation is received that the commit has been written to the write-ahead log on disk of both the primary and standby server. The drawbacks of synchronous replication are increased latency and reduced throughput on writes.</p>
-<p>You can turn on synchronous replication by customizing the <code>patroni.dynamicConfiguration</code> Custom Resource option.</p>
+<p>For how to add or remove members, see <a href="scaling-horizontal.html">Scale horizontally</a>.</p>
+<h2 id="place-pods-for-resilience">Place Pods for resilience<a class="headerlink" href="#place-pods-for-resilience" title="Permanent link">&para;</a></h2>
+<p>Extra members only help if they do not all fail together. Use <a href="constraints.html">anti-affinity, topology spread constraints, and tolerations</a> so PostgreSQL Pods land on different Kubernetes nodes or availability zones when your cluster topology allows it.</p>
+<p>The Operator and Kubernetes scheduler work together on placement; affinity rules are part of a production HA design, not an optional extra.</p>
+<h2 id="configure-synchronous-replication">Configure synchronous replication<a class="headerlink" href="#configure-synchronous-replication" title="Permanent link">&para;</a></h2>
+<p>Synchronous replication confirms that a transaction has reached one or more synchronous standbys before the primary considers the commit complete. The trade-off is higher write latency and lower write throughput.</p>
+<p>Turn on synchronous replication with <code>patroni.dynamicConfiguration</code>:</p>
 <ul>
-<li>Enable synchronous replication by setting <code>synchronous_mode</code> option to <code>on</code>.</li>
-<li>Use <code>synchronous_node_count</code> option to set the number of replicas (PostgreSQL standby servers) which should operate in syncrhonous mode (the default value is <code>1</code>).</li>
+<li>Set <code>synchronous_mode</code> to <code>on</code>.</li>
+<li>Set <code>synchronous_node_count</code> to the number of standbys that should run in synchronous mode (default is <code>1</code>).</li>
 </ul>
-<p>The result in your <code>deploy/cr.yaml</code> manifest may look as follows:</p>
+<p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -6008,14 +6061,17 @@ existing nodes intact.</p>
 <span class="w">      </span><span class="nt">synchronous_node_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<p>You will have the desired amount of replicas switched to synchronous replication after applying changes as usual, with <code>kubectl apply -f deploy/cr.yaml</code> command.</p>
-<p>Find more options useful to tune how your database cluster should operate in synchronous mode <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">in the official Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>After you apply the configuration, the requested number of standbys operate in synchronous mode.</p>
+<p>For more Patroni options, see the <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">Patroni replication modes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
         <br>
         Created:

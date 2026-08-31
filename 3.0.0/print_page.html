@@ -3090,9 +3090,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="scaling.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -3106,7 +3117,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6714,13 +6825,52 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#scaling" class="md-nav__link">
+  <a href="#section-7-3" class="md-nav__link">
     <span class="md-ellipsis">
       
         Scale your cluster
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Scale your cluster">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Overview
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-horizontal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Horizontal scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling-vertical" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Vertical scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -7782,11 +7932,11 @@ Check upcoming releases on the <a href="https://github.com/orgs/percona/projects
 <p>Scale your cluster up or down to match demand while keeping changes declarative.</p>
 <ul>
 <li><strong>Declarative clusters</strong> — Describe desired cluster state in YAML; the Operator automatically reconciles Kubernetes resources to match.</li>
-<li><strong>Replica scaling</strong> — <a href="#ha-deploy-adding-nodes-to-a-cluster">Adjust replica count</a> in the Custom Resource to scale horizontally.</li>
+<li><strong>Replica scaling</strong> — <a href="#scaling-horizontal">Adjust replica count</a> in the Custom Resource to scale horizontally.</li>
 <li><strong>Dynamic configuration</strong> — <a href="#options">Update PostgreSQL parameters</a> without a full cluster restart.</li>
 <li><strong>Self-healing</strong> — The Operator automatically detects and recovers from Pod crashes, node issues, and common network problems.</li>
 <li><strong>Rolling updates</strong> — Apply configuration and image updates with controlled rollouts.</li>
-<li><strong>Storage expansion</strong> — Automatically <a href="#scaling-scale-storage">increase storage size</a> for PostgreSQL instances when supported by your environment and configuration.</li>
+<li><strong>Storage expansion</strong> — Automatically <a href="#scaling-vertical-scale-storage">increase storage size</a> for PostgreSQL instances when supported by your environment and configuration.</li>
 </ul>
 <h2 id="features-postgresql-specific-features">PostgreSQL-specific features<a class="headerlink" href="#features-postgresql-specific-features" title="Permanent link">&para;</a></h2>
 <p>Use PostgreSQL capabilities that operators expect in production.</p>
@@ -12668,7 +12818,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <p>Following feature gates are present:</p>
 <ol>
 <li>
-<p><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for PostgreSQL data volumes and, starting with Operator version 3.1.0, for pgBackRest repository volumes on the repo host. To learn more, refer to the <a href="#scaling-automated-scaling-with-auto-growable-disks">Scale your cluster</a> chapter.</p>
+<p><code>AutoGrowVolumes=true</code> - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for PostgreSQL data volumes and, starting with Operator version 3.1.0, for pgBackRest repository volumes on the repo host. To learn more, refer to <a href="#scaling-vertical-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a>.</p>
 </li>
 <li>
 <p><code>BackupSnapshots=true</code> - Enables <a href="#backups-pvc-snapshots">PVC snapshot support</a> for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.</p>
@@ -15615,21 +15765,137 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <li>Global Load Balancer - various clouds and vendors provide their solutions</li>
 <li>Multi Cluster Services or MCS - available on most of the public clouds</li>
 <li>Federation or other multi-cluster solutions</li>
-</ol></section></section><section class="print-page" id="scaling" heading-number="7.3"><h1 id="scaling-scale-percona-distribution-for-postgresql-on-kubernetes">Scale Percona Distribution for PostgreSQL on Kubernetes<a class="headerlink" href="#scaling-scale-percona-distribution-for-postgresql-on-kubernetes" title="Permanent link">&para;</a></h1>
-<p>One of the great advantages brought by Kubernetes is the ease of an application scaling. Scaling an application results in adding resources or Pods and scheduling them to available Kubernetes nodes.</p>
-<p>Scaling can be <a href="#scaling-vertical-scaling">vertical</a> and horizontal. Vertical scaling adds more compute or storage resources to PostgreSQL nodes; horizontal scaling is about adding more nodes to the cluster. High availability looks technically similar, because it also involves additional nodes, but the reason is maintaining liveness of the system in case of server or network failures.</p>
-<p>This document focuses on vertical scaling. For deploying high availability, see the <a href="#ha-deploy">High availability</a> guide.</p>
-<h2 id="scaling-vertical-scaling">Vertical scaling<a class="headerlink" href="#scaling-vertical-scaling" title="Permanent link">&para;</a></h2>
-<h3 id="scaling-scale-compute-resources">Scale compute resources<a class="headerlink" href="#scaling-scale-compute-resources" title="Permanent link">&para;</a></h3>
-<p>The Operator deploys and manages multiple components, such as PostgreSQL instances, pgBouncer connection pooler, pgBackRest and others. For the full list, refer to the <a href="#architecture">Architecture</a> section. </p>
-<p>You can manage CPU or memory for every component separately by editing the corresponding sections in the Custom Resource. We follow the structure for <code>requests</code> and <code>limits</code> that <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">Kubernetes provides <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<p>The most common resources to specify are CPU and memory (RAM):</p>
+</ol></section></section>
+                    <section class='print-page md-section' id='section-7-3' heading-number='7.3'>
+                        <h1>Scale your cluster<a class='headerlink' href='#section-7-3' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="scaling" heading-number="7.3.1"><h1 id="scaling-scale-percona-distribution-for-postgresql-on-kubernetes">Scale Percona Distribution for PostgreSQL on Kubernetes<a class="headerlink" href="#scaling-scale-percona-distribution-for-postgresql-on-kubernetes" title="Permanent link">&para;</a></h1>
+<p>Kubernetes makes it straightforward to give a workload more capacity: you change the Custom Resource, and the Operator reconciles Pods, compute resources and storage to match.</p>
+<p>Scaling can be vertical or horizontal:</p>
 <ul>
-<li>You can specify a <strong>request</strong> for CPU or memory for a
-component&rsquo;s Pod. This tells the Kubernetes scheduler how much CPU or memory the Pod needs. The scheduler places the Pod only on a node that can satisfy all resource requests.</li>
-<li>If you specify a <strong>limit</strong>, this sets the maximum CPU or memory the container may use. If the container exceeds a CPU limit, it may be throttled. If it exceeds a memory limit, it may be terminated.</li>
+<li><strong>Vertical scaling</strong> adds CPU, memory, or disk to existing PostgreSQL members.</li>
+<li><strong>Horizontal scaling</strong> adds more PostgreSQL members to the cluster.</li>
 </ul>
-<p>You can set both <code>requests</code> and <code>limits</code> in the <code>resources</code> section of your Custom Resource. For example, to add more resources to your PostgreSQL instances:</p>
+<p>Adding members can look similar to <a href="#ha-deploy">high availability</a>, but the goals differ. Scaling is about capacity while high availability is about surviving failures. </p>
+<p>This document explains scaling. For failover, replication modes, and recommended cluster size, see <a href="#ha-deploy">High availability</a>.</p>
+<h2 id="scaling-next-steps">Next steps<a class="headerlink" href="#scaling-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#scaling-horizontal">Scale horizontally</a>
+<a class="md-button" href="#scaling-vertical">Scale vertically</a></p></section><section class="print-page" id="scaling-horizontal" heading-number="7.3.2"><h1 id="scaling-horizontal-scale-a-postgresql-cluster-horizontally">Scale a PostgreSQL cluster horizontally<a class="headerlink" href="#scaling-horizontal-scale-a-postgresql-cluster-horizontally" title="Permanent link">&para;</a></h1>
+<p>Horizontal scaling means adding members to your PostgreSQL cluster. New members join as standbys via streaming replication.</p>
+<p>Horizontal scaling enhances your cluster’s <strong>read</strong> capacity and increases the number of available failover candidates. However, it does not increase write throughput. PostgreSQL still has only <strong>one primary</strong> member that handles all write operations. Standbys are read-only.</p>
+<p>You can add extra nodes in two ways:</p>
+<ul>
+<li>Change the number of replicas in the existing instance set</li>
+<li>Change the number of instance sets</li>
+</ul>
+<p>Key concepts to understand:</p>
+<ul>
+<li>An <strong>instance set</strong> is one entry under <code>spec.instances</code>. Members in the same set share the same resources, storage, sidecars, and related settings. The Operator manages each PostgreSQL member as its own StatefulSet within that set.</li>
+<li><strong><code>replicas</code></strong> is how many PostgreSQL members belong to that instance set. One member becomes primary; the others are standbys.</li>
+</ul>
+<h2 id="scaling-horizontal-choose-between-replicas-and-instance-sets">Choose between replicas and instance sets<a class="headerlink" href="#scaling-horizontal-choose-between-replicas-and-instance-sets" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>What the Operator does</th>
+<th>Prefer when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Increase <code>replicas</code> on one set</td>
+<td>Adds or removes members in that instance set</td>
+<td>Standard high availability and read replicas with the same settings (storage, compute resources, affinity rules)</td>
+</tr>
+<tr>
+<td>Add another <code>instances</code> entry</td>
+<td>Creates a new instance set with its own members and settings</td>
+<td>Different configuration or hardware, migration</td>
+</tr>
+</tbody>
+</table>
+<h2 id="scaling-horizontal-add-replicas-in-an-instance-set">Add replicas in an instance set<a class="headerlink" href="#scaling-horizontal-add-replicas-in-an-instance-set" title="Permanent link">&para;</a></h2>
+<p>Use this approach when you want a cluster with <strong>identical</strong> members for high availability or to serve more read traffic.</p>
+<p>For example, you have three members (one primary and 2 standbys):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+</code></pre></div>
+<p>Increase the replica count:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="hll"><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5</span>
+</span></code></pre></div>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>The Operator adds two more members in the same instance set. The new standbys are ready after they synchronize from the primary.</p>
+<p><strong>Best practices</strong></p>
+<ul>
+<li>Prefer <strong>3</strong> members for production high availability. Two is a fragile minimum. See <a href="#ha-deploy">High availability</a>.</li>
+<li>Pair scaling with <a href="#constraints">anti-affinity and topology spread</a> so members do not share a single Kubernetes node.</li>
+<li>More replicas do not increase write capacity. Only the primary accepts writes. To spread read load, connect read-only clients to the replica Service or pgBouncer. See <a href="#expose">Exposing cluster</a>.</li>
+<li>Each new standby needs its own PVC and copies data from the primary. Plan for that storage and network load.</li>
+<li>Raise the replica count gradually. Wait until each new standby finishes syncing before you rely on it.</li>
+<li>If you reduce the number of replicas in the instance set, the Operator keeps the primary and removes a standby Pod. You can set the target count but you cannot define which standby Pod to remove.</li>
+</ul>
+<h2 id="scaling-horizontal-add-an-extra-instance-set">Add an extra instance set<a class="headerlink" href="#scaling-horizontal-add-an-extra-instance-set" title="Permanent link">&para;</a></h2>
+<p>Add another <code>spec.instances</code> entry when members need a <strong>different</strong> configuration, or when you want to scale one group independently of another.</p>
+<p>Each instance set can have its own configuration for resources, storage class, sidecars, and more. The Operator creates a separate StatefulSet for each configured set. However, all these sets remain part of the same PostgreSQL/Patroni cluster and synchronize the data through replication.</p>
+<p>Typical use cases:</p>
+<ul>
+<li>Migrate to new hardware or a new storage class</li>
+<li>Blue-green style rollout of a new configuration</li>
+<li>Try new sidecar versions or sizing next to the existing set</li>
+<li>Control <strong>which group</strong> of members you add, drain, or stop, and in which sequence you apply those Custom Resource changes.</li>
+</ul>
+<p>For example, migrate from <code>old-ssd</code> to <code>new-ssd</code> while keeping the existing instance set intact:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="nn">...</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance2</span>
+<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-ssd</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
+</code></pre></div>
+<p>Apply the Custom Resource, wait until the new members are healthy and caught up, then scale down or remove the old instance set when you are ready.</p>
+<p><strong>Best practices</strong></p>
+<ul>
+<li>Extra instance sets fit migration and mixed configuration. For identical members, increasing <code>replicas</code> on one set is usually simpler.</li>
+<li>Name instance sets clearly (for example <code>instance1</code>, <code>instance2-new-ssd</code>).</li>
+<li>Members in each instance set get dedicated PVC. When you deploy several instance sets, you need storage and replication capacity for all of them. Plan for that before you scale.</li>
+<li>Decide which set should host the primary during cutover, then remove the old set deliberately. See <a href="#change-primary">Change the primary</a>.</li>
+<li>Apply <a href="#constraints">affinity and topology rules</a> so new members are spread across failure domains.</li>
+<li>Scale each set on its own: for example, bring <code>instance2</code> up first, then set <code>instance1</code> replicas to <code>0</code> or remove that entry after cutover.</li>
+</ul></section><section class="print-page" id="scaling-vertical" heading-number="7.3.3"><h1 id="scaling-vertical-scale-a-postgresql-cluster-vertically">Scale a PostgreSQL cluster vertically<a class="headerlink" href="#scaling-vertical-scale-a-postgresql-cluster-vertically" title="Permanent link">&para;</a></h1>
+<p>Vertical scaling adds CPU, memory, or disk to existing PostgreSQL members. Use it when the cluster needs more resources per Pod rather than more members. For adding members, see <a href="#scaling-horizontal">Scale horizontally</a>.</p>
+<h2 id="scaling-vertical-scale-compute-resources">Scale compute resources<a class="headerlink" href="#scaling-vertical-scale-compute-resources" title="Permanent link">&para;</a></h2>
+<p>The Operator deploys and manages several components: PostgreSQL instances, pgBouncer, pgBackRest, and others. See <a href="#architecture">Architecture</a> for the full list.</p>
+<p>You can manage CPU or memory for every component in the corresponding section of the Custom Resource. The Operator follows the Kubernetes model for <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">requests and limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</p>
+<ul>
+<li>A <strong>request</strong> tells the scheduler how much CPU or memory the Pod needs. Kubernetes places the Pod only on a node that can satisfy every request.</li>
+<li>A <strong>limit</strong> is the maximum CPU or memory the container may use. Above the limit, the container may be throttled (CPU) or terminated (memory).</li>
+</ul>
+<p>You can set both <code>requests</code> and <code>limits</code> in the <code>resources</code> section. For example:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="nn">...</span>
 <span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
@@ -15643,20 +15909,20 @@ component&rsquo;s Pod. This tells the Kubernetes scheduler how much CPU or memor
 <span class="w">        </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2.0</span>
 <span class="w">        </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
 </code></pre></div>
-<p>If you only set <code>limits</code> and omit <code>requests</code>, Kubernetes defaults the request to the limit value.</p>
-<p>Use our reference documentation for the <a href="#operator">Custom Resource options</a> for more details about other components.</p>
-<h3 id="scaling-scale-storage">Scale storage<a class="headerlink" href="#scaling-scale-storage" title="Permanent link">&para;</a></h3>
+<p>If you set only <code>limits</code> and omit <code>requests</code>, Kubernetes defaults the request to the limit value.</p>
+<p>See the <a href="#operator">Custom Resource options</a> for other components.</p>
+<h2 id="scaling-vertical-scale-storage">Scale storage<a class="headerlink" href="#scaling-vertical-scale-storage" title="Permanent link">&para;</a></h2>
 <p>Kubernetes manages storage with the following components:</p>
 <ul>
 <li>a PersistentVolume (PV) - a segment of storage supplied by the Kubernetes administrator</li>
 <li>a PersistentVolumeClaim (PVC) - a request for storage from a user</li>
 </ul>
 <p>Starting with Kubernetes v1.11, you can increase the size of an existing PVC object (considered stable since Kubernetes v1.24).
-Note that you <strong>cannot</strong> shrink the size of an existing PVC object.</p>
+Note that you <strong>cannot shrink</strong> the size of an existing PVC object.</p>
 <p>Use storage scaling to keep up with growing data while keeping the cluster online. Starting with Operator version 2.5.0, the Operator supports the following scaling options:</p>
 <ul>
 <li>storage resizing with Volume Expansion capability - instruct the Operator to scale the storage by updating the Custom Resource manifest</li>
-<li>automated scaling with auto-growable disks - the Operator monitors storage usage and scales the storage automatically when you enable the <code>AutoGrowVolumes</code> feature gate. Starting with Operator version 3.1.0, this also covers pgBackRest repository volumes on the repo host</li>
+<li>automated scaling with auto-growable disks - the Operator monitors storage usage and scales the storage automatically when you enable the <code>AutoGrowVolumes</code> feature gate. Starting with Operator version 3.1.0, this also covers pgBackRest repository volumes on the repo host.</li>
 </ul>
 <p>For either option, the volume type must support PVC expansion.
 To check if your storage supports the expansion capability, run the following command:</p>
@@ -15668,20 +15934,20 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </details>
 <p>Find exact details about PVCs and the supported volume types in <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims">Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<h4 id="scaling-storage-resizing-with-volume-expansion-capability">Storage resizing with Volume Expansion capability<a class="headerlink" href="#scaling-storage-resizing-with-volume-expansion-capability" title="Permanent link">&para;</a></h4>
+<h3 id="scaling-vertical-storage-resizing-with-volume-expansion-capability">Storage resizing with Volume Expansion capability<a class="headerlink" href="#scaling-vertical-storage-resizing-with-volume-expansion-capability" title="Permanent link">&para;</a></h3>
 <p>Starting with Operator version 2.5.0, the Operator automatically expands storage that supports Volume Expansion when you change the size in the Custom Resource.</p>
 <p class="power-number">To resize storage, do the following:</p>
 <ol>
 <li>
 <p>Edit the <code>deploy/cr.yaml</code> file and set the new size under <code>instances[].dataVolumeClaimSpec.resources.requests.storage</code>:</p>
-<div class="no-copy highlight"><pre><span></span><code>spec:
-  ...
-  instances:
-    ...
-    dataVolumeClaimSpec:
-      resources:
-        requests:
-          storage: &lt;NEW STORAGE SIZE&gt;
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">instances</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">...</span>
+<span class="w">    </span><span class="l l-Scalar l-Scalar-Plain">dataVolumeClaimSpec</span><span class="p p-Indicator">:</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;NEW STORAGE SIZE&gt;</span>
 </code></pre></div>
 </li>
 <li>
@@ -15690,7 +15956,7 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </li>
 </ol>
-<h4 id="scaling-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks<a class="headerlink" href="#scaling-automated-scaling-with-auto-growable-disks" title="Permanent link">&para;</a></h4>
+<h3 id="scaling-vertical-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks<a class="headerlink" href="#scaling-vertical-automated-scaling-with-auto-growable-disks" title="Permanent link">&para;</a></h3>
 <p>Starting with Operator version 2.5.0, the Operator can detect when storage usage on a PVC reaches a certain threshold and trigger a PVC resize. Starting with Operator version 3.1.0, the Operator automatically resizes pgBackRest repository volumes on the repo host.</p>
 <p>This autoscaling needs the upstream auto-growable disk feature turned on when you deploy the Operator.</p>
 <p>This feature gives you:</p>
@@ -15704,12 +15970,12 @@ To check if your storage supports the expansion capability, run the following co
 <p class="power-number">To enable automated storage resizing, do the following:</p>
 <ol>
 <li>
-<p>Turn on the feature gate via the <code>PGO_FEATURE_GATES</code> environment variable in the <code>deploy/operator.yaml</code> manifest (or in the appropriate part of <code>deploy/bundle.yaml</code>):</p>
+<p>Turn on the feature gate via the <code>PGO_FEATURE_GATES</code> environment variable in the <code>deploy/operator.yaml</code> manifest (or in the appropriate part of <code>deploy/bundle.yaml</code> / <code>deploy/cw-bundle.yaml</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">subjects</span><span class="p">:</span>
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ServiceAccount</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-postgresql-operator</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg-operator</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;operator-namespace&gt;</span>
 <span class="nn">...</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">containers</span><span class="p">:</span>
@@ -15720,7 +15986,7 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </li>
 <li>
-<p>Set the maximum storage size the Operator may scale up to for the volumes you want to autoscale.</p>
+<p>Edit the cluster Custom Resource. Set the maximum storage size the Operator may scale up to for the volumes you want to autoscale.</p>
 <ul>
 <li>For PostgreSQL data volumes, use the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code> Custom Resource option</li>
 <li>For pgBackRest repository volumes, use the <code>spec.backups.pgbackrest.repos[].volume.volumeClaimSpec.resources.limits.storage</code> Custom Resource option:</li>
@@ -15751,106 +16017,38 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </li>
 </ol>
-<p>When usage on a volume exceeds 75%, the Operator calculates a new size by increasing the current volume size by 50%, up to the configured limit, and expands the PVC. If the calculated size exceeds the limit, the Operator expands the PVC only up to the limit and records a warning in the logs. </p>
-<p>For pgBackRest repositories, the Operator stores the latest suggested size in the <code>status.pgbackrest.repos[].desiredRepoVolume</code> field of the Custom Resource.</p></section><section class="print-page" id="ha-deploy" heading-number="7.4"><h1 id="ha-deploy-high-availability">High availability<a class="headerlink" href="#ha-deploy-high-availability" title="Permanent link">&para;</a></h1>
-<p>High availability (HA) ensures that your PostgreSQL database remains accessible even in the event of node or pod failures. With the Percona Operator for PostgreSQL, high availability is achieved by running multiple PostgreSQL nodes in a cluster, using the Patroni framework for automated failover and PostgreSQL streaming replication for data consistency.</p>
-<p>A PostgreSQL cluster consists of the following members:</p>
+<p>When usage on a volume exceeds 75%, the Operator calculates a new size by increasing the current volume size by 50%, up to the configured limit, and expands the PVC. If the calculated size exceeds the limit, the Operator expands the PVC only up to the limit and records a warning in the logs.</p>
+<p>For pgBackRest repositories, the Operator stores the latest suggested size in the <code>status.pgbackrest.repos[].desiredRepoVolume</code> field of the Custom Resource.</p></section></section><section class="print-page" id="ha-deploy" heading-number="7.4"><h1 id="ha-deploy-high-availability">High availability<a class="headerlink" href="#ha-deploy-high-availability" title="Permanent link">&para;</a></h1>
+<p>High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, <a href="https://patroni.readthedocs.io/">Patroni <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for automated failover, and PostgreSQL streaming replication for data consistency.</p>
+<p>Adding members can also increase read capacity. That is a <a href="#scaling-horizontal">horizontal scaling</a> concern. This document focuses on keeping the cluster alive and consistent through failures.</p>
+<h2 id="ha-deploy-understand-cluster-members">Understand cluster members<a class="headerlink" href="#ha-deploy-understand-cluster-members" title="Permanent link">&para;</a></h2>
+<p>A PostgreSQL cluster includes:</p>
 <ul>
-<li>A Primary node handles all write operations. The Primary continuously streams changes to its Standby nodes.</li>
-<li>Read-only (Standby in PostgreSQL terminology) replicas that continuously receive and replay changes from the Primary node. If the Primary fails, one of the Standbys can be automatically promoted to become the new Primary.</li>
+<li>A <strong>primary</strong> that handles all write operations and streams changes to standbys.</li>
+<li>One or more <strong>standbys</strong> (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.</li>
 </ul>
-<p><strong>Data replication</strong></p>
-<p>Percona Operator leverages PostgreSQL streaming replication to keep Standby nodes up-to-date.</p>
-<p>By default, <strong>asynchronous replication</strong> is used: the Primary sends changes to Standbys, but does not wait for confirmation before committing transactions. This offers better performance but presents a risk of minimal data loss (transactions not yet copied to a Standby could be lost in a failure).</p>
-<p><strong>Synchronous replication</strong> is also supported. In this replication type the Primary waits for at least one Standby to acknowledge receipt of data before marking a transaction as committed. This minimizes the risk of data loss, but can be slightly slower since each transaction must wait for a confirmation.</p>
-<p><strong>Minimum and recommended number of nodes for high availability:</strong></p>
-<p>The absolute minimum that can technically work for high availability is <strong>2 nodes</strong>. But this does not provide full high availability or protection against split-brain scenarios since the loss of either node can impact availability and data safety.</p>
-<p>The recommended number of nodes for high availability setups is <strong>3 or more PostgreSQL nodes</strong>.</p>
-<h2 id="ha-deploy-adding-nodes-to-a-cluster">Adding nodes to a cluster<a class="headerlink" href="#ha-deploy-adding-nodes-to-a-cluster" title="Permanent link">&para;</a></h2>
-<p>There are two ways how to control the number replicas in your HA cluster:</p>
-<ol>
-<li>Through changing <code>spec.instances.replicas</code> value</li>
-<li>By adding new entry into <code>spec.instances</code></li>
-</ol>
-<h3 id="ha-deploy-using-specinstancesreplicas">Using <code>spec.instances.replicas</code><a class="headerlink" href="#ha-deploy-using-specinstancesreplicas" title="Permanent link">&para;</a></h3>
-<p>For example, you have the following Custom Resource manifest:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-</code></pre></div>
-<p>This will provision a cluster with two nodes - one Primary and one Replica.
-Add the node by changing the manifest&hellip;</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="hll"><span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
-</span></code></pre></div>
-<p>&hellip;and applying the Custom Resource:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
-</code></pre></div>
-<p>The Operator will provision a new replica node. It will be ready and available
-once data is synchronized from Primary.</p>
-<h3 id="ha-deploy-using-specinstances">Using <code>spec.instances</code><a class="headerlink" href="#ha-deploy-using-specinstances" title="Permanent link">&para;</a></h3>
-<p>Each instance&rsquo;s entry has its own set of parameters, like resources, storage
-configuration, sidecars, etc. When you add a new entry into instances, this
-creates replica PostgreSQL nodes, but with a new set of parameters. This can be
-useful in various cases:</p>
+<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="#expose">Exposing cluster</a>.</p>
+<h2 id="ha-deploy-choose-a-replication-mode">Choose a replication mode<a class="headerlink" href="#ha-deploy-choose-a-replication-mode" title="Permanent link">&para;</a></h2>
+<p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
+<p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
+<p><strong>Synchronous replication</strong> is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See <a href="#ha-deploy-configure-synchronous-replication">Configure synchronous replication</a>.</p>
+<h2 id="ha-deploy-size-your-high-availability-cluster">Size your high availability cluster<a class="headerlink" href="#ha-deploy-size-your-high-availability-cluster" title="Permanent link">&para;</a></h2>
 <ul>
-<li>Test or migrate to new hardware</li>
-<li>Blue-green deployment of a new configuration</li>
-<li>Try out new versions of your sidecar containers</li>
+<li><strong>Minimum:</strong> 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.</li>
+<li><strong>Recommended:</strong> <strong>3 or more</strong> PostgreSQL members for production HA.</li>
 </ul>
-<p>For example, you have the following Custom Resource manifest:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-</code></pre></div>
-<p>Now you have a goal to migrate to new disks, which are coming with the <code>new-ssd</code>
-storage class. You can create a new instance entry. This will instruct the
-Operator to create additional nodes with the new configuration keeping your
-existing nodes intact.</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="nn">...</span>
-<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">old-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance2</span>
-<span class="w">      </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
-<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
-<span class="w">        </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">new-ssd</span>
-<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100Gi</span>
-</code></pre></div>
-<h3 id="ha-deploy-using-synchronous-replication">Using Synchronous replication<a class="headerlink" href="#ha-deploy-using-synchronous-replication" title="Permanent link">&para;</a></h3>
-<p>Synchronous replication offers the ability to confirm that all changes made by a transaction have been transferred to one or more synchronous standby servers. When requesting synchronous replication, each commit of a write transaction will wait until confirmation is received that the commit has been written to the write-ahead log on disk of both the primary and standby server. The drawbacks of synchronous replication are increased latency and reduced throughput on writes.</p>
-<p>You can turn on synchronous replication by customizing the <code>patroni.dynamicConfiguration</code> Custom Resource option.</p>
+<p>For how to add or remove members, see <a href="#scaling-horizontal">Scale horizontally</a>.</p>
+<h2 id="ha-deploy-place-pods-for-resilience">Place Pods for resilience<a class="headerlink" href="#ha-deploy-place-pods-for-resilience" title="Permanent link">&para;</a></h2>
+<p>Extra members only help if they do not all fail together. Use <a href="#constraints">anti-affinity, topology spread constraints, and tolerations</a> so PostgreSQL Pods land on different Kubernetes nodes or availability zones when your cluster topology allows it.</p>
+<p>The Operator and Kubernetes scheduler work together on placement; affinity rules are part of a production HA design, not an optional extra.</p>
+<h2 id="ha-deploy-configure-synchronous-replication">Configure synchronous replication<a class="headerlink" href="#ha-deploy-configure-synchronous-replication" title="Permanent link">&para;</a></h2>
+<p>Synchronous replication confirms that a transaction has reached one or more synchronous standbys before the primary considers the commit complete. The trade-off is higher write latency and lower write throughput.</p>
+<p>Turn on synchronous replication with <code>patroni.dynamicConfiguration</code>:</p>
 <ul>
-<li>Enable synchronous replication by setting <code>synchronous_mode</code> option to <code>on</code>.</li>
-<li>Use <code>synchronous_node_count</code> option to set the number of replicas (PostgreSQL standby servers) which should operate in syncrhonous mode (the default value is <code>1</code>).</li>
+<li>Set <code>synchronous_mode</code> to <code>on</code>.</li>
+<li>Set <code>synchronous_node_count</code> to the number of standbys that should run in synchronous mode (default is <code>1</code>).</li>
 </ul>
-<p>The result in your <code>deploy/cr.yaml</code> manifest may look as follows:</p>
+<p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -15858,8 +16056,11 @@ existing nodes intact.</p>
 <span class="w">      </span><span class="nt">synchronous_node_count</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2</span>
 <span class="w">      </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<p>You will have the desired amount of replicas switched to synchronous replication after applying changes as usual, with <code>kubectl apply -f deploy/cr.yaml</code> command.</p>
-<p>Find more options useful to tune how your database cluster should operate in synchronous mode <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">in the official Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="huge-pages" heading-number="7.5"><h1 id="huge-pages-using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a class="headerlink" href="#huge-pages-using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
+</code></pre></div>
+<p>After you apply the configuration, the requested number of standbys operate in synchronous mode.</p>
+<p>For more Patroni options, see the <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">Patroni replication modes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="huge-pages" heading-number="7.5"><h1 id="huge-pages-using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a class="headerlink" href="#huge-pages-using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <h2 id="huge-pages-overview">Overview<a class="headerlink" href="#huge-pages-overview" title="Permanent link">&para;</a></h2>
 <p>Huge Pages (also called large or super pages) are bigger memory blocks that help reduce CPU overhead. Normally, memory is managed in 4kB chunks, also called &ldquo;pages&rdquo;, but when your PostgreSQL workload grows, the CPU has to juggle a lot of these small pages. By switching to larger pages like 2MiB or 1GiB, you reduce the number of pages the CPU needs to track, which can improve efficiency and performance.</p>
 <p>For PostgreSQL clusters managed by Percona Operator for PostgreSQL, enabling huge pages is a recommended optimization, especially for memory-intensive workloads.</p>
@@ -21164,7 +21365,7 @@ standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsume
 <ul>
 <li>Check if the provisioner and parameters are indicating the type of storage you intend to provision.</li>
 <li>Check the <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode">volumeBindingMode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> especially if the storage cannot be accessed across availability zones. “WaitForFirstConsumer” volumeBindingMode ensures volume is provisioned only after a Pod requesting the Volume is created.</li>
-<li>If you are going to rely on the Operator <a href="#scaling-scaling-with-volume-expansion-capability">storage scaling functionality</a>, ensure the storage class supports PVC expansion (it should have  <code>allowVolumeExpansion: true</code> in the output of the above command).</li>
+<li>If you are going to rely on the Operator <a href="#scaling-vertical-storage-resizing-with-volume-expansion-capability">storage scaling functionality</a>, ensure the storage class supports PVC expansion (it should have  <code>allowVolumeExpansion: true</code> in the output of the above command).</li>
 </ul>
 <p>You can set PVC storage class with the following Custom Resource options:</p>
 <ul>
@@ -23881,7 +24082,7 @@ file contains configuration options for PostgreSQL instances. This section conta
 </tbody>
 </table>
 <h3 id="operator-instancesdatavolumeclaimspecresourceslimitsstorage"><code>instances.dataVolumeClaimSpec.resources.limits.storage</code><a class="headerlink" href="#operator-instancesdatavolumeclaimspecresourceslimitsstorage" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the storage the PostgreSQL instance will use. When the <a href="#env-var-operator-pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the data volume up to. See <a href="#scaling-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the storage the PostgreSQL instance will use. When the <a href="#env-var-operator-pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the data volume up to. See <a href="#scaling-vertical-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
 <table>
 <thead>
 <tr>
@@ -25227,7 +25428,7 @@ Percona Distribution for PostgreSQL backups.</p>
 </tbody>
 </table>
 <h3 id="operator-backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage"><code>backups.pgbackrest.repos.volume.volumeClaimSpec.resources.limits.storage</code><a class="headerlink" href="#operator-backupspgbackrestreposvolumevolumeclaimspecresourceslimitsstorage" title="Permanent link">&para;</a></h3>
-<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the pgBackRest repository volume. Starting with Operator version 3.1.0, when the <a href="#env-var-operator-pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the repository volume up to. See <a href="#scaling-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes storage limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the pgBackRest repository volume. Starting with Operator version 3.1.0, when the <a href="#env-var-operator-pgo_feature_gates"><code>AutoGrowVolumes</code></a> feature gate is enabled, this value sets the maximum size the Operator may scale the repository volume up to. See <a href="#scaling-vertical-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for details.</p>
 <table>
 <thead>
 <tr>
@@ -27510,7 +27711,7 @@ ReadyForBackup
 <h3 id="immutable-options-backup-encryption">Backup encryption<a class="headerlink" href="#immutable-options-backup-encryption" title="Permanent link">&para;</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="#backup-encryption">Backup encryption</a>.</p>
 <h3 id="immutable-options-storage-size">Storage size<a class="headerlink" href="#immutable-options-storage-size" title="Permanent link">&para;</a></h3>
-<p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="#scaling-scale-storage">Scale storage</a>.</p>
+<p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="#scaling-vertical-scale-storage">Scale storage</a>.</p>
 <h2 id="immutable-options-patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#immutable-options-patroni-dynamic-configuration" title="Permanent link">&para;</a></h2>
 <p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="#options">Changing PostgreSQL options</a>.</p></section><section class="print-page" id="images" heading-number="11.8"><h1 id="images-percona-certified-images">Percona certified images<a class="headerlink" href="#images-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL 3.0.0. </p>
@@ -29765,7 +29966,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"AutoGrowVolumes=true"</span>
 </code></pre></div>
 <p>When the support for auto-growable disks is turned on, the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code> Custom Resource option sets the maximum value available for the Operator to scale up.</p>
-<p>See <a href="#scaling-scale-storage">official documentation</a> for more details and limitations of the feature.</p>
+<p>See <a href="#scaling-vertical-scale-storage">official documentation</a> for more details and limitations of the feature.</p>
 <h3 id="releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-major-versions-upgrade-improvements">Major versions upgrade improvements<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-major-versions-upgrade-improvements" title="Permanent link">&para;</a></h3>
 <p>Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names. The resulting manifest may look as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
@@ -29786,7 +29987,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <h2 id="releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-new-features">New features<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-new-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-227">K8SPG-227</a> and <a href="https://jira.percona.com/browse/K8SPG-157">K8SPG-157</a>: Add support for the <a href="#aks">Azure Kubernetes Service (AKS)</a> platform and allow <a href="#backups-storage-azure">using Azure Blob Storage</a> for backups</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-244">K8SPG-244</a>: <a href="#scaling-scale-storage">Automated storage scaling</a> is now supported</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-244">K8SPG-244</a>: <a href="#scaling-vertical-scale-storage">Automated storage scaling</a> is now supported</li>
 </ul>
 <h2 id="releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-improvements">Improvements<a class="headerlink" href="#releasenotes-kubernetes-operator-for-postgresql-rn2.5.0-improvements" title="Permanent link">&para;</a></h2>
 <ul>
@@ -30398,7 +30599,12 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #standby-failover > h1:before { content: '7.2.4 ' }
 
-.print-site-enumerate-headings #scaling > h1:before { content: '7.3 ' }
+.print-site-enumerate-headings #section-7-3 > h1:before { content: '7.3 ' }
+.print-site-enumerate-headings #scaling > h1:before { content: '7.3.1 ' }
+
+.print-site-enumerate-headings #scaling-horizontal > h1:before { content: '7.3.2 ' }
+
+.print-site-enumerate-headings #scaling-vertical > h1:before { content: '7.3.3 ' }
 
 .print-site-enumerate-headings #ha-deploy > h1:before { content: '7.4 ' }
 

@@ -3082,9 +3082,20 @@
   
   
   
-    <li class="md-nav__item">
-      <a href="../scaling.html" class="md-nav__link">
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -3098,7 +3109,107 @@
   
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6030,7 +6141,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"AutoGrowVolumes=true"</span>
 </code></pre></div>
 <p>When the support for auto-growable disks is turned on, the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code> Custom Resource option sets the maximum value available for the Operator to scale up.</p>
-<p>See <a href="../scaling.html#scale-storage">official documentation</a> for more details and limitations of the feature.</p>
+<p>See <a href="../scaling-vertical.html#scale-storage">official documentation</a> for more details and limitations of the feature.</p>
 <h3 id="major-versions-upgrade-improvements">Major versions upgrade improvements<a class="headerlink" href="#major-versions-upgrade-improvements" title="Permanent link">&para;</a></h3>
 <p>Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names. The resulting manifest may look as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
@@ -6051,7 +6162,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">&para;</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-227">K8SPG-227</a> and <a href="https://jira.percona.com/browse/K8SPG-157">K8SPG-157</a>: Add support for the <a href="../aks.html">Azure Kubernetes Service (AKS)</a> platform and allow <a href="../backups-storage-azure.html">using Azure Blob Storage</a> for backups</li>
-<li><a href="https://jira.percona.com/browse/K8SPG-244">K8SPG-244</a>: <a href="../scaling.html#scale-storage">Automated storage scaling</a> is now supported</li>
+<li><a href="https://jira.percona.com/browse/K8SPG-244">K8SPG-244</a>: <a href="../scaling-vertical.html#scale-storage">Automated storage scaling</a> is now supported</li>
 </ul>
 <h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">&para;</a></h2>
 <ul>
@@ -6090,7 +6201,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:50:19 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
       
         <br>
         Created:
