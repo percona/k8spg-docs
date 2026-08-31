@@ -10,13 +10,11 @@ This document focuses on how to update manually generated certificates.
 
 ## Check your certificates for expiration
 
-1. List the Secrets 
-   
+1. First, check the necessary Secrets names (`cluster1-cluster-cert` and `cluster1-replication-cert` by default):
+
     ```bash
     kubectl get secrets -n <namespace>
     ```
-
-1. First, check the necessary secrets names (`cluster1-cluster-cert` and `cluster1-replication-cert` by default):
 
     You will have the following response:
 
@@ -28,7 +26,56 @@ This document focuses on how to update manually generated certificates.
     ...
     ```
 
-2. Now use the following command to find out the certificates validity dates,
+    If cert-manager is installed, you can also list `Certificate` resources:
+
+    ```bash
+    kubectl get certificate -n <namespace>
+    ```
+
+2. Optionally you can also check that the certificates issuer is up and running:
+
+    === "Namespace-scoped Issuer (default)"
+
+        ```bash
+        kubectl get issuer -n <namespace>
+        ```
+
+        The response should be as follows:
+
+        ``` {.text .no-copy}
+        NAME                     READY   AGE
+        cluster1-ca-issuer       True    61m
+        cluster1-tls-issuer      True    61m
+        ```
+
+        !!! note
+
+            The presence of two issuers has the following meaning. The
+            `cluster1-ca-issuer` issuer is used to create a self-signed
+            CA certificate (`cluster1-cluster-ca-cert`), and then the
+            `cluster1-tls-issuer` issuer is used to create SSL certificates
+            signed by that CA certificate.
+
+    === "ClusterIssuer"
+
+        If you configured [`tls.issuerConf.kind: ClusterIssuer`](tls-cert-manager.md#use-an-existing-clusterissuer),
+        check cluster-scoped issuers:
+
+        ```bash
+        kubectl get clusterissuer
+        ```
+
+        When the Operator manages the CA chain with `ClusterIssuer`, you see issuers
+        such as `<issuer-name>-ca-issuer` and `<issuer-name>`. The CA
+        `Certificate` and its Secret (`<issuer-name>-ca-cert`) are in the
+        cert-manager namespace (`cert-manager` by default), not in the database namespace.
+        
+        When you use an existing organizational issuer, only your issuer appears. The Operator creates `Certificate` resources in the database namespace that
+        reference it.
+
+        These commands are provided by cert-manager; if you don't have it installed, you can still use `kubectl get secrets`.
+
+3. Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:
 
     ```bash
