@@ -20,7 +20,7 @@ Safeguard your data at any scale: the Operator automates backups and restores us
 Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-pvc-snapshots.md) for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.
 
 * **Full, incremental, and differential backups** — Select the backup strategy that matches your recovery objectives and storage requirements.
-* **Point-in-time recovery (PITR)** — Achieve low Recovery Point Objectives (RPO) by [restoring to any specific time](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery) using WAL archives.
+* **Point-in-time recovery (PITR)** — Achieve low Recovery Point Objectives (RPO) by [restoring to any specific time](backups-pitr.md) using WAL archives.
 * **Scheduled backups** — Automate backups on your chosen [schedule with cron-like expressions](backups-schedule.md).
 * **Flexible storage** — Store backups in S3-compatible object storage or on local PersistentVolumes for hybrid strategies.
 * **PVC snapshot support** — Boost backup and restore performance for large datasets with a point-in-time snapshot of your data volume.

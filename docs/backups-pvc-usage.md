@@ -121,7 +121,7 @@ Follow the steps below to make a full in-place restore from a PVC snapshot.
 
 ## In-place restore with point-in-time recovery
 
-You can make a point-in-time restore from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:
+You can make a [point-in-time restore](backups-pitr.md) from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:
 
 1. Have a `pgBackRest` configuration, including the backup storage and at least one repository. See the [Configure backup storage](backups-storage.md) section for configuration steps.
 2. The repository must have at least one WAL archive.
@@ -142,7 +142,7 @@ Follow the steps below to make a point-in-time restore from a PVC snapshot.
        kubectl get pg-backup -n $NAMESPACE
        ```
 
-    * For a `pgBackRest` backup run the following command to get the target time:
+    * For a `pgBackRest` backup run the following command to get the [latest restorable time](backups-pitr.md#latest-restorable-time):
 
        ```bash
        kubectl get pg-backup <backup_name> -n $NAMESPACE -o jsonpath='{.status.latestRestorableTime}'

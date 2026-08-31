@@ -238,10 +238,14 @@ nav:
             - Make a backup:
               - Scheduled backup: backups-schedule.md
               - On-demand backup: backups-ondemand.md
-            - Restore from a backup: 
+            - Restore from a full backup:
               - Restore options: backups-restore.md
               - To the same cluster (in-place restore): backups-restore-inplace.md
               - To a new cluster (cluster clone): backups-clone.md
+            - Point-in-time recovery: 
+              - "About point-in-time recovery": backups-pitr.md
+              - In-place restore with point-in-time recovery: backups-pitr-inplace.md
+              - Cluster clone with point-in-time recovery: backups-pitr-cluster-clone.md
             - PVC snapshots:
               - "About PVC snapshots": backups-pvc-snapshots.md
               - "Configure PVC snapshots": backups-pvc-setup.md
