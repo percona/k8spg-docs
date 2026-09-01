@@ -1,5 +1,9 @@
 # Deploy a logical replica
 
+!!! note ""
+
+    This feature is in the tech preview stage. The behavior can change in future releases. 
+
 A logical replica is an extra, read-only PostgreSQL instance in the **same** cluster. It has its own volume and Service, so you can point reporting and other heavy reads at it instead of the primary.
 
 The Operator first copies the whole data directory (a physical seed), then keeps selected databases in sync with [logical replication :octicons-link-external-16:](https://www.postgresql.org/docs/current/logical-replication.html): the primary sends row changes, not a byte-for-byte copy of WAL. The replica uses the same PostgreSQL image as the cluster.
@@ -157,3 +161,4 @@ If the primary is down during removal, status keeps the replica with reason `Awa
 * **Pausing the cluster stops the logical replica Pod.** Apply workers fail while the primary is down.
 * **`logicalrepl` is reserved.** Do not define it in `spec.users`. See [Users](users.md#considerations).
 * **`bootstrapMethod` is read only during bootstrap.** Changing it later has no effect.
+* Logical replication is not supported when [Transparent Data Encryption](encryption.md) is enabled in the cluster. This limitation is planned to be removed in future releases.
