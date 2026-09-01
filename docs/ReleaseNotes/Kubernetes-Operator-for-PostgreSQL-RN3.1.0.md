@@ -331,19 +331,20 @@ This Operator version is developed and tested with Percona Distribution for Post
 
 ### Percona Distribution for PostgreSQL
 
-* PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1 as the database. Other versions may also work but have not been tested.
-* pgBackRest 2.58.0-2 for backup and recovery
-* pgBouncer 1.25.2-1 for connection pooling
-* Patroni version 4.1.3 for high-availability
-* PostGIS version 3.5.6
-* PMM Client version 3.7.1
+* PostgreSQL 14.24-1, 15.19-1, 16.15-1, 17.11.1-1, 18.6.1-1 as the database. Other versions may also work but have not been tested.
+* pgBackRest 2.59.0-1 for backup and recovery
+* pgBouncer 1.25.2-6 for connection pooling
+* Patroni version 4.1.5 for high-availability
+* PostGIS version 3.5.7
+* PMM Client version 3.9.1
+* cert-manager 1.21.1
 
 ### PostgreSQL Community
 
-* PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1, and 19 (tech preview) as the database. 
-* pgBackRest 2.58.0-2 for backup and recovery
-* pgBouncer 1.25.2-1 for connection pooling
-* Patroni version 4.1.3 for high-availability
+* PostgreSQL 14.24, 15.19, 16.15, 17.11, 18.6, and 19 (tech preview) as the database.
+* pgBackRest 2.59.0 for backup and recovery
+* pgBouncer 1.25.2 for connection pooling
+
 
 --8<-- [end:software]
 
@@ -355,11 +356,12 @@ Our release process includes targeted testing and validation on major cloud prov
 
 --8<-- [start:platforms]
 
-* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.33 - 1.35
-* [Amazon Elastic Container Service for Kubernetes (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.33 - 1.35
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.18 - 4.21
-* [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.33 - 1.35
+* [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.34 - 1.35
+* [Amazon Elastic Kubernetes Service (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.34 - 1.36
+* [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.34 - 1.36
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.19.43 - 4.22.10
 * [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.38.1 with Kubernetes v1.35.1
+* [Rancher :octicons-link-external-16:](https://rancher.com/docs/rke2/latest/en/) with Rancher Kubernetes Engine (RKE2) - 1.34 - 1.36
 
 --8<-- [end:platforms]
 
