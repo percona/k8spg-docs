@@ -265,6 +265,7 @@ nav:
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
           - "Restart or pause the cluster": pause.md
+          - "Orchestrate pgBouncer connections": pause-pgbouncer.md
           - "Monitor the database with PMM": monitoring.md
     
     - Upgrade:

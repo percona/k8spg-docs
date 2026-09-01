@@ -2070,6 +2070,14 @@ Enables or disables [exposing superuser user through pgBouncer](users.md#superus
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `proxy.pgBouncer.paused`
+
+Pauses or resumes pgBouncer connections. When `true`, the Operator issues `PAUSE` on every pgBouncer Pod so clients stay connected while backend traffic stops. Set back to `false` to resume. See [Pause and resume pgBouncer connections](pause-pgbouncer.md).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `true` |
+
 ### `proxy.pgBouncer.resources.requests.cpu`
 
 [Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for a pgBouncer container. It must not exceed the limit.
