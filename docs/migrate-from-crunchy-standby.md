@@ -12,6 +12,11 @@ This migration provides minimal downtime that happens only during the cutover.
 
 --8<-- "crunchy-pgo-version.txt"
 
+## Before you migrate
+
+Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+
 ## Prerequisites
 
 Ensure you have the following:
@@ -22,7 +27,6 @@ Ensure you have the following:
 - [yq](https://github.com/mikefarah/yq) YAML processor.
 - A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.
 
-The PostgreSQL **major version** on the Percona cluster must match the Crunchy source cluster.
 
 ## Before you start
 

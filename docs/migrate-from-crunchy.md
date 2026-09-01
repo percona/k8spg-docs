@@ -14,6 +14,12 @@ Key benefits include:
 - **Lower load on SRE and DevOps teams**: A shared workflow across databases reduces operational complexity, context switching, and maintenance overhead.
 - **Migration with native PostgreSQL techniques**: The migration methods use standard PostgreSQL approaches, making the process transparent and easier to validate.
 
+## Before you migrate
+
+This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). 
+
+Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first.
+
 ## Choose a migration method
 
 This guide provides three migration methods. Pick the one that best matches your requirements for:

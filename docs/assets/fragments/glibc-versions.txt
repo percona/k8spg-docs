@@ -1,0 +1,9 @@
+Percona PostgreSQL images are based on [Red Hat Universal Base Image (UBI) :octicons-link-external-16:](https://catalog.redhat.com/en/software/base-images). Each UBI major ships a different `glibc` version:
+
+| UBI version | glibc version |
+| ----------- | ------------- |
+| UBI 8 | glibc 2.28 |
+| UBI 9 | glibc 2.34 |
+| UBI 10 | glibc 2.39 |
+
+Use the same UBI major for every instance in a cluster. Find image tags in [Percona certified images](images.md).

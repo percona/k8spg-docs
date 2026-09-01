@@ -5,11 +5,39 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 ## Considerations
 
 1. Upgrading a PostgreSQL cluster may result in downtime, as well as in [failover](change-primary.md) caused by updating the primary instance.
-2. Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library `glibc` and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+2. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of  `glibc` and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
 
 ## Before you start
 
-1. We recommend to [update PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html) **before** upgrading PMM Client.
+### Check operating system and collation libraries version
+
+--8<-- "check-os-glibc.txt"
+
+### Check the locale provider in each database
+
+```sql
+SELECT datname, datlocprovider, datcollversion FROM pg_database;
+```
+
+??? example "Sample output"
+
+   ```text
+      datname  | datlocprovider | datcollversion
+   -----------+----------------+----------------
+   postgres  | c              | 2.34
+   template1 | c              | 2.34
+   template0 | c              |
+   cluster1  | c              | 2.34
+   (4 rows)
+   ```
+
+`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
+
+If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [After the Pods restart](#after-the-pods-restart)
+
+### Update PMM
+
+1. [Update PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html) **before** upgrading PMM Client.
 2. PMM2 has reached its end-of-life stage and is no longer supported in the Operator. See [PMM upgrade documentation :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html) for how to migrate from version 2 to version 3.
 
 ## Upgrade steps
@@ -99,5 +127,9 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
     ??? example "Expected output"
 
         --8<-- "kubectl-get-pods-response.txt"
+
+## After the Pods restart
+
+If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), `glibc` collation rules change. 
 
 --8<-- "collation.txt"
