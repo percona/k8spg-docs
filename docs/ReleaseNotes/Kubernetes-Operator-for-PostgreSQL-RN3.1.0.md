@@ -24,7 +24,7 @@
 
 ### Read scaling
 
-* [Declarative logical replicas for read-only workloads](#define-logical-replicas-declaratively)
+* [Declarative logical replicas for read-only workloads](#define-logical-replicas-declaratively) (tech preview)
 
 ### Images and platforms
 
@@ -77,7 +77,7 @@ You can configure log rotation in these ways:
   
 See our [documentation](logrotate.md) for step-by-step instructions for each option.
 
-### Define logical replicas declaratively
+### Define logical replicas declaratively (tech preview)
 
 You can now add a read-only logical replica in the same cluster and point reporting or other heavy reads at this replica instead of the primary. The replica has its own volume and Service, so those queries do not compete with your high-availability set.
 
@@ -87,7 +87,7 @@ The Operator creates the volume, copies the data, converts the physical replica 
 
 Patroni does not manage nor promote it, so it stays a stable read endpoint.
 
-Logical replicas require PostgreSQL 17 or later. See [Deploy a logical replica](deploy-replica.md).
+Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](deploy-replica.md).
 
 ### Mount extra volumes into PostgreSQL instances
 
