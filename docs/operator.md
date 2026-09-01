@@ -1309,6 +1309,38 @@ Specifies the schedule in Cron format to run PVC snapshot-based backups automati
 | ---------- | ------- |
 | :material-code-string: string | `"0 3 * * *"` |
 
+### `backups.volumeSnapshots.jobs.tolerations.effect`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) effect for the Job that prepares volumes before restoring from a [PVC snapshot](backups-pvc-snapshots.md). See [Tolerations](constraints.md#tolerations).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `NoSchedule` |
+
+### `backups.volumeSnapshots.jobs.tolerations.key`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) key for the PVC snapshot restore preparation job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `role` |
+
+### `backups.volumeSnapshots.jobs.tolerations.operator`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) operator for the snapshot restore prepare Job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `Equal` |
+
+### `backups.volumeSnapshots.jobs.tolerations.value`
+
+The [Kubernetes Pod tolerations :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts) value for the snapshot restore prepare Job.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `connection-poolers` |
+
 ### `backups.pgbackrest.metadata.labels`
 
 Set [labels :octicons-link-external-16:](https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/) for pgBackRest Pods.
