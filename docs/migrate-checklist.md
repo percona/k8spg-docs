@@ -4,18 +4,18 @@
 
     Read this before you migrate.
     
-Complete these checks **before** you pick a migration method. Verify that source and target environments are compatible. For physical migration methods such as pgBackRest restore, standby replication, or reusing the existing
-PostgreSQL data volume, CPU architecture and the PostgreSQL major version must match. If they don't, use a logical method such as `pg_dump` / `pg_restore` instead.
+Complete these checks **before** you pick a migration method. Verify that source and target environments are compatible. Migration methods such as pgBackRest restore, standby replication or reusing the existing
+PostgreSQL data volume all reuse the source PGDATA files. For all these methods, CPU architecture and the PostgreSQL major version must match. If they don't, migrate using `pg_dump` / `pg_restore` instead.
 
-Differences in the operating system, libraries like `glibc`, ICU, or PostgreSQL extensions do not always block a physical move, but they do require additional actions before or after the migration.
+Differences in the operating system, libraries like `glibc`, ICU, or PostgreSQL extensions do not always block reuse of `PGDATA`. But you must take extra steps before or after the migration.
 
-## Decide whether a physical method is safe
+## Decide whether you can reuse the data files
 
 Use this flow to interpret the checks. Then gather the facts in the sections that follow.
 
 ```mermaid
 flowchart TD
-    A[Compare PostgreSQL major versions] -->|Different| B[Do not use physical migration]
+    A[Compare PostgreSQL major versions] -->|Different| B[Do not use standby, backup/restore, or volume reuse]
     A -->|Same| C[Compare CPU architecture]
     C -->|Different| D[Prefer logical migration]
     C -->|Same| E[Compare OS / glibc / ICU]
@@ -34,7 +34,7 @@ flowchart TD
 
 ## Compare PostgreSQL major versions
 
-The PostgreSQL major version of the source and target database images must match when you use a physical method.
+The PostgreSQL major version of the source and target database images must match.
 
 Check the source (Crunchy) PostgreSQL version:
 
@@ -89,17 +89,17 @@ kubectl exec -n <namespace> <percona-postgres-pod> -c database -- uname -m
     aarch64
     ```
 
-The source and target should use the same architecture when you use a physical method.
+The source and target must use the same architecture.
 
 For example:
 
 ```text
 x86_64 -> x86_64    OK
 ARM64  -> ARM64     OK
-x86_64 -> ARM64     Do not use a physical migration
+x86_64 -> ARM64     Not OK
 ```
 
-Use a logical method, such as `pg_dump` / `pg_restore`, when you migrate across incompatible architectures.
+Use `pg_dump` / `pg_restore` when you migrate across incompatible architectures.
 
 ## Compare OS, glibc, and ICU
 
