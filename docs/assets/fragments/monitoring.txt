@@ -1,4 +1,4 @@
-In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html). 
+In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html).
 
 PMM is a client/server application. It includes the [PMM Server :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server) and the number of [PMM Clients :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client) running on each node with the
 database you wish to monitor.
