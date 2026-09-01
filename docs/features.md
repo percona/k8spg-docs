@@ -78,6 +78,7 @@ Keep traffic and data protected with encryption and flexible TLS workflows.
 Understand performance and troubleshoot faster with metrics and optional Percona tooling.
 
 * **PMM integration** — Connect the cluster to [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://www.percona.com/software/database-tools/percona-monitoring-and-management) for dashboards and alerting.
+* **Persistent logging** — Collect PostgreSQL and pgBackRest logs with Fluent Bit, keep them on the data volume across Pod restarts, and optionally forward them to remote outputs. See [Persistent logging](persistent-logging.md) and [Log rotation](log-rotation.md).
 * **pg_stat_monitor** — Get query performance insights with fingerprinting when you enable the extension.
 * **Broad metrics** — Track connection counts, transaction rates, cache hit ratios, replication lag, and more.
 * **Query analytics** — Deeper query analysis in PMM. See [Query Analytics :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/use/qan/index.html#__tabbed_1_2) in the PMM documentation.

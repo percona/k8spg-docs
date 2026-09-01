@@ -1,7 +1,11 @@
 # Check the logs
 
 Logs provide valuable information. It makes sense to check the logs of the
-database Pods and the Operator Pod. Following flags are helpful for checking the
+database Pods and the Operator Pod.
+
+If you enable [persistent logging](persistent-logging.md), the Operator also runs a `logs` (Fluent Bit) sidecar container on each PostgreSQL instance Pod. That sidecar streams collected PostgreSQL and pgBackRest log records to its own stdout, and the source files remain on the instance data volume across Pod restarts. 
+
+The following flags are helpful for checking the
 logs with the `kubectl logs` command:
 
 | Flag                                |  Description                                                              |
@@ -24,6 +28,12 @@ In the following examples we will access containers of the `cluster1-instance1-b
 
     ```bash
     kubectl logs cluster1-instance1-b5mr-0 --container pgbackrest
+    ```
+
+* Check logs streamed by the Fluent Bit `logs` sidecar (when [persistent logging](persistent-logging.md) is enabled):
+
+    ```bash
+    kubectl logs cluster1-instance1-b5mr-0 --container logs
     ```
 
 * Filter logs of the `database` container which are not older than 600 seconds:

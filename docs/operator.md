@@ -2009,6 +2009,285 @@ Additional parameters which will be passed to the `pmm-admin add postgresql` com
 | ---------- | ------- |
 | :material-code-string: string |  |
 
+## <a name="operator-logcollector-section"></a>Log collector section
+
+The `logcollector` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
+file contains configuration options for [Fluent Bit :octicons-link-external-16:](https://fluentbit.io/) log collector and logrotate. Available starting with Operator version 3.1.0. See [Persistent logging](persistent-logging.md) and [Log rotation](log-rotation.md).
+
+### `logcollector.enabled`
+
+Enables or disables [persistent logging with Fluent Bit](persistent-logging.md). Disabled by default.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-toggle-switch-outline: boolean | `false` |
+
+### `logcollector.image`
+
+Log collector Docker image to use.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `docker.io/percona/fluentbit:{{logcollector}}` |
+
+### `logcollector.imagePullPolicy`
+
+This option is used to set the [policy :octicons-link-external-16:](https://kubernetes.io/docs/concepts/containers/images/#updating-images) for updating log collector images.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `IfNotPresent` |
+
+### `logcollector.configuration`
+
+Extra Fluent Bit configuration merged with the Operator-managed pipeline. Must be in [Fluent Bit YAML configuration format :octicons-link-external-16:](https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/). The classic `.conf` format is not supported. Invalid configuration is ignored by the collector at startup.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | |
+
+### `logcollector.env.name`
+
+The name of a custom environment variable for the `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `MY_ENV` |
+
+### `logcollector.env.value`
+
+The value of a custom environment variable for the log collector `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-value` |
+
+### `logcollector.envFrom.secretRef.name`
+
+The name of a Secret from which environment variables are loaded for the log collector `logs` sidecar containers (for example, credentials for a remote Fluent Bit output).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-log-collector-secret` |
+
+### `logcollector.envFrom.configMapRef.name`
+
+The name of a ConfigMap from which environment variables are loaded for the log collector `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-log-collector-config` |
+
+### `logcollector.resources.requests.memory`
+
+[Kubernetes memory requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the log collector `logs` sidecar containers. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `150M` |
+
+### `logcollector.resources.requests.cpu`
+
+[Kubernetes CPU requests :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the log collector `logs` sidecar containers. It must not exceed the limit.
+
+If you specify a limit and don't specify a request, Kubernetes uses the specified limit as the requested value for a resource.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `300m` |
+
+### `logcollector.resources.limits.memory`
+
+[Kubernetes memory limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the log collector `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `200M` |
+
+### `logcollector.resources.limits.cpu`
+
+[Kubernetes CPU limits :octicons-link-external-16:](https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container) for the log collector `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `350m` |
+
+### `logcollector.containerSecurityContext`
+
+A custom [Kubernetes Security Context :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the log collector `logs` sidecar containers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | |
+
+### `logcollector.livenessProbe`
+
+A custom [Kubernetes liveness probe :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the `logs` (log collector) sidecar container. When not set, the container has no liveness probe. A `tcpSocket` or `httpGet` probe on port `2020` requires the Fluent Bit HTTP server to be enabled via `logcollector.configuration`:
+
+```yaml
+logcollector:
+  enabled: true
+  configuration: |
+    service:
+      http_server: on
+      http_listen: 0.0.0.0
+      http_port: 2020
+  livenessProbe:
+    tcpSocket:
+      port: 2020
+    initialDelaySeconds: 30
+    periodSeconds: 15
+```
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | `tcpSocket: { port: 2020 }` |
+
+### `logcollector.livenessProbe.initialDelaySeconds`
+
+Number of seconds to wait after the `logs` container starts before initiating the liveness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `30` |
+
+### `logcollector.livenessProbe.periodSeconds`
+
+How often to perform the liveness probe (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `15` |
+
+### `logcollector.readinessProbe`
+
+A custom [Kubernetes readiness probe :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the `logs` (logcollector) sidecar container. When not set, the container has no readiness probe. A `tcpSocket` or `httpGet` probe on port `2020` requires the Fluent Bit HTTP server to be enabled via `logcollector.configuration` (`http_server: on` under `service`):
+
+```yaml
+logcollector:
+  enabled: true
+  configuration: |
+    service:
+      http_server: on
+      http_listen: 0.0.0.0
+      http_port: 2020
+  readinessProbe:
+    tcpSocket:
+      port: 2020
+    initialDelaySeconds: 5
+    periodSeconds: 10
+```
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | `tcpSocket: { port: 2020 }` |
+
+### `logcollector.readinessProbe.initialDelaySeconds`
+
+Number of seconds to wait after the `logs` container starts before initiating the readiness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `5` |
+
+### `logcollector.readinessProbe.periodSeconds`
+
+How often to perform the readiness probe (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `10` |
+
+### `logcollector.volumeMounts`
+
+Extra [volume mounts :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) for the log collector sidecar containers (for example, a CA bundle for an S3 output).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: s3-ca<br>  mountPath: /etc/fluentbit/tls<br>  readOnly: true</pre> |
+
+### `logcollector.volumes`
+
+Extra [volumes :octicons-link-external-16:](https://kubernetes.io/docs/concepts/storage/volumes/) for the PostgreSQL instance Pods used by the log collector sidecars.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | <pre>- name: s3-ca<br>  secret:<br>    secretName: my-s3-ca</pre> |
+
+### `logcollector.logRotate.configuration`
+
+Overrides the default logrotate configuration used by the `logrotate` sidecar. You must provide the full configuration because the Operator replaces the default configuration with the one you provide. See [Configure log rotation](log-rotation.md#configure-log-rotation).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | |
+
+### `logcollector.logRotate.extraConfig.name`
+
+References a ConfigMap containing additional logrotate configuration. The key name must end with `.conf`. The `postgres.conf` key name is reserved for the Operator-managed main configuration.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-logrotate-config` |
+
+### `logcollector.logRotate.schedule`
+
+Cron expression for the logrotate schedule (default: `0 0 * * *`).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `0 */6 * * *` |
+
+### `logcollector.logRotate.livenessProbe`
+
+A custom [Kubernetes liveness probe :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the `logrotate` sidecar container. When not set, the container has no liveness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | `exec: { command: [/bin/true] }` |
+
+### `logcollector.logRotate.livenessProbe.initialDelaySeconds`
+
+Number of seconds to wait after the container starts before initiating the liveness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `30` |
+
+### `logcollector.logRotate.livenessProbe.periodSeconds`
+
+How often to perform the liveness probe (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `15` |
+
+### `logcollector.logRotate.readinessProbe`
+
+A custom [Kubernetes readiness probe :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the `logrotate` sidecar container. When not set, the container has no readiness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-text-long: subdoc | `exec: { command: [/bin/true] }` |
+
+### `logcollector.logRotate.readinessProbe.initialDelaySeconds`
+
+Number of seconds to wait after the container starts before initiating the readiness probe.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `5` |
+
+### `logcollector.logRotate.readinessProbe.periodSeconds`
+
+How often to perform the readiness probe (in seconds).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `10` |
+
 ## Proxy section
 
 The `proxy` section in the [deploy/cr.yaml :octicons-link-external-16:](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml)
