@@ -36,7 +36,6 @@ The Operator sets and enforces the following PostgreSQL parameters. You cannot o
 | --------- | ------- | --------| 
 | `archive_mode` | `on` | Must be `on` for pgBackRest to archive WAL files. The Operator sets this to enable backups. |
 | `archive_command` | pgbackrest --stanza=db archive-push "%p" | Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository. |
-| `archive_timeout` | `60s` | Forces a WAL switch after the specified interval. The Operator manages this for backup consistency. |
 | `track_commit_timestamp` | `true`  | Enables commit timestamps for point-in-time recovery when [backups.trackLatestRestorableTime](operator.md#backupstracklatestrestorabletime) is enabled and the `crVersion` is 2.8.0 or higher |
 
 ### Extension parameters
