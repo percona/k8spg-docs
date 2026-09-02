@@ -17,6 +17,7 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 * A failed bootstrap does not retry on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
 * Pausing the cluster stops the logical replica Pod.
 * Removing a logical replica always deletes its PVC, even if the cluster `delete-pvc` finalizer is off.
+* Logical replication is not supported when [Transparent Data Encryption](encryption.md) is enabled in the cluster. This limitation is planned to be removed in future releases.
 
 ## Service control
 
