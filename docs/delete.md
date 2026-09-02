@@ -23,6 +23,8 @@ Operator by deleting the appropriate Custom Resource.
 
     Both finalizers are off by default in the `deploy/cr.yaml` configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.
 
+    Removing a [logical replica](logical-replication.md) from `spec.logicalReplicas` always deletes its PVC (`<cluster>-lr-<name>-pgdata`), even if `finalizers.percona.com/delete-pvc` is not set. If the primary is down during removal, the replica stays in status with reason `AwaitingCleanup` until slots can be dropped. See [Remove a logical replica](logical-replication.md#remove-a-logical-replica).
+
 Here's a sequence of steps to follow:
 {.power-number}
 
@@ -205,6 +207,8 @@ To manually clean up resources, do the following:
             ```
 
          Note that if your Custom Resource manifest includes the `percona.com/delete-pvc` finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.
+
+         Logical replica volumes are named `<cluster>-lr-<name>-pgdata`. The Operator deletes them when you remove the replica from the spec. Delete any leftover claims here if teardown could not finish (for example, the primary was down).
 
     2. Delete the Secrets
 

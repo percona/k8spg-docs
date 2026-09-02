@@ -9,6 +9,7 @@ This feature is generally available starting with the Operator version 2.9.0.
 1. A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.
 2. During the upgrade, the Operator duplicates the data on each PVC and doesn't remove the old version data automatically. Make sure your PVC has enough free space to store data.
 3. Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library `glibc` and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+4. If the cluster has [logical replicas](logical-replication.md), each replica must be `ready`. Otherwise, you must [remove](logical-replication.md#remove-a-logical-replica) it before you start the upgrade.
 
 ## Upgrade steps
 
@@ -54,6 +55,8 @@ During the upgrade flow, the Operator:
     ```
     
     Repeat for every database where the `pgaudit` extension is installed.
+
+2. A successful major upgrade invalidates existing [logical replicas](logical-replication.md). After the cluster is `ready`, [reseed](logical-replication.md#reseed-a-logical-replica) each logical replica.
 
 --8<-- "collation.txt"
 

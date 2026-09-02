@@ -57,6 +57,7 @@ Use PostgreSQL capabilities that operators expect in production.
 * **Extensions** — Built-in support for extensions such as pg_stat_monitor, pgAudit, set_user, wal2json, plus ability to extend PostgreSQL with [custom extensions](custom-extensions.md).
 * **Users and databases** — Automatically create users, databases, and manage credentials.
 * **Init SQL** — Execute [custom SQL scripts during cluster initialization](initsql.md).
+* **Logical replicas** (tech preview) — Extra read-only instances in the same cluster for reporting and other heavy reads. Each replica has its own volume and Service. Patroni does not manage or promote them. See [Deploy a logical replica](logical-replication.md).
 
 ## Standby clusters for disaster recovery
 

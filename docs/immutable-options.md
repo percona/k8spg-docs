@@ -102,6 +102,14 @@ Initialization SQL runs only at cluster creation time. You cannot add or change 
 
 The `dataSource` subsection configures restore-from-backup for a *new* cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.
 
+### `logicalReplicas.bootstrapMethod`
+
+The Operator reads this only during bootstrap. Changing it later has no effect. To use a different method, [reseed the replica](logical-replication.md#reseed-a-logical-replica).
+
+### `logicalReplicas.databases`
+
+The Operator records the database list at bootstrap. Changing it later does not change which databases keep receiving row changes. To change the list, reseed the replica.
+
 ## Backup options
 
 ### Backup encryption

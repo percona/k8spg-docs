@@ -97,6 +97,7 @@ Common fields:
 * `status.pgbackrest` – pgBackRest repository host, repos, and backup or restore job status
 * `status.patroni` – Patroni version and status (system identifier, switchover tracking)
 * `status.standby` – replication lag for standby clusters when lag detection is enabled
+* `status.logicalReplicas` – state of each [logical replica](logical-replication.md)
 * `status.conditions` – detailed condition list with reason and message. See [Conditions](#conditions) for details.
 * `status.observedGeneration` – the generation of the Custom Resource that the Operator last successfully wrote into status.
 * `status.installedCustomExtensions` – names of custom extensions installed from the Custom Resource
@@ -140,6 +141,7 @@ Common condition fields:
 | `Progressing` | The cluster is progressing through a reconciliation or change. |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
+| `ReadyForLogicalReplication` | The primary is ready for logical replica bootstrap. See [Logical replicas](logical-replication.md). |
 | `APIGroupMigration` | Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See [Upgrade the Operator](update-operator.md). |
 | `RepoDeploymentNotFound` | A pgBackRest repository deployment was not found during reconciliation. |
 | `RepoHostCreated` | A pgBackRest repository host was created. |
@@ -172,6 +174,38 @@ When you enable replication lag detection on a [standby cluster](standby.md), th
 | `status.standby.lagLastComputedAt` | Timestamp of the last lag check |
 
 When lag exceeds your threshold, `status.state` becomes `initializing`, the standby primary Pod is marked unready, and the `StandbyLagging` condition is set to `True`.
+
+### Logical replica status
+
+When you define [logical replicas](logical-replication.md), the Operator populates `status.logicalReplicas[]`:
+
+| Field | Meaning |
+| --- | --- |
+| `name` | Replica name from the spec |
+| `state` | `bootstrapping`, `ready`, `broken`, or `suspended` |
+| `reason` | Why the replica is not ready (see below) |
+| `message` | Human-readable details |
+| `databases` | Databases frozen at bootstrap |
+| `seededAt` | When the data directory was copied |
+| `invalidatedAt` | When an in-place restore made the replica unusable |
+
+`state` values:
+
+| Value | Meaning |
+| --- | --- |
+| `bootstrapping` | Waiting for the primary, databases, or volume, or the bootstrap Job is still running |
+| `ready` | Slots exist on the primary and apply workers are running |
+| `broken` | Replication cannot continue until you [reseed](logical-replication.md#reseed-a-logical-replica) a replica, or teardown is waiting for the primary |
+| `suspended` | The Operator stopped the replica because the source cluster is being restored or paused|
+
+Common `reason` values: `PrimaryNotReady`, `WaitingForDatabases`, `WaitingForDataVolume`, `BootstrapFailed`, `SourceSlotMissing`, `SubscriptionDisabled`, `ApplyWorkerDown`, `SourceRestoring`, `SourceRestored`, `AwaitingCleanup`.
+
+**Example. Check logical replica state:**
+
+```bash
+kubectl get pg <cluster-name> -n <namespace> \
+  -o jsonpath='{.status.logicalReplicas}' && echo
+```
 
 ## PerconaPGBackup status
 
