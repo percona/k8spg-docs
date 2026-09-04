@@ -191,7 +191,7 @@ docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi10
 docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi10-arm64
 ```
 
-Use UBI 9 as the baseline for PostgreSQL 14–18. Find the list of UBI 9 images in the [certified images list](../images.md).
+Use UBI 9 as the baseline for PostgreSQL 14–18. This page lists the UBI 9 images. For UBI 8 and UBI 10, see [Percona certified images](../images.md).
 Stay on UBI 8 when older extensions or Enterprise Linux 8 requirements still apply. Choose UBI 10 to align with RHEL 10 or OpenShift nodes that run Enterprise Linux 10, and to stay on an OS with a longer remaining support window and newer system libraries. 
 
 !!! important
@@ -369,83 +369,119 @@ This list only includes the platforms that the Percona Operators are specificall
 
 ## PostgreSQL Community images
 
-Find the list of PostgreSQL Community images available for UBI 8 and UBI 9 base images. 
-UBI 9:
-
-```text
-percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
-percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi9
-percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi9
-percona/percona-postgresql-operator:postgresql15.18-1-community-ubi9
-percona/percona-postgresql-operator:postgresql14.23-1-community-ubi9
-percona/percona-postgresql-operator:postgresql19-community-ubi9
-percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
-percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
-percona/percona-postgresql-operator:upgrade-community
-```
-
-UBI 8:
-
-```text
-percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi8
-percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi8
-percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi8
-percona/percona-postgresql-operator:postgresql15.18-1-community-ubi8
-percona/percona-postgresql-operator:postgresql14.23-1-community-ubi8
-percona/percona-postgresql-operator:upgrade-community-ubi8
-```
-
-PostgreSQL 19 (tech preview):
-
-```text
-percona/percona-postgresql-operator:postgresql19-community-ubi9
-percona/percona-postgresql-operator:ppg19-postgres
-percona/percona-postgresql-operator:pgbackrest19
-percona/percona-postgresql-operator:pgbouncer19
-```
+Community images are available on UBI 9 and UBI 8. PostgreSQL 19 is a tech preview and ships on UBI 9 only. pgBouncer and pgBackRest community images are compatible with both UBI 8 and 9. See [PostgreSQL community images](../images-community.md).
 
 ## Percona certified images
 
-Find Percona's certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.
+Starting with this release, Percona certified images are available for UBI 8, 9 and 10.
 
+The following tables list the images that you can use with the Percona Operator for PostgreSQL. 
 
 --8<-- [start:images]
 
-| Image                                                                | Digest                                                           |
-|:---------------------------------------------------------------------|:-----------------------------------------------------------------|
-| percona/percona-postgresql-operator:3.0.0 (x86_64)                    | 3bcbaec261b2e67c81b3812a4b220c859434b6791c53ee1fb7ecb66bd179de56 |
-| percona/percona-postgresql-operator:3.0.0 (ARM64)                    | 5aacf965c3d7bc89a23e1292ae47c2ef89d590e77677d793e15f56b11e5d67f7 |
-| percona/percona-distribution-postgresql-upgrade:18.4-17.10-16.14-15.18-14.23-1 (x86_64) | 31a9612320d3b08cb74d5e98f86b054c4562e4b900140152b28476be62f086f5 |
-| percona/percona-distribution-postgresql-upgrade:18.4-17.10-16.14-15.18-14.23-1 (ARM64) | 81a831086fc4aaee83af8d86b1422b64ce77e200a8f27627c27282c9af6ad9b8 |
-| percona/percona-distribution-postgresql:18.4-1 (x86_64)               | ca25cc5e291cf2307d9ec4c29811c6f6d93171f98dd2cb4c69d2036f07517a7d |
-| percona/percona-distribution-postgresql:18.4-1 (ARM64)               | fae3368e04b80f4eb887621724074db4db279ca59743aacb47de51b468d514f5 |
-| percona/percona-distribution-postgresql:17.10-1 (x86_64)               | 720bf87ef8cda340f833981a674d5dc71283cb39af3fd4ef97eff4ccf910b87a |
-| percona/percona-distribution-postgresql:17.10-1 (ARM64)               | 6416424e58765b9434f18905f0338d466cb79bafc42e6a5570030c71a1323eee |
-| percona/percona-distribution-postgresql:16.14-1 (x86_64)              | ad84dc4fa537a5ba03c7c1f51f9a1ee959132155b6943d02cb0d614fc57e4271 |
-| percona/percona-distribution-postgresql:16.14-1 (ARM64)              | f377d7fd5e5e3eae56ef5886aa77691c436269bae5decb706130061286080465 |
-| percona/percona-distribution-postgresql:15.18-1 (x86_64)              | 60728795a6e954d9255526a208e8e9e8e93278d4c1e89004f2999a6ccb196eea |
-| percona/percona-distribution-postgresql:15.18-1 (ARM64)              | 78b1b7488a897ffaf609c8d1edc6c5a27b76a3c697bbb24db5f2dec3fd66ee34 |
-| percona/percona-distribution-postgresql:14.23-1 (x86_64)               | d04d3e1c41fd0c9fe438ab04081c555e1edafaed9a33f2979c7b0080045ff5fd |
-| percona/percona-distribution-postgresql:14.23-1 (ARM64)              | 88925bdfc04d7dec629230c3b0f31daf7f9aed8757b2456a4439475a6b3175f5 |
-| percona/percona-distribution-postgresql-with-postgis:18.4-2 (x86_64)   | 763d037b012a8856ff5ede045631d2f9b9a792b5e8281b756cfb3e017b0395e9 |
-| percona/percona-distribution-postgresql-with-postgis:18.4-2 (ARM64)  | 5f7561ebfc4f7d3e237953b1aae2b41d6bb01d7e7c55e04e2666dd5775cc671a |
-| percona/percona-distribution-postgresql-with-postgis:17.10-2 (x86_64)   | fcaccb00ea6937e43c7b4b27a36191faed94dae1cf7ab5ccdc73bb0444984ada |
-| percona/percona-distribution-postgresql-with-postgis:17.10-2 (ARM64)  | 7e28bb3effd1492057005f8c6c9bd6c3c3aba4ed45f8a01a771adb6e7458537e |
-| percona/percona-distribution-postgresql-with-postgis:16.14-2 (x86_64) | 97222e27f34ee5151ed86bf124598004c13ba1c4034eb591641a6eafddd17df1 |
-| percona/percona-distribution-postgresql-with-postgis:16.14-2 (ARM64) | 251e8fe4fae00ca7562f3ea66620dcfdb1c0bd7989bb501922ac16326da0dc53 |
-| percona/percona-distribution-postgresql-with-postgis:15.18-2 (x86_64) | 36651cb8711644763676e6ff6b7756647af55402fbae9a1bcf6336392e78bfc5 |
-| percona/percona-distribution-postgresql-with-postgis:15.18-2 (ARM64) | a4a557f1490bdb1611d3d1026de227608112e6e2b752e98eab95b660193d53e8 |
-| percona/percona-distribution-postgresql-with-postgis:14.23-2 (x86_64) | 5d418d47c8442620ddf4063c9d147fda932153a7d9b7e0098ba58d9ecd640b9d |
-| percona/percona-distribution-postgresql-with-postgis:14.23-2 (ARM64) | 947af4d80224fa0b7031448beec3fb965b5d321e4fa5d742753dba9079667799 |
-| percona/percona-pgbackrest:2.58.0-2 (x86_64)                          | 0b792f3d0bcfdd7a72c8d74f1c905469486f106db8f9299b5216d23dacf80501 |
-| percona/percona-pgbackrest:2.58.0-2 (ARM64)                          | 97361155cdce8642ce47ebe83766a0c7b825930adb6c055d78476756db02fa9f |
-| percona/percona-pgbouncer:1.25.2-1 (x86_64)                          | 25881754364b7a2aaad716bfc77d292a7a0f145c200162cc392874e09bae7918 |
-| percona/percona-pgbouncer:1.25.2-1 (ARM64)                           | 8f1bbf2159b6089c235dd512aa397ee53cd84e7e34554238e7981c45bf33767f |
-| percona/pmm-client:3.7.1 (x86_64)                                    | 8b98629a469bf6360b14eb3ea121687737870261296f64e4587f6a6723a6845b |
-| percona/pmm-client:3.7.1 (ARM64)                                     | 9951a74522a6bd70531457628daca758ffa3363941938539d164e592188e23e3 |
-| percona/pmm-client:2.44.1-1 (x86_64)                                  | 52a8fb5e8f912eef1ff8a117ea323c401e278908ce29928dafc23fac1db4f1e3 |
-| percona/pmm-client:2.44.1-1 (ARM64)                                  | 390bfd12f981e8b3890550c4927a3ece071377065e001894458047602c744e3b |
+The Operator, pgBouncer, pgBackRest, Fluent Bit, and PMM images are the same on every UBI. 
 
+PostgreSQL, PostGIS, and the upgrade images are built separately for each UBI version. The Fluent Bit image is identical for UBI 8 and UBI 9 because both use a compatible version of the `GLIBC` library. For UBI 10, a separate Fluent Bit image is provided due to incompatibility with the earlier `GLIBC` versions.
+
+### Shared images
+
+| Image | Digest |
+| :------ | :------- |
+| percona/percona-postgresql-operator:3.1.0 (x86_64) | 0f8ae7286e331e2c1d26b3fb8c8df69e9e6076fa4367edc68ed995c639f76af8 |
+| percona/percona-postgresql-operator:3.1.0 (ARM64) | 8b48095df20d35558882b7677ea3292695670daa0db70f4c719f161d3ce33596 |
+| percona/percona-pgbouncer:1.25.2-6 (x86_64) | 42c8629f5dd0f271e41d704250f04d96fa12a1a678a13c3743f38b64be3c1218 |
+| percona/percona-pgbouncer:1.25.2-6 (ARM64) | 6a4cb60c1f9ebc75aa3408955482ba90d5649ce1f0be765e7113bd80f06dcd4f |
+| percona/percona-pgbackrest:2.59.0-1 (x86_64) | c43a1e6444d3ea6d7f6421be7d030f6fb8e77692029042a1ab7975a5ac29fb20 |
+| percona/percona-pgbackrest:2.59.0-1 (ARM64) | cde0676aabe64866471b6ba91a283ffcb4f507356b9554c175d9048cd4475b1c |
+| percona/fluentbit:5.1.1-1 (x86_64) | 332ac2386031925cef314367366abea5cb6ec1ac0bc601b824422753346bc5df |
+| percona/fluentbit:5.1.1-1 (ARM64) | 1d528ec4a8c9bab32762c83eb4e33458f2e48d9af94f0aa59bba0ce4e89904dd |
+| percona/pmm-client:3.9.1 (x86_64) | 6b4309035f1fc4c0dcb6b7374ac7a01526319374a071759282a21eb016f754bf |
+| percona/pmm-client:3.9.1 (ARM64) | ab419b7e10cd81fa44dd198e4a10c44dc056e87ea73fd836a66b6a2356bc4efc |
+| percona/pmm-server:3.9.1 (x86_64) | f7011cf6723aba28d06b09bd7f8a1e7e1c6ba84a80a45e62cbfec80f98f20e60 |
+
+### Percona Distribution for PostgreSQL images by UBI
+
+=== "UBI 9 (default)"
+
+    | Image | Digest |
+    | :------ | :------- |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1 (x86_64) | 381fd23351231c5daf4e3c0165fb0a7766ff54e6b825fb980146bcd532f92164 |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1 (ARM64) | 9e8fe3a1d195a44e7c3253f58cd0c037d1511679ab54e959f37095fb58680151 |
+    | percona/percona-distribution-postgresql:18.6.1-1 (x86_64) | 79ed3ec2a6ed860d0acc6d5ca2c3f42e1be5e09667e7e81ce679ebddf0a0c521 |
+    | percona/percona-distribution-postgresql:18.6.1-1 (ARM64) | 7d96ddda9ec9e631d56fe8ea98f3e8253bc749791cebf073508c200e4fdabf78 |
+    | percona/percona-distribution-postgresql:17.11.1-1 (x86_64) | 7fc2e29866f325e219a504c0c2338b43a179849914813eddfe88d1808d96632b |
+    | percona/percona-distribution-postgresql:17.11.1-1 (ARM64) | 59dec01ddfddd5a67a3d0ce115db91c224e418e72f370855d49398c9c302c144 |
+    | percona/percona-distribution-postgresql:16.15-1 (x86_64) | 7c21c743abeeddc83dab34755a077cd82051f361c23b351a1f8db9c330396032 |
+    | percona/percona-distribution-postgresql:16.15-1 (ARM64) | b95d8f70e66c1e56a611434379d8e043de5d2d40491cdec09f2d2e01722f9696 |
+    | percona/percona-distribution-postgresql:15.19-1 (x86_64) | 34244ac13650a82f5609fa5e0e5dadf8441762f3a3bcc3a7ceb64068906c2115 |
+    | percona/percona-distribution-postgresql:15.19-1 (ARM64) | b4f7af493f56a748c8f5dafeaf968954b032b9a2255270cd0a945b376f01e4f0 |
+    | percona/percona-distribution-postgresql:14.24-1 (x86_64) | bca1baae17f76318fd60a6b8d89f62b7243188c48c32451c8522b5ed52f40078 |
+    | percona/percona-distribution-postgresql:14.24-1 (ARM64) | 8210804c4db24591b342f69c479fc87e36a534aa8e3c2fdc24dc71fdd2147733 |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1 (x86_64) | 7fe794a0509a7d9c7435e568cf1a5834425e8e9988ecaab08bf731119c3485f9 |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1 (ARM64) | 0a42e39cec3456665ee21591b79a72872d134711949a377b129a1e2e3c86e943 |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1 (x86_64) | b29f2d90df44f40439ad571844166a20a0f057fd4bb222cf015d885db0d09744 |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1 (ARM64) | e63f73aff4df3a2e2d99dfc44446a9c1c87bea6439652f1bbc0732a351104bf2 |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1 (x86_64) | 5d4fdfb3c86c007b71bcd5a2afcc48e9d2d5c2a4ce31cdf82dc8dbc1e1951088 |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1 (ARM64) | 973ef665ee7f3e4b9f19cf88e707e7271be3a678d082ff9248b1c61abf0b18b9 |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1 (x86_64) | 91f43dbb0dfc6c8ec9d92ddff626d91c3f1ce113f1707f7e64e8f3d0c407de57 |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1 (ARM64) | de946c2a278ac5509c6d45721d0175c79bc02438e5bbb1f80dd29db8f7df837c |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1 (x86_64) | c0ad4e559f3fc14a312aed9177b9455bd313c4ff32dafb285beecf94ff41e368 |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1 (ARM64) | 704442546f927c08f0344e26200b6a1ec67b7edb70b7af12d3cc919992b2bbe0 |
+
+=== "UBI 8"
+
+    | Image | Digest |
+    | :------ | :------- |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1-ubi8 (x86_64) | 5fea543eaf38418f372df21fa654f4058e2b4bfb1679a2a867c92219d2cb3e79 |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1-ubi8 (ARM64) | a04db85445a19bc3a98593faf63e0b0247b54e6f55223c1d09c63880756fb5c5 |
+    | percona/percona-distribution-postgresql:18.6.1-1-ubi8 (x86_64) | ccfa32792b2e2faa35d970387aa9fb2a2c8f8e20e41218e9c3af939f5f7b34b4 |
+    | percona/percona-distribution-postgresql:18.6.1-1-ubi8 (ARM64) | 0c623e089ae1b5285e1a1823d9d7d86894b8c0ed6aa4428acbf4f29989275334 |
+    | percona/percona-distribution-postgresql:17.11.1-1-ubi8 (x86_64) | 0334500a8affc9cddacc9d638f83a1405062861e3e1adec3153af24dea4ad976 |
+    | percona/percona-distribution-postgresql:17.11.1-1-ubi8 (ARM64) | e92d45633e85bb3357e784bb3e450dd7fc0a364c3bce535df5b8e6374a70966b |
+    | percona/percona-distribution-postgresql:16.15-1-ubi8 (x86_64) | 22dfafd64c4e264c54908a8e424b27e5cd143a45e203068908f57d7e955386f7 |
+    | percona/percona-distribution-postgresql:16.15-1-ubi8 (ARM64) | 565e01a04897964f4ddb9f43abcf2cfda837e4051b865a514ebced55717524d7 |
+    | percona/percona-distribution-postgresql:15.19-1-ubi8 (x86_64) | 11b0f5fb32d2317c1022dc33aed3854dfbcb667a14540b6ec388a169db1d273e |
+    | percona/percona-distribution-postgresql:15.19-1-ubi8 (ARM64) | 2167dd99e5d864641b590dd5c09389926b276cedbc0067533754a594d148e00c |
+    | percona/percona-distribution-postgresql:14.24-1-ubi8 (x86_64) | d86f4191562f3e382e23d0a146fd50596728a8bc8d1bf808e5edb34e589e75fc |
+    | percona/percona-distribution-postgresql:14.24-1-ubi8 (ARM64) | d082df7823039830ac8e876f80b75e5b72957200442d8eb40fe20da7fcf158ce |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1-ubi8 (x86_64) | 428f5fe953f34dc0f3c8d371fc5a1211a44320c365bacaafc80facd1621101df |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1-ubi8 (ARM64) | 5786d93789d294c8c2fae22b24f94e66f8adfffeee2b46a312f40fcd38ec6ed6 |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1-ubi8 (x86_64) | f46f8c8d51ea4e63d25d1bde9f39f5a67675e2660ea0aded1c99e247b9b1aa58 |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1-ubi8 (ARM64) | 450aa7578f786e9180a2b0a001637f996b8da35a56015c5ccbd48ca12793f3e6 |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1-ubi8 (x86_64) | 74209572a2503dd31d3bbfd946d740746a450bb1243617fcd5dedb168a7acb12 |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1-ubi8 (ARM64) | ecc718a03d3e0717f96c5bb66e51b5803ace8c55d70e38dca60d10f8c09e10f8 |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1-ubi8 (x86_64) | 00957d831c394f8a717d38ea956d94c3d6e4a169496b72b1952e1e9c9c6701a4 |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1-ubi8 (ARM64) | 88d81ca7a8ed3a449378ec58546d7b4cb64b8638a91b8c7d7e85d527a0135694 |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1-ubi8 (x86_64) | 2fae3ef7ca669da03033523e1af80023ccad1617ae98808a9ce11758c45f24fb |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1-ubi8 (ARM64) | 896a3dd8be9eab2c4966cfed782db5e74c4f04e2a6b3a6e78cf15d212d83d9c6 |
+
+=== "UBI 10"
+
+    | Image | Digest |
+    | :------ | :------- |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1-ubi10 (x86_64) | 96ecb9c13a70bd4ef83d6b5d7c0090adcae0e2737ddd411f36416537f66274c6 |
+    | percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-1-ubi10 (ARM64) | a01f6df4bb05b68ea5383a9c174505c1252c8de21de51e34dc9069903012238a |
+    | percona/percona-distribution-postgresql:18.6.1-1-ubi10 (x86_64) | 7eb5e275575b7015cf5d52a3478a0f7df4a53ed3fd58330152f7ec59d31f57c8 |
+    | percona/percona-distribution-postgresql:18.6.1-1-ubi10 (ARM64) | ec60edcd31bd4e96fca20feec0419f7af039728a57c0e8854edc784b34fb2450 |
+    | percona/percona-distribution-postgresql:17.11.1-1-ubi10 (x86_64) | fe1e00fee82c23995cfcdae5778c3396a60f30bcbf690100fa30f550f0ef8fea |
+    | percona/percona-distribution-postgresql:17.11.1-1-ubi10 (ARM64) | 10450bf4d5ebfc332e95a8bbfa82bb692406133b6fe28f163db510afec9b6729 |
+    | percona/percona-distribution-postgresql:16.15-1-ubi10 (x86_64) | 37428c79747f0d818bc845f34b5f07dac2d7b063ed4e25268ba4dc24d7781059 |
+    | percona/percona-distribution-postgresql:16.15-1-ubi10 (ARM64) | 2ac8bea41b904fe3740577e82aff3274caf1c13cfc4b9d28f862e8939793a072 |
+    | percona/percona-distribution-postgresql:15.19-1-ubi10 (x86_64) | d210a61c313619f488778b6847411df03a40bbb8a01f98b9d3ecc681e0e0baac |
+    | percona/percona-distribution-postgresql:15.19-1-ubi10 (ARM64) | cd086772227a7a6bcc8730dafafcdf39bbfd9a79b7e2664c6abdf8098c69dc4b |
+    | percona/percona-distribution-postgresql:14.24-1-ubi10 (x86_64) | b52437159bc53a9ef53e792f33db83c7ee5a1a30a02e7407a8c5a839357bfd41 |
+    | percona/percona-distribution-postgresql:14.24-1-ubi10 (ARM64) | 4db8cec87861a3c9ca3227e266f3b7c4349579795a96aa3869c0c52feed2caab |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1-ubi10 (x86_64) | baaaa40b7478710bbe341247deeba9b25cd37fa3aad2774d1d8f47d8fd3b7edc |
+    | percona/percona-distribution-postgresql-with-postgis:18.6.1-1-ubi10 (ARM64) | 37e15d2b2ab4b4c96880666526da8508b158252ca88e262d52c80912e2282afe |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1-ubi10 (x86_64) | f6ca9eee3f1594012d97aa8b45174e88f34bcebd140096b3849228f103d491a5 |
+    | percona/percona-distribution-postgresql-with-postgis:17.11.1-1-ubi10 (ARM64) | 7e57f1e29100988e9e697222a8584ec8a3df1548ccf53d14cf7220277e5b4d22 |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1-ubi10 (x86_64) | be7ad829ede65279e3bf43501dc5ce0e65aab191be2990a2777dd3842ebcd66d |
+    | percona/percona-distribution-postgresql-with-postgis:16.15-1-ubi10 (ARM64) | b42049d0d9ddb9fbf3890fee82fa179595958e483c90c84242f8c8bd0215174b |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1-ubi10 (x86_64) | ac3edbb3bde34f02c1ff8e93b19f8f2379e9c561bd42b81931b4bc1b6860a0c0 |
+    | percona/percona-distribution-postgresql-with-postgis:15.19-1-ubi10 (ARM64) | 6126f0b62370ece4bcde3a38876ee4692dc5602762c2c7536176a8fbec9bbaac |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1-ubi10 (x86_64) | 52993f88d0ec6759c5b6258ec2a9ed0da0638c087fcccae6b61d7213c44d6cbe |
+    | percona/percona-distribution-postgresql-with-postgis:14.24-1-ubi10 (ARM64) | 5f73108ca08c8b2830ac28a6ea2ee2a750b7ea7f2ca8f045065cb44eba427190 |
+    | percona/fluentbit:5.1.1-1-ubi10 (x86_64) | 6deee2b13c03511605ecfb3fec1d5e5121aee63fa425c5bd4c9b51fe1a76ff7d |
+    | percona/fluentbit:5.1.1-1-ubi10 (ARM64) | 77dd38e8bee9ddadfe5e0813519415c780ab044b17832a7faa5e940d8e2b6017 |
 
 --8<-- [end:images]
-
