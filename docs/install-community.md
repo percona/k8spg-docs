@@ -102,14 +102,14 @@ Here's a sequence of steps to follow:
     metadata:
       name: cluster1
     spec:
-      image: docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
+      image: docker.io/percona/percona-postgresql-operator:postgresql{{postgrescommunity}}-community-ubi9
       postgresVersion: 18
       proxy:
         pgBouncer:
-          image: docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
+          image: docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncercommunity}}-community
       backups:
         pgbackrest:
-          image: docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
+          image: docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestcommunity}}-community
     ```
 
 5. Deploy the cluster:
@@ -145,31 +145,10 @@ community images.
 
 ## Available community images
 
-The following UBI 9 (EL9) images are published for evaluation:
+Published evaluation images live under `docker.io/percona/percona-postgresql-operator`. Use the UBI 9 tags in the example above, or the UBI 8 tags if you need Enterprise Linux 8.
 
-```text
-docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi9
-docker.io/percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi9
-docker.io/percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi9
-docker.io/percona/percona-postgresql-operator:postgresql15.18-1-community-ubi9
-docker.io/percona/percona-postgresql-operator:postgresql14.23-1-community-ubi9
-docker.io/percona/percona-postgresql-operator:postgresql19-community-ubi9
-docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncerrecommended}}-community
-docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestrecommended}}-community
-docker.io/percona/percona-postgresql-operator:upgrade-community
-```
+See [PostgreSQL community images](images-community.md) for the full list of tags and digests, including the shared pgBouncer and pgBackRest images.
 
-UBI 8 (EL8) variants add `-ubi8` to the PostgreSQL and upgrade tags, for example
-`postgresql{{postgresrecommended}}-community-ubi8`.
-
-```text
-docker.io/percona/percona-postgresql-operator:postgresql{{postgresrecommended}}-community-ubi8
-docker.io/percona/percona-postgresql-operator:postgresql{{postgres17recommended}}-community-ubi8
-docker.io/percona/percona-postgresql-operator:postgresql{{postgres16recommended}}-community-ubi8
-docker.io/percona/percona-postgresql-operator:postgresql15.18-1-community-ubi8
-docker.io/percona/percona-postgresql-operator:postgresql14.23-1-community-ubi8
-docker.io/percona/percona-postgresql-operator:upgrade-community-ubi8
-```
 
 ## Build your own community images
 

@@ -27,25 +27,27 @@ docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}
 docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}
 ```
 
-The table below omits `docker.io/`. You can add it if your cluster requires an explicit registry.
-
 ## UBI version tags
 
-Starting with Operator 3.1.0, Percona Distribution images are available on UBI, UBI 9 and UBI 10.
+Starting with Operator 3.1.0, Percona Distribution images are
+available on UBI 8, UBI 9, and UBI 10.
 
-UBI 9 is the default. Those tags have no OS version, for example `{{postgresrecommended}}`. For UBI 8 and UBI 10, add `-ubi8` to the tag, and `-arm64` for ARM64:
+UBI 9 is the default. Those tags have no OS version, for example
+`{{postgresrecommended}}`. For UBI 8 and UBI 10, the `-ubi8` or
+`-ubi10` suffix is added to the tag:
 
-```text
+```
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}
 docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8
-docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi8-arm64
-docker.io/percona/percona-pgbouncer:{{pgbouncerrecommended}}-ubi8
-docker.io/percona/percona-pgbackrest:{{pgbackrestrecommended}}-ubi8
+docker.io/percona/percona-distribution-postgresql:{{postgresrecommended}}-ubi10
 ```
 
-Keep every instance in a cluster on the same UBI version. Switching UBI majors changes collation libraries. See [Minor version upgrade](update-db-minor.md) and [Major version upgrade](update-db-major.md).
+## Images reference
 
-**Percona Distribution for PostgreSQL images released with the Operator version {{release}}:**
+The following tables list the images that you can use with the Percona Operator for PostgreSQL {{release}}. They omit `docker.io/`. You can add it if your cluster requires an explicit registry.
 
 --8<-- "Kubernetes-Operator-for-PostgreSQL-RN{{release}}.md:images"
+
+Keep every PostgreSQL instance in a cluster on the same UBI version. Switching UBI majors changes collation libraries. See [Minor version upgrade](update-db-minor.md) and [Major version upgrade](update-db-major.md).
 
 For older versions, please refer to the [old releases documentation archive :octicons-link-external-16:](https://docs.percona.com/legacy-documentation/).

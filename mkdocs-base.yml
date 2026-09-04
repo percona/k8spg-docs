@@ -303,14 +303,16 @@ nav:
           - "Manage a database manually": manage-manually.md
           - reinit.md
     - Reference:
-          - "Custom Resource options": operator.md
-          - "Backup resource options": backup-resource-options.md
-          - "Restore resourceoptions": restore-options.md
-          - "Custom resource statuses": cr-statuses.md
-          - "Secrets options": secret-options.md
-          - "Upgrade resource options": upgrade-options.md
+          - Custom Resource reference:
+            - "Custom Resource options": operator.md
+            - "Backup resource options": backup-resource-options.md
+            - "Restore resource options": restore-options.md
+            - "Custom resource statuses": cr-statuses.md
+            - "Secrets options": secret-options.md
+            - "Upgrade resource options": upgrade-options.md
           - "Immutable options": immutable-options.md
           - "Percona certified images": images.md
+          - "PostgreSQL Community images": images-community.md
           - "Versions compatibility": versions.md
           - "About documentation": about-docs.md
           - Legal:
