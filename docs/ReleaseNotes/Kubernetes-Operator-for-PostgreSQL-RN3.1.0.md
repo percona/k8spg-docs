@@ -2,7 +2,7 @@
 
 !!! warning ""
 
-    Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](update-operator.md) to keep your clusters current and protected.
+    Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](../update-operator.md) to keep your clusters current and protected.
 
 [Get started with the Operator :material-arrow-right:](../quickstart.md){.md-button}
 
@@ -63,7 +63,7 @@ Debugging distributed systems just got easier. Percona Operator for PostgreSQL n
 
 The Operator uses [Fluent Bit :octicons-link-external-16:](https://fluentbit.io/) to collect logs. Fluent Bit runs a `logs` sidecar container on each PostgreSQL instance Pod and mounts the same data volume. It collects logs and streams them to its own stdout as JSON lines. You can additionally configure Fluent Bit outputs such as S3 or Open Telemetry (OTel) envelope and have the logs forwarded there.
 
-[Learn more about persistent logging in the documentation](persistent-logging.md)
+[Learn more about persistent logging in the documentation](../persistent-logging.md)
 
 ### Configure log rotation for persistent logs
 
@@ -75,7 +75,7 @@ You can configure log rotation in these ways:
 * Define additional configuration via a ConfigMap. In this case, the Operator adds your options to the default configuration
 * Set a new rotation schedule
   
-See our [documentation](logrotate.md) for step-by-step instructions for each option.
+See our [documentation](../logrotate.md) for step-by-step instructions for each option.
 
 ### Define logical replicas declaratively (tech preview)
 
@@ -87,7 +87,7 @@ The Operator creates the volume, copies the data, converts the physical replica 
 
 Patroni does not manage nor promote it, so it stays a stable read endpoint.
 
-Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](deploy-replica.md).
+Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](../deploy-replica.md).
 
 ### Mount extra volumes into PostgreSQL instances
 
@@ -214,11 +214,11 @@ Community images are an experimental project. Try them and tell us what works, w
 
 ### Support of PostgreSQL 19 (tech preview)
 
-With this release, the Operator supports deployment of Community PostgreSQL 19. This support is currently in the tech preview stage because this major version is not officially released yet. However, you can already deploy it and evaluate the features coming with this version. This allows you to stay on top of upcoming enhancements and gives you enough time to prepare your upgrade and migration plans before the final release lands. See [Deploy the Operator with Community images](install-community.md) for guidelines.
+With this release, the Operator supports deployment of Community PostgreSQL 19. This support is currently in the tech preview stage because this major version is not officially released yet. However, you can already deploy it and evaluate the features coming with this version. This allows you to stay on top of upcoming enhancements and gives you enough time to prepare your upgrade and migration plans before the final release lands. See [Deploy the Operator with Community images](../install-community.md) for guidelines.
 
 ### Official support for Rancher Kubernetes Engine (RKE2)
 
-[Rancher Kubernetes Engine (RKE2) :octicons-link-external-16:](https://docs.rke2.io/) is now an officially supported platform. Every Operator release is now tested on RKE2 to ensure that you can run it on Rancher-managed Kubernetes clusters with confidence.
+[Rancher Kubernetes Engine (RKE2) :octicons-link-external-16:](https://docs.rke2.io/) is now an officially supported platform. Every Operator release is now tested on RKE2 to ensure that you can run it on Rancher-managed Kubernetes clusters with confidence. Check the current [known limitation](#known-limitations) for using custom extensions on Rancher.
 
 ### The Operator is now fully supported on ARM64 architectures
 
@@ -238,6 +238,21 @@ All Operator images are now available for ARM64, giving you native support on AR
    You must do these changes simultaneously for the same reconciliation loop. Just removing the extension `extensions.custom` list instructs the Operator to delete it.
 
 * Field descriptions were removed from the inherited `CrunchyBridgeCluster` CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running `kubectl explain` for those fields no longer shows help text.
+
+## Known limitations
+
+### Custom extensions on Rancher (RKE2)
+
+When you enable custom extensions, the Operator restarts the cluster's Pods. On Rancher (RKE2) clusters, this restart can trigger a Patroni failover before the former primary Pod finishes restarting. A replica gets promoted while the former primary is still restarting, and the former primary returns on a diverged timeline. `pg_rewind` cannot repair a diverged former primary.
+
+The affected Pod's PostgreSQL log shows the following:
+
+```text
+LOG:  invalid xl_info in checkpoint record
+PANIC:  could not locate a valid checkpoint record at <LSN>
+```
+
+To recover, delete the affected Pod and its PersistentVolumeClaim to [reinitialize the replica](../reinit.md#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim).
 
 ## Changelog
 
