@@ -204,15 +204,13 @@ Keep every instance in a cluster on the same UBI version. Treat a UBI change as 
 
 ### Support for community PostgreSQL images
 
-With this release, you can deploy PostgreSQL Community images or your own PostgreSQL images under your own registry and tags with the Operator. To do this, define them under the `spec.image`, `spec.proxy.pgBouncer.image`, and `spec.backups.pgbackrest.image` options in the Custom Resource. The Operator automates database deployment and management with these images the same way it does for Percona Distribution for PostgreSQL.
+You can now run the Operator with PostgreSQL Community images built from the official [PostgreSQL Global Development Group (PGDG) packages :octicons-link-external-16:](https://www.postgresql.org/download/). You can also use the images you build and store in your own registry. In this way you are no longer limited to Percona Distribution images for the database runtime, so you can add community extensions and keep the image supply chain under your control.
 
-This compatibility gives you full control and transparency over your infrastructure enabling you to use extensions not available in Percona images. However, you cannot use features such as [Transparent data encryption](#transparent-data-encryption-support-with-pg_tde) that are available only in Percona images, and you are fully responsible for the image lifecycle and support.
+We publish evaluation images for PostgreSQL, pgBouncer, and pgBackRest built from those PGDG packages on UBI 8 and UBI 9. You can use them to try the flow, then reproduce the same build with the Dockerfiles in [percona-docker/postgresql-containers/community :octicons-link-external-16:](https://github.com/percona/percona-docker/tree/main/postgresql-containers/community) and push the result to a registry you control.
 
-Community packages are available for UBI8 and UBI9 base images, allowing you to quickly spin them up for testing and evaluation before building your own pipeline. These images are not bound to a specific Operator version, but you must use Operator version 3.1.0 or later to deploy community or custom PostgreSQL images. Refer to [PostgreSQL Community images](#postgresql-community-images) for the list of available images.
+Point the cluster at those images with `spec.image`, `spec.proxy.pgBouncer.image`, and `spec.backups.pgbackrest.image`. The Operator deploys and manages the cluster the same way it does for Percona Distribution for PostgreSQL. You cannot use Percona-only features such as [Transparent data encryption](#transparent-data-encryption-support-with-pg_tde). You own the image lifecycle and support. You need Operator 3.1.0 or later. See [PostgreSQL Community images](#postgresql-community-images) for the published tags.
 
-Community images are an experimental project. We want to see how you adopt them so we can decide what to invest in next. Try them out and tell us what works, what is missing, and what you want the Operator to support.
-
-For more information about using community images and building your own ones, refer to the Percona Blog: [Community Docker Images: keeping the operator open without a vendor registry lock in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan and our [documentation](../install-community.md).
+Community images are an experimental project. Try them and tell us what works, what is missing, and what you want the Operator to support. For build and deploy steps, see [Deploy a cluster with community PostgreSQL images](../install-community.md) and the Percona Blog post [Community Docker Images: keeping the operator open without a vendor registry lock-in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan.
 
 ### Support of PostgreSQL 19 (tech preview)
 
@@ -250,7 +248,16 @@ All Operator images are now available for ARM64, giving you native support on AR
 * [K8SPG-650](https://perconadev.atlassian.net/browse/K8SPG-650) - Added support for declaring additional pgBouncer users in the Custom Resource so monitoring and other integrations can keep dedicated credentials. The Operator now manages the pgBouncer user list for you instead of relying on manual Secret edits that could be overwritten.
 
 * [K8SPG-851](https://perconadev.atlassian.net/browse/K8SPG-851) - Added persistent logging for PostgreSQL and pgBackRest so logs remain available across Pod restarts. Fluent Bit collects logs on the instance data volume and can forward them as JSON or to configured outputs such as S3 or OpenTelemetry.
- 
+
+* [K8SPG-1114](https://perconadev.atlassian.net/browse/K8SPG-1114) - Added declarative logical replicas for read-only workloads so you can offload reporting queries from the primary. The Operator creates the volume, bootstraps replication, and exposes a dedicated Service that Patroni does not promote.
+
+* [K8SPG-1056](https://perconadev.atlassian.net/browse/K8SPG-1056) - Added support for Community PostgreSQL images and custom registries so you are not locked to Percona-only tags. Set `spec.image`, `proxy.pgBouncer.image`, and `backups.pgbackrest.image` to deploy and manage community or privately built images.
+
+* [K8SPG-952](https://perconadev.atlassian.net/browse/K8SPG-952) - Added the ability to provide additional trusted CA to pgBouncer. This way you can enable client mTLS while cluster components communicate using Operator-managed PKI and the Operator continues to manage cluster TLS rotation.
+
+* [K8SPG-949](https://perconadev.atlassian.net/browse/K8SPG-949) - Added official support for Rancher Kubernetes Engine (RKE2). Every Operator release is now tested on RKE2 so you can run on Rancher-managed clusters with confidence.
+
+
 ### Improvements
 
 * [K8SPG-440](https://perconadev.atlassian.net/browse/K8SPG-440) - Added the ability to mount extra volumes into PostgreSQL instances so every Pod can share files such as full-text search dictionaries. 
@@ -263,11 +270,7 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 * [K8SPG-944](https://perconadev.atlassian.net/browse/K8SPG-944) - Removed PMM2 support now that PMM2 has reached end of life. Upgrade monitoring to PMM3 so cluster health checks continue to work with this Operator version.
 
-* [K8SPG-949](https://perconadev.atlassian.net/browse/K8SPG-949) - Added official support for Rancher Kubernetes Engine (RKE2). Every Operator release is now tested on RKE2 so you can run on Rancher-managed clusters with confidence.
-
 * [K8SPG-951](https://perconadev.atlassian.net/browse/K8SPG-951) - Added the support of custom CA issuer so you can plug in your own cert-manager Issuer or ClusterIssuer instead of the hardcoded self-signed CA. This lets you issue cluster TLS certificates from Vault or an existing corporate CA.
-
-* [K8SPG-952](https://perconadev.atlassian.net/browse/K8SPG-952) - Added the ability to provide additional trusted CA to pgBouncer. This way you can enable client mTLS while cluster components communicate using Operator-managed PKI and the Operator continues to manage cluster TLS rotation.
 
 * [K8SPG-1011](https://perconadev.atlassian.net/browse/K8SPG-1011) - Removed the requirement to set a pgBackRest image when backups are disabled. Clusters with `backups.enabled: false` no longer need unused backup image configuration.
 
@@ -281,15 +284,11 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 * [K8SPG-1053](https://perconadev.atlassian.net/browse/K8SPG-1053) - Relocated the PMM agent config to a writable `/tmp` volume so the PMM sidecar starts when `readOnlyRootFilesystem: true` is enforced. Hardened environments such as OpenShift `restricted-v2` can now monitor clusters without relaxing the root filesystem policy.
 
-* [K8SPG-1056](https://perconadev.atlassian.net/browse/K8SPG-1056) - Added support for Community PostgreSQL images and custom registries so you are not locked to Percona-only tags. Set `spec.image`, `proxy.pgBouncer.image`, and `backups.pgbackrest.image` to deploy and manage community or privately built images.
-
 * [K8SPG-1073](https://perconadev.atlassian.net/browse/K8SPG-1073) - Stopped configuring Patroni's `restore_command` when backups are disabled so replicas no longer call pgBackRest against a missing stanza. WAL fetch failures in backup-less clusters fall back cleanly instead of producing archive errors.
 
 * [K8SPG-1083](https://perconadev.atlassian.net/browse/K8SPG-1083) - Improved Operator telemetry to report the Kubernetes platform in use, such as EKS, GKE, AKS, or Rancher. This helps Percona understand deployment environments and improve platform-specific testing.
 
 * [K8SPG-1085](https://perconadev.atlassian.net/browse/K8SPG-1085) - Improved SmartUpdate logging so rolling instance updates are visible in the Operator logs. You can track when Pods are being restarted during automated updates without extra debugging.
-
-* [K8SPG-1114](https://perconadev.atlassian.net/browse/K8SPG-1114) - Added declarative logical replicas for read-only workloads so you can offload reporting queries from the primary. The Operator creates the volume, bootstraps replication, and exposes a dedicated Service that Patroni does not promote.
 
 * [K8SPG-1115](https://perconadev.atlassian.net/browse/K8SPG-1115) - Added the ability to pause and resume pgBouncer connections from the Custom Resource without dropping clients. Set `proxy.pgBouncer.paused` to queue new requests while active queries finish during planned maintenance.
 
