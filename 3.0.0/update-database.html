@@ -3532,6 +3532,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About database upgrades
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="update-database.html" class="md-nav__link md-nav__link--active">
         
   
@@ -3548,6 +3566,47 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#image-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-an-upgrade-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose an upgrade type
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -3736,6 +3795,34 @@
     
   
     About migration from Crunchy to Percona Operator for PostgreSQL
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
   
 
     
@@ -5839,6 +5926,36 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#image-compatibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Image compatibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#choose-an-upgrade-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Choose an upgrade type
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -5878,7 +5995,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p><em>Major upgrades</em> are supported starting from Operator <strong>2.4.0</strong> as a tech preview. Starting with Operator <strong>2.9.0</strong>, major upgrades are <strong>generally available (GA)</strong> and fully supported.</p>
 <p>Before Operator 2.4.0, only minor upgrades were allowed.</p>
-<p>Select the guide for a required upgrade type:</p>
+<h2 id="image-compatibility">Image compatibility<a class="headerlink" href="#image-compatibility" title="Permanent link">&para;</a></h2>
+<p>When the target PostgreSQL image uses a different UBI major, it ships a different <code>glibc</code> (and possibly ICU) collation library. Collation-dependent indexes can become inconsistent until you rebuild them. Both upgrade procedures include those steps after the new image is running.</p>
+<h2 id="choose-an-upgrade-type">Choose an upgrade type<a class="headerlink" href="#choose-an-upgrade-type" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="update-db-minor.html">Run a minor version upgrade</a>
 <a class="md-button" href="update-db-major.html">Run a major version upgrade</a></p>
 <hr>
@@ -5886,7 +6005,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:50 UTC">March 30, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 8, 2026 13:29:30 UTC">September 8, 2026</span>
       
         <br>
         Created:

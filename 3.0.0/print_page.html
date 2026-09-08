@@ -3750,6 +3750,34 @@
   
   
     <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -7057,6 +7085,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         About migration from Crunchy to Percona Operator for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migrate-checklist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Pre-migration compatibility checks
       
     </span>
   </a>
@@ -16787,18 +16826,49 @@ postgresclusters.postgres-operator.crunchydata.com<span class="w"> </span>
 </ul>
 <p><em>Major upgrades</em> are supported starting from Operator <strong>2.4.0</strong> as a tech preview. Starting with Operator <strong>2.9.0</strong>, major upgrades are <strong>generally available (GA)</strong> and fully supported.</p>
 <p>Before Operator 2.4.0, only minor upgrades were allowed.</p>
-<p>Select the guide for a required upgrade type:</p>
+<h2 id="update-database-image-compatibility">Image compatibility<a class="headerlink" href="#update-database-image-compatibility" title="Permanent link">&para;</a></h2>
+<p>When the target PostgreSQL image uses a different UBI major, it ships a different <code>glibc</code> (and possibly ICU) collation library. Collation-dependent indexes can become inconsistent until you rebuild them. Both upgrade procedures include those steps after the new image is running.</p>
+<h2 id="update-database-choose-an-upgrade-type">Choose an upgrade type<a class="headerlink" href="#update-database-choose-an-upgrade-type" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#update-db-minor">Run a minor version upgrade</a>
 <a class="md-button" href="#update-db-major">Run a major version upgrade</a></p></section><section class="print-page" id="update-db-minor" heading-number="8.3.2"><h1 id="update-db-minor-minor-version-upgrade-of-percona-distribution-for-postgresql">Minor version upgrade of Percona Distribution for PostgreSQL<a class="headerlink" href="#update-db-minor-minor-version-upgrade-of-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
 <p>A minor version upgrade is the upgrade within the same major version. For example, from 17.5.2 to 17.6.1.</p>
 <h2 id="update-db-minor-considerations">Considerations<a class="headerlink" href="#update-db-minor-considerations" title="Permanent link">&para;</a></h2>
 <ol>
 <li>Upgrading a PostgreSQL cluster may result in downtime, as well as in <a href="#change-primary">failover</a> caused by updating the primary instance.</li>
-<li>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
+<li>Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of  <code>glibc</code> and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
 </ol>
 <h2 id="update-db-minor-before-you-start">Before you start<a class="headerlink" href="#update-db-minor-before-you-start" title="Permanent link">&para;</a></h2>
+<h3 id="update-db-minor-check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a class="headerlink" href="#update-db-minor-check-operating-system-and-collation-libraries-version" title="Permanent link">&para;</a></h3>
+<p>Check the operating system used by the PostgreSQL container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cat<span class="w"> </span>/etc/os-release
+</code></pre></div>
+<p>Check the <code>glibc</code> version:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>getconf<span class="w"> </span>GNU_LIBC_VERSION
+</code></pre></div>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>glibc 2.34
+</code></pre></div>
+<h3 id="update-db-minor-check-the-locale-provider-in-each-database">Check the locale provider in each database<a class="headerlink" href="#update-db-minor-check-the-locale-provider-in-each-database" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+</details>
+<div class="highlight"><pre><span></span><code>   datname  | datlocprovider | datcollversion
+-----------+----------------+----------------
+postgres  | c              | 2.34
+template1 | c              | 2.34
+template0 | c              |
+cluster1  | c              | 2.34
+(4 rows)
+</code></pre></div>
+<p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
+<p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. See <a href="#update-db-minor-after-the-pods-restart">After the Pods restart</a></p>
+<h3 id="update-db-minor-update-pmm">Update PMM<a class="headerlink" href="#update-db-minor-update-pmm" title="Permanent link">&para;</a></h3>
 <ol>
-<li>We recommend to <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html">update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
+<li><a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html">Update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
 <li>PMM2 has reached its end-of-life stage and is no longer supported in the Operator. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</li>
 </ol>
 <h2 id="update-db-minor-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-db-minor-upgrade-steps" title="Permanent link">&para;</a></h2>
@@ -16890,7 +16960,9 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </code></pre></div>
 </details>
 </li>
-<li>
+</ol>
+<h2 id="update-db-minor-after-the-pods-restart">After the Pods restart<a class="headerlink" href="#update-db-minor-after-the-pods-restart" title="Permanent link">&para;</a></h2>
+<p>If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), <code>glibc</code> collation rules change. </p>
 <p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
 <span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
@@ -16911,46 +16983,71 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 <span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
 </code></pre></div>
-</li>
-<li>
-<p>If you see the list of affected indexes, find the database names where indexes use a different collation version:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+<p>If you see affected indexes, find the databases whose collation 
+version changed:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
-
--------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
-
- 5 | postgres  |     10 |        6 | c              | f             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           |
- 1 | template1 |     10 |        6 | c              | t             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           | {=c/postgres,postgres=CTc/postgres}
- 4 | template0 |     10 |        6 | c              | t             | f            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             |                | {=c/postgres,postgres=CTc/postgres}
- 16466 | cluster1  |     10 |        6 | c              | f             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
-(4 rows)
+<div class="no-copy highlight"><pre><span></span><code>datname   | datlocprovider | datcollate  | datcollversion
+----------+----------------+-------------+----------------
+postgres  | c              | en_US.utf-8 | 2.28
+template1 | c              | en_US.utf-8 | 2.28
+template0 | c              | en_US.utf-8 |
+cluster1  | c              | en_US.utf-8 | 2.28
 </code></pre></div>
 </details>
-</li>
-<li>
-<p>Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
+<p>Rebuild affected indexes first. <a href="https://www.postgresql.org/docs/current/sql-reindex.html">REINDEX</a> updates the index using the current collation rules:</p>
+<div class="highlight"><pre><span></span><code><span class="k">REINDEX</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">index_name</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<p>Repeat for every affected index, or rebuild all indexes in a database with <code>REINDEX DATABASE &lt;database_name&gt;;</code>.</p>
+<p>Then refresh collation metadata. <code>ALTER DATABASE ... REFRESH COLLATION VERSION</code> only updates PostgreSQL&rsquo;s recorded metadata. It does not rebuild indexes created using the previous collation rules:</p>
 <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
 </code></pre></div>
-</li>
-</ol></section><section class="print-page" id="update-db-major" heading-number="8.3.3"><h1 id="update-db-major-major-version-upgrade">Major version upgrade<a class="headerlink" href="#update-db-major-major-version-upgrade" title="Permanent link">&para;</a></h1>
+<p>This command requires the privileges of a superuser or a database owner. 
+<strong>Repeat for every affected database.</strong></p></section><section class="print-page" id="update-db-major" heading-number="8.3.3"><h1 id="update-db-major-major-version-upgrade">Major version upgrade<a class="headerlink" href="#update-db-major-major-version-upgrade" title="Permanent link">&para;</a></h1>
 <p>Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 17.x to PostgreSQL 18.x).</p>
 <p>This feature is generally available starting with the Operator version 2.9.0.</p>
 <h2 id="update-db-major-considerations">Considerations<a class="headerlink" href="#update-db-major-considerations" title="Permanent link">&para;</a></h2>
 <ol>
 <li>A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.</li>
 <li>During the upgrade, the Operator duplicates the data on each PVC and doesn&rsquo;t remove the old version data automatically. Make sure your PVC has enough free space to store data.</li>
-<li>Starting with the Operator 2.6.0, PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9 instead of UBI 8. UBI 9 has a different version of collation library <code>glibc</code> and this introduces a collation mismatch in PostgreSQL. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
+<li>If the new image uses a different UBI major, it ships a different <code>glibc</code> collation library. After the upgrade, <a href="#update-db-major-check-collation">identify and rebuild indexes</a> affected by the collation change.</li>
+</ol>
+<h2 id="update-db-major-before-you-start">Before you start<a class="headerlink" href="#update-db-major-before-you-start" title="Permanent link">&para;</a></h2>
+<h3 id="update-db-major-check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a class="headerlink" href="#update-db-major-check-operating-system-and-collation-libraries-version" title="Permanent link">&para;</a></h3>
+<p>Check the operating system used by the PostgreSQL container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cat<span class="w"> </span>/etc/os-release
+</code></pre></div>
+<p>Check the <code>glibc</code> version:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>getconf<span class="w"> </span>GNU_LIBC_VERSION
+</code></pre></div>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>glibc 2.34
+</code></pre></div>
+<h3 id="update-db-major-check-the-locale-provider-in-each-database">Check the locale provider in each database<a class="headerlink" href="#update-db-major-check-the-locale-provider-in-each-database" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+</details>
+<div class="highlight"><pre><span></span><code>   datname  | datlocprovider | datcollversion
+-----------+----------------+----------------
+postgres  | c              | 2.34
+template1 | c              | 2.34
+template0 | c              |
+cluster1  | c              | 2.34
+(4 rows)
+</code></pre></div>
+<p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
+<p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. See <a href="#update-db-major-check-collation">Check collation</a></p>
+<h3 id="update-db-major-update-pmm">Update PMM<a class="headerlink" href="#update-db-major-update-pmm" title="Permanent link">&para;</a></h3>
+<ol>
+<li><a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html">Update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
+<li>PMM2 has reached its end-of-life stage and is no longer supported in the Operator. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for how to migrate from version 2 to version 3.</li>
 </ol>
 <h2 id="update-db-major-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-db-major-upgrade-steps" title="Permanent link">&para;</a></h2>
 <p>To start the upgrade, you need to create a special <code>PerconaPGUpgrade</code> resource. This resource refers to the special <em>Operator upgrade image</em> and contains the information about the existing and target major versions. Find the example <code>PerconaPGUpgrade</code> configuration file in <code>deploy/upgrade.yaml</code>:</p>
@@ -16987,7 +17084,9 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </code></pre></div>
 <p>Repeat for every database where the <code>pgaudit</code> extension is installed.</p>
 </li>
-<li>
+</ol>
+<h2 id="update-db-major-check-collation">Check collation<a class="headerlink" href="#update-db-major-check-collation" title="Permanent link">&para;</a></h2>
+<p>If the new image uses a different UBI major (for example, UBI 8 to UBI 9), <code>glibc</code> collation rules change.</p>
 <p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="#connect">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
 <span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
@@ -17008,39 +17107,30 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 <span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
 <span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
 </code></pre></div>
-</li>
-<li>
-<p>If you see the list of affected indexes, find the database names where indexes use a different collation version:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+<p>If you see affected indexes, find the databases whose collation 
+version changed:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>oid  |  datname  | datdba | encoding | datlocprovider | datistemplate | datallowconn | datconnlimit | datfrozenxid | datminmxid | dattablespace | datcollate  |  datctype   | daticulocale | daticurules | datcollversion |                           datacl
-
--------+-----------+--------+----------+----------------+---------------+--------------+--------------+--------------+------------+---------------+-------------+-------------+--------------+-------------+----------------+------------------------------------------------------------
-
- 5 | postgres  |     10 |        6 | c              | f             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           |
- 1 | template1 |     10 |        6 | c              | t             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           | {=c/postgres,postgres=CTc/postgres}
- 4 | template0 |     10 |        6 | c              | t             | f            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             |                | {=c/postgres,postgres=CTc/postgres}
- 16466 | cluster1  |     10 |        6 | c              | f             | t            |
-   -1 |          722 |          1 |          1663 | en_US.utf-8 | en_US.utf-8 |
- |             | 2.28           | {=Tc/postgres,postgres=CTc/postgres,cluster1=CTc/postgres}
-(4 rows)
+<div class="no-copy highlight"><pre><span></span><code>datname   | datlocprovider | datcollate  | datcollversion
+----------+----------------+-------------+----------------
+postgres  | c              | en_US.utf-8 | 2.28
+template1 | c              | en_US.utf-8 | 2.28
+template0 | c              | en_US.utf-8 |
+cluster1  | c              | en_US.utf-8 | 2.28
 </code></pre></div>
 </details>
-</li>
-<li>
-<p>Refresh collation metadata and rebuild affected indexes. This command requires the privileges of a superuser or a database owner:</p>
+<p>Rebuild affected indexes first. <a href="https://www.postgresql.org/docs/current/sql-reindex.html">REINDEX</a> updates the index using the current collation rules:</p>
+<div class="highlight"><pre><span></span><code><span class="k">REINDEX</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">index_name</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<p>Repeat for every affected index, or rebuild all indexes in a database with <code>REINDEX DATABASE &lt;database_name&gt;;</code>.</p>
+<p>Then refresh collation metadata. <code>ALTER DATABASE ... REFRESH COLLATION VERSION</code> only updates PostgreSQL&rsquo;s recorded metadata. It does not rebuild indexes created using the previous collation rules:</p>
 <div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
 </code></pre></div>
-</li>
-</ol>
+<p>This command requires the privileges of a superuser or a database owner. 
+<strong>Repeat for every affected database.</strong></p>
 <h2 id="update-db-major-cleanup">Cleanup<a class="headerlink" href="#update-db-major-cleanup" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -17360,6 +17450,9 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <li><strong>Lower load on SRE and DevOps teams</strong>: A shared workflow across databases reduces operational complexity, context switching, and maintenance overhead.</li>
 <li><strong>Migration with native PostgreSQL techniques</strong>: The migration methods use standard PostgreSQL approaches, making the process transparent and easier to validate.</li>
 </ul>
+<h2 id="migrate-from-crunchy-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). </p>
+<p>Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this <a href="#migrate-checklist">pre-migration compatibility checklist</a> first.</p>
 <h2 id="migrate-from-crunchy-choose-a-migration-method">Choose a migration method<a class="headerlink" href="#migrate-from-crunchy-choose-a-migration-method" title="Permanent link">&para;</a></h2>
 <p>This guide provides three migration methods. Pick the one that best matches your requirements for:</p>
 <ul>
@@ -17393,7 +17486,199 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <td>- Requires downtime <br> - Irreversible and requires thorough testing</td>
 </tr>
 </tbody>
-</table></section><section class="print-page" id="migrate-from-crunchy-standby" heading-number="8.6.2"><h1 id="migrate-from-crunchy-standby-migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster">Migrate from Crunchy to Percona Operator for PostgreSQL using a standby cluster<a class="headerlink" href="#migrate-from-crunchy-standby-migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster" title="Permanent link">&para;</a></h1>
+</table></section><section class="print-page" id="migrate-checklist" heading-number="8.6.2"><h1 id="migrate-checklist-pre-migration-compatibility-checks">Pre-migration compatibility checks<a class="headerlink" href="#migrate-checklist-pre-migration-compatibility-checks" title="Permanent link">&para;</a></h1>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Read this before you migrate.</p>
+</div>
+<p>Complete these checks <strong>before</strong> you pick a migration method. Verify that source and target environments are compatible. Migration methods such as pgBackRest restore, standby replication or reusing the existing
+PostgreSQL data volume all reuse the source PGDATA files. For all these methods, CPU architecture and the PostgreSQL major version must match. If they don&rsquo;t, migrate using <code>pg_dump</code> / <code>pg_restore</code> instead.</p>
+<p>Differences in the operating system, libraries like <code>glibc</code>, ICU, or PostgreSQL extensions do not always block reuse of <code>PGDATA</code>. But you must take extra steps before or after the migration.</p>
+<h2 id="migrate-checklist-decide-whether-you-can-reuse-the-data-files">Decide whether you can reuse the data files<a class="headerlink" href="#migrate-checklist-decide-whether-you-can-reuse-the-data-files" title="Permanent link">&para;</a></h2>
+<p>Use this flow to interpret the checks. Then gather the facts in the sections that follow.</p>
+<pre class="mermaid"><code>flowchart TD
+    A[Compare PostgreSQL major versions] --&gt;|Different| B[Do not use standby, backup/restore, or volume reuse]
+    A --&gt;|Same| C[Compare CPU architecture]
+    C --&gt;|Different| D[Prefer logical migration]
+    C --&gt;|Same| E[Compare OS / glibc / ICU]
+    E --&gt;|Same| F[Compare extensions]
+    E --&gt;|Different| G[Check collation versions]
+    G --&gt;|Match| F
+    G --&gt;|Mismatch| H[Identify affected indexes]
+    H --&gt; I[REINDEX]
+    I --&gt; J[REFRESH COLLATION VERSION]
+    J --&gt; F
+    F --&gt; K[Trial runs]
+    K --&gt; L[Fix issues if any]
+    L --&gt; M[Migrate]
+    M --&gt; N[Validate PostgreSQL and check the logs]</code></pre>
+<h2 id="migrate-checklist-compare-postgresql-major-versions">Compare PostgreSQL major versions<a class="headerlink" href="#migrate-checklist-compare-postgresql-major-versions" title="Permanent link">&para;</a></h2>
+<p>The PostgreSQL major version of the source and target database images must match.</p>
+<p>Check the source (Crunchy) PostgreSQL version:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;source-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>postgres<span class="w"> </span>--version
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>postgres (PostgreSQL) 18.6
+</code></pre></div>
+</details>
+<p>Check the version in the target Percona image as well. Find tags in <a href="#images">Percona certified images</a>. If the Percona cluster is not running yet, start a temporary Pod from the target image:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>pg-image-check<span class="w"> </span>--rm<span class="w"> </span>-it<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;percona-postgres-image&gt;<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>postgres<span class="w"> </span>--version
+</code></pre></div>
+<p>The major versions must match, for example:</p>
+<div class="highlight"><pre><span></span><code>Source: postgres (PostgreSQL) 18.6
+Target: postgres (PostgreSQL) 18.6 - Percona Server for PostgreSQL 18.6.1
+</code></pre></div>
+<p>A difference in the minor version is normally supported by PostgreSQL&rsquo;s physical storage format, but the target minor version should be equal to or newer than the source.</p>
+<p>Do not reuse <code>PGDATA</code> or restore a physical backup directly into a different PostgreSQL major version.</p>
+<h2 id="migrate-checklist-compare-cpu-architecture">Compare CPU architecture<a class="headerlink" href="#migrate-checklist-compare-cpu-architecture" title="Permanent link">&para;</a></h2>
+<p>Check the architecture of both the source and target PostgreSQL containers:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;source-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>uname<span class="w"> </span>-m
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;percona-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>uname<span class="w"> </span>-m
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code>x86_64
+</code></pre></div>
+<p>or:</p>
+<div class="highlight"><pre><span></span><code>aarch64
+</code></pre></div>
+</details>
+<p>The source and target must use the same architecture.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>x86_64 -&gt; x86_64    OK
+ARM64  -&gt; ARM64     OK
+x86_64 -&gt; ARM64     Not OK
+</code></pre></div>
+<p>Use <code>pg_dump</code> / <code>pg_restore</code> when you migrate across incompatible architectures.</p>
+<h2 id="migrate-checklist-compare-os-glibc-and-icu">Compare OS, glibc, and ICU<a class="headerlink" href="#migrate-checklist-compare-os-glibc-and-icu" title="Permanent link">&para;</a></h2>
+<p>Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).</p>
+<h3 id="migrate-checklist-check-operating-system">Check operating system<a class="headerlink" href="#migrate-checklist-check-operating-system" title="Permanent link">&para;</a></h3>
+<p>Check the operating system used by the PostgreSQL container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cat<span class="w"> </span>/etc/os-release
+</code></pre></div>
+<p>Check the <code>glibc</code> version:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>getconf<span class="w"> </span>GNU_LIBC_VERSION
+</code></pre></div>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>glibc 2.34
+</code></pre></div>
+<p>Percona PostgreSQL images are based on <a href="https://catalog.redhat.com/en/software/base-images">Red Hat Universal Base Image (UBI) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Each UBI major ships a different <code>glibc</code> version:</p>
+<table>
+<thead>
+<tr>
+<th>UBI version</th>
+<th>glibc version</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UBI 8</td>
+<td>glibc 2.28</td>
+</tr>
+<tr>
+<td>UBI 9</td>
+<td>glibc 2.34</td>
+</tr>
+<tr>
+<td>UBI 10</td>
+<td>glibc 2.39</td>
+</tr>
+</tbody>
+</table>
+<p>Use the same UBI major for every instance in a cluster. Find image tags in <a href="#images">Percona certified images</a>.</p>
+<p>If the Crunchy image is UBI 8 and you use the default Percona image (UBI 9), you will see a <code>glibc</code> change:</p>
+<div class="highlight"><pre><span></span><code>Source:
+  UBI 8
+  glibc 2.28
+
+Target:
+  UBI 9
+  glibc 2.34
+</code></pre></div>
+<p>A different <code>glibc</code> version does not by itself make the PostgreSQL data directory incompatible. <code>glibc</code> provides locale and collation rules that PostgreSQL uses. A change in these rules can make existing collation-dependent indexes inconsistent with the target operating system. See <a href="https://wiki.postgresql.org/wiki/Locale_data_changes">Locale data changes</a> in the PostgreSQL wiki.</p>
+<h3 id="migrate-checklist-check-icu-library-version">Check ICU library version<a class="headerlink" href="#migrate-checklist-check-icu-library-version" title="Permanent link">&para;</a></h3>
+<p>PostgreSQL may also use ICU for collations. Check the locale provider in each database:</p>
+<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>  datname  | datlocprovider | datcollversion
+-----------+----------------+----------------
+postgres  | c              | 2.34
+template1 | c              | 2.34
+template0 | c              |
+cluster1  | c              | 2.34
+(4 rows)
+</code></pre></div>
+</details>
+<p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
+<p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. You can run the index scan on the source cluster beforehand to estimate the work.</p>
+<p><a href="#connect">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
+<span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
+<span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
+<span class="w">    </span><span class="n">collname</span><span class="p">,</span>
+<span class="w">    </span><span class="n">pg_get_indexdef</span><span class="p">(</span><span class="n">indexrelid</span><span class="p">)</span>
+<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
+<span class="w">    </span><span class="k">SELECT</span>
+<span class="w">        </span><span class="n">indexrelid</span><span class="p">,</span>
+<span class="w">        </span><span class="n">indrelid</span><span class="p">,</span>
+<span class="w">        </span><span class="n">indcollation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">coll</span>
+<span class="w">    </span><span class="k">FROM</span>
+<span class="w">        </span><span class="n">pg_index</span><span class="p">,</span>
+<span class="w">        </span><span class="n">generate_subscripts</span><span class="p">(</span><span class="n">indcollation</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">g</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="p">)</span><span class="w"> </span><span class="n">s</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">coll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
+<span class="k">WHERE</span>
+<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
+<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
+</code></pre></div>
+<p>Check indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). If you see affected indexes, find the databases whose collation
+version changed:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>datname   | datlocprovider | datcollate  | datcollversion
+----------+----------------+-------------+----------------
+postgres  | c              | en_US.utf-8 | 2.28
+template1 | c              | en_US.utf-8 | 2.28
+template0 | c              | en_US.utf-8 |
+cluster1  | c              | en_US.utf-8 | 2.28
+</code></pre></div>
+</details>
+<h2 id="migrate-checklist-compare-extensions">Compare extensions<a class="headerlink" href="#migrate-checklist-compare-extensions" title="Permanent link">&para;</a></h2>
+<p>Record the extension list and versions on the source cluster before you migrate.</p>
+<p>Extensions are installed per database. Check every application database, not only <code>postgres</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
+<span class="w">    </span><span class="n">extname</span><span class="p">,</span>
+<span class="w">    </span><span class="n">extversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_extension</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">extname</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>extname             | extversion
+--------------------+-----------
+plpgsql             | 1.0
+pg_stat_statements  | 1.12
+postgis             | 3.4.2
+pgcrypto            | 1.3
+</code></pre></div>
+</details>
+<p>Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image. </p>
+<p>You can also <a href="#custom-extensions-add-custom-extensions">add custom extensions</a> if you need them. Evaluate the risk before you add any extension.</p>
+<p>Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in <code>PGDATA</code>. Do not assume an extension is available because it exists in <code>pg_extension</code>.</p>
+<h2 id="migrate-checklist-before-you-cut-over">Before you cut over<a class="headerlink" href="#migrate-checklist-before-you-cut-over" title="Permanent link">&para;</a></h2>
+<p>Perform at least <strong>three successful trial runs</strong> in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.</p>
+<p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.</p></section><section class="print-page" id="migrate-from-crunchy-standby" heading-number="8.6.3"><h1 id="migrate-from-crunchy-standby-migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster">Migrate from Crunchy to Percona Operator for PostgreSQL using a standby cluster<a class="headerlink" href="#migrate-from-crunchy-standby-migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster" title="Permanent link">&para;</a></h1>
 <p>A standby cluster is a PostgreSQL cluster that doesn&rsquo;t have a writable primary. Instead, it applies changes from backups or from streaming replication from another database that acts as the source.</p>
 <p>Using a standby cluster when migrating your PostgreSQL workloads, you maintain a live, synchronized copy of your original Crunchy cluster in Percona Operator for PostgreSQL. This approach minimizes downtime and gives you a way to validate the new cluster before switching over.</p>
 <p>In this migration guide, we deploy Percona Operator for PostgreSQL as a standby cluster for a Crunchy PostgreSQL cluster by using a combination of backup and streaming replication. This approach ensures a fast initial data sync and keeps your data up to date with minimal downtime during cutover. For more information about standby cluster types, see <a href="#standby-types-of-standby-clusters">standby cluster types</a>.</p>
@@ -17406,6 +17691,8 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 <li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
 </ul>
+<h2 id="migrate-from-crunchy-standby-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-standby-before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-standby-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-standby-prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -17415,7 +17702,6 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor.</li>
 <li>A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.</li>
 </ul>
-<p>The PostgreSQL <strong>major version</strong> on the Percona cluster must match the Crunchy source cluster.</p>
 <h2 id="migrate-from-crunchy-standby-before-you-start">Before you start<a class="headerlink" href="#migrate-from-crunchy-standby-before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -18030,7 +18316,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <span class="s2">      archive-push \"\${PGDATA}/pg_wal/00000002.history\" || true</span>
 <span class="s2">  "</span>
 </code></pre></div>
-<p>Adjust the filename to match the timeline file reported in your logs.</p></section><section class="print-page" id="migrate-from-crunchy-backup-restore" heading-number="8.6.3"><h1 id="migrate-from-crunchy-backup-restore-migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore">Migrate from Crunchy to Percona Operator for PostgreSQL using backup and restore<a class="headerlink" href="#migrate-from-crunchy-backup-restore-migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore" title="Permanent link">&para;</a></h1>
+<p>Adjust the filename to match the timeline file reported in your logs.</p></section><section class="print-page" id="migrate-from-crunchy-backup-restore" heading-number="8.6.4"><h1 id="migrate-from-crunchy-backup-restore-migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore">Migrate from Crunchy to Percona Operator for PostgreSQL using backup and restore<a class="headerlink" href="#migrate-from-crunchy-backup-restore-migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore" title="Permanent link">&para;</a></h1>
 <p>You can migrate by taking a full <code>pgBackRest</code> backup on your Crunchy <code>PostgresCluster</code> and creating a new <code>PerconaPGCluster</code> that restores from that backup before its first start. This path is straightforward when you can accept downtime between the final backup and an application cutover.</p>
 <table>
 <thead>
@@ -18054,6 +18340,8 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 <li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
 </ul>
+<h2 id="migrate-from-crunchy-backup-restore-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-backup-restore-before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-backup-restore-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-backup-restore-prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -18063,7 +18351,6 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor (optional, for manifest tricks used in other migration guides).</li>
 <li>A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.</li>
 </ul>
-<p>The PostgreSQL <strong>major version</strong> on the Percona cluster must match the Crunchy source cluster.</p>
 <h2 id="migrate-from-crunchy-backup-restore-before-you-start">Before you start<a class="headerlink" href="#migrate-from-crunchy-backup-restore-before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -18419,7 +18706,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 <span class="w">  </span>-c<span class="w"> </span>pgbackrest
 </code></pre></div>
 <h3 id="migrate-from-crunchy-backup-restore-wrong-or-incomplete-data">Wrong or incomplete data<a class="headerlink" href="#migrate-from-crunchy-backup-restore-wrong-or-incomplete-data" title="Permanent link">&para;</a></h3>
-<p>If you need a fresher cutover point, stop writes, take another full backup on Crunchy, delete <code>cluster1</code> on Percona, and re-apply the restore manifest so it bootstraps again from the newer backup.</p></section><section class="print-page" id="migrate-from-crunchy-data-volumes" heading-number="8.6.4"><h1 id="migrate-from-crunchy-data-volumes-migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes">Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes<a class="headerlink" href="#migrate-from-crunchy-data-volumes-migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes" title="Permanent link">&para;</a></h1>
+<p>If you need a fresher cutover point, stop writes, take another full backup on Crunchy, delete <code>cluster1</code> on Percona, and re-apply the restore manifest so it bootstraps again from the newer backup.</p></section><section class="print-page" id="migrate-from-crunchy-data-volumes" heading-number="8.6.5"><h1 id="migrate-from-crunchy-data-volumes-migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes">Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes<a class="headerlink" href="#migrate-from-crunchy-data-volumes-migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes" title="Permanent link">&para;</a></h1>
 <p>This guide shows how to migrate to Percona Operator for PostgreSQL using the <strong>primary</strong> PostgreSQL data volume from your Crunchy <code>PostgresCluster</code>.
 In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) starts on the existing <code>PGDATA</code> data directory without running a backup-restore cycle over the network.</p>
 <table>
@@ -18443,6 +18730,8 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 <li>Crunchy PostgreSQL Operator 5.8.x</li>
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 </ul>
+<h2 id="migrate-from-crunchy-data-volumes-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-data-volumes-before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-data-volumes-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-data-volumes-prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -18450,7 +18739,6 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 <li><code>kubectl</code> or <code>oc</code>.</li>
 <li>Storage where you can set the PV reclaim policy to <code>Retain</code> and clear <code>claimRef</code> (cluster-admin privileges are often required).</li>
 </ul>
-<p>The PostgreSQL <strong>major version</strong> on the Percona cluster must match the Crunchy source cluster.</p>
 <h2 id="migrate-from-crunchy-data-volumes-before-you-start">Before you start<a class="headerlink" href="#migrate-from-crunchy-data-volumes-before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -30635,11 +30923,13 @@ In addition to that:</p>
 .print-site-enumerate-headings #section-8-6 > h1:before { content: '8.6 ' }
 .print-site-enumerate-headings #migrate-from-crunchy > h1:before { content: '8.6.1 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-standby > h1:before { content: '8.6.2 ' }
+.print-site-enumerate-headings #migrate-checklist > h1:before { content: '8.6.2 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-backup-restore > h1:before { content: '8.6.3 ' }
+.print-site-enumerate-headings #migrate-from-crunchy-standby > h1:before { content: '8.6.3 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-data-volumes > h1:before { content: '8.6.4 ' }
+.print-site-enumerate-headings #migrate-from-crunchy-backup-restore > h1:before { content: '8.6.4 ' }
+
+.print-site-enumerate-headings #migrate-from-crunchy-data-volumes > h1:before { content: '8.6.5 ' }
 
 .print-site-enumerate-headings #section-9 > h1:before { content: '9 ' }
 .print-site-enumerate-headings #custom-install > h1:before { content: '9.1 ' }

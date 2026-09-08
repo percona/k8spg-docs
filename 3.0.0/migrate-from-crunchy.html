@@ -21,7 +21,7 @@
         <link rel="prev" href="update-openshift.html">
       
       
-        <link rel="next" href="migrate-from-crunchy-standby.html">
+        <link rel="next" href="migrate-checklist.html">
       
       
         
@@ -3789,6 +3789,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#before-you-migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you migrate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choose-a-migration-method" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3803,6 +3814,34 @@
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -5916,6 +5955,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#before-you-migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you migrate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#choose-a-migration-method" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -5971,6 +6021,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Lower load on SRE and DevOps teams</strong>: A shared workflow across databases reduces operational complexity, context switching, and maintenance overhead.</li>
 <li><strong>Migration with native PostgreSQL techniques</strong>: The migration methods use standard PostgreSQL approaches, making the process transparent and easier to validate.</li>
 </ul>
+<h2 id="before-you-migrate">Before you migrate<a class="headerlink" href="#before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). </p>
+<p>Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this <a href="migrate-checklist.html">pre-migration compatibility checklist</a> first.</p>
 <h2 id="choose-a-migration-method">Choose a migration method<a class="headerlink" href="#choose-a-migration-method" title="Permanent link">&para;</a></h2>
 <p>This guide provides three migration methods. Pick the one that best matches your requirements for:</p>
 <ul>
@@ -6010,7 +6063,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:44:40 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 8, 2026 13:29:30 UTC">September 8, 2026</span>
       
         <br>
         Created:

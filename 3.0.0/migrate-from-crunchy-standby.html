@@ -18,7 +18,7 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/migrate-from-crunchy-standby.html">
       
       
-        <link rel="prev" href="migrate-from-crunchy.html">
+        <link rel="prev" href="migrate-checklist.html">
       
       
         <link rel="next" href="migrate-from-crunchy-backup-restore.html">
@@ -3743,6 +3743,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -3810,6 +3838,17 @@
     <span class="md-ellipsis">
       
         Versions used in this guide
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#before-you-migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you migrate
       
     </span>
   </a>
@@ -6148,6 +6187,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#before-you-migrate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Before you migrate
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6436,6 +6486,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 <li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
 </ul>
+<h2 id="before-you-migrate">Before you migrate<a class="headerlink" href="#before-you-migrate" title="Permanent link">&para;</a></h2>
+<p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -6445,7 +6497,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor.</li>
 <li>A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.</li>
 </ul>
-<p>The PostgreSQL <strong>major version</strong> on the Percona cluster must match the Crunchy source cluster.</p>
 <h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -7066,7 +7117,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:44:40 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 8, 2026 13:29:30 UTC">September 8, 2026</span>
       
         <br>
         Created:
