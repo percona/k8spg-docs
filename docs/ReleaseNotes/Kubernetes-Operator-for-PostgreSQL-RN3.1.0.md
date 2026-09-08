@@ -406,8 +406,8 @@ PostgreSQL, PostGIS, and the upgrade images are built separately for each UBI ve
 
 | Image | Digest |
 | :------ | :------- |
-| percona/percona-postgresql-operator:3.1.0 (x86_64) | 0f8ae7286e331e2c1d26b3fb8c8df69e9e6076fa4367edc68ed995c639f76af8 |
-| percona/percona-postgresql-operator:3.1.0 (ARM64) | 8b48095df20d35558882b7677ea3292695670daa0db70f4c719f161d3ce33596 |
+| percona/percona-postgresql-operator:3.1.0 (x86_64) | a15ac0f3fc4183e6f3096a2ae5802454846721ba92c4462c472fc5bc33151f52 |
+| percona/percona-postgresql-operator:3.1.0 (ARM64) | 29e063555a7ae437be1a04e369424eaa9ac4bcc7bd94ed20b94f952615f4980e |
 | percona/percona-pgbouncer:1.25.2-6 (x86_64) | 42c8629f5dd0f271e41d704250f04d96fa12a1a678a13c3743f38b64be3c1218 |
 | percona/percona-pgbouncer:1.25.2-6 (ARM64) | 6a4cb60c1f9ebc75aa3408955482ba90d5649ce1f0be765e7113bd80f06dcd4f |
 | percona/percona-pgbackrest:2.59.0-1 (x86_64) | c43a1e6444d3ea6d7f6421be7d030f6fb8e77692029042a1ab7975a5ac29fb20 |
