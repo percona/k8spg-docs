@@ -30,7 +30,7 @@ LOG:  invalid xl_info in checkpoint record
 PANIC:  could not locate a valid checkpoint record at <LSN>
 ```
 
-To recover, you must manually [reinitialize the replica](../reinit.md#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim). Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
+To recover, you must manually [reinitialize the replica](reinit.md#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim). Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
 
 ## Service control
 

@@ -230,12 +230,16 @@ All Operator images are now available for ARM64, giving you native support on AR
 
 * The Operator version 2.8.0 and all 2.8.x patch versions have reached end of life and are no longer supported. 
 * The `extensions.builtin` section is deprecated and will be removed after version 3.4.0. We encourage you to use `extensions.<extension>.enabled`. You can still use the old form during the transition. If both forms are set at the same time, `extensions.builtin` takes precedence.
-* `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via the `extensions.custom` remains unchanged and works as expected after the upgrade. To switch to using built-in extensions, do the following:
-  
+* `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via `extensions.custom` remains unchanged and works as expected after the upgrade.
+
+   Upgrade the database images first and wait until Pods rejoin the cluster. Then reconfigure the extensions. Completing these steps one after the other lets the cluster finish each change in one pass.
+
+   After the database upgrade, switch to built-in extensions as follows:
+
    * Remove the extension from the `extensions.custom` list
-   * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`. 
-   
-   You must do these changes simultaneously for the same reconciliation loop. Just removing the extension `extensions.custom` list instructs the Operator to delete it.
+   * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
+
+   You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it.
 
 * Field descriptions were removed from the inherited `CrunchyBridgeCluster` CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running `kubectl explain` for those fields no longer shows help text.
 
