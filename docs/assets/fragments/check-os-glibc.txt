@@ -1,0 +1,19 @@
+Check the operating system used by the PostgreSQL container:
+
+```bash
+kubectl exec -n <namespace> <postgres-pod> -c database -- \
+  cat /etc/os-release
+```
+
+Check the `glibc` version:
+
+```bash
+kubectl exec -n <namespace> <postgres-pod> -c database -- \
+  getconf GNU_LIBC_VERSION
+```
+
+Example:
+
+```text
+glibc 2.34
+```
