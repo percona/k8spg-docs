@@ -154,7 +154,8 @@ Common condition fields:
 | `PGBackRestoreProgressing` | An in-place pgBackRest restore is in progress. |
 | `PostgresDataInitialized` | The PostgreSQL data directory has been initialized (for example, via a restore). |
 | `ProxyAvailable` | The PgBouncer Deployment is available. |
-| `Progressing` | The cluster is progressing through a reconciliation or change. |
+| `Progressing` | The cluster is progressing through a reconciliation or change. Set to `False` with reason `Paused` when reconciliation is blocked. For example, while required TLS Secrets are missing and the TLS certificate management policy is set to `userProvidedOnly`. |
+| `TLSSecretsReady` | Required TLS Secrets are present for the configured certificate management policy. Set to `False` with reason `TLSSecretsMissing` when `spec.tls.certManagementPolicy` is `userProvidedOnly` and one or more required Secrets are missing. The message lists the missing Secret names. See [The TLS certificate management policy](tls-cert-management-policy.md). |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
 | `PGTDEEnabled` | The `pg_tde` extension is created in all databases and added to `shared_preload_libraries`. Also controls whether instance Pods mount the Vault volume. See [Data-at-rest encryption](encryption.md#status-and-conditions). |
@@ -176,6 +177,8 @@ The Operator sets `reason` and `message` values as free-form strings. Common rea
 
 * `AllConditionsAreTrue`, `PGBackRestRepoHostReady`, `PGBackRestReplicaCreate` (for `ReadyForBackup`)
 * `RepoHostReady`, `RepoHostNotReady`, `RepoHostStatusMissing`
+* `TLSSecretsFound`, `TLSSecretsMissing` (for `TLSSecretsReady`)
+* `Paused` (for `Progressing`, when reconciliation is blocked; check `TLSSecretsReady` if TLS Secrets are missing)
 * `LagDetected`, `LagNotDetected`, `ErrorGettingLag`, `MainSiteNotFound` (for `StandbyLagging`)
 * `Enabled`, `Disabled` (for `PGTDEEnabled`)
 * `Configured` (for `PGTDEVaultProviderReady`)
