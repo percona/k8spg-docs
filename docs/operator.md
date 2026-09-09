@@ -2513,6 +2513,14 @@ Enables or disables [exposing superuser user through pgBouncer](users.md#superus
 | ---------- | ------- |
 | :material-toggle-switch-outline: boolean | `false` |
 
+### `proxy.pgBouncer.usersSecret.name`
+
+Name of a Secret whose keys and values the Operator appends to the pgBouncer authentication file. Each key is a username and each value is the password. The Secret must be in the same namespace as the cluster. See [Add extra users to the pgBouncer authentication file](users.md#add-extra-users-to-the-pgbouncer-authentication-file).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `pgbouncer-users` |
+
 ### `proxy.pgBouncer.paused`
 
 Pauses or resumes pgBouncer connections. When `true`, the Operator issues `PAUSE` on every pgBouncer Pod so clients stay connected while backend traffic stops. Set back to `false` to resume. See [Pause and resume pgBouncer connections](pause-pgbouncer.md).
@@ -2651,7 +2659,7 @@ A custom [Kubernetes Security Context for a Pod :octicons-link-external-16:](htt
 
 ### `proxy.pgBouncer.config`
 
-Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.
+Custom configuration options for the pgBouncer `pgbouncer.ini` file (for example, `pool_mode` or `stats_users`). To add extra users to the authentication file, use [`proxy.pgBouncer.usersSecret`](#proxypgbounceruserssecretname). Configuration changes are automatically applied to the running instances without validation, so an invalid config can make the cluster unavailable.
 
 | Value type | Example |
 | ---------- | ------- |
