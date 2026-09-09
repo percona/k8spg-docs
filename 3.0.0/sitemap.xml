@@ -225,6 +225,10 @@
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/extra-volumes.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/features.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
@@ -289,6 +293,10 @@
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/log-rotation.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/manage-manually.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
@@ -350,6 +358,10 @@
     </url>
     <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/pause.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/persistent-logging.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>
@@ -421,6 +433,10 @@
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-cert-management-policy.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-cert-manager.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
@@ -434,6 +450,10 @@
     </url>
     <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-migrate-to-cert-manager.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-pgbouncer-trusted-cas.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>

@@ -2136,6 +2136,34 @@ are used to attach additional metadata information to Kubernetes resources.">
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -2172,6 +2200,34 @@ are used to attach additional metadata information to Kubernetes resources.">
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -3674,6 +3730,34 @@ are used to attach additional metadata information to Kubernetes resources.">
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3718,6 +3802,117 @@ are used to attach additional metadata information to Kubernetes resources.">
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6736,6 +6931,12 @@ graph TD
 <td><code>b6e1a2c3...</code></td>
 </tr>
 <tr>
+<td><code>pgv2.percona.com/logcollector-config-hash</code></td>
+<td>Pods, StatefulSets (instance sets)</td>
+<td>Hash of the Fluent Bit and logrotate configuration. Used to detect config changes and roll instance Pods when <a href="persistent-logging.html">persistent logging</a> settings change.</td>
+<td><code>a1b2c3d4...</code></td>
+</tr>
+<tr>
 <td><code>pgv2.percona.com/backup-in-progress</code></td>
 <td>Custom Resource</td>
 <td>Indicates a backup that is currently running for the cluster.</td>
@@ -6896,7 +7097,7 @@ NAME                                 CREATED AT             LABELS</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
       
         <br>
         Created:

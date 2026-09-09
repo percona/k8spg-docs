@@ -10,8 +10,7 @@
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
         <meta name="description" content="Logs provide valuable information. It makes sense to check the logs of the
-database Pods and the Operator Pod. Following flags are helpful for checking the
-logs with the kubectl logs command:">
+database Pods and the Operator Pod.">
       
       
         <meta name="author" content="Percona LLC">
@@ -1937,6 +1936,34 @@ logs with the kubectl logs command:">
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -1973,6 +2000,34 @@ logs with the kubectl logs command:">
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -3475,6 +3530,34 @@ logs with the kubectl logs command:">
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3519,6 +3602,117 @@ logs with the kubectl logs command:">
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6134,7 +6328,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 <h1 id="check-the-logs">Check the logs<a class="headerlink" href="#check-the-logs" title="Permanent link">&para;</a></h1>
 <p>Logs provide valuable information. It makes sense to check the logs of the
-database Pods and the Operator Pod. Following flags are helpful for checking the
+database Pods and the Operator Pod.</p>
+<p>If you enable <a href="persistent-logging.html">persistent logging</a>, the Operator also runs a <code>logs</code> (Fluent Bit) sidecar container on each PostgreSQL instance Pod. That sidecar streams collected PostgreSQL and pgBackRest log records to its own stdout, and the source files remain on the instance data volume across Pod restarts. </p>
+<p>The following flags are helpful for checking the
 logs with the <code>kubectl logs</code> command:</p>
 <table>
 <thead>
@@ -6179,6 +6375,11 @@ logs with the <code>kubectl logs</code> command:</p>
 </code></pre></div>
 </li>
 <li>
+<p>Check logs streamed by the Fluent Bit <code>logs</code> sidecar (when <a href="persistent-logging.html">persistent logging</a> is enabled):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>logs
+</code></pre></div>
+</li>
+<li>
 <p>Filter logs of the <code>database</code> container which are not older than 600 seconds:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>--container<span class="w"> </span>database<span class="w"> </span>--since<span class="o">=</span>600s
 </code></pre></div>
@@ -6208,7 +6409,7 @@ logs with the <code>kubectl logs</code> command:</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
       
         <br>
         Created:

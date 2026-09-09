@@ -1860,13 +1860,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#automatic-certificate-generation-by-the-operator" class="md-nav__link">
+  <a href="#ways-to-provide-tls-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic certificate generation by the Operator
+        Ways to provide TLS certificates
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Ways to provide TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-operator-chooses-tls-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Operator chooses TLS source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -2020,6 +2037,34 @@
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -2056,6 +2101,34 @@
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -3558,6 +3631,34 @@
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3602,6 +3703,117 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6112,13 +6324,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#automatic-certificate-generation-by-the-operator" class="md-nav__link">
+  <a href="#ways-to-provide-tls-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic certificate generation by the Operator
+        Ways to provide TLS certificates
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Ways to provide TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-operator-chooses-tls-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Operator chooses TLS source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6186,7 +6415,40 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>The internal certificate is also used as an authorization method for PostgreSQL
 Replica instances.</p>
-<p>You can configure TLS security in several ways:</p>
+<p>These certificates are stored in Secrets. The default Secret names are derived from the cluster name. When you deploy a cluster, you see these Secrets:</p>
+<table>
+<thead>
+<tr>
+<th>Secret</th>
+<th>What it is</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;cluster-name&gt;-cluster-ca-cert</code></td>
+<td>Root certificate authority (CA) for this cluster</td>
+<td>Signs the other certificates. Clients use it to verify the server.</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-cluster-cert</code></td>
+<td>PostgreSQL <strong>server</strong> certificate</td>
+<td>Presented to applications (and used when verifying Postgres on the backend of PgBouncer).</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-replication-cert</code></td>
+<td><strong>Client</strong> certificate</td>
+<td>Used for streaming replication and <code>pg_rewind</code> between instances. Postgres accepts only certificate authentication for this user.</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-pgbouncer</code></td>
+<td>PgBouncer Secret, including its <strong>frontend</strong> TLS material</td>
+<td>Presented to applications that connect through PgBouncer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ways-to-provide-tls-certificates">Ways to provide TLS certificates<a class="headerlink" href="#ways-to-provide-tls-certificates" title="Permanent link">&para;</a></h2>
+<p>You can configure TLS in these ways:</p>
 <table>
 <thead>
 <tr>
@@ -6223,19 +6485,19 @@ Replica instances.</p>
 <li>Use the <a href="tls-cert-manager.html">cert-manager</a> to manage certificates and their lifecycle. By default the Operator creates namespace-scoped issuers in the database namespace. Starting with Operator 3.1.0, you can also point it at a <a href="tls-cert-manager.html#use-an-existing-clusterissuer"><code>ClusterIssuer</code></a> so PostgreSQL certificates are signed by your organization&rsquo;s CA,</li>
 <li><a href="tls-manual.html">Generate certificates manually</a>.</li>
 </ul>
-<p>You can <a href="tls-migrate-to-cert-manager.html">migrate your running cluster to cert-manager</a> to benefit from automatic renewal and centralized management.</p>
+<p>You can <a href="tls-migrate-to-cert-manager.html">migrate your running cluster to cert-manager</a> to benefit from automatic renewal and centralized management. </p>
 <div class="admonition important">
 <p class="admonition-title">Known limitation for Operator 2.9.0</p>
 <p>If you had <strong>cert-manager</strong> installed and used the Operator-generated TLS certificates, upgrading the Operator to version <strong>2.9.0</strong> could put the cluster in an inconsistent state: the root CA stayed on internal PKI, but leaf certificates were handed to cert-manager. See <a href="limitations.html#tls-and-cert-manager">TLS and cert-manager (Operator 2.9.0)</a> for more information. </p>
 <p>To fix this, either <a href="limitations.html#switch-to-use-only-the-certificates-managed-by-the-cert-manager">move fully to cert-manager</a> or <a href="tls-migrate-from-cert-manager.html">switch to custom TLS Secrets</a>. This issue is fixed in Operator <strong>3.0.0</strong> and later.</p>
 </div>
 <p>Additionally, you can <em>force</em> your database cluster to use only encrypted channels for both internal and external communications. To do this, set the <code>tlsOnly</code> Custom Resource option to <code>true</code>.</p>
-<h2 id="automatic-certificate-generation-by-the-operator">Automatic certificate generation by the Operator<a class="headerlink" href="#automatic-certificate-generation-by-the-operator" title="Permanent link">&para;</a></h2>
-<p>The Operator can generate long-term certificates automatically and enable encryption automatically during cluster creation.</p>
-<p>Upon cluster creation, the Operator reviews the Custom Resource configuration to determine the TLS approach:</p>
+<h3 id="how-the-operator-chooses-tls-source">How the Operator chooses TLS source<a class="headerlink" href="#how-the-operator-chooses-tls-source" title="Permanent link">&para;</a></h3>
+<p>The Operator can generate long-term certificates and enable TLS encryption automatically during cluster creation.</p>
+<p>Upon cluster creation, the Operator reviews the Custom Resource configuration and chooses a TLS source in this order:</p>
 <ul>
-<li>If you created custom certificate Secrets and referenced them in the cluster spec, the Operator uses them for TLS.</li>
-<li>If custom Secrets are not specified but <a href="tls-cert-manager.html">cert-manager</a> is installed, the Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.</li>
+<li>Your custom TLS certificate Secrets if you created and referenced them in the cluster spec.</li>
+<li><a href="tls-cert-manager.html">cert-manager</a>, if it is installed and no custom Secrets are specified. The Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.</li>
 <li>If neither condition is met, the Operator generates the necessary certificates and Secrets itself.</li>
 </ul>
 <p>Operator-generated certificates are not renewed automatically by cert-manager. Plan manual rotation if your security policy requires it.</p>
@@ -6250,7 +6512,9 @@ Replica instances.</p>
 <li><a href="tls-manual.html">Generate certificates manually</a></li>
 <li><a href="tls-migrate-to-cert-manager.html">Migrate from Operator-generated certificates to cert-manager</a></li>
 <li><a href="tls-migrate-from-cert-manager.html">Migrate from cert-manager to custom TLS certificates</a></li>
+<li><a href="tls-pgbouncer-trusted-cas.html">Trust additional CAs for PgBouncer client mTLS</a></li>
 <li><a href="tls-update.html">Update certificates</a></li>
+<li><a href="tls-cert-management-policy.html">Configure the TLS certificate management policy</a></li>
 <li><a href="tls-verify-communication.html">Check TLS communication to a cluster</a></li>
 </ul>
 <h2 id="keep-certificates-after-deleting-the-cluster">Keep certificates after deleting the cluster<a class="headerlink" href="#keep-certificates-after-deleting-the-cluster" title="Permanent link">&para;</a></h2>
@@ -6266,7 +6530,7 @@ Replica instances.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:17:46 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:29 UTC">September 9, 2026</span>
       
         <br>
         Created:

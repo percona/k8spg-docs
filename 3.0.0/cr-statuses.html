@@ -1935,6 +1935,34 @@
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -1971,6 +1999,34 @@
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -3473,6 +3529,34 @@
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3517,6 +3601,117 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -6629,7 +6824,11 @@ Enabled
 </tr>
 <tr>
 <td><code>Progressing</code></td>
-<td>The cluster is progressing through a reconciliation or change.</td>
+<td>The cluster is progressing through a reconciliation or change. Set to <code>False</code> with reason <code>Paused</code> when reconciliation is blocked. For example, while required TLS Secrets are missing and the TLS certificate management policy is set to <code>userProvidedOnly</code>.</td>
+</tr>
+<tr>
+<td><code>TLSSecretsReady</code></td>
+<td>Required TLS Secrets are present for the configured certificate management policy. Set to <code>False</code> with reason <code>TLSSecretsMissing</code> when <code>spec.tls.certManagementPolicy</code> is <code>userProvidedOnly</code> and one or more required Secrets are missing. The message lists the missing Secret names. See <a href="tls-cert-management-policy.html">The TLS certificate management policy</a>.</td>
 </tr>
 <tr>
 <td><code>PersistentVolumeResizing</code></td>
@@ -6688,6 +6887,8 @@ Enabled
 <ul>
 <li><code>AllConditionsAreTrue</code>, <code>PGBackRestRepoHostReady</code>, <code>PGBackRestReplicaCreate</code> (for <code>ReadyForBackup</code>)</li>
 <li><code>RepoHostReady</code>, <code>RepoHostNotReady</code>, <code>RepoHostStatusMissing</code></li>
+<li><code>TLSSecretsFound</code>, <code>TLSSecretsMissing</code> (for <code>TLSSecretsReady</code>)</li>
+<li><code>Paused</code> (for <code>Progressing</code>, when reconciliation is blocked; check <code>TLSSecretsReady</code> if TLS Secrets are missing)</li>
 <li><code>LagDetected</code>, <code>LagNotDetected</code>, <code>ErrorGettingLag</code>, <code>MainSiteNotFound</code> (for <code>StandbyLagging</code>)</li>
 <li><code>Enabled</code>, <code>Disabled</code> (for <code>PGTDEEnabled</code>)</li>
 <li><code>Configured</code> (for <code>PGTDEVaultProviderReady</code>)</li>
@@ -6856,7 +7057,7 @@ Enabled
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
       
         <br>
         Created:

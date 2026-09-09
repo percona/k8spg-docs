@@ -9,37 +9,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Date">
+        <meta name="description" content="You can control how the Operator creates and manages TLS certificates: who issues them, whether cert-manager is used, and what happens when TLS Secrets are missing.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-cert-management-policy.html">
       
       
-        <link rel="prev" href="Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html">
+        <link rel="prev" href="tls-verify-communication.html">
       
       
-        <link rel="next" href="Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html">
+        <link rel="next" href="telemetry.html">
       
       
         
       
       
-      <link rel="icon" href="../assets/operators_fav.svg">
+      <link rel="icon" href="assets/operators_fav.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
-        <title>Percona Operator for PostgreSQL 2.4.1 (2024-08-06) - Percona Operator for PostgreSQL</title>
+        <title>TLS certificate management policy - Percona Operator for PostgreSQL</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -58,29 +58,29 @@
       
     
     
-      <link rel="stylesheet" href="../css/print-site.css">
+      <link rel="stylesheet" href="css/print-site.css">
     
-      <link rel="stylesheet" href="../css/print-site-material.css">
+      <link rel="stylesheet" href="css/print-site-material.css">
     
       <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.3/css/line.css">
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     
-      <link rel="stylesheet" href="../css/design.css">
+      <link rel="stylesheet" href="css/design.css">
     
-      <link rel="stylesheet" href="../css/nocopy.css">
+      <link rel="stylesheet" href="css/nocopy.css">
     
-      <link rel="stylesheet" href="../css/osano.css">
+      <link rel="stylesheet" href="css/osano.css">
     
-      <link rel="stylesheet" href="../css/operators.css">
+      <link rel="stylesheet" href="css/operators.css">
     
-      <link rel="stylesheet" href="../css/extra.css">
+      <link rel="stylesheet" href="css/extra.css">
     
-      <link rel="stylesheet" href="../css/rating.css">
+      <link rel="stylesheet" href="css/rating.css">
     
-      <link rel="stylesheet" href="../css/kapa.css">
+      <link rel="stylesheet" href="css/kapa.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Percona Operator for PostgreSQL 2.4.1 (2024-08-06)" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - TLS certificate management policy" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#percona-operator-for-postgresql-241" class="md-skip">
+        <a href="#tls-certificate-management-policy" class="md-skip">
           Skip to content
         </a>
       
@@ -207,10 +207,10 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
 
     <!-- Link to home -->
-    <a href="../index.html" title="Percona Operator for PostgreSQL"
+    <a href="index.html" title="Percona Operator for PostgreSQL"
       class="md-header__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-logo.svg" alt="logo">
+  <img src="assets/operators-logo.svg" alt="logo">
 
     </a>
 
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Percona Operator for PostgreSQL 2.4.1 (2024-08-06)
+            TLS certificate management policy
             
           </span>
         </div>
@@ -367,9 +367,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
+    <a href="index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-logo.svg" alt="logo">
+  <img src="assets/operators-logo.svg" alt="logo">
 
     </a>
     Percona Operator for PostgreSQL
@@ -396,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
+      <a href="index.html" class="md-nav__link">
         
   
   
@@ -470,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator-concepts.html" class="md-nav__link">
+      <a href="operator-concepts.html" class="md-nav__link">
         
   
   
@@ -498,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features.html" class="md-nav__link">
+      <a href="features.html" class="md-nav__link">
         
   
   
@@ -526,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator-how-it-works.html" class="md-nav__link">
+      <a href="operator-how-it-works.html" class="md-nav__link">
         
   
   
@@ -554,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture.html" class="md-nav__link">
+      <a href="architecture.html" class="md-nav__link">
         
   
   
@@ -582,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare.html" class="md-nav__link">
+      <a href="compare.html" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../limitations.html" class="md-nav__link">
+      <a href="limitations.html" class="md-nav__link">
         
   
   
@@ -645,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../get-help.html" class="md-nav__link">
+      <a href="get-help.html" class="md-nav__link">
         
   
   
@@ -719,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quickstart.html" class="md-nav__link">
+      <a href="quickstart.html" class="md-nav__link">
         
   
   
@@ -747,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../System-Requirements.html" class="md-nav__link">
+      <a href="System-Requirements.html" class="md-nav__link">
         
   
   
@@ -822,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubectl.html" class="md-nav__link">
+      <a href="kubectl.html" class="md-nav__link">
         
   
   
@@ -850,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm.html" class="md-nav__link">
+      <a href="helm.html" class="md-nav__link">
         
   
   
@@ -886,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../connect.html" class="md-nav__link">
+      <a href="connect.html" class="md-nav__link">
         
   
   
@@ -914,7 +914,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../data-insert.html" class="md-nav__link">
+      <a href="data-insert.html" class="md-nav__link">
         
   
   
@@ -942,7 +942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-tutorial.html" class="md-nav__link">
+      <a href="backup-tutorial.html" class="md-nav__link">
         
   
   
@@ -970,7 +970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring-tutorial.html" class="md-nav__link">
+      <a href="monitoring-tutorial.html" class="md-nav__link">
         
   
   
@@ -998,7 +998,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-next.html" class="md-nav__link">
+      <a href="what-next.html" class="md-nav__link">
         
   
   
@@ -1080,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../minikube.html" class="md-nav__link">
+      <a href="minikube.html" class="md-nav__link">
         
   
   
@@ -1108,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../everest.html" class="md-nav__link">
+      <a href="everest.html" class="md-nav__link">
         
   
   
@@ -1136,7 +1136,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gke.html" class="md-nav__link">
+      <a href="gke.html" class="md-nav__link">
         
   
   
@@ -1164,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eks.html" class="md-nav__link">
+      <a href="eks.html" class="md-nav__link">
         
   
   
@@ -1192,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../aks.html" class="md-nav__link">
+      <a href="aks.html" class="md-nav__link">
         
   
   
@@ -1220,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../openshift.html" class="md-nav__link">
+      <a href="openshift.html" class="md-nav__link">
         
   
   
@@ -1248,7 +1248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rke2.html" class="md-nav__link">
+      <a href="rke2.html" class="md-nav__link">
         
   
   
@@ -1276,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubernetes.html" class="md-nav__link">
+      <a href="kubernetes.html" class="md-nav__link">
         
   
   
@@ -1308,18 +1308,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1340,7 +1342,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1358,7 +1360,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../users.html" class="md-nav__link">
+      <a href="users.html" class="md-nav__link">
         
   
   
@@ -1433,7 +1435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../LDAP.html" class="md-nav__link">
+      <a href="LDAP.html" class="md-nav__link">
         
   
   
@@ -1461,7 +1463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ldap-setup.html" class="md-nav__link">
+      <a href="ldap-setup.html" class="md-nav__link">
         
   
   
@@ -1497,7 +1499,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../expose.html" class="md-nav__link">
+      <a href="expose.html" class="md-nav__link">
         
   
   
@@ -1525,7 +1527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../options.html" class="md-nav__link">
+      <a href="options.html" class="md-nav__link">
         
   
   
@@ -1553,7 +1555,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../constraints.html" class="md-nav__link">
+      <a href="constraints.html" class="md-nav__link">
         
   
   
@@ -1581,7 +1583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../annotations.html" class="md-nav__link">
+      <a href="annotations.html" class="md-nav__link">
         
   
   
@@ -1656,7 +1658,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption.html" class="md-nav__link">
+      <a href="encryption.html" class="md-nav__link">
         
   
   
@@ -1684,7 +1686,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption-setup.html" class="md-nav__link">
+      <a href="encryption-setup.html" class="md-nav__link">
         
   
   
@@ -1712,7 +1714,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption-disable.html" class="md-nav__link">
+      <a href="encryption-disable.html" class="md-nav__link">
         
   
   
@@ -1745,18 +1747,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" checked>
         
           
           <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
@@ -1777,7 +1781,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1795,7 +1799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TLS.html" class="md-nav__link">
+      <a href="TLS.html" class="md-nav__link">
         
   
   
@@ -1823,7 +1827,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-cert-manager.html" class="md-nav__link">
+      <a href="tls-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1851,7 +1855,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-migrate-to-cert-manager.html" class="md-nav__link">
+      <a href="tls-migrate-to-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1879,7 +1883,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-migrate-from-cert-manager.html" class="md-nav__link">
+      <a href="tls-migrate-from-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1907,7 +1911,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-manual.html" class="md-nav__link">
+      <a href="tls-manual.html" class="md-nav__link">
         
   
   
@@ -1935,7 +1939,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
         
   
   
@@ -1963,7 +1967,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-update.html" class="md-nav__link">
+      <a href="tls-update.html" class="md-nav__link">
         
   
   
@@ -1991,7 +1995,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-verify-communication.html" class="md-nav__link">
+      <a href="tls-verify-communication.html" class="md-nav__link">
         
   
   
@@ -2016,10 +2020,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../tls-cert-management-policy.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="tls-cert-management-policy.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2035,6 +2066,120 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-happens-when-tls-secrets-are-missing" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What happens when TLS Secrets are missing
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-the-userprovidedonly-policy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure the userProvidedOnly policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-the-cluster-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor the cluster state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor the cluster state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        userProvidedOnly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operatorprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operatorProvidedOnly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-tls-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore TLS Secrets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rotate-certificates-with-userprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotate certificates with userProvidedOnly
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -2055,7 +2200,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../telemetry.html" class="md-nav__link">
+      <a href="telemetry.html" class="md-nav__link">
         
   
   
@@ -2083,7 +2228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reconciliation-concurrency.html" class="md-nav__link">
+      <a href="reconciliation-concurrency.html" class="md-nav__link">
         
   
   
@@ -2158,7 +2303,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-vars.html" class="md-nav__link">
+      <a href="env-vars.html" class="md-nav__link">
         
   
   
@@ -2186,7 +2331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-var-operator.html" class="md-nav__link">
+      <a href="env-var-operator.html" class="md-nav__link">
         
   
   
@@ -2214,7 +2359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-var-cluster.html" class="md-nav__link">
+      <a href="env-var-cluster.html" class="md-nav__link">
         
   
   
@@ -2351,7 +2496,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups.html" class="md-nav__link">
+      <a href="backups.html" class="md-nav__link">
         
   
   
@@ -2426,7 +2571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage.html" class="md-nav__link">
+      <a href="backups-storage.html" class="md-nav__link">
         
   
   
@@ -2454,7 +2599,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-s3.html" class="md-nav__link">
+      <a href="backups-storage-s3.html" class="md-nav__link">
         
   
   
@@ -2482,7 +2627,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-gcs.html" class="md-nav__link">
+      <a href="backups-storage-gcs.html" class="md-nav__link">
         
   
   
@@ -2510,7 +2655,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-azure.html" class="md-nav__link">
+      <a href="backups-storage-azure.html" class="md-nav__link">
         
   
   
@@ -2538,7 +2683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-pv.html" class="md-nav__link">
+      <a href="backups-storage-pv.html" class="md-nav__link">
         
   
   
@@ -2621,7 +2766,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-schedule.html" class="md-nav__link">
+      <a href="backups-schedule.html" class="md-nav__link">
         
   
   
@@ -2649,7 +2794,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-ondemand.html" class="md-nav__link">
+      <a href="backups-ondemand.html" class="md-nav__link">
         
   
   
@@ -2732,7 +2877,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore.html" class="md-nav__link">
+      <a href="backups-restore.html" class="md-nav__link">
         
   
   
@@ -2760,7 +2905,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore-inplace.html" class="md-nav__link">
+      <a href="backups-restore-inplace.html" class="md-nav__link">
         
   
   
@@ -2788,7 +2933,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-clone.html" class="md-nav__link">
+      <a href="backups-clone.html" class="md-nav__link">
         
   
   
@@ -2871,7 +3016,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-snapshots.html" class="md-nav__link">
+      <a href="backups-pvc-snapshots.html" class="md-nav__link">
         
   
   
@@ -2899,7 +3044,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-setup.html" class="md-nav__link">
+      <a href="backups-pvc-setup.html" class="md-nav__link">
         
   
   
@@ -2927,7 +3072,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-setup-eks.html" class="md-nav__link">
+      <a href="backups-pvc-setup-eks.html" class="md-nav__link">
         
   
   
@@ -2955,7 +3100,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-usage.html" class="md-nav__link">
+      <a href="backups-pvc-usage.html" class="md-nav__link">
         
   
   
@@ -2991,7 +3136,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-encryption.html" class="md-nav__link">
+      <a href="backup-encryption.html" class="md-nav__link">
         
   
   
@@ -3019,7 +3164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../async-archiving.html" class="md-nav__link">
+      <a href="async-archiving.html" class="md-nav__link">
         
   
   
@@ -3047,7 +3192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-retention.html" class="md-nav__link">
+      <a href="backup-retention.html" class="md-nav__link">
         
   
   
@@ -3075,7 +3220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-delete.html" class="md-nav__link">
+      <a href="backups-delete.html" class="md-nav__link">
         
   
   
@@ -3103,7 +3248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-disable.html" class="md-nav__link">
+      <a href="backups-disable.html" class="md-nav__link">
         
   
   
@@ -3186,7 +3331,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby.html" class="md-nav__link">
+      <a href="standby.html" class="md-nav__link">
         
   
   
@@ -3214,7 +3359,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-backup.html" class="md-nav__link">
+      <a href="standby-backup.html" class="md-nav__link">
         
   
   
@@ -3242,7 +3387,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-streaming.html" class="md-nav__link">
+      <a href="standby-streaming.html" class="md-nav__link">
         
   
   
@@ -3270,7 +3415,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-failover.html" class="md-nav__link">
+      <a href="standby-failover.html" class="md-nav__link">
         
   
   
@@ -3353,7 +3498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling.html" class="md-nav__link">
+      <a href="scaling.html" class="md-nav__link">
         
   
   
@@ -3381,7 +3526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling-horizontal.html" class="md-nav__link">
+      <a href="scaling-horizontal.html" class="md-nav__link">
         
   
   
@@ -3409,7 +3554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling-vertical.html" class="md-nav__link">
+      <a href="scaling-vertical.html" class="md-nav__link">
         
   
   
@@ -3445,7 +3590,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ha-deploy.html" class="md-nav__link">
+      <a href="ha-deploy.html" class="md-nav__link">
         
   
   
@@ -3473,7 +3618,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../huge-pages.html" class="md-nav__link">
+      <a href="huge-pages.html" class="md-nav__link">
         
   
   
@@ -3501,7 +3646,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidecar.html" class="md-nav__link">
+      <a href="sidecar.html" class="md-nav__link">
         
   
   
@@ -3529,7 +3674,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../extra-volumes.html" class="md-nav__link">
+      <a href="extra-volumes.html" class="md-nav__link">
         
   
   
@@ -3557,7 +3702,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pause.html" class="md-nav__link">
+      <a href="pause.html" class="md-nav__link">
         
   
   
@@ -3585,7 +3730,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring.html" class="md-nav__link">
+      <a href="monitoring.html" class="md-nav__link">
         
   
   
@@ -3660,7 +3805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../persistent-logging.html" class="md-nav__link">
+      <a href="persistent-logging.html" class="md-nav__link">
         
   
   
@@ -3688,7 +3833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../log-rotation.html" class="md-nav__link">
+      <a href="log-rotation.html" class="md-nav__link">
         
   
   
@@ -3778,7 +3923,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update.html" class="md-nav__link">
+      <a href="update.html" class="md-nav__link">
         
   
   
@@ -3806,7 +3951,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-operator.html" class="md-nav__link">
+      <a href="update-operator.html" class="md-nav__link">
         
   
   
@@ -3881,7 +4026,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-database.html" class="md-nav__link">
+      <a href="update-database.html" class="md-nav__link">
         
   
   
@@ -3909,7 +4054,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-db-minor.html" class="md-nav__link">
+      <a href="update-db-minor.html" class="md-nav__link">
         
   
   
@@ -3937,7 +4082,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-db-major.html" class="md-nav__link">
+      <a href="update-db-major.html" class="md-nav__link">
         
   
   
@@ -3973,7 +4118,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-extensions.html" class="md-nav__link">
+      <a href="update-extensions.html" class="md-nav__link">
         
   
   
@@ -4001,7 +4146,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-openshift.html" class="md-nav__link">
+      <a href="update-openshift.html" class="md-nav__link">
         
   
   
@@ -4076,7 +4221,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy.html" class="md-nav__link">
+      <a href="migrate-from-crunchy.html" class="md-nav__link">
         
   
   
@@ -4104,7 +4249,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-checklist.html" class="md-nav__link">
+      <a href="migrate-checklist.html" class="md-nav__link">
         
   
   
@@ -4132,7 +4277,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-standby.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
   
@@ -4160,7 +4305,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-backup-restore.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-backup-restore.html" class="md-nav__link">
         
   
   
@@ -4188,7 +4333,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-data-volumes.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-data-volumes.html" class="md-nav__link">
         
   
   
@@ -4278,7 +4423,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-install.html" class="md-nav__link">
+      <a href="custom-install.html" class="md-nav__link">
         
   
   
@@ -4306,7 +4451,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../initsql.html" class="md-nav__link">
+      <a href="initsql.html" class="md-nav__link">
         
   
   
@@ -4334,7 +4479,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../change-primary.html" class="md-nav__link">
+      <a href="change-primary.html" class="md-nav__link">
         
   
   
@@ -4362,7 +4507,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-registry.html" class="md-nav__link">
+      <a href="custom-registry.html" class="md-nav__link">
         
   
   
@@ -4390,7 +4535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install-community.html" class="md-nav__link">
+      <a href="install-community.html" class="md-nav__link">
         
   
   
@@ -4418,7 +4563,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-extensions.html" class="md-nav__link">
+      <a href="custom-extensions.html" class="md-nav__link">
         
   
   
@@ -4446,7 +4591,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cluster-wide.html" class="md-nav__link">
+      <a href="cluster-wide.html" class="md-nav__link">
         
   
   
@@ -4474,7 +4619,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tablespaces.html" class="md-nav__link">
+      <a href="tablespaces.html" class="md-nav__link">
         
   
   
@@ -4502,7 +4647,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitor-kubernetes.html" class="md-nav__link">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
         
   
   
@@ -4530,7 +4675,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../postgis.html" class="md-nav__link">
+      <a href="postgis.html" class="md-nav__link">
         
   
   
@@ -4558,7 +4703,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dns-suffix.html" class="md-nav__link">
+      <a href="dns-suffix.html" class="md-nav__link">
         
   
   
@@ -4586,7 +4731,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../delete.html" class="md-nav__link">
+      <a href="delete.html" class="md-nav__link">
         
   
   
@@ -4614,7 +4759,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../image-query.html" class="md-nav__link">
+      <a href="image-query.html" class="md-nav__link">
         
   
   
@@ -4696,7 +4841,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshoot-operator.html" class="md-nav__link">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
         
   
   
@@ -4724,7 +4869,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
@@ -4752,7 +4897,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-storage.html" class="md-nav__link">
+      <a href="debug-storage.html" class="md-nav__link">
         
   
   
@@ -4780,7 +4925,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-shell.html" class="md-nav__link">
+      <a href="debug-shell.html" class="md-nav__link">
         
   
   
@@ -4808,7 +4953,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-logs.html" class="md-nav__link">
+      <a href="debug-logs.html" class="md-nav__link">
         
   
   
@@ -4836,7 +4981,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../manage-manually.html" class="md-nav__link">
+      <a href="manage-manually.html" class="md-nav__link">
         
   
   
@@ -4864,7 +5009,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reinit.html" class="md-nav__link">
+      <a href="reinit.html" class="md-nav__link">
         
   
   
@@ -4946,7 +5091,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator.html" class="md-nav__link">
+      <a href="operator.html" class="md-nav__link">
         
   
   
@@ -4974,7 +5119,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-resource-options.html" class="md-nav__link">
+      <a href="backup-resource-options.html" class="md-nav__link">
         
   
   
@@ -5002,7 +5147,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../restore-options.html" class="md-nav__link">
+      <a href="restore-options.html" class="md-nav__link">
         
   
   
@@ -5030,7 +5175,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cr-statuses.html" class="md-nav__link">
+      <a href="cr-statuses.html" class="md-nav__link">
         
   
   
@@ -5058,7 +5203,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secret-options.html" class="md-nav__link">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -5086,7 +5231,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upgrade-options.html" class="md-nav__link">
+      <a href="upgrade-options.html" class="md-nav__link">
         
   
   
@@ -5114,7 +5259,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../immutable-options.html" class="md-nav__link">
+      <a href="immutable-options.html" class="md-nav__link">
         
   
   
@@ -5142,7 +5287,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../images.html" class="md-nav__link">
+      <a href="images.html" class="md-nav__link">
         
   
   
@@ -5170,7 +5315,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../versions.html" class="md-nav__link">
+      <a href="versions.html" class="md-nav__link">
         
   
   
@@ -5198,7 +5343,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../about-docs.html" class="md-nav__link">
+      <a href="about-docs.html" class="md-nav__link">
         
   
   
@@ -5273,7 +5418,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../copyright.html" class="md-nav__link">
+      <a href="copyright.html" class="md-nav__link">
         
   
   
@@ -5301,7 +5446,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../trademark-policy.html" class="md-nav__link">
+      <a href="trademark-policy.html" class="md-nav__link">
         
   
   
@@ -5329,7 +5474,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../legal-notice.html" class="md-nav__link">
+      <a href="legal-notice.html" class="md-nav__link">
         
   
   
@@ -5369,20 +5514,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
           <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
@@ -5403,7 +5546,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
@@ -5421,7 +5564,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href="ReleaseNotes/index.html" class="md-nav__link">
         
   
   
@@ -5449,7 +5592,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN3.0.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.0.0.html" class="md-nav__link">
         
   
   
@@ -5477,7 +5620,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.9.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.html" class="md-nav__link">
         
   
   
@@ -5505,7 +5648,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.2.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.html" class="md-nav__link">
         
   
   
@@ -5533,7 +5676,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.1.html" class="md-nav__link">
         
   
   
@@ -5561,7 +5704,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
         
   
   
@@ -5589,7 +5732,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
         
   
   
@@ -5617,7 +5760,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link">
         
   
   
@@ -5645,7 +5788,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
         
   
   
@@ -5673,7 +5816,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
         
   
   
@@ -5698,37 +5841,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Percona Operator for PostgreSQL 2.4.1 (2024-08-06)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link">
         
   
   
@@ -5744,48 +5860,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bugs Fixed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported platforms
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5798,7 +5872,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
         
   
   
@@ -5826,7 +5900,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
         
   
   
@@ -5854,7 +5928,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
         
   
   
@@ -5882,7 +5956,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
         
   
   
@@ -5910,7 +5984,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
         
   
   
@@ -5938,7 +6012,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
         
   
   
@@ -6234,7 +6308,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/tls-cert-management-policy.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6293,10 +6367,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
+  <a href="#what-happens-when-tls-secrets-are-missing" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bugs Fixed
+        What happens when TLS Secrets are missing
       
     </span>
   </a>
@@ -6304,10 +6378,82 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
+  <a href="#configure-the-userprovidedonly-policy" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported platforms
+        Configure the userProvidedOnly policy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#monitor-the-cluster-state" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor the cluster state
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitor the cluster state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#auto" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        auto
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#userprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        userProvidedOnly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#operatorprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        operatorProvidedOnly
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#restore-tls-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore TLS Secrets
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rotate-certificates-with-userprovidedonly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotate certificates with userProvidedOnly
       
     </span>
   </a>
@@ -6340,49 +6486,176 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/tls-cert-management-policy.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="percona-operator-for-postgresql-241">Percona Operator for PostgreSQL 2.4.1<a class="headerlink" href="#percona-operator-for-postgresql-241" title="Permanent link">&para;</a></h1>
+<h1 id="tls-certificate-management-policy">TLS certificate management policy<a class="headerlink" href="#tls-certificate-management-policy" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
+</div>
+<p>You can control how the Operator creates and manages TLS certificates: who issues them, whether cert-manager is used, and what happens when TLS Secrets are missing.</p>
+<p>Depending on the <a href="TLS.html#how-the-operator-chooses-tls-source">TLS source</a>, the Operator either uses the TLS Secrets you referenced in the Custom Resource, or it uses the Secrets that it generated itself or through the cert-manager.</p>
+<p>The Operator has the following policies to manage TLS certificates. You define a policy via the <code>spec.tls.certManagementPolicy</code> option in the Custom Resource <strong>when you create a cluster</strong>:</p>
 <ul>
 <li>
-<p><strong>Date</strong></p>
-<p>August 6, 2024</p>
+<p><code>auto</code> (default) — The Operator creates new certificates, either self-signed or via <a href="tls-cert-manager.html">cert-manager</a>, and restarts the database Pods. If cert-manager is installed, the Operator uses it and honors the Issuer or
+ClusterIssuer settings, if defined in <code>spec.tls.issuerConf</code>. New certificates have a new CA, so clients must reconnect.</p>
+<p><strong>When to use:</strong> You want the Operator to own certificate creation, including cert-manager and a custom issuer.</p>
 </li>
 <li>
-<p><strong>Installation</strong></p>
-<p><a href="../System-Requirements.html#installation-guidelines">Installing Percona Operator for PostgreSQL</a> </p>
+<p><code>userProvidedOnly</code> — The Operator never creates or replaces TLS Secrets. You own the certificate lifecycle and must restore Secrets if they go missing. This avoids an unexpected new CA, which can drop clients that still trust the old one.</p>
+<p><strong>When to use:</strong> You manage TLS Secrets yourself <a href="tls-manual.html">manually</a> or outside the Operator Kubernetes Secrets synced from
+AWS Secrets Manager or via <a href="https://external-secrets.io/">External Secrets Operator
+<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>and must keep the existing CA if a Secret is lost.</p>
+</li>
+<li>
+<p><code>operatorProvidedOnly</code> — The Operator always creates and manages TLS with its own PKI. It does not create cert-manager <code>Certificate</code> or <code>Issuer</code> objects, even if cert-manager is installed, and it ignores <code>spec.tls.issuerConf</code>.</p>
+<p><strong>When to use:</strong> You run cert-manager for other workloads, but this cluster must stay on Operator-generated certificates.</p>
 </li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">&para;</a></h2>
+<h2 id="what-happens-when-tls-secrets-are-missing">What happens when TLS Secrets are missing<a class="headerlink" href="#what-happens-when-tls-secrets-are-missing" title="Permanent link">&para;</a></h2>
+<p>The following table explains how the Operator responds under each policy when it cannot access TLS Secrets.</p>
+<table>
+<thead>
+<tr>
+<th>Situation</th>
+<th><code>auto</code></th>
+<th><code>userProvidedOnly</code></th>
+<th><code>operatorProvidedOnly</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Cluster created without TLS Secrets</td>
+<td>Operator or cert-manager creates Secrets and starts the cluster</td>
+<td>Cluster stays in <code>initializing</code> until you create Secrets</td>
+<td>Operator creates Secrets with internal PKI and starts the cluster</td>
+</tr>
+<tr>
+<td>TLS Secret deleted while cluster is running</td>
+<td>Operator or cert-manager may create new Secrets and restart Pods</td>
+<td>Pods keep running; Operator logs an error; <code>TLSSecretsReady=False</code></td>
+<td>Operator recreates Secrets with internal PKI and restarts Pods</td>
+</tr>
+<tr>
+<td>TLS Secrets restored</td>
+<td>Normal operation</td>
+<td><code>TLSSecretsReady=True</code>; no forced restart from this policy alone</td>
+<td>Normal operation</td>
+</tr>
+<tr>
+<td>cert-manager installed or <code>spec.tls.issuerConf</code> set</td>
+<td>Used</td>
+<td>Ignored</td>
+<td>Ignored</td>
+</tr>
+</tbody>
+</table>
+<h2 id="configure-the-userprovidedonly-policy">Configure the userProvidedOnly policy<a class="headerlink" href="#configure-the-userprovidedonly-policy" title="Permanent link">&para;</a></h2>
+<p>This example sets <code>userProvidedOnly</code> when you create the cluster. Use it when you already manage TLS Secrets yourself and you do not want the Operator to create replacements if those Secrets go missing.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You can set the TLS management policy only during the cluster creation. Changing it on a running cluster is not supported. </p>
+</div>
+<ol>
+<li>Create the TLS Secrets in the cluster namespace, or make sure your sync tool creates them before the database Pods must start. See <a href="tls-manual.html">Generate TLS certificates manually</a>.</li>
+<li>Deploy the Operator if you haven&rsquo;t done it before.</li>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> Custom Resource: </p>
 <ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-616">K8SPG-616</a>: Fix a bug where it was not possible to create a new cluster after deleting the previous one with the <code>kubectl delete pg</code> command</li>
+<li>Reference the Secret names</li>
+<li>
+<p>Set <code>spec.tls.certManagementPolicy</code> to <code>userProvidedOnly</code></p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGCluster</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span><span class="w"> </span>
+<span class="w">    </span><span class="nt">certManagementPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">userProvidedOnly</span>
+<span class="w">  </span><span class="nt">secrets</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">customTLSSecret</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-cert</span>
+<span class="w">    </span><span class="nt">customReplicationTLSSecret</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replication1-cert</span>
+</code></pre></div>
+</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
-<p>The Operator was developed and tested with PostgreSQL versions 12.19, 13.15, 14.12, 15.7, and 16.3. Other options may also work but have not been tested. The Operator 2.4.1 provides connection pooling based on pgBouncer 1.22.1 and high-availability implementation based on Patroni 3.3.0.</p>
-<p>The following platforms were tested and are officially supported by the Operator
-2.4.1:</p>
+</li>
+<li>
+<p>Apply the manifest:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<p>For Helm installations, set the equivalent value in your Helm values file for <code>tls.certManagementPolicy</code>.</p>
+<h2 id="monitor-the-cluster-state">Monitor the cluster state<a class="headerlink" href="#monitor-the-cluster-state" title="Permanent link">&para;</a></h2>
+<p>Check the cluster state for the following conditions: <code>TLSSecretsReady</code> and <code>Progressing</code>.</p>
+<p>Run the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .status.conditions[?(@.type=="TLSSecretsReady" || @.type=="Progressing")]}{.type}{"\t"}{.status}{"\t"}{.reason}{"\t"}{.message}{"\n"}{end}'</span>
+</code></pre></div>
+<p>What you should see depends on the policy. See <a href="cr-statuses.html#conditions">Custom resource statuses</a> for the full list of conditions.</p>
+<h3 id="auto">auto<a class="headerlink" href="#auto" title="Permanent link">&para;</a></h3>
+<p><code>TLSSecretsReady</code> is <code>True</code> when the required Secrets exist. If a Secret is missing, the Operator or cert-manager creates a replacement. </p>
+<h3 id="userprovidedonly">userProvidedOnly<a class="headerlink" href="#userprovidedonly" title="Permanent link">&para;</a></h3>
+<p>If a required TLS Secret is missing, the Operator does not create a replacement. It sets these conditions on the <code>PerconaPGCluster</code>:</p>
 <ul>
-<li><a href="https://cloud.google.com/kubernetes-engine">Google Kubernetes Engine (GKE) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.27 - 1.29</li>
-<li><a href="https://aws.amazon.com">Amazon Elastic Container Service for Kubernetes (EKS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.27 - 1.30</li>
-<li><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">OpenShift <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 4.12.59 - 4.15.18</li>
-<li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.33.1</li>
+<li><code>TLSSecretsReady=False</code> with reason <code>TLSSecretsMissing</code>. The message lists the missing Secret names.</li>
+<li><code>Progressing=False</code> with reason <code>Paused</code>. Reconciliation stays paused until the Secrets exist.</li>
 </ul>
-<p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
+<details class="example">
+<summary>Sample output when a Secret is missing</summary>
+<div class="no-copy highlight"><pre><span></span><code>False
+TLSSecretsMissing
+Missing user-provided TLS secrets: cluster1-cluster-cert, cluster1-replication-cert. certManagementPolicy is userProvidedOnly
+</code></pre></div>
+</details>
+<p>Treat <code>TLSSecretsReady=False</code> as a blocked state. Existing Pods may keep running with certificates already mounted, but you should restore the Secrets promptly. See <a href="#restore-tls-secrets">Restore TLS Secrets</a>.</p>
+<h3 id="operatorprovidedonly">operatorProvidedOnly<a class="headerlink" href="#operatorprovidedonly" title="Permanent link">&para;</a></h3>
+<p><code>TLSSecretsReady</code> is <code>True</code> with reason <code>TLSSecretsFound</code> and the message <code>certManagementPolicy is operatorProvidedOnly</code>. If a Secret is missing, the Operator recreates it with internal PKI, so this condition does not stay <code>False</code>.</p>
+<h2 id="restore-tls-secrets">Restore TLS Secrets<a class="headerlink" href="#restore-tls-secrets" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Find the missing Secret names in the <code>TLSSecretsReady</code> message, or check the expected names. If you referenced custom Secrets, use <code>spec.secrets.customTLSSecret</code> and <code>spec.secrets.customReplicationTLSSecret</code> instead.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cluster1-cluster-ca-cert<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cluster1-cluster-cert<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cluster1-replication-cert<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cluster1-pgbackrest<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>cluster1-pgbouncer
+</code></pre></div>
+</li>
+<li>
+<p>Recreate or re-sync the Secrets. Label each one with the cluster name so the Operator watches it:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgres-operator.crunchydata.com/cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+</code></pre></div>
+</li>
+<li>
+<p>If the cluster never finished creating, restore cluster-level Secrets first. After <code>TLSSecretsReady</code> is <code>True</code>, the Operator creates the instance StatefulSet. Then create <code>&lt;statefulset-name&gt;-certs</code> (for example, <code>cluster1-instance1-abcd-certs</code>).</p>
+</li>
+<li>
+<p>Confirm <code>TLSSecretsReady</code> is <code>True</code>. Restoring Secrets does not force a restart. Pods keep the certificates already loaded until you <a href="tls-update.html">update certificates</a>.</p>
+</li>
+</ol>
+<h2 id="rotate-certificates-with-userprovidedonly">Rotate certificates with userProvidedOnly<a class="headerlink" href="#rotate-certificates-with-userprovidedonly" title="Permanent link">&para;</a></h2>
+<p>Certificate rotation remains your responsibility.  Follow the steps in <a href="tls-update.html">Update certificates</a> for your certificate source.</p>
+<p>The Operator picks up new Secret content and reconciles Pods according to its normal TLS update flow.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 6, 2024 16:05:23 UTC">August 6, 2024</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 6, 2024 16:05:23 UTC">August 6, 2024</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
       
     
   </small>
@@ -6441,21 +6714,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../js/print-site.js"></script>
+        <script src="js/print-site.js"></script>
       
-        <script src="../js/promptremover.js"></script>
+        <script src="js/promptremover.js"></script>
       
-        <script src="../js/consent.js"></script>
+        <script src="js/consent.js"></script>
       
-        <script src="../js/rating.js"></script>
+        <script src="js/rating.js"></script>
       
-        <script src="../js/kapa.js"></script>
+        <script src="js/kapa.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>

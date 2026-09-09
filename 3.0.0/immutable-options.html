@@ -1935,6 +1935,34 @@
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -1971,6 +1999,34 @@
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -3473,6 +3529,34 @@
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3517,6 +3601,117 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_10">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -5119,6 +5314,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tlscertmanagementpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.certManagementPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6408,6 +6614,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#tlscertmanagementpolicy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.certManagementPolicy
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6718,6 +6935,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Initialization SQL runs only at cluster creation time. You cannot add or change init SQL for an existing cluster. The Operator executes the script once during bootstrap.</p>
 <h3 id="datasource"><code>dataSource</code><a class="headerlink" href="#datasource" title="Permanent link">&para;</a></h3>
 <p>The <code>dataSource</code> subsection configures restore-from-backup for a <em>new</em> cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.</p>
+<h3 id="tlscertmanagementpolicy"><code>tls.certManagementPolicy</code><a class="headerlink" href="#tlscertmanagementpolicy" title="Permanent link">&para;</a></h3>
+<p>You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See <a href="tls-cert-management-policy.html">TLS certificate management policy</a>.</p>
 <h2 id="backup-options">Backup options<a class="headerlink" href="#backup-options" title="Permanent link">&para;</a></h2>
 <h3 id="backup-encryption">Backup encryption<a class="headerlink" href="#backup-encryption" title="Permanent link">&para;</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="backup-encryption.html">Backup encryption</a>.</p>
@@ -6730,7 +6949,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
       
         <br>
         Created:

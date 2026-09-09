@@ -9,37 +9,37 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Date">
+        <meta name="description" content="logrotate controls the growth of log files on PostgreSQL instance Pods. Without rotation, PostgreSQL and pgBackRest logs can grow until they consume the Persistent Volume and affect database stability. logrotate keeps retention and disk usage predictable.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/log-rotation.html">
       
       
-        <link rel="prev" href="Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html">
+        <link rel="prev" href="persistent-logging.html">
       
       
-        <link rel="next" href="Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html">
+        <link rel="next" href="update.html">
       
       
         
       
       
-      <link rel="icon" href="../assets/operators_fav.svg">
+      <link rel="icon" href="assets/operators_fav.svg">
       <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
-        <title>Percona Operator for PostgreSQL 2.4.1 (2024-08-06) - Percona Operator for PostgreSQL</title>
+        <title>Log rotation - Percona Operator for PostgreSQL</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -58,29 +58,29 @@
       
     
     
-      <link rel="stylesheet" href="../css/print-site.css">
+      <link rel="stylesheet" href="css/print-site.css">
     
-      <link rel="stylesheet" href="../css/print-site-material.css">
+      <link rel="stylesheet" href="css/print-site-material.css">
     
       <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.3/css/line.css">
     
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css">
     
-      <link rel="stylesheet" href="../css/design.css">
+      <link rel="stylesheet" href="css/design.css">
     
-      <link rel="stylesheet" href="../css/nocopy.css">
+      <link rel="stylesheet" href="css/nocopy.css">
     
-      <link rel="stylesheet" href="../css/osano.css">
+      <link rel="stylesheet" href="css/osano.css">
     
-      <link rel="stylesheet" href="../css/operators.css">
+      <link rel="stylesheet" href="css/operators.css">
     
-      <link rel="stylesheet" href="../css/extra.css">
+      <link rel="stylesheet" href="css/extra.css">
     
-      <link rel="stylesheet" href="../css/rating.css">
+      <link rel="stylesheet" href="css/rating.css">
     
-      <link rel="stylesheet" href="../css/kapa.css">
+      <link rel="stylesheet" href="css/kapa.css">
     
-    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
   
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Percona Operator for PostgreSQL 2.4.1 (2024-08-06)" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Log rotation" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#percona-operator-for-postgresql-241" class="md-skip">
+        <a href="#log-rotation" class="md-skip">
           Skip to content
         </a>
       
@@ -207,10 +207,10 @@
   <nav class="md-header__inner md-grid" aria-label="Header">
 
     <!-- Link to home -->
-    <a href="../index.html" title="Percona Operator for PostgreSQL"
+    <a href="index.html" title="Percona Operator for PostgreSQL"
       class="md-header__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-logo.svg" alt="logo">
+  <img src="assets/operators-logo.svg" alt="logo">
 
     </a>
 
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Percona Operator for PostgreSQL 2.4.1 (2024-08-06)
+            Log rotation
             
           </span>
         </div>
@@ -367,9 +367,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
+    <a href="index.html" title="Percona Operator for PostgreSQL" class="md-nav__button md-logo" aria-label="Percona Operator for PostgreSQL" data-md-component="logo">
       
-  <img src="../assets/operators-logo.svg" alt="logo">
+  <img src="assets/operators-logo.svg" alt="logo">
 
     </a>
     Percona Operator for PostgreSQL
@@ -396,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../index.html" class="md-nav__link">
+      <a href="index.html" class="md-nav__link">
         
   
   
@@ -470,7 +470,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator-concepts.html" class="md-nav__link">
+      <a href="operator-concepts.html" class="md-nav__link">
         
   
   
@@ -498,7 +498,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../features.html" class="md-nav__link">
+      <a href="features.html" class="md-nav__link">
         
   
   
@@ -526,7 +526,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator-how-it-works.html" class="md-nav__link">
+      <a href="operator-how-it-works.html" class="md-nav__link">
         
   
   
@@ -554,7 +554,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../architecture.html" class="md-nav__link">
+      <a href="architecture.html" class="md-nav__link">
         
   
   
@@ -582,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../compare.html" class="md-nav__link">
+      <a href="compare.html" class="md-nav__link">
         
   
   
@@ -610,7 +610,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../limitations.html" class="md-nav__link">
+      <a href="limitations.html" class="md-nav__link">
         
   
   
@@ -645,7 +645,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../get-help.html" class="md-nav__link">
+      <a href="get-help.html" class="md-nav__link">
         
   
   
@@ -719,7 +719,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../quickstart.html" class="md-nav__link">
+      <a href="quickstart.html" class="md-nav__link">
         
   
   
@@ -747,7 +747,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../System-Requirements.html" class="md-nav__link">
+      <a href="System-Requirements.html" class="md-nav__link">
         
   
   
@@ -822,7 +822,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubectl.html" class="md-nav__link">
+      <a href="kubectl.html" class="md-nav__link">
         
   
   
@@ -850,7 +850,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../helm.html" class="md-nav__link">
+      <a href="helm.html" class="md-nav__link">
         
   
   
@@ -886,7 +886,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../connect.html" class="md-nav__link">
+      <a href="connect.html" class="md-nav__link">
         
   
   
@@ -914,7 +914,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../data-insert.html" class="md-nav__link">
+      <a href="data-insert.html" class="md-nav__link">
         
   
   
@@ -942,7 +942,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-tutorial.html" class="md-nav__link">
+      <a href="backup-tutorial.html" class="md-nav__link">
         
   
   
@@ -970,7 +970,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring-tutorial.html" class="md-nav__link">
+      <a href="monitoring-tutorial.html" class="md-nav__link">
         
   
   
@@ -998,7 +998,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../what-next.html" class="md-nav__link">
+      <a href="what-next.html" class="md-nav__link">
         
   
   
@@ -1080,7 +1080,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../minikube.html" class="md-nav__link">
+      <a href="minikube.html" class="md-nav__link">
         
   
   
@@ -1108,7 +1108,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../everest.html" class="md-nav__link">
+      <a href="everest.html" class="md-nav__link">
         
   
   
@@ -1136,7 +1136,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../gke.html" class="md-nav__link">
+      <a href="gke.html" class="md-nav__link">
         
   
   
@@ -1164,7 +1164,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../eks.html" class="md-nav__link">
+      <a href="eks.html" class="md-nav__link">
         
   
   
@@ -1192,7 +1192,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../aks.html" class="md-nav__link">
+      <a href="aks.html" class="md-nav__link">
         
   
   
@@ -1220,7 +1220,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../openshift.html" class="md-nav__link">
+      <a href="openshift.html" class="md-nav__link">
         
   
   
@@ -1248,7 +1248,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../rke2.html" class="md-nav__link">
+      <a href="rke2.html" class="md-nav__link">
         
   
   
@@ -1276,7 +1276,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../kubernetes.html" class="md-nav__link">
+      <a href="kubernetes.html" class="md-nav__link">
         
   
   
@@ -1358,7 +1358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../users.html" class="md-nav__link">
+      <a href="users.html" class="md-nav__link">
         
   
   
@@ -1433,7 +1433,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../LDAP.html" class="md-nav__link">
+      <a href="LDAP.html" class="md-nav__link">
         
   
   
@@ -1461,7 +1461,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ldap-setup.html" class="md-nav__link">
+      <a href="ldap-setup.html" class="md-nav__link">
         
   
   
@@ -1497,7 +1497,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../expose.html" class="md-nav__link">
+      <a href="expose.html" class="md-nav__link">
         
   
   
@@ -1525,7 +1525,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../options.html" class="md-nav__link">
+      <a href="options.html" class="md-nav__link">
         
   
   
@@ -1553,7 +1553,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../constraints.html" class="md-nav__link">
+      <a href="constraints.html" class="md-nav__link">
         
   
   
@@ -1581,7 +1581,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../annotations.html" class="md-nav__link">
+      <a href="annotations.html" class="md-nav__link">
         
   
   
@@ -1656,7 +1656,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption.html" class="md-nav__link">
+      <a href="encryption.html" class="md-nav__link">
         
   
   
@@ -1684,7 +1684,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption-setup.html" class="md-nav__link">
+      <a href="encryption-setup.html" class="md-nav__link">
         
   
   
@@ -1712,7 +1712,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../encryption-disable.html" class="md-nav__link">
+      <a href="encryption-disable.html" class="md-nav__link">
         
   
   
@@ -1795,7 +1795,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../TLS.html" class="md-nav__link">
+      <a href="TLS.html" class="md-nav__link">
         
   
   
@@ -1823,7 +1823,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-cert-manager.html" class="md-nav__link">
+      <a href="tls-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1851,7 +1851,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-migrate-to-cert-manager.html" class="md-nav__link">
+      <a href="tls-migrate-to-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1879,7 +1879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-migrate-from-cert-manager.html" class="md-nav__link">
+      <a href="tls-migrate-from-cert-manager.html" class="md-nav__link">
         
   
   
@@ -1907,7 +1907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-manual.html" class="md-nav__link">
+      <a href="tls-manual.html" class="md-nav__link">
         
   
   
@@ -1935,7 +1935,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
         
   
   
@@ -1963,7 +1963,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-update.html" class="md-nav__link">
+      <a href="tls-update.html" class="md-nav__link">
         
   
   
@@ -1991,7 +1991,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-verify-communication.html" class="md-nav__link">
+      <a href="tls-verify-communication.html" class="md-nav__link">
         
   
   
@@ -2019,7 +2019,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tls-cert-management-policy.html" class="md-nav__link">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
         
   
   
@@ -2055,7 +2055,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../telemetry.html" class="md-nav__link">
+      <a href="telemetry.html" class="md-nav__link">
         
   
   
@@ -2083,7 +2083,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reconciliation-concurrency.html" class="md-nav__link">
+      <a href="reconciliation-concurrency.html" class="md-nav__link">
         
   
   
@@ -2158,7 +2158,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-vars.html" class="md-nav__link">
+      <a href="env-vars.html" class="md-nav__link">
         
   
   
@@ -2186,7 +2186,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-var-operator.html" class="md-nav__link">
+      <a href="env-var-operator.html" class="md-nav__link">
         
   
   
@@ -2214,7 +2214,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env-var-cluster.html" class="md-nav__link">
+      <a href="env-var-cluster.html" class="md-nav__link">
         
   
   
@@ -2254,18 +2254,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" checked>
         
           
           <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
@@ -2286,7 +2288,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2351,7 +2353,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups.html" class="md-nav__link">
+      <a href="backups.html" class="md-nav__link">
         
   
   
@@ -2426,7 +2428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage.html" class="md-nav__link">
+      <a href="backups-storage.html" class="md-nav__link">
         
   
   
@@ -2454,7 +2456,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-s3.html" class="md-nav__link">
+      <a href="backups-storage-s3.html" class="md-nav__link">
         
   
   
@@ -2482,7 +2484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-gcs.html" class="md-nav__link">
+      <a href="backups-storage-gcs.html" class="md-nav__link">
         
   
   
@@ -2510,7 +2512,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-azure.html" class="md-nav__link">
+      <a href="backups-storage-azure.html" class="md-nav__link">
         
   
   
@@ -2538,7 +2540,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-storage-pv.html" class="md-nav__link">
+      <a href="backups-storage-pv.html" class="md-nav__link">
         
   
   
@@ -2621,7 +2623,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-schedule.html" class="md-nav__link">
+      <a href="backups-schedule.html" class="md-nav__link">
         
   
   
@@ -2649,7 +2651,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-ondemand.html" class="md-nav__link">
+      <a href="backups-ondemand.html" class="md-nav__link">
         
   
   
@@ -2732,7 +2734,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore.html" class="md-nav__link">
+      <a href="backups-restore.html" class="md-nav__link">
         
   
   
@@ -2760,7 +2762,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-restore-inplace.html" class="md-nav__link">
+      <a href="backups-restore-inplace.html" class="md-nav__link">
         
   
   
@@ -2788,7 +2790,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-clone.html" class="md-nav__link">
+      <a href="backups-clone.html" class="md-nav__link">
         
   
   
@@ -2871,7 +2873,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-snapshots.html" class="md-nav__link">
+      <a href="backups-pvc-snapshots.html" class="md-nav__link">
         
   
   
@@ -2899,7 +2901,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-setup.html" class="md-nav__link">
+      <a href="backups-pvc-setup.html" class="md-nav__link">
         
   
   
@@ -2927,7 +2929,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-setup-eks.html" class="md-nav__link">
+      <a href="backups-pvc-setup-eks.html" class="md-nav__link">
         
   
   
@@ -2955,7 +2957,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-pvc-usage.html" class="md-nav__link">
+      <a href="backups-pvc-usage.html" class="md-nav__link">
         
   
   
@@ -2991,7 +2993,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-encryption.html" class="md-nav__link">
+      <a href="backup-encryption.html" class="md-nav__link">
         
   
   
@@ -3019,7 +3021,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../async-archiving.html" class="md-nav__link">
+      <a href="async-archiving.html" class="md-nav__link">
         
   
   
@@ -3047,7 +3049,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-retention.html" class="md-nav__link">
+      <a href="backup-retention.html" class="md-nav__link">
         
   
   
@@ -3075,7 +3077,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-delete.html" class="md-nav__link">
+      <a href="backups-delete.html" class="md-nav__link">
         
   
   
@@ -3103,7 +3105,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backups-disable.html" class="md-nav__link">
+      <a href="backups-disable.html" class="md-nav__link">
         
   
   
@@ -3186,7 +3188,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby.html" class="md-nav__link">
+      <a href="standby.html" class="md-nav__link">
         
   
   
@@ -3214,7 +3216,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-backup.html" class="md-nav__link">
+      <a href="standby-backup.html" class="md-nav__link">
         
   
   
@@ -3242,7 +3244,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-streaming.html" class="md-nav__link">
+      <a href="standby-streaming.html" class="md-nav__link">
         
   
   
@@ -3270,7 +3272,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../standby-failover.html" class="md-nav__link">
+      <a href="standby-failover.html" class="md-nav__link">
         
   
   
@@ -3353,7 +3355,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling.html" class="md-nav__link">
+      <a href="scaling.html" class="md-nav__link">
         
   
   
@@ -3381,7 +3383,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling-horizontal.html" class="md-nav__link">
+      <a href="scaling-horizontal.html" class="md-nav__link">
         
   
   
@@ -3409,7 +3411,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../scaling-vertical.html" class="md-nav__link">
+      <a href="scaling-vertical.html" class="md-nav__link">
         
   
   
@@ -3445,7 +3447,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../ha-deploy.html" class="md-nav__link">
+      <a href="ha-deploy.html" class="md-nav__link">
         
   
   
@@ -3473,7 +3475,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../huge-pages.html" class="md-nav__link">
+      <a href="huge-pages.html" class="md-nav__link">
         
   
   
@@ -3501,7 +3503,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../sidecar.html" class="md-nav__link">
+      <a href="sidecar.html" class="md-nav__link">
         
   
   
@@ -3529,7 +3531,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../extra-volumes.html" class="md-nav__link">
+      <a href="extra-volumes.html" class="md-nav__link">
         
   
   
@@ -3557,7 +3559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../pause.html" class="md-nav__link">
+      <a href="pause.html" class="md-nav__link">
         
   
   
@@ -3585,7 +3587,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitoring.html" class="md-nav__link">
+      <a href="monitoring.html" class="md-nav__link">
         
   
   
@@ -3610,18 +3612,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" checked>
         
           
           <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
@@ -3642,7 +3646,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3660,7 +3664,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../persistent-logging.html" class="md-nav__link">
+      <a href="persistent-logging.html" class="md-nav__link">
         
   
   
@@ -3685,10 +3689,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../log-rotation.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="log-rotation.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -3704,6 +3735,76 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configure-log-rotation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure log rotation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure log rotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#override-the-default-logrotate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Override the default logrotate configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#extend-the-default-configuration-via-configmap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Extend the default configuration via ConfigMap
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-a-custom-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set a custom schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3778,7 +3879,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update.html" class="md-nav__link">
+      <a href="update.html" class="md-nav__link">
         
   
   
@@ -3806,7 +3907,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-operator.html" class="md-nav__link">
+      <a href="update-operator.html" class="md-nav__link">
         
   
   
@@ -3881,7 +3982,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-database.html" class="md-nav__link">
+      <a href="update-database.html" class="md-nav__link">
         
   
   
@@ -3909,7 +4010,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-db-minor.html" class="md-nav__link">
+      <a href="update-db-minor.html" class="md-nav__link">
         
   
   
@@ -3937,7 +4038,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-db-major.html" class="md-nav__link">
+      <a href="update-db-major.html" class="md-nav__link">
         
   
   
@@ -3973,7 +4074,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-extensions.html" class="md-nav__link">
+      <a href="update-extensions.html" class="md-nav__link">
         
   
   
@@ -4001,7 +4102,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../update-openshift.html" class="md-nav__link">
+      <a href="update-openshift.html" class="md-nav__link">
         
   
   
@@ -4076,7 +4177,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy.html" class="md-nav__link">
+      <a href="migrate-from-crunchy.html" class="md-nav__link">
         
   
   
@@ -4104,7 +4205,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-checklist.html" class="md-nav__link">
+      <a href="migrate-checklist.html" class="md-nav__link">
         
   
   
@@ -4132,7 +4233,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-standby.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
   
@@ -4160,7 +4261,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-backup-restore.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-backup-restore.html" class="md-nav__link">
         
   
   
@@ -4188,7 +4289,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../migrate-from-crunchy-data-volumes.html" class="md-nav__link">
+      <a href="migrate-from-crunchy-data-volumes.html" class="md-nav__link">
         
   
   
@@ -4278,7 +4379,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-install.html" class="md-nav__link">
+      <a href="custom-install.html" class="md-nav__link">
         
   
   
@@ -4306,7 +4407,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../initsql.html" class="md-nav__link">
+      <a href="initsql.html" class="md-nav__link">
         
   
   
@@ -4334,7 +4435,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../change-primary.html" class="md-nav__link">
+      <a href="change-primary.html" class="md-nav__link">
         
   
   
@@ -4362,7 +4463,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-registry.html" class="md-nav__link">
+      <a href="custom-registry.html" class="md-nav__link">
         
   
   
@@ -4390,7 +4491,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../install-community.html" class="md-nav__link">
+      <a href="install-community.html" class="md-nav__link">
         
   
   
@@ -4418,7 +4519,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../custom-extensions.html" class="md-nav__link">
+      <a href="custom-extensions.html" class="md-nav__link">
         
   
   
@@ -4446,7 +4547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cluster-wide.html" class="md-nav__link">
+      <a href="cluster-wide.html" class="md-nav__link">
         
   
   
@@ -4474,7 +4575,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../tablespaces.html" class="md-nav__link">
+      <a href="tablespaces.html" class="md-nav__link">
         
   
   
@@ -4502,7 +4603,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../monitor-kubernetes.html" class="md-nav__link">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
         
   
   
@@ -4530,7 +4631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../postgis.html" class="md-nav__link">
+      <a href="postgis.html" class="md-nav__link">
         
   
   
@@ -4558,7 +4659,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../dns-suffix.html" class="md-nav__link">
+      <a href="dns-suffix.html" class="md-nav__link">
         
   
   
@@ -4586,7 +4687,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../delete.html" class="md-nav__link">
+      <a href="delete.html" class="md-nav__link">
         
   
   
@@ -4614,7 +4715,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../image-query.html" class="md-nav__link">
+      <a href="image-query.html" class="md-nav__link">
         
   
   
@@ -4696,7 +4797,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../troubleshoot-operator.html" class="md-nav__link">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
         
   
   
@@ -4724,7 +4825,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
@@ -4752,7 +4853,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-storage.html" class="md-nav__link">
+      <a href="debug-storage.html" class="md-nav__link">
         
   
   
@@ -4780,7 +4881,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-shell.html" class="md-nav__link">
+      <a href="debug-shell.html" class="md-nav__link">
         
   
   
@@ -4808,7 +4909,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../debug-logs.html" class="md-nav__link">
+      <a href="debug-logs.html" class="md-nav__link">
         
   
   
@@ -4836,7 +4937,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../manage-manually.html" class="md-nav__link">
+      <a href="manage-manually.html" class="md-nav__link">
         
   
   
@@ -4864,7 +4965,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../reinit.html" class="md-nav__link">
+      <a href="reinit.html" class="md-nav__link">
         
   
   
@@ -4946,7 +5047,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../operator.html" class="md-nav__link">
+      <a href="operator.html" class="md-nav__link">
         
   
   
@@ -4974,7 +5075,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../backup-resource-options.html" class="md-nav__link">
+      <a href="backup-resource-options.html" class="md-nav__link">
         
   
   
@@ -5002,7 +5103,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../restore-options.html" class="md-nav__link">
+      <a href="restore-options.html" class="md-nav__link">
         
   
   
@@ -5030,7 +5131,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../cr-statuses.html" class="md-nav__link">
+      <a href="cr-statuses.html" class="md-nav__link">
         
   
   
@@ -5058,7 +5159,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../secret-options.html" class="md-nav__link">
+      <a href="secret-options.html" class="md-nav__link">
         
   
   
@@ -5086,7 +5187,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../upgrade-options.html" class="md-nav__link">
+      <a href="upgrade-options.html" class="md-nav__link">
         
   
   
@@ -5114,7 +5215,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../immutable-options.html" class="md-nav__link">
+      <a href="immutable-options.html" class="md-nav__link">
         
   
   
@@ -5142,7 +5243,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../images.html" class="md-nav__link">
+      <a href="images.html" class="md-nav__link">
         
   
   
@@ -5170,7 +5271,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../versions.html" class="md-nav__link">
+      <a href="versions.html" class="md-nav__link">
         
   
   
@@ -5198,7 +5299,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../about-docs.html" class="md-nav__link">
+      <a href="about-docs.html" class="md-nav__link">
         
   
   
@@ -5273,7 +5374,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../copyright.html" class="md-nav__link">
+      <a href="copyright.html" class="md-nav__link">
         
   
   
@@ -5301,7 +5402,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../trademark-policy.html" class="md-nav__link">
+      <a href="trademark-policy.html" class="md-nav__link">
         
   
   
@@ -5329,7 +5430,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../legal-notice.html" class="md-nav__link">
+      <a href="legal-notice.html" class="md-nav__link">
         
   
   
@@ -5369,20 +5470,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" >
         
           
           <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
@@ -5403,7 +5502,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_12">
             <span class="md-nav__icon md-icon"></span>
             
@@ -5421,7 +5520,7 @@
   
   
     <li class="md-nav__item">
-      <a href="index.html" class="md-nav__link">
+      <a href="ReleaseNotes/index.html" class="md-nav__link">
         
   
   
@@ -5449,7 +5548,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN3.0.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.0.0.html" class="md-nav__link">
         
   
   
@@ -5477,7 +5576,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.9.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.html" class="md-nav__link">
         
   
   
@@ -5505,7 +5604,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.2.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.html" class="md-nav__link">
         
   
   
@@ -5533,7 +5632,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.1.html" class="md-nav__link">
         
   
   
@@ -5561,7 +5660,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.html" class="md-nav__link">
         
   
   
@@ -5589,7 +5688,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.html" class="md-nav__link">
         
   
   
@@ -5617,7 +5716,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.html" class="md-nav__link">
         
   
   
@@ -5645,7 +5744,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.html" class="md-nav__link">
         
   
   
@@ -5673,7 +5772,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.html" class="md-nav__link">
         
   
   
@@ -5698,37 +5797,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Percona Operator for PostgreSQL 2.4.1 (2024-08-06)
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.html" class="md-nav__link">
         
   
   
@@ -5744,48 +5816,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Bugs Fixed
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Supported platforms
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5798,7 +5828,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.html" class="md-nav__link">
         
   
   
@@ -5826,7 +5856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.html" class="md-nav__link">
         
   
   
@@ -5854,7 +5884,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.html" class="md-nav__link">
         
   
   
@@ -5882,7 +5912,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.html" class="md-nav__link">
         
   
   
@@ -5910,7 +5940,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.html" class="md-nav__link">
         
   
   
@@ -5938,7 +5968,7 @@
   
   
     <li class="md-nav__item">
-      <a href="Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
+      <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.html" class="md-nav__link">
         
   
   
@@ -6234,7 +6264,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/log-rotation.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6293,24 +6323,52 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#bugs-fixed" class="md-nav__link">
+  <a href="#configure-log-rotation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Bugs Fixed
+        Configure log rotation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Configure log rotation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#override-the-default-logrotate-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Override the default logrotate configuration
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#supported-platforms" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#extend-the-default-configuration-via-configmap" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Supported platforms
+        Extend the default configuration via ConfigMap
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#set-a-custom-schedule" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set a custom schedule
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6340,49 +6398,150 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/log-rotation.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="percona-operator-for-postgresql-241">Percona Operator for PostgreSQL 2.4.1<a class="headerlink" href="#percona-operator-for-postgresql-241" title="Permanent link">&para;</a></h1>
+<h1 id="log-rotation">Log rotation<a class="headerlink" href="#log-rotation" title="Permanent link">&para;</a></h1>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
+</div>
+<p><code>logrotate</code> controls the growth of log files on PostgreSQL instance Pods. Without rotation, PostgreSQL and <code>pgBackRest</code> logs can grow until they consume the Persistent Volume and affect database stability. <code>logrotate</code> keeps retention and disk usage predictable.</p>
+<p>In Percona Operator for PostgreSQL, <code>logrotate</code> runs in a dedicated <code>logrotate</code> sidecar container on every instance Pod when <a href="persistent-logging.html">persistent logging</a> is enabled. It reads the log files at the specified path and rotates them according to the set of rules.</p>
+<p>By default, <code>logrotate</code> rotates logs as follows:</p>
 <ul>
 <li>
-<p><strong>Date</strong></p>
-<p>August 6, 2024</p>
+<p><strong>PostgreSQL server <code>*.log</code> and <code>*.csv</code> log files</strong> under <code>/pgdata/pgNN/log/</code>:</p>
+<ul>
+<li>Rotates log files when they reach 100 megabytes in size (<code>size 100M</code>). This acts as a safety measure to prevent the logs from using too much disk space. The rotation by size does not replace or interfere with PostgreSQL&rsquo;s built-in log rotation, which is based on the age or time of the log files using the <code>logging_collector</code> setting. This ensures both rotation methods work together without causing conflicts.</li>
+<li>Keeps up to 7 rotated files</li>
+<li>Uses <code>copytruncate</code>, which means <code>logrotate</code> copies the log file contents to a rotated file and empties the original file in place. This allows processes like PostgreSQL and pgBackRest to keep writing to the same log file without needing to close and reopen it, ensuring uninterrupted logging during rotation.</li>
+</ul>
 </li>
 <li>
-<p><strong>Installation</strong></p>
-<p><a href="../System-Requirements.html#installation-guidelines">Installing Percona Operator for PostgreSQL</a> </p>
+<p><strong>pgBackRest client logs on instance Pods</strong> under <code>/pgdata/pgbackrest/log/*.log</code>:</p>
+<ul>
+<li>Rotates daily, or earlier when a file reaches 100 megabytes in size (<code>maxsize 100M</code>)</li>
+<li>Keeps up to 7 rotated files</li>
+<li>Uses <code>copytruncate</code></li>
+<li>Skips missing or empty log files and leaves rotated logs uncompressed</li>
+<li>Runs on schedule. By default, this is once per day at midnight.</li>
+</ul>
 </li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">&para;</a></h2>
+<h2 id="configure-log-rotation">Configure log rotation<a class="headerlink" href="#configure-log-rotation" title="Permanent link">&para;</a></h2>
+<p>You can customize log rotation if you need different retention, size limits, or want to rotate additional files. Configure it in these ways:</p>
 <ul>
-<li><a href="https://jira.percona.com/browse/K8SPG-616">K8SPG-616</a>: Fix a bug where it was not possible to create a new cluster after deleting the previous one with the <code>kubectl delete pg</code> command</li>
+<li>Override the default logrotate configuration via the Custom Resource</li>
+<li>Add additional configuration via a ConfigMap</li>
+<li>Set a custom log rotation schedule</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">&para;</a></h2>
-<p>The Operator was developed and tested with PostgreSQL versions 12.19, 13.15, 14.12, 15.7, and 16.3. Other options may also work but have not been tested. The Operator 2.4.1 provides connection pooling based on pgBouncer 1.22.1 and high-availability implementation based on Patroni 3.3.0.</p>
-<p>The following platforms were tested and are officially supported by the Operator
-2.4.1:</p>
-<ul>
-<li><a href="https://cloud.google.com/kubernetes-engine">Google Kubernetes Engine (GKE) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.27 - 1.29</li>
-<li><a href="https://aws.amazon.com">Amazon Elastic Container Service for Kubernetes (EKS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.27 - 1.30</li>
-<li><a href="https://www.redhat.com/en/technologies/cloud-computing/openshift">OpenShift <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 4.12.59 - 4.15.18</li>
-<li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> 1.33.1</li>
-</ul>
-<p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
+<p>When you change logrotate configuration, the Operator updates the configuration hash and makes a rolling restart of the instance Pods.</p>
+<h3 id="override-the-default-logrotate-configuration">Override the default logrotate configuration<a class="headerlink" href="#override-the-default-logrotate-configuration" title="Permanent link">&para;</a></h3>
+<p>Use the <code>spec.logcollector.logRotate.configuration</code> section in the Custom Resource to completely override the default <code>logrotate</code> settings for the Operator-managed <code>postgres.conf</code> snippet.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>You must provide the full <code>logrotate</code> configuration because the Operator replaces the default configuration with the one you provide. Refer to the <a href="https://github.com/percona/percona-postgresql-operator/blob/main/build/postgres-operator/logcollector/logrotate/logrotate.conf">default configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to see the built-in rules and use it as a guide for your custom settings.</p>
+</div>
+<p>Here&rsquo;s an example configuration that rotates PostgreSQL logs hourly and keeps three copies:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/fluentbit:{{ logcollector }}</span>
+<span class="w">    </span><span class="nt">logRotate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">"0</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*"</span>
+<span class="w">      </span><span class="nt">configuration</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">/pgdata/pg*/log/*.log</span>
+<span class="w">        </span><span class="no">/pgdata/pg*/log/*.csv {</span>
+<span class="w">          </span><span class="no">hourly</span>
+<span class="w">          </span><span class="no">rotate 3</span>
+<span class="w">          </span><span class="no">missingok</span>
+<span class="w">          </span><span class="no">notifempty</span>
+<span class="w">          </span><span class="no">copytruncate</span>
+<span class="w">          </span><span class="no">sharedscripts</span>
+<span class="w">        </span><span class="no">}</span>
+</code></pre></div>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<h3 id="extend-the-default-configuration-via-configmap">Extend the default configuration via ConfigMap<a class="headerlink" href="#extend-the-default-configuration-via-configmap" title="Permanent link">&para;</a></h3>
+<p>You can pass additional logrotate rules via a ConfigMap. Use <code>spec.logcollector.logRotate.extraConfig.name</code> to load additional <code>.conf</code> files from that ConfigMap. The file name must end with <code>.conf</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>The <code>postgres.conf</code> key name is reserved for the Operator-managed main configuration. Do not use it in your custom ConfigMap.</p>
+</div>
+<p>For example, you want to record that a log rotation ran. To do that, add a postrotate script to your logrotate configuration. After logrotate finishes rotating the matched files, it appends a timestamped line to a file on the data volume</p>
+<ol>
+<li>
+<p>Create a ConfigMap. For example, <code>custom-logrotate.yaml</code>:</p>
+<div class="highlight"><span class="filename">custom-logrotate.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ConfigMap</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-logrotate-extra</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;namespace&gt;</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extra.conf</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">/pgdata/pg18/log/*.log {</span>
+<span class="w">        </span><span class="no">daily</span>
+<span class="w">        </span><span class="no">rotate 7</span>
+<span class="w">        </span><span class="no">missingok</span>
+<span class="w">        </span><span class="no">notifempty</span>
+<span class="w">        </span><span class="no">copytruncate</span>
+<span class="w">        </span><span class="no">sharedscripts</span>
+<span class="w">        </span><span class="no">postrotate</span>
+<span class="w">            </span><span class="no">echo "$(date -u +%FT%TZ) rotated on $POD_NAME" &gt;&gt; /pgdata/logrotate-postrotate.log</span>
+<span class="w">        </span><span class="no">endscript</span>
+<span class="w">    </span><span class="no">}      </span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the ConfigMap:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>custom-logrotate.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Reference it in the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/fluentbit:{{ logcollector }}</span>
+<span class="w">    </span><span class="nt">logRotate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">extraConfig</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-logrotate-config</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<h3 id="set-a-custom-schedule">Set a custom schedule<a class="headerlink" href="#set-a-custom-schedule" title="Permanent link">&para;</a></h3>
+<p>Use <code>spec.logcollector.logRotate.schedule</code> to set the rotation schedule as a <a href="https://en.wikipedia.org/wiki/Cron">cron <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> expression. The default is once per day at midnight (<code>0 0 * * *</code>).</p>
+<p>This example runs log rotation every 6 hours:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/fluentbit:{{ logcollector }}</span>
+<span class="w">    </span><span class="nt">logRotate</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">schedule</span><span class="p">:</span><span class="w"> </span><span class="s">"0</span><span class="nv"> </span><span class="s">*/6</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*</span><span class="nv"> </span><span class="s">*"</span>
+</code></pre></div>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 6, 2024 16:05:23 UTC">August 6, 2024</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 6, 2024 16:05:23 UTC">August 6, 2024</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
       
     
   </small>
@@ -6441,21 +6600,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
-        <script src="../js/print-site.js"></script>
+        <script src="js/print-site.js"></script>
       
-        <script src="../js/promptremover.js"></script>
+        <script src="js/promptremover.js"></script>
       
-        <script src="../js/consent.js"></script>
+        <script src="js/consent.js"></script>
       
-        <script src="../js/rating.js"></script>
+        <script src="js/rating.js"></script>
       
-        <script src="../js/kapa.js"></script>
+        <script src="js/kapa.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>
