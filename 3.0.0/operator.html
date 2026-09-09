@@ -7232,6 +7232,50 @@ deploy/cr.yaml  file.">
 </li>
         
           <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationseffect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationskey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationsoperator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.operator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationsvalue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#backupspgbackrestmetadatalabels" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -12709,6 +12753,50 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationseffect" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.effect
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationskey" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationsoperator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.operator
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#backupsvolumesnapshotsjobstolerationsvalue" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        backups.volumeSnapshots.jobs.tolerations.value
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#backupspgbackrestmetadatalabels" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -17718,6 +17806,70 @@ Percona Distribution for PostgreSQL backups.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="backupsvolumesnapshotsjobstolerationseffect"><code>backups.volumeSnapshots.jobs.tolerations.effect</code><a class="headerlink" href="#backupsvolumesnapshotsjobstolerationseffect" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts">Kubernetes Pod tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> effect for the Job that prepares volumes before restoring from a <a href="backups-pvc-snapshots.html">PVC snapshot</a>. See <a href="constraints.html#tolerations">Tolerations</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>NoSchedule</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="backupsvolumesnapshotsjobstolerationskey"><code>backups.volumeSnapshots.jobs.tolerations.key</code><a class="headerlink" href="#backupsvolumesnapshotsjobstolerationskey" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts">Kubernetes Pod tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> key for the PVC snapshot restore preparation job.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>role</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="backupsvolumesnapshotsjobstolerationsoperator"><code>backups.volumeSnapshots.jobs.tolerations.operator</code><a class="headerlink" href="#backupsvolumesnapshotsjobstolerationsoperator" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts">Kubernetes Pod tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> operator for the snapshot restore prepare Job.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>Equal</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="backupsvolumesnapshotsjobstolerationsvalue"><code>backups.volumeSnapshots.jobs.tolerations.value</code><a class="headerlink" href="#backupsvolumesnapshotsjobstolerationsvalue" title="Permanent link">&para;</a></h3>
+<p>The <a href="https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/#concepts">Kubernetes Pod tolerations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> value for the snapshot restore prepare Job.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>connection-poolers</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="backupspgbackrestmetadatalabels"><code>backups.pgbackrest.metadata.labels</code><a class="headerlink" href="#backupspgbackrestmetadatalabels" title="Permanent link">&para;</a></h3>
 <p>Set <a href="https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/">labels <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for pgBackRest Pods.</p>
 <table>
@@ -20819,7 +20971,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:44:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:45:01 UTC">September 9, 2026</span>
       
         <br>
         Created:
