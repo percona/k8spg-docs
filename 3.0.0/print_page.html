@@ -3787,6 +3787,53 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
@@ -3804,6 +3851,70 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitor Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="postgres-exporter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose Prometheus metrics using postgres_exporter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -4685,34 +4796,6 @@
     
   
     Use PostgreSQL tablespaces with Percona Operator for PostgreSQL
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="monitor-kubernetes.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Monitor Kubernetes
   
 
     
@@ -7670,6 +7753,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#section-7-11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitoring
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Monitoring">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
   <a href="#monitoring" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7677,6 +7772,33 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       
     </span>
   </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#monitor-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Monitor Kubernetes
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgres-exporter" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Expose Prometheus metrics using postgres_exporter
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -8001,17 +8123,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Use PostgreSQL tablespaces with Percona Operator for PostgreSQL
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#monitor-kubernetes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Monitor Kubernetes
       
     </span>
   </a>
@@ -9811,7 +9922,7 @@ backup1                      cluster1   repo2   s3://pg-operator-testing   Succe
 <h2 id="backup-tutorial-next-steps">Next steps<a class="headerlink" href="#backup-tutorial-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#monitoring"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 16V4H3v12zm0-14a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2h-7v2h2v2H8v-2h2v-2H3a2 2 0 0 1-2-2V4c0-1.11.89-2 2-2zM5 6h9v5H5zm10 0h4v2h-4zm4 3v5h-4V9zM5 12h4v2H5zm5 0h4v2h-4z"/></svg></span> Monitor the database <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p></section><section class="print-page" id="monitoring-tutorial" heading-number="4.7"><h1 id="monitoring-tutorial-5-monitor-the-database">5 Monitor the database<a class="headerlink" href="#monitoring-tutorial-5-monitor-the-database" title="Permanent link">&para;</a></h1>
 <p>Finally, when we are <a href="#backup-tutorial">done with backup</a>, it&rsquo;s time for one more step.
-In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with <a href="https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
+In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with <a href="https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <p>PMM is a client/server application. It includes the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and the number of <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client">PMM Clients <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> running on each node with the
 database you wish to monitor.</p>
 <p>A PMM Client collects needed metrics and sends gathered data
@@ -19344,8 +19455,12 @@ pgbouncer is paused
 <li>The Operator manages the <code>_crunchypgbounceradmin</code> user and stores its password in the pgBouncer Secret under <code>pgbouncer-admin-password</code>. Do not reuse or override this reserved user. See <a href="#users-system-users-for-pgbouncer">Users</a>.</li>
 <li>Do not leave pgBouncer paused longer than your applications can tolerate.</li>
 <li>If pgBouncer Pods are not ready, the Operator cannot complete pause or resume. Check Pod status before you start.</li>
-</ul></section><section class="print-page" id="monitoring" heading-number="7.11"><h1 id="monitoring-monitor-with-percona-monitoring-and-management-pmm">Monitor with Percona Monitoring and Management (PMM)<a class="headerlink" href="#monitoring-monitor-with-percona-monitoring-and-management-pmm" title="Permanent link">&para;</a></h1>
-<p>In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with <a href="https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
+</ul></section>
+                    <section class='print-page md-section' id='section-7-11' heading-number='7.11'>
+                        <h1>Monitoring<a class='headerlink' href='#section-7-11' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="monitoring" heading-number="7.11.1"><h1 id="monitoring-monitor-with-percona-monitoring-and-management-pmm">Monitor with Percona Monitoring and Management (PMM)<a class="headerlink" href="#monitoring-monitor-with-percona-monitoring-and-management-pmm" title="Permanent link">&para;</a></h1>
+<p>In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with <a href="https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
 <p>PMM is a client/server application. It includes the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and the number of <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client">PMM Clients <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> running on each node with the
 database you wish to monitor.</p>
 <p>A PMM Client collects needed metrics and sends gathered data
@@ -19459,7 +19574,480 @@ kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;pod_name&gt;<span
 <li>
 <p>Click <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.56 14.723a.5.5 0 0 0-.057-.12q-.21-.395-1.007-.231c-1.654.34-2.294.13-2.526-.02 1.342-2.048 2.445-4.522 3.041-6.83.272-1.05.798-3.523.122-4.73a1.6 1.6 0 0 0-.15-.236C21.693.91 19.8.025 17.51.001c-1.495-.016-2.77.346-3.116.479a10 10 0 0 0-.516-.082 8 8 0 0 0-1.312-.127c-1.182-.019-2.203.264-3.05.84C8.66.79 4.729-.534 2.296 1.19.935 2.153.309 3.873.43 6.304c.041.818.507 3.334 1.243 5.744q.69 2.26 1.433 3.582.83 1.493 1.714 1.79c.448.148 1.133.143 1.858-.729a56 56 0 0 1 1.945-2.206c.435.235.906.362 1.39.377v.004a11 11 0 0 0-.247.305c-.339.43-.41.52-1.5.745-.31.064-1.134.233-1.146.811a.6.6 0 0 0 .091.327c.227.423.922.61 1.015.633 1.335.333 2.505.092 3.372-.679-.017 2.231.077 4.418.345 5.088.221.553.762 1.904 2.47 1.904q.375.001.829-.094c1.782-.382 2.556-1.17 2.855-2.906.15-.87.402-2.875.539-4.101.017-.07.036-.12.057-.136 0 0 .07-.048.427.03l.044.007.254.022.015.001c.847.039 1.911-.142 2.531-.43.644-.3 1.806-1.033 1.595-1.67M2.37 11.876c-.744-2.435-1.178-4.885-1.212-5.571-.109-2.172.417-3.683 1.562-4.493 1.837-1.299 4.84-.54 6.108-.13l-.01.01C6.795 3.734 6.843 7.226 6.85 7.44c0 .082.006.199.016.36.034.586.1 1.68-.074 2.918-.16 1.15.194 2.276.973 3.089q.12.126.252.237c-.347.371-1.1 1.193-1.903 2.158-.568.682-.96.551-1.088.508-.392-.13-.813-.587-1.239-1.322-.48-.839-.963-2.032-1.415-3.512m6.007 5.088a1.6 1.6 0 0 1-.432-.178c.089-.039.237-.09.483-.14 1.284-.265 1.482-.451 1.915-1 .099-.127.211-.27.367-.443a.4.4 0 0 0 .074-.13c.17-.151.272-.11.436-.042.156.065.308.26.37.475.03.102.062.295-.045.445-.904 1.266-2.222 1.25-3.168 1.013m2.094-3.988-.052.14c-.133.357-.257.689-.334 1.004-.667-.002-1.317-.288-1.81-.803-.628-.655-.913-1.566-.783-2.5.183-1.308.116-2.447.08-3.059l-.013-.22c.296-.262 1.666-.996 2.643-.772.446.102.718.406.83.928.585 2.704.078 3.83-.33 4.736a9 9 0 0 0-.23.546m7.364 4.572q-.024.266-.062.596l-.146.438a.4.4 0 0 0-.018.108c-.006.475-.054.649-.115.87-.064.229-.135.488-.18 1.057-.11 1.414-.878 2.227-2.417 2.556-1.515.325-1.784-.496-2.02-1.221a7 7 0 0 0-.078-.227c-.215-.586-.19-1.412-.157-2.555.016-.561-.025-1.901-.33-2.646q.006-.44.019-.892a.4.4 0 0 0-.016-.113 2 2 0 0 0-.044-.208c-.122-.428-.42-.786-.78-.935-.142-.059-.403-.167-.717-.087.067-.276.183-.587.309-.925l.053-.142c.06-.16.134-.325.213-.5.426-.948 1.01-2.246.376-5.178-.237-1.098-1.03-1.634-2.232-1.51-.72.075-1.38.366-1.709.532a6 6 0 0 0-.196.104c.092-1.106.439-3.174 1.736-4.482a4 4 0 0 1 .303-.276.35.35 0 0 0 .145-.064c.752-.57 1.695-.85 2.802-.833q.616.01 1.174.081c1.94.355 3.244 1.447 4.036 2.383.814.962 1.255 1.931 1.431 2.454-1.323-.134-2.223.127-2.68.78-.992 1.418.544 4.172 1.282 5.496.135.242.252.452.289.54.24.583.551.972.778 1.256.07.087.138.171.189.245-.4.116-1.12.383-1.055 1.717-.013.156-.043.447-.084.815-.046.208-.07.46-.1.766m.89-1.621c-.04-.832.27-.919.597-1.01l.135-.041a1 1 0 0 0 .134.103c.57.376 1.583.421 3.007.134-.202.177-.519.4-.953.601-.41.19-1.096.333-1.747.364-.72.034-1.086-.08-1.173-.151m.57-9.271c-.006.35-.054.669-.105 1.001-.055.358-.112.728-.127 1.177-.014.436.04.89.093 1.33.107.887.216 1.8-.207 2.701a4 4 0 0 1-.188-.385 8 8 0 0 0-.325-.617c-.616-1.104-2.057-3.69-1.32-4.744.38-.543 1.342-.566 2.179-.463m.228 7.013-.085-.107-.035-.044c.726-1.2.584-2.387.457-3.439-.052-.432-.1-.84-.088-1.222.013-.407.066-.755.118-1.092.064-.415.13-.844.111-1.35a.6.6 0 0 0 .012-.19c-.046-.486-.6-1.938-1.73-3.253a7.8 7.8 0 0 0-2.688-2.04A9.3 9.3 0 0 1 17.62.746c2.052.046 3.675.814 4.824 2.283a1 1 0 0 1 .067.1c.723 1.356-.276 6.275-2.987 10.54m-8.816-6.116c-.025.18-.31.423-.621.423a1 1 0 0 1-.081-.006.8.8 0 0 1-.506-.315c-.046-.06-.12-.178-.106-.285a.22.22 0 0 1 .093-.149c.118-.089.352-.122.61-.086.316.044.642.193.61.418m7.93-.411c.011.08-.049.2-.153.31a.72.72 0 0 1-.408.223 1 1 0 0 1-.075.005c-.293 0-.541-.234-.56-.371-.024-.177.264-.31.56-.352.298-.042.612.009.636.185"/></svg></span> <strong>PostgreSQL</strong>  →  <strong>Other dashboards</strong> to see the list of available dashboards that allow you to drill down to the metrics you are interested in. </p>
 </li>
-</ol></section>
+</ol></section><section class="print-page" id="monitor-kubernetes" heading-number="7.11.2"><h1 id="monitor-kubernetes-monitor-kubernetes">Monitor Kubernetes<a class="headerlink" href="#monitor-kubernetes-monitor-kubernetes" title="Permanent link">&para;</a></h1>
+<p>Monitoring the state of the database is crucial to timely identify and react to performance issues. <a href="#monitoring">Percona Monitoring and Management (PMM) solution enables you to do just that</a>.</p>
+<p>However, the database state also depends on the state of the Kubernetes cluster itself. Hence it&rsquo;s important to have metrics that can depict the state of the Kubernetes cluster.</p>
+<p>This document describes how to set up monitoring of the Kubernetes cluster health. This setup has been tested with the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> as the centralized data storage and the Victoria Metrics Kubernetes monitoring stack as the metrics collector. These steps may also apply if you use another Prometheus-compatible storage.</p>
+<p>The steps in this tutorial are for PMM 3.</p>
+<h2 id="monitor-kubernetes-pre-requisites">Pre-requisites<a class="headerlink" href="#monitor-kubernetes-pre-requisites" title="Permanent link">&para;</a></h2>
+<p>To set up monitoring of Kubernetes, you need the following:</p>
+<ol>
+<li>
+<p>PMM Server up and running. You can run PMM Server as a Docker image, a virtual appliance, or on an AWS instance. Please refer to the <a href="https://docs.percona.com/percona-monitoring-and-management/3/install-pmm/install-pmm-server/index.html">official PMM documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the installation instructions.</p>
+</li>
+<li>
+<p><a href="https://docs.helm.sh/using_helm/#installing-helm">Helm v3 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+</li>
+<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
+<li>PMM 3 Service account token.</li>
+</ol>
+<h2 id="monitor-kubernetes-configure-authentication">Configure authentication<a class="headerlink" href="#monitor-kubernetes-configure-authentication" title="Permanent link">&para;</a></h2>
+<p>PMM3 uses Grafana service accounts to control access to PMM server components and resources. To authenticate in PMM server, you need a service account token. <a href="https://docs.percona.com/percona-monitoring-and-management/3/api/authentication.html?h=authe#generate-a-service-account-and-token">Generate a service account and token <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Specify the Admin role for the service account.</p>
+<p>The token must have the format <code>glsa_*************************_9e35351b</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>When you create a service account token, you can select its lifetime: it can be either a permanent token that never expires or the one with the expiration date. PMM server cannot rotate service account tokens after they expire. So you must take care of reconfiguring PMM Client in this case.</p>
+</div>
+<h2 id="monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack">Install the Victoria Metrics Kubernetes monitoring stack<a class="headerlink" href="#monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack" title="Permanent link">&para;</a></h2>
+<details class="admonition">
+<summary>Install on Openshift</summary>
+<p>When installing the chart on OpenShift, some components might require additional Security Context Constraints (SCCs), depending on the permissions they need at runtime.</p>
+<p>The <code>prometheus-node-exporter</code> component runs as a DaemonSet and requires access to host-level resources such as <code>/proc</code>, <code>/sys</code>, and other node-level paths. Because these are exposed through <code>hostPath</code> mounts, the service account used by <code>prometheus-node-exporter</code> must be granted an SCC that allows host access, such as <code>hostaccess</code>, <code>hostmount-anyuid</code>, or a custom SCC with equivalent permissions.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>policy<span class="w"> </span>add-scc-to-user<span class="w"> </span>node-exporter<span class="w"> </span><span class="se">\</span>
+-z<span class="w"> </span>prometheus-node-exporter<span class="w"> </span><span class="se">\</span>
+-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>Similarly, for <code>kube-state-metrics</code>, if the <code>restricted</code> SCC is enforced, avoid setting fixed user, group, or filesystem group IDs. Allow OpenShift to assign these values from the namespace UID/GID range by either adding the service account to the required SCC or by adding the following entries to the values YAML file:</p>
+<p>```yaml
+kube-state-metrics:
+  securityContext:
+    runAsUser: null
+    runAsGroup: null
+    fsGroup: null</p>
+<p>Next, follow the steps to install Victoria Metrics Kubernetes Monitoring stack.</p>
+</details>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="monitor-kubernetes-__tabbed_1_1" name="monitor-kubernetes-__tabbed_1" type="radio" /><input id="monitor-kubernetes-__tabbed_1_2" name="monitor-kubernetes-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> Quick install</label><label for="monitor-kubernetes-__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256.5 8a120 120 0 1 1 0 240 120 120 0 1 1 0-240m-29.8 296h60.9c-12.9 26.8-7.8 58.2 11.5 79.5-20.2 22.3-24.8 55.8-9.4 83.4l22.5 40.4c.9 1.6 1.9 3.2 2.9 4.7h-237c-16.4 0-29.7-13.3-29.7-29.7 0-98.5 79.8-178.3 178.3-178.3m205.9-56.4c0-13.3 10.7-24 24-24h48c13.3 0 24 10.7 24 24v6.1c0 18.9 24.1 32.8 40.5 23.4l5-2.9c11.6-6.7 26.5-2.6 33 9.1l22.4 40.2c6.2 11.2 2.6 25.2-8.2 32l-4.7 2.9c-16.2 10.1-16.2 39.9 0 50.1l4.6 2.9c10.8 6.8 14.5 20.8 8.3 32L607 483.8c-6.5 11.7-21.4 15.9-33 9.1l-4.9-2.9c-16.4-9.5-40.5 4.5-40.5 23.4v6.1c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24v-5.9c0-19-24.2-33-40.7-23.5l-4.8 2.8c-11.6 6.7-26.4 2.6-33-9.1l-22.6-40.4c-6.2-11.2-2.6-25.3 8.3-32.1l4.4-2.7c16.3-10.1 16.3-40.1 0-50.2l-4.5-2.8c-10.9-6.8-14.5-20.9-8.3-32.1l22.5-40.3c6.5-11.7 21.4-15.8 32.9-9.1l4.8 2.8c16.5 9.5 40.7-4.5 40.7-23.5v-5.9zm99.9 136.2a52 52 0 1 0-104 0 52 52 0 1 0 104 0"/></svg></span> Install manually</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<ol>
+<li>
+<p>To install the Victoria Metrics Kubernetes monitoring stack with the default parameters, use the quick install command. Replace the following placeholders with your values:</p>
+<ul>
+<li><code>PMM-SERVER-TOKEN</code> - The <a href="#monitor-kubernetes-configure-authentication">PMM Server service account token</a></li>
+<li><code>PMM-SERVER-URL</code> - The URL to access the PMM Server </li>
+<li>
+<p><code>UNIQUE-K8s-CLUSTER-IDENTIFIER</code> - Identifier for the Kubernetes cluster. It can be the name you defined during the cluster creation.</p>
+<p>You should use a unique identifier for each Kubernetes cluster. The use of the same identifier for more than one Kubernetes cluster will result in conflicts during the metrics collection.</p>
+</li>
+<li>
+<p><code>NAMESPACE</code> - The namespace where the Victoria metrics Kubernetes stack will be installed. If you haven&rsquo;t created the namespace before, it will be created during the command execution.</p>
+</li>
+</ul>
+<p>We recommend to use a separate namespace like <code>monitoring-system</code>.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsL<span class="w">  </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/quick-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>--<span class="w"> </span>--api-key<span class="w"> </span>&lt;PMM-SERVER-TOKEN&gt;<span class="w"> </span>--pmm-server-url<span class="w"> </span>&lt;PMM-SERVER-URL&gt;<span class="w"> </span>--k8s-cluster-id<span class="w"> </span>&lt;UNIQUE-K8s-CLUSTER-IDENTIFIER&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, add the <code>--node-exporter-enabled</code> flag as follows:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsL<span class="w">  </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/quick-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>--<span class="w"> </span>--api-key<span class="w"> </span>&lt;PMM-SERVER-TOKEN&gt;<span class="w"> </span>--pmm-server-url<span class="w"> </span>&lt;PMM-SERVER-URL&gt;<span class="w"> </span>--k8s-cluster-id<span class="w"> </span>&lt;UNIQUE-K8s-CLUSTER-IDENTIFIER&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>--node-exporter-enabled
+</code></pre></div>
+</div>
+</li>
+</ol>
+</div>
+<div class="tabbed-block">
+<p>You may need to customize the default parameters of the Victoria metrics Kubernetes stack.</p>
+<ul>
+<li>Since we use the PMM Server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the <code>vmsingle.enabled</code> and <code>vmcluster.enabled</code> parameters set to <code>false</code> in this setup.</li>
+<li><a href="https://helm.sh/docs/topics/rbac/">Check all the role-based access control (RBAC) rules <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> of the <code>victoria-metrics-k8s-stack</code> chart and the dependencies chart, and modify them based on your requirements.</li>
+</ul>
+<h4 id="monitor-kubernetes-configure-authentication-in-pmm">Configure authentication in PMM<a class="headerlink" href="#monitor-kubernetes-configure-authentication-in-pmm" title="Permanent link">&para;</a></h4>
+<p>To access the PMM Server resources and perform actions on the server, configure authentication.</p>
+<ol>
+<li>
+<p>Encode the PMM Server service account token with base64.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="monitor-kubernetes-__tabbed_2_1" name="monitor-kubernetes-__tabbed_2" type="radio" /><input id="monitor-kubernetes-__tabbed_2_2" name="monitor-kubernetes-__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0q-.232 0-.48.021c-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.4.4 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071s1.592-.536 2.257-1.306c.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.36.36 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139m.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105l-.004-.021-.004-.024a1.8 1.8 0 0 1-.15.706.95.95 0 0 1-.213.335 1 1 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.3 1.3 0 0 0-.22-.066c.05-.06.146-.133.183-.198q.08-.193.088-.402v-.02a1.2 1.2 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 0 0-.205.334 1.2 1.2 0 0 0-.09.4v.019q.002.134.02.267c-.193-.067-.438-.135-.607-.202a2 2 0 0 1-.018-.2v-.02a1.8 1.8 0 0 1 .15-.768 1.08 1.08 0 0 1 .43-.533 1 1 0 0 1 .594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2q.018-.136.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.6.6 0 0 0-.166-.267.25.25 0 0 0-.183-.064h-.021c-.071.006-.13.04-.186.132a.55.55 0 0 0-.12.27 1 1 0 0 0-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268q.014.014.034.024c-.07.057-.117.07-.176.136a.3.3 0 0 1-.131.068 2.6 2.6 0 0 1-.275-.402 1.8 1.8 0 0 1-.155-.667 1.8 1.8 0 0 1 .08-.668 1.4 1.4 0 0 1 .283-.535c.128-.133.26-.2.418-.2m1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.57.57 0 0 1 .016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.1 1.1 0 0 1-.448-.067 4 4 0 0 1-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71q-.104-.403.193-.6c.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.7 2.7 0 0 0-.402-.533 1.5 1.5 0 0 0-.275-.333c.182 0 .338-.03.465-.067a.62.62 0 0 0 .314-.334c.108-.267 0-.697-.345-1.163s-.931-.995-1.788-1.521c-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.1 8.1 0 0 1 .647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335q.058.005.11.006c.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01q.08 0 .157.014c.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602q-.553-.1-.723-.4c-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336m7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8 8 0 0 1-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065m-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg></span> Linux</label><label for="monitor-kubernetes-__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span> macOS</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span>&lt;token&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--wrap<span class="o">=</span><span class="m">0</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span>&lt;token&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Create the Namespace where you want to set up monitoring. The following command creates the Namespace <code>monitoring-system</code>. You can specify a different name. In the latter steps, specify your namespace instead of the <code>&lt;namespace&gt;</code> placeholder.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>monitoring-system
+</code></pre></div>
+</li>
+<li>
+<p>Create the YAML file for the <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and specify the base64-encoded service account token value within. Let&rsquo;s name this file <code>pmm-api-vmoperator.yaml</code>.</p>
+<div class="highlight"><span class="filename">pmm-api-vmoperator.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">data</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">api_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base-64-encoded-pmm-server-token&gt;</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pmm-token-vmoperator</span>
+<span class="w">  </span><span class="c1">#namespace: default</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the Secrets object using the YAML file you created previously. Replace the <code>&lt;filename&gt;</code> placeholder with your value.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>pmm-api-vmoperator.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Check that the secret is created. The following command checks the secret for the resource named <code>pmm-token-vmoperator</code> (as defined in the <code>metadata.name</code> option in the secrets file). If you defined another resource name, specify your value.</p>
+</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>pmm-token-vmoperator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<h4 id="monitor-kubernetes-create-a-configmap-to-mount-for-kube-state-metrics">Create a ConfigMap to mount for <code>kube-state-metrics</code><a class="headerlink" href="#monitor-kubernetes-create-a-configmap-to-mount-for-kube-state-metrics" title="Permanent link">&para;</a></h4>
+<p>The <a href="https://github.com/kubernetes/kube-state-metrics"><code>kube-state-metrics</code> (KSM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is a simple service that listens to the Kubernetes API server and generates metrics about the state of various objects - Pods, Deployments, Services and Custom Resources.</p>
+<p>To define what metrics the <code>kube-state-metrics</code> should capture, create the <a href="https://github.com/kubernetes/kube-state-metrics/blob/main/docs/customresourcestate-metrics.md#configuration">ConfigMap <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and mount it to a container.</p>
+<p>Use the <a href="https://github.com/Percona-Lab/k8s-monitoring/blob/refs/tags/v0.1.3/vm-operator-k8s-stack/ksm-configmap.yaml">example <code>configmap.yaml</code> configuration file <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to create the ConfigMap.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/ksm-configmap.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>As a result, you have the <code>customresource-config-ksm</code> ConfigMap created.</p>
+<h4 id="monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack_1">Install the Victoria Metrics Kubernetes monitoring stack<a class="headerlink" href="#monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack_1" title="Permanent link">&para;</a></h4>
+<ol>
+<li>
+<p>Add the dependency repositories of <a href="https://github.com/VictoriaMetrics/helm-charts/blob/master/charts/victoria-metrics-k8s-stack">victoria-metrics-k8s-stack <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> chart.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>grafana<span class="w"> </span>https://grafana.github.io/helm-charts
+helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>prometheus-community<span class="w"> </span>https://prometheus-community.github.io/helm-charts
+</code></pre></div>
+</li>
+<li>
+<p>Add the Victoria Metrics Kubernetes monitoring stack repository.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>vm<span class="w"> </span>https://victoriametrics.github.io/helm-charts/
+</code></pre></div>
+</li>
+<li>
+<p>Update the repositories.</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>update
+</code></pre></div>
+</li>
+<li>
+<p>Install the Victoria Metrics Kubernetes monitoring stack Helm chart. You need to specify the following configuration:</p>
+<ul>
+<li>the URL to access the PMM server in the <code>external.vm.write.url</code> option in the format <code>&lt;PMM-SERVER-URL&gt;/victoriametrics/api/v1/write</code>. The URL can contain either the IP address or the hostname of the PMM server.</li>
+<li>the unique name or an ID of the Kubernetes cluster in the <code>vmagent.spec.externalLabels.k8s_cluster_id</code> option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. </li>
+<li>the <code>&lt;namespace&gt;</code> placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap</li>
+</ul>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>vm-k8s<span class="w"> </span>vm/victoria-metrics-k8s-stack<span class="w"> </span><span class="se">\</span>
+-f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/values.yaml<span class="w"> </span><span class="se">\</span>
+--set<span class="w"> </span>external.vm.write.url<span class="o">=</span>&lt;PMM-SERVER-URL&gt;/victoriametrics/api/v1/write<span class="w"> </span><span class="se">\</span>
+--set<span class="w"> </span>vmagent.spec.externalLabels.k8s_cluster_id<span class="o">=</span>&lt;UNIQUE-CLUSTER-IDENTIFIER/NAME&gt;<span class="w"> </span><span class="se">\</span>
+-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>To illustrate, say your PMM Server URL is <code>https://pmm-example.com</code>, the cluster ID is <code>test-cluster</code> and the Namespace is <code>monitoring-system</code>. Then the command would look like this:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>vm-k8s<span class="w"> </span>vm/victoria-metrics-k8s-stack<span class="w"> </span><span class="se">\</span>
+-f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/values.yaml<span class="w"> </span><span class="se">\</span>
+--set<span class="w"> </span>external.vm.write.url<span class="o">=</span>https://pmm-example.com/victoriametrics/api/v1/write<span class="w"> </span><span class="se">\</span>
+--set<span class="w"> </span>vmagent.spec.externalLabels.k8s_cluster_id<span class="o">=</span>test-cluster<span class="w"> </span><span class="se">\</span>
+-n<span class="w"> </span>monitoring-system
+</code></pre></div>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<h2 id="monitor-kubernetes-validate-the-successful-installation">Validate the successful installation<a class="headerlink" href="#monitor-kubernetes-validate-the-successful-installation" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>vm-k8s-stack-kube-state-metrics-d9d85978d-9pzbs                   1/1     Running   0          28m
+vm-k8s-stack-victoria-metrics-operator-844d558455-gvg4n           1/1     Running   0          28m
+vmagent-vm-k8s-stack-victoria-metrics-k8s-stack-55fd8fc4fbcxwhx   2/2     Running   0          28m
+</code></pre></div>
+</details>
+<p>What Pods are running depends on the configuration chosen in values used while installing <code>victoria-metrics-k8s-stack</code> chart.</p>
+<h2 id="monitor-kubernetes-verify-metrics-capture">Verify metrics capture<a class="headerlink" href="#monitor-kubernetes-verify-metrics-capture" title="Permanent link">&para;</a></h2>
+<ol>
+<li>Connect to the PMM server.</li>
+<li>Click <strong>Explore</strong> and switch to the <strong>Code</strong> mode.</li>
+<li>
+<p>Check that the required metrics are captured, type the following in the Metrics browser dropdown:</p>
+<ul>
+<li><a href="https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md">cadvisor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</li>
+</ul>
+<p><img alt="image" src="assets/images/cadvisor.svg" /></p>
+<ul>
+<li>kubelet:</li>
+</ul>
+<p><img alt="image" src="assets/images/kubelet.svg" /></p>
+<ul>
+<li><a href="https://github.com/kubernetes/kube-state-metrics/tree/main/docs">kube-state-metrics <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> metrics that also include Custom resource metrics for the Operator and database deployed in your Kubernetes cluster:</li>
+</ul>
+<p><img alt="image" src="assets/images/pg_metric.svg" /></p>
+</li>
+</ol>
+<h2 id="monitor-kubernetes-uninstall-victoria-metrics-kubernetes-stack">Uninstall Victoria metrics Kubernetes stack<a class="headerlink" href="#monitor-kubernetes-uninstall-victoria-metrics-kubernetes-stack" title="Permanent link">&para;</a></h2>
+<p>To remove Victoria metrics Kubernetes stack used for Kubernetes cluster monitoring, use the cleanup script. By default, the script removes all the <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">Custom Resource Definitions(CRD) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and Secrets associated with the Victoria metrics Kubernetes stack. To keep the CRDs, run the script with the <code>--keep-crd</code> flag.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="monitor-kubernetes-__tabbed_3_1" name="monitor-kubernetes-__tabbed_3" type="radio" /><input id="monitor-kubernetes-__tabbed_3_2" name="monitor-kubernetes-__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.81 22H6c-1.11 0-2-.89-2-2V4a2 2 0 0 1 2-2h8l6 6v5.09c-.33-.05-.66-.09-1-.09s-.67.04-1 .09V9h-5V4H6v16h7.09c.12.72.37 1.39.72 2m8.73-.88L20.41 19l2.13-2.12-1.42-1.41L19 17.59l-2.12-2.12-1.41 1.41L17.59 19l-2.12 2.12 1.41 1.42L19 20.41l2.12 2.13z"/></svg></span> Remove CRDs</label><label for="monitor-kubernetes-__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm4 18H6V4h7v5h5z"/></svg></span> Keep CRDs</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Replace the <code>&lt;NAMESPACE&gt;</code> placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: </p>
+<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-fsL<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/cleanup.sh<span class="o">)</span><span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>Replace the <code>&lt;NAMESPACE&gt;</code> placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: </p>
+<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-fsL<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/cleanup.sh<span class="o">)</span><span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>--keep-crd<span class="w"> </span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>Check that the Victoria metrics Kubernetes stack is deleted:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>list<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>The output should provide the empty list.</p>
+<p>If you face any issues with the removal, uninstall the stack manually:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>uninstall<span class="w"> </span>vm-k8s-stack<span class="w"> </span>-n<span class="w"> </span>&lt;<span class="w"> </span>namespace&gt;<span class="w"> </span>
+</code></pre></div></section><section class="print-page" id="postgres-exporter" heading-number="7.11.3"><h1 id="postgres-exporter-expose-prometheus-metrics-using-postgres_exporter">Expose Prometheus metrics using postgres_exporter<a class="headerlink" href="#postgres-exporter-expose-prometheus-metrics-using-postgres_exporter" title="Permanent link">&para;</a></h1>
+<p>You can expose PostgreSQL metrics in Prometheus format by running
+<a href="https://github.com/prometheus-community/postgres_exporter">postgres_exporter <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+as a sidecar container in each PostgreSQL instance Pod. Prometheus or another
+Prometheus-compatible scraper then collects those metrics from the <code>/metrics</code> endpoint on port <code>9187</code>.</p>
+<p>This setup is an alternative to <a href="#monitoring">Percona Monitoring and Management (PMM)</a>.
+Use it when you already scrape targets with Prometheus and want PostgreSQL
+metrics in the same pipeline.</p>
+<p>The Operator does not deploy <code>postgres_exporter</code> for you. You add it as a
+<a href="#sidecar">custom sidecar</a>, then create a Service so Prometheus can discover
+the endpoints. You configure the scrape job in your Prometheus stack, not in the
+Operator Custom Resource.</p>
+<h2 id="postgres-exporter-how-the-setup-works">How the setup works<a class="headerlink" href="#postgres-exporter-how-the-setup-works" title="Permanent link">&para;</a></h2>
+<p>Each PostgreSQL instance Pod gets a <code>postgres_exporter</code> sidecar. Containers in a
+Pod share a network namespace, so the exporter connects to PostgreSQL on
+<code>localhost:5432</code> and serves the <code>/metrics</code> endpoint on port <code>9187</code>.</p>
+<p>Prometheus runs outside the Pod, so it cannot scrape <code>localhost:9187</code>. It
+reaches the exporter only through a Kubernetes Service.</p>
+<p>The Services that the Operator creates expose PostgreSQL on port <code>5432</code> only.
+They do not include sidecar ports. You create a headless Service on port <code>9187</code>
+so Prometheus can discover every instance Pod and scrape its exporter, instead
+of load-balancing to a single Pod.</p>
+<h2 id="postgres-exporter-prerequisites">Prerequisites<a class="headerlink" href="#postgres-exporter-prerequisites" title="Permanent link">&para;</a></h2>
+<p>Before you start, check that you have the following:</p>
+<ul>
+<li>A running Percona Distribution for PostgreSQL cluster. This document uses the
+  default cluster name <code>cluster1</code>.</li>
+<li>A Prometheus or Prometheus-compatible scraper. You configure scrape settings
+  there after the exporter is running.</li>
+</ul>
+<p>Clone the Operator repository if you do not have the manifests locally:</p>
+<div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>-b<span class="w"> </span>v3.0.0<span class="w"> </span>https://github.com/percona/percona-postgresql-operator
+<span class="nb">cd</span><span class="w"> </span>percona-postgresql-operator
+</code></pre></div>
+<p>Export the namespace where your PostgreSQL cluster is running as an environment variable. Replace <code>&lt;namespace&gt;</code> with your value:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+<p>This example setup uses <code>postgres_exporter</code> version 0.20.1. Replace it with your required version.</p>
+<h2 id="postgres-exporter-create-a-monitoring-user">Create a monitoring user<a class="headerlink" href="#postgres-exporter-create-a-monitoring-user" title="Permanent link">&para;</a></h2>
+<p>Create a dedicated PostgreSQL user for the exporter. Do not use the <code>postgres</code>
+superuser for this purpose.</p>
+<ol>
+<li>
+<p>Add the user to the <code>spec.users</code> subsection in the <code>deploy/cr.yaml</code>
+   configuration file. If you already have users in this list, keep those
+   entries and add <code>pgexporter</code> next to them:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgexporter</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+<p>The Operator creates the Secret <code>cluster1-pguser-pgexporter</code> with the <code>user</code>
+and <code>password</code> keys. For more information about custom users, see
+<a href="#users">Users</a>.</p>
+</li>
+</ol>
+<h2 id="postgres-exporter-grant-monitoring-privileges">Grant monitoring privileges<a class="headerlink" href="#postgres-exporter-grant-monitoring-privileges" title="Permanent link">&para;</a></h2>
+<p>The <code>users.options</code> field accepts only <code>ALTER ROLE</code> attributes, such as
+<code>SUPERUSER</code> or <code>CREATEDB</code>. It cannot grant the <code>pg_monitor</code> role. You must grant
+that privilege yourself.</p>
+<p>Connect to the primary instance as the <code>postgres</code> user and grant the privileges
+that <code>postgres_exporter</code> needs.</p>
+<ol>
+<li>
+<p>Find the primary Pod:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Grant <code>CONNECT</code> on the <code>postgres</code> database and the <code>pg_monitor</code> role:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">"GRANT CONNECT ON DATABASE postgres TO pgexporter;"</span>
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">"GRANT pg_monitor TO pgexporter;"</span>
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>For a new cluster, you can put these <code>GRANT</code> statements in
+<a href="#initsql">initialization SQL</a> instead of running them by hand.</p>
+</div>
+<h2 id="postgres-exporter-add-the-postgres_exporter-sidecar">Add the postgres_exporter sidecar<a class="headerlink" href="#postgres-exporter-add-the-postgres_exporter-sidecar" title="Permanent link">&para;</a></h2>
+<p>Add the exporter to the PostgreSQL instance Pods in the Custom Resource.</p>
+<p>This example setup uses <code>prometheus_exporter</code> version 0.20.1. Replace it with your required version.</p>
+<ol>
+<li>
+<p>Edit the <code>instances</code> subsection in <code>deploy/cr.yaml</code>. Specify the sidecar
+   image, the metrics port, and the connection settings. Read the user name and
+   password from the Secret that the Operator created for <code>pgexporter</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="w">    </span><span class="nt">metadata</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">postgres-exporter</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+<span class="w">    </span><span class="nt">sidecars</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-exporter</span>
+<span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">quay.io/prometheuscommunity/postgres-exporter:v0.20.1</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metrics</span>
+<span class="w">          </span><span class="nt">containerPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9187</span>
+<span class="w">          </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">TCP</span>
+<span class="w">      </span><span class="nt">env</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATA_SOURCE_URI</span>
+<span class="w">          </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"localhost:5432/postgres?sslmode=require"</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATA_SOURCE_USER</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pguser-pgexporter</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">user</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DATA_SOURCE_PASS</span>
+<span class="w">          </span><span class="nt">valueFrom</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">secretKeyRef</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-pguser-pgexporter</span>
+<span class="w">              </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">password</span>
+<span class="w">      </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50m</span>
+<span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">64Mi</span>
+<span class="w">        </span><span class="nt">limits</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">cpu</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">200m</span>
+<span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128Mi</span>
+</code></pre></div>
+<p>The label <code>postgres-exporter: "true"</code> marks instance Pods so that the
+headless Service can select them later.</p>
+<p>The image entrypoint starts <code>postgres_exporter</code>. You do not need a custom
+<code>command</code>. You can use another tag from the
+<a href="https://github.com/prometheus-community/postgres_exporter/releases">postgres_exporter releases <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p><code>sslmode=require</code> matches the Operator default, which encrypts PostgreSQL
+connections with TLS.</p>
+<p>Do not reuse the names of <a href="#sidecar-using-sidecar-containers">predefined containers</a> for the sidecar. If you also run PMM, do not
+name this sidecar <code>pmm-client</code>.</p>
+<p>Find additional sidecar options in the
+<a href="#operator-instancessidecars-subsection">Custom Resource options reference</a>
+and the
+<a href="https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.30/#container-v1-core">Kubernetes Workload API reference <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+</li>
+<li>
+<p>Apply the Custom Resource and wait until the instance Pods roll out:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>To avoid putting the password in an environment variable, mount the user
+Secret as a volume and set the <code>DATA_SOURCE_PASS_FILE</code> variable to the
+mounted file path. See the
+<a href="https://github.com/prometheus-community/postgres_exporter#quick-start">postgres_exporter documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+for details.</p>
+</div>
+<h2 id="postgres-exporter-verify-that-the-exporter-is-running">Verify that the exporter is running<a class="headerlink" href="#postgres-exporter-verify-that-the-exporter-is-running" title="Permanent link">&para;</a></h2>
+<p>Confirm that the sidecar is up and that it can reach PostgreSQL.</p>
+<ol>
+<li>
+<p>Find a Pod name and port-forward the metrics port to your machine:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span><span class="m">9187</span>:9187
+</code></pre></div>
+</li>
+<li>
+<p>In another terminal, request the metrics endpoint:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:9187/metrics<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'^pg_up'</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code># HELP pg_up Whether the last scrape of metrics from PostgreSQL was able to connect to the server (1 for yes, 0 for no).
+# TYPE pg_up gauge
+pg_up 1
+</code></pre></div>
+</details>
+<p><code>pg_up 1</code> means that the exporter connected to PostgreSQL. <code>pg_up 0</code> means
+that the scrape ran but the database connection failed.</p>
+</li>
+<li>
+<p>Check that database metrics are present:</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-s<span class="w"> </span>http://127.0.0.1:9187/metrics<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span><span class="s1">'^pg_stat_database_numbackends'</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>pg_stat_database_numbackends{datid="1",datname="template1"} 0
+pg_stat_database_numbackends{datid="16410",datname="cluster1"} 0
+pg_stat_database_numbackends{datid="16447",datname="mydata"} 0
+pg_stat_database_numbackends{datid="4",datname="template0"} 0
+pg_stat_database_numbackends{datid="5",datname="postgres"} 4
+</code></pre></div>
+</details>
+<p>You see one series per database. A non-zero value on <code>postgres</code> is expected
+because the exporter and some Operator components connect to that database.
+Counters at <code>0</code> are normal on an idle cluster.</p>
+</li>
+</ol>
+<p>If <code>pg_up</code> is <code>0</code>, check the sidecar logs:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-c<span class="w"> </span>postgres-exporter
+</code></pre></div>
+<p>A common cause is TLS. If the log says that SSL is not allowed, change
+<code>DATA_SOURCE_URI</code> to <code>localhost:5432/postgres?sslmode=disable</code>. If certificate
+verification fails, keep <code>sslmode=require</code>. Do not use <code>verify-full</code> unless you
+also mount the cluster CA certificate into the sidecar.</p>
+<h2 id="postgres-exporter-create-a-headless-service-for-scrape-discovery">Create a headless Service for scrape discovery<a class="headerlink" href="#postgres-exporter-create-a-headless-service-for-scrape-discovery" title="Permanent link">&para;</a></h2>
+<p>The Operator does not add sidecar ports to its Services. Create a headless
+Service so that Prometheus can reach port <code>9187</code> on every instance Pod.</p>
+<p>A <code>ClusterIP</code> Service has one virtual IP and load-balances to a single Pod. That
+is wrong for metrics: you would scrape a random instance and miss the others. A
+headless Service (<code>clusterIP: None</code>) has no virtual IP. Kubernetes still creates
+an Endpoint for every matching Pod, and Prometheus scrapes each Pod IP.</p>
+<ol>
+<li>
+<p>Create the Service manifest. If you use a different cluster name, replace <code>cluster1</code> with your value:</p>
+<div class="highlight"><span class="filename">postgres-exporter-service.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Service</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-postgres-exporter</span>
+<span class="w">  </span><span class="nt">labels</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">app.kubernetes.io/name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-exporter</span>
+<span class="w">    </span><span class="nt">app.kubernetes.io/instance</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">clusterIP</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">None</span>
+<span class="w">  </span><span class="nt">selector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">postgres-operator.crunchydata.com/cluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">    </span><span class="nt">postgres-exporter</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metrics</span>
+<span class="w">      </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">9187</span>
+<span class="w">      </span><span class="nt">targetPort</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metrics</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply it in the same namespace as the cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>postgres-exporter-service.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</li>
+</ol>
+<p>With three replicas you get three scrape targets: one exporter per instance Pod,
+each talking to its local PostgreSQL.</p></section></section>
                     <section class='print-page md-section' id='section-7-12' heading-number='7.12'>
                         <h1>Logging<a class='headerlink' href='#section-7-12' title='Permanent link'></a>
                         </h1>
@@ -23584,234 +24172,7 @@ for the <code>lake</code> tablespace will look as follows:</p>
 <code>DROP TABLESPACE &lt;tablespace_name&gt;;</code> command.</p>
 <p>Now, when the PostgreSQL part is finished, you can remove the tablespace entry
 from the <code>tablespaceStorages</code> section (don’t forget to run the
-<code>kubectl apply -f deploy/cr.yaml</code> command to apply changes).</p></section><section class="print-page" id="monitor-kubernetes" heading-number="9.9"><h1 id="monitor-kubernetes-monitor-kubernetes">Monitor Kubernetes<a class="headerlink" href="#monitor-kubernetes-monitor-kubernetes" title="Permanent link">&para;</a></h1>
-<p>Monitoring the state of the database is crucial to timely identify and react to performance issues. <a href="#monitoring">Percona Monitoring and Management (PMM) solution enables you to do just that</a>.</p>
-<p>However, the database state also depends on the state of the Kubernetes cluster itself. Hence it&rsquo;s important to have metrics that can depict the state of the Kubernetes cluster.</p>
-<p>This document describes how to set up monitoring of the Kubernetes cluster health. This setup has been tested with the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> as the centralized data storage and the Victoria Metrics Kubernetes monitoring stack as the metrics collector. These steps may also apply if you use another Prometheus-compatible storage.</p>
-<p>The steps in this tutorial are for PMM 3.</p>
-<h2 id="monitor-kubernetes-pre-requisites">Pre-requisites<a class="headerlink" href="#monitor-kubernetes-pre-requisites" title="Permanent link">&para;</a></h2>
-<p>To set up monitoring of Kubernetes, you need the following:</p>
-<ol>
-<li>
-<p>PMM Server up and running. You can run PMM Server as a Docker image, a virtual appliance, or on an AWS instance. Please refer to the <a href="https://docs.percona.com/percona-monitoring-and-management/3/install-pmm/install-pmm-server/index.html">official PMM documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the installation instructions.</p>
-</li>
-<li>
-<p><a href="https://docs.helm.sh/using_helm/#installing-helm">Helm v3 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-</li>
-<li><a href="https://kubernetes.io/docs/tasks/tools/">kubectl <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</li>
-<li>PMM 3 Service account token.</li>
-</ol>
-<h2 id="monitor-kubernetes-configure-authentication">Configure authentication<a class="headerlink" href="#monitor-kubernetes-configure-authentication" title="Permanent link">&para;</a></h2>
-<p>PMM3 uses Grafana service accounts to control access to PMM server components and resources. To authenticate in PMM server, you need a service account token. <a href="https://docs.percona.com/percona-monitoring-and-management/3/api/authentication.html?h=authe#generate-a-service-account-and-token">Generate a service account and token <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Specify the Admin role for the service account.</p>
-<p>The token must have the format <code>glsa_*************************_9e35351b</code>.</p>
-<div class="admonition warning">
-<p class="admonition-title">Warning</p>
-<p>When you create a service account token, you can select its lifetime: it can be either a permanent token that never expires or the one with the expiration date. PMM server cannot rotate service account tokens after they expire. So you must take care of reconfiguring PMM Client in this case.</p>
-</div>
-<h2 id="monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack">Install the Victoria Metrics Kubernetes monitoring stack<a class="headerlink" href="#monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack" title="Permanent link">&para;</a></h2>
-<details class="admonition">
-<summary>Install on Openshift</summary>
-<p>When installing the chart on OpenShift, some components might require additional Security Context Constraints (SCCs), depending on the permissions they need at runtime.</p>
-<p>The <code>prometheus-node-exporter</code> component runs as a DaemonSet and requires access to host-level resources such as <code>/proc</code>, <code>/sys</code>, and other node-level paths. Because these are exposed through <code>hostPath</code> mounts, the service account used by <code>prometheus-node-exporter</code> must be granted an SCC that allows host access, such as <code>hostaccess</code>, <code>hostmount-anyuid</code>, or a custom SCC with equivalent permissions.</p>
-<p>For example:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>adm<span class="w"> </span>policy<span class="w"> </span>add-scc-to-user<span class="w"> </span>node-exporter<span class="w"> </span><span class="se">\</span>
--z<span class="w"> </span>prometheus-node-exporter<span class="w"> </span><span class="se">\</span>
--n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<p>Similarly, for <code>kube-state-metrics</code>, if the <code>restricted</code> SCC is enforced, avoid setting fixed user, group, or filesystem group IDs. Allow OpenShift to assign these values from the namespace UID/GID range by either adding the service account to the required SCC or by adding the following entries to the values YAML file:</p>
-<p>```yaml
-kube-state-metrics:
-  securityContext:
-    runAsUser: null
-    runAsGroup: null
-    fsGroup: null</p>
-<p>Next, follow the steps to install Victoria Metrics Kubernetes Monitoring stack.</p>
-</details>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="monitor-kubernetes-__tabbed_1_1" name="monitor-kubernetes-__tabbed_1" type="radio" /><input id="monitor-kubernetes-__tabbed_1_2" name="monitor-kubernetes-__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_1_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M16.5 5.5a2 2 0 0 0 2-2 2 2 0 0 0-2-2 2 2 0 0 0-2 2 2 2 0 0 0 2 2m-3.6 13.9 1-4.4 2.1 2v6h2v-7.5l-2.1-2 .6-3A7.3 7.3 0 0 0 22 13v-2c-1.76.03-3.4-.89-4.3-2.4l-1-1.6c-.36-.6-1-1-1.7-1-.3 0-.5.1-.8.1L9 8.3V13h2V9.6l1.8-.7-1.6 8.1-4.9-1-.4 2zM4 9a1 1 0 0 1-1-1 1 1 0 0 1 1-1h3v2zm1-4a1 1 0 0 1-1-1 1 1 0 0 1 1-1h5v2zm-2 8a1 1 0 0 1-1-1 1 1 0 0 1 1-1h4v2z"/></svg></span> Quick install</label><label for="monitor-kubernetes-__tabbed_1_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M256.5 8a120 120 0 1 1 0 240 120 120 0 1 1 0-240m-29.8 296h60.9c-12.9 26.8-7.8 58.2 11.5 79.5-20.2 22.3-24.8 55.8-9.4 83.4l22.5 40.4c.9 1.6 1.9 3.2 2.9 4.7h-237c-16.4 0-29.7-13.3-29.7-29.7 0-98.5 79.8-178.3 178.3-178.3m205.9-56.4c0-13.3 10.7-24 24-24h48c13.3 0 24 10.7 24 24v6.1c0 18.9 24.1 32.8 40.5 23.4l5-2.9c11.6-6.7 26.5-2.6 33 9.1l22.4 40.2c6.2 11.2 2.6 25.2-8.2 32l-4.7 2.9c-16.2 10.1-16.2 39.9 0 50.1l4.6 2.9c10.8 6.8 14.5 20.8 8.3 32L607 483.8c-6.5 11.7-21.4 15.9-33 9.1l-4.9-2.9c-16.4-9.5-40.5 4.5-40.5 23.4v6.1c0 13.3-10.7 24-24 24h-48c-13.3 0-24-10.7-24-24v-5.9c0-19-24.2-33-40.7-23.5l-4.8 2.8c-11.6 6.7-26.4 2.6-33-9.1l-22.6-40.4c-6.2-11.2-2.6-25.3 8.3-32.1l4.4-2.7c16.3-10.1 16.3-40.1 0-50.2l-4.5-2.8c-10.9-6.8-14.5-20.9-8.3-32.1l22.5-40.3c6.5-11.7 21.4-15.8 32.9-9.1l4.8 2.8c16.5 9.5 40.7-4.5 40.7-23.5v-5.9zm99.9 136.2a52 52 0 1 0-104 0 52 52 0 1 0 104 0"/></svg></span> Install manually</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<ol>
-<li>
-<p>To install the Victoria Metrics Kubernetes monitoring stack with the default parameters, use the quick install command. Replace the following placeholders with your values:</p>
-<ul>
-<li><code>PMM-SERVER-TOKEN</code> - The <a href="#monitor-kubernetes-configure-authentication">PMM Server service account token</a></li>
-<li><code>PMM-SERVER-URL</code> - The URL to access the PMM Server </li>
-<li>
-<p><code>UNIQUE-K8s-CLUSTER-IDENTIFIER</code> - Identifier for the Kubernetes cluster. It can be the name you defined during the cluster creation.</p>
-<p>You should use a unique identifier for each Kubernetes cluster. The use of the same identifier for more than one Kubernetes cluster will result in conflicts during the metrics collection.</p>
-</li>
-<li>
-<p><code>NAMESPACE</code> - The namespace where the Victoria metrics Kubernetes stack will be installed. If you haven&rsquo;t created the namespace before, it will be created during the command execution.</p>
-</li>
-</ul>
-<p>We recommend to use a separate namespace like <code>monitoring-system</code>.</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsL<span class="w">  </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/quick-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>--<span class="w"> </span>--api-key<span class="w"> </span>&lt;PMM-SERVER-TOKEN&gt;<span class="w"> </span>--pmm-server-url<span class="w"> </span>&lt;PMM-SERVER-URL&gt;<span class="w"> </span>--k8s-cluster-id<span class="w"> </span>&lt;UNIQUE-K8s-CLUSTER-IDENTIFIER&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>
-</code></pre></div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Prometheus node exporter is not installed by default since it requires privileged containers with the access to the host file system. If you need the metrics for Nodes, add the <code>--node-exporter-enabled</code> flag as follows:</p>
-<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-fsL<span class="w">  </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/quick-install.sh<span class="w"> </span><span class="p">|</span><span class="w"> </span>bash<span class="w"> </span>-s<span class="w"> </span>--<span class="w"> </span>--api-key<span class="w"> </span>&lt;PMM-SERVER-TOKEN&gt;<span class="w"> </span>--pmm-server-url<span class="w"> </span>&lt;PMM-SERVER-URL&gt;<span class="w"> </span>--k8s-cluster-id<span class="w"> </span>&lt;UNIQUE-K8s-CLUSTER-IDENTIFIER&gt;<span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>--node-exporter-enabled
-</code></pre></div>
-</div>
-</li>
-</ol>
-</div>
-<div class="tabbed-block">
-<p>You may need to customize the default parameters of the Victoria metrics Kubernetes stack.</p>
-<ul>
-<li>Since we use the PMM Server for monitoring, there is no need to store the data in Victoria Metrics Operator. Therefore, the Victoria Metrics Helm chart is installed with the <code>vmsingle.enabled</code> and <code>vmcluster.enabled</code> parameters set to <code>false</code> in this setup.</li>
-<li><a href="https://helm.sh/docs/topics/rbac/">Check all the role-based access control (RBAC) rules <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> of the <code>victoria-metrics-k8s-stack</code> chart and the dependencies chart, and modify them based on your requirements.</li>
-</ul>
-<h4 id="monitor-kubernetes-configure-authentication-in-pmm">Configure authentication in PMM<a class="headerlink" href="#monitor-kubernetes-configure-authentication-in-pmm" title="Permanent link">&para;</a></h4>
-<p>To access the PMM Server resources and perform actions on the server, configure authentication.</p>
-<ol>
-<li>
-<p>Encode the PMM Server service account token with base64.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="monitor-kubernetes-__tabbed_2_1" name="monitor-kubernetes-__tabbed_2" type="radio" /><input id="monitor-kubernetes-__tabbed_2_2" name="monitor-kubernetes-__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_2_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.504 0q-.232 0-.48.021c-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.4.4 0 0 0-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071s1.592-.536 2.257-1.306c.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.36.36 0 0 0-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139m.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105l-.004-.021-.004-.024a1.8 1.8 0 0 1-.15.706.95.95 0 0 1-.213.335 1 1 0 0 0-.088-.042c-.104-.045-.198-.064-.284-.133a1.3 1.3 0 0 0-.22-.066c.05-.06.146-.133.183-.198q.08-.193.088-.402v-.02a1.2 1.2 0 0 0-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 0 0-.205.334 1.2 1.2 0 0 0-.09.4v.019q.002.134.02.267c-.193-.067-.438-.135-.607-.202a2 2 0 0 1-.018-.2v-.02a1.8 1.8 0 0 1 .15-.768 1.08 1.08 0 0 1 .43-.533 1 1 0 0 1 .594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2q.018-.136.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.6.6 0 0 0-.166-.267.25.25 0 0 0-.183-.064h-.021c-.071.006-.13.04-.186.132a.55.55 0 0 0-.12.27 1 1 0 0 0-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268q.014.014.034.024c-.07.057-.117.07-.176.136a.3.3 0 0 1-.131.068 2.6 2.6 0 0 1-.275-.402 1.8 1.8 0 0 1-.155-.667 1.8 1.8 0 0 1 .08-.668 1.4 1.4 0 0 1 .283-.535c.128-.133.26-.2.418-.2m1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.57.57 0 0 1 .016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.1 1.1 0 0 1-.448-.067 4 4 0 0 1-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71q-.104-.403.193-.6c.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.7 2.7 0 0 0-.402-.533 1.5 1.5 0 0 0-.275-.333c.182 0 .338-.03.465-.067a.62.62 0 0 0 .314-.334c.108-.267 0-.697-.345-1.163s-.931-.995-1.788-1.521c-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.1 8.1 0 0 1 .647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335q.058.005.11.006c.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01q.08 0 .157.014c.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602q-.553-.1-.723-.4c-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336m7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8 8 0 0 1-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065m-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg></span> Linux</label><label for="monitor-kubernetes-__tabbed_2_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg></span> macOS</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>$<span class="w"> </span><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span>&lt;token&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--wrap<span class="o">=</span><span class="m">0</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span>-n<span class="w"> </span>&lt;token&gt;<span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>
-</code></pre></div>
-</div>
-</div>
-</div>
-</li>
-<li>
-<p>Create the Namespace where you want to set up monitoring. The following command creates the Namespace <code>monitoring-system</code>. You can specify a different name. In the latter steps, specify your namespace instead of the <code>&lt;namespace&gt;</code> placeholder.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>monitoring-system
-</code></pre></div>
-</li>
-<li>
-<p>Create the YAML file for the <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and specify the base64-encoded service account token value within. Let&rsquo;s name this file <code>pmm-api-vmoperator.yaml</code>.</p>
-<div class="highlight"><span class="filename">pmm-api-vmoperator.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">data</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">api_key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;base-64-encoded-pmm-server-token&gt;</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pmm-token-vmoperator</span>
-<span class="w">  </span><span class="c1">#namespace: default</span>
-<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Opaque</span>
-</code></pre></div>
-</li>
-<li>
-<p>Create the Secrets object using the YAML file you created previously. Replace the <code>&lt;filename&gt;</code> placeholder with your value.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>pmm-api-vmoperator.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Check that the secret is created. The following command checks the secret for the resource named <code>pmm-token-vmoperator</code> (as defined in the <code>metadata.name</code> option in the secrets file). If you defined another resource name, specify your value.</p>
-</li>
-</ol>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>pmm-token-vmoperator<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<h4 id="monitor-kubernetes-create-a-configmap-to-mount-for-kube-state-metrics">Create a ConfigMap to mount for <code>kube-state-metrics</code><a class="headerlink" href="#monitor-kubernetes-create-a-configmap-to-mount-for-kube-state-metrics" title="Permanent link">&para;</a></h4>
-<p>The <a href="https://github.com/kubernetes/kube-state-metrics"><code>kube-state-metrics</code> (KSM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is a simple service that listens to the Kubernetes API server and generates metrics about the state of various objects - Pods, Deployments, Services and Custom Resources.</p>
-<p>To define what metrics the <code>kube-state-metrics</code> should capture, create the <a href="https://github.com/kubernetes/kube-state-metrics/blob/main/docs/customresourcestate-metrics.md#configuration">ConfigMap <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and mount it to a container.</p>
-<p>Use the <a href="https://github.com/Percona-Lab/k8s-monitoring/blob/refs/tags/v0.1.3/vm-operator-k8s-stack/ksm-configmap.yaml">example <code>configmap.yaml</code> configuration file <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to create the ConfigMap.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/ksm-configmap.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<p>As a result, you have the <code>customresource-config-ksm</code> ConfigMap created.</p>
-<h4 id="monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack_1">Install the Victoria Metrics Kubernetes monitoring stack<a class="headerlink" href="#monitor-kubernetes-install-the-victoria-metrics-kubernetes-monitoring-stack_1" title="Permanent link">&para;</a></h4>
-<ol>
-<li>
-<p>Add the dependency repositories of <a href="https://github.com/VictoriaMetrics/helm-charts/blob/master/charts/victoria-metrics-k8s-stack">victoria-metrics-k8s-stack <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> chart.</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>grafana<span class="w"> </span>https://grafana.github.io/helm-charts
-helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>prometheus-community<span class="w"> </span>https://prometheus-community.github.io/helm-charts
-</code></pre></div>
-</li>
-<li>
-<p>Add the Victoria Metrics Kubernetes monitoring stack repository.</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>vm<span class="w"> </span>https://victoriametrics.github.io/helm-charts/
-</code></pre></div>
-</li>
-<li>
-<p>Update the repositories.</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>update
-</code></pre></div>
-</li>
-<li>
-<p>Install the Victoria Metrics Kubernetes monitoring stack Helm chart. You need to specify the following configuration:</p>
-<ul>
-<li>the URL to access the PMM server in the <code>external.vm.write.url</code> option in the format <code>&lt;PMM-SERVER-URL&gt;/victoriametrics/api/v1/write</code>. The URL can contain either the IP address or the hostname of the PMM server.</li>
-<li>the unique name or an ID of the Kubernetes cluster in the <code>vmagent.spec.externalLabels.k8s_cluster_id</code> option. Ensure to set different values if you are sending metrics from multiple Kubernetes clusters to the same PMM Server. </li>
-<li>the <code>&lt;namespace&gt;</code> placeholder with your value. The Namespace must be the same as the Namespace for the Secret and ConfigMap</li>
-</ul>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>vm-k8s<span class="w"> </span>vm/victoria-metrics-k8s-stack<span class="w"> </span><span class="se">\</span>
--f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/values.yaml<span class="w"> </span><span class="se">\</span>
---set<span class="w"> </span>external.vm.write.url<span class="o">=</span>&lt;PMM-SERVER-URL&gt;/victoriametrics/api/v1/write<span class="w"> </span><span class="se">\</span>
---set<span class="w"> </span>vmagent.spec.externalLabels.k8s_cluster_id<span class="o">=</span>&lt;UNIQUE-CLUSTER-IDENTIFIER/NAME&gt;<span class="w"> </span><span class="se">\</span>
--n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<p>To illustrate, say your PMM Server URL is <code>https://pmm-example.com</code>, the cluster ID is <code>test-cluster</code> and the Namespace is <code>monitoring-system</code>. Then the command would look like this:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>install<span class="w"> </span>vm-k8s<span class="w"> </span>vm/victoria-metrics-k8s-stack<span class="w"> </span><span class="se">\</span>
--f<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/values.yaml<span class="w"> </span><span class="se">\</span>
---set<span class="w"> </span>external.vm.write.url<span class="o">=</span>https://pmm-example.com/victoriametrics/api/v1/write<span class="w"> </span><span class="se">\</span>
---set<span class="w"> </span>vmagent.spec.externalLabels.k8s_cluster_id<span class="o">=</span>test-cluster<span class="w"> </span><span class="se">\</span>
--n<span class="w"> </span>monitoring-system
-</code></pre></div>
-</li>
-</ol>
-</div>
-</div>
-</div>
-<h2 id="monitor-kubernetes-validate-the-successful-installation">Validate the successful installation<a class="headerlink" href="#monitor-kubernetes-validate-the-successful-installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>vm-k8s-stack-kube-state-metrics-d9d85978d-9pzbs                   1/1     Running   0          28m
-vm-k8s-stack-victoria-metrics-operator-844d558455-gvg4n           1/1     Running   0          28m
-vmagent-vm-k8s-stack-victoria-metrics-k8s-stack-55fd8fc4fbcxwhx   2/2     Running   0          28m
-</code></pre></div>
-</details>
-<p>What Pods are running depends on the configuration chosen in values used while installing <code>victoria-metrics-k8s-stack</code> chart.</p>
-<h2 id="monitor-kubernetes-verify-metrics-capture">Verify metrics capture<a class="headerlink" href="#monitor-kubernetes-verify-metrics-capture" title="Permanent link">&para;</a></h2>
-<ol>
-<li>Connect to the PMM server.</li>
-<li>Click <strong>Explore</strong> and switch to the <strong>Code</strong> mode.</li>
-<li>
-<p>Check that the required metrics are captured, type the following in the Metrics browser dropdown:</p>
-<ul>
-<li><a href="https://github.com/google/cadvisor/blob/master/docs/storage/prometheus.md">cadvisor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>:</li>
-</ul>
-<p><img alt="image" src="assets/images/cadvisor.svg" /></p>
-<ul>
-<li>kubelet:</li>
-</ul>
-<p><img alt="image" src="assets/images/kubelet.svg" /></p>
-<ul>
-<li><a href="https://github.com/kubernetes/kube-state-metrics/tree/main/docs">kube-state-metrics <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> metrics that also include Custom resource metrics for the Operator and database deployed in your Kubernetes cluster:</li>
-</ul>
-<p><img alt="image" src="assets/images/pg_metric.svg" /></p>
-</li>
-</ol>
-<h2 id="monitor-kubernetes-uninstall-victoria-metrics-kubernetes-stack">Uninstall Victoria metrics Kubernetes stack<a class="headerlink" href="#monitor-kubernetes-uninstall-victoria-metrics-kubernetes-stack" title="Permanent link">&para;</a></h2>
-<p>To remove Victoria metrics Kubernetes stack used for Kubernetes cluster monitoring, use the cleanup script. By default, the script removes all the <a href="https://kubernetes.io/docs/tasks/extend-kubernetes/custom-resources/custom-resource-definitions/">Custom Resource Definitions(CRD) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and Secrets associated with the Victoria metrics Kubernetes stack. To keep the CRDs, run the script with the <code>--keep-crd</code> flag.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="monitor-kubernetes-__tabbed_3_1" name="monitor-kubernetes-__tabbed_3" type="radio" /><input id="monitor-kubernetes-__tabbed_3_2" name="monitor-kubernetes-__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="monitor-kubernetes-__tabbed_3_1"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13.81 22H6c-1.11 0-2-.89-2-2V4a2 2 0 0 1 2-2h8l6 6v5.09c-.33-.05-.66-.09-1-.09s-.67.04-1 .09V9h-5V4H6v16h7.09c.12.72.37 1.39.72 2m8.73-.88L20.41 19l2.13-2.12-1.42-1.41L19 17.59l-2.12-2.12-1.41 1.41L17.59 19l-2.12 2.12 1.41 1.42L19 20.41l2.12 2.13z"/></svg></span> Remove CRDs</label><label for="monitor-kubernetes-__tabbed_3_2"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm4 18H6V4h7v5h5z"/></svg></span> Keep CRDs</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<p>Replace the <code>&lt;NAMESPACE&gt;</code> placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: </p>
-<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-fsL<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/cleanup.sh<span class="o">)</span><span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<p>Replace the <code>&lt;NAMESPACE&gt;</code> placeholder with the namespace you specified during the Victoria metrics Kubernetes stack installation: </p>
-<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-fsL<span class="w"> </span>https://raw.githubusercontent.com/Percona-Lab/k8s-monitoring/refs/tags/v0.1.3/vm-operator-k8s-stack/cleanup.sh<span class="o">)</span><span class="w"> </span>--namespace<span class="w"> </span>&lt;NAMESPACE&gt;<span class="w"> </span>--keep-crd<span class="w"> </span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>Check that the Victoria metrics Kubernetes stack is deleted:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>list<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<p>The output should provide the empty list.</p>
-<p>If you face any issues with the removal, uninstall the stack manually:</p>
-<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>uninstall<span class="w"> </span>vm-k8s-stack<span class="w"> </span>-n<span class="w"> </span>&lt;<span class="w"> </span>namespace&gt;<span class="w"> </span>
-</code></pre></div></section><section class="print-page" id="postgis" heading-number="9.10"><h1 id="postgis-use-postgis-extension-with-percona-distribution-for-postgresql">Use PostGIS extension with Percona Distribution for PostgreSQL<a class="headerlink" href="#postgis-use-postgis-extension-with-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
+<code>kubectl apply -f deploy/cr.yaml</code> command to apply changes).</p></section><section class="print-page" id="postgis" heading-number="9.9"><h1 id="postgis-use-postgis-extension-with-percona-distribution-for-postgresql">Use PostGIS extension with Percona Distribution for PostgreSQL<a class="headerlink" href="#postgis-use-postgis-extension-with-percona-distribution-for-postgresql" title="Permanent link">&para;</a></h1>
 <p><a href="https://postgis.net/">PostGIS <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> is a PostgreSQL extension that adds GIS
 capabilities to this database.</p>
 <p>You can deploy and manage PostGIS-enabled PostgreSQL starting from the  Operator version 2.3.0. Here&rsquo;s how to do it:</p>
@@ -24048,7 +24409,7 @@ database you created earlier and run the following command:</p>
 </ol>
 <p>You can find more about using PostGIS in the official Percona Distribution for
 PostgreSQL <a href="https://docs.percona.com/postgresql/latest/solutions/postgis-deploy.html">documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>,
-as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="dns-suffix" heading-number="9.11"><h1 id="dns-suffix-configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#dns-suffix-configure-dns-suffix-for-service-discovery" title="Permanent link">&para;</a></h1>
+as well as in this <a href="https://www.percona.com/blog/working-with-postgresql-and-postgis-how-to-become-a-gis-expert/">blogpost <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="dns-suffix" heading-number="9.10"><h1 id="dns-suffix-configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#dns-suffix-configure-dns-suffix-for-service-discovery" title="Permanent link">&para;</a></h1>
 <p>In Kubernetes, services are assigned a DNS name to be accessible within the cluster. The domain name follows the pattern <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.&lt;cluster-domain&gt;</code>. The default cluster domain is <code>cluster.local</code>, so a typical FQDN looks like <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
 <p>When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.</p>
 <p>Clusters with custom DNS configurations may use a domain suffix different from the default <code>cluster.local</code>. This includes scenarios such as running inside a vcluster, which may respond to DNS queries with records that do not match the actual cluster domain.</p>
@@ -24063,7 +24424,7 @@ as well as in this <a href="https://www.percona.com/blog/working-with-postgresql
 </code></pre></div>
 <p>Apply the change:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div></section><section class="print-page" id="delete" heading-number="9.12"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="delete" heading-number="9.11"><h1 id="delete-delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-delete-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <p>When cleaning up your Kubernetes environment (e.g., moving from a trial
 deployment to a production one, or testing experimental configurations), you may
 need to remove some (or all) of the following objects:</p>
@@ -24264,7 +24625,7 @@ persistentvolumeclaim "cluster1-repo1" deleted
 </li>
 </ol>
 </li>
-</ol></section><section class="print-page" id="image-query" heading-number="9.13"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="image-query" heading-number="9.12"><h1 id="image-query-retrieve-percona-certified-images">Retrieve Percona certified images<a class="headerlink" href="#image-query-retrieve-percona-certified-images" title="Permanent link">&para;</a></h1>
 <p>When preparing for the upgrade, you must have the list of compatible images for a specific Operator version and the database version you wish to update to. You can either manually find the images in the <a href="#images">list of certified images</a> or you can get this list by querying the <strong>Version Service</strong> server. </p>
 <h3 id="image-query-what-is-the-version-service">What is the Version Service?<a class="headerlink" href="#image-query-what-is-the-version-service" title="Permanent link">&para;</a></h3>
 <p>The <strong>Version Service</strong> is a centralized repository that the Percona Operator for PostgreSQL connects to at scheduled times to get the latest information on compatible versions and valid image paths. This service is a crucial part of the automatic upgrade process, and it is enabled by default. Its landing page, <code>check.percona.com</code>, provides more details about the service itself.</p>
@@ -35344,7 +35705,12 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #pause-pgbouncer > h1:before { content: '7.10 ' }
 
-.print-site-enumerate-headings #monitoring > h1:before { content: '7.11 ' }
+.print-site-enumerate-headings #section-7-11 > h1:before { content: '7.11 ' }
+.print-site-enumerate-headings #monitoring > h1:before { content: '7.11.1 ' }
+
+.print-site-enumerate-headings #monitor-kubernetes > h1:before { content: '7.11.2 ' }
+
+.print-site-enumerate-headings #postgres-exporter > h1:before { content: '7.11.3 ' }
 
 .print-site-enumerate-headings #section-7-12 > h1:before { content: '7.12 ' }
 .print-site-enumerate-headings #persistent-logging > h1:before { content: '7.12.1 ' }
@@ -35395,15 +35761,13 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #tablespaces > h1:before { content: '9.8 ' }
 
-.print-site-enumerate-headings #monitor-kubernetes > h1:before { content: '9.9 ' }
+.print-site-enumerate-headings #postgis > h1:before { content: '9.9 ' }
 
-.print-site-enumerate-headings #postgis > h1:before { content: '9.10 ' }
+.print-site-enumerate-headings #dns-suffix > h1:before { content: '9.10 ' }
 
-.print-site-enumerate-headings #dns-suffix > h1:before { content: '9.11 ' }
+.print-site-enumerate-headings #delete > h1:before { content: '9.11 ' }
 
-.print-site-enumerate-headings #delete > h1:before { content: '9.12 ' }
-
-.print-site-enumerate-headings #image-query > h1:before { content: '9.13 ' }
+.print-site-enumerate-headings #image-query > h1:before { content: '9.12 ' }
 
 .print-site-enumerate-headings #section-10 > h1:before { content: '10 ' }
 .print-site-enumerate-headings #troubleshoot-operator > h1:before { content: '10.1 ' }
