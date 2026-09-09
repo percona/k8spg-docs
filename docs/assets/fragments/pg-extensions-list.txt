@@ -1,0 +1,20 @@
+Extensions are installed per database. Check every application database, not only `postgres`:
+
+```sql
+SELECT
+    extname,
+    extversion
+FROM pg_extension
+ORDER BY extname;
+```
+
+??? example "Sample output"
+
+    ```text
+    extname             | extversion
+    --------------------+-----------
+    plpgsql             | 1.0
+    pg_stat_statements  | 1.12
+    postgis             | 3.4.2
+    pgcrypto            | 1.3
+    ```

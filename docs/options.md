@@ -1,12 +1,23 @@
 # Changing PostgreSQL options
 
-You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the [PostgreSQL dynamic configuration method
-:octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-[Patroni dynamic configuration :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html)
-to apply your changes.
+You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+[Patroni dynamic configuration :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html).
 
-Add your PostgreSQL options to the `patroni.dynamicConfiguration.postgresql.parameters`
-section in your `deploy/cr.yaml` Custom Resource:
+Operator defaults for some PostgreSQL parameters can differ from upstream PostgreSQL defaults. Before you change
+a parameter, check whether the Operator already sets it and whether you can
+override that value. See [Immutable options](immutable-options.md) for the list of parameters that you can and cannot override.
+
+To inspect the effective Patroni configuration for a running cluster, use
+`patronictl show-config` inside a PostgreSQL Pod. See
+[Manage a database manually](manage-manually.md#override-postgresql-parameters).
+
+This page shows how to pass additional options to PostgreSQL.
+
+## How to pass PostgreSQL options
+
+Add parameters under `patroni.dynamicConfiguration.postgresql.parameters` in your
+`deploy/cr.yaml` Custom Resource:
 
 ```yaml
 ...
@@ -26,37 +37,44 @@ Apply the updated Custom Resource:
 kubectl apply -f deploy/cr.yaml
 ```
 
-This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.
+The Operator applies the changes to new clusters at creation time and to existing
+clusters at runtime.
 
-Most options take effect without
-a PostgreSQL server restart. Some options, such as `wal_level` and `shared_buffers`, have the
+Most options take effect without a PostgreSQL server restart. Some options, such
+as `shared_buffers` or `wal_level`, have the
 [postmaster context :octicons-link-external-16:](https://www.postgresql.org/docs/current/view-pg-settings.html)
-and require a PostgreSQL restart. For these options, Patroni performs a rolling
-restart of all instances after you apply the change. To check whether an option
-requires a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
+and require a restart. For those options, Patroni performs a rolling restart of
+all PostgreSQL Pods after you apply the change. To check whether an option requires
+a restart, run in PostgreSQL: `SELECT name, context FROM pg_settings;`
 
-!!! note
+!!! important
 
     The Operator does not validate the options it passes to Patroni. Invalid
-    values can make the cluster unavailable. Also, only PostgreSQL parameters in the
-    `patroni.dynamicConfiguration.postgresql.parameters` subsection are applied. Other Patroni options in
-    `patroni.dynamicConfiguration` subsection are ignored.
+    values can make the cluster unavailable. Also, only PostgreSQL parameters in
+    the `patroni.dynamicConfiguration.postgresql.parameters` subsection are applied.
+    Other Patroni options in the `patroni.dynamicConfiguration` subsection are
+    ignored.
 
-## Configuring wal_level
+### Example: override an Operator default (`wal_level`)
 
-The `wal_level` option controls how much information is written to PostgreSQL WAL
-files. You can set it in `patroni.dynamicConfiguration.postgresql.parameters`:
+The Operator sets `wal_level` to `logical` by default. That value supports
+logical replication and also increases WAL volume and I/O compared with
+`replica`.
 
+Supported values in Operator-managed clusters are:
 
-* `replica` (PostgreSQL default) — sufficient for physical replication and most
-  workloads
-* `logical` (Operator default) — required for logical replication; increases WAL volume and I/O.
+* `logical` (Operator default) — required for logical replication
+* `replica` — enough for physical replication and most workloads that do not
+  need logical replication
 
-Read more about `wal_level` values in [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS).
+Both values allow point-in-time recovery. The value `minimal` is rejected by
+validation rules because other required settings, such as `hot_standby`, need
+more WAL data.
 
-!!! note
-    
-    Though the `wal_level` option can also have the value `minimal`, it will be rejected by the validation rules, since other parameters, such as `hot_standby`, require more WAL data. 
+Read more about what `wal_level` controls in the
+[PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS).
+
+To lower WAL overhead when you do not need logical replication, set the `wal_level` to `replica` under `patroni.dynamicConfiguration.postgresql.parameters` in the Custom Resource:
 
 ```yaml
 ...
@@ -67,16 +85,8 @@ patroni:
         wal_level: replica
 ```
 
-Use `replica` when you need physical replication or no replication. Use
-`logical` when you need logical replication. Both values allow for point-in-time recovery.
-
-The `wal_level` parameter has the
-postmaster context. After you change it, Patroni restarts all PostgreSQL instances.
-
-!!! note
-
-    The Operator manages certain PostgreSQL parameters (such as `archive_mode`, `archive_command`, `restore_command`, and TLS settings) internally and reverts any user changes. Other parameters (such as `wal_level`, `archive_timeout`, `jit`) can be overridden. See [Immutable options](immutable-options.md) for the full list.
-
+`wal_level` has the postmaster context. After you change it, Patroni restarts
+all PostgreSQL instances.
 
 ## Using host-based authentication (pg_hba)
 

@@ -11,6 +11,10 @@ If the backing PV was already deleted with the default **Delete** reclaim policy
 
 --8<-- "crunchy-pgo-version.txt::6"
 
+## Before you migrate
+
+Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
 ## Prerequisites
 
 Ensure you have the following:
@@ -19,7 +23,6 @@ Ensure you have the following:
 - `kubectl` or `oc`.
 - Storage where you can set the PV reclaim policy to `Retain` and clear `claimRef` (cluster-admin privileges are often required).
 
-The PostgreSQL **major version** on the Percona cluster must match the Crunchy source cluster.
 
 ## Before you start
 
