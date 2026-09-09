@@ -18,7 +18,7 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/tls-update.html">
       
       
-        <link rel="prev" href="tls-manual.html">
+        <link rel="prev" href="tls-pgbouncer-trusted-cas.html">
       
       
         <link rel="next" href="tls-verify-communication.html">
@@ -28,7 +28,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -36,7 +36,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -77,6 +77,8 @@
       <link rel="stylesheet" href="css/extra.css">
     
       <link rel="stylesheet" href="css/rating.css">
+    
+      <link rel="stylesheet" href="css/kapa.css">
     
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -143,11 +145,11 @@
             
   <div class="md-banner" style="text-align: center;">
     Where the open source database community meets:
-    Use code <strong>PERCONA75</strong> and secure your spot for Percona Live.
+    Secure your spot for Percona Live.
 
     <a
       class="breakdance-link button-atom button-atom--primary bde-button__button"
-      href="https://perconalive.com/2026-usa/"
+      href="https://perconalive.com/2026-amsterdam/registration/"
       target="_blank"
       data-type="url"
       style="
@@ -1246,6 +1248,34 @@
   
   
     <li class="md-nav__item">
+      <a href="rke2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Rancher Kubernetes Engine (RKE2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="kubernetes.html" class="md-nav__link">
         
   
@@ -1578,6 +1608,145 @@
                 
   
   
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent data encryption (TDE)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transparent data encryption (TDE)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-disable.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disable encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1591,10 +1760,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" checked>
         
           
-          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
             
   
   
@@ -1612,8 +1781,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_6_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1767,6 +1936,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1899,6 +2096,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1978,10 +2203,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
         
           
-          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
             
   
   
@@ -1999,8 +2224,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2562,7 +2787,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2578,7 +2803,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2701,7 +2926,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2714,6 +2939,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3164,6 +3528,53 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scale your cluster
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="scaling.html" class="md-nav__link">
         
@@ -3172,7 +3583,7 @@
   <span class="md-ellipsis">
     
   
-    Scale your cluster
+    Overview
   
 
     
@@ -3193,6 +3604,70 @@
   
   
     <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="ha-deploy.html" class="md-nav__link">
         
   
@@ -3201,6 +3676,34 @@
     
   
     High-availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
   
 
     
@@ -3277,6 +3780,34 @@
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3305,6 +3836,81 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3321,6 +3927,181 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitor Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="postgres-exporter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose Prometheus metrics using postgres_exporter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3713,6 +4494,34 @@
   
   
     <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -3971,6 +4780,34 @@
   
   
     <li class="md-nav__item">
+      <a href="install-community.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="custom-extensions.html" class="md-nav__link">
         
   
@@ -4035,34 +4872,6 @@
     
   
     Use PostgreSQL tablespaces with Percona Operator for PostgreSQL
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="monitor-kubernetes.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Monitor Kubernetes
   
 
     
@@ -4583,6 +5392,34 @@
   
   
     <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom resource statuses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secret-options.html" class="md-nav__link">
         
   
@@ -4759,10 +5596,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_11" >
         
           
-          <label class="md-nav__link" for="__nav_11_10" id="__nav_11_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11_11" id="__nav_11_11_label" tabindex="0">
             
   
   
@@ -4780,8 +5617,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4834,6 +5671,34 @@
     
   
     Trademark policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal-notice.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal notice
   
 
     
@@ -5795,12 +6660,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h2 id="check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>List the Secrets </p>
+<p>First, check the necessary Secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-</li>
-<li>
-<p>First, check the necessary secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
 <p>You will have the following response:</p>
 <div class="no-copy highlight"><pre><span></span><code>NAME                            TYPE     DATA   AGE
 cluster1-cluster-cert           Opaque   3      11m
@@ -5808,13 +6670,53 @@ cluster1-cluster-cert           Opaque   3      11m
 cluster1-replication-cert       Opaque   3      11m
 ...
 </code></pre></div>
+<p>If cert-manager is installed, you can also list <code>Certificate</code> resources:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Optionally you can also check that the certificates issuer is up and running:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Namespace-scoped Issuer (default)</label><label for="__tabbed_1_2">ClusterIssuer</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>issuer<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>The response should be as follows:</p>
+<div class="no-copy highlight"><pre><span></span><code>NAME                     READY   AGE
+cluster1-ca-issuer       True    61m
+cluster1-tls-issuer      True    61m
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The presence of two issuers has the following meaning. The
+<code>cluster1-ca-issuer</code> issuer is used to create a self-signed
+CA certificate (<code>cluster1-cluster-ca-cert</code>), and then the
+<code>cluster1-tls-issuer</code> issuer is used to create SSL certificates
+signed by that CA certificate.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p>If you configured <a href="tls-cert-manager.html#use-an-existing-clusterissuer"><code>tls.issuerConf.kind: ClusterIssuer</code></a>,
+check cluster-scoped issuers:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>clusterissuer
+</code></pre></div>
+<p>When the Operator manages the CA chain with <code>ClusterIssuer</code>, you see issuers
+such as <code>&lt;issuer-name&gt;-ca-issuer</code> and <code>&lt;issuer-name&gt;</code>. The CA
+<code>Certificate</code> and its Secret (<code>&lt;issuer-name&gt;-ca-cert</code>) are in the
+cert-manager namespace (<code>cert-manager</code> by default), not in the database namespace.</p>
+<p>When you use an existing organizational issuer, only your issuer appears. The Operator creates <code>Certificate</code> resources in the database namespace that
+reference it.</p>
+<p>These commands are provided by cert-manager; if you don&rsquo;t have it installed, you can still use <code>kubectl get secrets</code>.</p>
+</div>
+</div>
+</div>
 </li>
 <li>
 <p>Now use the following command to find out the certificates validity dates,
     substituting Secrets names if necessary:</p>
 <div class="highlight"><pre><span></span><code><span class="o">{</span>
-<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.tls\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
-<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.data.ca\.crt}&#39;</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-replication-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.tls\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>secret/cluster1-cluster-cert<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.ca\.crt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="w"> </span><span class="p">|</span><span class="w"> </span>openssl<span class="w"> </span>x509<span class="w"> </span>-noout<span class="w"> </span>-dates
 <span class="w">  </span><span class="o">}</span>
 </code></pre></div>
 <p>The resulting output will be self-explanatory:</p>
@@ -5847,7 +6749,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>server.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>server-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-cert.yaml
 </code></pre></div>
 </li>
@@ -5857,13 +6759,13 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">   </span>--from-file<span class="o">=</span>tls.crt<span class="o">=</span>replica.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>tls.key<span class="o">=</span>replica-key.pem<span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span>ca.pem<span class="w"> </span><span class="se">\</span>
-<span class="w">   </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">   </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">   </span>--dry-run<span class="o">=</span>client<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span>&gt;<span class="w"> </span>cluster1-replication-cert.yaml
 </code></pre></div>
 </li>
 <li>
 <p>Apply the manifests to update the Secrets:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NAMESPACE</span><span class="s2">&quot;</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>cluster1-cert.yaml<span class="w"> </span>-f<span class="w"> </span>cluster1-replication-cert.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 </ol>
@@ -5909,7 +6811,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Pause the cluster to prevent the Operator to restart the Pods mid-update.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: true}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">'{"spec": {"pause": true}}'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
@@ -5917,31 +6819,31 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Specify details about new custom certificates in the <code>deploy/cr.yaml</code>. Since this is a provisioned cluster, apply the patch as follows:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span>--patch<span class="w"> </span><span class="s1">&#39;{</span>
-<span class="s1">        &quot;spec&quot;: {</span>
-<span class="s1">            &quot;secrets&quot;: {</span>
-<span class="s1">                &quot;customRootCATLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-ca-cert-new&quot;,</span>
-<span class="s1">                    &quot;items&quot;: [</span>
+<span class="w">    </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">        "spec": {</span>
+<span class="s1">            "secrets": {</span>
+<span class="s1">                "customRootCATLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-ca-cert-new",</span>
+<span class="s1">                    "items": [</span>
 <span class="s1">                        {</span>
-<span class="s1">                            &quot;key&quot;: &quot;ca.crt&quot;,</span>
-<span class="s1">                            &quot;path&quot;: &quot;root.crt&quot;</span>
+<span class="s1">                            "key": "ca.crt",</span>
+<span class="s1">                            "path": "root.crt"</span>
 <span class="s1">                        },</span>
 <span class="s1">                        {</span>
-<span class="s1">                            &quot;key&quot;: &quot;ca.key&quot;,</span>
-<span class="s1">                            &quot;path&quot;: &quot;root.key&quot;</span>
+<span class="s1">                            "key": "ca.key",</span>
+<span class="s1">                            "path": "root.key"</span>
 <span class="s1">                        }</span>
 <span class="s1">                    ]</span>
 <span class="s1">                },</span>
-<span class="s1">                &quot;customTLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-tls&quot;</span>
+<span class="s1">                "customTLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-tls"</span>
 <span class="s1">                },</span>
-<span class="s1">                &quot;customReplicationTLSSecret&quot;: {</span>
-<span class="s1">                    &quot;name&quot;: &quot;cluster1-replication-tls&quot;</span>
+<span class="s1">                "customReplicationTLSSecret": {</span>
+<span class="s1">                    "name": "cluster1-replication-tls"</span>
 <span class="s1">                }</span>
 <span class="s1">            }</span>
 <span class="s1">        }</span>
-<span class="s1">    }&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="s1">    }'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
@@ -5949,7 +6851,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <p>Unpause the cluster to resume the Operator control:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="w"> </span>merge<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--patch<span class="w"> </span><span class="s1">&#39;{&quot;spec&quot;: {&quot;pause&quot;: false}}&#39;</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--patch<span class="w"> </span><span class="s1">'{"spec": {"pause": false}}'</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
@@ -5959,7 +6861,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:15 UTC">March 30, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:17:46 UTC">September 9, 2026</span>
       
         <br>
         Created:
@@ -6022,11 +6924,11 @@ notAfter=Jun 25 11:20:18 2033 GMT
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="js/print-site.js"></script>
       
@@ -6035,6 +6937,8 @@ notAfter=Jun 25 11:20:18 2033 GMT
         <script src="js/consent.js"></script>
       
         <script src="js/rating.js"></script>
+      
+        <script src="js/kapa.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>

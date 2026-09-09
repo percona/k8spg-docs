@@ -19,7 +19,7 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/TLS.html">
       
       
-        <link rel="prev" href="annotations.html">
+        <link rel="prev" href="encryption-disable.html">
       
       
         <link rel="next" href="tls-cert-manager.html">
@@ -29,7 +29,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -37,7 +37,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -78,6 +78,8 @@
       <link rel="stylesheet" href="css/extra.css">
     
       <link rel="stylesheet" href="css/rating.css">
+    
+      <link rel="stylesheet" href="css/kapa.css">
     
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -144,11 +146,11 @@
             
   <div class="md-banner" style="text-align: center;">
     Where the open source database community meets:
-    Use code <strong>PERCONA75</strong> and secure your spot for Percona Live.
+    Secure your spot for Percona Live.
 
     <a
       class="breakdance-link button-atom button-atom--primary bde-button__button"
-      href="https://perconalive.com/2026-usa/"
+      href="https://perconalive.com/2026-amsterdam/registration/"
       target="_blank"
       data-type="url"
       style="
@@ -1247,6 +1249,34 @@
   
   
     <li class="md-nav__item">
+      <a href="rke2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Rancher Kubernetes Engine (RKE2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="kubernetes.html" class="md-nav__link">
         
   
@@ -1579,6 +1609,145 @@
                 
   
   
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transparent data encryption (TDE)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transparent data encryption (TDE)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-disable.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disable encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -1592,10 +1761,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" checked>
         
           
-          <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
             
   
   
@@ -1613,8 +1782,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_6_7">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1691,13 +1860,30 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#automatic-certificate-generation-by-the-operator" class="md-nav__link">
+  <a href="#ways-to-provide-tls-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic certificate generation by the Operator
+        Ways to provide TLS certificates
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Ways to provide TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-operator-chooses-tls-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Operator chooses TLS source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1717,6 +1903,17 @@
     <span class="md-ellipsis">
       
         Keep certificates after deleting the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-replica-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replica connections
       
     </span>
   </a>
@@ -1851,6 +2048,34 @@
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -1887,6 +2112,34 @@
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -1979,10 +2232,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
         
           
-          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
             
   
   
@@ -2000,8 +2253,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2563,7 +2816,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2579,7 +2832,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2702,7 +2955,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2715,6 +2968,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3165,6 +3557,53 @@
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scale your cluster
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="scaling.html" class="md-nav__link">
         
@@ -3173,7 +3612,7 @@
   <span class="md-ellipsis">
     
   
-    Scale your cluster
+    Overview
   
 
     
@@ -3194,6 +3633,70 @@
   
   
     <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="ha-deploy.html" class="md-nav__link">
         
   
@@ -3202,6 +3705,34 @@
     
   
     High-availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
   
 
     
@@ -3278,6 +3809,34 @@
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3306,6 +3865,81 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3322,6 +3956,181 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitor Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="postgres-exporter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose Prometheus metrics using postgres_exporter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3714,6 +4523,34 @@
   
   
     <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -3972,6 +4809,34 @@
   
   
     <li class="md-nav__item">
+      <a href="install-community.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="custom-extensions.html" class="md-nav__link">
         
   
@@ -4036,34 +4901,6 @@
     
   
     Use PostgreSQL tablespaces with Percona Operator for PostgreSQL
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="monitor-kubernetes.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Monitor Kubernetes
   
 
     
@@ -4584,6 +5421,34 @@
   
   
     <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom resource statuses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secret-options.html" class="md-nav__link">
         
   
@@ -4760,10 +5625,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_11" >
         
           
-          <label class="md-nav__link" for="__nav_11_10" id="__nav_11_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11_11" id="__nav_11_11_label" tabindex="0">
             
   
   
@@ -4781,8 +5646,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4835,6 +5700,34 @@
     
   
     Trademark policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal-notice.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal notice
   
 
     
@@ -5720,13 +6613,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#automatic-certificate-generation-by-the-operator" class="md-nav__link">
+  <a href="#ways-to-provide-tls-certificates" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Automatic certificate generation by the Operator
+        Ways to provide TLS certificates
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Ways to provide TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#how-the-operator-chooses-tls-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the Operator chooses TLS source
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5746,6 +6656,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Keep certificates after deleting the cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#logical-replica-connections" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replica connections
       
     </span>
   </a>
@@ -5794,27 +6715,92 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>The internal certificate is also used as an authorization method for PostgreSQL
 Replica instances.</p>
+<p>These certificates are stored in Secrets. The default Secret names are derived from the cluster name. When you deploy a cluster, you see these Secrets:</p>
+<table>
+<thead>
+<tr>
+<th>Secret</th>
+<th>What it is</th>
+<th>Who uses it</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&lt;cluster-name&gt;-cluster-ca-cert</code></td>
+<td>Root certificate authority (CA) for this cluster</td>
+<td>Signs the other certificates. Clients use it to verify the server.</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-cluster-cert</code></td>
+<td>PostgreSQL <strong>server</strong> certificate</td>
+<td>Presented to applications (and used when verifying Postgres on the backend of PgBouncer).</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-replication-cert</code></td>
+<td><strong>Client</strong> certificate</td>
+<td>Used for streaming replication and <code>pg_rewind</code> between instances. Postgres accepts only certificate authentication for this user.</td>
+</tr>
+<tr>
+<td><code>&lt;cluster-name&gt;-pgbouncer</code></td>
+<td>PgBouncer Secret, including its <strong>frontend</strong> TLS material</td>
+<td>Presented to applications that connect through PgBouncer.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="ways-to-provide-tls-certificates">Ways to provide TLS certificates<a class="headerlink" href="#ways-to-provide-tls-certificates" title="Permanent link">&para;</a></h2>
 <p>You can configure TLS in these ways:</p>
+<table>
+<thead>
+<tr>
+<th>Approach</th>
+<th>Best for</th>
+<th>Renewal</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Operator-generated certificates (default)</td>
+<td>Quick start, development</td>
+<td>Manual</td>
+</tr>
+<tr>
+<td>cert-manager with Operator-managed issuers</td>
+<td>Automated TLS without external PKI</td>
+<td>Automatic (cert-manager)</td>
+</tr>
+<tr>
+<td>cert-manager with your existing <code>ClusterIssuer</code> or custom issuer</td>
+<td>Production clusters that use the organization&rsquo;s PKI</td>
+<td>Automatic (cert-manager)</td>
+</tr>
+<tr>
+<td>Manual Secrets</td>
+<td>Full control, air-gapped or custom PKI workflows</td>
+<td>Manual</td>
+</tr>
+</tbody>
+</table>
 <ul>
 <li>Have the Operator generate certificates automatically during cluster creation,</li>
-<li>Use the <a href="tls-cert-manager.html">cert-manager</a> to manage certificates and their lifecycle,</li>
+<li>Use the <a href="tls-cert-manager.html">cert-manager</a> to manage certificates and their lifecycle. By default the Operator creates namespace-scoped issuers in the database namespace. Starting with Operator 3.1.0, you can also point it at a <a href="tls-cert-manager.html#use-an-existing-clusterissuer"><code>ClusterIssuer</code></a> so PostgreSQL certificates are signed by your organization&rsquo;s CA,</li>
 <li><a href="tls-manual.html">Generate certificates manually</a>.</li>
 </ul>
-<p>You can <a href="tls-migrate-to-cert-manager.html">migrate your running cluster to cert-manager</a> to benefit from automatic renewal and centralized management.</p>
+<p>You can <a href="tls-migrate-to-cert-manager.html">migrate your running cluster to cert-manager</a> to benefit from automatic renewal and centralized management. </p>
 <div class="admonition important">
 <p class="admonition-title">Known limitation for Operator 2.9.0</p>
 <p>If you had <strong>cert-manager</strong> installed and used the Operator-generated TLS certificates, upgrading the Operator to version <strong>2.9.0</strong> could put the cluster in an inconsistent state: the root CA stayed on internal PKI, but leaf certificates were handed to cert-manager. See <a href="limitations.html#tls-and-cert-manager">TLS and cert-manager (Operator 2.9.0)</a> for more information. </p>
 <p>To fix this, either <a href="limitations.html#switch-to-use-only-the-certificates-managed-by-the-cert-manager">move fully to cert-manager</a> or <a href="tls-migrate-from-cert-manager.html">switch to custom TLS Secrets</a>. This issue is fixed in Operator <strong>3.0.0</strong> and later.</p>
 </div>
 <p>Additionally, you can <em>force</em> your database cluster to use only encrypted channels for both internal and external communications. To do this, set the <code>tlsOnly</code> Custom Resource option to <code>true</code>.</p>
-<h2 id="automatic-certificate-generation-by-the-operator">Automatic certificate generation by the Operator<a class="headerlink" href="#automatic-certificate-generation-by-the-operator" title="Permanent link">&para;</a></h2>
-<p>The Operator can generate long-term certificates automatically and enable encryption automatically during cluster creation.</p>
-<p>Upon cluster creation, the Operator reviews the Custom Resource configuration to determine the TLS approach:</p>
+<h3 id="how-the-operator-chooses-tls-source">How the Operator chooses TLS source<a class="headerlink" href="#how-the-operator-chooses-tls-source" title="Permanent link">&para;</a></h3>
+<p>The Operator can generate long-term certificates and enable TLS encryption automatically during cluster creation.</p>
+<p>Upon cluster creation, the Operator reviews the Custom Resource configuration and chooses a TLS source in this order:</p>
 <ul>
-<li>If you created custom certificate Secrets and referenced them in the cluster spec, the Operator uses them for TLS.</li>
-<li>If custom Secrets are not specified but <a href="tls-cert-manager.html">cert-manager</a> is installed, the Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.</li>
+<li>Your custom TLS certificate Secrets if you created and referenced them in the cluster spec.</li>
+<li><a href="tls-cert-manager.html">cert-manager</a>, if it is installed and no custom Secrets are specified. The Operator generates certificates and issuer and delegates certificate lifecycle management to cert-manager.</li>
 <li>If neither condition is met, the Operator generates the necessary certificates and Secrets itself.</li>
 </ul>
+<p>Operator-generated certificates are not renewed automatically by cert-manager. Plan manual rotation if your security policy requires it.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Beginning with version 2.5.0, the Operator creates a dedicated root CA for each cluster. Earlier versions used a single generated root CA for all database clusters.</p>
@@ -5826,22 +6812,27 @@ Replica instances.</p>
 <li><a href="tls-manual.html">Generate certificates manually</a></li>
 <li><a href="tls-migrate-to-cert-manager.html">Migrate from Operator-generated certificates to cert-manager</a></li>
 <li><a href="tls-migrate-from-cert-manager.html">Migrate from cert-manager to custom TLS certificates</a></li>
+<li><a href="tls-pgbouncer-trusted-cas.html">Trust additional CAs for PgBouncer client mTLS</a></li>
 <li><a href="tls-update.html">Update certificates</a></li>
+<li><a href="tls-cert-management-policy.html">Configure the TLS certificate management policy</a></li>
 <li><a href="tls-verify-communication.html">Check TLS communication to a cluster</a></li>
 </ul>
 <h2 id="keep-certificates-after-deleting-the-cluster">Keep certificates after deleting the cluster<a class="headerlink" href="#keep-certificates-after-deleting-the-cluster" title="Permanent link">&para;</a></h2>
 <p>When you <a href="delete.html">delete the cluster</a>, the Operator handles SSL objects (Secrets, certificates, and issuer) as follows:</p>
 <ul>
 <li>The Operator doesn&rsquo;t delete TLS Secrets, certificates, and issuer it generated by default. </li>
-<li>The Operator removes the cert-manager Issuers and Certificates it created but keeps the Secrets.</li>
+<li>The Operator removes the namespace-scoped cert-manager Issuers and Certificates it owns (via owner references) but keeps the Secrets.</li>
+<li>Operator-managed cluster-scoped <code>ClusterIssuer</code> resources and CA objects in the cert-manager namespace are not owned by the cluster, so they are not deleted automatically. The Operator never deletes an external issuer that it does not own.</li>
 </ul>
-<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p>
+<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the TLS Secrets.</p>
+<h2 id="logical-replica-connections">Logical replica connections<a class="headerlink" href="#logical-replica-connections" title="Permanent link">&para;</a></h2>
+<p>A <a href="logical-replication.html">logical replica</a> presents the cluster TLS certificate. Prefer <code>sslmode=verify-ca</code>. Hostname verification (<code>sslmode=verify-full</code>) can fail because the certificate SANs may not include the logical replica Service DNS name (<code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>). If you use custom certificates, add that name to the server certificate. See <a href="tls-manual.html">Generate certificates manually</a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 18:05:58 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:
@@ -5904,11 +6895,11 @@ Replica instances.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="js/print-site.js"></script>
       
@@ -5917,6 +6908,8 @@ Replica instances.</p>
         <script src="js/consent.js"></script>
       
         <script src="js/rating.js"></script>
+      
+        <script src="js/kapa.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>

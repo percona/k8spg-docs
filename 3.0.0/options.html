@@ -9,10 +9,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the PostgreSQL dynamic configuration method
- provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-Patroni dynamic configuration 
-to apply your changes.">
+        <meta name="description" content="You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+Patroni dynamic configuration .">
       
       
         <meta name="author" content="Percona LLC">
@@ -31,7 +30,7 @@ to apply your changes.">
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.6">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.7.7">
     
     
       
@@ -39,7 +38,7 @@ to apply your changes.">
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
@@ -80,6 +79,8 @@ to apply your changes.">
       <link rel="stylesheet" href="css/extra.css">
     
       <link rel="stylesheet" href="css/rating.css">
+    
+      <link rel="stylesheet" href="css/kapa.css">
     
     <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -146,11 +147,11 @@ to apply your changes.">
             
   <div class="md-banner" style="text-align: center;">
     Where the open source database community meets:
-    Use code <strong>PERCONA75</strong> and secure your spot for Percona Live.
+    Secure your spot for Percona Live.
 
     <a
       class="breakdance-link button-atom button-atom--primary bde-button__button"
-      href="https://perconalive.com/2026-usa/"
+      href="https://perconalive.com/2026-amsterdam/registration/"
       target="_blank"
       data-type="url"
       style="
@@ -1249,6 +1250,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="rke2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Rancher Kubernetes Engine (RKE2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="kubernetes.html" class="md-nav__link">
         
   
@@ -1560,13 +1589,30 @@ to apply your changes.">
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuring-wal_level" class="md-nav__link">
+  <a href="#how-to-pass-postgresql-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuring wal_level
+        How to pass PostgreSQL options
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="How to pass PostgreSQL options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-override-an-operator-default-wal_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: override an Operator default (wal_level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1671,7 +1717,7 @@ to apply your changes.">
   <span class="md-ellipsis">
     
   
-    Transport encryption (TLS/SSL)
+    Transparent data encryption (TDE)
   
 
     
@@ -1684,6 +1730,145 @@ to apply your changes.">
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transparent data encryption (TDE)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-disable.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disable encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport encryption (TLS/SSL)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1840,6 +2025,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="tls-pgbouncer-trusted-cas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Trust additional CAs for PgBouncer client mTLS
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="tls-update.html" class="md-nav__link">
         
   
@@ -1876,6 +2089,34 @@ to apply your changes.">
     
   
     Check TLS communication
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="tls-cert-management-policy.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    TLS certificate management policy
   
 
     
@@ -1968,10 +2209,10 @@ to apply your changes.">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
         
           
-          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
             
   
   
@@ -1989,8 +2230,8 @@ to apply your changes.">
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2552,7 +2793,7 @@ to apply your changes.">
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2568,7 +2809,7 @@ to apply your changes.">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2691,7 +2932,7 @@ to apply your changes.">
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2704,6 +2945,145 @@ to apply your changes.">
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3154,6 +3534,53 @@ to apply your changes.">
   
   
   
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Scale your cluster
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Scale your cluster
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
     <li class="md-nav__item">
       <a href="scaling.html" class="md-nav__link">
         
@@ -3162,7 +3589,7 @@ to apply your changes.">
   <span class="md-ellipsis">
     
   
-    Scale your cluster
+    Overview
   
 
     
@@ -3183,6 +3610,70 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="scaling-horizontal.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Horizontal scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="scaling-vertical.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Vertical scaling
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="ha-deploy.html" class="md-nav__link">
         
   
@@ -3191,6 +3682,34 @@ to apply your changes.">
     
   
     High-availability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
   
 
     
@@ -3267,6 +3786,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="extra-volumes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Add extra volumes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="pause.html" class="md-nav__link">
         
   
@@ -3295,6 +3842,81 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitoring
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Monitoring
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3311,6 +3933,181 @@ to apply your changes.">
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="monitor-kubernetes.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Monitor Kubernetes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="postgres-exporter.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Expose Prometheus metrics using postgres_exporter
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Logging
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Logging
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Persistent logging
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="log-rotation.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Log rotation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
     </li>
   
 
@@ -3703,6 +4500,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="migrate-checklist.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Pre-migration compatibility checks
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -3961,6 +4786,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="install-community.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy a cluster with community PostgreSQL images
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="custom-extensions.html" class="md-nav__link">
         
   
@@ -4025,34 +4878,6 @@ to apply your changes.">
     
   
     Use PostgreSQL tablespaces with Percona Operator for PostgreSQL
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="monitor-kubernetes.html" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Monitor Kubernetes
   
 
     
@@ -4573,6 +5398,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="cr-statuses.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom resource statuses
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="secret-options.html" class="md-nav__link">
         
   
@@ -4749,10 +5602,10 @@ to apply your changes.">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_11_11" >
         
           
-          <label class="md-nav__link" for="__nav_11_10" id="__nav_11_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_11_11" id="__nav_11_11_label" tabindex="0">
             
   
   
@@ -4770,8 +5623,8 @@ to apply your changes.">
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_11_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_11_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_11_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -4824,6 +5677,34 @@ to apply your changes.">
     
   
     Trademark policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="legal-notice.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Legal notice
   
 
     
@@ -5709,13 +6590,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuring-wal_level" class="md-nav__link">
+  <a href="#how-to-pass-postgresql-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuring wal_level
+        How to pass PostgreSQL options
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="How to pass PostgreSQL options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-override-an-operator-default-wal_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: override an Operator default (wal_level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -5764,12 +6662,19 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#changing-postgresql-options" title="Permanent link">&para;</a></h1>
-<p>You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method
-<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-to apply your changes.</p>
-<p>Add your PostgreSQL options to the <code>patroni.dynamicConfiguration.postgresql.parameters</code>
-section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
+<p>You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Operator defaults for some PostgreSQL parameters can differ from upstream PostgreSQL defaults. Before you change
+a parameter, check whether the Operator already sets it and whether you can
+override that value. See <a href="immutable-options.html">Immutable options</a> for the list of parameters that you can and cannot override.</p>
+<p>To inspect the effective Patroni configuration for a running cluster, use
+<code>patronictl show-config</code> inside a PostgreSQL Pod. See
+<a href="manage-manually.html#override-postgresql-parameters">Manage a database manually</a>.</p>
+<p>This page shows how to pass additional options to PostgreSQL.</p>
+<h2 id="how-to-pass-postgresql-options">How to pass PostgreSQL options<a class="headerlink" href="#how-to-pass-postgresql-options" title="Permanent link">&para;</a></h2>
+<p>Add parameters under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in your
+<code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -5783,33 +6688,38 @@ section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <p>Apply the updated Custom Resource:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<p>This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.</p>
-<p>Most options take effect without
-a PostgreSQL server restart. Some options, such as <code>wal_level</code> and <code>shared_buffers</code>, have the
+<p>The Operator applies the changes to new clusters at creation time and to existing
+clusters at runtime.</p>
+<p>Most options take effect without a PostgreSQL server restart. Some options, such
+as <code>shared_buffers</code> or <code>wal_level</code>, have the
 <a href="https://www.postgresql.org/docs/current/view-pg-settings.html">postmaster context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and require a PostgreSQL restart. For these options, Patroni performs a rolling
-restart of all instances after you apply the change. To check whether an option
-requires a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+and require a restart. For those options, Patroni performs a rolling restart of
+all PostgreSQL Pods after you apply the change. To check whether an option requires
+a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>The Operator does not validate the options it passes to Patroni. Invalid
-values can make the cluster unavailable. Also, only PostgreSQL parameters in the
-<code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied. Other Patroni options in
-<code>patroni.dynamicConfiguration</code> subsection are ignored.</p>
+values can make the cluster unavailable. Also, only PostgreSQL parameters in
+the <code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied.
+Other Patroni options in the <code>patroni.dynamicConfiguration</code> subsection are
+ignored.</p>
 </div>
-<h2 id="configuring-wal_level">Configuring wal_level<a class="headerlink" href="#configuring-wal_level" title="Permanent link">&para;</a></h2>
-<p>The <code>wal_level</code> option controls how much information is written to PostgreSQL WAL
-files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
+<h3 id="example-override-an-operator-default-wal_level">Example: override an Operator default (<code>wal_level</code>)<a class="headerlink" href="#example-override-an-operator-default-wal_level" title="Permanent link">&para;</a></h3>
+<p>The Operator sets <code>wal_level</code> to <code>logical</code> by default. That value supports
+logical replication and also increases WAL volume and I/O compared with
+<code>replica</code>.</p>
+<p>Supported values in Operator-managed clusters are:</p>
 <ul>
-<li><code>replica</code> (PostgreSQL default) — sufficient for physical replication and most
-  workloads</li>
-<li><code>logical</code> (Operator default) — required for logical replication; increases WAL volume and I/O.</li>
+<li><code>logical</code> (Operator default) — required for logical replication</li>
+<li><code>replica</code> — enough for physical replication and most workloads that do not
+  need logical replication</li>
 </ul>
-<p>Read more about <code>wal_level</code> values in <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Though the <code>wal_level</code> option can also have the value <code>minimal</code>, it will be rejected by the validation rules, since other parameters, such as <code>hot_standby</code>, require more WAL data. </p>
-</div>
+<p>Both values allow point-in-time recovery. The value <code>minimal</code> is rejected by
+validation rules because other required settings, such as <code>hot_standby</code>, need
+more WAL data.</p>
+<p>Read more about what <code>wal_level</code> controls in the
+<a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>To lower WAL overhead when you do not need logical replication, set the <code>wal_level</code> to <code>replica</code> under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -5817,14 +6727,8 @@ files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameter
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">wal_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replica</span>
 </code></pre></div>
-<p>Use <code>replica</code> when you need physical replication or no replication. Use
-<code>logical</code> when you need logical replication. Both values allow for point-in-time recovery.</p>
-<p>The <code>wal_level</code> parameter has the
-postmaster context. After you change it, Patroni restarts all PostgreSQL instances.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="immutable-options.html">Immutable options</a> for the full list.</p>
-</div>
+<p><code>wal_level</code> has the postmaster context. After you change it, Patroni restarts
+all PostgreSQL instances.</p>
 <h2 id="using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
 the client IP or hostname. Configure it in the
@@ -5860,7 +6764,7 @@ authentication.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:45:34 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:44 UTC">September 9, 2026</span>
       
         <br>
         Created:
@@ -5923,11 +6827,11 @@ authentication.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["search.highlight", "navigation.top", "navigation.tracking", "content.tabs.link", "content.action.view", "content.code.copy", "content.footnote.tooltips", "toc.follow"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": {"provider": "mike"}}</script>
     
     
 
-      <script src="assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
       
         <script src="js/print-site.js"></script>
       
@@ -5936,6 +6840,8 @@ authentication.</p>
         <script src="js/consent.js"></script>
       
         <script src="js/rating.js"></script>
+      
+        <script src="js/kapa.js"></script>
       
     
 <script src="https://cmp.osano.com/Azqe5vTyLOSbN3OuT/49ad85b5-0418-4794-ab81-7599dddd534c/osano.js"></script>
