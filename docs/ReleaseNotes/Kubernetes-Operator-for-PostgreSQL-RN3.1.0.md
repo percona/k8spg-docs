@@ -2,7 +2,7 @@
 
 !!! warning ""
 
-    Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](../update-operator.md) to keep your clusters current and protected.
+    Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](../update-operator.md#operator-and-crd-compatibility) to keep your clusters current and protected.
 
 [Get started with the Operator :material-arrow-right:](../quickstart.md){.md-button}
 
@@ -24,7 +24,7 @@
 
 ### Read scaling
 
-* [Declarative logical replicas for read-only workloads](#define-logical-replicas-declaratively) (tech preview)
+* [Declarative logical replicas for read-only workloads](#define-logical-replicas-declaratively-tech-preview) (tech preview)
 
 ### Images and platforms
 
@@ -63,7 +63,7 @@ Debugging distributed systems just got easier. Percona Operator for PostgreSQL n
 
 The Operator uses [Fluent Bit :octicons-link-external-16:](https://fluentbit.io/) to collect logs. Fluent Bit runs a `logs` sidecar container on each PostgreSQL instance Pod and mounts the same data volume. It collects logs and streams them to its own stdout as JSON lines. You can additionally configure Fluent Bit outputs such as S3 or Open Telemetry (OTel) envelope and have the logs forwarded there.
 
-[Learn more about persistent logging in the documentation](../persistent-logging.md)
+[Learn more about persistent logging in the documentation](../persistent-logging.md).
 
 ### Configure log rotation for persistent logs
 
@@ -75,7 +75,7 @@ You can configure log rotation in these ways:
 * Define additional configuration via a ConfigMap. In this case, the Operator adds your options to the default configuration
 * Set a new rotation schedule
   
-See our [documentation](../logrotate.md) for step-by-step instructions for each option.
+See our [documentation](../log-rotation.md) for step-by-step instructions for each option.
 
 ### Define logical replicas declaratively (tech preview)
 
@@ -87,7 +87,7 @@ The Operator creates the volume, copies the data, converts the physical replica 
 
 Patroni does not manage nor promote it, so it stays a stable read endpoint.
 
-Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](../deploy-replica.md).
+Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](../logical-replication.md).
 
 ### Mount extra volumes into PostgreSQL instances
 
@@ -163,7 +163,7 @@ spec:
                 storage: 5Gi
 ```
 
-See [Automated scaling with auto-growable disks](../scaling.md#automated-scaling-with-auto-growable-disks) for the full setup.
+See [Automated scaling with auto-growable disks](../scaling-vertical.md#automated-scaling-with-auto-growable-disks) for the full setup.
 
 ### Pause and resume pgBouncer connections
 
@@ -232,14 +232,14 @@ All Operator images are now available for ARM64, giving you native support on AR
 * The `extensions.builtin` section is deprecated and will be removed after version 3.4.0. We encourage you to use `extensions.<extension>.enabled`. You can still use the old form during the transition. If both forms are set at the same time, `extensions.builtin` takes precedence.
 * `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via `extensions.custom` remains unchanged and works as expected after the upgrade.
 
-   Upgrade the database images first and wait until Pods rejoin the cluster. Then reconfigure the extensions. Completing these steps one after the other lets the cluster finish each change in one pass.
+    Upgrade the database images first and wait until Pods rejoin the cluster. Then reconfigure the extensions. Completing these steps one after the other lets the cluster finish each change in one pass.
 
-   After the database upgrade, switch to built-in extensions as follows:
+    After the database upgrade, switch to built-in extensions as follows:
 
-   * Remove the extension from the `extensions.custom` list
-   * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
+    * Remove the extension from the `extensions.custom` list
+    * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
 
-   You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it.
+    You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it.
 
 * Field descriptions were removed from the inherited `CrunchyBridgeCluster` CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running `kubectl explain` for those fields no longer shows help text.
 
