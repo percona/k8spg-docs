@@ -18,6 +18,19 @@ This page describes known limitations of Percona Operator for PostgreSQL. Unders
 * Pausing the cluster stops the logical replica Pod.
 * Removing a logical replica always deletes its PVC, even if the cluster `delete-pvc` finalizer is off.
 * Logical replication is not supported when [Transparent Data Encryption](encryption.md) is enabled in the cluster. This limitation is planned to be removed in future releases.
+  
+## Custom extensions on Rancher (RKE2)
+
+When you enable custom extensions, the Operator restarts the cluster's Pods. On Rancher (RKE2) clusters, a former primary may fail to rejoin the cluster as the replica if it has a diverged timeline.
+
+The affected Pod's PostgreSQL log shows the following:
+
+```text
+LOG:  invalid xl_info in checkpoint record
+PANIC:  could not locate a valid checkpoint record at <LSN>
+```
+
+To recover, you must manually [reinitialize the replica](reinit.md#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim). Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
 
 ## Service control
 

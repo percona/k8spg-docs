@@ -14,7 +14,7 @@ instead of relying only on Percona Distribution images.
 You can also [build and
 publish your own community images](#build-your-own-community-images) and point the Operator at them.
 
-This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. In this example, we use images from the [perconalab](https://hub.docker.com/repository/docker/perconalab/percona-postgresql-operator/) repository, which are intended for testing purposes only. For production environments, you should build, sign, and use your own images to ensure security and compliance.
+This guide walks you through deploying the Operator and a PostgreSQL cluster using community PostgreSQL images. The image tags in this guide are for evaluation. For production environments, you should build, sign, and use your own images to ensure security and compliance.
 
 The flow consist of two steps:
 
@@ -102,14 +102,14 @@ Here's a sequence of steps to follow:
     metadata:
       name: cluster1
     spec:
-      image: docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
+      image: docker.io/percona/percona-postgresql-operator:postgresql{{postgrescommunity}}-community-ubi9
       postgresVersion: 18
       proxy:
         pgBouncer:
-          image: docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
+          image: docker.io/percona/percona-postgresql-operator:pgbouncer{{pgbouncercommunity}}-community
       backups:
         pgbackrest:
-          image: docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
+          image: docker.io/percona/percona-postgresql-operator:pgbackrest{{pgbackrestcommunity}}-community
     ```
 
 5. Deploy the cluster:
@@ -145,21 +145,10 @@ community images.
 
 ## Available community images
 
-The following UBI9 (EL9) images are published for evaluation:
+Published evaluation images live under `docker.io/percona/percona-postgresql-operator`. Use the UBI 9 tags in the example above, or the UBI 8 tags if you need Enterprise Linux 8.
 
-```text
-docker.io/perconalab/percona-postgresql-operator:main-postgres14-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres15-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres16-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres17-community
-docker.io/perconalab/percona-postgresql-operator:main-postgres18-community
-docker.io/perconalab/percona-postgresql-operator:main-pgbackrest-community
-docker.io/perconalab/percona-postgresql-operator:main-pgbouncer-community
-docker.io/perconalab/percona-postgresql-operator:main-upgrade-community
-```
+See [PostgreSQL community images](images-community.md) for the full list of tags and digests, including the shared pgBouncer and pgBackRest images.
 
-UBI8 (EL8) variants use a `main-ubi8-` prefix, for example
-`main-ubi8-postgres18-community`.
 
 ## Build your own community images
 
