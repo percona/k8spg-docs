@@ -4897,6 +4897,39 @@ deploy/cr.yaml  file.">
 </li>
         
           <li class="md-nav__item">
+  <a href="#tlsissuerconfname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlsissuerconfkind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.kind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlsissuerconfgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#standbyenabled" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -9768,6 +9801,39 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#tlsissuerconfname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlsissuerconfkind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.kind
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlsissuerconfgroup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tls.issuerConf.group
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#standbyenabled" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -13439,7 +13505,88 @@ for PostgreSQL Cluster; it should include only <a href="https://datatracker.ietf
 </tbody>
 </table>
 <h3 id="tlspgbackrestcertvalidityduration"><code>tls.pgBackRestCertValidityDuration</code><a class="headerlink" href="#tlspgbackrestcertvalidityduration" title="Permanent link">&para;</a></h3>
-<p>Validity duration for the <code>pgBackRest</code> client and repository host certificates</p>
+<p>Validity duration for the <code>pgBackRest</code> client and repository host certificates. Used only when <a href="tls-cert-manager.html">cert-manager</a> manages certificates. Format: Go duration (e.g. <code>2160h</code>). Default: <code>8760h</code> (1 year).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>2160h</code></td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="#tlsissuerconfname"><code>tls.issuerConf</code></a> options below control which cert-manager issuer
+signs PostgreSQL TLS certificates. </p>
+<h3 id="tlsissuerconfname"><code>tls.issuerConf.name</code><a class="headerlink" href="#tlsissuerconfname" title="Permanent link">&para;</a></h3>
+<p>The name of the cert-manager <a href="https://cert-manager.io/docs/concepts/issuer/">Issuer or ClusterIssuer <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> resource that signs PostgreSQL TLS certificates. </p>
+<ul>
+<li>For Operator-managed namespace-scoped issuers, leave this unset to use the default <code>&lt;cluster-name&gt;-tls-issuer</code> name, or set it to customize that Issuer name.</li>
+<li>For Operator-managed <code>ClusterIssuer</code> scope, set a unique base name. The Operator creates <code>&lt;name&gt;-ca-issuer</code>, <code>&lt;name&gt;-ca-cert</code>, and the CA-backed <code>&lt;name&gt;</code> ClusterIssuer.</li>
+<li>For an existing organizational <code>ClusterIssuer</code> or a custom issuer kind, set this to the name of that issuer. The Operator creates <code>Certificate</code> resources that reference it and does not create its own CA chain.</li>
+</ul>
+<p>See <a href="tls-cert-manager.html#use-an-existing-clusterissuer">Use an existing ClusterIssuer</a> for setup steps.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>my-org-issuer</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tlsissuerconfkind"><code>tls.issuerConf.kind</code><a class="headerlink" href="#tlsissuerconfkind" title="Permanent link">&para;</a></h3>
+<p>The cert-manager <a href="https://cert-manager.io/docs/configuration/">issuer type <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> referenced by PostgreSQL <code>Certificate</code> resources.</p>
+<p>Supported values:</p>
+<ul>
+<li><code>Issuer</code> (default) — namespace-scoped issuer in the database namespace.</li>
+<li>
+<p><code>ClusterIssuer</code> — cluster-scoped issuer. Available starting with Operator 3.1.0.</p>
+<p>Use this when the Operator should manage a shared CA chain across namespaces, or when your platform team manages a cluster-wide issuer. Read more in the <a href="tls-cert-manager.html#operator-managed-issuers-with-clusterissuer-scope">Operator-managed issuers with ClusterIssuer scope</a> and <a href="tls-cert-manager.html#use-an-existing-clusterissuer">Use an existing ClusterIssuer</a>.</p>
+</li>
+<li>
+<p>Any other issuer kind (for example, a Vault-backed custom resource). It is treated as an external issuer. See <a href="tls-cert-manager.html#use-a-custom-issuer-kind">Use a custom issuer kind</a>.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>ClusterIssuer</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="tlsissuerconfgroup"><code>tls.issuerConf.group</code><a class="headerlink" href="#tlsissuerconfgroup" title="Permanent link">&para;</a></h3>
+<p>The API group for the issuer referenced in <code>issuerConf</code>. Use <code>cert-manager.io</code> for built-in cert-manager certificate issuers.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>cert-manager.io</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="standbyenabled"><code>standby.enabled</code><a class="headerlink" href="#standbyenabled" title="Permanent link">&para;</a></h3>
 <p>Enables or disables running the cluster in a standby mode (read-only copy of an existing cluster, useful for disaster recovery, etc).</p>
 <table>
@@ -18366,7 +18513,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:17:46 UTC">September 9, 2026</span>
       
         <br>
         Created:

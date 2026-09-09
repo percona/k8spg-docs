@@ -9,7 +9,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with cert-manager  for TLS certificate management.">
+        <meta name="description" content="Percona Operator for PostgreSQL integrates with cert-manager  for TLS certificate management.">
       
       
         <meta name="author" content="Percona LLC">
@@ -1859,17 +1859,6 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#certificate-lifecycle-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Certificate lifecycle management
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1903,10 +1892,65 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#operator-managed-namespace-scoped-issuers-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator-managed namespace-scoped issuers (default)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-managed-issuers-with-clusterissuer-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator-managed issuers with ClusterIssuer scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-an-existing-clusterissuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use an existing ClusterIssuer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-a-custom-issuer-kind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use a custom issuer kind
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#verify-cert-manager-resources" class="md-nav__link">
     <span class="md-ellipsis">
       
         Verify cert-manager resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-environment-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator environment variable
       
     </span>
   </a>
@@ -6116,17 +6160,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#certificate-lifecycle-management" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Certificate lifecycle management
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
   <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6160,10 +6193,65 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#operator-managed-namespace-scoped-issuers-default" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator-managed namespace-scoped issuers (default)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-managed-issuers-with-clusterissuer-scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator-managed issuers with ClusterIssuer scope
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-an-existing-clusterissuer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use an existing ClusterIssuer
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-a-custom-issuer-kind" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use a custom issuer kind
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#verify-cert-manager-resources" class="md-nav__link">
     <span class="md-ellipsis">
       
         Verify cert-manager resources
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#operator-environment-variable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Operator environment variable
       
     </span>
   </a>
@@ -6215,24 +6303,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
-<p>Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management. </p>
-<p>When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven&rsquo;t provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.</p>
-<p>The Percona Operator self-signed issuer is local to the Operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). </p>
+<p>Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management.</p>
+<p>When the Operator creates a database cluster, it checks whether cert-manager is installed and whether you have provided custom TLS secrets. If cert-manager is available and you have not set custom secrets, the Operator requests certificates from cert-manager, stores them in Kubernetes Secrets, and uses those Secrets for TLS. cert-manager then manages issuance, renewal, and rotation. You do not need to restart the cluster when certificates are renewed.</p>
+<p>You can use cert-manager in these ways:</p>
+<ul>
+<li>
+<p><strong>Operator-managed issuers (default)</strong> — The Operator creates a namespace-scoped <code>Issuer</code> and a local self-signed CA in the database namespace. For <a href="cluster-wide.html">multi-namespace</a> deployments, configure a cluster-scoped <code>ClusterIssuer</code> instead. Managing <code>ClusterIssuer</code> resources requires extra RBAC permissions that are not in the default Operator roles. See <a href="#operator-managed-issuers-with-clusterissuer-scope">Operator-managed issuers with ClusterIssuer scope</a>.</p>
+</li>
+<li>
+<p><strong>Your existing issuer</strong> — Point the Operator at a cert-manager <code>ClusterIssuer</code> or another issuer your platform already manages (for example Vault or ACME). Certificates are then signed and renewed under your organization&rsquo;s PKI policies. Percona Distribution for PostgreSQL requires all certificates in a cluster to come from the same CA, so that issuer must sign every leaf certificate the Operator requests (cluster, instance, replication, PgBouncer, and pgBackRest).</p>
+</li>
+</ul>
 <p>If cert-manager is not installed or not ready, the Operator falls back to its built-in certificate generation.</p>
-<p>This approach gives you:</p>
-<ul>
-<li><strong>Automatic renewal</strong> – cert-manager renews certificates before they expire (by default, 30 days before expiry)</li>
-<li><strong>Configurable validity</strong> – you can set certificate and CA validity durations via Custom Resource options</li>
-<li><strong>Centralized management</strong> – use cert-manager’s tooling and policies for all TLS certificates in the cluster</li>
-</ul>
-<h2 id="certificate-lifecycle-management">Certificate lifecycle management<a class="headerlink" href="#certificate-lifecycle-management" title="Permanent link">&para;</a></h2>
-<p>The cert-manager handles:</p>
-<ul>
-<li><strong>Issuance</strong> – creates certificates when the cluster is created</li>
-<li><strong>Renewal</strong> – renews certificates before expiry (default: 30 days before). You can configure the certificate duration in the Custom Resource</li>
-<li><strong>Rotation</strong> – updates Secrets when certificates are renewed</li>
-</ul>
-<p>The Operator does not renew certificates when using cert-manager; cert-manager does. You do not need to restart the cluster when certificates are renewed.</p>
 <h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
 <p>To use cert-manager with the Operator, ensure the following:</p>
 <ol>
@@ -6354,6 +6436,8 @@ cert-manager-cainjector-8798f647f-kv9j4   1/1     Running   0          23s
 cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 </code></pre></div>
 </details>
+<p>At this point you are ready to <a href="kubernetes.html">install the Operator and deploy a Percona Distribution for PostgreSQL cluster</a>.</p>
+<p>See the sections below for how you can fine-tune the Operator and cert-manager when managing TLS for your cluster:</p>
 <h2 id="configure-the-certificate-validity">Configure the certificate validity<a class="headerlink" href="#configure-the-certificate-validity" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
@@ -6362,7 +6446,7 @@ cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 <span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">certValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2160h</span><span class="w">   </span><span class="c1"># 90 days for TLS certificates (default: 8760h / 1 year)</span>
 <span class="w">    </span><span class="nt">caValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">26280h</span><span class="w">    </span><span class="c1"># 3 years for the CA certificate (default: 8760h / 1 year)</span>
-<span class="w">    </span><span class="nt">pgBackRestCertValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2160H</span><span class="w"> </span><span class="c1"># 90 days for TLS certificates </span>
+<span class="w">    </span><span class="nt">pgBackRestCertValidityDuration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2160h</span><span class="w"> </span><span class="c1"># 90 days for pgBackRest TLS certificates</span>
 </code></pre></div>
 <p>Use <a href="https://pkg.go.dev/time#ParseDuration">Go duration format <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> (e.g. <code>2160h</code>, <code>8760h</code>).</p>
 </li>
@@ -6373,8 +6457,90 @@ cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 </li>
 </ol>
 <p>Once you create the database with the Operator, it will automatically trigger the cert-manager to create certificates. Whenever you check certificates for expiration, you will find that they are valid and short-term.</p>
+<h2 id="operator-managed-namespace-scoped-issuers-default">Operator-managed namespace-scoped issuers (default)<a class="headerlink" href="#operator-managed-namespace-scoped-issuers-default" title="Permanent link">&para;</a></h2>
+<p>Once you create the database with the Operator and cert-manager is running, the Operator automatically creates:</p>
+<ul>
+<li>a self-signed CA <code>Issuer</code> (<code>&lt;cluster-name&gt;-ca-issuer</code>) and CA <code>Certificate</code> (<code>&lt;cluster-name&gt;-cluster-ca-cert</code>) in the database namespace,</li>
+<li>a signing <code>Issuer</code> (<code>&lt;cluster-name&gt;-tls-issuer</code>) that references the CA,</li>
+<li>leaf TLS <code>Certificate</code> resources for the cluster, instances, replication client, PgBouncer, and pgBackRest.</li>
+</ul>
+<p>cert-manager issues short-lived certificates and renews them on schedule. You can optionally set <a href="operator.html#tlsissuerconfname"><code>tls.issuerConf.name</code></a> with <code>kind: Issuer</code> to customize the name of the signing <code>Issuer</code> the Operator manages.</p>
+<h2 id="operator-managed-issuers-with-clusterissuer-scope">Operator-managed issuers with ClusterIssuer scope<a class="headerlink" href="#operator-managed-issuers-with-clusterissuer-scope" title="Permanent link">&para;</a></h2>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
+</div>
+<p>If you want the Operator to manage the CA chain and issue certificates across all namespaces, use the <code>ClusterIssuer</code> resource rather than namespace-scoped <code>Issuer</code> resources.</p>
+<p>The Operator requires additional permissions to create and manage the <code>ClusterIssuer</code> resource. Default Operator RBAC covers only namespace-scoped objects. Therefore, you must grant cluster-scoped access to let the Operator create and update the shared CA <code>ClusterIssuer</code> resources across the Kubernetes cluster.</p>
+<ol>
+<li>
+<p>Create a ClusterRole and ClusterRoleBinding. Replace the <code>&lt;operator-namespace&gt;</code> placeholder with the namespace where the Operator is deployed:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>clusterrole<span class="w"> </span>pg-clusterissuer-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--verb<span class="o">=</span>get,list,watch,create,update,patch<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--resource<span class="o">=</span>clusterissuers.cert-manager.io
+
+kubectl<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<span class="w"> </span>pg-clusterissuer-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--clusterrole<span class="o">=</span>pg-clusterissuer-manager<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--serviceaccount<span class="o">=</span>&lt;operator-namespace&gt;:percona-postgresql-operator
+</code></pre></div>
+</li>
+<li>
+<p>Configure the Custom Resource. Set <code>tls.issuerConf.kind</code> to <code>ClusterIssuer</code> and provide a unique <code>name</code>. Do not pre-create issuers yourself for this mode:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerConf</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">shared-pg-issuer</span><span class="w">   </span><span class="c1"># required: base name for Operator-managed ClusterIssuers</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIssuer</span>
+<span class="w">      </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cert-manager.io</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration. Replace the <code>&lt;namespace&gt;</code> with the namespace where your cluster is deployed:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>The Operator creates:</p>
+<ul>
+<li>a self-signed CA <code>ClusterIssuer</code> named <code>&lt;name&gt;-ca-issuer</code>,</li>
+<li>a CA <code>Certificate</code> and Secret named <code>&lt;name&gt;-ca-cert</code> in the cert-manager namespace (<code>cert-manager</code> by default),</li>
+<li>a CA-backed <code>ClusterIssuer</code> named <code>&lt;name&gt;</code> that signs leaf certificates,</li>
+<li>leaf <code>Certificate</code> resources in the database namespace that reference the CA-backed <code>ClusterIssuer</code>.</li>
+</ul>
+</li>
+</ol>
+<p>If you installed cert-manager in a custom namespace, set the <a href="env-var-operator.html#certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code></a> environment variable on the Operator Deployment.</p>
+<h2 id="use-an-existing-clusterissuer">Use an existing ClusterIssuer<a class="headerlink" href="#use-an-existing-clusterissuer" title="Permanent link">&para;</a></h2>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
+</div>
+<p>If your cluster already runs cert-manager with a cluster-wide issuer, such as Let&rsquo;s Encrypt, Smallstep, or an internal CA, you can configure the Operator to request certificates for Percona Distribution for PostgreSQL from that issuer instead of creating its own CA chain.</p>
+<p>Configure the Custom Resource as follows:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerConf</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-org-issuer</span><span class="w">        </span><span class="c1"># name of your existing ClusterIssuer</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ClusterIssuer</span>
+<span class="w">      </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cert-manager.io</span>
+</code></pre></div>
+<p>Replace <code>my-org-issuer</code> with the name of your existing <code>ClusterIssuer</code>.</p>
+<p>When you deploy the cluster, the Operator creates <code>Certificate</code> resources that reference your <code>ClusterIssuer</code> and cert-manager signs the resulting Secrets. The Operator does not create a parallel CA or overwrite your issuer.</p>
+<p>Because the Operator does not manage the root CA in this mode, it reads the CA certificate from the issued leaf Secrets (the <code>ca.crt</code> key) when it needs CA material for components such as pgBackRest.</p>
+<h2 id="use-a-custom-issuer-kind">Use a custom issuer kind<a class="headerlink" href="#use-a-custom-issuer-kind" title="Permanent link">&para;</a></h2>
+<div class="admonition admonition">
+<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
+</div>
+<p>If your platform uses a custom cert-manager issuer type, set <code>tls.issuerConf</code> to that issuer&rsquo;s <code>name</code>, <code>kind</code>, and API <code>group</code>. The following configuration example showcases a Vault Issuer:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">tls</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">issuerConf</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault-issuer</span>
+<span class="w">      </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">VaultClusterIssuer</span>
+<span class="w">      </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault.example.com</span>
+</code></pre></div>
+<p>The Operator treats this as an external issuer: it creates only the leaf <code>Certificate</code> resources and does not manage a CA chain.</p>
 <h2 id="verify-cert-manager-resources">Verify cert-manager resources<a class="headerlink" href="#verify-cert-manager-resources" title="Permanent link">&para;</a></h2>
 <p>After the cluster is created, you can inspect the cert-manager resources:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Namespace-scoped Issuer (default)</label><label for="__tabbed_2_2">ClusterIssuer</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># List Issuers</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>issuers<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 
@@ -6384,7 +6550,26 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
 <span class="c1"># Check certificate status</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
 </code></pre></div>
-<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p>
+<p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (for example, <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="c1"># List cluster-scoped issuers</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>clusterissuer
+
+<span class="c1"># List Certificates in the database namespace</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+
+<span class="c1"># When the Operator manages the CA chain, check the CA Certificate in the cert-manager namespace</span>
+kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>&lt;issuer-name&gt;-ca-cert<span class="w"> </span>-n<span class="w"> </span>cert-manager<span class="w"> </span>-o<span class="w"> </span>yaml
+</code></pre></div>
+<p>When the Operator manages the CA chain with <code>ClusterIssuer</code>, the CA <code>Certificate</code> and its Secret are in the cert-manager namespace, not in the database namespace. Leaf certificate Secrets remain in the database namespace.</p>
+<p>When you use an existing organizational issuer, only your issuer appears among cluster issuers; the Operator creates <code>Certificate</code> resources in the database namespace that reference it.</p>
+</div>
+</div>
+</div>
+<h2 id="operator-environment-variable">Operator environment variable<a class="headerlink" href="#operator-environment-variable" title="Permanent link">&para;</a></h2>
+<p>When the Operator manages a CA chain with <code>tls.issuerConf.kind: ClusterIssuer</code>, it stores the CA <code>Certificate</code> in the cert-manager namespace. By default this namespace is <code>cert-manager</code>. If you installed cert-manager elsewhere, set the <a href="env-var-operator.html#certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code></a> environment variable on the Operator Deployment.</p>
+<p>For more details on all cert-manager-related Custom Resource options, see the <a href="operator.html#tlsissuerconfname"><code>tls.issuerConf</code> options</a> in the Operator spec reference.</p>
 <h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">&para;</a></h2>
 <p>If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see <a href="tls-migrate-from-cert-manager.html">Migrate from cert-manager to custom TLS certificates</a>.</p>
 <hr>
@@ -6392,7 +6577,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 18:05:58 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:17:46 UTC">September 9, 2026</span>
       
         <br>
         Created:

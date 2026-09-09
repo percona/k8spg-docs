@@ -6159,12 +6159,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h2 id="check-your-certificates-for-expiration">Check your certificates for expiration<a class="headerlink" href="#check-your-certificates-for-expiration" title="Permanent link">&para;</a></h2>
 <ol>
 <li>
-<p>List the Secrets </p>
+<p>First, check the necessary Secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secrets<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-</li>
-<li>
-<p>First, check the necessary secrets names (<code>cluster1-cluster-cert</code> and <code>cluster1-replication-cert</code> by default):</p>
 <p>You will have the following response:</p>
 <div class="no-copy highlight"><pre><span></span><code>NAME                            TYPE     DATA   AGE
 cluster1-cluster-cert           Opaque   3      11m
@@ -6172,6 +6169,46 @@ cluster1-cluster-cert           Opaque   3      11m
 cluster1-replication-cert       Opaque   3      11m
 ...
 </code></pre></div>
+<p>If cert-manager is installed, you can also list <code>Certificate</code> resources:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Optionally you can also check that the certificates issuer is up and running:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Namespace-scoped Issuer (default)</label><label for="__tabbed_1_2">ClusterIssuer</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>issuer<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>The response should be as follows:</p>
+<div class="no-copy highlight"><pre><span></span><code>NAME                     READY   AGE
+cluster1-ca-issuer       True    61m
+cluster1-tls-issuer      True    61m
+</code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The presence of two issuers has the following meaning. The
+<code>cluster1-ca-issuer</code> issuer is used to create a self-signed
+CA certificate (<code>cluster1-cluster-ca-cert</code>), and then the
+<code>cluster1-tls-issuer</code> issuer is used to create SSL certificates
+signed by that CA certificate.</p>
+</div>
+</div>
+<div class="tabbed-block">
+<p>If you configured <a href="tls-cert-manager.html#use-an-existing-clusterissuer"><code>tls.issuerConf.kind: ClusterIssuer</code></a>,
+check cluster-scoped issuers:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>clusterissuer
+</code></pre></div>
+<p>When the Operator manages the CA chain with <code>ClusterIssuer</code>, you see issuers
+such as <code>&lt;issuer-name&gt;-ca-issuer</code> and <code>&lt;issuer-name&gt;</code>. The CA
+<code>Certificate</code> and its Secret (<code>&lt;issuer-name&gt;-ca-cert</code>) are in the
+cert-manager namespace (<code>cert-manager</code> by default), not in the database namespace.</p>
+<p>When you use an existing organizational issuer, only your issuer appears. The Operator creates <code>Certificate</code> resources in the database namespace that
+reference it.</p>
+<p>These commands are provided by cert-manager; if you don&rsquo;t have it installed, you can still use <code>kubectl get secrets</code>.</p>
+</div>
+</div>
+</div>
 </li>
 <li>
 <p>Now use the following command to find out the certificates validity dates,
@@ -6323,7 +6360,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 30, 2026 08:28:15 UTC">March 30, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:17:46 UTC">September 9, 2026</span>
       
         <br>
         Created:
