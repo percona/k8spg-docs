@@ -10,7 +10,7 @@ You can configure environment variables in Percona Operator for PostgreSQL for t
 
 | Type                                  | Use cases |
 | ------------------------------------- | --------- |
-| Operator environment variables       | - Control logging for debugging and log aggregation <br> - Manage telemetry <br> - Configure which namespaces the Operator watches (single-namespace vs cluster-wide) <br> - Set the number of concurrent reconciliation workers for multi-cluster environments <br> - Enable feature gates such as auto-growable volumes |
+| Operator environment variables       | - Control logging for debugging and log aggregation <br> - Manage telemetry <br> - Configure which namespaces the Operator watches (single-namespace vs cluster-wide) <br> - Set the number of concurrent reconciliation workers for multi-cluster environments <br> - Enable feature gates such as auto-growable volumes <br> - Set the cert-manager namespace used for Operator-managed `ClusterIssuer` CA resources |
 | Cluster component environment variables | - Customize PostgreSQL, pgBackRest, or pgBouncer behavior <br> - Pass configuration or secrets into Pods <br> - Integrate with external systems or monitoring. |
 | Backup and restore environment variables | - Customize backup and restore operations <br> - Pass configuration or secrets into backup / restore Jobs |
 

@@ -69,7 +69,7 @@ The value is a comma-separated list of feature gate key-value pairs. By default 
 
 Following feature gates are present:
 
-1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for database data volumes. To learn more, refer to the [Scale your cluster](scaling.md#automated-scaling-with-auto-growable-disk) chapter.
+1. `AutoGrowVolumes=true` - Enables automatic PVC resize when the storage usage reaches a threshold. The Operator can trigger volume expansion for PostgreSQL data volumes and, starting with Operator version 3.1.0, for pgBackRest repository volumes on the repo host. To learn more, refer to [Automated scaling with auto-growable disks](scaling-vertical.md#automated-scaling-with-auto-growable-disks).
 
 2. `BackupSnapshots=true` - Enables [PVC snapshot support](backups-pvc-snapshots.md) for backups and restores. When enabled and configured in the cluster Custom Resource, the Operator creates volume snapshots in coordination with pgBackRest backups, enabling much faster backups and restores for large datasets. Available as of Operator version 2.9.0.
 
@@ -311,6 +311,31 @@ spec:
     env:
     - name: PPROF_BIND_ADDRESS
       value: "127.0.0.1:6060"
+```
+
+### `CERTMANAGER_NAMESPACE`
+
+Specifies the namespace where the Operator creates the CA `Certificate` when [`tls.issuerConf.kind`](operator.md#tlsissuerconfkind) is `ClusterIssuer` and the Operator manages the CA chain. Available starting with Operator 3.1.0.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `cert-manager` | `my-cert-manager` |
+
+**Notes:**
+
+* This variable applies only when the Operator creates cert-manager resources for a `ClusterIssuer`-based CA chain. It does not affect database Pods or TLS Secrets, which remain in the database namespace.
+* Change this value only if cert-manager is installed in a non-default namespace.
+* When you use an existing organizational `ClusterIssuer`, you typically do not need to change this variable. See [Use an existing ClusterIssuer](tls-cert-manager.md#use-an-existing-clusterissuer).
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: CERTMANAGER_NAMESPACE
+      value: "cert-manager"
 ```
 
 ## Update environment variables

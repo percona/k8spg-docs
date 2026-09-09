@@ -2,7 +2,9 @@
 
 This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL {{release}}. 
 
-To find images for a specific Operator version, see [Retrieve Percona certified images](image-query.md)
+To find images for a specific Operator version, see [Retrieve Percona certified images](image-query.md).
+
+To run the Operator against upstream-built PostgreSQL images instead of Percona Distribution images, see [Deploy a cluster with community PostgreSQL images](install-community.md) (tech preview).
 
 **Images released with the Operator version {{release}}:**
 

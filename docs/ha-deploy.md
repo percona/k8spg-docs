@@ -1,132 +1,49 @@
 # High availability
 
-High availability (HA) ensures that your PostgreSQL database remains accessible even in the event of node or pod failures. With the Percona Operator for PostgreSQL, high availability is achieved by running multiple PostgreSQL nodes in a cluster, using the Patroni framework for automated failover and PostgreSQL streaming replication for data consistency.
+High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, [Patroni :octicons-link-external-16:](https://patroni.readthedocs.io/) for automated failover, and PostgreSQL streaming replication for data consistency.
 
-A PostgreSQL cluster consists of the following members:
+Adding members can also increase read capacity. That is a [horizontal scaling](scaling-horizontal.md) concern. This document focuses on keeping the cluster alive and consistent through failures.
 
-- A Primary node handles all write operations. The Primary continuously streams changes to its Standby nodes.
-- Read-only (Standby in PostgreSQL terminology) replicas that continuously receive and replay changes from the Primary node. If the Primary fails, one of the Standbys can be automatically promoted to become the new Primary.
+## Understand cluster members
 
-**Data replication**
+A PostgreSQL cluster includes:
 
-Percona Operator leverages PostgreSQL streaming replication to keep Standby nodes up-to-date.
+* A **primary** that handles all write operations and streams changes to standbys.
+* One or more **standbys** (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.
 
-By default, **asynchronous replication** is used: the Primary sends changes to Standbys, but does not wait for confirmation before committing transactions. This offers better performance but presents a risk of minimal data loss (transactions not yet copied to a Standby could be lost in a failure).
+Standbys can also serve read-only traffic, depending on how you expose the cluster. See [Exposing cluster](expose.md).
 
-**Synchronous replication** is also supported. In this replication type the Primary waits for at least one Standby to acknowledge receipt of data before marking a transaction as committed. This minimizes the risk of data loss, but can be slightly slower since each transaction must wait for a confirmation.
+## Choose a replication mode
 
-**Minimum and recommended number of nodes for high availability:**
+The Operator uses PostgreSQL streaming replication to keep standbys up to date.
 
-The absolute minimum that can technically work for high availability is **2 nodes**. But this does not provide full high availability or protection against split-brain scenarios since the loss of either node can impact availability and data safety.
+By default, the cluster uses **asynchronous replication**: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.
 
-The recommended number of nodes for high availability setups is **3 or more PostgreSQL nodes**.
+**Synchronous replication** is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See [Configure synchronous replication](#configure-synchronous-replication).
 
-## Adding nodes to a cluster
+## Size your high availability cluster
 
-There are two ways how to control the number replicas in your HA cluster:
+* **Minimum:** 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.
+* **Recommended:** **3 or more** PostgreSQL members for production HA.
 
-1. Through changing `spec.instances.replicas` value
-2. By adding new entry into `spec.instances`
+For how to add or remove members, see [Scale horizontally](scaling-horizontal.md).
 
-### Using `spec.instances.replicas`
+## Place Pods for resilience
 
-For example, you have the following Custom Resource manifest:
+Extra members only help if they do not all fail together. Use [anti-affinity, topology spread constraints, and tolerations](constraints.md) so PostgreSQL Pods land on different Kubernetes nodes or availability zones when your cluster topology allows it.
 
-```yaml
-spec:
-...
-  instances:
-    - name: instance1
-      replicas: 2
-```
+The Operator and Kubernetes scheduler work together on placement; affinity rules are part of a production HA design, not an optional extra.
 
-This will provision a cluster with two nodes - one Primary and one Replica.
-Add the node by changing the manifest...
+## Configure synchronous replication
 
-```yaml hl_lines="5"
-spec:
-...
-  instances:
-    - name: instance1
-      replicas: 3
-```
+Synchronous replication confirms that a transaction has reached one or more synchronous standbys before the primary considers the commit complete. The trade-off is higher write latency and lower write throughput.
 
-...and applying the Custom Resource:
+Turn on synchronous replication with `patroni.dynamicConfiguration`:
 
-```bash
-kubectl apply -f deploy/cr.yaml
-```
+* Set `synchronous_mode` to `on`.
+* Set `synchronous_node_count` to the number of standbys that should run in synchronous mode (default is `1`).
 
-The Operator will provision a new replica node. It will be ready and available
-once data is synchronized from Primary.
-
-### Using `spec.instances`
-
-Each instance's entry has its own set of parameters, like resources, storage
-configuration, sidecars, etc. When you add a new entry into instances, this
-creates replica PostgreSQL nodes, but with a new set of parameters. This can be
-useful in various cases:
-
-* Test or migrate to new hardware
-* Blue-green deployment of a new configuration
-* Try out new versions of your sidecar containers
-
-For example, you have the following Custom Resource manifest:
-
-```yaml
-spec:
-...
-  instances:
-    - name: instance1
-      replicas: 2
-      dataVolumeClaimSpec:
-        storageClassName: old-ssd
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 100Gi
-```
-
-Now you have a goal to migrate to new disks, which are coming with the `new-ssd`
-storage class. You can create a new instance entry. This will instruct the
-Operator to create additional nodes with the new configuration keeping your
-existing nodes intact.
-
-```yaml
-spec:
-...
-  instances:
-    - name: instance1
-      replicas: 2
-      dataVolumeClaimSpec:
-        storageClassName: old-ssd
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 100Gi
-    - name: instance2
-      replicas: 2
-      dataVolumeClaimSpec:
-        storageClassName: new-ssd
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 100Gi
-```
-
-### Using Synchronous replication
-
-Synchronous replication offers the ability to confirm that all changes made by a transaction have been transferred to one or more synchronous standby servers. When requesting synchronous replication, each commit of a write transaction will wait until confirmation is received that the commit has been written to the write-ahead log on disk of both the primary and standby server. The drawbacks of synchronous replication are increased latency and reduced throughput on writes.
-
-You can turn on synchronous replication by customizing the `patroni.dynamicConfiguration` Custom Resource option.
-
-* Enable synchronous replication by setting `synchronous_mode` option to `on`.
-* Use `synchronous_node_count` option to set the number of replicas (PostgreSQL standby servers) which should operate in syncrhonous mode (the default value is `1`).
-
-The result in your `deploy/cr.yaml` manifest may look as follows:
+Example:
 
 ```yaml
 ...
@@ -137,6 +54,12 @@ The result in your `deploy/cr.yaml` manifest may look as follows:
       ...
 ```
 
-You will have the desired amount of replicas switched to synchronous replication after applying changes as usual, with `kubectl apply -f deploy/cr.yaml` command.
+Apply the Custom Resource:
 
-Find more options useful to tune how your database cluster should operate in synchronous mode [in the official Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode).
+```bash
+kubectl apply -f deploy/cr.yaml
+```
+
+After you apply the configuration, the requested number of standbys operate in synchronous mode.
+
+For more Patroni options, see the [Patroni replication modes documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode).

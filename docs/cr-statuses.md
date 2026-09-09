@@ -83,6 +83,23 @@ kubectl get pg <cluster-name> -n <namespace> \
     2026-07-22T12:07:05Z
     ```
 
+**Example 4. Check data-at-rest encryption (`pg_tde`) status:**
+
+```bash
+kubectl get pg <cluster-name> -n <namespace> \
+  -o jsonpath='{range .status.conditions[?(@.type=="PGTDEEnabled")]}{.type}{"\n"}{.status}{"\n"}{.reason}{"\n"}{end}'
+```
+
+??? example "Sample output"
+
+    ```{.text .no-copy}
+    PGTDEEnabled
+    True
+    Enabled
+    ```
+
+Also check `PGTDEVaultProviderReady` the same way when you need to confirm that the Vault key provider matches the Custom Resource.
+
 ## PerconaPGCluster status
 
 The main cluster state is recorded in `status.state`. For component-level readiness, see `status.postgres` and `status.pgbouncer`. Backup repository details appear under `status.pgbackrest`, and Patroni details under `status.patroni`.
@@ -141,6 +158,8 @@ Common condition fields:
 | `TLSSecretsReady` | Required TLS Secrets are present for the configured certificate management policy. Set to `False` with reason `TLSSecretsMissing` when `spec.tls.certManagementPolicy` is `userProvidedOnly` and one or more required Secrets are missing. The message lists the missing Secret names. See [The TLS certificate management policy](tls-cert-management-policy.md). |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
+| `PGTDEEnabled` | The `pg_tde` extension is created in all databases and added to `shared_preload_libraries`. Also controls whether instance Pods mount the Vault volume. See [Data-at-rest encryption](encryption.md#status-and-conditions). |
+| `PGTDEVaultProviderReady` | The Vault key provider in PostgreSQL matches the Custom Resource configuration. Becomes `False` during credential changes or if the change stalls or fails. See [Data-at-rest encryption](encryption.md#status-and-conditions). |
 | `APIGroupMigration` | Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See [Upgrade the Operator](update-operator.md). |
 | `RepoDeploymentNotFound` | A pgBackRest repository deployment was not found during reconciliation. |
 | `RepoHostCreated` | A pgBackRest repository host was created. |
@@ -161,6 +180,8 @@ The Operator sets `reason` and `message` values as free-form strings. Common rea
 * `TLSSecretsFound`, `TLSSecretsMissing` (for `TLSSecretsReady`)
 * `Paused` (for `Progressing`, when reconciliation is blocked; check `TLSSecretsReady` if TLS Secrets are missing)
 * `LagDetected`, `LagNotDetected`, `ErrorGettingLag`, `MainSiteNotFound` (for `StandbyLagging`)
+* `Enabled`, `Disabled` (for `PGTDEEnabled`)
+* `Configured` (for `PGTDEVaultProviderReady`)
 * `APIGroupMigrationCompleted`, `APIGroupMigrationInProgress`, `APIGroupMigrationNotNeeded`
 * `ReadyForRestore`, `RestoreInPlaceRequested`, `PGBackRestRestoreComplete`, `PGBackRestRestoreFailed`
 * `ManualBackupComplete`, `ManualBackupFailed`
