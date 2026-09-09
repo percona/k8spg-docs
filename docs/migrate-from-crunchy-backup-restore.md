@@ -10,6 +10,10 @@ For **near-zero downtime**, use [Migrate from Crunchy using a standby cluster](m
 
 --8<-- "crunchy-pgo-version.txt"
 
+## Before you migrate
+
+Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
 ## Prerequisites
 
 Ensure you have the following:
@@ -19,8 +23,6 @@ Ensure you have the following:
 - `kubectl` or `oc`.
 - [yq](https://github.com/mikefarah/yq) YAML processor (optional, for manifest tricks used in other migration guides).
 - A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.
-
-The PostgreSQL **major version** on the Percona cluster must match the Crunchy source cluster.
 
 ## Before you start
 

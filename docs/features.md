@@ -20,7 +20,7 @@ Safeguard your data at any scale: the Operator automates backups and restores us
 Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-pvc-snapshots.md) for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.
 
 * **Full, incremental, and differential backups** — Select the backup strategy that matches your recovery objectives and storage requirements.
-* **Point-in-time recovery (PITR)** — Achieve low Recovery Point Objectives (RPO) by [restoring to any specific time](backups-restore-inplace.md#restore-the-cluster-with-point-in-time-recovery) using WAL archives.
+* **Point-in-time recovery (PITR)** — Achieve low Recovery Point Objectives (RPO) by [restoring to any specific time](backups-pitr.md) using WAL archives.
 * **Scheduled backups** — Automate backups on your chosen [schedule with cron-like expressions](backups-schedule.md).
 * **Flexible storage** — Store backups in S3-compatible object storage or on local PersistentVolumes for hybrid strategies.
 * **PVC snapshot support** — Boost backup and restore performance for large datasets with a point-in-time snapshot of your data volume.
@@ -32,9 +32,10 @@ Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-pvc-snapshot
 Reduce connection churn and spread read load without extra operational burden.
 
 * **Efficient pooling** — Lower PostgreSQL connection overhead by pooling client connections
-* **Transaction-level pooling** — Manage connections at the transaction level efficiently
+* **Flexible pooling modes** — Choose how clients share PostgreSQL connections: `session` mode (default) holds a connection for the full client session; `transaction` mode frees it after each transaction to serve more clients with fewer backend connections; `statement` mode returns the server after every query for maximum reuse, but does not allow multi-statement transactions.
 * **Read balancing** — Distribute read queries across replicas where configured
 * **High availability** — Replica pgBouncer instances provide high availability
+* **Pause and resume connections** — [Pause pgBouncer](pause-pgbouncer.md) for planned restarts, maintenance, or switchover without dropping client connections
 * **Integrated lifecycle** — Automatically configured and managed by the Operator
 
 ## Automated scaling and resource management
@@ -71,6 +72,7 @@ Leverage disaster-recovery topologies that fit your RTO and RPO.
 
 Keep traffic and data protected with encryption and flexible TLS workflows.
 
+* **Data-at-rest encryption** — Encrypt PostgreSQL table data on disk with [pg_tde and HashiCorp Vault](encryption.md) (tech preview).
 * **TLS for connections** — Encrypt client traffic and traffic between cluster components
 * **Certificates** — Comply with your security policy via [custom certificates](tls-manual.md) or automated certificate generation [with cert-manager](tls-cert-manager.md) with configurable lifecycle management.
 
@@ -79,6 +81,7 @@ Keep traffic and data protected with encryption and flexible TLS workflows.
 Understand performance and troubleshoot faster with metrics and optional Percona tooling.
 
 * **PMM integration** — Connect the cluster to [Percona Monitoring and Management (PMM) :octicons-link-external-16:](https://www.percona.com/software/database-tools/percona-monitoring-and-management) for dashboards and alerting.
+* **Persistent logging** — Collect PostgreSQL and pgBackRest logs with Fluent Bit, keep them on the data volume across Pod restarts, and optionally forward them to remote outputs. See [Persistent logging](persistent-logging.md) and [Log rotation](log-rotation.md).
 * **pg_stat_monitor** — Get query performance insights with fingerprinting when you enable the extension.
 * **Broad metrics** — Track connection counts, transaction rates, cache hit ratios, replication lag, and more.
 * **Query analytics** — Deeper query analysis in PMM. See [Query Analytics :octicons-link-external-16:](https://docs.percona.com/percona-monitoring-and-management/3/use/qan/index.html#__tabbed_1_2) in the PMM documentation.
