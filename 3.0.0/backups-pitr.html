@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="In a distributed Kubernetes environment, it is often difficult to debug issues because container logs are tied to the lifecycle of individual Pods. If a Pod fails and restarts, its logs in stdout and stderr may be lost, making it hard to identify the root cause.">
+        <meta name="description" content="Point-in-time recovery (PITR) lets you restore your database to the state it was in before a change occurred. For example, before accidental data deletion or corruption.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/persistent-logging.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/backups-pitr.html">
       
       
-        <link rel="prev" href="monitoring.html">
+        <link rel="prev" href="backups-clone.html">
       
       
-        <link rel="next" href="log-rotation.html">
+        <link rel="next" href="backups-pitr-inplace.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Persistent logging - Percona Operator for PostgreSQL</title>
+        <title>About point-in-time recovery - Percona Operator for PostgreSQL</title>
       
     
     
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Persistent logging" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - About point-in-time recovery" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#persistent-logging" class="md-skip">
+        <a href="#point-in-time-recovery" class="md-skip">
           Skip to content
         </a>
       
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Persistent logging
+            About point-in-time recovery
             
           </span>
         </div>
@@ -2303,18 +2303,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1" id="__nav_7_1_label" tabindex="0">
@@ -2335,7 +2337,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_1_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2823,18 +2825,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" checked>
         
           
           <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
@@ -2855,7 +2859,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_7_1_5">
             <span class="md-nav__icon md-icon"></span>
             
@@ -2870,10 +2874,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="backups-pitr.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="backups-pitr.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -2889,6 +2920,87 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How it works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-you-need" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What you need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#latest-restorable-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latest restorable time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Latest restorable time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-latest-restorable-time-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disable latest restorable time tracking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -3779,20 +3891,18 @@
                 
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
           <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
@@ -3813,7 +3923,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
@@ -3828,37 +3938,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Persistent logging
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="persistent-logging.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="persistent-logging.html" class="md-nav__link">
         
   
   
@@ -3874,48 +3957,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#enable-log-collector" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Enable log collector
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#customize-fluent-bit" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Customize Fluent Bit
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6403,7 +6444,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/persistent-logging.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/backups-pitr.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6462,10 +6503,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#enable-log-collector" class="md-nav__link">
+  <a href="#how-it-works" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Enable log collector
+        How it works
       
     </span>
   </a>
@@ -6473,10 +6514,49 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#customize-fluent-bit" class="md-nav__link">
+  <a href="#what-you-need" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Customize Fluent Bit
+        What you need
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#latest-restorable-time" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Latest restorable time
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Latest restorable time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#disable-latest-restorable-time-tracking" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disable latest restorable time tracking
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
       
     </span>
   </a>
@@ -6509,87 +6589,76 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/persistent-logging.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/backups-pitr.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="persistent-logging">Persistent logging<a class="headerlink" href="#persistent-logging" title="Permanent link">&para;</a></h1>
-<div class="admonition admonition">
-<p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md">3.1.0</a></p>
-</div>
-<p>In a distributed Kubernetes environment, it is often difficult to debug issues because container logs are tied to the lifecycle of individual Pods. If a Pod fails and restarts, its logs in <code>stdout</code> and <code>stderr</code> may be lost, making it hard to identify the root cause.</p>
-<p>Percona Operator for PostgreSQL addresses this with <strong>persistent logging</strong>, ensuring logs are stored persistently, independent of the Pods. This approach helps ensure that logs are available for review even after a Pod restarts.</p>
-<p>The Operator uses <a href="https://fluentbit.io/">Fluent Bit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, a lightweight log processor with versatile output plugins and forwarding features. Fluent Bit runs as a <code>logs</code> sidecar container on each PostgreSQL instance Pod. It tails:</p>
+<h1 id="point-in-time-recovery">Point-in-time recovery<a class="headerlink" href="#point-in-time-recovery" title="Permanent link">&para;</a></h1>
+<p>Point-in-time recovery (PITR) lets you restore your database to the state it was in before a change occurred. For example, before accidental data deletion or corruption.</p>
+<p>This document explains how point-in-time recovery works with the Operator and how to use the latest restorable time when you choose a restore target. If you already know the concept and want the steps, jump to a tutorial:</p>
 <ul>
-<li>PostgreSQL server logs under <code>/pgdata/pgNN/log/</code> (for example <code>/pgdata/pg18/log/</code>) — both <code>*.log</code> and <code>*.csv</code> files</li>
-<li>pgBackRest client logs under <code>/pgdata/pgbackrest/log/</code></li>
+<li><a href="backups-pitr-inplace.html">In-place restore with point-in-time recovery</a></li>
+<li><a href="backups-pitr-cluster-clone.html">Restore to a new cluster with point-in-time recovery</a></li>
+<li><a href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery from a PVC snapshot</a></li>
 </ul>
-<p>By default, Fluent Bit ships collected records as JSON lines to standard output. You can view them with:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;instance-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>logs<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h2>
+<p>Point-in-time recovery combines a base backup with Write-Ahead Log (WAL) archives:</p>
+<ol>
+<li>The Operator restores a backup that finished <strong>before</strong> your target time.</li>
+<li>PostgreSQL then replays archived WAL to bring the database forward to that time.</li>
+</ol>
+<p>The Operator automatically creates an initial full backup when it creates a new cluster for you. That backup is the starting point for point-in-time recovery. It is required internally and does not appear when you run <code>kubectl get pg-backup</code>.</p>
+<p>By default, the Operator uses the latest successful full backup as the base. You can point the restore at another backup by its ID. See <a href="backups-pitr-inplace.html#specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore</a>.</p>
+<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">&para;</a></h2>
+<p>To make a point-in-time restore, you need the following:</p>
+<ul>
+<li>A backup that finished before your target time. You cannot restore to a time where there was no backup.</li>
+<li>All relevant WAL files successfully archived to the backup repository.</li>
+<li>The <code>--type=time</code> and <code>--target</code> options in your restore configuration. You specify them either in the <code>PerconaPGRestore</code> object for in-place restore, or in the <code>dataSource</code> options in the target cluster&rsquo;s Custom Resource during a cluster clone.</li>
+</ul>
+<h2 id="latest-restorable-time">Latest restorable time<a class="headerlink" href="#latest-restorable-time" title="Permanent link">&para;</a></h2>
+<p>By default, the Operator tracks the latest restorable time for a backup. This behavior is controlled by the <a href="operator.html#backupstracklatestrestorabletime">backups.trackLatestRestorableTime</a> Custom Resource option. </p>
+<p>When tracking is enabled, the Operator records the timestamp of the latest committed transaction that has been archived to the backup repository. That value appears on the latest successful backup as <code>status.latestRestorableTime</code>. Use it as a safe upper bound when you choose a point-in-time restore target.</p>
+<p>The Operator updates this field as WAL is archived. </p>
+<p>To view the latest restorable time, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
-<p>You can additionally configure Fluent Bit outputs such as S3 or an OpenTelemetry (OTel) envelope and have the logs forwarded there. Refer to the <a href="#customize-fluent-bit">Customize Fluent Bit</a> section for details.</p>
-<p>Log collection <strong>enabled by default only for new clusters</strong>. After you upgrade your deployment from earlier versions, you must <a href="#enable-log-collector">enable log collector</a> explicitly in the Custom Resource to use it. When enabled, the Operator also adds a <code>logrotate</code> sidecar that manages retention of the on-disk log files. See <a href="log-rotation.html">Log rotation</a> for details.</p>
-<h2 id="enable-log-collector">Enable log collector<a class="headerlink" href="#enable-log-collector" title="Permanent link">&para;</a></h2>
-<p>Enable persistent logging with the <code>logcollector.enabled</code> key in the <code>deploy/cr.yaml</code> Custom Resource manifest:</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>2025-06-13 18:52:33.238533+0000
+</code></pre></div>
+</details>
+<p>Consider the following:</p>
+<ul>
+<li>The field advances only when archived WAL contains <code>COMMIT</code> records. Some internal database activity increases commit counters without writing those records to WAL, so an idle cluster may not refresh the value.</li>
+<li>The timestamp reflects the last archived WAL with commits, not the current tip of the primary. By default, PostgreSQL switches WAL every 60 seconds. This interval is defined by the <code>archive_timeout</code> option.</li>
+<li>If the field is empty or stale while you test on an idle cluster, create a small write transaction (for example, an <code>INSERT</code> or <code>UPDATE</code>) and wait for the next WAL archive.</li>
+</ul>
+<h3 id="disable-latest-restorable-time-tracking">Disable latest restorable time tracking<a class="headerlink" href="#disable-latest-restorable-time-tracking" title="Permanent link">&para;</a></h3>
+<p>Set <code>backups.trackLatestRestorableTime</code> to <code>false</code> if you do not need this helper. For example, to reduce archive overhead or S3 API usage from status checks or if a restricted security policy conflicts with the tracking archive command.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/percona/fluentbit:{{ logcollector }}</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">trackLatestRestorableTime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
-<p>Apply the Custom Resource:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
-</code></pre></div>
-<h2 id="customize-fluent-bit">Customize Fluent Bit<a class="headerlink" href="#customize-fluent-bit" title="Permanent link">&para;</a></h2>
-<p>You can further customize Fluent Bit to add filters, processors (for example OpenTelemetry envelope), or outputs such as S3. </p>
-<p>Add your configuration via the <code>logcollector.configuration</code> subsection. You must use the <a href="https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/">Fluent Bit YAML configuration format <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
-<p>The following example adds a marker field and an S3 output for PostgreSQL logs:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/fluentbit:main-logcollector</span>
-<span class="w">    </span><span class="nt">configuration</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<span class="w">      </span><span class="no">pipeline:</span>
-<span class="w">        </span><span class="no">filters:</span>
-<span class="w">          </span><span class="no">- name: record_modifier</span>
-<span class="w">            </span><span class="no">match: "*"</span>
-<span class="w">            </span><span class="no">record:</span>
-<span class="w">              </span><span class="no">- cluster_name cluster1</span>
-<span class="w">        </span><span class="no">outputs:</span>
-<span class="w">          </span><span class="no">- name: s3</span>
-<span class="w">            </span><span class="no">match: "*.postgres"</span>
-<span class="w">            </span><span class="no">bucket: my-logs-bucket</span>
-<span class="w">            </span><span class="no">region: us-east-1</span>
-<span class="w">            </span><span class="no">total_file_size: 1M</span>
-<span class="w">            </span><span class="no">upload_timeout: 15s</span>
-<span class="w">            </span><span class="no">use_put_object: on</span>
-<span class="w">            </span><span class="no">s3_key_format: /$TAG/%Y/%m/%d/%H-%M-%S-$UUID</span>
-<span class="w">            </span><span class="no">s3_key_format_tag_delimiters: .</span>
-<span class="w">    </span><span class="nt">envFrom</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secretRef</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-log-collector-secret</span>
-<span class="w">    </span><span class="nt">volumeMounts</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-ca</span>
-<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/etc/fluentbit/tls</span>
-<span class="w">        </span><span class="nt">readOnly</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">volumes</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">s3-ca</span>
-<span class="w">        </span><span class="nt">secret</span><span class="p">:</span>
-<span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-s3-ca</span>
-</code></pre></div>
-<p>Invalid custom Fluent Bit snippets are ignored at collector startup. When you change <code>logcollector.configuration</code> or log rotation settings, the Operator updates a configuration hash on the instance metadata and restarts the Pods to apply the new configuration.</p>
+<p>Backups and restores continue to work. When tracking is disabled, the Operator also does not inject the tracking logic into <code>archive_command</code>.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="backups-pitr-inplace.html">In-place point-in-time restore</a>
+<a class="md-button" href="backups-pitr-cluster-clone.html">Clone with point-in-time recovery</a>
+<a class="md-button" href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">Point-in-time restore from a PVC snapshot</a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
       
     
   </small>

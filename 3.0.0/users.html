@@ -1548,6 +1548,17 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#system-users-for-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System users for pgBouncer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#superuser-and-pgbouncer" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -2896,7 +2907,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2912,7 +2923,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -3035,7 +3046,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -3048,6 +3059,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3778,6 +3928,34 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3814,10 +3992,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3835,8 +4013,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6543,6 +6721,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#system-users-for-pgbouncer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        System users for pgBouncer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#superuser-and-pgbouncer" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6829,6 +7018,13 @@ and save it to the appropriate Secret. You can remove the old password with the
 <p>For databases, you should run the <code>DROP DATABASE</code> command as a superuser:</p>
 <div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">pgtest</span><span class="p">;</span>
 </code></pre></div>
+<h3 id="system-users-for-pgbouncer">System users for pgBouncer<a class="headerlink" href="#system-users-for-pgbouncer" title="Permanent link">&para;</a></h3>
+<p>The Operator creates internal users that applications should not use:</p>
+<ul>
+<li><code>_crunchypgbouncer</code> — used by pgBouncer to authenticate to PostgreSQL</li>
+<li><code>_crunchypgbounceradmin</code> — used by the Operator to issue <code>PAUSE</code> and <code>RESUME</code> on pgBouncer. Credentials are stored in the pgBouncer Secret as <code>pgbouncer-admin-password</code>.</li>
+</ul>
+<p>Do not define these names in <code>spec.users</code> or in a custom pgBouncer users Secret.</p>
 <h3 id="superuser-and-pgbouncer">Superuser and pgBouncer<a class="headerlink" href="#superuser-and-pgbouncer" title="Permanent link">&para;</a></h3>
 <p>For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the <code>primary</code> service. Read more about this service in <a href="expose.html">exposure documentation</a>.</p>
 <p>Otherwise you can use the <a href="operator.html#proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers connection via pgBouncer.</p>
@@ -6837,7 +7033,7 @@ and save it to the appropriate Secret. You can remove the old password with the
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
       
         <br>
         Created:

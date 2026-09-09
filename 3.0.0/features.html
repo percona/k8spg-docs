@@ -2851,7 +2851,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2867,7 +2867,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2990,7 +2990,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -3003,6 +3003,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3733,6 +3872,34 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3769,10 +3936,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3790,8 +3957,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6517,7 +6684,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Also, leverage Kubernetes <a href="backups-pvc-snapshots.html">PersistentVolumeClaim snapshots</a> for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.</p>
 <ul>
 <li><strong>Full, incremental, and differential backups</strong> — Select the backup strategy that matches your recovery objectives and storage requirements.</li>
-<li><strong>Point-in-time recovery (PITR)</strong> — Achieve low Recovery Point Objectives (RPO) by <a href="backups-restore-inplace.html#restore-the-cluster-with-point-in-time-recovery">restoring to any specific time</a> using WAL archives.</li>
+<li><strong>Point-in-time recovery (PITR)</strong> — Achieve low Recovery Point Objectives (RPO) by <a href="backups-pitr.html">restoring to any specific time</a> using WAL archives.</li>
 <li><strong>Scheduled backups</strong> — Automate backups on your chosen <a href="backups-schedule.html">schedule with cron-like expressions</a>.</li>
 <li><strong>Flexible storage</strong> — Store backups in S3-compatible object storage or on local PersistentVolumes for hybrid strategies.</li>
 <li><strong>PVC snapshot support</strong> — Boost backup and restore performance for large datasets with a point-in-time snapshot of your data volume.</li>
@@ -6528,9 +6695,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Reduce connection churn and spread read load without extra operational burden.</p>
 <ul>
 <li><strong>Efficient pooling</strong> — Lower PostgreSQL connection overhead by pooling client connections</li>
-<li><strong>Transaction-level pooling</strong> — Manage connections at the transaction level efficiently</li>
+<li><strong>Flexible pooling modes</strong> — Choose how clients share PostgreSQL connections: <code>session</code> mode (default) holds a connection for the full client session; <code>transaction</code> mode frees it after each transaction to serve more clients with fewer backend connections; <code>statement</code> mode returns the server after every query for maximum reuse, but does not allow multi-statement transactions.</li>
 <li><strong>Read balancing</strong> — Distribute read queries across replicas where configured</li>
 <li><strong>High availability</strong> — Replica pgBouncer instances provide high availability</li>
+<li><strong>Pause and resume connections</strong> — <a href="pause-pgbouncer.html">Pause pgBouncer</a> for planned restarts, maintenance, or switchover without dropping client connections</li>
 <li><strong>Integrated lifecycle</strong> — Automatically configured and managed by the Operator</li>
 </ul>
 <h2 id="automated-scaling-and-resource-management">Automated scaling and resource management<a class="headerlink" href="#automated-scaling-and-resource-management" title="Permanent link">&para;</a></h2>
@@ -6586,7 +6754,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:21:30 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
       
         <br>
         Created:

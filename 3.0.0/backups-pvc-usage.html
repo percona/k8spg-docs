@@ -2707,7 +2707,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2723,7 +2723,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2825,6 +2825,145 @@
                 
   
   
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -2838,10 +2977,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_5" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" checked>
         
           
-          <label class="md-nav__link" for="__nav_7_1_5" id="__nav_7_1_5_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
             
   
   
@@ -2859,8 +2998,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_7_1_5">
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3693,6 +3832,34 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3729,10 +3896,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3750,8 +3917,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6534,7 +6701,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 </li>
 </ol>
 <h2 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">&para;</a></h2>
-<p>You can make a point-in-time restore from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:</p>
+<p>You can make a <a href="backups-pitr.html">point-in-time restore</a> from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:</p>
 <ol>
 <li>Have a <code>pgBackRest</code> configuration, including the backup storage and at least one repository. See the <a href="backups-storage.html">Configure backup storage</a> section for configuration steps.</li>
 <li>The repository must have at least one WAL archive.</li>
@@ -6554,7 +6721,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
 <ul>
-<li>For a <code>pgBackRest</code> backup run the following command to get the target time:</li>
+<li>For a <code>pgBackRest</code> backup run the following command to get the <a href="backups-pitr.html#latest-restorable-time">latest restorable time</a>:</li>
 </ul>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup_name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
@@ -6662,7 +6829,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
       
         <br>
         Created:

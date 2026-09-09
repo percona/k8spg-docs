@@ -69,6 +69,18 @@
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/backups-pitr-cluster-clone.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/backups-pitr-inplace.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/backups-pitr.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/backups-pvc-setup-eks.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
@@ -354,6 +366,10 @@
     </url>
     <url>
          <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/options.html</loc>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://docs.percona.com/percona-operator-for-postgresql/3.0.0/pause-pgbouncer.html</loc>
          <lastmod>2026-09-09</lastmod>
     </url>
     <url>

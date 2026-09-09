@@ -2704,7 +2704,7 @@ deploy/cr.yaml  file.">
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2720,7 +2720,7 @@ deploy/cr.yaml  file.">
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2843,7 +2843,7 @@ deploy/cr.yaml  file.">
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2856,6 +2856,145 @@ deploy/cr.yaml  file.">
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3586,6 +3725,34 @@ deploy/cr.yaml  file.">
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3622,10 +3789,10 @@ deploy/cr.yaml  file.">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3643,8 +3810,8 @@ deploy/cr.yaml  file.">
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -8291,6 +8458,17 @@ deploy/cr.yaml  file.">
     <span class="md-ellipsis">
       
         proxy.pgBouncer.exposeSuperusers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proxypgbouncerpaused" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy.pgBouncer.paused
       
     </span>
   </a>
@@ -13643,6 +13821,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#proxypgbouncerpaused" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy.pgBouncer.paused
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#proxypgbouncerresourcesrequestscpu" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -17117,7 +17306,9 @@ Percona Distribution for PostgreSQL backups.</p>
 </tbody>
 </table>
 <h3 id="backupstracklatestrestorabletime"><code>backups.trackLatestRestorableTime</code><a class="headerlink" href="#backupstracklatestrestorabletime" title="Permanent link">&para;</a></h3>
-<p>Enables or disables <a href="backups-restore-inplace.html#restore-the-cluster-with-point-in-time-recovery">tracking the latest restorable time</a> for latest successful backup (on by default). It can be turned off to reduce the S3 API usage.</p>
+<p>Controls <a href="backups-pitr.html#latest-restorable-time">tracking of the latest restorable time</a> for point-in-time recovery. The default is <code>true</code>.</p>
+<p>When enabled, the Operator maintains <code>status.latestRestorableTime</code> on the latest successful backup. That value is the timestamp of the latest committed transaction archived to the backup repository. Use it when you choose a point-in-time restore target.</p>
+<p>When disabled, the Operator stops updating that helper field. Starting with Operator 2.8.0, it also does not inject the tracking logic into <code>archive_command</code>. Backups and restores continue to work without the helper. See <a href="backups-pitr.html">Point-in-time recovery</a> for details.</p>
 <table>
 <thead>
 <tr>
@@ -19150,6 +19341,22 @@ file contains configuration options for the <a href="http://pgbouncer.github.io/
 </tr>
 </tbody>
 </table>
+<h3 id="proxypgbouncerpaused"><code>proxy.pgBouncer.paused</code><a class="headerlink" href="#proxypgbouncerpaused" title="Permanent link">&para;</a></h3>
+<p>Pauses or resumes pgBouncer connections. When <code>true</code>, the Operator issues <code>PAUSE</code> on every pgBouncer Pod so clients stay connected while backend traffic stops. Set back to <code>false</code> to resume. See <a href="pause-pgbouncer.html">Pause and resume pgBouncer connections</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="proxypgbouncerresourcesrequestscpu"><code>proxy.pgBouncer.resources.requests.cpu</code><a class="headerlink" href="#proxypgbouncerresourcesrequestscpu" title="Permanent link">&para;</a></h3>
 <p><a href="https://kubernetes.io/docs/concepts/configuration/manage-compute-resources-container/#resource-requests-and-limits-of-pod-and-container">Kubernetes CPU requests <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for a pgBouncer container. It must not exceed the limit.</p>
 <p>If you specify a limit and don&rsquo;t specify a request, Kubernetes uses the specified limit as the requested value for a resource.</p>
@@ -20249,7 +20456,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:48 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
       
         <br>
         Created:

@@ -2703,7 +2703,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2719,7 +2719,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2842,7 +2842,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2855,6 +2855,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3585,6 +3724,34 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3621,10 +3788,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3642,8 +3809,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6621,7 +6788,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tbody>
 </table>
 <h3 id="options"><code>options</code><a class="headerlink" href="#options" title="Permanent link">&para;</a></h3>
-<p>Specify the <a href="https://pgbackrest.org/configuration.html">command line options supported by <code>pgBackRest</code> :octicons-external-link-16:</a>. For example, to make a point-in-time restore or to restore from a specific backup.</p>
+<p>Specify the <a href="https://pgbackrest.org/configuration.html">command line options supported by <code>pgBackRest</code> :octicons-external-link-16:</a>. For example, to make a <a href="backups-pitr.html">point-in-time restore</a> or to restore from a specific backup.</p>
 <table>
 <thead>
 <tr>
@@ -6636,7 +6803,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="backups-restore-inplace.html">Restore to the same cluster</a> or <a href="backups-clone.html">Restore to a new cluster</a>.</p>
+<p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="backups-restore-inplace.html">Restore to the same cluster</a> or <a href="backups-clone.html">Restore to a new cluster</a>. For point-in-time recovery, see <a href="backups-pitr.html">Point-in-time recovery</a>.</p>
 <h3 id="containeroptionsenvname"><code>containerOptions.env.name</code><a class="headerlink" href="#containeroptionsenvname" title="Permanent link">&para;</a></h3>
 <p>Specifies the name of a custom environment variable that you pass to backup containers for restore Pods.</p>
 <table>
@@ -6690,7 +6857,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 26, 2026 10:52:17 UTC">March 26, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
       
         <br>
         Created:

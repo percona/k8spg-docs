@@ -2703,7 +2703,7 @@
   <span class="md-ellipsis">
     
   
-    Restore from a backup
+    Restore from a full backup
   
 
     
@@ -2719,7 +2719,7 @@
             <span class="md-nav__icon md-icon"></span>
             
   
-    Restore from a backup
+    Restore from a full backup
   
 
           </label>
@@ -2842,7 +2842,7 @@
   <span class="md-ellipsis">
     
   
-    PVC snapshots
+    Point-in-time recovery
   
 
     
@@ -2855,6 +2855,145 @@
         
         <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_5_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_7_1_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Point-in-time recovery
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-inplace.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    In-place restore with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="backups-pitr-cluster-clone.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cluster clone with point-in-time recovery
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_1_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_7_1_6" id="__nav_7_1_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    PVC snapshots
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_7_1_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_1_6">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -3585,6 +3724,34 @@
   
   
     <li class="md-nav__item">
+      <a href="pause-pgbouncer.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Orchestrate pgBouncer connections
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="monitoring.html" class="md-nav__link">
         
   
@@ -3621,10 +3788,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
         
           
-          <label class="md-nav__link" for="__nav_7_10" id="__nav_7_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
             
   
   
@@ -3642,8 +3809,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6696,7 +6863,7 @@ True
 ReadyForBackup
 </code></pre></div>
 </details>
-<p><strong>Example 2. Get the latest restorable backup time:</strong></p>
+<p><strong>Example 2. Get the <a href="backups-pitr.html#latest-restorable-time">latest restorable time</a>:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>&lt;backup-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.latestRestorableTime}'</span>
 </code></pre></div>
@@ -6823,6 +6990,10 @@ Enabled
 <td>The PgBouncer Deployment is available.</td>
 </tr>
 <tr>
+<td><code>PGBouncerPaused</code></td>
+<td>pgBouncer connections are paused. The Operator removes this condition when you resume. See <a href="pause-pgbouncer.html">Pause and resume pgBouncer connections</a>.</td>
+</tr>
+<tr>
 <td><code>Progressing</code></td>
 <td>The cluster is progressing through a reconciliation or change. Set to <code>False</code> with reason <code>Paused</code> when reconciliation is blocked. For example, while required TLS Secrets are missing and the TLS certificate management policy is set to <code>userProvidedOnly</code>.</td>
 </tr>
@@ -6895,6 +7066,7 @@ Enabled
 <li><code>APIGroupMigrationCompleted</code>, <code>APIGroupMigrationInProgress</code>, <code>APIGroupMigrationNotNeeded</code></li>
 <li><code>ReadyForRestore</code>, <code>RestoreInPlaceRequested</code>, <code>PGBackRestRestoreComplete</code>, <code>PGBackRestRestoreFailed</code></li>
 <li><code>ManualBackupComplete</code>, <code>ManualBackupFailed</code></li>
+<li><code>Paused</code> (for <code>PGBouncerPaused</code>)</li>
 </ul>
 <h3 id="standby-status">Standby status<a class="headerlink" href="#standby-status" title="Permanent link">&para;</a></h3>
 <p>When you enable replication lag detection on a <a href="standby.html">standby cluster</a>, the Operator also populates <code>status.standby</code>:</p>
@@ -6930,7 +7102,7 @@ Enabled
 <li><code>status.image</code> - the Operator image</li>
 <li><code>status.error</code> – error details when the backup fails</li>
 <li><code>status.jobName</code> – Kubernetes Job that ran the backup</li>
-<li><code>status.latestRestorableTime</code> – latest point for point-in-time recovery from this backup</li>
+<li><code>status.latestRestorableTime</code> – timestamp of the latest committed transaction archived to the backup repository after this backup completed; use it as a safe upper bound for <a href="backups-pitr.html#latest-restorable-time">point-in-time recovery</a>. Updated only while <a href="operator.html#backupstracklatestrestorabletime">backups.trackLatestRestorableTime</a> is enabled.</li>
 <li><code>status.repo</code> – the details of the pgBackRest repository where the backup is stored</li>
 <li><code>status.size</code> - the size of the backup taken. Applies for full, incremental and differential backups.</li>
 <li><code>status.snapshot</code> – VolumeSnapshot references when the backup method is <code>volumeSnapshot</code></li>
@@ -7057,7 +7229,7 @@ Enabled
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
       
         <br>
         Created:
