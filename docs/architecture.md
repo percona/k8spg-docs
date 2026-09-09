@@ -16,6 +16,8 @@ The Operator components are the following:
   
 * **PMM Client for observability** – The PMM Client is an optional, yet valuable, component that you can enable to gain deeper insights into your database performance. When monitoring is [configured](monitoring.md), the PMM Client is deployed as a sidecar container alongside PostgreSQL Pods, empowering you with detailed monitoring and management capabilities.
 
+* **Log collector for persistent logging** – An optional Fluent Bit–based log collector that runs as `logs` and `logrotate` sidecar containers on PostgreSQL instance Pods. It tails PostgreSQL and pgBackRest client logs on the data volume so they remain available across Pod restarts, ships them to the sidecar’s standard output (default) or to your custom endpoint, and rotates on-disk log files to control volume growth. See [Persistent logging](persistent-logging.md) and [Log rotation](log-rotation.md).
+
 ![Operator overview](assets/images/pgo.svg)
 
 ### How components work together
@@ -29,6 +31,7 @@ This workflow shows how cluster components work together:
 5. Patroni monitors the cluster state and coordinates the leader elections if the primary node fails
 6. pgBackRest makes backups according the schedule that you defined or when you manually create a backup object. pgBackRest saves backups to the backup storage your configured. To learn more about backups, their workflow and setup, refer to the [About backups](backups.md)
 7. PMM Client collects performance metrics and sends them to the PMM Server for you to see and analyze. See [Monitor the database with PMM](monitoring.md) to learn more.
+8. When [persistent logging](persistent-logging.md) is enabled, the `logs` sidecar reads PostgreSQL and pgBackRest client logs from the instance data volume and ships them. The paired `logrotate` sidecar keeps on-disk log growth under control. See [Log rotation](log-rotation.md).
 
 
 ## Default cluster configuration
@@ -39,6 +42,7 @@ The default Percona Distribution for PostgreSQL configuration includes:
 * 3 pgBouncer instances.
 * a pgBackRest repository host instance – a dedicated instance in your cluster that stores filesystem backups made with pgBackRest.
 * (optional) a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor your database health and performance. PMM Client is disabled by default and runs as a sidecar container in the database Pods when you [configure monitoring](monitoring.md)
+* `logs` and `logrotate` sidecar containers on PostgreSQL instance Pods collect PostgreSQL and pgBackRest logs that persist across Pod restarts. Enabled by default for new clusters. See [configure persistent logging](persistent-logging.md) for steps to enable persistent logging on existing deployments.
 
 ### Primary, replicas, and high availability
 
@@ -59,7 +63,7 @@ If a node fails, Kubernetes automatically reschedules the affected Pod on anothe
 Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through **PersistentVolumeClaims (PVCs)**, which request storage resources. The cluster’s CSI driver provisions **PersistentVolumes**, and can **reattach** storage if a Pod moves to another
 node, thereby ensuring data continuity.
 
-If a node fails, the expectation is that the volume can be mounted elsewhere and the Pod recreated, while Patroni and PostgreSQL recover the database layer. For storage troubleshooting, see [Check storage](debug-storage.md).
+If a node fails, the expectation is that the volume can be mounted elsewhere and the Pod recreated, while Patroni and PostgreSQL recover the database layer. When [persistent logging](persistent-logging.md) is enabled, PostgreSQL and pgBackRest log files also live on the instance data volume, so log history survives Pod restarts the same way database data does. For storage troubleshooting, see [Check storage](debug-storage.md).
 
 ## Next steps 
 

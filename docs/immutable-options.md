@@ -36,32 +36,38 @@ The Operator sets and enforces the following PostgreSQL parameters. You cannot o
 | --------- | ------- | --------| 
 | `archive_mode` | `on` | Must be `on` for pgBackRest to archive WAL files. The Operator sets this to enable backups. |
 | `archive_command` | pgbackrest --stanza=db archive-push "%p" | Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository. |
-| `archive_timeout` | `60s` | Forces a WAL switch after the specified interval. The Operator manages this for backup consistency. |
 | `track_commit_timestamp` | `true`  | Enables commit timestamps for point-in-time recovery when [backups.trackLatestRestorableTime](operator.md#backupstracklatestrestorabletime) is enabled and the `crVersion` is 2.8.0 or higher |
 
 ### Extension parameters
 
 When you enable built-in extensions, the Operator appends or sets the following parameters. You cannot override these values while the extension is enabled.
 
-**When `spec.extensions.builtin.pg_stat_statements` is `true`:**
+**When `spec.extensions.pg_stat_statements.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pg_stat_statements` |
 | `pg_stat_statements.track` | `all` |
 
-**When `spec.extensions.builtin.pg_stat_monitor` is `true`:**
+**When `spec.extensions.pg_stat_monitor.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pg_stat_monitor` |
 | `pg_stat_monitor.pgsm_query_max_len` | `2048` |
 
-**When `spec.extensions.builtin.pg_audit` is `true`:**
+**When `spec.extensions.pg_audit.enabled` is `true`:**
 
 | Parameter | Value |
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pgaudit` |
+
+**When `spec.extensions.pg_tde.enabled` is `true`:**
+
+| Parameter | Value |
+| --------- | ----- |
+| `shared_preload_libraries` | Appended with `pg_tde` |
+| `pg_tde.wal_encrypt` | `on` when `spec.extensions.pg_tde.walEncryption` is `true`; otherwise `off` |
 
 !!! note
 
@@ -102,6 +108,18 @@ Initialization SQL runs only at cluster creation time. You cannot add or change 
 
 The `dataSource` subsection configures restore-from-backup for a *new* cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.
 
+### `tls.certManagementPolicy`
+
+You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See [TLS certificate management policy](tls-cert-management-policy.md).
+
+### `logicalReplicas.bootstrapMethod`
+
+The Operator reads this only during bootstrap. Changing it later has no effect. To use a different method, [reseed the replica](logical-replication.md#reseed-a-logical-replica).
+
+### `logicalReplicas.databases`
+
+The Operator records the database list at bootstrap. Changing it later does not change which databases keep receiving row changes. To change the list, reseed the replica.
+
 ## Backup options
 
 ### Backup encryption
@@ -110,7 +128,7 @@ You cannot change encryption settings after backups are established. To enable e
 
 ### Storage size
 
-You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See [Scale storage](scaling.md#scale-storage).
+You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See [Scale storage](scaling-vertical.md#scale-storage).
 
 ## Patroni dynamic configuration
 

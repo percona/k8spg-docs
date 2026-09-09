@@ -202,6 +202,7 @@ nav:
           - "Install on Amazon Elastic Kubernetes Service (AWS EKS)": eks.md
           - "Install on Microsoft Azure Kubernetes Service (AKS)": aks.md
           - "Install on OpenShift": openshift.md
+          - "Install on Rancher Kubernetes Engine (RKE2)": rke2.md
           - "Generic Kubernetes installation": kubernetes.md
     - Configuration:
           - "Application and system users": users.md
@@ -212,14 +213,20 @@ nav:
           - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Labels and annotations": annotations.md
+          - Transparent data encryption (TDE):
+            - About TDE: encryption.md
+            - Configure TDE with HashiCorp Vault: encryption-setup.md
+            - Disable encryption: encryption-disable.md
           - Transport encryption (TLS/SSL):
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
             - "Migrate from Operator-generated certificates to cert-manager": tls-migrate-to-cert-manager.md
             - "Migrate from cert-manager to custom TLS certificates": tls-migrate-from-cert-manager.md
             - "Generate certificates manually": tls-manual.md
+            - "Trust additional CAs for PgBouncer client mTLS": tls-pgbouncer-trusted-cas.md
             - "Update TLS/SSL certificates": tls-update.md
             - "Check TLS communication": tls-verify-communication.md
+            - tls-cert-management-policy.md
           - "Telemetry": telemetry.md
           - reconciliation-concurrency.md
           - Environment variables: 
@@ -238,10 +245,14 @@ nav:
             - Make a backup:
               - Scheduled backup: backups-schedule.md
               - On-demand backup: backups-ondemand.md
-            - Restore from a backup: 
+            - Restore from a full backup:
               - Restore options: backups-restore.md
               - To the same cluster (in-place restore): backups-restore-inplace.md
               - To a new cluster (cluster clone): backups-clone.md
+            - Point-in-time recovery: 
+              - "About point-in-time recovery": backups-pitr.md
+              - In-place restore with point-in-time recovery: backups-pitr-inplace.md
+              - Cluster clone with point-in-time recovery: backups-pitr-cluster-clone.md
             - PVC snapshots:
               - "About PVC snapshots": backups-pvc-snapshots.md
               - "Configure PVC snapshots": backups-pvc-setup.md
@@ -257,15 +268,24 @@ nav:
             - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
-          - "Scale your cluster": scaling.md
+          - Scale your cluster:
+            - "Overview": scaling.md
+            - "Horizontal scaling": scaling-horizontal.md
+            - "Vertical scaling": scaling-vertical.md
           - "High-availability": ha-deploy.md
+          - Deploy logical replicas: logical-replication.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
+          - "Add extra volumes": extra-volumes.md
           - "Restart or pause the cluster": pause.md
+          - "Orchestrate pgBouncer connections": pause-pgbouncer.md
           - Monitoring:
              - "Monitor the database with PMM": monitoring.md
              - "Monitor Kubernetes": monitor-kubernetes.md
              - postgres-exporter.md
+          - Logging:
+              - "Persistent logging": persistent-logging.md
+              - "Log rotation": log-rotation.md
     
     - Upgrade:
           - About upgrades: update.md
@@ -278,6 +298,7 @@ nav:
           - "Upgrade on Percona Operator for PostgreSQL on OpenShift": update-openshift.md
           - Migrate from Crunchy Operator for PostgreSQL: 
               - "About migration from Crunchy to Percona Operator for PostgreSQL": migrate-from-crunchy.md
+              - "Pre-migration compatibility checks": migrate-checklist.md
               - "Migrate using a standby cluster": migrate-from-crunchy-standby.md
               - "Migrate using backup and restore": migrate-from-crunchy-backup-restore.md
               - "Migrate using data volumes": migrate-from-crunchy-data-volumes.md

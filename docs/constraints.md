@@ -92,6 +92,7 @@ You can set tolerations in these Custom Resource sections of `deploy/cr.yaml`:
 * `backups.pgbackrest.repoHost.tolerations` — pgBackRest repository host
 * `backups.pgbackrest.jobs.tolerations` — backup jobs
 * `backups.pgbackrest.restore.tolerations` — restore jobs. If you do not set `backups.pgbackrest.restore.tolerations`, the Operator applies `backups.pgbackrest.jobs.tolerations` to restore jobs.
+* `backups.volumeSnapshots.jobs.tolerations` — PVC snapshot restore preparation jobs. The Operator applies these tolerations to the job that prepares volumes before restoring from a PVC snapshot.
 * `dataSource.*.tolerations` — data migration and clone jobs (see [Custom Resource options](operator.md))
 
 Example:
