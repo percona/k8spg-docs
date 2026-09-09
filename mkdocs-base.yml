@@ -277,6 +277,7 @@ nav:
           - "Add sidecar containers": sidecar.md
           - "Add extra volumes": extra-volumes.md
           - "Restart or pause the cluster": pause.md
+          - "Orchestrate pgBouncer connections": pause-pgbouncer.md
           - "Monitor the database with PMM": monitoring.md
           - Logging:
               - "Persistent logging": persistent-logging.md

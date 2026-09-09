@@ -294,6 +294,15 @@ For databases, you should run the `DROP DATABASE` command as a superuser:
 DROP DATABASE pgtest;
 ```
 
+### System users for pgBouncer
+
+The Operator creates internal users that applications should not use:
+
+* `_crunchypgbouncer` — used by pgBouncer to authenticate to PostgreSQL
+* `_crunchypgbounceradmin` — used by the Operator to issue `PAUSE` and `RESUME` on pgBouncer. Credentials are stored in the pgBouncer Secret as `pgbouncer-admin-password`.
+
+Do not define these names in `spec.users` or in a custom pgBouncer users Secret.
+
 ### Superuser and pgBouncer
 
 For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the `primary` service. Read more about this service in [exposure documentation](expose.md).

@@ -154,6 +154,7 @@ Common condition fields:
 | `PGBackRestoreProgressing` | An in-place pgBackRest restore is in progress. |
 | `PostgresDataInitialized` | The PostgreSQL data directory has been initialized (for example, via a restore). |
 | `ProxyAvailable` | The PgBouncer Deployment is available. |
+| `PGBouncerPaused` | pgBouncer connections are paused. The Operator removes this condition when you resume. See [Pause and resume pgBouncer connections](pause-pgbouncer.md). |
 | `Progressing` | The cluster is progressing through a reconciliation or change. Set to `False` with reason `Paused` when reconciliation is blocked. For example, while required TLS Secrets are missing and the TLS certificate management policy is set to `userProvidedOnly`. |
 | `TLSSecretsReady` | Required TLS Secrets are present for the configured certificate management policy. Set to `False` with reason `TLSSecretsMissing` when `spec.tls.certManagementPolicy` is `userProvidedOnly` and one or more required Secrets are missing. The message lists the missing Secret names. See [The TLS certificate management policy](tls-cert-management-policy.md). |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
@@ -185,6 +186,7 @@ The Operator sets `reason` and `message` values as free-form strings. Common rea
 * `APIGroupMigrationCompleted`, `APIGroupMigrationInProgress`, `APIGroupMigrationNotNeeded`
 * `ReadyForRestore`, `RestoreInPlaceRequested`, `PGBackRestRestoreComplete`, `PGBackRestRestoreFailed`
 * `ManualBackupComplete`, `ManualBackupFailed`
+* `Paused` (for `PGBouncerPaused`)
 
 ### Standby status
 

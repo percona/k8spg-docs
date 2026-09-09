@@ -32,9 +32,10 @@ Also, leverage Kubernetes [PersistentVolumeClaim snapshots](backups-pvc-snapshot
 Reduce connection churn and spread read load without extra operational burden.
 
 * **Efficient pooling** — Lower PostgreSQL connection overhead by pooling client connections
-* **Transaction-level pooling** — Manage connections at the transaction level efficiently
+* **Flexible pooling modes** — Choose how clients share PostgreSQL connections: `session` mode (default) holds a connection for the full client session; `transaction` mode frees it after each transaction to serve more clients with fewer backend connections; `statement` mode returns the server after every query for maximum reuse, but does not allow multi-statement transactions.
 * **Read balancing** — Distribute read queries across replicas where configured
 * **High availability** — Replica pgBouncer instances provide high availability
+* **Pause and resume connections** — [Pause pgBouncer](pause-pgbouncer.md) for planned restarts, maintenance, or switchover without dropping client connections
 * **Integrated lifecycle** — Automatically configured and managed by the Operator
 
 ## Automated scaling and resource management
