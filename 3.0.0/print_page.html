@@ -1256,6 +1256,34 @@
   
   
     <li class="md-nav__item">
+      <a href="rke2.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Install on Rancher Kubernetes Engine (RKE2)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="kubernetes.html" class="md-nav__link">
         
   
@@ -6321,6 +6349,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#rke2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install on Rancher Kubernetes Engine (RKE2)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#kubernetes" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -10343,7 +10382,211 @@ Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </spa
 </code></pre></div>
 </details>
 </li>
-</ol></section><section class="print-page" id="kubernetes" heading-number="5.7"><h1 id="kubernetes-install-percona-distribution-for-postgresql-on-kubernetes">Install Percona Distribution for PostgreSQL on Kubernetes<a class="headerlink" href="#kubernetes-install-percona-distribution-for-postgresql-on-kubernetes" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="rke2" heading-number="5.7"><h1 id="rke2-install-percona-operator-for-postgresql-on-rancher-kubernetes-engine-rke2">Install Percona Operator for PostgreSQL on Rancher Kubernetes Engine (RKE2)<a class="headerlink" href="#rke2-install-percona-operator-for-postgresql-on-rancher-kubernetes-engine-rke2" title="Permanent link">&para;</a></h1>
+<p>This guide shows you how to deploy Percona Operator for PostgreSQL on
+<a href="https://docs.rke2.io/">Rancher Kubernetes Engine (RKE2) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.
+RKE2 is a CNCF-certified Kubernetes distribution that you can run standalone or
+manage with the <a href="https://ranchermanager.docs.rancher.com/">Rancher <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
+Kubernetes management platform.</p>
+<p>The document assumes some experience with the platform. For more information,
+see the <a href="https://docs.rke2.io/">RKE2 official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="rke2-prerequisites">Prerequisites<a class="headerlink" href="#rke2-prerequisites" title="Permanent link">&para;</a></h2>
+<p>The following tools and access are required:</p>
+<ol>
+<li>
+<p><strong>Linux hosts</strong> that meet the <a href="https://docs.rke2.io/install/requirements">RKE2 requirements <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. For a production-like setup, use at least 3 nodes so the Operator can schedule instance Pods according to the <a href="#system-requirements">system requirements</a>.</p>
+</li>
+<li>
+<p><strong>Root or sudo</strong> access on each host to install and start RKE2 services.</p>
+</li>
+<li>
+<p><strong>kubectl</strong> to manage and deploy applications on Kubernetes. Install it
+    <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">following the official installation instructions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.
+    RKE2 also ships a <code>kubectl</code> binary under <code>/var/lib/rancher/rke2/bin/</code> on
+    server nodes.</p>
+</li>
+<li>
+<p>Optionally, a <strong>Rancher</strong> management server if you prefer to provision and
+    manage the RKE2 cluster from the Rancher UI instead of installing RKE2
+    manually. See the <a href="https://ranchermanager.docs.rancher.com/">Rancher documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+</li>
+</ol>
+<h2 id="rke2-create-the-rke2-cluster">Create the RKE2 cluster<a class="headerlink" href="#rke2-create-the-rke2-cluster" title="Permanent link">&para;</a></h2>
+<p>You can create the cluster <a href="https://docs.rke2.io/install/quickstart">with the RKE2 installation script <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> or <a href="https://ranchermanager.docs.rancher.com/how-to-guides/new-user-guides/launch-kubernetes-with-rancher">provision it
+through Rancher <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Both approaches give you a standard Kubernetes API endpoint
+that the Operator uses.</p>
+<h2 id="rke2-configure-kubectl-access">Configure kubectl access<a class="headerlink" href="#rke2-configure-kubectl-access" title="Permanent link">&para;</a></h2>
+<p>On a server node, RKE2 writes the kubeconfig to <code>/etc/rancher/rke2/rke2.yaml</code>.
+Copy it to your workstation and point <code>kubectl</code> at it:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span>~/.kube
+sudo<span class="w"> </span>cat<span class="w"> </span>/etc/rancher/rke2/rke2.yaml<span class="w"> </span>&gt;<span class="w"> </span>~/.kube/rke2.yaml
+<span class="nb">export</span><span class="w"> </span><span class="nv">KUBECONFIG</span><span class="o">=</span>~/.kube/rke2.yaml
+</code></pre></div>
+<p>If you connect from a remote machine, replace <code>127.0.0.1</code> in the kubeconfig
+<code>server:</code> URL with the reachable address of your RKE2 server node.</p>
+<p>Verify that the nodes are ready:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>nodes
+</code></pre></div>
+<h2 id="rke2-configure-storage">Configure storage<a class="headerlink" href="#rke2-configure-storage" title="Permanent link">&para;</a></h2>
+<p>Percona Distribution for PostgreSQL needs PersistentVolumes for database data. Confirm
+that your cluster has a default StorageClass (or note the StorageClass name to
+set in the Custom Resource):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>storageclass
+</code></pre></div>
+<p>RKE2 does not always ship a default StorageClass. For testing, you can install
+the <a href="https://github.com/rancher/local-path-provisioner">Local Path Provisioner <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.
+For production, use a CSI driver appropriate for your infrastructure, such as
+<a href="https://longhorn.io/">Longhorn <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> when you manage the cluster with Rancher.</p>
+<h2 id="rke2-install-the-operator-and-deploy-your-postgresql-cluster">Install the Operator and deploy your PostgreSQL cluster<a class="headerlink" href="#rke2-install-the-operator-and-deploy-your-postgresql-cluster" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>&lt;namespace<span class="w"> </span>name&gt;
+kubectl<span class="w"> </span>config<span class="w"> </span>set-context<span class="w"> </span><span class="k">$(</span>kubectl<span class="w"> </span>config<span class="w"> </span>current-context<span class="k">)</span><span class="w"> </span>--namespace<span class="o">=</span>&lt;namespace<span class="w"> </span>name&gt;
+</code></pre></div>
+<p>At success, you will see the message that <code>namespace/&lt;namespace name&gt;</code> was created, and the context was modified.</p>
+</li>
+<li>
+<p>Deploy the Operator using the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>--server-side<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v3.0.0/deploy/bundle.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace<span class="w"> </span>name&gt;
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>customresourcedefinition.apiextensions.k8s.io/crunchybridgeclusters.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgbackups.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgclusters.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgrestores.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/perconapgupgrades.pgv2.percona.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgadmins.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/pgupgrades.postgres-operator.crunchydata.com serverside-applied
+customresourcedefinition.apiextensions.k8s.io/postgresclusters.postgres-operator.crunchydata.com serverside-applied
+serviceaccount/percona-postgresql-operator serverside-applied
+role.rbac.authorization.k8s.io/percona-postgresql-operator serverside-applied
+rolebinding.rbac.authorization.k8s.io/service-account-percona-postgresql-operator serverside-applied
+deployment.apps/percona-postgresql-operator serverside-applied
+</code></pre></div>
+</details>
+<p>At this point, the Operator Pod is up and running.</p>
+</li>
+<li>
+<p>The Operator has been started, and you can deploy Percona Distribution for PostgreSQL:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://raw.githubusercontent.com/percona/percona-postgresql-operator/v3.0.0/deploy/cr.yaml<span class="w"> </span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pgv2.percona.com/cluster1 created
+</code></pre></div>
+</details>
+<p>It may take some time to create the database cluster. When the process is over your
+cluster will obtain the <code>ready</code> status. You can check it with the following
+command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME       ENDPOINT                         STATUS   POSTGRES   PGBOUNCER   AGE
+cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="rke2-verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#rke2-verifying-the-cluster-operation" title="Permanent link">&para;</a></h2>
+<p>After the cluster status is <code>ready</code>, you can try to connect
+to the cluster.</p>
+<p class="power-number">When the Operator deploys a database cluster, it generates several
+<a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
+user has the same username as the cluster name. </p>
+<ol>
+<li>
+<p>Use <code>kubectl get secrets -n &lt;namespace&gt;</code> command to see the list of Secrets objects. The
+    Secrets object you are interested in is named in the format
+    <code>&lt;cluster_name&gt;-pguser-&lt;cluster_name&gt;</code> (where the <code>&lt;cluster_name&gt;</code> is
+    the <a href="#operator-metadata-name">name of your Percona Distribution for PostgreSQL Cluster</a>). For example, if your cluster name is <code>cluster1</code>, the Secret name will be <code>cluster1-pguser-cluster1</code>. </p>
+</li>
+<li>
+<p>Use the
+    following command to get the password of this user. Replace the <code>&lt;cluster_name&gt;</code> and <code>&lt;namespace&gt;</code> placeholders with your values:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster_name&gt;-&lt;user_name&gt;-&lt;cluster_name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--template<span class="o">=</span><span class="s1">'{{.data.password | base64decode}}{{"\n"}}'</span>
+</code></pre></div>
+</li>
+<li>
+<p>To connect to PostgreSQL, you will use the <code>pgbouncer</code> service as the entry point to your cluster. To find this service, use the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>svc<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>Look for the service named <code>&lt;cluster-name&gt;-pgbouncer</code>.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-ha          ClusterIP   34.118.234.155   &lt;none&gt;        5432/TCP   51m
+cluster1-ha-config   ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-pgbouncer   ClusterIP   34.118.239.5     &lt;none&gt;        5432/TCP   51m
+cluster1-pods        ClusterIP   None             &lt;none&gt;        &lt;none&gt;     51m
+cluster1-primary     ClusterIP   None             &lt;none&gt;        5432/TCP   51m
+cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP   51m
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:18.4-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+</code></pre></div>
+<p>It may require some time to execute the command and deploy the corresponding Pod.</p>
+</li>
+<li>
+<p>Run a container with <code>psql</code> tool and connect its console output to your
+    terminal. Substitute the <code>&lt;namespace&gt;</code> placeholder with your value in the following command to connect as a <code>cluster1</code> user to the <code>cluster1</code> database
+    via the PostgreSQL interactive terminal.</p>
+<div class="highlight"><pre><span></span><code><span class="o">[</span>postgres@pg-client<span class="w"> </span>/<span class="o">]</span>$<span class="w"> </span><span class="nv">PGPASSWORD</span><span class="o">=</span><span class="s1">'pguser_password'</span><span class="w"> </span>psql<span class="w"> </span>-h<span class="w"> </span>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>cluster1<span class="w"> </span>cluster1
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">18</span>.4-1<span class="o">)</span>
+SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
+Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
+<span class="nv">pgdb</span><span class="o">=</span>&gt;
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="rke2-troubleshooting">Troubleshooting<a class="headerlink" href="#rke2-troubleshooting" title="Permanent link">&para;</a></h2>
+<p>If <code>kubectl get pg</code> command doesn&rsquo;t show <code>ready</code> status too long, you can
+check the creation process with the <code>kubectl get pods</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                                           READY   STATUS      RESTARTS   AGE
+cluster1-backup-4vwt-p5d9j                     0/1     Completed   0          97m
+cluster1-instance1-b5mr-0                      4/4     Running     0          99m
+cluster1-instance1-b8p7-0                      4/4     Running     0          99m
+cluster1-instance1-w7q2-0                      4/4     Running     0          99m
+cluster1-pgbouncer-79bbf55c45-62xlk            2/2     Running     0          99m
+cluster1-pgbouncer-79bbf55c45-9g4cb            2/2     Running     0          99m
+cluster1-pgbouncer-79bbf55c45-9nrmd            2/2     Running     0          99m
+cluster1-repo-host-0                           2/2     Running     0          99m
+percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          120m
+</code></pre></div>
+</details>
+<p>If the command output had shown some errors, you can examine the problematic
+Pod with the <code>kubectl describe &lt;pod name&gt;</code> command as follows:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pod<span class="w"> </span>cluster1-instance1-XXXX-0<span class="w"> </span>
+</code></pre></div>
+<p>Review the detailed information for <code>Warning</code> statements and then correct the
+configuration. An example of a warning is as follows:</p>
+<p><code>Warning  FailedScheduling  68s (x4 over 2m22s)  default-scheduler  0/1 nodes are available: 1 node(s) didn’t match pod affinity/anti-affinity, 1 node(s) didn’t satisfy existing pods anti-affinity rules.</code></p>
+<p>If Pods stay in the <code>Pending</code> state because volumes cannot be provisioned,
+confirm that a StorageClass exists and that your Custom Resource references the
+correct one.</p>
+<h2 id="rke2-removing-the-rke2-cluster">Removing the RKE2 cluster<a class="headerlink" href="#rke2-removing-the-rke2-cluster" title="Permanent link">&para;</a></h2>
+<p>To tear down a manually installed RKE2 cluster, run the uninstall script on each
+node (agent nodes first, then server nodes):</p>
+<div class="highlight"><pre><span></span><code>/usr/local/bin/rke2-uninstall.sh
+</code></pre></div>
+<p>If you provisioned the cluster with Rancher, delete the cluster from the Rancher
+UI instead.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>After deleting the cluster, all data stored in it will be lost!</p>
+</div></section><section class="print-page" id="kubernetes" heading-number="5.8"><h1 id="kubernetes-install-percona-distribution-for-postgresql-on-kubernetes">Install Percona Distribution for PostgreSQL on Kubernetes<a class="headerlink" href="#kubernetes-install-percona-distribution-for-postgresql-on-kubernetes" title="Permanent link">&para;</a></h1>
 <p class="power-number">Following steps will allow you to install the Operator and use it to manage
 Percona Distribution for PostgreSQL in a Kubernetes-based environment.</p>
 <ol>
@@ -32401,7 +32644,9 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #openshift > h1:before { content: '5.6 ' }
 
-.print-site-enumerate-headings #kubernetes > h1:before { content: '5.7 ' }
+.print-site-enumerate-headings #rke2 > h1:before { content: '5.7 ' }
+
+.print-site-enumerate-headings #kubernetes > h1:before { content: '5.8 ' }
 
 .print-site-enumerate-headings #section-6 > h1:before { content: '6 ' }
 .print-site-enumerate-headings #users > h1:before { content: '6.1 ' }
