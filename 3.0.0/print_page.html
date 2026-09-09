@@ -11291,7 +11291,7 @@ deployment before adopting it for production use), check <a href="#delete">this 
                         </h1>
                     <section class="print-page" id="users" heading-number="6.1"><h1 id="users-users">Users<a class="headerlink" href="#users-users" title="Permanent link">&para;</a></h1>
 <p>The Percona Operator for PostgreSQL includes built-in functionality to simplify management of users and databases within your PostgreSQL cluster. By default, the Operator creates a single unprivileged user and the database that matches the cluster name. </p>
-<p>However, many production workloads require more granular user access, separate databases for different applications, or restricted privileges for security and compliance. With the Operator, you can define custom users and manage their access to your database cluster resources:</p>
+<p>However, many production workloads require more granular user access, separate databases for different applications, or restricted privileges for security and compliance. With the Operator, you can define custom users and manage their access to your database cluster resources.</p>
 <p>This document explains how you can customize user and database management for your specific use case.</p>
 <h2 id="users-understanding-default-user-management">Understanding default user management<a class="headerlink" href="#users-understanding-default-user-management" title="Permanent link">&para;</a></h2>
 <p>When you create a PostgreSQL cluster with the Operator and do not specify any additional users or databases, the Operator does the following:</p>
@@ -11536,8 +11536,88 @@ and save it to the appropriate Secret. You can remove the old password with the
 </ul>
 <p>Do not define these names in <code>spec.users</code> or in a custom pgBouncer users Secret.</p>
 <h3 id="users-superuser-and-pgbouncer">Superuser and pgBouncer<a class="headerlink" href="#users-superuser-and-pgbouncer" title="Permanent link">&para;</a></h3>
-<p>For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the <code>primary</code> service. Read more about this service in <a href="#expose">exposure documentation</a>.</p>
-<p>Otherwise you can use the <a href="#operator-proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers connection via pgBouncer.</p></section>
+<p>For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the <code>primary</code> service. Read more about this service in <a href="#expose">Expose the cluster documentation</a>.</p>
+<p>Otherwise you can use the <a href="#operator-proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers to connect via pgBouncer.</p>
+<h4 id="users-add-extra-users-to-the-pgbouncer-authentication-file">Add extra users to the pgBouncer authentication file<a class="headerlink" href="#users-add-extra-users-to-the-pgbouncer-authentication-file" title="Permanent link">&para;</a></h4>
+<p>By default the Operator generates the pgBouncer user list and stores it in the <code>&lt;cluster-name&gt;-pgbouncer</code> Secret as <code>pgbouncer-users.txt</code> key. If you edit that Secret, the Operator can overwrite your changes the next time it reconciles the cluster, such as when you update the Custom Resource.</p>
+<p>To add extra pgBouncer users  that persist, create your own Secret and reference it with <code>spec.proxy.pgBouncer.usersSecret</code>. A typical use is a dedicated user for a monitoring agent that queries pgBouncer.</p>
+<p>The steps are:</p>
+<ol>
+<li>
+<p>Export your namespace as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;my-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Create a Secret. Each key is a pgBouncer username and each value is the password:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: v1</span>
+<span class="s">kind: Secret</span>
+<span class="s">metadata:</span>
+<span class="s">  name: pgbouncer-users</span>
+<span class="s">type: Opaque</span>
+<span class="s">stringData:</span>
+<span class="s">  monitoring_user: monitoring-password</span>
+<span class="s">EOF</span>
+</code></pre></div>
+<div class="admonition example">
+<p class="admonition-title">Sample output</p>
+<div class="no-copy highlight"><pre><span></span><code>secret/pgbouncer-users created
+</code></pre></div>
+</div>
+</li>
+<li>
+<p>Reference the Secret in the Custom Resource:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="users-__tabbed_2_1" name="users-__tabbed_2" type="radio" /><input id="users-__tabbed_2_2" name="users-__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="users-__tabbed_2_1">via cr.yaml</label><label for="users-__tabbed_2_2">via kubectl patch</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">usersSecret</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgbouncer-users</span>
+</code></pre></div>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>To update a running cluster, use the <code>kubectl patch</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<span class="s1">  "spec": {</span>
+<span class="s1">    "proxy": {</span>
+<span class="s1">      "pgBouncer": {</span>
+<span class="s1">        "usersSecret": {</span>
+<span class="s1">          "name": "pgbouncer-users"</span>
+<span class="s1">        }</span>
+<span class="s1">      }</span>
+<span class="s1">    }</span>
+<span class="s1">  }</span>
+<span class="s1">}'</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Verify that the Operator appended the user to the generated authentication file:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-users.txt}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode
+</code></pre></div>
+<p>The output includes <code>"monitoring_user" "monitoring-password"</code> along with the Operator-managed users.</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not edit the Operator-managed <code>&lt;cluster-name&gt;-pgbouncer</code> Secret. Put extra users in <code>usersSecret</code> so they persist across reconciles.</p>
+</div>
+<p>Keep the following in mind:</p>
+<ul>
+<li>The Secret must be in the same namespace as the cluster.</li>
+<li>When you add, change, or remove keys in the Secret, the Operator updates the authentication file. You do not need to re-apply the Custom Resource.</li>
+<li>Passwords must not contain newline characters.</li>
+<li>Do not use the reserved names <code>_crunchypgbouncer</code> or <code>_crunchypgbounceradmin</code>. The Operator rejects the Secret if a key matches a user it manages.</li>
+</ul></section>
                     <section class='print-page md-section' id='section-6-2' heading-number='6.2'>
                         <h1>LDAP authentication<a class='headerlink' href='#section-6-2' title='Permanent link'></a>
                         </h1>
@@ -30040,6 +30120,22 @@ file contains configuration options for the <a href="http://pgbouncer.github.io/
 </tr>
 </tbody>
 </table>
+<h3 id="operator-proxypgbounceruserssecretname"><code>proxy.pgBouncer.usersSecret.name</code><a class="headerlink" href="#operator-proxypgbounceruserssecretname" title="Permanent link">&para;</a></h3>
+<p>Name of a Secret whose keys and values the Operator appends to the pgBouncer authentication file. Each key is a username and each value is the password. The Secret must be in the same namespace as the cluster. See <a href="#users-add-extra-users-to-the-pgbouncer-authentication-file">Add extra users to the pgBouncer authentication file</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>pgbouncer-users</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="operator-proxypgbouncerpaused"><code>proxy.pgBouncer.paused</code><a class="headerlink" href="#operator-proxypgbouncerpaused" title="Permanent link">&para;</a></h3>
 <p>Pauses or resumes pgBouncer connections. When <code>true</code>, the Operator issues <code>PAUSE</code> on every pgBouncer Pod so clients stay connected while backend traffic stops. Set back to <code>false</code> to resume. See <a href="#pause-pgbouncer">Pause and resume pgBouncer connections</a>.</p>
 <table>
@@ -30301,7 +30397,7 @@ file contains configuration options for the <a href="http://pgbouncer.github.io/
 </tbody>
 </table>
 <h3 id="operator-proxypgbouncerconfig"><code>proxy.pgBouncer.config</code><a class="headerlink" href="#operator-proxypgbouncerconfig" title="Permanent link">&para;</a></h3>
-<p>Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.</p>
+<p>Custom configuration options for the pgBouncer <code>pgbouncer.ini</code> file (for example, <code>pool_mode</code> or <code>stats_users</code>). To add extra users to the authentication file, use <a href="#operator-proxypgbounceruserssecretname"><code>proxy.pgBouncer.usersSecret</code></a>. Configuration changes are automatically applied to the running instances without validation, so an invalid config can make the cluster unavailable.</p>
 <table>
 <thead>
 <tr>

@@ -8603,6 +8603,17 @@ deploy/cr.yaml  file.">
 </li>
         
           <li class="md-nav__item">
+  <a href="#proxypgbounceruserssecretname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy.pgBouncer.usersSecret.name
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#proxypgbouncerpaused" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -14062,6 +14073,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         proxy.pgBouncer.exposeSuperusers
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#proxypgbounceruserssecretname" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        proxy.pgBouncer.usersSecret.name
       
     </span>
   </a>
@@ -19666,6 +19688,22 @@ file contains configuration options for the <a href="http://pgbouncer.github.io/
 </tr>
 </tbody>
 </table>
+<h3 id="proxypgbounceruserssecretname"><code>proxy.pgBouncer.usersSecret.name</code><a class="headerlink" href="#proxypgbounceruserssecretname" title="Permanent link">&para;</a></h3>
+<p>Name of a Secret whose keys and values the Operator appends to the pgBouncer authentication file. Each key is a username and each value is the password. The Secret must be in the same namespace as the cluster. See <a href="users.html#add-extra-users-to-the-pgbouncer-authentication-file">Add extra users to the pgBouncer authentication file</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>pgbouncer-users</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="proxypgbouncerpaused"><code>proxy.pgBouncer.paused</code><a class="headerlink" href="#proxypgbouncerpaused" title="Permanent link">&para;</a></h3>
 <p>Pauses or resumes pgBouncer connections. When <code>true</code>, the Operator issues <code>PAUSE</code> on every pgBouncer Pod so clients stay connected while backend traffic stops. Set back to <code>false</code> to resume. See <a href="pause-pgbouncer.html">Pause and resume pgBouncer connections</a>.</p>
 <table>
@@ -19927,7 +19965,7 @@ file contains configuration options for the <a href="http://pgbouncer.github.io/
 </tbody>
 </table>
 <h3 id="proxypgbouncerconfig"><code>proxy.pgBouncer.config</code><a class="headerlink" href="#proxypgbouncerconfig" title="Permanent link">&para;</a></h3>
-<p>Custom configuration options for pgBouncer. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.</p>
+<p>Custom configuration options for the pgBouncer <code>pgbouncer.ini</code> file (for example, <code>pool_mode</code> or <code>stats_users</code>). To add extra users to the authentication file, use <a href="#proxypgbounceruserssecretname"><code>proxy.pgBouncer.usersSecret</code></a>. Configuration changes are automatically applied to the running instances without validation, so an invalid config can make the cluster unavailable.</p>
 <table>
 <thead>
 <tr>
@@ -20781,7 +20819,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:44:16 UTC">September 9, 2026</span>
       
         <br>
         Created:
