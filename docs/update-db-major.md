@@ -88,6 +88,8 @@ During the upgrade flow, the Operator:
     
     Repeat for every database where the `pgaudit` extension is installed.
 
+2. A successful major upgrade invalidates existing [logical replicas](logical-replication.md). After the cluster is `ready`, [reseed](logical-replication.md#reseed-a-logical-replica) each logical replica.
+
 ## Check collation
 
 If the new image uses a different UBI major (for example, UBI 8 to UBI 9), `glibc` collation rules change.

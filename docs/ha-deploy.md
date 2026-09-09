@@ -62,4 +62,109 @@ kubectl apply -f deploy/cr.yaml
 
 After you apply the configuration, the requested number of standbys operate in synchronous mode.
 
-For more Patroni options, see the [Patroni replication modes documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode).
+Find more options useful to tune how your database cluster should operate in synchronous mode [in the official Patroni documentation :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode).
+
+## Logical replicas and failover
+
+[Logical replicas](logical-replication.md) are not Patroni members and are not promoted during failover. Their replication slots live on the PostgreSQL instance that created them. After failover, the new primary often does not have those slots, and the logical replica status becomes `broken` with reason `SourceSlotMissing`.
+
+The Operator tells Patroni not to drop logical `pgoutput` slots on the current primary. That does not copy slots to other instances.
+
+### Persist replication slots across failover
+
+To keep logical replication slots available on the new primary after failover, enable Patroni permanent slots and define a slot for **each** database the logical replica replicates.
+
+1. Bootstrap the logical replica first and wait until it is healthy. If you configure replication slots before bootstrap finishes, creation can fail with an error that the slot already exists.
+2. Find the slot name the Operator created. 
+    
+    * Identify the primary Pod and exec into it:
+        
+        ```bash
+        PRIMARY=$(kubectl get pod -n <namespace> \
+        --selector postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
+        -o jsonpath='{.items[0].metadata.name}')
+        kubectl exec -it $PRIMARY -n <namespace> -c database -- psql
+        ```
+
+    * Use the following statement to find the replication slot:
+
+        ```sql
+        SELECT * FROM pg_replication_slots;
+        ```
+
+        ??? example "Sample output"
+
+            ```text
+            slot_name                               |  plugin  | slot_type | datoid | database  | temporary | active | active_pid | xmin | catalog_xmin | restart_lsn | confirmed_flush_lsn | wal_status | safe_wal_size | two_phase | two_phase_at | inactive_since | conflicting | invalidation_reason | failover | synced
+            ---------------------------------------------------+----------+-----------+--------+-----------+-----------+--------+------------+------+--------------+-------------+---------------------+------------+---------------+-----------+--------------+----------------+-------------+---------------------+----------+--------
+            pgo_lr_slot_analytics_cluster1_50651e49 | pgoutput | logical   |  16410 | cluster1 | f         | t
+                |       1700 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+              | f         |              |                | f           |                     | f        | f
+            pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp    | f         | t
+                |       1701 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+              | f         |              |                | f           |                     | f        | f
+            (2 rows)
+            ```
+
+3. Add the same slot name under `patroni.dynamicConfiguration`. Example for a logical replica that replicates the `myapp` database (replace the slot name with the value from the query):
+
+    ```yaml
+    spec:
+      patroni:
+        dynamicConfiguration:
+          postgresql:
+            use_slots: true
+          slots:
+            pgo_lr_slot_myapp_cluster1_875a65d6:
+              type: logical
+              database: myapp
+              plugin: pgoutput
+    ```
+
+4. Apply the change:
+
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
+
+!!! warning
+
+    With `use_slots: true`, WAL can accumulate on the primary if a logical replica falls behind. Monitor disk usage and replica lag.
+
+Permanent Patroni slots help the slot survive failover. They do **not** guarantee that logical replication keeps running. Subscriptions are created with `disable_on_error`, so an error during failover can disable the subscription, and the Operator does not re-enable it automatically.
+
+### If the subscription is disabled after failover
+
+Check the logical replica status:
+
+```bash
+kubectl get pg <cluster-name> -o yaml | yq '.status.logicalReplicas'
+```
+
+A disabled subscription looks like this:
+
+```yaml
+- databases:
+    - myapp
+  message: subscription "pgo_lr_sub_myapp_cluster1_875a65d6" on database "myapp" is disabled, most likely because applying a change from the primary failed; check the logical replica's logs for the error
+  name: l1
+  reason: SubscriptionDisabled
+  state: broken
+```
+
+Check the logical replica Pod logs for the underlying error (for example a closed SSL connection during failover). To re-enable the subscription, exec into the logical replica Pod as the subscription owner and run:
+
+```sql
+\c myapp
+SELECT * FROM pg_subscription;
+SET default_transaction_read_only = off;
+ALTER SUBSCRIPTION "pgo_lr_sub_myapp_cluster1_875a65d6" ENABLE;
+```
+
+Repeat for each disabled subscription. If you need the database name for a subscription, use:
+
+```sql
+SELECT datname FROM pg_database WHERE oid = <pg_subscription.subdbid>;
+```
+
+If re-enabling does not restore replication, or the reason is `SourceSlotMissing`, [reseed the logical replica](logical-replication.md#reseed-a-logical-replica).

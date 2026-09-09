@@ -273,6 +273,7 @@ nav:
             - "Horizontal scaling": scaling-horizontal.md
             - "Vertical scaling": scaling-vertical.md
           - "High-availability": ha-deploy.md
+          - Deploy logical replicas: logical-replication.md
           - "Huge pages": huge-pages.md
           - "Add sidecar containers": sidecar.md
           - "Add extra volumes": extra-volumes.md

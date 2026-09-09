@@ -6,7 +6,7 @@ Use this document to make **a full restore**. For a restore to a specific moment
 
 !!! important
     
-    This operation overwrites the current data and is destructive.
+    This operation overwrites the current data and is destructive. An in-place restore also invalidates [logical replicas](logical-replication.md). After the restore, [reseed](logical-replication.md#reseed-a-logical-replica) each replica.
 
 Configure `PerconaPGRestore` custom resource using a *backup restore*
 configuration file. The example of the backup configuration file is

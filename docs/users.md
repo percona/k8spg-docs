@@ -49,6 +49,7 @@ Here's what you need to know:
     - If you include at least one database in `spec.users.databases` for the user, the Secret will include connection credentials for the **first** database in the list (`dbname` and `uri`).
 
 - You can add a special `postgres` user as one of the custom users. This user is granted access to the `postgres` database, but its privileges cannot be changed.
+- `logicalrepl` is reserved. When you add a [logical replica](logical-replication.md), the Operator creates this user with `SUPERUSER REPLICATION` and stores credentials in `<clusterName>-pguser-logicalrepl`. If you define `logicalrepl` in `spec.users`, the Operator ignores it.
 - By default, the top-level `autoCreateUserSchema` option is set to `true`. This means each user will have automatically-created schemas in all databases listed for this user under `users.databases`.
 - By default, users without superuser privileges do not have access to the `public` schema. To allow a non-superuser to create and update tables in the `public` schema, set the `grantPublicSchemaAccess` option to `true`. This gives the user permission to create and update tables in the `public` schema of every database they own.
 - Your custom superusers automatically have access to the `public` schema for their assigned databases.
