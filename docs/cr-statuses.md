@@ -56,7 +56,7 @@ kubectl get pg <cluster-name> -n <namespace> \
     ReadyForBackup
     ```
 
-**Example 2. Get the latest restorable backup time:**
+**Example 2. Get the [latest restorable time](backups-pitr.md#latest-restorable-time):**
 
 ```bash
 kubectl get pg-backup <backup-name> -n <namespace> \
@@ -82,6 +82,23 @@ kubectl get pg <cluster-name> -n <namespace> \
     2343212
     2026-07-22T12:07:05Z
     ```
+
+**Example 4. Check data-at-rest encryption (`pg_tde`) status:**
+
+```bash
+kubectl get pg <cluster-name> -n <namespace> \
+  -o jsonpath='{range .status.conditions[?(@.type=="PGTDEEnabled")]}{.type}{"\n"}{.status}{"\n"}{.reason}{"\n"}{end}'
+```
+
+??? example "Sample output"
+
+    ```{.text .no-copy}
+    PGTDEEnabled
+    True
+    Enabled
+    ```
+
+Also check `PGTDEVaultProviderReady` the same way when you need to confirm that the Vault key provider matches the Custom Resource.
 
 ## PerconaPGCluster status
 
@@ -138,9 +155,12 @@ Common condition fields:
 | `PostgresDataInitialized` | The PostgreSQL data directory has been initialized (for example, via a restore). |
 | `ProxyAvailable` | The PgBouncer Deployment is available. |
 | `PGBouncerPaused` | pgBouncer connections are paused. The Operator removes this condition when you resume. See [Pause and resume pgBouncer connections](pause-pgbouncer.md). |
-| `Progressing` | The cluster is progressing through a reconciliation or change. |
+| `Progressing` | The cluster is progressing through a reconciliation or change. Set to `False` with reason `Paused` when reconciliation is blocked. For example, while required TLS Secrets are missing and the TLS certificate management policy is set to `userProvidedOnly`. |
+| `TLSSecretsReady` | Required TLS Secrets are present for the configured certificate management policy. Set to `False` with reason `TLSSecretsMissing` when `spec.tls.certManagementPolicy` is `userProvidedOnly` and one or more required Secrets are missing. The message lists the missing Secret names. See [The TLS certificate management policy](tls-cert-management-policy.md). |
 | `PersistentVolumeResizing` | A Persistent Volume resize is in progress. |
 | `StandbyLagging` | The standby cluster WAL lag exceeds `spec.standby.maxAcceptableLag`. See [Detect replication lag for standby cluster](standby.md#detect-replication-lag-for-standby-cluster). |
+| `PGTDEEnabled` | The `pg_tde` extension is created in all databases and added to `shared_preload_libraries`. Also controls whether instance Pods mount the Vault volume. See [Data-at-rest encryption](encryption.md#status-and-conditions). |
+| `PGTDEVaultProviderReady` | The Vault key provider in PostgreSQL matches the Custom Resource configuration. Becomes `False` during credential changes or if the change stalls or fails. See [Data-at-rest encryption](encryption.md#status-and-conditions). |
 | `APIGroupMigration` | Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See [Upgrade the Operator](update-operator.md). |
 | `RepoDeploymentNotFound` | A pgBackRest repository deployment was not found during reconciliation. |
 | `RepoHostCreated` | A pgBackRest repository host was created. |
@@ -158,7 +178,11 @@ The Operator sets `reason` and `message` values as free-form strings. Common rea
 
 * `AllConditionsAreTrue`, `PGBackRestRepoHostReady`, `PGBackRestReplicaCreate` (for `ReadyForBackup`)
 * `RepoHostReady`, `RepoHostNotReady`, `RepoHostStatusMissing`
+* `TLSSecretsFound`, `TLSSecretsMissing` (for `TLSSecretsReady`)
+* `Paused` (for `Progressing`, when reconciliation is blocked; check `TLSSecretsReady` if TLS Secrets are missing)
 * `LagDetected`, `LagNotDetected`, `ErrorGettingLag`, `MainSiteNotFound` (for `StandbyLagging`)
+* `Enabled`, `Disabled` (for `PGTDEEnabled`)
+* `Configured` (for `PGTDEVaultProviderReady`)
 * `APIGroupMigrationCompleted`, `APIGroupMigrationInProgress`, `APIGroupMigrationNotNeeded`
 * `ReadyForRestore`, `RestoreInPlaceRequested`, `PGBackRestRestoreComplete`, `PGBackRestRestoreFailed`
 * `ManualBackupComplete`, `ManualBackupFailed`
@@ -190,7 +214,7 @@ Common fields are:
 * `status.image` - the Operator image
 * `status.error` – error details when the backup fails
 * `status.jobName` – Kubernetes Job that ran the backup
-* `status.latestRestorableTime` – latest point for point-in-time recovery from this backup
+* `status.latestRestorableTime` – timestamp of the latest committed transaction archived to the backup repository after this backup completed; use it as a safe upper bound for [point-in-time recovery](backups-pitr.md#latest-restorable-time). Updated only while [backups.trackLatestRestorableTime](operator.md#backupstracklatestrestorabletime) is enabled.
 * `status.repo` – the details of the pgBackRest repository where the backup is stored
 * `status.size` - the size of the backup taken. Applies for full, incremental and differential backups.
 * `status.snapshot` – VolumeSnapshot references when the backup method is `volumeSnapshot`
