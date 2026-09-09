@@ -3620,6 +3620,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3796,10 +3824,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3817,8 +3845,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -7576,6 +7604,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
+  <a href="#logical-replication" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Deploy logical replicas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#huge-pages" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7642,7 +7681,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-7-11" class="md-nav__link">
+  <a href="#section-7-12" class="md-nav__link">
     <span class="md-ellipsis">
       
         Logging
@@ -8709,6 +8748,7 @@ Check upcoming releases on the <a href="https://github.com/orgs/percona/projects
 <li><strong>Extensions</strong> — Built-in support for extensions such as pg_stat_monitor, pgAudit, set_user, wal2json, plus ability to extend PostgreSQL with <a href="#custom-extensions">custom extensions</a>.</li>
 <li><strong>Users and databases</strong> — Automatically create users, databases, and manage credentials.</li>
 <li><strong>Init SQL</strong> — Execute <a href="#initsql">custom SQL scripts during cluster initialization</a>.</li>
+<li><strong>Logical replicas</strong> (tech preview) — Extra read-only instances in the same cluster for reporting and other heavy reads. Each replica has its own volume and Service. Patroni does not manage or promote them. See <a href="#logical-replication">Deploy a logical replica</a>.</li>
 </ul>
 <h2 id="features-standby-clusters-for-disaster-recovery">Standby clusters for disaster recovery<a class="headerlink" href="#features-standby-clusters-for-disaster-recovery" title="Permanent link">&para;</a></h2>
 <p>Leverage disaster-recovery topologies that fit your RTO and RPO.</p>
@@ -9177,6 +9217,18 @@ node, thereby ensuring data continuity.</p>
 <ul>
 <li>Delayed replicas are not supported</li>
 <li>The Operator doesn&rsquo;t automatically update Patroni configuration inside running instances when  <code>create_replica_methods</code> is updated. You must manually run <code>patronictl reload</code> on each replica to make Patroni aware of the change. See <a href="#manage-manually-override-patroni-configuration">Override Patroni configuration</a> for details.</li>
+</ul>
+<h2 id="limitations-logical-replicas">Logical replicas<a class="headerlink" href="#limitations-logical-replicas" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Logical replicas require Operator 3.1.0 or later and PostgreSQL 17 or later. See <a href="#logical-replication">Deploy a logical replica</a>.</li>
+<li>Patroni does not manage logical replicas and does not promote them.</li>
+<li>Failover often breaks replication because slots stay on the old primary. <a href="#logical-replication-reseed-a-logical-replica">Reseed</a> the replica, or see <a href="#ha-deploy-logical-replicas-and-failover">Logical replicas and failover</a>.</li>
+<li>An in-place restore invalidates logical replicas. Reseed each replica after the restore.</li>
+<li>A major upgrade invalidates logical replicas. Before you upgrade, ensure the replication is healthy. Otherwise, remove the replica. After the upgrade, reseed each replica. See <a href="#update-db-major">Major version upgrade</a>.</li>
+<li>A failed bootstrap does not retry on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.</li>
+<li>Pausing the cluster stops the logical replica Pod.</li>
+<li>Removing a logical replica always deletes its PVC, even if the cluster <code>delete-pvc</code> finalizer is off.</li>
+<li>Logical replication is not supported when <a href="#encryption">Transparent Data Encryption</a> is enabled in the cluster. This limitation is planned to be removed in future releases.</li>
 </ul>
 <h2 id="limitations-service-control">Service control<a class="headerlink" href="#limitations-service-control" title="Permanent link">&para;</a></h2>
 <ul>
@@ -11288,6 +11340,7 @@ deployment before adopting it for production use), check <a href="#delete">this 
 <li>
 <p>You can add a special <code>postgres</code> user as one of the custom users. This user is granted access to the <code>postgres</code> database, but its privileges cannot be changed.</p>
 </li>
+<li><code>logicalrepl</code> is reserved. When you add a <a href="#logical-replication">logical replica</a>, the Operator creates this user with <code>SUPERUSER REPLICATION</code> and stores credentials in <code>&lt;clusterName&gt;-pguser-logicalrepl</code>. If you define <code>logicalrepl</code> in <code>spec.users</code>, the Operator ignores it.</li>
 <li>By default, the top-level <code>autoCreateUserSchema</code> option is set to <code>true</code>. This means each user will have automatically-created schemas in all databases listed for this user under <code>users.databases</code>.</li>
 <li>By default, users without superuser privileges do not have access to the <code>public</code> schema. To allow a non-superuser to create and update tables in the <code>public</code> schema, set the <code>grantPublicSchemaAccess</code> option to <code>true</code>. This gives the user permission to create and update tables in the <code>public</code> schema of every database they own.</li>
 <li>Your custom superusers automatically have access to the <code>public</code> schema for their assigned databases.</li>
@@ -11853,13 +11906,29 @@ balancer:</p>
 <span class="nn">...</span>
 <span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
-</code></pre></div></section><section class="print-page" id="options" heading-number="6.4"><h1 id="options-changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#options-changing-postgresql-options" title="Permanent link">&para;</a></h1>
-<p>You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method
-<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-to apply your changes.</p>
-<p>Add your PostgreSQL options to the <code>patroni.dynamicConfiguration.postgresql.parameters</code>
-section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
+</code></pre></div>
+<h2 id="expose-expose-a-logical-replica">Expose a logical replica<a class="headerlink" href="#expose-expose-a-logical-replica" title="Permanent link">&para;</a></h2>
+<p>A <a href="#logical-replication">logical replica</a> has its own Service, <code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>. It is not behind pgBouncer. Set <code>spec.logicalReplicas[].expose</code> in the same way as <code>spec.expose</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">logicalReplicas</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">      </span><span class="nt">expose</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
+</code></pre></div>
+<p>See <a href="#operator-logicalreplicasexpose"><code>logicalReplicas.expose</code></a>.</p></section><section class="print-page" id="options" heading-number="6.4"><h1 id="options-changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#options-changing-postgresql-options" title="Permanent link">&para;</a></h1>
+<p>You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Operator defaults for some PostgreSQL parameters can differ from upstream PostgreSQL defaults. Before you change
+a parameter, check whether the Operator already sets it and whether you can
+override that value. See <a href="#immutable-options">Immutable options</a> for the list of parameters that you can and cannot override.</p>
+<p>To inspect the effective Patroni configuration for a running cluster, use
+<code>patronictl show-config</code> inside a PostgreSQL Pod. See
+<a href="#manage-manually-override-postgresql-parameters">Manage a database manually</a>.</p>
+<p>This page shows how to pass additional options to PostgreSQL.</p>
+<h2 id="options-how-to-pass-postgresql-options">How to pass PostgreSQL options<a class="headerlink" href="#options-how-to-pass-postgresql-options" title="Permanent link">&para;</a></h2>
+<p>Add parameters under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in your
+<code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -11873,33 +11942,38 @@ section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <p>Apply the updated Custom Resource:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<p>This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.</p>
-<p>Most options take effect without
-a PostgreSQL server restart. Some options, such as <code>wal_level</code> and <code>shared_buffers</code>, have the
+<p>The Operator applies the changes to new clusters at creation time and to existing
+clusters at runtime.</p>
+<p>Most options take effect without a PostgreSQL server restart. Some options, such
+as <code>shared_buffers</code> or <code>wal_level</code>, have the
 <a href="https://www.postgresql.org/docs/current/view-pg-settings.html">postmaster context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and require a PostgreSQL restart. For these options, Patroni performs a rolling
-restart of all instances after you apply the change. To check whether an option
-requires a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+and require a restart. For those options, Patroni performs a rolling restart of
+all PostgreSQL Pods after you apply the change. To check whether an option requires
+a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>The Operator does not validate the options it passes to Patroni. Invalid
-values can make the cluster unavailable. Also, only PostgreSQL parameters in the
-<code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied. Other Patroni options in
-<code>patroni.dynamicConfiguration</code> subsection are ignored.</p>
+values can make the cluster unavailable. Also, only PostgreSQL parameters in
+the <code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied.
+Other Patroni options in the <code>patroni.dynamicConfiguration</code> subsection are
+ignored.</p>
 </div>
-<h2 id="options-configuring-wal_level">Configuring wal_level<a class="headerlink" href="#options-configuring-wal_level" title="Permanent link">&para;</a></h2>
-<p>The <code>wal_level</code> option controls how much information is written to PostgreSQL WAL
-files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
+<h3 id="options-example-override-an-operator-default-wal_level">Example: override an Operator default (<code>wal_level</code>)<a class="headerlink" href="#options-example-override-an-operator-default-wal_level" title="Permanent link">&para;</a></h3>
+<p>The Operator sets <code>wal_level</code> to <code>logical</code> by default. That value supports
+logical replication and also increases WAL volume and I/O compared with
+<code>replica</code>.</p>
+<p>Supported values in Operator-managed clusters are:</p>
 <ul>
-<li><code>replica</code> (PostgreSQL default) — sufficient for physical replication and most
-  workloads</li>
-<li><code>logical</code> (Operator default) — required for logical replication; increases WAL volume and I/O.</li>
+<li><code>logical</code> (Operator default) — required for logical replication</li>
+<li><code>replica</code> — enough for physical replication and most workloads that do not
+  need logical replication</li>
 </ul>
-<p>Read more about <code>wal_level</code> values in <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Though the <code>wal_level</code> option can also have the value <code>minimal</code>, it will be rejected by the validation rules, since other parameters, such as <code>hot_standby</code>, require more WAL data. </p>
-</div>
+<p>Both values allow point-in-time recovery. The value <code>minimal</code> is rejected by
+validation rules because other required settings, such as <code>hot_standby</code>, need
+more WAL data.</p>
+<p>Read more about what <code>wal_level</code> controls in the
+<a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>To lower WAL overhead when you do not need logical replication, set the <code>wal_level</code> to <code>replica</code> under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -11907,14 +11981,8 @@ files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameter
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">wal_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replica</span>
 </code></pre></div>
-<p>Use <code>replica</code> when you need physical replication or no replication. Use
-<code>logical</code> when you need logical replication. Both values allow for point-in-time recovery.</p>
-<p>The <code>wal_level</code> parameter has the
-postmaster context. After you change it, Patroni restarts all PostgreSQL instances.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="#immutable-options">Immutable options</a> for the full list.</p>
-</div>
+<p><code>wal_level</code> has the postmaster context. After you change it, Patroni restarts
+all PostgreSQL instances.</p>
 <h2 id="options-using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#options-using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
 the client IP or hostname. Configure it in the
@@ -13490,7 +13558,9 @@ Replica instances.</p>
 <li>The Operator removes the namespace-scoped cert-manager Issuers and Certificates it owns (via owner references) but keeps the Secrets.</li>
 <li>Operator-managed cluster-scoped <code>ClusterIssuer</code> resources and CA objects in the cert-manager namespace are not owned by the cluster, so they are not deleted automatically. The Operator never deletes an external issuer that it does not own.</li>
 </ul>
-<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the TLS Secrets.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.8.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
+<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the TLS Secrets.</p>
+<h2 id="tls-logical-replica-connections">Logical replica connections<a class="headerlink" href="#tls-logical-replica-connections" title="Permanent link">&para;</a></h2>
+<p>A <a href="#logical-replication">logical replica</a> presents the cluster TLS certificate. Prefer <code>sslmode=verify-ca</code>. Hostname verification (<code>sslmode=verify-full</code>) can fail because the certificate SANs may not include the logical replica Service DNS name (<code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>). If you use custom certificates, add that name to the server certificate. See <a href="#tls-manual">Generate certificates manually</a>.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.8.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
 <p>Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management.</p>
 <p>When the Operator creates a database cluster, it checks whether cert-manager is installed and whether you have provided custom TLS secrets. If cert-manager is available and you have not set custom secrets, the Operator requests certificates from cert-manager, stores them in Kubernetes Secrets, and uses those Secrets for TLS. cert-manager then manages issuance, renewal, and rotation. You do not need to restart the cluster when certificates are renewed.</p>
 <p>You can use cert-manager in these ways:</p>
@@ -16096,7 +16166,7 @@ flowchart LR
 <p>Use this document to make <strong>a full restore</strong>. For a restore to a specific moment, use the <a href="#backups-pitr-inplace">In-place restore with point-in-time recovery</a> tutorial.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>This operation overwrites the current data and is destructive.</p>
+<p>This operation overwrites the current data and is destructive. An in-place restore also invalidates <a href="#logical-replication">logical replicas</a>. After the restore, <a href="#logical-replication-reseed-a-logical-replica">reseed</a> each replica.</p>
 </div>
 <p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
 configuration file. The example of the backup configuration file is
@@ -18485,7 +18555,219 @@ To check if your storage supports the expansion capability, run the following co
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>After you apply the configuration, the requested number of standbys operate in synchronous mode.</p>
-<p>For more Patroni options, see the <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">Patroni replication modes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p></section><section class="print-page" id="huge-pages" heading-number="7.5"><h1 id="huge-pages-using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a class="headerlink" href="#huge-pages-using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
+<p>Find more options useful to tune how your database cluster should operate in synchronous mode <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">in the official Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="ha-deploy-logical-replicas-and-failover">Logical replicas and failover<a class="headerlink" href="#ha-deploy-logical-replicas-and-failover" title="Permanent link">&para;</a></h2>
+<p><a href="#logical-replication">Logical replicas</a> are not Patroni members and are not promoted during failover. Their replication slots live on the PostgreSQL instance that created them. After failover, the new primary often does not have those slots, and the logical replica status becomes <code>broken</code> with reason <code>SourceSlotMissing</code>.</p>
+<p>The Operator tells Patroni not to drop logical <code>pgoutput</code> slots on the current primary. That does not copy slots to other instances.</p>
+<h3 id="ha-deploy-persist-replication-slots-across-failover">Persist replication slots across failover<a class="headerlink" href="#ha-deploy-persist-replication-slots-across-failover" title="Permanent link">&para;</a></h3>
+<p>To keep logical replication slots available on the new primary after failover, enable Patroni permanent slots and define a slot for <strong>each</strong> database the logical replica replicates.</p>
+<ol>
+<li>Bootstrap the logical replica first and wait until it is healthy. If you configure replication slots before bootstrap finishes, creation can fail with an error that the slot already exists.</li>
+<li>
+<p>Find the slot name the Operator created. </p>
+<ul>
+<li>
+<p>Identify the primary Pod and exec into it:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+</li>
+<li>
+<p>Use the following statement to find the replication slot:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_replication_slots</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>slot_name                               |  plugin  | slot_type | datoid | database  | temporary | active | active_pid | xmin | catalog_xmin | restart_lsn | confirmed_flush_lsn | wal_status | safe_wal_size | two_phase | two_phase_at | inactive_since | conflicting | invalidation_reason | failover | synced
+---------------------------------------------------+----------+-----------+--------+-----------+-----------+--------+------------+------+--------------+-------------+---------------------+------------+---------------+-----------+--------------+----------------+-------------+---------------------+----------+--------
+pgo_lr_slot_analytics_cluster1_50651e49 | pgoutput | logical   |  16410 | cluster1 | f         | t
+    |       1700 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+  | f         |              |                | f           |                     | f        | f
+pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp    | f         | t
+    |       1701 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+  | f         |              |                | f           |                     | f        | f
+(2 rows)
+</code></pre></div>
+</details>
+</li>
+</ul>
+</li>
+<li>
+<p>Add the same slot name under <code>patroni.dynamicConfiguration</code>. Example for a logical replica that replicates the <code>myapp</code> database (replace the slot name with the value from the query):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">use_slots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">slots</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">pgo_lr_slot_myapp_cluster1_875a65d6</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logical</span>
+<span class="w">          </span><span class="nt">database</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">          </span><span class="nt">plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgoutput</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the change:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>With <code>use_slots: true</code>, WAL can accumulate on the primary if a logical replica falls behind. Monitor disk usage and replica lag.</p>
+</div>
+<p>Permanent Patroni slots help the slot survive failover. They do <strong>not</strong> guarantee that logical replication keeps running. Subscriptions are created with <code>disable_on_error</code>, so an error during failover can disable the subscription, and the Operator does not re-enable it automatically.</p>
+<h3 id="ha-deploy-if-the-subscription-is-disabled-after-failover">If the subscription is disabled after failover<a class="headerlink" href="#ha-deploy-if-the-subscription-is-disabled-after-failover" title="Permanent link">&para;</a></h3>
+<p>Check the logical replica status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.logicalReplicas'</span>
+</code></pre></div>
+<p>A disabled subscription looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">  </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">subscription "pgo_lr_sub_myapp_cluster1_875a65d6" on database "myapp" is disabled, most likely because applying a change from the primary failed; check the logical replica's logs for the error</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">l1</span>
+<span class="w">  </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SubscriptionDisabled</span>
+<span class="w">  </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">broken</span>
+</code></pre></div>
+<p>Check the logical replica Pod logs for the underlying error (for example a closed SSL connection during failover). To re-enable the subscription, exec into the logical replica Pod as the subscription owner and run:</p>
+<div class="highlight"><pre><span></span><code><span class="err">\</span><span class="k">c</span><span class="w"> </span><span class="n">myapp</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_subscription</span><span class="p">;</span>
+<span class="k">SET</span><span class="w"> </span><span class="n">default_transaction_read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">off</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="n">SUBSCRIPTION</span><span class="w"> </span><span class="ss">"pgo_lr_sub_myapp_cluster1_875a65d6"</span><span class="w"> </span><span class="n">ENABLE</span><span class="p">;</span>
+</code></pre></div>
+<p>Repeat for each disabled subscription. If you need the database name for a subscription, use:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">oid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">pg_subscription</span><span class="p">.</span><span class="n">subdbid</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<p>If re-enabling does not restore replication, or the reason is <code>SourceSlotMissing</code>, <a href="#logical-replication-reseed-a-logical-replica">reseed the logical replica</a>.</p></section><section class="print-page" id="logical-replication" heading-number="7.5"><h1 id="logical-replication-deploy-a-logical-replica">Deploy a logical replica<a class="headerlink" href="#logical-replication-deploy-a-logical-replica" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p>This feature is in the tech preview stage. The behavior can change in future releases. </p>
+</div>
+<p>A logical replica is an extra, read-only PostgreSQL instance in the <strong>same</strong> cluster. It has its own volume and Service, so you can point reporting and other heavy reads at it instead of the primary.</p>
+<p>The Operator first copies the whole data directory (a physical seed), then keeps selected databases in sync with <a href="https://www.postgresql.org/docs/current/logical-replication.html">logical replication <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>: the primary sends row changes, not a byte-for-byte copy of WAL. The replica uses the same PostgreSQL image as the cluster.</p>
+<p>It is <strong>not</strong> a high-availability replica. Patroni does not manage it, does not promote it, and does not use it for failover. For a copy you can promote, use a <a href="#standby">standby cluster</a>.</p>
+<h2 id="logical-replication-how-it-works">How it works<a class="headerlink" href="#logical-replication-how-it-works" title="Permanent link">&para;</a></h2>
+<p>Declare the logical replica in the Custom Resource by adding a <code>logicalReplicas</code> entry with the name of the replica, the bootstrap method and the volume configuration.</p>
+<p>The cluster must be <code>ready</code> and the primary must be able to send logical changes. This means the following conditions must be met:</p>
+<ul>
+<li><code>wal_level</code> must be <code>logical</code>,</li>
+<li>the reserved <code>logicalrepl</code> user must exist,</li>
+<li><code>pg_hba</code> rules must allow the <code>logicalrepl</code> user to connect.</li>
+</ul>
+<p>If something is still missing, the replica stays in the <code>bootstrapping</code> state and the <code>ReadyForLogicalReplication</code> condition says what is waiting.</p>
+<p>After you apply the configuration, the Operator waits until the cluster is <code>ready</code>. Then, for each replica, it:</p>
+<ol>
+<li><strong>Resolves databases.</strong> It records which databases will keep receiving changes. That list does not change later. If a named database does not exist yet, it waits.</li>
+<li><strong>Creates a volume</strong> for the replica.</li>
+<li><strong>Runs a bootstrap Job.</strong> The Job copies the data directory, removes Patroni settings, and converts the copy into a logical replica. This replica receives row changes later, not WAL replay.</li>
+<li><strong>Starts PostgreSQL</strong> on that volume, without Patroni. This instance is not part of failover.</li>
+<li><strong>Creates a Service</strong> so you can connect to the replica.</li>
+<li><strong>Watches health.</strong> The Operator checks that replication is still running: the primary still has the replication slots, and the replica is still applying changes. If either stops, the replica status becomes <code>broken</code>.</li>
+</ol>
+<p><a class="md-button" href="#logical-replication-add-a-logical-replica">Add a logical replica</a></p>
+<h2 id="logical-replication-why-use-logical-replicas">Why use logical replicas<a class="headerlink" href="#logical-replication-why-use-logical-replicas" title="Permanent link">&para;</a></h2>
+<p>Use a logical replica when you need:</p>
+<ul>
+<li><strong>Reporting without loading the primary.</strong> The replica has its own Pod and volume, so heavy reads do not compete with the high-availability set.</li>
+<li><strong>Ongoing changes for selected databases.</strong> List them in <code>spec.logicalReplicas[].databases</code>. The Operator copies the whole data directory first. After it converts the physical replica into a logical one, later changes apply to every table in those listed databases. Omit <code>databases</code> to include changes for all databases except templates and <code>postgres</code>.</li>
+<li><strong>Keep a copy that Patroni will not promote.</strong> Patroni manages
+physical replicas and can promote them to primary. A logical
+replica never becomes the primary. That is useful when you want
+a stable read endpoint that must not take writes during failover.</li>
+</ul>
+<p>Do not use a logical replica to filter tables, run a different PostgreSQL major version, accept writes, or fail over. For a copy you can promote, use a <a href="#standby">standby cluster</a>.</p>
+<h2 id="logical-replication-availability-and-requirements">Availability and requirements<a class="headerlink" href="#logical-replication-availability-and-requirements" title="Permanent link">&para;</a></h2>
+<p>To use logical replicas, the following requirements must be met: </p>
+<ul>
+<li>The Operator version <strong>3.1.0</strong> or later and</li>
+<li>PostgreSQL <strong>17 or later</strong>.</li>
+<li><code>wal_level</code> must be set to <code>logical</code>. </li>
+<li>Enough free replication slots and WAL senders on the primary. Raise <code>max_replication_slots</code> and <code>max_wal_senders</code> through <a href="#operator-patronidynamicconfiguration"><code>patroni.dynamicConfiguration</code></a> if bootstrap reports that the primary is short of capacity.</li>
+<li>A successful backup in the cluster repository if you use the default <code>pgbackrest</code> bootstrap method. After you create the databases the replica will follow, take a <a href="#backups-ondemand">new backup</a> before you add the replica. Otherwise bootstrap may restore an older backup that does not contain those databases and fail. </li>
+<li>If <a href="#backups-disable">backups are disabled</a>, you <strong>must</strong> set <code>bootstrapMethod: pg_basebackup</code></li>
+<li>The replica name must be unique and must not collide with an <code>spec.instances[].name</code>. The name length is maximum 20 characters.</li>
+</ul>
+<h2 id="logical-replication-add-a-logical-replica">Add a logical replica<a class="headerlink" href="#logical-replication-add-a-logical-replica" title="Permanent link">&para;</a></h2>
+<p>You can add logical replicas when you create the cluster, or add it later to an existing cluster. The Operator starts bootstrapping the replica only after the cluster is <code>ready</code>.</p>
+<ol>
+<li>
+<p>Edit <code>deploy/cr.yaml</code> and add a <code>logicalReplicas</code> entry. This example creates a replica named <code>analytics</code> that keeps the <code>cluster1</code> database in sync after a full seed from pgBackRest:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">postgresVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">17</span>
+<span class="w">  </span><span class="nt">logicalReplicas</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">analytics</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
+<span class="w">      </span><span class="nt">bootstrapMethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgbackrest</span>
+<span class="w">      </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">        </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
+</code></pre></div>
+<p><code>dataVolumeClaimSpec</code> is required. <code>bootstrapMethod</code> defaults to <code>pgbackrest</code>. After you create the databases that the replica will follow, take a <a href="#backups-ondemand">new backup</a> before you add the replica. Use <code>pg_basebackup</code> if <a href="#backups-disable">backups are disabled</a>.</p>
+<p>To expose the replica outside the cluster, set <code>expose.type</code>. See <a href="#expose">Exposing the cluster</a> and <a href="#operator-logicalreplicasname"><code>logicalReplicas</code> options</a>.</p>
+</li>
+<li>
+<p>Apply the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Wait until the replica is <code>ready</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.logicalReplicas}'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>[{"name":"analytics","state":"ready","databases":["cluster1"],"seededAt":"2026-08-13T10:15:04Z","state":"ready"}]
+</code></pre></div>
+</details>
+<p>While bootstrap runs, <code>state</code> is <code>bootstrapping</code>. If it stays there, check the Job:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>job<span class="w"> </span>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;-bootstrap<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+kubectl<span class="w"> </span>logs<span class="w"> </span>job/&lt;cluster-name&gt;-lr-&lt;replica-name&gt;-bootstrap<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>Status values and reasons are listed in <a href="#cr-statuses-logical-replica-status">Custom resource statuses</a>.</p>
+</li>
+</ol>
+<h2 id="logical-replication-connect-to-the-replica">Connect to the replica<a class="headerlink" href="#logical-replication-connect-to-the-replica" title="Permanent link">&para;</a></h2>
+<p>The replica is not behind pgBouncer. Connect to its Service, named <code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>. For <code>cluster1</code> and replica <code>analytics</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service<span class="w"> </span>cluster1-lr-analytics<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p>From inside the cluster, use <code>cluster1-lr-analytics.&lt;namespace&gt;.svc.cluster.local</code>. Point the host at this Service, not at pgBouncer or the HA Service. Use an existing user Secret for credentials (for example <code>&lt;cluster-name&gt;-pguser-&lt;user&gt;</code>).</p>
+<p>Prefer <code>sslmode=verify-ca</code>. See <a href="#tls-logical-replica-connections">TLS</a> if you need hostname verification.</p>
+<h2 id="logical-replication-reseed-a-logical-replica">Reseed a logical replica<a class="headerlink" href="#logical-replication-reseed-a-logical-replica" title="Permanent link">&para;</a></h2>
+<p>Reseed after a failed bootstrap, a missing slot, a disabled subscription, an <a href="#backups-restore-inplace">in-place restore</a>, or a <a href="#update-db-major">major upgrade</a>. Changing fields on an existing replica does not rebuild it.</p>
+<ol>
+<li>Remove the replica from <code>spec.logicalReplicas</code> and apply the Custom Resource.</li>
+<li>Wait until it disappears from <code>status.logicalReplicas</code>.</li>
+<li>Add it back and apply again.</li>
+</ol>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.logicalReplicas}'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+</code></pre></div>
+<p>A Patroni failover often breaks replication (<code>SourceSlotMissing</code>). Reseed, or see <a href="#ha-deploy-logical-replicas-and-failover">Logical replicas and failover</a>.</p>
+<h2 id="logical-replication-remove-a-logical-replica">Remove a logical replica<a class="headerlink" href="#logical-replication-remove-a-logical-replica" title="Permanent link">&para;</a></h2>
+<p>Remove its entry from <code>spec.logicalReplicas</code> and apply the Custom Resource. The Operator always deletes the replica PVC.</p>
+<p>If the primary is down during removal, status keeps the replica with reason <code>AwaitingCleanup</code> until slots can be dropped on a primary.</p>
+<h2 id="logical-replication-implementation-specifics">Implementation specifics<a class="headerlink" href="#logical-replication-implementation-specifics" title="Permanent link">&para;</a></h2>
+<p><a href="https://www.postgresql.org/docs/current/logical-replication-restrictions.html">PostgreSQL logical replication restrictions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> still apply. Also keep these Operator behaviors in mind:</p>
+<ul>
+<li><strong>Do not write to the replica.</strong> A local write can stop replication. <a href="#logical-replication-reseed-a-logical-replica">Reseed</a> the replica to recover.</li>
+<li><strong>Schema changes are not replicated.</strong> Apply <code>ALTER TABLE</code> on both the primary and the replica. Add columns on the replica first; drop them on the primary first. Do not change the schema during bootstrap.</li>
+<li><strong>After seed, only row changes continue</strong> (<code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>TRUNCATE</code>) for the databases you named. New tables and databases are ignored. Sequences and large objects drift after the seed. Updates and deletes need a primary key, a non-null unique key, or <code>REPLICA IDENTITY FULL</code>.</li>
+<li><strong>Failover often breaks replication.</strong> Slots stay on the old primary (<code>SourceSlotMissing</code>). <a href="#logical-replication-reseed-a-logical-replica">Reseed</a> a logical replica or see <a href="#ha-deploy-logical-replicas-and-failover">Logical replicas and failover</a>.</li>
+<li><strong>A major upgrade invalidates the replica.</strong> Before the upgrade, ensure the replication is healthy. If it isn&rsquo;t, you must <a href="#logical-replication-remove-a-logical-replica">remove the replica</a>. After a successful major upgrade, <a href="#logical-replication-reseed-a-logical-replica">reseed</a>. A minor upgrade can continue if you <a href="#ha-deploy-persist-replication-slots-across-failover">configured replication slots</a>. See <a href="#update-db-major">Major version upgrade</a> and <a href="#update-db-minor">Minor version upgrade</a>.</li>
+<li><strong>A failed bootstrap does not retry</strong> on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.</li>
+<li><strong>Connect to the replica Service.</strong> It is not behind pgBouncer, not in PMM, and not in the HA Services (<code>*-ha</code>, <code>*-replicas</code>).</li>
+<li><strong>Deleting a replica always deletes its PVC</strong>, even if the cluster <code>delete-pvc</code> finalizer is off.</li>
+<li><strong>Pausing the cluster stops the logical replica Pod.</strong> Apply workers fail while the primary is down.</li>
+<li><strong><code>logicalrepl</code> is reserved.</strong> Do not define it in <code>spec.users</code>. See <a href="#users-considerations">Users</a>.</li>
+<li><strong><code>bootstrapMethod</code> is read only during bootstrap.</strong> Changing it later has no effect.</li>
+<li>Logical replication is not supported when <a href="#encryption">Transparent Data Encryption</a> is enabled in the cluster. This limitation is planned to be removed in future releases.</li>
+</ul></section><section class="print-page" id="huge-pages" heading-number="7.6"><h1 id="huge-pages-using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a class="headerlink" href="#huge-pages-using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">&para;</a></h1>
 <h2 id="huge-pages-overview">Overview<a class="headerlink" href="#huge-pages-overview" title="Permanent link">&para;</a></h2>
 <p>Huge Pages (also called large or super pages) are bigger memory blocks that help reduce CPU overhead. Normally, memory is managed in 4kB chunks, also called &ldquo;pages&rdquo;, but when your PostgreSQL workload grows, the CPU has to juggle a lot of these small pages. By switching to larger pages like 2MiB or 1GiB, you reduce the number of pages the CPU needs to track, which can improve efficiency and performance.</p>
 <p>For PostgreSQL clusters managed by Percona Operator for PostgreSQL, enabling huge pages is a recommended optimization, especially for memory-intensive workloads.</p>
@@ -18556,7 +18838,7 @@ To check if your storage supports the expansion capability, run the following co
 <span class="w">  </span><span class="nt">config</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">parameters</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">shared_buffers</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128MB</span>
-</code></pre></div></section><section class="print-page" id="sidecar" heading-number="7.6"><h1 id="sidecar-using-sidecar-containers">Using sidecar containers<a class="headerlink" href="#sidecar-using-sidecar-containers" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="sidecar" heading-number="7.7"><h1 id="sidecar-using-sidecar-containers">Using sidecar containers<a class="headerlink" href="#sidecar-using-sidecar-containers" title="Permanent link">&para;</a></h1>
 <p>Sidecar containers are extra containers that run alongside the main container in a Pod. They are often used for logging, proxying, or monitoring.</p>
 <p>The Operator uses a set of &ldquo;predefined&rdquo; sidecar containers to manage the cluster operation:</p>
 <ul>
@@ -18747,7 +19029,7 @@ to mount a shared NFS export into your sidecar. Add it to <code>sidecarVolumes</
 <span class="w">        </span><span class="nt">server</span><span class="p">:</span><span class="w"> </span><span class="s">"nfs-service.storage.svc.cluster.local"</span>
 <span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="s">"/pg-some-name"</span>
 </code></pre></div>
-<p>Reference the volume in your sidecar <code>volumeMounts</code> with the same <code>name</code>.</p></section><section class="print-page" id="extra-volumes" heading-number="7.7"><h1 id="extra-volumes-mount-extra-volumes-into-postgresql-instances">Mount extra volumes into PostgreSQL instances<a class="headerlink" href="#extra-volumes-mount-extra-volumes-into-postgresql-instances" title="Permanent link">&para;</a></h1>
+<p>Reference the volume in your sidecar <code>volumeMounts</code> with the same <code>name</code>.</p></section><section class="print-page" id="extra-volumes" heading-number="7.8"><h1 id="extra-volumes-mount-extra-volumes-into-postgresql-instances">Mount extra volumes into PostgreSQL instances<a class="headerlink" href="#extra-volumes-mount-extra-volumes-into-postgresql-instances" title="Permanent link">&para;</a></h1>
 <p>You can mount additional Kubernetes volumes into the PostgreSQL container so every instance in the cluster sees the same files. Use this in scenarios when PostgreSQL needs files outside the data directory. For example:</p>
 <ul>
 <li>
@@ -18824,7 +19106,7 @@ PostgreSQL major version:</p>
 <li>Changing extraVolumes causes PostgreSQL to restart.</li>
 <li>Mounts apply to the PostgreSQL database container for that instance set. They do not mount into sidecar containers. For sidecar mounts, use the sidecar volume options instead. See <a href="#sidecar">Add sidecar</a> containers.</li>
 <li>Prefer <code>subPath</code> mounts when you add files next to the built-in <code>tsearch_data</code> content.</li>
-</ul></section><section class="print-page" id="pause" heading-number="7.8"><h1 id="pause-pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pause-pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">&para;</a></h1>
+</ul></section><section class="print-page" id="pause" heading-number="7.9"><h1 id="pause-pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pause-pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">&para;</a></h1>
 <h2 id="pause-pause-and-resume-the-cluster">Pause and resume the cluster<a class="headerlink" href="#pause-pause-and-resume-the-cluster" title="Permanent link">&para;</a></h2>
 <p>You can temporarily shut down your PostgreSQL cluster and bring it back later without losing data or configuration. You may want to pause the cluster for maintenance tasks, emergency manual intervention or debugging.</p>
 <p>When paused, all changes to the cluster&rsquo;s current state are suspended and no statuses other than the &ldquo;Progressing&rdquo; condition are updated until you resume the reconciliation.</p>
@@ -18837,7 +19119,7 @@ PostgreSQL major version:</p>
 <p>Apply the change:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<p>The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs).</p>
+<p>The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs). <a href="#logical-replication">Logical replica</a> Pods keep running, but the apply workers stop while the primary is down.</p>
 <h3 id="pause-how-to-resume">How to resume<a class="headerlink" href="#pause-how-to-resume" title="Permanent link">&para;</a></h3>
 <p>Set <code>spec.pause</code> back to <code>false</code> in the same Custom Resource and apply:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -18856,7 +19138,7 @@ PostgreSQL major version:</p>
 <h2 id="pause-standby-mode">Standby mode<a class="headerlink" href="#pause-standby-mode" title="Permanent link">&para;</a></h2>
 <p>Standby PostgreSQL clusters provide a continuously replicated copy of your primary cluster, forming the backbone of high‑availability and disaster‑recovery strategies. They stay in sync through streaming replication, enabling you to quickly promote a standby if the primary becomes unavailable. Standby clusters can also run in separate regions or environments, helping you maintain business continuity during outages.</p>
 <p>The standby mode for a cluster is controlled with the <code>spec.standby.enabled</code> option plus the <code>spec.standby.repoName</code> and/or <code>spec.standby.host</code> and <code>spec.standby.port</code> options in the Custom Resource. What options to specify depends on the standby cluster type. </p>
-<p>Read more about the supported types of standby clusters and their setup in the <a href="#standby">Deploy a standby cluster for Disaster Recovery</a> documentation.</p></section><section class="print-page" id="pause-pgbouncer" heading-number="7.9"><h1 id="pause-pgbouncer-pause-and-resume-pgbouncer-connections">Pause and resume pgBouncer connections<a class="headerlink" href="#pause-pgbouncer-pause-and-resume-pgbouncer-connections" title="Permanent link">&para;</a></h1>
+<p>Read more about the supported types of standby clusters and their setup in the <a href="#standby">Deploy a standby cluster for Disaster Recovery</a> documentation.</p></section><section class="print-page" id="pause-pgbouncer" heading-number="7.10"><h1 id="pause-pgbouncer-pause-and-resume-pgbouncer-connections">Pause and resume pgBouncer connections<a class="headerlink" href="#pause-pgbouncer-pause-and-resume-pgbouncer-connections" title="Permanent link">&para;</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Version added: <a href="#releasenotes-kubernetes-operator-for-postgresql-rn3.1.0.md">3.1.0</a></p>
 </div>
@@ -18981,7 +19263,7 @@ pgbouncer is paused
 <li>The Operator manages the <code>_crunchypgbounceradmin</code> user and stores its password in the pgBouncer Secret under <code>pgbouncer-admin-password</code>. Do not reuse or override this reserved user. See <a href="#users-system-users-for-pgbouncer">Users</a>.</li>
 <li>Do not leave pgBouncer paused longer than your applications can tolerate.</li>
 <li>If pgBouncer Pods are not ready, the Operator cannot complete pause or resume. Check Pod status before you start.</li>
-</ul></section><section class="print-page" id="monitoring" heading-number="7.10"><h1 id="monitoring-monitor-with-percona-monitoring-and-management-pmm">Monitor with Percona Monitoring and Management (PMM)<a class="headerlink" href="#monitoring-monitor-with-percona-monitoring-and-management-pmm" title="Permanent link">&para;</a></h1>
+</ul></section><section class="print-page" id="monitoring" heading-number="7.11"><h1 id="monitoring-monitor-with-percona-monitoring-and-management-pmm">Monitor with Percona Monitoring and Management (PMM)<a class="headerlink" href="#monitoring-monitor-with-percona-monitoring-and-management-pmm" title="Permanent link">&para;</a></h1>
 <p>In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with <a href="https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. </p>
 <p>PMM is a client/server application. It includes the <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server">PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> and the number of <a href="https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client">PMM Clients <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> running on each node with the
 database you wish to monitor.</p>
@@ -19097,10 +19379,10 @@ kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;pod_name&gt;<span
 <p>Click <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.56 14.723a.5.5 0 0 0-.057-.12q-.21-.395-1.007-.231c-1.654.34-2.294.13-2.526-.02 1.342-2.048 2.445-4.522 3.041-6.83.272-1.05.798-3.523.122-4.73a1.6 1.6 0 0 0-.15-.236C21.693.91 19.8.025 17.51.001c-1.495-.016-2.77.346-3.116.479a10 10 0 0 0-.516-.082 8 8 0 0 0-1.312-.127c-1.182-.019-2.203.264-3.05.84C8.66.79 4.729-.534 2.296 1.19.935 2.153.309 3.873.43 6.304c.041.818.507 3.334 1.243 5.744q.69 2.26 1.433 3.582.83 1.493 1.714 1.79c.448.148 1.133.143 1.858-.729a56 56 0 0 1 1.945-2.206c.435.235.906.362 1.39.377v.004a11 11 0 0 0-.247.305c-.339.43-.41.52-1.5.745-.31.064-1.134.233-1.146.811a.6.6 0 0 0 .091.327c.227.423.922.61 1.015.633 1.335.333 2.505.092 3.372-.679-.017 2.231.077 4.418.345 5.088.221.553.762 1.904 2.47 1.904q.375.001.829-.094c1.782-.382 2.556-1.17 2.855-2.906.15-.87.402-2.875.539-4.101.017-.07.036-.12.057-.136 0 0 .07-.048.427.03l.044.007.254.022.015.001c.847.039 1.911-.142 2.531-.43.644-.3 1.806-1.033 1.595-1.67M2.37 11.876c-.744-2.435-1.178-4.885-1.212-5.571-.109-2.172.417-3.683 1.562-4.493 1.837-1.299 4.84-.54 6.108-.13l-.01.01C6.795 3.734 6.843 7.226 6.85 7.44c0 .082.006.199.016.36.034.586.1 1.68-.074 2.918-.16 1.15.194 2.276.973 3.089q.12.126.252.237c-.347.371-1.1 1.193-1.903 2.158-.568.682-.96.551-1.088.508-.392-.13-.813-.587-1.239-1.322-.48-.839-.963-2.032-1.415-3.512m6.007 5.088a1.6 1.6 0 0 1-.432-.178c.089-.039.237-.09.483-.14 1.284-.265 1.482-.451 1.915-1 .099-.127.211-.27.367-.443a.4.4 0 0 0 .074-.13c.17-.151.272-.11.436-.042.156.065.308.26.37.475.03.102.062.295-.045.445-.904 1.266-2.222 1.25-3.168 1.013m2.094-3.988-.052.14c-.133.357-.257.689-.334 1.004-.667-.002-1.317-.288-1.81-.803-.628-.655-.913-1.566-.783-2.5.183-1.308.116-2.447.08-3.059l-.013-.22c.296-.262 1.666-.996 2.643-.772.446.102.718.406.83.928.585 2.704.078 3.83-.33 4.736a9 9 0 0 0-.23.546m7.364 4.572q-.024.266-.062.596l-.146.438a.4.4 0 0 0-.018.108c-.006.475-.054.649-.115.87-.064.229-.135.488-.18 1.057-.11 1.414-.878 2.227-2.417 2.556-1.515.325-1.784-.496-2.02-1.221a7 7 0 0 0-.078-.227c-.215-.586-.19-1.412-.157-2.555.016-.561-.025-1.901-.33-2.646q.006-.44.019-.892a.4.4 0 0 0-.016-.113 2 2 0 0 0-.044-.208c-.122-.428-.42-.786-.78-.935-.142-.059-.403-.167-.717-.087.067-.276.183-.587.309-.925l.053-.142c.06-.16.134-.325.213-.5.426-.948 1.01-2.246.376-5.178-.237-1.098-1.03-1.634-2.232-1.51-.72.075-1.38.366-1.709.532a6 6 0 0 0-.196.104c.092-1.106.439-3.174 1.736-4.482a4 4 0 0 1 .303-.276.35.35 0 0 0 .145-.064c.752-.57 1.695-.85 2.802-.833q.616.01 1.174.081c1.94.355 3.244 1.447 4.036 2.383.814.962 1.255 1.931 1.431 2.454-1.323-.134-2.223.127-2.68.78-.992 1.418.544 4.172 1.282 5.496.135.242.252.452.289.54.24.583.551.972.778 1.256.07.087.138.171.189.245-.4.116-1.12.383-1.055 1.717-.013.156-.043.447-.084.815-.046.208-.07.46-.1.766m.89-1.621c-.04-.832.27-.919.597-1.01l.135-.041a1 1 0 0 0 .134.103c.57.376 1.583.421 3.007.134-.202.177-.519.4-.953.601-.41.19-1.096.333-1.747.364-.72.034-1.086-.08-1.173-.151m.57-9.271c-.006.35-.054.669-.105 1.001-.055.358-.112.728-.127 1.177-.014.436.04.89.093 1.33.107.887.216 1.8-.207 2.701a4 4 0 0 1-.188-.385 8 8 0 0 0-.325-.617c-.616-1.104-2.057-3.69-1.32-4.744.38-.543 1.342-.566 2.179-.463m.228 7.013-.085-.107-.035-.044c.726-1.2.584-2.387.457-3.439-.052-.432-.1-.84-.088-1.222.013-.407.066-.755.118-1.092.064-.415.13-.844.111-1.35a.6.6 0 0 0 .012-.19c-.046-.486-.6-1.938-1.73-3.253a7.8 7.8 0 0 0-2.688-2.04A9.3 9.3 0 0 1 17.62.746c2.052.046 3.675.814 4.824 2.283a1 1 0 0 1 .067.1c.723 1.356-.276 6.275-2.987 10.54m-8.816-6.116c-.025.18-.31.423-.621.423a1 1 0 0 1-.081-.006.8.8 0 0 1-.506-.315c-.046-.06-.12-.178-.106-.285a.22.22 0 0 1 .093-.149c.118-.089.352-.122.61-.086.316.044.642.193.61.418m7.93-.411c.011.08-.049.2-.153.31a.72.72 0 0 1-.408.223 1 1 0 0 1-.075.005c-.293 0-.541-.234-.56-.371-.024-.177.264-.31.56-.352.298-.042.612.009.636.185"/></svg></span> <strong>PostgreSQL</strong>  →  <strong>Other dashboards</strong> to see the list of available dashboards that allow you to drill down to the metrics you are interested in. </p>
 </li>
 </ol></section>
-                    <section class='print-page md-section' id='section-7-11' heading-number='7.11'>
-                        <h1>Logging<a class='headerlink' href='#section-7-11' title='Permanent link'></a>
+                    <section class='print-page md-section' id='section-7-12' heading-number='7.12'>
+                        <h1>Logging<a class='headerlink' href='#section-7-12' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="persistent-logging" heading-number="7.11.1"><h1 id="persistent-logging-persistent-logging">Persistent logging<a class="headerlink" href="#persistent-logging-persistent-logging" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="persistent-logging" heading-number="7.12.1"><h1 id="persistent-logging-persistent-logging">Persistent logging<a class="headerlink" href="#persistent-logging-persistent-logging" title="Permanent link">&para;</a></h1>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="#releasenotes-kubernetes-operator-for-postgresql-rn3.1.0.md">3.1.0</a></p>
 </div>
@@ -19163,7 +19445,7 @@ kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;pod_name&gt;<span
 <span class="w">        </span><span class="nt">secret</span><span class="p">:</span>
 <span class="w">          </span><span class="nt">secretName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-s3-ca</span>
 </code></pre></div>
-<p>Invalid custom Fluent Bit snippets are ignored at collector startup. When you change <code>logcollector.configuration</code> or log rotation settings, the Operator updates a configuration hash on the instance metadata and restarts the Pods to apply the new configuration.</p></section><section class="print-page" id="log-rotation" heading-number="7.11.2"><h1 id="log-rotation-log-rotation">Log rotation<a class="headerlink" href="#log-rotation-log-rotation" title="Permanent link">&para;</a></h1>
+<p>Invalid custom Fluent Bit snippets are ignored at collector startup. When you change <code>logcollector.configuration</code> or log rotation settings, the Operator updates a configuration hash on the instance metadata and restarts the Pods to apply the new configuration.</p></section><section class="print-page" id="log-rotation" heading-number="7.12.2"><h1 id="log-rotation-log-rotation">Log rotation<a class="headerlink" href="#log-rotation-log-rotation" title="Permanent link">&para;</a></h1>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="#releasenotes-kubernetes-operator-for-postgresql-rn3.1.0.md">3.1.0</a></p>
 </div>
@@ -19617,6 +19899,7 @@ postgresclusters.postgres-operator.crunchydata.com<span class="w"> </span>
 <ol>
 <li>Upgrading a PostgreSQL cluster may result in downtime, as well as in <a href="#change-primary">failover</a> caused by updating the primary instance.</li>
 <li>Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of  <code>glibc</code> and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
+<li><a href="#logical-replication">Logical replicas</a> can keep replicating after a minor upgrade if you <a href="#ha-deploy-persist-replication-slots-across-failover">configured replication slots</a>. Without slots, a failover during the upgrade can break replication. <a href="#logical-replication-reseed-a-logical-replica">Reseed</a> the replica if the status becomes <code>broken</code>.</li>
 </ol>
 <h2 id="update-db-minor-before-you-start">Before you start<a class="headerlink" href="#update-db-minor-before-you-start" title="Permanent link">&para;</a></h2>
 <h3 id="update-db-minor-check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a class="headerlink" href="#update-db-minor-check-operating-system-and-collation-libraries-version" title="Permanent link">&para;</a></h3>
@@ -19864,6 +20147,9 @@ cluster1  | c              | 2.34
 <span class="k">CREATE</span><span class="w"> </span><span class="n">EXTENSION</span><span class="w"> </span><span class="n">pgaudit</span><span class="p">;</span>
 </code></pre></div>
 <p>Repeat for every database where the <code>pgaudit</code> extension is installed.</p>
+</li>
+<li>
+<p>A successful major upgrade invalidates existing <a href="#logical-replication">logical replicas</a>. After the cluster is <code>ready</code>, <a href="#logical-replication-reseed-a-logical-replica">reseed</a> each logical replica.</p>
 </li>
 </ol>
 <h2 id="update-db-major-check-collation">Check collation<a class="headerlink" href="#update-db-major-check-collation" title="Permanent link">&para;</a></h2>
@@ -23717,6 +24003,7 @@ Operator by deleting the appropriate Custom Resource.</p>
 <li><code>finalizers.percona.com/delete-pvc</code>: if present, deletes <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claims <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the database cluster Pods and user Secrets when the cluster deletion occurs.</li>
 </ul>
 <p>Both finalizers are off by default in the <code>deploy/cr.yaml</code> configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.</p>
+<p>Removing a <a href="#logical-replication">logical replica</a> from <code>spec.logicalReplicas</code> always deletes its PVC (<code>&lt;cluster&gt;-lr-&lt;name&gt;-pgdata</code>), even if <code>finalizers.percona.com/delete-pvc</code> is not set. If the primary is down during removal, the replica stays in status with reason <code>AwaitingCleanup</code> until slots can be dropped. See <a href="#logical-replication-remove-a-logical-replica">Remove a logical replica</a>.</p>
 </div>
 <p class="power-number">Here&rsquo;s a sequence of steps to follow:</p>
 <ol>
@@ -23877,6 +24164,7 @@ persistentvolumeclaim "cluster1-repo1" deleted
 </code></pre></div>
 </details>
 <p>Note that if your Custom Resource manifest includes the <code>percona.com/delete-pvc</code> finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.</p>
+<p>Logical replica volumes are named <code>&lt;cluster&gt;-lr-&lt;name&gt;-pgdata</code>. The Operator deletes them when you remove the replica from the spec. Delete any leftover claims here if teardown could not finish (for example, the primary was down).</p>
 </li>
 <li>
 <p>Delete the Secrets</p>
@@ -25349,6 +25637,83 @@ signs PostgreSQL TLS certificates. </p>
 </tr>
 </tbody>
 </table>
+<h3 id="operator-logicalreplicasname"><code>logicalReplicas.name</code><a class="headerlink" href="#operator-logicalreplicasname" title="Permanent link">&para;</a></h3>
+<p>Name of a <a href="#logical-replication">logical replica</a>. Required. 
+This name is used in the StatefulSet, Service, PVC, publications, subscriptions, and replication slots. Must be unique, 20 characters max, match <code>^[a-z][a-z0-9-]*[a-z0-9]$</code>, and must not collide with <code>spec.instances[].name</code>. Requires Operator 3.1.0 or later and <code>postgresVersion</code> 17 or later.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>analytics</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-logicalreplicasdatabases"><code>logicalReplicas.databases</code><a class="headerlink" href="#operator-logicalreplicasdatabases" title="Permanent link">&para;</a></h3>
+<p>Databases that keep receiving changes after the full seed. If omitted, all databases receive changes except templates and <code>postgres</code>. Every table in the listed databases is included.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>array</td>
+<td><code>- cluster1</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-logicalreplicasbootstrapmethod"><code>logicalReplicas.bootstrapMethod</code><a class="headerlink" href="#operator-logicalreplicasbootstrapmethod" title="Permanent link">&para;</a></h3>
+<p>How the data volume is seeded before conversion: <code>pgbackrest</code> (default) or <code>pg_basebackup</code>. Use <code>pg_basebackup</code> when backups are disabled. The Operator reads this only during bootstrap; changing it later has no effect.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>pgbackrest</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-logicalreplicasdatavolumeclaimspec"><code>logicalReplicas.dataVolumeClaimSpec</code><a class="headerlink" href="#operator-logicalreplicasdatavolumeclaimspec" title="Permanent link">&para;</a></h3>
+<p>Required. PersistentVolumeClaim spec for the replica data directory.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"/></svg></span> subdoc</td>
+<td><pre>accessModes:<br>  - ReadWriteOnce<br>resources:<br>  requests:<br>    storage: 1Gi</pre></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-logicalreplicasresources"><code>logicalReplicas.resources</code><a class="headerlink" href="#operator-logicalreplicasresources" title="Permanent link">&para;</a></h3>
+<p>CPU and memory requests and limits for the logical replica Pod.</p>
+<h3 id="operator-logicalreplicasaffinity"><code>logicalReplicas.affinity</code><a class="headerlink" href="#operator-logicalreplicasaffinity" title="Permanent link">&para;</a></h3>
+<p>Pod affinity and anti-affinity for the logical replica.</p>
+<h3 id="operator-logicalreplicastolerations"><code>logicalReplicas.tolerations</code><a class="headerlink" href="#operator-logicalreplicastolerations" title="Permanent link">&para;</a></h3>
+<p>Tolerations for the logical replica Pod.</p>
+<h3 id="operator-logicalreplicaspriorityclassname"><code>logicalReplicas.priorityClassName</code><a class="headerlink" href="#operator-logicalreplicaspriorityclassname" title="Permanent link">&para;</a></h3>
+<p>Priority class for the logical replica Pod.</p>
+<h3 id="operator-logicalreplicasmetadata"><code>logicalReplicas.metadata</code><a class="headerlink" href="#operator-logicalreplicasmetadata" title="Permanent link">&para;</a></h3>
+<p>Labels and annotations for logical replica objects.</p>
+<h3 id="operator-logicalreplicasexpose"><code>logicalReplicas.expose</code><a class="headerlink" href="#operator-logicalreplicasexpose" title="Permanent link">&para;</a></h3>
+<p>Service settings for the logical replica (<code>type</code>, <code>annotations</code>, <code>labels</code>, <code>loadBalancerSourceRanges</code>). See <a href="#expose">Exposing the cluster</a>.</p>
 <h3 id="operator-secretscustomrootcatlssecretname"><code>secrets.customRootCATLSSecret.name</code><a class="headerlink" href="#operator-secretscustomrootcatlssecretname" title="Permanent link">&para;</a></h3>
 <p>Name of the secret with the custom root CA certificate and key for secure connections to the PostgreSQL server, see <a href="#tls">Transport Layer Security (TLS)</a> for details.</p>
 <table>
@@ -31117,6 +31482,7 @@ Enabled
 <li><code>status.pgbackrest</code> – pgBackRest repository host, repos, and backup or restore job status</li>
 <li><code>status.patroni</code> – Patroni version and status (system identifier, switchover tracking)</li>
 <li><code>status.standby</code> – replication lag for standby clusters when lag detection is enabled</li>
+<li><code>status.logicalReplicas</code> – state of each <a href="#logical-replication">logical replica</a></li>
 <li><code>status.conditions</code> – detailed condition list with reason and message. See <a href="#cr-statuses-conditions">Conditions</a> for details.</li>
 <li><code>status.observedGeneration</code> – the generation of the Custom Resource that the Operator last successfully wrote into status.</li>
 <li><code>status.installedCustomExtensions</code> – names of custom extensions installed from the Custom Resource</li>
@@ -31221,6 +31587,10 @@ Enabled
 <td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="#standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
 </tr>
 <tr>
+<td><code>ReadyForLogicalReplication</code></td>
+<td>The primary is ready for logical replica bootstrap. See <a href="#logical-replication">Logical replicas</a>.</td>
+</tr>
+<tr>
 <td><code>PGTDEEnabled</code></td>
 <td>The <code>pg_tde</code> extension is created in all databases and added to <code>shared_preload_libraries</code>. Also controls whether instance Pods mount the Vault volume. See <a href="#encryption-status-and-conditions">Data-at-rest encryption</a>.</td>
 </tr>
@@ -31300,6 +31670,78 @@ Enabled
 </tbody>
 </table>
 <p>When lag exceeds your threshold, <code>status.state</code> becomes <code>initializing</code>, the standby primary Pod is marked unready, and the <code>StandbyLagging</code> condition is set to <code>True</code>.</p>
+<h3 id="cr-statuses-logical-replica-status">Logical replica status<a class="headerlink" href="#cr-statuses-logical-replica-status" title="Permanent link">&para;</a></h3>
+<p>When you define <a href="#logical-replication">logical replicas</a>, the Operator populates <code>status.logicalReplicas[]</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Replica name from the spec</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>bootstrapping</code>, <code>ready</code>, <code>broken</code>, or <code>suspended</code></td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>Why the replica is not ready (see below)</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>Human-readable details</td>
+</tr>
+<tr>
+<td><code>databases</code></td>
+<td>Databases frozen at bootstrap</td>
+</tr>
+<tr>
+<td><code>seededAt</code></td>
+<td>When the data directory was copied</td>
+</tr>
+<tr>
+<td><code>invalidatedAt</code></td>
+<td>When an in-place restore made the replica unusable</td>
+</tr>
+</tbody>
+</table>
+<p><code>state</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bootstrapping</code></td>
+<td>Waiting for the primary, databases, or volume, or the bootstrap Job is still running</td>
+</tr>
+<tr>
+<td><code>ready</code></td>
+<td>Slots exist on the primary and apply workers are running</td>
+</tr>
+<tr>
+<td><code>broken</code></td>
+<td>Replication cannot continue until you <a href="#logical-replication-reseed-a-logical-replica">reseed</a> a replica, or teardown is waiting for the primary</td>
+</tr>
+<tr>
+<td><code>suspended</code></td>
+<td>The Operator stopped the replica because the source cluster is being restored or paused</td>
+</tr>
+</tbody>
+</table>
+<p>Common <code>reason</code> values: <code>PrimaryNotReady</code>, <code>WaitingForDatabases</code>, <code>WaitingForDataVolume</code>, <code>BootstrapFailed</code>, <code>SourceSlotMissing</code>, <code>SubscriptionDisabled</code>, <code>ApplyWorkerDown</code>, <code>SourceRestoring</code>, <code>SourceRestored</code>, <code>AwaitingCleanup</code>.</p>
+<p><strong>Example. Check logical replica state:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.logicalReplicas}'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+</code></pre></div>
 <h2 id="cr-statuses-perconapgbackup-status">PerconaPGBackup status<a class="headerlink" href="#cr-statuses-perconapgbackup-status" title="Permanent link">&para;</a></h2>
 <p>Backup progress and results are in <code>status.state</code>. You also get destination, type, and timing details that help you validate backups and point-in-time recovery ranges. Backups are managed with <code>pgBackRest</code> (or <code>VolumeSnapshots</code> when you choose that method).</p>
 <p>Common fields are:</p>
@@ -31671,11 +32113,6 @@ Enabled
 <td>Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository.</td>
 </tr>
 <tr>
-<td><code>archive_timeout</code></td>
-<td><code>60s</code></td>
-<td>Forces a WAL switch after the specified interval. The Operator manages this for backup consistency.</td>
-</tr>
-<tr>
 <td><code>track_commit_timestamp</code></td>
 <td><code>true</code></td>
 <td>Enables commit timestamps for point-in-time recovery when <a href="#operator-backupstracklatestrestorabletime">backups.trackLatestRestorableTime</a> is enabled and the <code>crVersion</code> is 2.8.0 or higher</td>
@@ -31809,6 +32246,10 @@ Enabled
 <p>The <code>dataSource</code> subsection configures restore-from-backup for a <em>new</em> cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.</p>
 <h3 id="immutable-options-tlscertmanagementpolicy"><code>tls.certManagementPolicy</code><a class="headerlink" href="#immutable-options-tlscertmanagementpolicy" title="Permanent link">&para;</a></h3>
 <p>You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See <a href="#tls-cert-management-policy">TLS certificate management policy</a>.</p>
+<h3 id="immutable-options-logicalreplicasbootstrapmethod"><code>logicalReplicas.bootstrapMethod</code><a class="headerlink" href="#immutable-options-logicalreplicasbootstrapmethod" title="Permanent link">&para;</a></h3>
+<p>The Operator reads this only during bootstrap. Changing it later has no effect. To use a different method, <a href="#logical-replication-reseed-a-logical-replica">reseed the replica</a>.</p>
+<h3 id="immutable-options-logicalreplicasdatabases"><code>logicalReplicas.databases</code><a class="headerlink" href="#immutable-options-logicalreplicasdatabases" title="Permanent link">&para;</a></h3>
+<p>The Operator records the database list at bootstrap. Changing it later does not change which databases keep receiving row changes. To change the list, reseed the replica.</p>
 <h2 id="immutable-options-backup-options">Backup options<a class="headerlink" href="#immutable-options-backup-options" title="Permanent link">&para;</a></h2>
 <h3 id="immutable-options-backup-encryption">Backup encryption<a class="headerlink" href="#immutable-options-backup-encryption" title="Permanent link">&para;</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="#backup-encryption">Backup encryption</a>.</p>
@@ -34730,22 +35171,24 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #ha-deploy > h1:before { content: '7.4 ' }
 
-.print-site-enumerate-headings #huge-pages > h1:before { content: '7.5 ' }
+.print-site-enumerate-headings #logical-replication > h1:before { content: '7.5 ' }
 
-.print-site-enumerate-headings #sidecar > h1:before { content: '7.6 ' }
+.print-site-enumerate-headings #huge-pages > h1:before { content: '7.6 ' }
 
-.print-site-enumerate-headings #extra-volumes > h1:before { content: '7.7 ' }
+.print-site-enumerate-headings #sidecar > h1:before { content: '7.7 ' }
 
-.print-site-enumerate-headings #pause > h1:before { content: '7.8 ' }
+.print-site-enumerate-headings #extra-volumes > h1:before { content: '7.8 ' }
 
-.print-site-enumerate-headings #pause-pgbouncer > h1:before { content: '7.9 ' }
+.print-site-enumerate-headings #pause > h1:before { content: '7.9 ' }
 
-.print-site-enumerate-headings #monitoring > h1:before { content: '7.10 ' }
+.print-site-enumerate-headings #pause-pgbouncer > h1:before { content: '7.10 ' }
 
-.print-site-enumerate-headings #section-7-11 > h1:before { content: '7.11 ' }
-.print-site-enumerate-headings #persistent-logging > h1:before { content: '7.11.1 ' }
+.print-site-enumerate-headings #monitoring > h1:before { content: '7.11 ' }
 
-.print-site-enumerate-headings #log-rotation > h1:before { content: '7.11.2 ' }
+.print-site-enumerate-headings #section-7-12 > h1:before { content: '7.12 ' }
+.print-site-enumerate-headings #persistent-logging > h1:before { content: '7.12.1 ' }
+
+.print-site-enumerate-headings #log-rotation > h1:before { content: '7.12.2 ' }
 
 .print-site-enumerate-headings #section-8 > h1:before { content: '8 ' }
 .print-site-enumerate-headings #update > h1:before { content: '8.1 ' }

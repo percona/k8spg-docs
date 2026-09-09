@@ -3720,6 +3720,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3896,10 +3924,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3917,8 +3945,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6589,7 +6617,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Use this document to make <strong>a full restore</strong>. For a restore to a specific moment, use the <a href="backups-pitr-inplace.html">In-place restore with point-in-time recovery</a> tutorial.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
-<p>This operation overwrites the current data and is destructive.</p>
+<p>This operation overwrites the current data and is destructive. An in-place restore also invalidates <a href="logical-replication.html">logical replicas</a>. After the restore, <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> each replica.</p>
 </div>
 <p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
 configuration file. The example of the backup configuration file is
@@ -6720,7 +6748,7 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

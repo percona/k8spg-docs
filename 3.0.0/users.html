@@ -3816,6 +3816,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3992,10 +4020,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -4013,8 +4041,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6831,6 +6859,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>
 <p>You can add a special <code>postgres</code> user as one of the custom users. This user is granted access to the <code>postgres</code> database, but its privileges cannot be changed.</p>
 </li>
+<li><code>logicalrepl</code> is reserved. When you add a <a href="logical-replication.html">logical replica</a>, the Operator creates this user with <code>SUPERUSER REPLICATION</code> and stores credentials in <code>&lt;clusterName&gt;-pguser-logicalrepl</code>. If you define <code>logicalrepl</code> in <code>spec.users</code>, the Operator ignores it.</li>
 <li>By default, the top-level <code>autoCreateUserSchema</code> option is set to <code>true</code>. This means each user will have automatically-created schemas in all databases listed for this user under <code>users.databases</code>.</li>
 <li>By default, users without superuser privileges do not have access to the <code>public</code> schema. To allow a non-superuser to create and update tables in the <code>public</code> schema, set the <code>grantPublicSchemaAccess</code> option to <code>true</code>. This gives the user permission to create and update tables in the <code>public</code> schema of every database they own.</li>
 <li>Your custom superusers automatically have access to the <code>public</code> schema for their assigned databases.</li>
@@ -7033,7 +7062,7 @@ and save it to the appropriate Secret. You can remove the old password with the
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

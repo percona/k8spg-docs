@@ -3612,6 +3612,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3788,10 +3816,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3809,8 +3837,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5492,6 +5520,28 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#logicalreplicasbootstrapmethod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logicalReplicas.bootstrapMethod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logicalreplicasdatabases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logicalReplicas.databases
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6792,6 +6842,28 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#logicalreplicasbootstrapmethod" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logicalReplicas.bootstrapMethod
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#logicalreplicasdatabases" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        logicalReplicas.databases
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6966,11 +7038,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <td>Command that archives WAL segments to pgBackRest. The Operator configures this for the backup repository.</td>
 </tr>
 <tr>
-<td><code>archive_timeout</code></td>
-<td><code>60s</code></td>
-<td>Forces a WAL switch after the specified interval. The Operator manages this for backup consistency.</td>
-</tr>
-<tr>
 <td><code>track_commit_timestamp</code></td>
 <td><code>true</code></td>
 <td>Enables commit timestamps for point-in-time recovery when <a href="operator.html#backupstracklatestrestorabletime">backups.trackLatestRestorableTime</a> is enabled and the <code>crVersion</code> is 2.8.0 or higher</td>
@@ -7104,6 +7171,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The <code>dataSource</code> subsection configures restore-from-backup for a <em>new</em> cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.</p>
 <h3 id="tlscertmanagementpolicy"><code>tls.certManagementPolicy</code><a class="headerlink" href="#tlscertmanagementpolicy" title="Permanent link">&para;</a></h3>
 <p>You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See <a href="tls-cert-management-policy.html">TLS certificate management policy</a>.</p>
+<h3 id="logicalreplicasbootstrapmethod"><code>logicalReplicas.bootstrapMethod</code><a class="headerlink" href="#logicalreplicasbootstrapmethod" title="Permanent link">&para;</a></h3>
+<p>The Operator reads this only during bootstrap. Changing it later has no effect. To use a different method, <a href="logical-replication.html#reseed-a-logical-replica">reseed the replica</a>.</p>
+<h3 id="logicalreplicasdatabases"><code>logicalReplicas.databases</code><a class="headerlink" href="#logicalreplicasdatabases" title="Permanent link">&para;</a></h3>
+<p>The Operator records the database list at bootstrap. Changing it later does not change which databases keep receiving row changes. To change the list, reseed the replica.</p>
 <h2 id="backup-options">Backup options<a class="headerlink" href="#backup-options" title="Permanent link">&para;</a></h2>
 <h3 id="backup-encryption">Backup encryption<a class="headerlink" href="#backup-encryption" title="Permanent link">&para;</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="backup-encryption.html">Backup encryption</a>.</p>
@@ -7116,7 +7187,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:23:09 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

@@ -683,6 +683,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#logical-replicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replicas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-control" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -3777,6 +3788,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3953,10 +3992,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3974,8 +4013,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6565,6 +6604,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#logical-replicas" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replicas
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#service-control" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6709,6 +6759,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Delayed replicas are not supported</li>
 <li>The Operator doesn&rsquo;t automatically update Patroni configuration inside running instances when  <code>create_replica_methods</code> is updated. You must manually run <code>patronictl reload</code> on each replica to make Patroni aware of the change. See <a href="manage-manually.html#override-patroni-configuration">Override Patroni configuration</a> for details.</li>
 </ul>
+<h2 id="logical-replicas">Logical replicas<a class="headerlink" href="#logical-replicas" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Logical replicas require Operator 3.1.0 or later and PostgreSQL 17 or later. See <a href="logical-replication.html">Deploy a logical replica</a>.</li>
+<li>Patroni does not manage logical replicas and does not promote them.</li>
+<li>Failover often breaks replication because slots stay on the old primary. <a href="logical-replication.html#reseed-a-logical-replica">Reseed</a> the replica, or see <a href="ha-deploy.html#logical-replicas-and-failover">Logical replicas and failover</a>.</li>
+<li>An in-place restore invalidates logical replicas. Reseed each replica after the restore.</li>
+<li>A major upgrade invalidates logical replicas. Before you upgrade, ensure the replication is healthy. Otherwise, remove the replica. After the upgrade, reseed each replica. See <a href="update-db-major.html">Major version upgrade</a>.</li>
+<li>A failed bootstrap does not retry on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.</li>
+<li>Pausing the cluster stops the logical replica Pod.</li>
+<li>Removing a logical replica always deletes its PVC, even if the cluster <code>delete-pvc</code> finalizer is off.</li>
+<li>Logical replication is not supported when <a href="encryption.html">Transparent Data Encryption</a> is enabled in the cluster. This limitation is planned to be removed in future releases.</li>
+</ul>
 <h2 id="service-control">Service control<a class="headerlink" href="#service-control" title="Permanent link">&para;</a></h2>
 <ul>
 <li>By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container.</li>
@@ -6782,7 +6844,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

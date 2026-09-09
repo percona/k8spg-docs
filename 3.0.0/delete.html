@@ -3614,6 +3614,34 @@ need to remove some (or all) of the following objects:">
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3790,10 +3818,10 @@ need to remove some (or all) of the following objects:">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3811,8 +3839,8 @@ need to remove some (or all) of the following objects:">
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6581,6 +6609,7 @@ Operator by deleting the appropriate Custom Resource.</p>
 <li><code>finalizers.percona.com/delete-pvc</code>: if present, deletes <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claims <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for the database cluster Pods and user Secrets when the cluster deletion occurs.</li>
 </ul>
 <p>Both finalizers are off by default in the <code>deploy/cr.yaml</code> configuration file, and this allows you to recreate the cluster without losing data, credentials for the system users, etc.</p>
+<p>Removing a <a href="logical-replication.html">logical replica</a> from <code>spec.logicalReplicas</code> always deletes its PVC (<code>&lt;cluster&gt;-lr-&lt;name&gt;-pgdata</code>), even if <code>finalizers.percona.com/delete-pvc</code> is not set. If the primary is down during removal, the replica stays in status with reason <code>AwaitingCleanup</code> until slots can be dropped. See <a href="logical-replication.html#remove-a-logical-replica">Remove a logical replica</a>.</p>
 </div>
 <p class="power-number">Here&rsquo;s a sequence of steps to follow:</p>
 <ol>
@@ -6741,6 +6770,7 @@ persistentvolumeclaim "cluster1-repo1" deleted
 </code></pre></div>
 </details>
 <p>Note that if your Custom Resource manifest includes the <code>percona.com/delete-pvc</code> finalizer, all user Secrets will be automatically deleted when you delete the PVCs. To prevent this from happening, disable the finalizer.</p>
+<p>Logical replica volumes are named <code>&lt;cluster&gt;-lr-&lt;name&gt;-pgdata</code>. The Operator deletes them when you remove the replica from the spec. Delete any leftover claims here if teardown could not finish (for example, the primary was down).</p>
 </li>
 <li>
 <p>Delete the Secrets</p>
@@ -6765,7 +6795,7 @@ persistentvolumeclaim "cluster1-repo1" deleted
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

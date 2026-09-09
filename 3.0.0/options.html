@@ -9,10 +9,9 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the PostgreSQL dynamic configuration method
- provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-Patroni dynamic configuration 
-to apply your changes.">
+        <meta name="description" content="You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+Patroni dynamic configuration .">
       
       
         <meta name="author" content="Percona LLC">
@@ -1590,13 +1589,30 @@ to apply your changes.">
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuring-wal_level" class="md-nav__link">
+  <a href="#how-to-pass-postgresql-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuring wal_level
+        How to pass PostgreSQL options
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="How to pass PostgreSQL options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-override-an-operator-default-wal_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: override an Operator default (wal_level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -3686,6 +3702,34 @@ to apply your changes.">
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3862,10 +3906,10 @@ to apply your changes.">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3883,8 +3927,8 @@ to apply your changes.">
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6463,13 +6507,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#configuring-wal_level" class="md-nav__link">
+  <a href="#how-to-pass-postgresql-options" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Configuring wal_level
+        How to pass PostgreSQL options
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="How to pass PostgreSQL options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-override-an-operator-default-wal_level" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example: override an Operator default (wal_level)
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6518,12 +6579,19 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 
 
 <h1 id="changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#changing-postgresql-options" title="Permanent link">&para;</a></h1>
-<p>You may need to pass specific options to PostgreSQL instances directly, beyond the default configuration and options, available in the Custom Resource. For this purpose, use the <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">PostgreSQL dynamic configuration method
-<span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> provided by Patroni. You can pass PostgreSQL options to Patroni through the Custom Resource. The Operator uses
-<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-to apply your changes.</p>
-<p>Add your PostgreSQL options to the <code>patroni.dynamicConfiguration.postgresql.parameters</code>
-section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
+<p>You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
+The Operator applies them with
+<a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Operator defaults for some PostgreSQL parameters can differ from upstream PostgreSQL defaults. Before you change
+a parameter, check whether the Operator already sets it and whether you can
+override that value. See <a href="immutable-options.html">Immutable options</a> for the list of parameters that you can and cannot override.</p>
+<p>To inspect the effective Patroni configuration for a running cluster, use
+<code>patronictl show-config</code> inside a PostgreSQL Pod. See
+<a href="manage-manually.html#override-postgresql-parameters">Manage a database manually</a>.</p>
+<p>This page shows how to pass additional options to PostgreSQL.</p>
+<h2 id="how-to-pass-postgresql-options">How to pass PostgreSQL options<a class="headerlink" href="#how-to-pass-postgresql-options" title="Permanent link">&para;</a></h2>
+<p>Add parameters under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in your
+<code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -6537,33 +6605,38 @@ section in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <p>Apply the updated Custom Resource:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
-<p>This dynamically applies the changes to PostgreSQL instances both for new clusters during cluster creation and existing clusters at runtime.</p>
-<p>Most options take effect without
-a PostgreSQL server restart. Some options, such as <code>wal_level</code> and <code>shared_buffers</code>, have the
+<p>The Operator applies the changes to new clusters at creation time and to existing
+clusters at runtime.</p>
+<p>Most options take effect without a PostgreSQL server restart. Some options, such
+as <code>shared_buffers</code> or <code>wal_level</code>, have the
 <a href="https://www.postgresql.org/docs/current/view-pg-settings.html">postmaster context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>
-and require a PostgreSQL restart. For these options, Patroni performs a rolling
-restart of all instances after you apply the change. To check whether an option
-requires a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
+and require a restart. For those options, Patroni performs a rolling restart of
+all PostgreSQL Pods after you apply the change. To check whether an option requires
+a restart, run in PostgreSQL: <code>SELECT name, context FROM pg_settings;</code></p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
 <p>The Operator does not validate the options it passes to Patroni. Invalid
-values can make the cluster unavailable. Also, only PostgreSQL parameters in the
-<code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied. Other Patroni options in
-<code>patroni.dynamicConfiguration</code> subsection are ignored.</p>
+values can make the cluster unavailable. Also, only PostgreSQL parameters in
+the <code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection are applied.
+Other Patroni options in the <code>patroni.dynamicConfiguration</code> subsection are
+ignored.</p>
 </div>
-<h2 id="configuring-wal_level">Configuring wal_level<a class="headerlink" href="#configuring-wal_level" title="Permanent link">&para;</a></h2>
-<p>The <code>wal_level</code> option controls how much information is written to PostgreSQL WAL
-files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
+<h3 id="example-override-an-operator-default-wal_level">Example: override an Operator default (<code>wal_level</code>)<a class="headerlink" href="#example-override-an-operator-default-wal_level" title="Permanent link">&para;</a></h3>
+<p>The Operator sets <code>wal_level</code> to <code>logical</code> by default. That value supports
+logical replication and also increases WAL volume and I/O compared with
+<code>replica</code>.</p>
+<p>Supported values in Operator-managed clusters are:</p>
 <ul>
-<li><code>replica</code> (PostgreSQL default) — sufficient for physical replication and most
-  workloads</li>
-<li><code>logical</code> (Operator default) — required for logical replication; increases WAL volume and I/O.</li>
+<li><code>logical</code> (Operator default) — required for logical replication</li>
+<li><code>replica</code> — enough for physical replication and most workloads that do not
+  need logical replication</li>
 </ul>
-<p>Read more about <code>wal_level</code> values in <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Though the <code>wal_level</code> option can also have the value <code>minimal</code>, it will be rejected by the validation rules, since other parameters, such as <code>hot_standby</code>, require more WAL data. </p>
-</div>
+<p>Both values allow point-in-time recovery. The value <code>minimal</code> is rejected by
+validation rules because other required settings, such as <code>hot_standby</code>, need
+more WAL data.</p>
+<p>Read more about what <code>wal_level</code> controls in the
+<a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-SETTINGS">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>To lower WAL overhead when you do not need logical replication, set the <code>wal_level</code> to <code>replica</code> under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -6571,14 +6644,8 @@ files. You can set it in <code>patroni.dynamicConfiguration.postgresql.parameter
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
 <span class="w">        </span><span class="nt">wal_level</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replica</span>
 </code></pre></div>
-<p>Use <code>replica</code> when you need physical replication or no replication. Use
-<code>logical</code> when you need logical replication. Both values allow for point-in-time recovery.</p>
-<p>The <code>wal_level</code> parameter has the
-postmaster context. After you change it, Patroni restarts all PostgreSQL instances.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>The Operator manages certain PostgreSQL parameters (such as <code>archive_mode</code>, <code>archive_command</code>, <code>restore_command</code>, and TLS settings) internally and reverts any user changes. Other parameters (such as <code>wal_level</code>, <code>archive_timeout</code>, <code>jit</code>) can be overridden. See <a href="immutable-options.html">Immutable options</a> for the full list.</p>
-</div>
+<p><code>wal_level</code> has the postmaster context. After you change it, Patroni restarts
+all PostgreSQL instances.</p>
 <h2 id="using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#using-host-based-authentication-pg_hba" title="Permanent link">&para;</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
 the client IP or hostname. Configure it in the
@@ -6614,7 +6681,7 @@ authentication.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="May 22, 2026 17:45:34 UTC">May 22, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:44 UTC">September 9, 2026</span>
       
         <br>
         Created:

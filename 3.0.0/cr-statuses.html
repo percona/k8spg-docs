@@ -3612,6 +3612,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3788,10 +3816,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3809,8 +3837,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -5353,6 +5381,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#logical-replica-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replica status
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6710,6 +6749,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#logical-replica-status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replica status
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6906,6 +6956,7 @@ Enabled
 <li><code>status.pgbackrest</code> – pgBackRest repository host, repos, and backup or restore job status</li>
 <li><code>status.patroni</code> – Patroni version and status (system identifier, switchover tracking)</li>
 <li><code>status.standby</code> – replication lag for standby clusters when lag detection is enabled</li>
+<li><code>status.logicalReplicas</code> – state of each <a href="logical-replication.html">logical replica</a></li>
 <li><code>status.conditions</code> – detailed condition list with reason and message. See <a href="#conditions">Conditions</a> for details.</li>
 <li><code>status.observedGeneration</code> – the generation of the Custom Resource that the Operator last successfully wrote into status.</li>
 <li><code>status.installedCustomExtensions</code> – names of custom extensions installed from the Custom Resource</li>
@@ -7010,6 +7061,10 @@ Enabled
 <td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="standby.html#detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
 </tr>
 <tr>
+<td><code>ReadyForLogicalReplication</code></td>
+<td>The primary is ready for logical replica bootstrap. See <a href="logical-replication.html">Logical replicas</a>.</td>
+</tr>
+<tr>
 <td><code>PGTDEEnabled</code></td>
 <td>The <code>pg_tde</code> extension is created in all databases and added to <code>shared_preload_libraries</code>. Also controls whether instance Pods mount the Vault volume. See <a href="encryption.html#status-and-conditions">Data-at-rest encryption</a>.</td>
 </tr>
@@ -7089,6 +7144,78 @@ Enabled
 </tbody>
 </table>
 <p>When lag exceeds your threshold, <code>status.state</code> becomes <code>initializing</code>, the standby primary Pod is marked unready, and the <code>StandbyLagging</code> condition is set to <code>True</code>.</p>
+<h3 id="logical-replica-status">Logical replica status<a class="headerlink" href="#logical-replica-status" title="Permanent link">&para;</a></h3>
+<p>When you define <a href="logical-replication.html">logical replicas</a>, the Operator populates <code>status.logicalReplicas[]</code>:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>name</code></td>
+<td>Replica name from the spec</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td><code>bootstrapping</code>, <code>ready</code>, <code>broken</code>, or <code>suspended</code></td>
+</tr>
+<tr>
+<td><code>reason</code></td>
+<td>Why the replica is not ready (see below)</td>
+</tr>
+<tr>
+<td><code>message</code></td>
+<td>Human-readable details</td>
+</tr>
+<tr>
+<td><code>databases</code></td>
+<td>Databases frozen at bootstrap</td>
+</tr>
+<tr>
+<td><code>seededAt</code></td>
+<td>When the data directory was copied</td>
+</tr>
+<tr>
+<td><code>invalidatedAt</code></td>
+<td>When an in-place restore made the replica unusable</td>
+</tr>
+</tbody>
+</table>
+<p><code>state</code> values:</p>
+<table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>bootstrapping</code></td>
+<td>Waiting for the primary, databases, or volume, or the bootstrap Job is still running</td>
+</tr>
+<tr>
+<td><code>ready</code></td>
+<td>Slots exist on the primary and apply workers are running</td>
+</tr>
+<tr>
+<td><code>broken</code></td>
+<td>Replication cannot continue until you <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> a replica, or teardown is waiting for the primary</td>
+</tr>
+<tr>
+<td><code>suspended</code></td>
+<td>The Operator stopped the replica because the source cluster is being restored or paused</td>
+</tr>
+</tbody>
+</table>
+<p>Common <code>reason</code> values: <code>PrimaryNotReady</code>, <code>WaitingForDatabases</code>, <code>WaitingForDataVolume</code>, <code>BootstrapFailed</code>, <code>SourceSlotMissing</code>, <code>SubscriptionDisabled</code>, <code>ApplyWorkerDown</code>, <code>SourceRestoring</code>, <code>SourceRestored</code>, <code>AwaitingCleanup</code>.</p>
+<p><strong>Example. Check logical replica state:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.logicalReplicas}'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
+</code></pre></div>
 <h2 id="perconapgbackup-status">PerconaPGBackup status<a class="headerlink" href="#perconapgbackup-status" title="Permanent link">&para;</a></h2>
 <p>Backup progress and results are in <code>status.state</code>. You also get destination, type, and timing details that help you validate backups and point-in-time recovery ranges. Backups are managed with <code>pgBackRest</code> (or <code>VolumeSnapshots</code> when you choose that method).</p>
 <p>Common fields are:</p>
@@ -7229,7 +7356,7 @@ Enabled
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:28:25 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

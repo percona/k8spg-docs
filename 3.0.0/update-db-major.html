@@ -3612,6 +3612,34 @@
   
   
     <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="huge-pages.html" class="md-nav__link">
         
   
@@ -3788,10 +3816,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3809,8 +3837,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6816,6 +6844,9 @@ cluster1  | c              | 2.34
 </code></pre></div>
 <p>Repeat for every database where the <code>pgaudit</code> extension is installed.</p>
 </li>
+<li>
+<p>A successful major upgrade invalidates existing <a href="logical-replication.html">logical replicas</a>. After the cluster is <code>ready</code>, <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> each logical replica.</p>
+</li>
 </ol>
 <h2 id="check-collation">Check collation<a class="headerlink" href="#check-collation" title="Permanent link">&para;</a></h2>
 <p>If the new image uses a different UBI major (for example, UBI 8 to UBI 9), <code>glibc</code> collation rules change.</p>
@@ -6898,7 +6929,7 @@ understand and accept this trade-off.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 8, 2026 13:29:30 UTC">September 8, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:

@@ -21,7 +21,7 @@
         <link rel="prev" href="scaling-vertical.html">
       
       
-        <link rel="next" href="huge-pages.html">
+        <link rel="next" href="logical-replication.html">
       
       
         
@@ -3700,10 +3700,77 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#logical-replicas-and-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replicas and failover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logical replicas and failover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persist-replication-slots-across-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persist replication slots across failover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-the-subscription-is-disabled-after-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If the subscription is disabled after failover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="logical-replication.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Deploy logical replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -3892,10 +3959,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_11" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_12" >
         
           
-          <label class="md-nav__link" for="__nav_7_11" id="__nav_7_11_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_7_12" id="__nav_7_12_label" tabindex="0">
             
   
   
@@ -3913,8 +3980,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_11_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_7_11">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_12">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6547,6 +6614,45 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#logical-replicas-and-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Logical replicas and failover
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Logical replicas and failover">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#persist-replication-slots-across-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Persist replication slots across failover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#if-the-subscription-is-disabled-after-failover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        If the subscription is disabled after failover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -6622,13 +6728,98 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>After you apply the configuration, the requested number of standbys operate in synchronous mode.</p>
-<p>For more Patroni options, see the <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">Patroni replication modes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<p>Find more options useful to tune how your database cluster should operate in synchronous mode <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">in the official Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
+<h2 id="logical-replicas-and-failover">Logical replicas and failover<a class="headerlink" href="#logical-replicas-and-failover" title="Permanent link">&para;</a></h2>
+<p><a href="logical-replication.html">Logical replicas</a> are not Patroni members and are not promoted during failover. Their replication slots live on the PostgreSQL instance that created them. After failover, the new primary often does not have those slots, and the logical replica status becomes <code>broken</code> with reason <code>SourceSlotMissing</code>.</p>
+<p>The Operator tells Patroni not to drop logical <code>pgoutput</code> slots on the current primary. That does not copy slots to other instances.</p>
+<h3 id="persist-replication-slots-across-failover">Persist replication slots across failover<a class="headerlink" href="#persist-replication-slots-across-failover" title="Permanent link">&para;</a></h3>
+<p>To keep logical replication slots available on the new primary after failover, enable Patroni permanent slots and define a slot for <strong>each</strong> database the logical replica replicates.</p>
+<ol>
+<li>Bootstrap the logical replica first and wait until it is healthy. If you configure replication slots before bootstrap finishes, creation can fail with an error that the slot already exists.</li>
+<li>
+<p>Find the slot name the Operator created. </p>
+<ul>
+<li>
+<p>Identify the primary Pod and exec into it:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+--selector<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+</li>
+<li>
+<p>Use the following statement to find the replication slot:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_replication_slots</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>slot_name                               |  plugin  | slot_type | datoid | database  | temporary | active | active_pid | xmin | catalog_xmin | restart_lsn | confirmed_flush_lsn | wal_status | safe_wal_size | two_phase | two_phase_at | inactive_since | conflicting | invalidation_reason | failover | synced
+---------------------------------------------------+----------+-----------+--------+-----------+-----------+--------+------------+------+--------------+-------------+---------------------+------------+---------------+-----------+--------------+----------------+-------------+---------------------+----------+--------
+pgo_lr_slot_analytics_cluster1_50651e49 | pgoutput | logical   |  16410 | cluster1 | f         | t
+    |       1700 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+  | f         |              |                | f           |                     | f        | f
+pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp    | f         | t
+    |       1701 |      |          800 | 0/A0003A0   | 0/B000000           | reserved   |
+  | f         |              |                | f           |                     | f        | f
+(2 rows)
+</code></pre></div>
+</details>
+</li>
+</ul>
+</li>
+<li>
+<p>Add the same slot name under <code>patroni.dynamicConfiguration</code>. Example for a logical replica that replicates the <code>myapp</code> database (replace the slot name with the value from the query):</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">use_slots</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">slots</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">pgo_lr_slot_myapp_cluster1_875a65d6</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">logical</span>
+<span class="w">          </span><span class="nt">database</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">          </span><span class="nt">plugin</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgoutput</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the change:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>With <code>use_slots: true</code>, WAL can accumulate on the primary if a logical replica falls behind. Monitor disk usage and replica lag.</p>
+</div>
+<p>Permanent Patroni slots help the slot survive failover. They do <strong>not</strong> guarantee that logical replication keeps running. Subscriptions are created with <code>disable_on_error</code>, so an error during failover can disable the subscription, and the Operator does not re-enable it automatically.</p>
+<h3 id="if-the-subscription-is-disabled-after-failover">If the subscription is disabled after failover<a class="headerlink" href="#if-the-subscription-is-disabled-after-failover" title="Permanent link">&para;</a></h3>
+<p>Check the logical replica status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.logicalReplicas'</span>
+</code></pre></div>
+<p>A disabled subscription looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myapp</span>
+<span class="w">  </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">subscription "pgo_lr_sub_myapp_cluster1_875a65d6" on database "myapp" is disabled, most likely because applying a change from the primary failed; check the logical replica's logs for the error</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">l1</span>
+<span class="w">  </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">SubscriptionDisabled</span>
+<span class="w">  </span><span class="nt">state</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">broken</span>
+</code></pre></div>
+<p>Check the logical replica Pod logs for the underlying error (for example a closed SSL connection during failover). To re-enable the subscription, exec into the logical replica Pod as the subscription owner and run:</p>
+<div class="highlight"><pre><span></span><code><span class="err">\</span><span class="k">c</span><span class="w"> </span><span class="n">myapp</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_subscription</span><span class="p">;</span>
+<span class="k">SET</span><span class="w"> </span><span class="n">default_transaction_read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">off</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="n">SUBSCRIPTION</span><span class="w"> </span><span class="ss">"pgo_lr_sub_myapp_cluster1_875a65d6"</span><span class="w"> </span><span class="n">ENABLE</span><span class="p">;</span>
+</code></pre></div>
+<p>Repeat for each disabled subscription. If you need the database name for a subscription, use:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">oid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="n">pg_subscription</span><span class="p">.</span><span class="n">subdbid</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div>
+<p>If re-enabling does not restore replication, or the reason is <code>SourceSlotMissing</code>, <a href="logical-replication.html#reseed-a-logical-replica">reseed the logical replica</a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
       
         <br>
         Created:
