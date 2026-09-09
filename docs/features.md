@@ -70,6 +70,7 @@ Leverage disaster-recovery topologies that fit your RTO and RPO.
 
 Keep traffic and data protected with encryption and flexible TLS workflows.
 
+* **Data-at-rest encryption** — Encrypt PostgreSQL table data on disk with [pg_tde and HashiCorp Vault](encryption.md) (tech preview).
 * **TLS for connections** — Encrypt client traffic and traffic between cluster components
 * **Certificates** — Comply with your security policy via [custom certificates](tls-manual.md) or automated certificate generation [with cert-manager](tls-cert-manager.md) with configurable lifecycle management.
 

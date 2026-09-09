@@ -212,6 +212,10 @@ nav:
           - "Changing PostgreSQL options": options.md
           - "Anti-affinity and tolerations": constraints.md
           - "Labels and annotations": annotations.md
+          - Transparent data encryption (TDE):
+            - About TDE: encryption.md
+            - Configure TDE with HashiCorp Vault: encryption-setup.md
+            - Disable encryption: encryption-disable.md
           - Transport encryption (TLS/SSL):
             - "About TLS/SSL": TLS.md
             - "Configure TLS/SSL with the Operator using cert-manager": tls-cert-manager.md
