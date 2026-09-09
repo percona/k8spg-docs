@@ -1607,7 +1607,7 @@
   <span class="md-ellipsis">
     
   
-    Transport encryption (TLS/SSL)
+    Transparent data encryption (TDE)
   
 
     
@@ -1620,6 +1620,145 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transparent data encryption (TDE)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-disable.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disable encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport encryption (TLS/SSL)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -1904,10 +2043,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
         
           
-          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
             
   
   
@@ -1925,8 +2064,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6307,6 +6446,56 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <a href="#section-6-7" class="md-nav__link">
     <span class="md-ellipsis">
       
+        Transparent data encryption (TDE)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Transparent data encryption (TDE)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        About TDE
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-setup" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure TDE with HashiCorp Vault
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encryption-disable" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Disable encryption
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#section-6-8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
         Transport encryption (TLS/SSL)
       
     </span>
@@ -6420,7 +6609,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#section-6-10" class="md-nav__link">
+  <a href="#section-6-11" class="md-nav__link">
     <span class="md-ellipsis">
       
         Environment variables
@@ -7996,6 +8185,7 @@ Check upcoming releases on the <a href="https://github.com/orgs/percona/projects
 <h2 id="features-security-and-compliance">Security and compliance<a class="headerlink" href="#features-security-and-compliance" title="Permanent link">&para;</a></h2>
 <p>Keep traffic and data protected with encryption and flexible TLS workflows.</p>
 <ul>
+<li><strong>Data-at-rest encryption</strong> — Encrypt PostgreSQL table data on disk with <a href="#encryption">pg_tde and HashiCorp Vault</a> (tech preview).</li>
 <li><strong>TLS for connections</strong> — Encrypt client traffic and traffic between cluster components</li>
 <li><strong>Certificates</strong> — Comply with your security policy via <a href="#tls-manual">custom certificates</a> or automated certificate generation <a href="#tls-cert-manager">with cert-manager</a> with configurable lifecycle management.</li>
 </ul>
@@ -8464,6 +8654,11 @@ node, thereby ensuring data continuity.</p>
 <h2 id="limitations-data-management">Data management<a class="headerlink" href="#limitations-data-management" title="Permanent link">&para;</a></h2>
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="#tablespaces-deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
+</ul>
+<h2 id="limitations-data-at-rest-encryption-pg_tde">Data-at-rest encryption (<code>pg_tde</code>)<a class="headerlink" href="#limitations-data-at-rest-encryption-pg_tde" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.</li>
+<li>Before you disable <code>pg_tde</code>, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See <a href="#encryption-disable">Disable encryption</a>.</li>
 </ul>
 <h2 id="limitations-community-postgresql-images">Community PostgreSQL images<a class="headerlink" href="#limitations-community-postgresql-images" title="Permanent link">&para;</a></h2>
 <p>Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use <a href="#images">Percona certified images</a>. See <a href="#install-community">Deploy a cluster with community PostgreSQL images</a> for deployment steps.</p>
@@ -11562,9 +11757,864 @@ NAME                                 CREATED AT             LABELS</p>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div></section>
                     <section class='print-page md-section' id='section-6-7' heading-number='6.7'>
-                        <h1>Transport encryption (TLS/SSL)<a class='headerlink' href='#section-6-7' title='Permanent link'></a>
+                        <h1>Transparent data encryption (TDE)<a class='headerlink' href='#section-6-7' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="tls" heading-number="6.7.1"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="encryption" heading-number="6.7.1"><h1 id="encryption-transparent-data-encryption-tde">Transparent data encryption (TDE)<a class="headerlink" href="#encryption-transparent-data-encryption-tde" title="Permanent link">&para;</a></h1>
+<p>Transparent Data Encryption (TDE) protects your data stored on disk even if the underlying storage is compromised. This process is transparent to your applications, meaning you don&rsquo;t need to change your application code. If an unauthorized user gains access to the storage, they can&rsquo;t read the data files.</p>
+<p>The Operator supports transparent data encryption (TDE) via the <a href="https://docs.percona.com/pg-tde/index.html">pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> extension. When enabled, <code>pg_tde</code> encrypts user data in tables, indexes, and temporary tables on disk so that data remains unreadable without the proper encryption keys, even if someone gains access to the storage.</p>
+<p><code>pg_tde</code> can also encrypt write-ahead log (WAL) segments stored on disk. To enable WAL encryption, you must explicitly set this option in the Custom Resource. When WAL encryption is enabled, the Operator automatically reconfigures PostgreSQL and pgBackRest to ensure compatibility. <code>pg_tde</code> uses the same global principal key that the Operator sets up in Vault. See <a href="#encryption-wal-encryption">WAL encryption</a> to learn more.</p>
+<p>This feature is available with Percona Distribution for PostgreSQL 17 and above. </p>
+<p>To store encryption keys, the Operator uses a key management system (KMS). The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases.</p>
+<h2 id="encryption-how-it-works">How it works<a class="headerlink" href="#encryption-how-it-works" title="Permanent link">&para;</a></h2>
+<p>When you enable <code>pg_tde</code> and provide Vault configuration, the Operator automates the setup:</p>
+<ol>
+<li>Adds <code>pg_tde</code> to <code>shared_preload_libraries</code> so the extension loads at startup.</li>
+<li>Mounts the Vault token and CA certificate secrets into the database containers at <code>/pgconf/tde</code>.</li>
+<li>Creates the <code>pg_tde</code> extension with the <code>CREATE EXTENSION pg_tde;</code> command in all databases.</li>
+<li>Registers Vault as the key provider, creates a global encryption key and sets it as a default key using the functions provided by <code>pg_tde</code>.</li>
+<li>Sets <code>pg_tde.wal_encrypt</code> to <code>off</code> unless you <a href="#encryption-wal-encryption">Enable WAL encryption</a>. </li>
+</ol>
+<p>For restore, the Operator also enables <code>pg_tde</code> in the restore job and mounts the Vault secrets so encrypted backups can be restored.</p>
+<h2 id="encryption-wal-encryption">WAL encryption<a class="headerlink" href="#encryption-wal-encryption" title="Permanent link">&para;</a></h2>
+<p>WAL encryption protects write-ahead log segments on the database Pod storage. When you set <code>extensions.pg_tde.walEncryption</code> to <code>true</code>, the Operator:</p>
+<ol>
+<li>Sets the PostgreSQL parameter <code>pg_tde.wal_encrypt</code> to <code>on</code>.</li>
+<li>Wraps the PostgreSQL <code>archive_command</code> with <code>pg_tde_archive_decrypt</code> so that pgBackRest archives a decrypted copy of each WAL segment.</li>
+<li>Wraps the PostgreSQL <code>restore_command</code> with <code>pg_tde_restore_encrypt</code> so that WAL segments fetched from the repository are encrypted again on disk.</li>
+<li>Adjusts <code>pgBackRest</code> settings to ensure compatibility with encrypted WAL (<code>archive-async=n</code>, <code>checksum-page=n</code>, and <code>archive-header-check=n</code>).</li>
+</ol>
+<p>For the step-by-step procedure, see <a href="#encryption-setup">Configure transparent data encryption</a>.</p>
+<h3 id="encryption-how-wal-encryption-interacts-with-backups">How WAL encryption interacts with backups<a class="headerlink" href="#encryption-how-wal-encryption-interacts-with-backups" title="Permanent link">&para;</a></h3>
+<p><code>pg_tde</code> keeps WAL segments encrypted on the Pod disks. The archive command decrypts each segment before upload, and the restore command encrypts it after download. As a result, WAL files in the pgBackRest repository are stored in plaintext unless you also configure <a href="#backup-encryption">pgBackRest repository encryption</a> with <code>repo-cipher-pass</code>.</p>
+<p>Disabling asynchronous WAL archival (<code>archive-async=n</code>) can reduce archive throughput compared to clusters without WAL encryption.</p>
+<p>After you change the Vault provider or token, create a new backup. Restoring from backups taken before that change fails. See <a href="#encryption-key-rotation">Key rotation</a>.</p>
+<h3 id="encryption-considerations-for-wal-encryption">Considerations for WAL encryption<a class="headerlink" href="#encryption-considerations-for-wal-encryption" title="Permanent link">&para;</a></h3>
+<ol>
+<li>The safest time to enable WAL encryption is before the cluster has application writes. </li>
+<li>WAL segments in the pgBackRest repository are stored in plaintext unless you configure <a href="#backup-encryption">pgBackRest repository encryption</a>.</li>
+<li>WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.</li>
+</ol>
+<h2 id="encryption-status-and-conditions">Status and conditions<a class="headerlink" href="#encryption-status-and-conditions" title="Permanent link">&para;</a></h2>
+<p>The Operator tracks the <code>pg_tde</code> configuration with a revision hash and exposes state through conditions in <code>status.conditions</code>.</p>
+<p>To see the <code>pg_tde</code> status, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>
+</code></pre></div>
+<h3 id="encryption-pgtdeenabled"><code>PGTDEEnabled</code><a class="headerlink" href="#encryption-pgtdeenabled" title="Permanent link">&para;</a></h3>
+<p>Indicates that the <code>pg_tde</code> extension is created in all databases and added to <code>shared_preload_libraries</code>. This condition also controls whether instance Pods carry the Vault volume.</p>
+<p>The condition can be <code>True</code> and the cluster status <code>Ready</code> even when there are issues with the token or key provider configuration. The Operator logs those errors. If encryption fails, check the Operator logs and the <code>PGTDEVaultProviderReady</code> condition.</p>
+<h3 id="encryption-pgtdevaultproviderready"><code>PGTDEVaultProviderReady</code><a class="headerlink" href="#encryption-pgtdevaultproviderready" title="Permanent link">&para;</a></h3>
+<p>Reports whether the Vault key provider in PostgreSQL matches the configuration in the Custom Resource. It becomes <code>False</code> while a credential change is in progress and stays <code>False</code> if the change stalls or fails. Unlike <code>PGTDEEnabled</code>, it does not change Pod mounts or <code>shared_preload_libraries</code>; it surfaces stalled Vault credential updates.</p>
+<h3 id="encryption-configuration-revision">Configuration revision<a class="headerlink" href="#encryption-configuration-revision" title="Permanent link">&para;</a></h3>
+<p>The Operator stores a hash of the Vault configuration in the underlying <code>PostgresCluster</code> status field <code>status.pgTDERevision</code>. It uses this hash to detect configuration changes and reconfigure <code>pg_tde</code>. The field is cleared when you disable <code>pg_tde</code>.</p>
+<h2 id="encryption-global-key-handling">Global key handling<a class="headerlink" href="#encryption-global-key-handling" title="Permanent link">&para;</a></h2>
+<p>The global key name is derived from the cluster&rsquo;s <code>metadata.uid</code> (for example, <code>global-master-key-ad19534a-d778-460e-ac87-ca38ef5e6755</code>), so it changes if you delete and recreate the cluster. <code>pg_tde</code> handles this like key rotation as long as both old and new keys remain accessible (for example, you deleted and recreated the cluster without removing PVCs).</p>
+<p>If you delete a cluster with <code>pg_tde</code> enabled but retain the PVCs, or if you disable and later re-enable <code>pg_tde</code>, the Operator may log &ldquo;already exists&rdquo; errors for the Vault provider or global key. It handles these errors and continues configuration.</p>
+<p>With <code>pg_tde</code> enabled you can make backups and restores as usual. For restore, the Operator must have access to the encryption key that was used to encrypt the backup data.</p>
+<h2 id="encryption-key-rotation">Key rotation<a class="headerlink" href="#encryption-key-rotation" title="Permanent link">&para;</a></h2>
+<p>To rotate the Vault token, create a new Secret containing the updated token and modify the Custom Resource to reference this new Secret.</p>
+<p>When you change Vault token, the Operator updates the key provider in two phases:</p>
+<ol>
+<li>The Operator keeps the old secret mounted in the Pod and stages the new Secret contents in temporary files in <code>/pgdata</code> directory. Then it updates the key provider configuration using the  <code>pg_tde_change_global_key_provider_vault_v2</code> function.</li>
+<li>The Operator mounts the new secret, restarts the Pods, runs the provider change again with the standard credential paths, and cleans up temporary files.</li>
+</ol>
+<p>During the change, the <code>PGTDEVaultProviderReady</code> condition becomes <code>False</code>. When the rotation finishes successfully, it returns to <code>True</code>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>If WAL encryption is enabled, create a new backup after you change the Vault provider or token. Restoring from backups taken before that change fails.</p>
+</div>
+<h2 id="encryption-implementation-specifics">Implementation specifics<a class="headerlink" href="#encryption-implementation-specifics" title="Permanent link">&para;</a></h2>
+<ol>
+<li><code>pg_tde</code> is available with PostgreSQL 17 and above. </li>
+<li>Vault must use a <strong>KV secrets engine v2</strong> for the mount path. The default for <code>mountPath</code> is <code>secret/data</code>. You can change it to your actual mount (for example, <code>tde</code>).</li>
+<li>You can configure Vault to communicate with the Operator with
+and without TLS. The <code>caSecret</code> field is optional; omit it only when you intentionally use HTTP. In practice, Vault usually requires TLS.</li>
+<li>The Operator does not assume anything about the contents of your secrets; you specify the secret names and keys in the Custom Resource. <code>tokenSecret</code> and <code>caSecret</code> may point to the same Secret or to different ones.</li>
+<li>You cannot set <code>extensions.pg_tde.enabled</code> to <code>true</code> without a <code>vault</code> section. After <code>pg_tde</code> has been enabled, you cannot remove the <code>pg_tde</code> or <code>vault</code> sections until you first set <code>enabled</code> to <code>false</code> and wait for Pod restarts.</li>
+<li>If you are using a <a href="#standby">standby cluster</a>, you must <a href="#encryption-setup">configure <code>pg_tde</code></a> and the key provider on both the source (primary) and the standby clusters. This means you need to enable the extension and set up the key provider in each cluster’s Custom Resource. This configuration is essential for the standby to be able to write and access encrypted data from the source.</li>
+</ol>
+<p>Initially, the Operator uses the key provider configuration from the source cluster to write data on the standby. If the standby cluster is promoted to become the new primary, it will generate its own key provider configuration. The data previously written remains accessible, provided that the proper key provider setup was completed on the standby before promotion. In summary, both the source and standby clusters require correct <code>pg_tde</code> and key provider configuration for seamless operation and failover.</p>
+<ol>
+<li>The Operator does not drop or rewrite encrypted objects for you. Before you disable <code>pg_tde</code>, you must remove encrypted objects yourself. See <a href="#encryption-disable">Disable encryption</a> to learn more.</li>
+<li>If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.</li>
+</ol>
+<h2 id="encryption-known-limitations">Known limitations<a class="headerlink" href="#encryption-known-limitations" title="Permanent link">&para;</a></h2>
+<p>Only HashiCorp Vault is currently supported as a key provider. Other providers and KMIP support are planned for future releases.</p>
+<h2 id="encryption-next-steps">Next steps<a class="headerlink" href="#encryption-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#encryption-setup">Configure transparent data encryption</a></p></section><section class="print-page" id="encryption-setup" heading-number="6.7.2"><h1 id="encryption-setup-configure-transparent-data-encryption-tde-with-hashicorp-vault">Configure transparent data encryption (TDE) with HashiCorp Vault<a class="headerlink" href="#encryption-setup-configure-transparent-data-encryption-tde-with-hashicorp-vault" title="Permanent link">&para;</a></h1>
+<p>This document guides you through setting up transparent data encryption (TDE) with <code>pg_tde</code> and HashiCorp Vault as the key provider. To learn more about TDE and how it works, see <a href="#encryption">Transparent data encryption</a>.</p>
+<h2 id="encryption-setup-assumptions">Assumptions<a class="headerlink" href="#encryption-setup-assumptions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>This guide is provided as a best effort and builds upon procedures described in the official Vault documentation. Since Vault&rsquo;s setup steps may change in future releases, this document may become outdated; we cannot guarantee ongoing accuracy or responsibility for such changes. For the most up-to-date and reliable information, please always refer to <a href="https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls#kubernetes-minikube-tls">the official Vault documentation</a>.</li>
+<li>In the following sections we deploy the Vault server in High Availability (HA) mode on Kubernetes via Helm with TLS enabled. The HA setup uses Raft storage backend and consists of 3 replicas for redundancy. Using Helm is not mandatory. Any supported Vault deployment (on-premises, in the cloud, or a managed Vault service) works as long as the Operator can reach it.</li>
+<li>This guide uses Vault Helm chart version 0.30.0. You may want to change it to the required version by setting the <code>VAULT_HELM_VERSION</code> variable.</li>
+</ol>
+<h2 id="encryption-setup-prerequisites">Prerequisites<a class="headerlink" href="#encryption-setup-prerequisites" title="Permanent link">&para;</a></h2>
+<p>To configure TDE, you need the following:</p>
+<ul>
+<li><code>kubectl</code>- Kubernetes command-line interface</li>
+<li><code>helm</code> - Helm package manager</li>
+<li><code>jq</code> - JSON processor</li>
+<li>The Operator and Percona Distribution for PostgreSQL installed. </li>
+</ul>
+<h2 id="encryption-setup-prepare-your-environment">Prepare your environment<a class="headerlink" href="#encryption-setup-prepare-your-environment" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Create the namespaces for Vault and the database cluster. If you have installed the Operator and Percona Distribution for PostgreSQL, you don&rsquo;t need to create a namespace for them.</p>
+<ul>
+<li>For Vault server:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>vault
+</code></pre></div>
+<ul>
+<li>For Percona Distribution for PostgreSQL cluster:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pg
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespaces and other variables as environment variables to simplify further configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span><span class="s2">"vault"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span><span class="s2">"pg"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">VAULT_HELM_VERSION</span><span class="o">=</span><span class="s2">"0.30.0"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span><span class="s2">"vault"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CSR_NAME</span><span class="o">=</span><span class="s2">"vault-csr"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SECRET_NAME_VAULT</span><span class="o">=</span><span class="s2">"vault-secret"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">POLICY_NAME</span><span class="o">=</span><span class="s2">"tde-policy"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORKDIR</span><span class="o">=</span><span class="s2">"/tmp/vault"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create a working directory for configuration files:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$WORKDIR</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="encryption-setup-generate-tls-certificates">Generate TLS certificates<a class="headerlink" href="#encryption-setup-generate-tls-certificates" title="Permanent link">&para;</a></h2>
+<p>To use TLS, you&rsquo;ll need the following certificates:</p>
+<ul>
+<li>A private key for the Vault server</li>
+<li>A certificate for the Vault server signed by the Kubernetes CA</li>
+<li>The Kubernetes CA certificate</li>
+</ul>
+<p>These files store sensitive information. Make sure to keep them in a secure location.</p>
+<h3 id="encryption-setup-generate-the-private-key">Generate the private key<a class="headerlink" href="#encryption-setup-generate-the-private-key" title="Permanent link">&para;</a></h3>
+<p>Generate a private key for the Vault server:</p>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.key<span class="w"> </span><span class="m">2048</span>
+</code></pre></div>
+<h3 id="encryption-setup-create-the-certificate-signing-request-csr">Create the Certificate Signing Request (CSR)<a class="headerlink" href="#encryption-setup-create-the-certificate-signing-request-csr" title="Permanent link">&para;</a></h3>
+<p>A Certificate Signing Request (CSR) is a file that contains information about your server and the certificate you need. You create it using your private key, and then submit it to Kubernetes to get a certificate signed by the Kubernetes Certificate Authority (CA). The signed certificate proves your server&rsquo;s identity and enables secure TLS connections.</p>
+<ol>
+<li>
+<p>Create the Certificate Signing Request configuration file:</p>
+<p>Specify the certificate details that Kubernetes needs to sign your certificate:</p>
+<ul>
+<li><strong>Request settings</strong> (<code>[req]</code>): References the sections for certificate extensions and distinguished name. The distinguished name section is left empty as Kubernetes will populate it automatically.</li>
+<li><strong>Certificate extensions</strong> (<code>[v3_req]</code>): Defines how the certificate can be used. <code>serverAuth</code> allows the certificate for server authentication, while <code>keyUsage</code> specifies the cryptographic operations the certificate supports (non-repudiation, digital signature, and key encipherment).</li>
+<li><strong>Subject Alternative Names</strong> (<code>[alt_names]</code>): Lists all DNS names and IP addresses where your Vault service can be accessed. This includes the service name, fully qualified domain names (FQDNs) for different Kubernetes DNS contexts (namespace-scoped, cluster-scoped with <code>.svc</code>, and fully qualified with <code>.svc.cluster.local</code>), and the localhost IP address.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/csr.conf"</span><span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[req]</span>
+<span class="s">default_bits = 2048</span>
+<span class="s">prompt = no</span>
+<span class="s">encrypt_key = yes</span>
+<span class="s">default_md = sha256</span>
+<span class="s">distinguished_name = kubelet_serving</span>
+<span class="s">req_extensions = v3_req</span>
+<span class="s">[ kubelet_serving ]</span>
+<span class="s">O = system:nodes</span>
+<span class="s">CN = system:node:*.vault.svc.cluster.local</span>
+<span class="s">[ v3_req ]</span>
+<span class="s">basicConstraints = CA:FALSE</span>
+<span class="s">keyUsage = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment</span>
+<span class="s">extendedKeyUsage = serverAuth, clientAuth</span>
+<span class="s">subjectAltName = @alt_names</span>
+<span class="s">[alt_names]</span>
+<span class="s">DNS.1 =*.vault-internal</span>
+<span class="s">DNS.2 = *.vault-standby</span>
+<span class="s">DNS.3 =*.vault-internal.vault.svc.cluster.local</span>
+<span class="s">DNS.4 = *.vault-standby.vault.svc.cluster.local</span>
+<span class="s">DNS.5 =*.vault</span>
+<span class="s">DNS.6 = vault.vault.svc.cluster.local</span>
+<span class="s">IP.1 = 127.0.0.1</span>
+<span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Generate the CSR. The following command creates the Certificate Signing Request file using your private key and the configuration file.</p>
+<p>The <code>-subj</code> parameter specifies the distinguished name directly: the Common Name (CN) identifies your Vault service using the Kubernetes node naming convention (<code>system:node:${SERVICE}.${NAMESPACE}.svc</code>), and the Organization (O) field is set to <code>system:nodes</code>, which Kubernetes requires to recognize and sign the certificate. The command combines these subject fields with the certificate extensions defined in the configuration file to produce the complete CSR.</p>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span><span class="nv">$WORKDIR</span>/vault.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">"/CN=system:node:</span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">.svc;/O=system:nodes"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span><span class="nv">$WORKDIR</span>/server.csr<span class="w"> </span>-config<span class="w"> </span><span class="nv">$WORKDIR</span>/csr.conf
+</code></pre></div>
+</li>
+</ol>
+<h3 id="encryption-setup-issue-the-certificate">Issue the certificate<a class="headerlink" href="#encryption-setup-issue-the-certificate" title="Permanent link">&para;</a></h3>
+<p>To get your certificate signed by Kubernetes, you need to submit the CSR through the Kubernetes API. The CSR file you generated with OpenSSL must be wrapped in a Kubernetes CertificateSigningRequest resource.</p>
+<ol>
+<li>
+<p>Create the CSR YAML file to send it to Kubernetes:</p>
+<p>This YAML file creates a Kubernetes CertificateSigningRequest object that contains your CSR. The file embeds the base64-encoded CSR content and specifies:</p>
+<ul>
+<li>The signer name (<code>kubernetes.io/kubelet-serving</code>) that tells Kubernetes which CA should sign the certificate</li>
+<li>The groups field (<code>system:authenticated</code>) that identifies who can approve this CSR</li>
+<li>The certificate usages that define how the certificate can be used (digital signature, key encipherment, and server authentication)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$WORKDIR</span>/csr.yaml<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: certificates.k8s.io/v1</span>
+<span class="s">kind: CertificateSigningRequest</span>
+<span class="s">metadata:</span>
+<span class="s">  name: ${CSR_NAME}</span>
+<span class="s">spec:</span>
+<span class="s">  groups:</span>
+<span class="s">  - system:authenticated</span>
+<span class="s">  request: $(cat $WORKDIR/server.csr | base64 | tr -d '\n')</span>
+<span class="s">  signerName: kubernetes.io/kubelet-serving</span>
+<span class="s">  usages:</span>
+<span class="s">  - digital signature</span>
+<span class="s">  - key encipherment</span>
+<span class="s">  - server auth</span>
+<span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the CertificateSigningRequest (CSR) object:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/csr.yaml
+</code></pre></div>
+</li>
+<li>
+<p>Approve the CSR in Kubernetes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>certificate<span class="w"> </span>approve<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>Confirm the certificate was issued:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>csr<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME        AGE   SIGNERNAME                      REQUESTOR       REQUESTEDDURATION   CONDITION
+vault-csr   16s   kubernetes.io/kubelet-serving   minikube-user   &lt;none&gt;              Approved,Issued
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h3 id="encryption-setup-retrieve-the-certificates">Retrieve the certificates<a class="headerlink" href="#encryption-setup-retrieve-the-certificates" title="Permanent link">&para;</a></h3>
+<p>After Kubernetes approves and signs your CSR, you need to retrieve the signed certificate and the Kubernetes CA certificate. These certificates are required to configure TLS for your Vault server.</p>
+<ol>
+<li>
+<p>Retrieve the signed certificate from the CertificateSigningRequest object. The certificate is base64-encoded in Kubernetes, so you decode it and save it to a file.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>csr<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.certificate}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$WORKDIR</span>/vault.crt
+</code></pre></div>
+</li>
+<li>
+<p>Retrieve Kubernetes CA certificate:</p>
+<p>This command retrieves the Kubernetes cluster&rsquo;s Certificate Authority (CA) certificate from your <code>kubeconfig</code> file. The CA certificate is needed to verify that the signed certificate is valid and was issued by the Kubernetes CA. The command uses <code>kubectl config view</code> with flags to get the raw, flattened configuration and extract the CA certificate data, which is also base64-encoded.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--raw<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--minify<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--flatten<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.clusters[].cluster.certificate-authority-data}'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.ca
+</code></pre></div>
+</li>
+</ol>
+<h3 id="encryption-setup-store-certificates-in-kubernetes-secrets">Store certificates in Kubernetes secrets<a class="headerlink" href="#encryption-setup-store-certificates-in-kubernetes-secrets" title="Permanent link">&para;</a></h3>
+<p>Create a TLS secret in Kubernetes to store the certificates and key:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.key<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.crt<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.ca<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.ca
+</code></pre></div>
+<h2 id="encryption-setup-install-vault-with-tls">Install Vault with TLS<a class="headerlink" href="#encryption-setup-install-vault-with-tls" title="Permanent link">&para;</a></h2>
+<p>For this setup, we install Vault in Kubernetes using the <a href="https://helm.sh/">Helm 3 package manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> in High Availability (HA) mode with Raft storage backend and with TLS enabled.</p>
+<ol>
+<li>
+<p>Add and update the Vault Helm repository:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>hashicorp<span class="w"> </span>https://helm.releases.hashicorp.com
+helm<span class="w"> </span>repo<span class="w"> </span>update
+</code></pre></div>
+</li>
+<li>
+<p>Install Vault with TLS enabled:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="w"> </span>hashicorp/vault<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--disable-openapi-validation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="si">${</span><span class="nv">VAULT_HELM_VERSION</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.tlsDisable=false"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.platform=kubernetes"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>server.extraEnvironmentVars.VAULT_CACERT<span class="o">=</span>/vault/userconfig/<span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span>/vault.ca<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.extraEnvironmentVars.VAULT_TLSCERT=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.crt"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.extraEnvironmentVars.VAULT_TLSKEY=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.key"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].name=userconfig-</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].secret.secretName=</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].secret.defaultMode=420"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].mountPath=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].name=userconfig-</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].readOnly=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.replicas=3"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.raft.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.raft.setNodeId=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span><span class="s2">"server.ha.raft.config=cluster_name = \"vault-integrated-storage\"</span>
+<span class="s2">ui = true</span>
+<span class="s2">listener \"tcp\" {</span>
+<span class="s2">  tls_disable = 0</span>
+<span class="s2">  address = \"[::]:8200\"</span>
+<span class="s2">  cluster_address = \"[::]:8201\"</span>
+<span class="s2">  tls_cert_file = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.crt\"</span>
+<span class="s2">  tls_key_file  = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.key\"</span>
+<span class="s2">  tls_client_ca_file = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.ca\"</span>
+<span class="s2">}</span>
+<span class="s2">storage \"raft\" {</span>
+<span class="s2">  path = \"/vault/data\"</span>
+<span class="s2">}</span>
+<span class="s2">disable_mlock = true</span>
+<span class="s2">service_registration \"kubernetes\" {}"</span>
+</code></pre></div>
+<p>This command does the following:</p>
+<ul>
+<li>Installs HashiCorp Vault in High Availability (HA) mode with secure TLS enabled in your Kubernetes cluster.</li>
+<li>Configures Vault pods to use certificates from a Kubernetes Secret via volume mounts for secure HTTPS communication between Vault and clients.</li>
+<li>Sets up Raft as the backend storage with three replicas for fault tolerance, and configures the Vault TCP listener to enforce TLS with your specified certificate files.</li>
+</ul>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME: vault
+LAST DEPLOYED: Wed Aug 20 12:55:38 2025
+NAMESPACE: vault
+STATUS: deployed
+REVISION: 1
+NOTES:
+Thank you for installing HashiCorp Vault!
+
+Now that you have deployed Vault, you should look over the docs on using
+Vault with Kubernetes available here:
+
+https://developer.hashicorp.com/vault/docs
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Retrieve the Pod name where Vault is running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .items[*]}{.metadata.name}{"\n"}{end}'</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>vault-0
+vault-1
+vault-2
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="encryption-setup-initialize-and-unseal-vault">Initialize and unseal Vault<a class="headerlink" href="#encryption-setup-initialize-and-unseal-vault" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>After Vault is installed, you need to initialize it. Run the following command to initialize the first pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>pod/vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>operator<span class="w"> </span>init<span class="w"> </span>-key-shares<span class="o">=</span><span class="m">1</span><span class="w"> </span>-key-threshold<span class="o">=</span><span class="m">1</span><span class="w"> </span>-format<span class="o">=</span>json<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init
+</code></pre></div>
+<p>The command does the following:</p>
+<ul>
+<li>Connects to the Vault Pod</li>
+<li>Initializes Vault server with TLS enabled</li>
+<li>Creates 1 unseal key share which is required to unseal the server</li>
+<li>Outputs the init response to a local file. The file includes unseal keys and root token.</li>
+</ul>
+</li>
+<li>
+<p>Vault is started in a sealed state. In this state Vault can access the storage but it cannot decrypt data. In order to use Vault, you need to unseal it.</p>
+<p>Retrieve the unseal key from the file:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">unsealKey</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".unseal_keys_b64[]"</span><span class="w"> </span>&lt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init<span class="k">)</span>
+</code></pre></div>
+<p>Now, unseal Vault. Run the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>pod/vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>operator<span class="w"> </span>unseal<span class="w"> </span><span class="s2">"</span><span class="nv">$unsealKey</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            1
+Threshold               1
+Version                 1.19.0
+Build Date              2025-03-04T12:36:40Z
+Storage Type            raft
+Cluster Name            vault-integrated-storage
+Cluster ID              ed275c91-e227-681b-5aaa-f7a9fc19e37e
+Removed From Cluster    false
+HA Enabled              true
+HA Cluster              &lt;https://vault-0.vault-internal:8201&gt;
+HA Mode                 active
+Active Since            2025-12-15T13:36:42.542059059Z
+Raft Committed Index    37
+Raft Applied Index      37
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Add the remaining Pods to the Vault cluster. If you have another secret name, replace the <code>vault-secret</code> with your value in the following for loop:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>POD<span class="w"> </span><span class="k">in</span><span class="w"> </span>vault-1<span class="w"> </span>vault-2<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$POD</span><span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'</span>
+<span class="s1">    vault operator raft join -address=https://${HOSTNAME}.vault-internal:8200 \</span>
+<span class="s1">      -leader-ca-cert="$(cat /vault/userconfig/vault-secret/vault.ca)" \</span>
+<span class="s1">      -leader-client-cert="$(cat /vault/userconfig/vault-secret/vault.crt)" \</span>
+<span class="s1">      -leader-client-key="$(cat /vault/userconfig/vault-secret/vault.key)" \</span>
+<span class="s1">      https://vault-0.vault-internal:8200;</span>
+<span class="s1">  '</span>
+<span class="k">done</span>
+</code></pre></div>
+<p>The command connects to each Vault Pod (<code>vault-1</code> and <code>vault-2</code>) and issues the <code>vault operator raft join</code> command, which:
+* Joins the Pods to the Vault Raft cluster, enabling HA mode.
+* Uses the necessary TLS certificates to securely connect to the cluster leader (<code>vault-0</code>).
+* Ensures all nodes participate in the Raft consensus and share storage responsibilities.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key       Value
+---       -----
+Joined    true
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Unseal the remaining Pods. Use this for loop:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>POD<span class="w"> </span><span class="k">in</span><span class="w"> </span>vault-1<span class="w"> </span>vault-2<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$POD</span><span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">        vault operator unseal \"</span><span class="nv">$unsealKey</span><span class="s2">\"</span>
+<span class="s2">    "</span>
+<span class="k">done</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            1
+Threshold               1
+Unseal Progress         1/1
+Unseal Nonce            n/a
+Version                 1.19.0
+Build Date              2025-03-04T12:36:40Z
+Storage Type            raft
+Removed From Cluster    false
+HA Enabled              true
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="encryption-setup-configure-vault">Configure Vault<a class="headerlink" href="#encryption-setup-configure-vault" title="Permanent link">&para;</a></h2>
+<p>At this step you need to configure Vault and enable secrets engine within it. To do so you must first authenticate in Vault.</p>
+<p>When you started Vault, it generates and starts with a <a href="https://developer.hashicorp.com/vault/docs/concepts/tokens">root token <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that provides full access to Vault. Use this token to authenticate.</p>
+<p>Run the following command on a leader node. The remaining ones will synchronize from the leader.</p>
+<ol>
+<li>
+<p>Extract the Vault root token from the file where you saved the init response output:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".root_token"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>hvs.*************Jg9r
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Connect to Vault Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>/bin/sh
+</code></pre></div>
+</li>
+<li>
+<p>Authenticate in Vault with this token:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>login<span class="w"> </span>hvs.*************Jg9r
+</code></pre></div>
+</li>
+<li>
+<p>Enable the secrets engine at the mount path. The following command enables KV secrets engine v2 at the <code>tde</code> mount-path:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>secrets<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--version<span class="o">=</span><span class="m">2</span><span class="w"> </span>-path<span class="o">=</span>tde<span class="w"> </span>kv
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Success! Enabled the kv secrets engine at: tde/
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>(Optional) You can also enable audit. This is not mandatory, but useful:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>audit<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>file<span class="w"> </span><span class="nv">file_path</span><span class="o">=</span>/vault/vault-audit.log
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Success! Enabled the file audit device at: file/
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="encryption-setup-create-a-non-root-token">Create a non-root token<a class="headerlink" href="#encryption-setup-create-a-non-root-token" title="Permanent link">&para;</a></h2>
+<p>Using the root token for authentication is not recommended, as it poses significant security risks. Instead, you should create a dedicated, non-root token for the Operator to use when accessing Vault. The permissions for this token are controlled by an access policy. Before you create a token you must first create the access policy.</p>
+<ol>
+<li>
+<p>Create a policy for accessing the kv engine path and define the required permissions in the <code>capabilities</code> parameter:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>vault-0<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'</span>
+<span class="s1">vault policy write '</span><span class="s2">"</span><span class="nv">$POLICY_NAME</span><span class="s2">"</span><span class="s1">' - &lt;&lt; "EOF"</span>
+<span class="s1">path "tde/data/*" {</span>
+<span class="s1">  capabilities = ["read", "create", "update", "list"]</span>
+<span class="s1">}</span>
+<span class="s1">path "tde/metadata/*" {</span>
+<span class="s1">  capabilities = ["read", "list"]</span>
+<span class="s1">}</span>
+<span class="s1">path "sys/internal/ui/mounts/*" {</span>
+<span class="s1">  capabilities = ["read"]</span>
+<span class="s1">}</span>
+<span class="s1">path "sys/mounts/*" {</span>
+<span class="s1">  capabilities = ["read"]</span>
+<span class="s1">}</span>
+<span class="s1">EOF</span>
+<span class="s1">'</span>
+</code></pre></div>
+</li>
+<li>
+<p>Now create a token with a policy.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>pod/vault-0<span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>-policy<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">POLICY_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-format<span class="o">=</span>json<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/vault-token.json"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Export the non-root token as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NEW_TOKEN</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.auth.client_token'</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/vault-token.json"</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify the token:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"New Vault Token: </span><span class="nv">$NEW_TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>hvs.CAESINO******************************************T2Y
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="encryption-setup-create-a-secret-for-vault">Create a Secret for Vault<a class="headerlink" href="#encryption-setup-create-a-secret-for-vault" title="Permanent link">&para;</a></h2>
+<p>To enable Vault for the Operator, create a Secret object for it using the Vault token and the path to TLS certificates. Note that you must create the Secret in the namespace where the Operator and the database cluster is running.</p>
+<p>For the following command specify the token and the path to the <code>ca.cert</code> file (this is <code>vault.ca</code> in our example):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-vault<span class="w"> </span>--from-literal<span class="o">=</span><span class="nv">token</span><span class="o">=</span><span class="nv">$NEW_TOKEN</span><span class="w"> </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.ca<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<p>Check that the Secret is created:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<h2 id="encryption-setup-configure-pg_tde-in-the-custom-resource-manifest">Configure <code>pg_tde</code> in the Custom Resource manifest<a class="headerlink" href="#encryption-setup-configure-pg_tde-in-the-custom-resource-manifest" title="Permanent link">&para;</a></h2>
+<p>Now, enable the <code>pg_tde</code> extension for your cluster and configure Vault as the key provider. Also enable write-ahead log (WAL) segments encryption on disk. When WAL encryption is enabled, the Operator then adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.</p>
+<p>To learn how WAL encryption works with backups, see <a href="#encryption-wal-encryption">WAL encryption</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>We recommend that you enable WAL encryption before the cluster has application writes.</p>
+</div>
+<p>For this you need the following information:</p>
+<ul>
+<li>A Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</li>
+<li>The Secret name with the Vault token </li>
+<li>The Secret name with the CA certificate. In our example, the Vault token and the CA certificate are in the same Secret that you created earlier</li>
+<li>The secrets mount path </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applying the changes for a running cluster will trigger rolling restart of the database Pods.</p>
+</div>
+<ol>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> file and specify the following:</p>
+<ul>
+<li>Set <code>extensions.pg_tde.enabled</code> to <code>true</code></li>
+<li>Set <code>extensions.pg_tde.walEncryption</code> to <code>true</code> to encrypt WAL segments on disk. Omit this option if you only need table encryption.</li>
+<li>
+<p>Add Vault-specific options under <code>extensions.pg_tde.vault</code>:</p>
+<ul>
+<li><code>caSecret</code> is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in the example below</li>
+<li><code>mountPath</code> – Specify the Vault mount path where you enabled the KV v2 secrets engine for encryption. In this guide, the mount path is <code>tde</code>.</li>
+</ul>
+</li>
+</ul>
+<p>The example configuration looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">extensions</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:3.0.0</span>
+<span class="w">    </span><span class="nt">pg_tde</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">walEncryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.vault.svc.cluster.local:8200</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tde</span>
+<span class="w">        </span><span class="nt">tokenSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
+<span class="w">        </span><span class="nt">caSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca.crt</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Wait until the cluster is ready:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>perconapgcluster/cluster1<span class="w"> </span>--timeout<span class="o">=</span>600s
+</code></pre></div>
+</li>
+<li>
+<p>Check the <code>pg_tde</code> status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.conditions.[] | select(.type == "PGTDEEnabled" or .type == "PGTDEVaultProviderReady")'</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-04T13:29:51Z"</span>
+<span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde is enabled in PerconaPGCluster</span>
+<span class="w">    </span><span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enabled</span>
+<span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"True"</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEEnabled</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-04T13:29:51Z"</span>
+<span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde vault key provider matches the spec</span>
+<span class="w">    </span><span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configured</span>
+<span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"True"</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEVaultProviderReady</span>
+</code></pre></div>
+</details>
+<p>If <code>PGTDEEnabled</code> is <code>True</code> but encryption does not work, check <code>PGTDEVaultProviderReady</code> and the Operator logs.</p>
+</li>
+<li>
+<p>Verify that WAL encryption is on. Find the primary Pod and check the setting:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SHOW pg_tde.wal_encrypt;"</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code> pg_tde.wal_encrypt
+--------------------
+ on
+(1 row)
+</code></pre></div>
+</details>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WAL files that pgBackRest stores in the backup repository are decrypted before upload. To keep repository contents encrypted, configure <a href="#backup-encryption">backup encryption</a> with <code>repo-cipher-pass</code>.</p>
+</div>
+<h2 id="encryption-setup-verify-the-encryption">Verify the encryption<a class="headerlink" href="#encryption-setup-verify-the-encryption" title="Permanent link">&para;</a></h2>
+<p>Check that the encryption is enabled. To do that, create a table in PostgreSQL using the <code>tde_heap</code> access method. To learn more, refer to the <a href="https://docs.percona.com/pg-tde/index/table-access-method.html">Table Access Methods and pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> documentation.</p>
+<ol>
+<li>
+<p>Find the primary Pod in your cluster and export it as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify the Pod:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PRIMARY_POD</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-btdf-0
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Execute into the primary PostgreSQL Pod as the <code>postgres</code> user and establish the <code>psql</code> session.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>psql (17.7 - Percona Server for PostgreSQL 17.7.1)
+Type "help" for help.
+
+postgres=#
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Inside the Pod, create a table:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">secure_data</span><span class="w"> </span><span class="p">(</span>
+<span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="n">name</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="n">amount</span><span class="w"> </span><span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+<span class="n">created_at</span><span class="w"> </span><span class="nb">DATE</span>
+<span class="p">)</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">tde_heap</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Insert some sample data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">secure_data</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
+<span class="p">(</span><span class="s1">'Alice'</span><span class="p">,</span><span class="w"> </span><span class="mi">1234</span><span class="p">.</span><span class="mi">56</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'Bob'</span><span class="p">,</span><span class="w"> </span><span class="mi">7890</span><span class="p">.</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-10'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'Charlie'</span><span class="p">,</span><span class="w"> </span><span class="mi">345</span><span class="p">.</span><span class="mi">67</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-19'</span><span class="p">);</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify if the table is encrypted:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_tde_is_encrypted</span><span class="p">(</span>
+<span class="w"> </span><span class="s1">'secure_data'</span>
+<span class="p">);</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code> pg_tde_is_encrypted
+---------------------
+ t
+(1 row)
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="encryption-setup-troubleshooting">Troubleshooting<a class="headerlink" href="#encryption-setup-troubleshooting" title="Permanent link">&para;</a></h2>
+<p>If you encounter issues during the setup, use the following troubleshooting tips:</p>
+<ol>
+<li>
+<p><strong>Certificate Signing Request (CSR) issues</strong>: If you have problems with the CSR, manually delete it and recreate it:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>csr<span class="w"> </span>vault-csr<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+<p>Then recreate and re-approve it in Kubernetes following the steps in the <a href="#encryption-setup-issue-the-certificate">Issue the certificate</a> section.</p>
+</li>
+<li>
+<p><strong>Vault policy issues</strong>: Check the mount points and permissions. Ensure that:</p>
+<ul>
+<li>The mount path in your policy matches the path where you enabled the secrets engine</li>
+<li>The policy has the required capabilities (<code>create</code>, <code>read</code>, <code>update</code>, <code>list</code>) for the paths your application needs</li>
+<li>You have included the <code>sys/internal/ui/mounts/</code> and <code>sys/mounts/*</code> paths</li>
+</ul>
+</li>
+<li>
+<p><strong>Mount point conflicts</strong>: If you encounter issues with a mount point in Vault, you cannot reuse it. You need to:</p>
+<ul>
+<li>Provide a new mount path when enabling the secrets engine</li>
+<li>Update your access policy to include the new mount path</li>
+<li>Update the <code>mountPath</code> value in your Custom Resource configuration to match the new mount path</li>
+</ul>
+</li>
+<li>
+<p>Verify that you reference the correct secret name in your Custom Resource.</p>
+</li>
+</ol>
+<h2 id="encryption-setup-clean-up">Clean up<a class="headerlink" href="#encryption-setup-clean-up" title="Permanent link">&para;</a></h2>
+<p>After you finish the setup and ensure everything works as expected, you can clean up the temporary files:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$WORKDIR</span>
+</code></pre></div>
+<h2 id="encryption-setup-next-steps">Next steps<a class="headerlink" href="#encryption-setup-next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="#encryption-disable">Disable encryption</a></p></section><section class="print-page" id="encryption-disable" heading-number="6.7.3"><h1 id="encryption-disable-disable-encryption">Disable encryption<a class="headerlink" href="#encryption-disable-disable-encryption" title="Permanent link">&para;</a></h1>
+<p>Disabling <code>pg_tde</code> (Transparent Data Encryption) is generally not recommended, as it removes an important layer of security that protects your data at rest. However, if you must disable encryption, this guide walks you through the steps.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>To properly disable encryption in the Operator, you must follow a specific sequence and modify your Custom Resource (CR) twice. Attempting to disable everything in a single step will not work: the Operator needs to drop the <code>pg_tde</code> extension before you remove the key provider configuration. The Vault secrets must remain mounted while <code>DROP EXTENSION</code> runs.</p>
+<p>Failing to follow the steps in this tutorial in order will result in errors, because removing the Vault configuration before the extension is dropped prevents the Operator from cleaning up properly.</p>
+<p>The Operator does <strong>not</strong> drop or rewrite encrypted objects. You must unencrypt them yourself before disabling the extension. If any encrypted objects remain, <code>DROP EXTENSION pg_tde</code> fails with a descriptive error.</p>
+</div>
+<ol>
+<li>
+<p>Export the namespace where your database cluster is deployed as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Unencrypt <strong>all encrypted databases</strong> in your database. </p>
+<ul>
+<li>
+<p>Identify the primary pod:    </p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Connect to the primary database Pod as the <code>postgres</code> user:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+</li>
+<li>
+<p>Connect to each encrypted database and run the following command to unencrypt <strong>every</strong> encrypted table.</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table_name</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">ACCESS</span><span class="w"> </span><span class="k">METHOD</span><span class="w"> </span><span class="n">heap</span><span class="p">;</span>
+</code></pre></div>
+</li>
+</ul>
+<p>Repeat for every encrypted table, index, and related object in every database. Leaving encrypted objects behind causes disable to fail.</p>
+</li>
+<li>
+<p>Run the <code>CHECKPOINT</code> command in PostgreSQL. It forces an immediate checkpoint to flush dirty pages to disk. Connect to the primary database Pod as the <code>postgres</code> user and run:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CHECKPOINT</span><span class="p">;</span>
+</code></pre></div>
+<p>This flushes data to disk in all databases.</p>
+<p>Exit the Pod.</p>
+</li>
+<li>
+<p>Edit the Custom Resource and set <code>extensions.pg_tde.enabled</code> to <code>false</code>. Keep the <code>vault</code> section in place.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pg_tde</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.vault.svc.cluster.local:8200</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tde</span>
+<span class="w">        </span><span class="nt">tokenSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
+<span class="w">        </span><span class="nt">caSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca.crt</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the changes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<p>This triggers a rolling restart of your database Pods. The Operator runs <code>DROP EXTENSION pg_tde</code> in all databases. Vault secrets remain mounted during this step.</p>
+</li>
+<li>
+<p>Wait until the <code>PGTDEEnabled</code> condition reports <code>False</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.conditions.[] | select(.type == "PGTDEEnabled")'</span><span class="w"> </span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-07-28T10:24:15Z"</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde is disabled in PerconaPGCluster</span>
+<span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Disabled</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"False"</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEEnabled</span>
+</code></pre></div>
+</details>
+<p>Confirm that Pods have finished restarting and the cluster is ready before continuing.</p>
+</li>
+<li>
+<p>Run <code>CHECKPOINT</code> again before you remove the Vault configuration. Even after the extension is dropped, PostgreSQL may still touch encrypted objects during recovery after the next restart and try to read the Vault token. A checkpoint helps avoid that failure.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CHECKPOINT</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Update the Custom Resource again and remove the entire <code>extensions.pg_tde</code> section (or at least all vault-related configuration).</p>
+</li>
+<li>
+<p>Apply the changes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<p>This triggers another rolling restart so the Operator can remove the Vault secret mounts from the containers.</p>
+</li>
+</ol></section></section>
+                    <section class='print-page md-section' id='section-6-8' heading-number='6.8'>
+                        <h1>Transport encryption (TLS/SSL)<a class='headerlink' href='#section-6-8' title='Permanent link'></a>
+                        </h1>
+                    <section class="print-page" id="tls" heading-number="6.8.1"><h1 id="tls-transport-layer-security-tls">Transport layer security (TLS)<a class="headerlink" href="#tls-transport-layer-security-tls" title="Permanent link">&para;</a></h1>
 <p>The Percona Operator for PostgreSQL uses Transport Layer Security
 (TLS) cryptographic protocol for the following types of communication:</p>
 <ul>
@@ -11614,7 +12664,7 @@ Replica instances.</p>
 <li>The Operator doesn&rsquo;t delete TLS Secrets, certificates, and issuer it generated by default. </li>
 <li>The Operator removes the cert-manager Issuers and Certificates it created but keeps the Secrets.</li>
 </ul>
-<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.7.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
+<p>If you want to clean up SSL objects, set the <code>finalizers.percona.com/delete-ssl</code> finalizer in the Custom Resource. The Operator deletes the all SSL objects.</p></section><section class="print-page" id="tls-cert-manager" heading-number="6.8.2"><h1 id="tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#tls-cert-manager-configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">&para;</a></h1>
 <p>Starting with version 2.9.0, the Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for TLS certificate management. </p>
 <p>When the Operator creates a database cluster, it checks if the cert-manager is installed and if you haven&rsquo;t provided custom TLS secrets. If these conditions are met, the Operator creates the self-signed Issuer resource within the cert-manager and requests a certificate from it. The cert-manager generates certificates and stores them in Kubernetes Secrets. The Operator uses these Secrets for TLS in the cluster. The cert-manager manages the certificate lifecycle.</p>
 <p>The Percona Operator self-signed issuer is local to the Operator namespace. This self-signed issuer is created because Percona Distribution for PostgreSQL requires all certificates issued by the same CA (Certificate authority). </p>
@@ -11786,7 +12836,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class
 </code></pre></div>
 <p>The Operator creates Issuers and Certificates in the same namespace as the cluster. Secrets created by cert-manager follow the same naming as with built-in certificate generation (e.g. <code>&lt;cluster-name&gt;-cluster-ca-cert</code>, <code>&lt;cluster-name&gt;-cluster-cert</code>, <code>&lt;cluster-name&gt;-replication-cert</code>).</p>
 <h2 id="tls-cert-manager-related">Related<a class="headerlink" href="#tls-cert-manager-related" title="Permanent link">&para;</a></h2>
-<p>If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see <a href="#tls-migrate-from-cert-manager">Migrate from cert-manager to custom TLS certificates</a>.</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.7.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager">Migrate from Operator-generated or custom certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
+<p>If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see <a href="#tls-migrate-from-cert-manager">Migrate from cert-manager to custom TLS certificates</a>.</p></section><section class="print-page" id="tls-migrate-to-cert-manager" heading-number="6.8.3"><h1 id="tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager">Migrate from Operator-generated or custom certificates to cert-manager<a class="headerlink" href="#tls-migrate-to-cert-manager-migrate-from-operator-generated-or-custom-certificates-to-cert-manager" title="Permanent link">&para;</a></h1>
 <p>You can start using cert-manager for TLS certificates lifecycle management if you have previously deployed your cluster with auto-generated or custom certificates. The use of cert-manager provides automatic certificate renewal, configurable validity periods, and centralized certificate management across your Kubernetes cluster.</p>
 <p>Read more about cert-manager in <a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a>.</p>
 <h2 id="tls-migrate-to-cert-manager-migration-steps">Migration steps<a class="headerlink" href="#tls-migrate-to-cert-manager-migration-steps" title="Permanent link">&para;</a></h2>
@@ -11881,7 +12931,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>secret<span class="
 kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>&lt;cluster-name&gt;-cluster-ca-cert<span class="w"> </span>&lt;cluster-name&gt;-cluster-cert<span class="w"> </span>&lt;cluster-name&gt;-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<p>You can configure certificate validity in the Custom Resource. See <a href="#tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity</a> for details.</p></section><section class="print-page" id="tls-migrate-from-cert-manager" heading-number="6.7.4"><h1 id="tls-migrate-from-cert-manager-migrate-from-cert-manager-to-custom-tls-certificates">Migrate from cert-manager to custom TLS certificates<a class="headerlink" href="#tls-migrate-from-cert-manager-migrate-from-cert-manager-to-custom-tls-certificates" title="Permanent link">&para;</a></h1>
+<p>You can configure certificate validity in the Custom Resource. See <a href="#tls-cert-manager-configure-the-certificate-validity">Configure the certificate validity</a> for details.</p></section><section class="print-page" id="tls-migrate-from-cert-manager" heading-number="6.8.4"><h1 id="tls-migrate-from-cert-manager-migrate-from-cert-manager-to-custom-tls-certificates">Migrate from cert-manager to custom TLS certificates<a class="headerlink" href="#tls-migrate-from-cert-manager-migrate-from-cert-manager-to-custom-tls-certificates" title="Permanent link">&para;</a></h1>
 <p>When <a href="https://cert-manager.io/">cert-manager</a> is installed in the cluster and your PostgreSQL Custom Resource does <strong>not</strong> reference custom TLS Secrets, the Percona Operator for PostgreSQL creates cert-manager <code>Issuer</code> and <code>Certificate</code> resources and delegates certificate issuance and renewal to cert-manager when it creates a <strong>new</strong> cluster. The Operator does not perform its own built-in certificate rotation in that mode.</p>
 <p>If you prefer <strong>not</strong> to use cert-manager for this cluster, you can instead supply Kubernetes Secrets with your own TLS material and point the Custom Resource at them under <code>spec.secrets</code>. This guide describes how to move an <strong>existing</strong> cluster from cert-manager-managed certificates to <strong>custom</strong> certificates <strong>without rotating the cluster CA</strong>, so clients and replicas that already trust the current CA keep working.</p>
 <p>For background on cert-manager integration, see <a href="#tls-cert-manager">Configure TLS security with the Operator using cert-manager</a>. For certificate layout, Secret keys, and Common Name (CN) rules, see <a href="#tls-manual">Generate certificates manually</a>.</p>
@@ -12013,7 +13063,7 @@ kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="
 <p><strong>Restart the Operator</strong> (for example, restart its Deployment in the Operator namespace) <strong>after</strong> the cert-manager CRDs are removed so a fresh process starts <strong>without</strong> those watches.</p>
 <h2 id="tls-migrate-from-cert-manager-ongoing-lifecycle-with-custom-certificates">Ongoing lifecycle with custom certificates<a class="headerlink" href="#tls-migrate-from-cert-manager-ongoing-lifecycle-with-custom-certificates" title="Permanent link">&para;</a></h2>
 <p>With custom Secrets, <strong>you</strong> control rotation and expiry. The Operator does not renew those certificates for you. Plan updates using <a href="#tls-update">Update TLS/SSL certificates</a>.</p>
-<p>Options under <code>spec.tls</code> that tune cert-manager validity apply only when cert-manager manages the cluster; they do not apply once you fully rely on custom Secrets for TLS material.</p></section><section class="print-page" id="tls-manual" heading-number="6.7.5"><h1 id="tls-manual-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-manual-generate-certificates-manually" title="Permanent link">&para;</a></h1>
+<p>Options under <code>spec.tls</code> that tune cert-manager validity apply only when cert-manager manages the cluster; they do not apply once you fully rely on custom Secrets for TLS material.</p></section><section class="print-page" id="tls-manual" heading-number="6.8.5"><h1 id="tls-manual-generate-certificates-manually">Generate certificates manually<a class="headerlink" href="#tls-manual-generate-certificates-manually" title="Permanent link">&para;</a></h1>
 <p>You can customize TLS for the Operator by providing your own TLS certificates. To do this, you must create two Kubernetes Secret objects <em>before</em> deploying your cluster:</p>
 <ul>
 <li>One for external communication, later referenced by the <code>spec.secrets.customTLSSecret</code> field in the <code>deploy/cr.yaml</code></li>
@@ -12332,7 +13382,7 @@ external communications, and another set is for internal ones!</strong></p>
 </li>
 </ul>
 <p>You can find more on generating certificates this way in <a href="https://kubernetes.io/docs/tasks/tls/managing-tls-in-a-cluster/">official Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>.</p>
-<p>Refer to the <a href="#tls-manual-provide-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p></section><section class="print-page" id="tls-update" heading-number="6.7.6"><h1 id="tls-update-update-certificates">Update certificates<a class="headerlink" href="#tls-update-update-certificates" title="Permanent link">&para;</a></h1>
+<p>Refer to the <a href="#tls-manual-provide-existing-custom-certificates">Provide pre-existing custom certificates</a> section for the steps to create Secrets and configure the Operator. Replace the values with your files. </p></section><section class="print-page" id="tls-update" heading-number="6.8.6"><h1 id="tls-update-update-certificates">Update certificates<a class="headerlink" href="#tls-update-update-certificates" title="Permanent link">&para;</a></h1>
 <p>How your TLS certificates are updated depends on how they were created:</p>
 <ul>
 <li>Certificates generated by the Operator are long-term. The Operator automatically updates the automatically-generated certificates to ensure your applications continue operation without communication issues.</li>
@@ -12501,7 +13551,7 @@ notAfter=Jun 25 11:20:18 2033 GMT
 <span class="w">  </span>--namespace<span class="w"> </span>postgres-operator
 </code></pre></div>
 </li>
-</ol></section><section class="print-page" id="tls-verify-communication" heading-number="6.7.7"><h1 id="tls-verify-communication-check-tls-communication-to-the-cluster">Check TLS communication to the cluster<a class="headerlink" href="#tls-verify-communication-check-tls-communication-to-the-cluster" title="Permanent link">&para;</a></h1>
+</ol></section><section class="print-page" id="tls-verify-communication" heading-number="6.8.7"><h1 id="tls-verify-communication-check-tls-communication-to-the-cluster">Check TLS communication to the cluster<a class="headerlink" href="#tls-verify-communication-check-tls-communication-to-the-cluster" title="Permanent link">&para;</a></h1>
 <p>You can check TLS communication using <code>psql</code>, the standard interactive terminal-based frontend to PostgreSQL. </p>
 <p>For this purpose, we will create a <code>pg-client</code> Deployment, which includes the necessary tools. We will use the existing Secret object with the TLS certificates, generated by the Operator.</p>
 <p>Follow these steps:</p>
@@ -12604,7 +13654,7 @@ Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </spa
 <span class="nv">cluster1</span><span class="o">=</span>&gt;
 </code></pre></div>
 </li>
-</ol></section></section><section class="print-page" id="telemetry" heading-number="6.8"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
+</ol></section></section><section class="print-page" id="telemetry" heading-number="6.9"><h1 id="telemetry-telemetry">Telemetry<a class="headerlink" href="#telemetry-telemetry" title="Permanent link">&para;</a></h1>
 <p>The Telemetry function enables the Operator gathering and sending basic anonymous data to Percona, which helps us to determine where to focus the development and what is the uptake for each release of Operator. </p>
 <p>The following information is gathered:</p>
 <ul>
@@ -12639,7 +13689,7 @@ Custom Resource ID is a unique ID generated by Kubernetes for each Custom Resour
 <span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DISABLE_TELEMETRY</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
 <span class="nn">...</span>
-</code></pre></div></section><section class="print-page" id="reconciliation-concurrency" heading-number="6.9"><h1 id="reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation">Configure concurrency for a cluster reconciliation<a class="headerlink" href="#reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation" title="Permanent link">&para;</a></h1>
+</code></pre></div></section><section class="print-page" id="reconciliation-concurrency" heading-number="6.10"><h1 id="reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation">Configure concurrency for a cluster reconciliation<a class="headerlink" href="#reconciliation-concurrency-configure-concurrency-for-a-cluster-reconciliation" title="Permanent link">&para;</a></h1>
 <p>Reconciliation is the process by which the Operator continuously compares the desired state with the actual state of the cluster. The desired state is defined in a Kubernetes custom resource, like PostgresCluster. </p>
 <p>If the actual state does not match the desired state, the Operator takes actions to bring the system into alignment—such as creating, updating, or deleting Kubernetes resources (Pods, Services, ConfigMaps, etc.) or performing database-specific operations like scaling, backups, or failover.</p>
 <p>Reconciliation is triggered by a variety of events, including:</p>
@@ -12731,10 +13781,10 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>deployment<span class="w"> </span>percona-postgresql-operator<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.template.spec.containers[0].env[?(@.name=="PGO_WORKERS")].value}'</span>
 </code></pre></div>
 <p>The output should be <code>2</code>.</p></section>
-                    <section class='print-page md-section' id='section-6-10' heading-number='6.10'>
-                        <h1>Environment variables<a class='headerlink' href='#section-6-10' title='Permanent link'></a>
+                    <section class='print-page md-section' id='section-6-11' heading-number='6.11'>
+                        <h1>Environment variables<a class='headerlink' href='#section-6-11' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="env-vars" heading-number="6.10.1"><h1 id="env-vars-define-environment-variables">Define environment variables<a class="headerlink" href="#env-vars-define-environment-variables" title="Permanent link">&para;</a></h1>
+                    <section class="print-page" id="env-vars" heading-number="6.11.1"><h1 id="env-vars-define-environment-variables">Define environment variables<a class="headerlink" href="#env-vars-define-environment-variables" title="Permanent link">&para;</a></h1>
 <p>You can configure environment variables in Percona Operator for PostgreSQL for the following purposes:</p>
 <ol>
 <li><strong>Operator environment variables</strong> – To control the Operator&rsquo;s behavior, such as logging, telemetry, and which namespaces it watches. You set these in the Operator Deployment (for example in <code>deploy/bundle.yaml</code> or via the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">Helm chart</a> values).</li>
@@ -12766,7 +13816,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 </table>
 <h2 id="env-vars-next-steps">Next steps<a class="headerlink" href="#env-vars-next-steps" title="Permanent link">&para;</a></h2>
 <p><a class="md-button" href="#env-var-operator">Configure Operator environment variables</a>
-<a class="md-button" href="#env-var-cluster">Environment variables for cluster components</a></p></section><section class="print-page" id="env-var-operator" heading-number="6.10.2"><h1 id="env-var-operator-configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#env-var-operator-configure-the-operator-environment-variables" title="Permanent link">&para;</a></h1>
+<a class="md-button" href="#env-var-cluster">Environment variables for cluster components</a></p></section><section class="print-page" id="env-var-operator" heading-number="6.11.2"><h1 id="env-var-operator-configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#env-var-operator-configure-the-operator-environment-variables" title="Permanent link">&para;</a></h1>
 <p>You can configure the Percona Operator for PostgreSQL behavior by setting environment variables in the Operator Deployment. You can set them when you install the Operator in the following ways:</p>
 <ul>
 <li>For installations via <code>kubectl</code>, edit the Operator Deployment manifest <code>deploy/operator.yaml</code> or <code>deploy/cw-operator.yaml</code>. Alternatively you can modify the Deployment resource in <code>deploy/bundle.yaml</code>, or <code>deploy/cw-bundle.yaml</code> files.</li>
@@ -13160,7 +14210,7 @@ percona-postgresql-operator   0/1     1            0           3h50m
 <h3 id="env-var-operator-using-helm">Using Helm<a class="headerlink" href="#env-var-operator-using-helm" title="Permanent link">&para;</a></h3>
 <p>For Helm installations, set or change environment variables through Helm values (for example <code>logLevel</code>, <code>logStructured</code>, <code>disableTelemetry</code>, <code>watchNamespace</code>, <code>watchAllNamespaces</code>). Refer to the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">pg-operator chart</a> documentation for the exact value names and syntax. To add variables not exposed by the chart, use a chart value that merges extra env entries if supported, or switch to patching the Deployment after install.</p>
 <h2 id="env-var-operator-after-the-update">After the update<a class="headerlink" href="#env-var-operator-after-the-update" title="Permanent link">&para;</a></h2>
-<p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p></section><section class="print-page" id="env-var-cluster" heading-number="6.10.3"><h1 id="env-var-cluster-define-environment-variables-for-cluster-components">Define environment variables for cluster components<a class="headerlink" href="#env-var-cluster-define-environment-variables-for-cluster-components" title="Permanent link">&para;</a></h1>
+<p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p></section><section class="print-page" id="env-var-cluster" heading-number="6.11.3"><h1 id="env-var-cluster-define-environment-variables-for-cluster-components">Define environment variables for cluster components<a class="headerlink" href="#env-var-cluster-define-environment-variables-for-cluster-components" title="Permanent link">&para;</a></h1>
 <p>To pass environment variables into PostgreSQL, pgBackRest, or pgBouncer Pods, use the Custom Resource options described in <a href="#operator">Custom Resource options</a>. For example:</p>
 <ul>
 <li><strong>PostgreSQL instances:</strong> use <code>spec.instances[].env</code>, <code>spec.instances[].envFrom</code>, or reference a Secret via <code>spec.instances[].envVarsSecret</code>.</li>
@@ -19629,7 +20679,7 @@ and
 <p><a class="md-button" href="#connect"><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.56 14.723a.5.5 0 0 0-.057-.12q-.21-.395-1.007-.231c-1.654.34-2.294.13-2.526-.02 1.342-2.048 2.445-4.522 3.041-6.83.272-1.05.798-3.523.122-4.73a1.6 1.6 0 0 0-.15-.236C21.693.91 19.8.025 17.51.001c-1.495-.016-2.77.346-3.116.479a10 10 0 0 0-.516-.082 8 8 0 0 0-1.312-.127c-1.182-.019-2.203.264-3.05.84C8.66.79 4.729-.534 2.296 1.19.935 2.153.309 3.873.43 6.304c.041.818.507 3.334 1.243 5.744q.69 2.26 1.433 3.582.83 1.493 1.714 1.79c.448.148 1.133.143 1.858-.729a56 56 0 0 1 1.945-2.206c.435.235.906.362 1.39.377v.004a11 11 0 0 0-.247.305c-.339.43-.41.52-1.5.745-.31.064-1.134.233-1.146.811a.6.6 0 0 0 .091.327c.227.423.922.61 1.015.633 1.335.333 2.505.092 3.372-.679-.017 2.231.077 4.418.345 5.088.221.553.762 1.904 2.47 1.904q.375.001.829-.094c1.782-.382 2.556-1.17 2.855-2.906.15-.87.402-2.875.539-4.101.017-.07.036-.12.057-.136 0 0 .07-.048.427.03l.044.007.254.022.015.001c.847.039 1.911-.142 2.531-.43.644-.3 1.806-1.033 1.595-1.67M2.37 11.876c-.744-2.435-1.178-4.885-1.212-5.571-.109-2.172.417-3.683 1.562-4.493 1.837-1.299 4.84-.54 6.108-.13l-.01.01C6.795 3.734 6.843 7.226 6.85 7.44c0 .082.006.199.016.36.034.586.1 1.68-.074 2.918-.16 1.15.194 2.276.973 3.089q.12.126.252.237c-.347.371-1.1 1.193-1.903 2.158-.568.682-.96.551-1.088.508-.392-.13-.813-.587-1.239-1.322-.48-.839-.963-2.032-1.415-3.512m6.007 5.088a1.6 1.6 0 0 1-.432-.178c.089-.039.237-.09.483-.14 1.284-.265 1.482-.451 1.915-1 .099-.127.211-.27.367-.443a.4.4 0 0 0 .074-.13c.17-.151.272-.11.436-.042.156.065.308.26.37.475.03.102.062.295-.045.445-.904 1.266-2.222 1.25-3.168 1.013m2.094-3.988-.052.14c-.133.357-.257.689-.334 1.004-.667-.002-1.317-.288-1.81-.803-.628-.655-.913-1.566-.783-2.5.183-1.308.116-2.447.08-3.059l-.013-.22c.296-.262 1.666-.996 2.643-.772.446.102.718.406.83.928.585 2.704.078 3.83-.33 4.736a9 9 0 0 0-.23.546m7.364 4.572q-.024.266-.062.596l-.146.438a.4.4 0 0 0-.018.108c-.006.475-.054.649-.115.87-.064.229-.135.488-.18 1.057-.11 1.414-.878 2.227-2.417 2.556-1.515.325-1.784-.496-2.02-1.221a7 7 0 0 0-.078-.227c-.215-.586-.19-1.412-.157-2.555.016-.561-.025-1.901-.33-2.646q.006-.44.019-.892a.4.4 0 0 0-.016-.113 2 2 0 0 0-.044-.208c-.122-.428-.42-.786-.78-.935-.142-.059-.403-.167-.717-.087.067-.276.183-.587.309-.925l.053-.142c.06-.16.134-.325.213-.5.426-.948 1.01-2.246.376-5.178-.237-1.098-1.03-1.634-2.232-1.51-.72.075-1.38.366-1.709.532a6 6 0 0 0-.196.104c.092-1.106.439-3.174 1.736-4.482a4 4 0 0 1 .303-.276.35.35 0 0 0 .145-.064c.752-.57 1.695-.85 2.802-.833q.616.01 1.174.081c1.94.355 3.244 1.447 4.036 2.383.814.962 1.255 1.931 1.431 2.454-1.323-.134-2.223.127-2.68.78-.992 1.418.544 4.172 1.282 5.496.135.242.252.452.289.54.24.583.551.972.778 1.256.07.087.138.171.189.245-.4.116-1.12.383-1.055 1.717-.013.156-.043.447-.084.815-.046.208-.07.46-.1.766m.89-1.621c-.04-.832.27-.919.597-1.01l.135-.041a1 1 0 0 0 .134.103c.57.376 1.583.421 3.007.134-.202.177-.519.4-.953.601-.41.19-1.096.333-1.747.364-.72.034-1.086-.08-1.173-.151m.57-9.271c-.006.35-.054.669-.105 1.001-.055.358-.112.728-.127 1.177-.014.436.04.89.093 1.33.107.887.216 1.8-.207 2.701a4 4 0 0 1-.188-.385 8 8 0 0 0-.325-.617c-.616-1.104-2.057-3.69-1.32-4.744.38-.543 1.342-.566 2.179-.463m.228 7.013-.085-.107-.035-.044c.726-1.2.584-2.387.457-3.439-.052-.432-.1-.84-.088-1.222.013-.407.066-.755.118-1.092.064-.415.13-.844.111-1.35a.6.6 0 0 0 .012-.19c-.046-.486-.6-1.938-1.73-3.253a7.8 7.8 0 0 0-2.688-2.04A9.3 9.3 0 0 1 17.62.746c2.052.046 3.675.814 4.824 2.283a1 1 0 0 1 .067.1c.723 1.356-.276 6.275-2.987 10.54m-8.816-6.116c-.025.18-.31.423-.621.423a1 1 0 0 1-.081-.006.8.8 0 0 1-.506-.315c-.046-.06-.12-.178-.106-.285a.22.22 0 0 1 .093-.149c.118-.089.352-.122.61-.086.316.044.642.193.61.418m7.93-.411c.011.08-.049.2-.153.31a.72.72 0 0 1-.408.223 1 1 0 0 1-.075.005c-.293 0-.541-.234-.56-.371-.024-.177.264-.31.56-.352.298-.042.612.009.636.185"/></svg></span> Connect to PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg></span></a></p></section><section class="print-page" id="custom-extensions" heading-number="9.6"><h1 id="custom-extensions-manage-postgresql-extensions">Manage PostgreSQL extensions<a class="headerlink" href="#custom-extensions-manage-postgresql-extensions" title="Permanent link">&para;</a></h1>
 <p>One of the specific PostgreSQL features is the ability to provide it with additional functionality via <a href="https://www.postgresql.org/download/products/6-postgresql-extensions/">Extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. Percona Distribution for PostgreSQL <a href="https://docs.percona.com/postgresql/latest/extensions.html">comes with a number of extensions <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>. These extensions are available for the database cluster managed by the Operator as well.</p>
 <h2 id="custom-extensions-built-in-extensions">Built-in extensions<a class="headerlink" href="#custom-extensions-built-in-extensions" title="Permanent link">&para;</a></h2>
-<p>You can enable or disable built-in extensions in the <code>extensions</code> section of your <code>deploy/cr.yaml</code> file. Set an option to <code>true</code> to enable an extension, or to <code>false</code> to disable it. To see which extensions are enabled by default, check the <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.0.0/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Custom Resource manifest.</p>
+<p>You can enable or disable built-in extensions under <code>spec.extensions</code> in your <code>deploy/cr.yaml</code> file. Set <code>enabled</code> to <code>true</code> or <code>false</code> for each extension. To see which extensions are enabled by default, check the <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.0.0/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> Custom Resource manifest.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">extensions</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">pg_stat_monitor</span><span class="p p-Indicator">:</span>
@@ -25746,10 +26796,6 @@ name used for backups</p>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
 <td><code>"my-bucket"</code></td>
 </tr>
-<tr>
-<td>.</td>
-<td></td>
-</tr>
 </tbody>
 </table>
 <h3 id="operator-backupspgbackrestreposs3endpoint"><code>backups.pgbackrest.repos.s3.endpoint</code><a class="headerlink" href="#operator-backupspgbackrestreposs3endpoint" title="Permanent link">&para;</a></h3>
@@ -26915,6 +27961,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </table>
 <h3 id="operator-extensionsbuiltinpg_stat_monitor"><code>extensions.builtin.pg_stat_monitor</code><a class="headerlink" href="#operator-extensionsbuiltinpg_stat_monitor" title="Permanent link">&para;</a></h3>
 <p>Enable or disable <a href="https://docs.percona.com/pg-stat-monitor/index.html">pg_stat_monitor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension. Disabled by default starting with version 2.9.0.</p>
+<p>This option is deprecated. Use the <a href="#operator-extensionspg_stat_monitor"><code>extensions.pg_stat_monitor</code></a> option instead.</p>
 <table>
 <thead>
 <tr>
@@ -26931,6 +27978,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </table>
 <h3 id="operator-extensionsbuiltinpg_stat_statements"><code>extensions.builtin.pg_stat_statements</code><a class="headerlink" href="#operator-extensionsbuiltinpg_stat_statements" title="Permanent link">&para;</a></h3>
 <p>Enable or disable <a href="https://www.postgresql.org/docs/current/pgstatstatements.html">pg_stat_statements <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<p>This option is deprecated. Use the <a href="#operator-extensionspg_stat_statements"><code>extensions.pg_stat_statements</code></a> option instead.</p>
 <table>
 <thead>
 <tr>
@@ -26947,6 +27995,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </table>
 <h3 id="operator-extensionsbuiltinpg_audit"><code>extensions.builtin.pg_audit</code><a class="headerlink" href="#operator-extensionsbuiltinpg_audit" title="Permanent link">&para;</a></h3>
 <p>Enable or disable <a href="https://www.pgaudit.org/">PGAudit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<p>This option is deprecated. Use the <a href="#operator-extensionspg_audit"><code>extensions.pg_audit</code></a> option instead.</p>
 <table>
 <thead>
 <tr>
@@ -26963,6 +28012,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </table>
 <h3 id="operator-extensionsbuiltinpgvector"><code>extensions.builtin.pgvector</code><a class="headerlink" href="#operator-extensionsbuiltinpgvector" title="Permanent link">&para;</a></h3>
 <p>Enable or disable <a href="https://github.com/pgvector/pgvector">pgvector <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension. <strong>This extension is not compatible with PostgreSQL 12!</strong></p>
+<p>This option is deprecated. Use the <a href="#operator-extensionspgvector"><code>extensions.pgvector</code></a> option instead.</p>
 <table>
 <thead>
 <tr>
@@ -26979,6 +28029,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 </table>
 <h3 id="operator-extensionsbuiltinpg_repack"><code>extensions.builtin.pg_repack</code><a class="headerlink" href="#operator-extensionsbuiltinpg_repack" title="Permanent link">&para;</a></h3>
 <p>Enable or disable <a href="https://github.com/reorg/pg_repack">pg_repack <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension. </p>
+<p>This option is deprecated. Use the <a href="#operator-extensionspg_repack"><code>extensions.pg_repack</code></a> option instead.</p>
 <table>
 <thead>
 <tr>
@@ -26990,6 +28041,247 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
 <td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_stat_monitor"><code>extensions.pg_stat_monitor</code><a class="headerlink" href="#operator-extensionspg_stat_monitor" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://docs.percona.com/pg-stat-monitor/index.html">pg_stat_monitor <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_stat_statements"><code>extensions.pg_stat_statements</code><a class="headerlink" href="#operator-extensionspg_stat_statements" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://www.postgresql.org/docs/current/pgstatstatements.html">pg_stat_statements <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_audit"><code>extensions.pg_audit</code><a class="headerlink" href="#operator-extensionspg_audit" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://www.pgaudit.org/">PGAudit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspgvector"><code>extensions.pgvector</code><a class="headerlink" href="#operator-extensionspgvector" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://github.com/pgvector/pgvector">pgvector <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension. <strong>This extension is not compatible with PostgreSQL 12!</strong></p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_repack"><code>extensions.pg_repack</code><a class="headerlink" href="#operator-extensionspg_repack" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://github.com/reorg/pg_repack">pg_repack <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_cron"><code>extensions.pg_cron</code><a class="headerlink" href="#operator-extensionspg_cron" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://github.com/citusdata/pg_cron">pg_cron <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionsset_user"><code>extensions.set_user</code><a class="headerlink" href="#operator-extensionsset_user" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://github.com/pgaudit/set_user">set_user <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdeenabled"><code>extensions.pg_tde.enabled</code><a class="headerlink" href="#operator-extensionspg_tdeenabled" title="Permanent link">&para;</a></h3>
+<p>Enable or disable <a href="https://docs.percona.com/pg-tde/index.html">pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> PostgreSQL extension for data-at-rest encryption. Read more in <a href="#encryption">Data-at-rest encryption</a>.</p>
+<p>This extension is compatible <strong>with Percona Distribution for PostgreSQL 17 and above</strong>. When you set <code>enabled</code> to <code>true</code>, you must also configure the key provider (<code>extensions.pg_tde.vault</code> section). You cannot remove the <code>pg_tde</code> or <code>vault</code> sections while encryption is still enabled; first set <code>enabled</code> to <code>false</code> and wait for Pod restarts. See <a href="#encryption-disable">Disable encryption</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdewalencryption"><code>extensions.pg_tde.walEncryption</code><a class="headerlink" href="#operator-extensionspg_tdewalencryption" title="Permanent link">&para;</a></h3>
+<p>Encrypt write-ahead log (WAL) segments on disk. Requires <code>extensions.pg_tde.enabled</code> to be <code>true</code>. You can set <code>walEncryption</code> in the same change as enabling <code>pg_tde</code>. Read more in <a href="#encryption-wal-encryption">WAL encryption</a> and <a href="#encryption-setup-configure-pg_tde-in-the-custom-resource-manifest">Configure pg_tde</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6m0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4m0-7c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3"/></svg></span> boolean</td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaulthost"><code>extensions.pg_tde.vault.host</code><a class="headerlink" href="#operator-extensionspg_tdevaulthost" title="Permanent link">&para;</a></h3>
+<p>The Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>. Use the HTTPS protocol for encrypted communication with TLS and HTTP protocol for communication without TLS.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>https://vault-service:8200</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaultmountpath"><code>extensions.pg_tde.vault.mountPath</code><a class="headerlink" href="#operator-extensionspg_tdevaultmountpath" title="Permanent link">&para;</a></h3>
+<p>The secrets mount path for a KV secrets engine v2 in Vault. Default path is <code>secret/data</code>. Use the path you specified when creating the secrets engine in Vault (for example, <code>tde</code>).</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>tde</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaulttokensecretname"><code>extensions.pg_tde.vault.tokenSecret.name</code><a class="headerlink" href="#operator-extensionspg_tdevaulttokensecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the Secret object that stores a token to access Vault.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>pg-tde-vault-secret</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaulttokensecretkey"><code>extensions.pg_tde.vault.tokenSecret.key</code><a class="headerlink" href="#operator-extensionspg_tdevaulttokensecretkey" title="Permanent link">&para;</a></h3>
+<p>Specifies the key in the Secret that holds the Vault token.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>token</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaultcasecretname"><code>extensions.pg_tde.vault.caSecret.name</code><a class="headerlink" href="#operator-extensionspg_tdevaultcasecretname" title="Permanent link">&para;</a></h3>
+<p>The name of the Secret object that stores the CA certificate for TLS verification with Vault. Required for TLS communication with Vault, optional if you use HTTP. You can use the same Secret for the token and the CA certificate.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>pg-tde-vault-secret</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="operator-extensionspg_tdevaultcasecretkey"><code>extensions.pg_tde.vault.caSecret.key</code><a class="headerlink" href="#operator-extensionspg_tdevaultcasecretkey" title="Permanent link">&para;</a></h3>
+<p>Specifies the key in the Secret that holds the CA certificate for Vault.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"/></svg></span> string</td>
+<td><code>ca.crt</code></td>
 </tr>
 </tbody>
 </table>
@@ -27333,6 +28625,18 @@ ReadyForBackup
 2026-07-22T12:07:05Z
 </code></pre></div>
 </details>
+<p><strong>Example 4. Check data-at-rest encryption (<code>pg_tde</code>) status:</strong></p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .status.conditions[?(@.type=="PGTDEEnabled")]}{.type}{"\n"}{.status}{"\n"}{.reason}{"\n"}{end}'</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>PGTDEEnabled
+True
+Enabled
+</code></pre></div>
+</details>
+<p>Also check <code>PGTDEVaultProviderReady</code> the same way when you need to confirm that the Vault key provider matches the Custom Resource.</p>
 <h2 id="cr-statuses-perconapgcluster-status">PerconaPGCluster status<a class="headerlink" href="#cr-statuses-perconapgcluster-status" title="Permanent link">&para;</a></h2>
 <p>The main cluster state is recorded in <code>status.state</code>. For component-level readiness, see <code>status.postgres</code> and <code>status.pgbouncer</code>. Backup repository details appear under <code>status.pgbackrest</code>, and Patroni details under <code>status.patroni</code>.</p>
 <p>Common fields:</p>
@@ -27441,6 +28745,14 @@ ReadyForBackup
 <td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="#standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
 </tr>
 <tr>
+<td><code>PGTDEEnabled</code></td>
+<td>The <code>pg_tde</code> extension is created in all databases and added to <code>shared_preload_libraries</code>. Also controls whether instance Pods mount the Vault volume. See <a href="#encryption-status-and-conditions">Data-at-rest encryption</a>.</td>
+</tr>
+<tr>
+<td><code>PGTDEVaultProviderReady</code></td>
+<td>The Vault key provider in PostgreSQL matches the Custom Resource configuration. Becomes <code>False</code> during credential changes or if the change stalls or fails. See <a href="#encryption-status-and-conditions">Data-at-rest encryption</a>.</td>
+</tr>
+<tr>
 <td><code>APIGroupMigration</code></td>
 <td>Migration of child object owner references to the new upstream API group is complete, in progress, or not needed. Relevant for upgrades to Operator 3.0.0 and later. See <a href="#update-operator">Upgrade the Operator</a>.</td>
 </tr>
@@ -27482,6 +28794,8 @@ ReadyForBackup
 <li><code>AllConditionsAreTrue</code>, <code>PGBackRestRepoHostReady</code>, <code>PGBackRestReplicaCreate</code> (for <code>ReadyForBackup</code>)</li>
 <li><code>RepoHostReady</code>, <code>RepoHostNotReady</code>, <code>RepoHostStatusMissing</code></li>
 <li><code>LagDetected</code>, <code>LagNotDetected</code>, <code>ErrorGettingLag</code>, <code>MainSiteNotFound</code> (for <code>StandbyLagging</code>)</li>
+<li><code>Enabled</code>, <code>Disabled</code> (for <code>PGTDEEnabled</code>)</li>
+<li><code>Configured</code> (for <code>PGTDEVaultProviderReady</code>)</li>
 <li><code>APIGroupMigrationCompleted</code>, <code>APIGroupMigrationInProgress</code>, <code>APIGroupMigrationNotNeeded</code></li>
 <li><code>ReadyForRestore</code>, <code>RestoreInPlaceRequested</code>, <code>PGBackRestRestoreComplete</code>, <code>PGBackRestRestoreFailed</code></li>
 <li><code>ManualBackupComplete</code>, <code>ManualBackupFailed</code></li>
@@ -27891,7 +29205,7 @@ ReadyForBackup
 </table>
 <h3 id="immutable-options-extension-parameters">Extension parameters<a class="headerlink" href="#immutable-options-extension-parameters" title="Permanent link">&para;</a></h3>
 <p>When you enable built-in extensions, the Operator appends or sets the following parameters. You cannot override these values while the extension is enabled.</p>
-<p><strong>When <code>spec.extensions.builtin.pg_stat_statements</code> is <code>true</code>:</strong></p>
+<p><strong>When <code>spec.extensions.pg_stat_statements.enabled</code> is <code>true</code>:</strong></p>
 <table>
 <thead>
 <tr>
@@ -27910,7 +29224,7 @@ ReadyForBackup
 </tr>
 </tbody>
 </table>
-<p><strong>When <code>spec.extensions.builtin.pg_stat_monitor</code> is <code>true</code>:</strong></p>
+<p><strong>When <code>spec.extensions.pg_stat_monitor.enabled</code> is <code>true</code>:</strong></p>
 <table>
 <thead>
 <tr>
@@ -27929,7 +29243,7 @@ ReadyForBackup
 </tr>
 </tbody>
 </table>
-<p><strong>When <code>spec.extensions.builtin.pg_audit</code> is <code>true</code>:</strong></p>
+<p><strong>When <code>spec.extensions.pg_audit.enabled</code> is <code>true</code>:</strong></p>
 <table>
 <thead>
 <tr>
@@ -27941,6 +29255,25 @@ ReadyForBackup
 <tr>
 <td><code>shared_preload_libraries</code></td>
 <td>Appended with <code>pgaudit</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>When <code>spec.extensions.pg_tde.enabled</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>pg_tde</code></td>
+</tr>
+<tr>
+<td><code>pg_tde.wal_encrypt</code></td>
+<td><code>on</code> when <code>spec.extensions.pg_tde.walEncryption</code> is <code>true</code>; otherwise <code>off</code></td>
 </tr>
 </tbody>
 </table>
@@ -30807,30 +32140,37 @@ In addition to that:</p>
 .print-site-enumerate-headings #annotations > h1:before { content: '6.6 ' }
 
 .print-site-enumerate-headings #section-6-7 > h1:before { content: '6.7 ' }
-.print-site-enumerate-headings #tls > h1:before { content: '6.7.1 ' }
+.print-site-enumerate-headings #encryption > h1:before { content: '6.7.1 ' }
 
-.print-site-enumerate-headings #tls-cert-manager > h1:before { content: '6.7.2 ' }
+.print-site-enumerate-headings #encryption-setup > h1:before { content: '6.7.2 ' }
 
-.print-site-enumerate-headings #tls-migrate-to-cert-manager > h1:before { content: '6.7.3 ' }
+.print-site-enumerate-headings #encryption-disable > h1:before { content: '6.7.3 ' }
 
-.print-site-enumerate-headings #tls-migrate-from-cert-manager > h1:before { content: '6.7.4 ' }
+.print-site-enumerate-headings #section-6-8 > h1:before { content: '6.8 ' }
+.print-site-enumerate-headings #tls > h1:before { content: '6.8.1 ' }
 
-.print-site-enumerate-headings #tls-manual > h1:before { content: '6.7.5 ' }
+.print-site-enumerate-headings #tls-cert-manager > h1:before { content: '6.8.2 ' }
 
-.print-site-enumerate-headings #tls-update > h1:before { content: '6.7.6 ' }
+.print-site-enumerate-headings #tls-migrate-to-cert-manager > h1:before { content: '6.8.3 ' }
 
-.print-site-enumerate-headings #tls-verify-communication > h1:before { content: '6.7.7 ' }
+.print-site-enumerate-headings #tls-migrate-from-cert-manager > h1:before { content: '6.8.4 ' }
 
-.print-site-enumerate-headings #telemetry > h1:before { content: '6.8 ' }
+.print-site-enumerate-headings #tls-manual > h1:before { content: '6.8.5 ' }
 
-.print-site-enumerate-headings #reconciliation-concurrency > h1:before { content: '6.9 ' }
+.print-site-enumerate-headings #tls-update > h1:before { content: '6.8.6 ' }
 
-.print-site-enumerate-headings #section-6-10 > h1:before { content: '6.10 ' }
-.print-site-enumerate-headings #env-vars > h1:before { content: '6.10.1 ' }
+.print-site-enumerate-headings #tls-verify-communication > h1:before { content: '6.8.7 ' }
 
-.print-site-enumerate-headings #env-var-operator > h1:before { content: '6.10.2 ' }
+.print-site-enumerate-headings #telemetry > h1:before { content: '6.9 ' }
 
-.print-site-enumerate-headings #env-var-cluster > h1:before { content: '6.10.3 ' }
+.print-site-enumerate-headings #reconciliation-concurrency > h1:before { content: '6.10 ' }
+
+.print-site-enumerate-headings #section-6-11 > h1:before { content: '6.11 ' }
+.print-site-enumerate-headings #env-vars > h1:before { content: '6.11.1 ' }
+
+.print-site-enumerate-headings #env-var-operator > h1:before { content: '6.11.2 ' }
+
+.print-site-enumerate-headings #env-var-cluster > h1:before { content: '6.11.3 ' }
 
 .print-site-enumerate-headings #section-7 > h1:before { content: '7 ' }
 .print-site-enumerate-headings #section-7-1 > h1:before { content: '7.1 ' }

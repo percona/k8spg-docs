@@ -716,6 +716,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#data-at-rest-encryption-pg_tde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data-at-rest encryption (pg_tde)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#community-postgresql-images" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -1753,7 +1764,7 @@
   <span class="md-ellipsis">
     
   
-    Transport encryption (TLS/SSL)
+    Transparent data encryption (TDE)
   
 
     
@@ -1766,6 +1777,145 @@
         
         <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_6_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Transparent data encryption (TDE)
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    About TDE
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-setup.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="encryption-disable.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Disable encryption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_8" id="__nav_6_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Transport encryption (TLS/SSL)
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_8">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -2050,10 +2200,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_10" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_11" >
         
           
-          <label class="md-nav__link" for="__nav_6_10" id="__nav_6_10_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_6_11" id="__nav_6_11_label" tabindex="0">
             
   
   
@@ -2071,8 +2221,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_10_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_6_10">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_11">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -6058,6 +6208,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#data-at-rest-encryption-pg_tde" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Data-at-rest encryption (pg_tde)
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#community-postgresql-images" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -6176,6 +6337,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="tablespaces.html#deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
 </ul>
+<h2 id="data-at-rest-encryption-pg_tde">Data-at-rest encryption (<code>pg_tde</code>)<a class="headerlink" href="#data-at-rest-encryption-pg_tde" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.</li>
+<li>Before you disable <code>pg_tde</code>, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See <a href="encryption-disable.html">Disable encryption</a>.</li>
+</ul>
 <h2 id="community-postgresql-images">Community PostgreSQL images<a class="headerlink" href="#community-postgresql-images" title="Permanent link">&para;</a></h2>
 <p>Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use <a href="images.html">Percona certified images</a>. See <a href="install-community.html">Deploy a cluster with community PostgreSQL images</a> for deployment steps.</p>
 <h2 id="node-memory-overcommit">Node memory overcommit<a class="headerlink" href="#node-memory-overcommit" title="Permanent link">&para;</a></h2>
@@ -6226,7 +6392,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 11, 2026 06:13:01 UTC">August 11, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
       
         <br>
         Created:

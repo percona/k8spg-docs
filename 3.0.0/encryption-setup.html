@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Storage-related objects worth to check in case of problems are the following ones:">
+        <meta name="description" content="This document guides you through setting up transparent data encryption (TDE) with pg_tde and HashiCorp Vault as the key provider. To learn more about TDE and how it works, see Transparent data encryption.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/debug-storage.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/encryption-setup.html">
       
       
-        <link rel="prev" href="debug.html">
+        <link rel="prev" href="encryption.html">
       
       
-        <link rel="next" href="debug-shell.html">
+        <link rel="next" href="encryption-disable.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Check storage - Percona Operator for PostgreSQL</title>
+        <title>Configure TDE with HashiCorp Vault - Percona Operator for PostgreSQL</title>
       
     
     
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Check storage" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Configure TDE with HashiCorp Vault" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#check-storage-related-objects" class="md-skip">
+        <a href="#configure-transparent-data-encryption-tde-with-hashicorp-vault" class="md-skip">
           Skip to content
         </a>
       
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Check storage
+            Configure TDE with HashiCorp Vault
             
           </span>
         </div>
@@ -1280,18 +1280,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1312,7 +1314,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1578,18 +1580,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" checked>
         
           
           <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
@@ -1610,7 +1614,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1653,10 +1657,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="encryption-setup.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure TDE with HashiCorp Vault
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="encryption-setup.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1672,6 +1703,241 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#assumptions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assumptions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prerequisites
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-your-environment" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare your environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generate-tls-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate TLS certificates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generate TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-the-private-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate the private key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-certificate-signing-request-csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the Certificate Signing Request (CSR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-the-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue the certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieve-the-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieve the certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store-certificates-in-kubernetes-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Store certificates in Kubernetes secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-vault-with-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Vault with TLS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-and-unseal-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize and unseal Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-non-root-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a non-root token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-secret-for-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Secret for Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-pg_tde-in-the-custom-resource-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure pg_tde in the Custom Resource manifest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-the-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify the encryption
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clean up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -4423,20 +4689,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
@@ -4457,7 +4721,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4528,37 +4792,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Check storage
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="debug-storage.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="debug-storage.html" class="md-nav__link">
         
   
   
@@ -4574,59 +4811,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pvc" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PVC
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pv" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PV
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-storageclass" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the StorageClass
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6022,7 +6206,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/debug-storage.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/encryption-setup.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6081,10 +6265,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#check-the-pvc" class="md-nav__link">
+  <a href="#assumptions" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check the PVC
+        Assumptions
       
     </span>
   </a>
@@ -6092,10 +6276,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-the-pv" class="md-nav__link">
+  <a href="#prerequisites" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check the PV
+        Prerequisites
       
     </span>
   </a>
@@ -6103,10 +6287,192 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
-  <a href="#check-the-storageclass" class="md-nav__link">
+  <a href="#prepare-your-environment" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check the StorageClass
+        Prepare your environment
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#generate-tls-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate TLS certificates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Generate TLS certificates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#generate-the-private-key" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Generate the private key
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-the-certificate-signing-request-csr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create the Certificate Signing Request (CSR)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#issue-the-certificate" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Issue the certificate
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#retrieve-the-certificates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Retrieve the certificates
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#store-certificates-in-kubernetes-secrets" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Store certificates in Kubernetes secrets
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#install-vault-with-tls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install Vault with TLS
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#initialize-and-unseal-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Initialize and unseal Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-non-root-token" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a non-root token
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#create-a-secret-for-vault" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create a Secret for Vault
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#configure-pg_tde-in-the-custom-resource-manifest" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Configure pg_tde in the Custom Resource manifest
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#verify-the-encryption" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Verify the encryption
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#clean-up" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clean up
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
       
     </span>
   </a>
@@ -6139,204 +6505,697 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/debug-storage.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/encryption-setup.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="check-storage-related-objects">Check Storage-related objects<a class="headerlink" href="#check-storage-related-objects" title="Permanent link">&para;</a></h1>
-<p>Storage-related objects worth to check in case of problems are the following ones:</p>
+<h1 id="configure-transparent-data-encryption-tde-with-hashicorp-vault">Configure transparent data encryption (TDE) with HashiCorp Vault<a class="headerlink" href="#configure-transparent-data-encryption-tde-with-hashicorp-vault" title="Permanent link">&para;</a></h1>
+<p>This document guides you through setting up transparent data encryption (TDE) with <code>pg_tde</code> and HashiCorp Vault as the key provider. To learn more about TDE and how it works, see <a href="encryption.html">Transparent data encryption</a>.</p>
+<h2 id="assumptions">Assumptions<a class="headerlink" href="#assumptions" title="Permanent link">&para;</a></h2>
+<ol>
+<li>This guide is provided as a best effort and builds upon procedures described in the official Vault documentation. Since Vault&rsquo;s setup steps may change in future releases, this document may become outdated; we cannot guarantee ongoing accuracy or responsibility for such changes. For the most up-to-date and reliable information, please always refer to <a href="https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls#kubernetes-minikube-tls">the official Vault documentation</a>.</li>
+<li>In the following sections we deploy the Vault server in High Availability (HA) mode on Kubernetes via Helm with TLS enabled. The HA setup uses Raft storage backend and consists of 3 replicas for redundancy. Using Helm is not mandatory. Any supported Vault deployment (on-premises, in the cloud, or a managed Vault service) works as long as the Operator can reach it.</li>
+<li>This guide uses Vault Helm chart version 0.30.0. You may want to change it to the required version by setting the <code>VAULT_HELM_VERSION</code> variable.</li>
+</ol>
+<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">&para;</a></h2>
+<p>To configure TDE, you need the following:</p>
 <ul>
-<li><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claims (PVC) and Persistent Volumes (PV) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, which are playing a key role in stateful applications.</li>
-<li><a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Class <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, which automates the creation of Persistent Volumes and the underlying storage.</li>
+<li><code>kubectl</code>- Kubernetes command-line interface</li>
+<li><code>helm</code> - Helm package manager</li>
+<li><code>jq</code> - JSON processor</li>
+<li>The Operator and Percona Distribution for PostgreSQL installed. </li>
 </ul>
-<p>It is important to remember that PVC is namespace-scoped, but PV and Storage Class are cluster-scoped.</p>
-<h2 id="check-the-pvc">Check the PVC<a class="headerlink" href="#check-the-pvc" title="Permanent link">&para;</a></h2>
-<p>You can check all the PVC with the following command (use different namespace name instead of <code>postgres-operator</code>, if needed):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>Create the namespaces for Vault and the database cluster. If you have installed the Operator and Percona Distribution for PostgreSQL, you don&rsquo;t need to create a namespace for them.</p>
+<ul>
+<li>For Vault server:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>vault
 </code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-cluster1-instance1-4xkv-pgdata   Bound    pvc-2d20abb7-5350-4810-a098-fbdfbffda041   1Gi        RWO            standard       11h
-cluster1-instance1-njt9-pgdata   Bound    pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            standard       11h
-cluster1-instance1-qhh6-pgdata   Bound    pvc-7228300b-81de-4a60-a615-8ca935c95139   1Gi        RWO            standard       11h
-cluster1-repo1                   Bound    pvc-b2e0bac3-993d-499e-b311-3aa7b9851bc2   1Gi        RWO            standard       11h
+<ul>
+<li>For Percona Distribution for PostgreSQL cluster:</li>
+</ul>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pg
+</code></pre></div>
+</li>
+<li>
+<p>Export the namespaces and other variables as environment variables to simplify further configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span><span class="s2">"vault"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span><span class="s2">"pg"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">VAULT_HELM_VERSION</span><span class="o">=</span><span class="s2">"0.30.0"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SERVICE</span><span class="o">=</span><span class="s2">"vault"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CSR_NAME</span><span class="o">=</span><span class="s2">"vault-csr"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">SECRET_NAME_VAULT</span><span class="o">=</span><span class="s2">"vault-secret"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">POLICY_NAME</span><span class="o">=</span><span class="s2">"tde-policy"</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">WORKDIR</span><span class="o">=</span><span class="s2">"/tmp/vault"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create a working directory for configuration files:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$WORKDIR</span>
+</code></pre></div>
+</li>
+</ol>
+<h2 id="generate-tls-certificates">Generate TLS certificates<a class="headerlink" href="#generate-tls-certificates" title="Permanent link">&para;</a></h2>
+<p>To use TLS, you&rsquo;ll need the following certificates:</p>
+<ul>
+<li>A private key for the Vault server</li>
+<li>A certificate for the Vault server signed by the Kubernetes CA</li>
+<li>The Kubernetes CA certificate</li>
+</ul>
+<p>These files store sensitive information. Make sure to keep them in a secure location.</p>
+<h3 id="generate-the-private-key">Generate the private key<a class="headerlink" href="#generate-the-private-key" title="Permanent link">&para;</a></h3>
+<p>Generate a private key for the Vault server:</p>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.key<span class="w"> </span><span class="m">2048</span>
+</code></pre></div>
+<h3 id="create-the-certificate-signing-request-csr">Create the Certificate Signing Request (CSR)<a class="headerlink" href="#create-the-certificate-signing-request-csr" title="Permanent link">&para;</a></h3>
+<p>A Certificate Signing Request (CSR) is a file that contains information about your server and the certificate you need. You create it using your private key, and then submit it to Kubernetes to get a certificate signed by the Kubernetes Certificate Authority (CA). The signed certificate proves your server&rsquo;s identity and enables secure TLS connections.</p>
+<ol>
+<li>
+<p>Create the Certificate Signing Request configuration file:</p>
+<p>Specify the certificate details that Kubernetes needs to sign your certificate:</p>
+<ul>
+<li><strong>Request settings</strong> (<code>[req]</code>): References the sections for certificate extensions and distinguished name. The distinguished name section is left empty as Kubernetes will populate it automatically.</li>
+<li><strong>Certificate extensions</strong> (<code>[v3_req]</code>): Defines how the certificate can be used. <code>serverAuth</code> allows the certificate for server authentication, while <code>keyUsage</code> specifies the cryptographic operations the certificate supports (non-repudiation, digital signature, and key encipherment).</li>
+<li><strong>Subject Alternative Names</strong> (<code>[alt_names]</code>): Lists all DNS names and IP addresses where your Vault service can be accessed. This includes the service name, fully qualified domain names (FQDNs) for different Kubernetes DNS contexts (namespace-scoped, cluster-scoped with <code>.svc</code>, and fully qualified with <code>.svc.cluster.local</code>), and the localhost IP address.</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/csr.conf"</span><span class="w"> </span><span class="s">&lt;&lt;'EOF'</span>
+<span class="s">[req]</span>
+<span class="s">default_bits = 2048</span>
+<span class="s">prompt = no</span>
+<span class="s">encrypt_key = yes</span>
+<span class="s">default_md = sha256</span>
+<span class="s">distinguished_name = kubelet_serving</span>
+<span class="s">req_extensions = v3_req</span>
+<span class="s">[ kubelet_serving ]</span>
+<span class="s">O = system:nodes</span>
+<span class="s">CN = system:node:*.vault.svc.cluster.local</span>
+<span class="s">[ v3_req ]</span>
+<span class="s">basicConstraints = CA:FALSE</span>
+<span class="s">keyUsage = nonRepudiation, digitalSignature, keyEncipherment, dataEncipherment</span>
+<span class="s">extendedKeyUsage = serverAuth, clientAuth</span>
+<span class="s">subjectAltName = @alt_names</span>
+<span class="s">[alt_names]</span>
+<span class="s">DNS.1 =*.vault-internal</span>
+<span class="s">DNS.2 = *.vault-standby</span>
+<span class="s">DNS.3 =*.vault-internal.vault.svc.cluster.local</span>
+<span class="s">DNS.4 = *.vault-standby.vault.svc.cluster.local</span>
+<span class="s">DNS.5 =*.vault</span>
+<span class="s">DNS.6 = vault.vault.svc.cluster.local</span>
+<span class="s">IP.1 = 127.0.0.1</span>
+<span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Generate the CSR. The following command creates the Certificate Signing Request file using your private key and the configuration file.</p>
+<p>The <code>-subj</code> parameter specifies the distinguished name directly: the Common Name (CN) identifies your Vault service using the Kubernetes node naming convention (<code>system:node:${SERVICE}.${NAMESPACE}.svc</code>), and the Organization (O) field is set to <code>system:nodes</code>, which Kubernetes requires to recognize and sign the certificate. The command combines these subject fields with the certificate extensions defined in the configuration file to produce the complete CSR.</p>
+<div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>req<span class="w"> </span>-new<span class="w"> </span>-key<span class="w"> </span><span class="nv">$WORKDIR</span>/vault.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-subj<span class="w"> </span><span class="s2">"/CN=system:node:</span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="s2">.</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">.svc;/O=system:nodes"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-out<span class="w"> </span><span class="nv">$WORKDIR</span>/server.csr<span class="w"> </span>-config<span class="w"> </span><span class="nv">$WORKDIR</span>/csr.conf
+</code></pre></div>
+</li>
+</ol>
+<h3 id="issue-the-certificate">Issue the certificate<a class="headerlink" href="#issue-the-certificate" title="Permanent link">&para;</a></h3>
+<p>To get your certificate signed by Kubernetes, you need to submit the CSR through the Kubernetes API. The CSR file you generated with OpenSSL must be wrapped in a Kubernetes CertificateSigningRequest resource.</p>
+<ol>
+<li>
+<p>Create the CSR YAML file to send it to Kubernetes:</p>
+<p>This YAML file creates a Kubernetes CertificateSigningRequest object that contains your CSR. The file embeds the base64-encoded CSR content and specifies:</p>
+<ul>
+<li>The signer name (<code>kubernetes.io/kubelet-serving</code>) that tells Kubernetes which CA should sign the certificate</li>
+<li>The groups field (<code>system:authenticated</code>) that identifies who can approve this CSR</li>
+<li>The certificate usages that define how the certificate can be used (digital signature, key encipherment, and server authentication)</li>
+</ul>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$WORKDIR</span>/csr.yaml<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
+<span class="s">apiVersion: certificates.k8s.io/v1</span>
+<span class="s">kind: CertificateSigningRequest</span>
+<span class="s">metadata:</span>
+<span class="s">  name: ${CSR_NAME}</span>
+<span class="s">spec:</span>
+<span class="s">  groups:</span>
+<span class="s">  - system:authenticated</span>
+<span class="s">  request: $(cat $WORKDIR/server.csr | base64 | tr -d '\n')</span>
+<span class="s">  signerName: kubernetes.io/kubelet-serving</span>
+<span class="s">  usages:</span>
+<span class="s">  - digital signature</span>
+<span class="s">  - key encipherment</span>
+<span class="s">  - server auth</span>
+<span class="s">EOF</span>
+</code></pre></div>
+</li>
+<li>
+<p>Create the CertificateSigningRequest (CSR) object:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/csr.yaml
+</code></pre></div>
+</li>
+<li>
+<p>Approve the CSR in Kubernetes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>certificate<span class="w"> </span>approve<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>Confirm the certificate was issued:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>csr<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME        AGE   SIGNERNAME                      REQUESTOR       REQUESTEDDURATION   CONDITION
+vault-csr   16s   kubernetes.io/kubelet-serving   minikube-user   &lt;none&gt;              Approved,Issued
 </code></pre></div>
 </details>
+</li>
+</ol>
+<h3 id="retrieve-the-certificates">Retrieve the certificates<a class="headerlink" href="#retrieve-the-certificates" title="Permanent link">&para;</a></h3>
+<p>After Kubernetes approves and signs your CSR, you need to retrieve the signed certificate and the Kubernetes CA certificate. These certificates are required to configure TLS for your Vault server.</p>
+<ol>
+<li>
+<p>Retrieve the signed certificate from the CertificateSigningRequest object. The certificate is base64-encoded in Kubernetes, so you decode it and save it to a file.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>csr<span class="w"> </span><span class="si">${</span><span class="nv">CSR_NAME</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.certificate}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span><span class="nv">$WORKDIR</span>/vault.crt
+</code></pre></div>
+</li>
+<li>
+<p>Retrieve Kubernetes CA certificate:</p>
+<p>This command retrieves the Kubernetes cluster&rsquo;s Certificate Authority (CA) certificate from your <code>kubeconfig</code> file. The CA certificate is needed to verify that the signed certificate is valid and was issued by the Kubernetes CA. The command uses <code>kubectl config view</code> with flags to get the raw, flattened configuration and extract the CA certificate data, which is also base64-encoded.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>view<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--raw<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--minify<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--flatten<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.clusters[].cluster.certificate-authority-data}'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.ca
+</code></pre></div>
+</li>
+</ol>
+<h3 id="store-certificates-in-kubernetes-secrets">Store certificates in Kubernetes secrets<a class="headerlink" href="#store-certificates-in-kubernetes-secrets" title="Permanent link">&para;</a></h3>
+<p>Create a TLS secret in Kubernetes to store the certificates and key:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.key<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.key<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.crt<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.crt<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-file<span class="o">=</span>vault.ca<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.ca
+</code></pre></div>
+<h2 id="install-vault-with-tls">Install Vault with TLS<a class="headerlink" href="#install-vault-with-tls" title="Permanent link">&para;</a></h2>
+<p>For this setup, we install Vault in Kubernetes using the <a href="https://helm.sh/">Helm 3 package manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> in High Availability (HA) mode with Raft storage backend and with TLS enabled.</p>
+<ol>
+<li>
+<p>Add and update the Vault Helm repository:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>repo<span class="w"> </span>add<span class="w"> </span>hashicorp<span class="w"> </span>https://helm.releases.hashicorp.com
+helm<span class="w"> </span>repo<span class="w"> </span>update
+</code></pre></div>
+</li>
+<li>
+<p>Install Vault with TLS enabled:</p>
+<div class="highlight"><pre><span></span><code>helm<span class="w"> </span>upgrade<span class="w"> </span>--install<span class="w"> </span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="w"> </span>hashicorp/vault<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--disable-openapi-validation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--version<span class="w"> </span><span class="si">${</span><span class="nv">VAULT_HELM_VERSION</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--namespace<span class="w"> </span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.tlsDisable=false"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"global.platform=kubernetes"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span>server.extraEnvironmentVars.VAULT_CACERT<span class="o">=</span>/vault/userconfig/<span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span>/vault.ca<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.extraEnvironmentVars.VAULT_TLSCERT=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.crt"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.extraEnvironmentVars.VAULT_TLSKEY=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.key"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].name=userconfig-</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].secret.secretName=</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumes[0].secret.defaultMode=420"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].mountPath=/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].name=userconfig-</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.volumeMounts[0].readOnly=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.replicas=3"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.raft.enabled=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set<span class="w"> </span><span class="s2">"server.ha.raft.setNodeId=true"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--set-string<span class="w"> </span><span class="s2">"server.ha.raft.config=cluster_name = \"vault-integrated-storage\"</span>
+<span class="s2">ui = true</span>
+<span class="s2">listener \"tcp\" {</span>
+<span class="s2">  tls_disable = 0</span>
+<span class="s2">  address = \"[::]:8200\"</span>
+<span class="s2">  cluster_address = \"[::]:8201\"</span>
+<span class="s2">  tls_cert_file = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.crt\"</span>
+<span class="s2">  tls_key_file  = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.key\"</span>
+<span class="s2">  tls_client_ca_file = \"/vault/userconfig/</span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="s2">/vault.ca\"</span>
+<span class="s2">}</span>
+<span class="s2">storage \"raft\" {</span>
+<span class="s2">  path = \"/vault/data\"</span>
+<span class="s2">}</span>
+<span class="s2">disable_mlock = true</span>
+<span class="s2">service_registration \"kubernetes\" {}"</span>
+</code></pre></div>
+<p>This command does the following:</p>
 <ul>
-<li><strong>STATUS</strong>: shows the <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#phase">state <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> of the PVC:<ul>
-<li>For normal working of an application, the status should be <code>Bound</code>.</li>
-<li>If the status is not <code>Bound</code>, further investigation is required.</li>
+<li>Installs HashiCorp Vault in High Availability (HA) mode with secure TLS enabled in your Kubernetes cluster.</li>
+<li>Configures Vault pods to use certificates from a Kubernetes Secret via volume mounts for secure HTTPS communication between Vault and clients.</li>
+<li>Sets up Raft as the backend storage with three replicas for fault tolerance, and configures the Vault TCP listener to enforce TLS with your specified certificate files.</li>
+</ul>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME: vault
+LAST DEPLOYED: Wed Aug 20 12:55:38 2025
+NAMESPACE: vault
+STATUS: deployed
+REVISION: 1
+NOTES:
+Thank you for installing HashiCorp Vault!
+
+Now that you have deployed Vault, you should look over the docs on using
+Vault with Kubernetes available here:
+
+https://developer.hashicorp.com/vault/docs
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Retrieve the Pod name where Vault is running:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-l<span class="w"> </span>app.kubernetes.io/name<span class="o">=</span><span class="si">${</span><span class="nv">SERVICE</span><span class="si">}</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .items[*]}{.metadata.name}{"\n"}{end}'</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>vault-0
+vault-1
+vault-2
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="initialize-and-unseal-vault">Initialize and unseal Vault<a class="headerlink" href="#initialize-and-unseal-vault" title="Permanent link">&para;</a></h2>
+<ol>
+<li>
+<p>After Vault is installed, you need to initialize it. Run the following command to initialize the first pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>pod/vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>operator<span class="w"> </span>init<span class="w"> </span>-key-shares<span class="o">=</span><span class="m">1</span><span class="w"> </span>-key-threshold<span class="o">=</span><span class="m">1</span><span class="w"> </span>-format<span class="o">=</span>json<span class="w"> </span>&gt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init
+</code></pre></div>
+<p>The command does the following:</p>
+<ul>
+<li>Connects to the Vault Pod</li>
+<li>Initializes Vault server with TLS enabled</li>
+<li>Creates 1 unseal key share which is required to unseal the server</li>
+<li>Outputs the init response to a local file. The file includes unseal keys and root token.</li>
 </ul>
 </li>
-<li><strong>VOLUME</strong>: is the name of the Persistent Volume with which PVC is Bound to. Obviously, this field will be occupied only when a PVC is Bound.</li>
-<li><strong>CAPACITY</strong>: it is the size of the volume claimed.</li>
-<li><strong>STORAGECLASS</strong>: it indicates the <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Kubernetes storage class <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> used for dynamic provisioning of Volume.</li>
-<li><strong>ACCESS MODES</strong>: <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes">Access mode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> indicates how Volume is used with the Pods. Access modes should have write permission if the application needs to write data, which is obviously true in case of databases.</li>
-</ul>
-<p>Now you can check a specific PVC for more details using its name as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-4xkv-pgdata<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-oyaml<span class="w"> </span><span class="c1"># output stripped for brevity, name of PVC may vary</span>
+<li>
+<p>Vault is started in a sealed state. In this state Vault can access the storage but it cannot decrypt data. In order to use Vault, you need to unseal it.</p>
+<p>Retrieve the unseal key from the file:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">unsealKey</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".unseal_keys_b64[]"</span><span class="w"> </span>&lt;<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init<span class="k">)</span>
 </code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-instance1-4xkv-pgdata</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1G</span>
-<span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
-<span class="w">  </span><span class="nt">volumeName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-2d20abb7-5350-4810-a098-fbdfbffda041</span>
-<span class="nt">status</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">capacity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24Gi</span>
-<span class="w">  </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bound</span>
+<p>Now, unseal Vault. Run the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>pod/vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>operator<span class="w"> </span>unseal<span class="w"> </span><span class="s2">"</span><span class="nv">$unsealKey</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            1
+Threshold               1
+Version                 1.19.0
+Build Date              2025-03-04T12:36:40Z
+Storage Type            raft
+Cluster Name            vault-integrated-storage
+Cluster ID              ed275c91-e227-681b-5aaa-f7a9fc19e37e
+Removed From Cluster    false
+HA Enabled              true
+HA Cluster              &lt;https://vault-0.vault-internal:8201&gt;
+HA Mode                 active
+Active Since            2025-12-15T13:36:42.542059059Z
+Raft Committed Index    37
+Raft Applied Index      37
 </code></pre></div>
 </details>
-<p>You can use a number of Custom Resource options to tweaking PVC for the components of your cluster:</p>
+</li>
+<li>
+<p>Add the remaining Pods to the Vault cluster. If you have another secret name, replace the <code>vault-secret</code> with your value in the following for loop:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>POD<span class="w"> </span><span class="k">in</span><span class="w"> </span>vault-1<span class="w"> </span>vault-2<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$POD</span><span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'</span>
+<span class="s1">    vault operator raft join -address=https://${HOSTNAME}.vault-internal:8200 \</span>
+<span class="s1">      -leader-ca-cert="$(cat /vault/userconfig/vault-secret/vault.ca)" \</span>
+<span class="s1">      -leader-client-cert="$(cat /vault/userconfig/vault-secret/vault.crt)" \</span>
+<span class="s1">      -leader-client-key="$(cat /vault/userconfig/vault-secret/vault.key)" \</span>
+<span class="s1">      https://vault-0.vault-internal:8200;</span>
+<span class="s1">  '</span>
+<span class="k">done</span>
+</code></pre></div>
+<p>The command connects to each Vault Pod (<code>vault-1</code> and <code>vault-2</code>) and issues the <code>vault operator raft join</code> command, which:
+* Joins the Pods to the Vault Raft cluster, enabling HA mode.
+* Uses the necessary TLS certificates to securely connect to the cluster leader (<code>vault-0</code>).
+* Ensures all nodes participate in the Raft consensus and share storage responsibilities.</p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key       Value
+---       -----
+Joined    true
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Unseal the remaining Pods. Use this for loop:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>POD<span class="w"> </span><span class="k">in</span><span class="w"> </span>vault-1<span class="w"> </span>vault-2<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">    </span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="nv">$POD</span><span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>
+<span class="s2">        vault operator unseal \"</span><span class="nv">$unsealKey</span><span class="s2">\"</span>
+<span class="s2">    "</span>
+<span class="k">done</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Key                     Value
+---                     -----
+Seal Type               shamir
+Initialized             true
+Sealed                  false
+Total Shares            1
+Threshold               1
+Unseal Progress         1/1
+Unseal Nonce            n/a
+Version                 1.19.0
+Build Date              2025-03-04T12:36:40Z
+Storage Type            raft
+Removed From Cluster    false
+HA Enabled              true
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="configure-vault">Configure Vault<a class="headerlink" href="#configure-vault" title="Permanent link">&para;</a></h2>
+<p>At this step you need to configure Vault and enable secrets engine within it. To do so you must first authenticate in Vault.</p>
+<p>When you started Vault, it generates and starts with a <a href="https://developer.hashicorp.com/vault/docs/concepts/tokens">root token <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> that provides full access to Vault. Use this token to authenticate.</p>
+<p>Run the following command on a leader node. The remaining ones will synchronize from the leader.</p>
+<ol>
+<li>
+<p>Extract the Vault root token from the file where you saved the init response output:</p>
+<div class="highlight"><pre><span></span><code>cat<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault-init<span class="w"> </span><span class="p">|</span><span class="w"> </span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s2">".root_token"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>hvs.*************Jg9r
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Connect to Vault Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>vault-0<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>--<span class="w"> </span>/bin/sh
+</code></pre></div>
+</li>
+<li>
+<p>Authenticate in Vault with this token:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>login<span class="w"> </span>hvs.*************Jg9r
+</code></pre></div>
+</li>
+<li>
+<p>Enable the secrets engine at the mount path. The following command enables KV secrets engine v2 at the <code>tde</code> mount-path:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>secrets<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>--version<span class="o">=</span><span class="m">2</span><span class="w"> </span>-path<span class="o">=</span>tde<span class="w"> </span>kv
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Success! Enabled the kv secrets engine at: tde/
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>(Optional) You can also enable audit. This is not mandatory, but useful:</p>
+<div class="highlight"><pre><span></span><code>vault<span class="w"> </span>audit<span class="w"> </span><span class="nb">enable</span><span class="w"> </span>file<span class="w"> </span><span class="nv">file_path</span><span class="o">=</span>/vault/vault-audit.log
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Success! Enabled the file audit device at: file/
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="create-a-non-root-token">Create a non-root token<a class="headerlink" href="#create-a-non-root-token" title="Permanent link">&para;</a></h2>
+<p>Using the root token for authentication is not recommended, as it poses significant security risks. Instead, you should create a dedicated, non-root token for the Operator to use when accessing Vault. The permissions for this token are controlled by an access policy. Before you create a token you must first create the access policy.</p>
+<ol>
+<li>
+<p>Create a policy for accessing the kv engine path and define the required permissions in the <code>capabilities</code> parameter:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>vault-0<span class="w"> </span>--<span class="w"> </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'</span>
+<span class="s1">vault policy write '</span><span class="s2">"</span><span class="nv">$POLICY_NAME</span><span class="s2">"</span><span class="s1">' - &lt;&lt; "EOF"</span>
+<span class="s1">path "tde/data/*" {</span>
+<span class="s1">  capabilities = ["read", "create", "update", "list"]</span>
+<span class="s1">}</span>
+<span class="s1">path "tde/metadata/*" {</span>
+<span class="s1">  capabilities = ["read", "list"]</span>
+<span class="s1">}</span>
+<span class="s1">path "sys/internal/ui/mounts/*" {</span>
+<span class="s1">  capabilities = ["read"]</span>
+<span class="s1">}</span>
+<span class="s1">path "sys/mounts/*" {</span>
+<span class="s1">  capabilities = ["read"]</span>
+<span class="s1">}</span>
+<span class="s1">EOF</span>
+<span class="s1">'</span>
+</code></pre></div>
+</li>
+<li>
+<p>Now create a token with a policy.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>pod/vault-0<span class="w"> </span>--<span class="w"> </span>vault<span class="w"> </span>token<span class="w"> </span>create<span class="w"> </span>-policy<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">POLICY_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-format<span class="o">=</span>json<span class="w"> </span>&gt;<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/vault-token.json"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Export the non-root token as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NEW_TOKEN</span><span class="o">=</span><span class="k">$(</span>jq<span class="w"> </span>-r<span class="w"> </span><span class="s1">'.auth.client_token'</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span><span class="s2">/vault-token.json"</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify the token:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="s2">"New Vault Token: </span><span class="nv">$NEW_TOKEN</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>hvs.CAESINO******************************************T2Y
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="create-a-secret-for-vault">Create a Secret for Vault<a class="headerlink" href="#create-a-secret-for-vault" title="Permanent link">&para;</a></h2>
+<p>To enable Vault for the Operator, create a Secret object for it using the Vault token and the path to TLS certificates. Note that you must create the Secret in the namespace where the Operator and the database cluster is running.</p>
+<p>For the following command specify the token and the path to the <code>ca.cert</code> file (this is <code>vault.ca</code> in our example):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-vault<span class="w"> </span>--from-literal<span class="o">=</span><span class="nv">token</span><span class="o">=</span><span class="nv">$NEW_TOKEN</span><span class="w"> </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.ca<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<p>Check that the Secret is created:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<h2 id="configure-pg_tde-in-the-custom-resource-manifest">Configure <code>pg_tde</code> in the Custom Resource manifest<a class="headerlink" href="#configure-pg_tde-in-the-custom-resource-manifest" title="Permanent link">&para;</a></h2>
+<p>Now, enable the <code>pg_tde</code> extension for your cluster and configure Vault as the key provider. Also enable write-ahead log (WAL) segments encryption on disk. When WAL encryption is enabled, the Operator then adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.</p>
+<p>To learn how WAL encryption works with backups, see <a href="encryption.html#wal-encryption">WAL encryption</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>We recommend that you enable WAL encryption before the cluster has application writes.</p>
+</div>
+<p>For this you need the following information:</p>
 <ul>
-<li>options under <code>instances.walVolumeClaimSpec</code> allow you to set <a href="operator.html#instanceswalvolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#instanceswalvolumeclaimspecresourcesrequestsstorage">requested storage size</a> for PostgreSQL Write-ahead Log storage,</li>
-<li>options under <code>instances.dataVolumeClaimSpec</code> allow you to set <a href="operator.html#instancesdatavolumeclaimspecaccessmodes">access modes</a> and also <a href="operator.html#instancesdatavolumeclaimspecresourcesrequestsstorage">requests</a> and <a href="operator.html#instancesdatavolumeclaimspecresourceslimitsstorage">limits</a> for PostgreSQL database storage,</li>
-<li>options under <code>instances.tablespaceVolumes.dataVolumeClaimSpec</code> allow you to set <a href="operator.html#instancestablespacevolumesdatavolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#instancestablespacevolumesdatavolumeclaimspecresourcesrequestsstorage">requested storage size</a> for PostgreSQL <a href="tablespaces.html">tablespace</a> volumes,</li>
-<li>options under <code>backups.pgbackrest.repos.volume.volumeClaimSpec</code> allow you to set <a href="operator.html#backupspgbackrestreposvolumevolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#backupspgbackrestreposvolumevolumeclaimspecresourcesrequestsstorage">requested storage size</a> for the pgBackRest storage.</li>
+<li>A Vault server name and port. If Vault is deployed in a separate namespace, use the fully qualified name in the format <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</li>
+<li>The Secret name with the Vault token </li>
+<li>The Secret name with the CA certificate. In our example, the Vault token and the CA certificate are in the same Secret that you created earlier</li>
+<li>The secrets mount path </li>
 </ul>
-<h2 id="check-the-pv">Check the PV<a class="headerlink" href="#check-the-pv" title="Permanent link">&para;</a></h2>
-<p>It is important to remember that PV is a cluster-scoped Object. If you see any issues with attaching a Volume to a Pod, PV and PVC might be looked upon.</p>
-<p>Check all the PV present in the Kubernetes cluster as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                              STORAGECLASS   REASON   AGE
-pvc-2d20abb7-5350-4810-a098-fbdfbffda041   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-4xkv-pgdata   standard                11h
-pvc-7228300b-81de-4a60-a615-8ca935c95139   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-qhh6-pgdata   standard                11h
-pvc-b2e0bac3-993d-499e-b311-3aa7b9851bc2   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-repo1                   standard                11h
-pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-njt9-pgdata   standard                11h
-</code></pre></div>
-</details>
-<p>Now you can check a specific PV for more details using its name as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span>pvc-2d20abb7-5350-4810-a098-fbdfbffda041<span class="w"> </span>-oyaml
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolume</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">capacity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
-<span class="w">  </span><span class="nt">claimRef</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-instance1-4xkv-pgdata</span>
-<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator</span>
-<span class="w">    </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"912868"</span>
-<span class="w">    </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w w-Error"> </span><span class="nt">gcePersistentDisk</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">fsType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext4</span>
-<span class="w">    </span><span class="nt">pdName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w"> </span><span class="nt">nodeAffinity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">required</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/zone</span>
-<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
-<span class="w">          </span><span class="nt">values</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/region</span>
-<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
-<span class="w">          </span><span class="nt">values</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1</span>
-<span class="w"> </span><span class="w w-Error"> </span><span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
-<span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
-<span class="nt">status</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bound</span>
-</code></pre></div>
-</details>
-<p>Fields to check if there are any issues in binding with PVC, are the <code>claimRef</code> and <code>nodeAffinity</code>.</p>
-<p>The <code>claimRef</code> one indicates to which PVC this volume is bound to. This means that if by any chance PVC is deleted (e.g. by the appropriate finalizer), this section needs to be modified so that it can bind to a new PVC.</p>
-<p>The <code>spec.nodeAffinity</code> field may influence the PV availability as well: for example, it can make Volume accessed in one availability zone only.</p>
-<h2 id="check-the-storageclass">Check the StorageClass<a class="headerlink" href="#check-the-storageclass" title="Permanent link">&para;</a></h2>
-<p>StorageClass is also a cluster-scoped object, and it indicates what type of underlying storage is used for the Volumes.</p>
-<p>You can set StorageClass in <code>instances.dataVolumeClaimSpec.storageClassName</code>, <code>instances.walVolumeClaimSpec.storageClassName</code>, and <code>backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName</code> Custom Resource options.</p>
-<p>The following command checks all the storage class present in the Kubernetes cluster, and allows to see which storage class is the default one:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                 PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-premium-rwo          pd.csi.storage.gke.io   Delete          WaitForFirstConsumer   true                   44d
-standard (default)   kubernetes.io/gce-pd    Delete          Immediate              true                   44d
-standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsumer   true                   44d
-</code></pre></div>
-</details>
-<p>If some PVC does not refer any storage class explicitly, it means that the default storage class is used. Ensure there is only one default Storage class.</p>
-<p>You can check a specific storage class as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc<span class="w"> </span>standard<span class="w"> </span>-oyaml
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.k8s.io/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StorageClass</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w"> </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">   </span><span class="nt">storageclass.kubernetes.io/is-default-class</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
-<span class="w"> </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="s">"2022-10-09T06:28:03Z"</span>
-<span class="w"> </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">   </span><span class="nt">addonmanager.kubernetes.io/mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EnsureExists</span>
-<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w"> </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"906"</span>
-<span class="w"> </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">933d37db-990b-4b2d-bf3a-dd091d0b00ae</span>
-<span class="nt">parameters</span><span class="p">:</span>
-<span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pd-standard</span>
-<span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes.io/gce-pd</span>
-<span class="nt">reclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
-<span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Immediate</span>
-</code></pre></div>
-</details>
-<p>Important things to observe here are the following ones:</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Applying the changes for a running cluster will trigger rolling restart of the database Pods.</p>
+</div>
+<ol>
+<li>
+<p>Edit the <code>deploy/cr.yaml</code> file and specify the following:</p>
 <ul>
-<li>Check if the provisioner and parameters are indicating the type of storage you intend to provision.</li>
-<li>Check the <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode">volumeBindingMode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> especially if the storage cannot be accessed across availability zones. “WaitForFirstConsumer” volumeBindingMode ensures volume is provisioned only after a Pod requesting the Volume is created.</li>
-<li>If you are going to rely on the Operator <a href="scaling-vertical.html#storage-resizing-with-volume-expansion-capability">storage scaling functionality</a>, ensure the storage class supports PVC expansion (it should have  <code>allowVolumeExpansion: true</code> in the output of the above command).</li>
-</ul>
-<p>You can set PVC storage class with the following Custom Resource options:</p>
+<li>Set <code>extensions.pg_tde.enabled</code> to <code>true</code></li>
+<li>Set <code>extensions.pg_tde.walEncryption</code> to <code>true</code> to encrypt WAL segments on disk. Omit this option if you only need table encryption.</li>
+<li>
+<p>Add Vault-specific options under <code>extensions.pg_tde.vault</code>:</p>
 <ul>
-<li><code>instances.walVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL Write-ahead Log storage,</li>
-<li><code>instances.dataVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL database storage,</li>
-<li><code>instances.tablespaceVolumes.dataVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL <a href="tablespaces.html">tablespace</a> volumes,</li>
-<li><code>backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName</code> allows you to set storage class for the pgBackRest storage.</li>
+<li><code>caSecret</code> is optional if you communicate with Vault over HTTP. Include it for TLS, as shown in the example below</li>
+<li><code>mountPath</code> – Specify the Vault mount path where you enabled the KV v2 secrets engine for encryption. In this guide, the mount path is <code>tde</code>.</li>
 </ul>
+</li>
+</ul>
+<p>The example configuration looks like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">....</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">extensions</span><span class="p p-Indicator">:</span>
+<span class="w">    </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">docker.io/perconalab/percona-postgresql-operator:3.0.0</span>
+<span class="w">    </span><span class="nt">pg_tde</span><span class="p">:</span><span class="w"> </span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">walEncryption</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">      </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.vault.svc.cluster.local:8200</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tde</span>
+<span class="w">        </span><span class="nt">tokenSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
+<span class="w">        </span><span class="nt">caSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca.crt</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the configuration:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+</li>
+<li>
+<p>Wait until the cluster is ready:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">wait</span><span class="w"> </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>perconapgcluster/cluster1<span class="w"> </span>--timeout<span class="o">=</span>600s
+</code></pre></div>
+</li>
+<li>
+<p>Check the <code>pg_tde</code> status:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.conditions.[] | select(.type == "PGTDEEnabled" or .type == "PGTDEVaultProviderReady")'</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-04T13:29:51Z"</span>
+<span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde is enabled in PerconaPGCluster</span>
+<span class="w">    </span><span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Enabled</span>
+<span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"True"</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEEnabled</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-03-04T13:29:51Z"</span>
+<span class="w">    </span><span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde vault key provider matches the spec</span>
+<span class="w">    </span><span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span>
+<span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Configured</span>
+<span class="w">    </span><span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"True"</span>
+<span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEVaultProviderReady</span>
+</code></pre></div>
+</details>
+<p>If <code>PGTDEEnabled</code> is <code>True</code> but encryption does not work, check <code>PGTDEVaultProviderReady</code> and the Operator logs.</p>
+</li>
+<li>
+<p>Verify that WAL encryption is on. Find the primary Pod and check the setting:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SHOW pg_tde.wal_encrypt;"</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code> pg_tde.wal_encrypt
+--------------------
+ on
+(1 row)
+</code></pre></div>
+</details>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>WAL files that pgBackRest stores in the backup repository are decrypted before upload. To keep repository contents encrypted, configure <a href="backup-encryption.html">backup encryption</a> with <code>repo-cipher-pass</code>.</p>
+</div>
+<h2 id="verify-the-encryption">Verify the encryption<a class="headerlink" href="#verify-the-encryption" title="Permanent link">&para;</a></h2>
+<p>Check that the encryption is enabled. To do that, create a table in PostgreSQL using the <code>tde_heap</code> access method. To learn more, refer to the <a href="https://docs.percona.com/pg-tde/index/table-access-method.html">Table Access Methods and pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> documentation.</p>
+<ol>
+<li>
+<p>Find the primary Pod in your cluster and export it as an environment variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify the Pod:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">echo</span><span class="w"> </span><span class="nv">$PRIMARY_POD</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-btdf-0
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Execute into the primary PostgreSQL Pod as the <code>postgres</code> user and establish the <code>psql</code> session.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>psql (17.7 - Percona Server for PostgreSQL 17.7.1)
+Type "help" for help.
+
+postgres=#
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Inside the Pod, create a table:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CREATE</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="n">secure_data</span><span class="w"> </span><span class="p">(</span>
+<span class="n">id</span><span class="w"> </span><span class="nb">INTEGER</span><span class="w"> </span><span class="k">GENERATED</span><span class="w"> </span><span class="n">ALWAYS</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">IDENTITY</span><span class="w"> </span><span class="k">PRIMARY</span><span class="w"> </span><span class="k">KEY</span><span class="p">,</span>
+<span class="n">name</span><span class="w"> </span><span class="nb">TEXT</span><span class="p">,</span>
+<span class="n">amount</span><span class="w"> </span><span class="nb">NUMERIC</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">2</span><span class="p">),</span>
+<span class="n">created_at</span><span class="w"> </span><span class="nb">DATE</span>
+<span class="p">)</span><span class="w"> </span><span class="k">USING</span><span class="w"> </span><span class="n">tde_heap</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Insert some sample data:</p>
+<div class="highlight"><pre><span></span><code><span class="k">INSERT</span><span class="w"> </span><span class="k">INTO</span><span class="w"> </span><span class="n">secure_data</span><span class="w"> </span><span class="p">(</span><span class="n">name</span><span class="p">,</span><span class="w"> </span><span class="n">amount</span><span class="p">,</span><span class="w"> </span><span class="n">created_at</span><span class="p">)</span><span class="w"> </span><span class="k">VALUES</span>
+<span class="p">(</span><span class="s1">'Alice'</span><span class="p">,</span><span class="w"> </span><span class="mi">1234</span><span class="p">.</span><span class="mi">56</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-01'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'Bob'</span><span class="p">,</span><span class="w"> </span><span class="mi">7890</span><span class="p">.</span><span class="mi">12</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-10'</span><span class="p">),</span>
+<span class="p">(</span><span class="s1">'Charlie'</span><span class="p">,</span><span class="w"> </span><span class="mi">345</span><span class="p">.</span><span class="mi">67</span><span class="p">,</span><span class="w"> </span><span class="s1">'2025-08-19'</span><span class="p">);</span>
+</code></pre></div>
+</li>
+<li>
+<p>Verify if the table is encrypted:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_tde_is_encrypted</span><span class="p">(</span>
+<span class="w"> </span><span class="s1">'secure_data'</span>
+<span class="p">);</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="highlight"><pre><span></span><code> pg_tde_is_encrypted
+---------------------
+ t
+(1 row)
+</code></pre></div>
+</details>
+</li>
+</ol>
+<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">&para;</a></h2>
+<p>If you encounter issues during the setup, use the following troubleshooting tips:</p>
+<ol>
+<li>
+<p><strong>Certificate Signing Request (CSR) issues</strong>: If you have problems with the CSR, manually delete it and recreate it:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>csr<span class="w"> </span>vault-csr<span class="w"> </span><span class="o">||</span><span class="w"> </span><span class="nb">true</span>
+</code></pre></div>
+<p>Then recreate and re-approve it in Kubernetes following the steps in the <a href="#issue-the-certificate">Issue the certificate</a> section.</p>
+</li>
+<li>
+<p><strong>Vault policy issues</strong>: Check the mount points and permissions. Ensure that:</p>
+<ul>
+<li>The mount path in your policy matches the path where you enabled the secrets engine</li>
+<li>The policy has the required capabilities (<code>create</code>, <code>read</code>, <code>update</code>, <code>list</code>) for the paths your application needs</li>
+<li>You have included the <code>sys/internal/ui/mounts/</code> and <code>sys/mounts/*</code> paths</li>
+</ul>
+</li>
+<li>
+<p><strong>Mount point conflicts</strong>: If you encounter issues with a mount point in Vault, you cannot reuse it. You need to:</p>
+<ul>
+<li>Provide a new mount path when enabling the secrets engine</li>
+<li>Update your access policy to include the new mount path</li>
+<li>Update the <code>mountPath</code> value in your Custom Resource configuration to match the new mount path</li>
+</ul>
+</li>
+<li>
+<p>Verify that you reference the correct secret name in your Custom Resource.</p>
+</li>
+</ol>
+<h2 id="clean-up">Clean up<a class="headerlink" href="#clean-up" title="Permanent link">&para;</a></h2>
+<p>After you finish the setup and ensure everything works as expected, you can clean up the temporary files:</p>
+<div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$WORKDIR</span>
+</code></pre></div>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">&para;</a></h2>
+<p><a class="md-button" href="encryption-disable.html">Disable encryption</a></p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2024 16:33:14 UTC">October 8, 2024</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
       
     
   </small>

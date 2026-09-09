@@ -9,19 +9,19 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Storage-related objects worth to check in case of problems are the following ones:">
+        <meta name="description" content="Disabling pg_tde (Transparent Data Encryption) is generally not recommended, as it removes an important layer of security that protects your data at rest. However, if you must disable encryption, this guide walks you through the steps.">
       
       
         <meta name="author" content="Percona LLC">
       
       
-        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/debug-storage.html">
+        <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.0.0/encryption-disable.html">
       
       
-        <link rel="prev" href="debug.html">
+        <link rel="prev" href="encryption-setup.html">
       
       
-        <link rel="next" href="debug-shell.html">
+        <link rel="next" href="TLS.html">
       
       
         
@@ -32,7 +32,7 @@
     
     
       
-        <title>Check storage - Percona Operator for PostgreSQL</title>
+        <title>Disable encryption - Percona Operator for PostgreSQL</title>
       
     
     
@@ -102,7 +102,7 @@
 
 
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Percona Operator for PostgreSQL - Check storage" />
+<meta property="og:title" content="Percona Operator for PostgreSQL - Disable encryption" />
 <meta property="og:image"
   content="https://docs.percona.com/percona-operator-for-postgresql/3.0/assets/images/kubernetes-operators.png">
 <meta property="og:url" content="https://docs.percona.com/percona-operator-for-postgresql/">
@@ -132,7 +132,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#check-storage-related-objects" class="md-skip">
+        <a href="#disable-encryption" class="md-skip">
           Skip to content
         </a>
       
@@ -231,7 +231,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-            Check storage
+            Disable encryption
             
           </span>
         </div>
@@ -1280,18 +1280,20 @@
       
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
         
           
           <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
@@ -1312,7 +1314,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1578,18 +1580,20 @@
                 
   
   
+    
   
   
+  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_7" checked>
         
           
           <label class="md-nav__link" for="__nav_6_7" id="__nav_6_7_label" tabindex="0">
@@ -1610,7 +1614,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_7_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_6_7">
             <span class="md-nav__icon md-icon"></span>
             
@@ -1681,10 +1685,19 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="encryption-disable.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="encryption-disable.html" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1700,6 +1713,7 @@
   
 
       </a>
+      
     </li>
   
 
@@ -4423,20 +4437,18 @@
       
   
   
-    
   
   
-  
     
     
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_10" >
         
           
           <label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
@@ -4457,7 +4469,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_10_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_10">
             <span class="md-nav__icon md-icon"></span>
             
@@ -4528,37 +4540,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Check storage
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="debug-storage.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="debug-storage.html" class="md-nav__link">
         
   
   
@@ -4574,59 +4559,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pvc" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PVC
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pv" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PV
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-storageclass" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the StorageClass
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -6022,7 +5954,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
                     <div data-banner="data-banner" class="edit-contrib-banner">
     <div class="banner-content">
       <!-- Edit link centered -->
-      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/debug-storage.md" title="Edit this page on GitHub" class="edit-page-link">
+      <a href="https://github.com/percona/k8spg-docs/edit/3.0/docs/encryption-disable.md" title="Edit this page on GitHub" class="edit-page-link">
         <span class="edit-page-icon">
           
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
@@ -6074,47 +6006,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pvc" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PVC
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-pv" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the PV
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check-the-storageclass" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check the StorageClass
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -6139,204 +6030,121 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
       
     
-    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/debug-storage.md" title="View source of this page" class="md-content__button md-icon">
+    <a href="https://github.com/percona/k8spg-docs/raw/3.0/docs/encryption-disable.md" title="View source of this page" class="md-content__button md-icon">
       
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
     </a>
   
 
 
-<h1 id="check-storage-related-objects">Check Storage-related objects<a class="headerlink" href="#check-storage-related-objects" title="Permanent link">&para;</a></h1>
-<p>Storage-related objects worth to check in case of problems are the following ones:</p>
-<ul>
-<li><a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claims (PVC) and Persistent Volumes (PV) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, which are playing a key role in stateful applications.</li>
-<li><a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Storage Class <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a>, which automates the creation of Persistent Volumes and the underlying storage.</li>
-</ul>
-<p>It is important to remember that PVC is namespace-scoped, but PV and Storage Class are cluster-scoped.</p>
-<h2 id="check-the-pvc">Check the PVC<a class="headerlink" href="#check-the-pvc" title="Permanent link">&para;</a></h2>
-<p>You can check all the PVC with the following command (use different namespace name instead of <code>postgres-operator</code>, if needed):</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span>postgres-operator
+<h1 id="disable-encryption">Disable encryption<a class="headerlink" href="#disable-encryption" title="Permanent link">&para;</a></h1>
+<p>Disabling <code>pg_tde</code> (Transparent Data Encryption) is generally not recommended, as it removes an important layer of security that protects your data at rest. However, if you must disable encryption, this guide walks you through the steps.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>To properly disable encryption in the Operator, you must follow a specific sequence and modify your Custom Resource (CR) twice. Attempting to disable everything in a single step will not work: the Operator needs to drop the <code>pg_tde</code> extension before you remove the key provider configuration. The Vault secrets must remain mounted while <code>DROP EXTENSION</code> runs.</p>
+<p>Failing to follow the steps in this tutorial in order will result in errors, because removing the Vault configuration before the extension is dropped prevents the Operator from cleaning up properly.</p>
+<p>The Operator does <strong>not</strong> drop or rewrite encrypted objects. You must unencrypt them yourself before disabling the extension. If any encrypted objects remain, <code>DROP EXTENSION pg_tde</code> fails with a descriptive error.</p>
+</div>
+<ol>
+<li>
+<p>Export the namespace where your database cluster is deployed as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
 </code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                             STATUS   VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   AGE
-cluster1-instance1-4xkv-pgdata   Bound    pvc-2d20abb7-5350-4810-a098-fbdfbffda041   1Gi        RWO            standard       11h
-cluster1-instance1-njt9-pgdata   Bound    pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            standard       11h
-cluster1-instance1-qhh6-pgdata   Bound    pvc-7228300b-81de-4a60-a615-8ca935c95139   1Gi        RWO            standard       11h
-cluster1-repo1                   Bound    pvc-b2e0bac3-993d-499e-b311-3aa7b9851bc2   1Gi        RWO            standard       11h
-</code></pre></div>
-</details>
-<ul>
-<li><strong>STATUS</strong>: shows the <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#phase">state <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> of the PVC:<ul>
-<li>For normal working of an application, the status should be <code>Bound</code>.</li>
-<li>If the status is not <code>Bound</code>, further investigation is required.</li>
-</ul>
 </li>
-<li><strong>VOLUME</strong>: is the name of the Persistent Volume with which PVC is Bound to. Obviously, this field will be occupied only when a PVC is Bound.</li>
-<li><strong>CAPACITY</strong>: it is the size of the volume claimed.</li>
-<li><strong>STORAGECLASS</strong>: it indicates the <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/">Kubernetes storage class <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> used for dynamic provisioning of Volume.</li>
-<li><strong>ACCESS MODES</strong>: <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#access-modes">Access mode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> indicates how Volume is used with the Pods. Access modes should have write permission if the application needs to write data, which is obviously true in case of databases.</li>
-</ul>
-<p>Now you can check a specific PVC for more details using its name as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc<span class="w"> </span>cluster1-instance1-4xkv-pgdata<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>-oyaml<span class="w"> </span><span class="c1"># output stripped for brevity, name of PVC may vary</span>
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-instance1-4xkv-pgdata</span>
-<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">resources</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">requests</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1G</span>
-<span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
-<span class="w">  </span><span class="nt">volumeName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-2d20abb7-5350-4810-a098-fbdfbffda041</span>
-<span class="nt">status</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">capacity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">24Gi</span>
-<span class="w">  </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bound</span>
-</code></pre></div>
-</details>
-<p>You can use a number of Custom Resource options to tweaking PVC for the components of your cluster:</p>
+<li>
+<p>Unencrypt <strong>all encrypted databases</strong> in your database. </p>
 <ul>
-<li>options under <code>instances.walVolumeClaimSpec</code> allow you to set <a href="operator.html#instanceswalvolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#instanceswalvolumeclaimspecresourcesrequestsstorage">requested storage size</a> for PostgreSQL Write-ahead Log storage,</li>
-<li>options under <code>instances.dataVolumeClaimSpec</code> allow you to set <a href="operator.html#instancesdatavolumeclaimspecaccessmodes">access modes</a> and also <a href="operator.html#instancesdatavolumeclaimspecresourcesrequestsstorage">requests</a> and <a href="operator.html#instancesdatavolumeclaimspecresourceslimitsstorage">limits</a> for PostgreSQL database storage,</li>
-<li>options under <code>instances.tablespaceVolumes.dataVolumeClaimSpec</code> allow you to set <a href="operator.html#instancestablespacevolumesdatavolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#instancestablespacevolumesdatavolumeclaimspecresourcesrequestsstorage">requested storage size</a> for PostgreSQL <a href="tablespaces.html">tablespace</a> volumes,</li>
-<li>options under <code>backups.pgbackrest.repos.volume.volumeClaimSpec</code> allow you to set <a href="operator.html#backupspgbackrestreposvolumevolumeclaimspecaccessmodes">access modes</a> and <a href="operator.html#backupspgbackrestreposvolumevolumeclaimspecresourcesrequestsstorage">requested storage size</a> for the pgBackRest storage.</li>
+<li>
+<p>Identify the primary pod:    </p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PRIMARY_POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+-l<span class="w"> </span>postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
+</li>
+<li>
+<p>Connect to the primary database Pod as the <code>postgres</code> user:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span><span class="nv">$PRIMARY_POD</span><span class="w"> </span>--<span class="w"> </span>psql
+</code></pre></div>
+</li>
+<li>
+<p>Connect to each encrypted database and run the following command to unencrypt <strong>every</strong> encrypted table.</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">TABLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table_name</span><span class="o">&gt;</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="k">ACCESS</span><span class="w"> </span><span class="k">METHOD</span><span class="w"> </span><span class="n">heap</span><span class="p">;</span>
+</code></pre></div>
+</li>
 </ul>
-<h2 id="check-the-pv">Check the PV<a class="headerlink" href="#check-the-pv" title="Permanent link">&para;</a></h2>
-<p>It is important to remember that PV is a cluster-scoped Object. If you see any issues with attaching a Volume to a Pod, PV and PVC might be looked upon.</p>
-<p>Check all the PV present in the Kubernetes cluster as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+<p>Repeat for every encrypted table, index, and related object in every database. Leaving encrypted objects behind causes disable to fail.</p>
+</li>
+<li>
+<p>Run the <code>CHECKPOINT</code> command in PostgreSQL. It forces an immediate checkpoint to flush dirty pages to disk. Connect to the primary database Pod as the <code>postgres</code> user and run:</p>
+<div class="highlight"><pre><span></span><code><span class="k">CHECKPOINT</span><span class="p">;</span>
 </code></pre></div>
-<details class="example" open="open">
+<p>This flushes data to disk in all databases.</p>
+<p>Exit the Pod.</p>
+</li>
+<li>
+<p>Edit the Custom Resource and set <code>extensions.pg_tde.enabled</code> to <code>false</code>. Keep the <code>vault</code> section in place.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pg_tde</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">      </span><span class="nt">vault</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://vault.vault.svc.cluster.local:8200</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tde</span>
+<span class="w">        </span><span class="nt">tokenSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">token</span>
+<span class="w">        </span><span class="nt">caSecret</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-vault</span>
+<span class="w">          </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ca.crt</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the changes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
+</code></pre></div>
+<p>This triggers a rolling restart of your database Pods. The Operator runs <code>DROP EXTENSION pg_tde</code> in all databases. Vault secrets remain mounted during this step.</p>
+</li>
+<li>
+<p>Wait until the <code>PGTDEEnabled</code> condition reports <code>False</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.conditions.[] | select(.type == "PGTDEEnabled")'</span><span class="w"> </span>
+</code></pre></div>
+<details class="example">
 <summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                                       CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS   CLAIM                                              STORAGECLASS   REASON   AGE
-pvc-2d20abb7-5350-4810-a098-fbdfbffda041   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-4xkv-pgdata   standard                11h
-pvc-7228300b-81de-4a60-a615-8ca935c95139   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-qhh6-pgdata   standard                11h
-pvc-b2e0bac3-993d-499e-b311-3aa7b9851bc2   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-repo1                   standard                11h
-pvc-f2e9a722-fd30-435b-ade4-9edf20b2104b   1Gi        RWO            Delete           Bound    postgres-operator/cluster1-instance1-njt9-pgdata   standard                11h
+<div class="no-copy highlight"><pre><span></span><code><span class="nt">lastTransitionTime</span><span class="p">:</span><span class="w"> </span><span class="s">"2026-07-28T10:24:15Z"</span>
+<span class="nt">message</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_tde is disabled in PerconaPGCluster</span>
+<span class="nt">observedGeneration</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
+<span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Disabled</span>
+<span class="nt">status</span><span class="p">:</span><span class="w"> </span><span class="s">"False"</span>
+<span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGTDEEnabled</span>
 </code></pre></div>
 </details>
-<p>Now you can check a specific PV for more details using its name as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span>pvc-2d20abb7-5350-4810-a098-fbdfbffda041<span class="w"> </span>-oyaml
+<p>Confirm that Pods have finished restarting and the cluster is ready before continuing.</p>
+</li>
+<li>
+<p>Run <code>CHECKPOINT</code> again before you remove the Vault configuration. Even after the extension is dropped, PostgreSQL may still touch encrypted objects during recovery after the next restart and try to read the Vault token. A checkpoint helps avoid that failure.</p>
+<div class="highlight"><pre><span></span><code><span class="k">CHECKPOINT</span><span class="p">;</span>
 </code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolume</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>
-<span class="nt">spec</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">accessModes</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
-<span class="w">  </span><span class="nt">capacity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1Gi</span>
-<span class="w">  </span><span class="nt">claimRef</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
-<span class="w">    </span><span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PersistentVolumeClaim</span>
-<span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-instance1-4xkv-pgdata</span>
-<span class="w">    </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator</span>
-<span class="w">    </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"912868"</span>
-<span class="w">    </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w w-Error"> </span><span class="nt">gcePersistentDisk</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">fsType</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ext4</span>
-<span class="w">    </span><span class="nt">pdName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pvc-f3e7097f-accd-4f5d-9c9d-6f29b54a368b</span>
-<span class="w"> </span><span class="nt">nodeAffinity</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">required</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">nodeSelectorTerms</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">matchExpressions</span><span class="p">:</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/zone</span>
-<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
-<span class="w">          </span><span class="nt">values</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1-a</span>
-<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">topology.kubernetes.io/region</span>
-<span class="w">          </span><span class="nt">operator</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">In</span>
-<span class="w">          </span><span class="nt">values</span><span class="p">:</span>
-<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">us-central1</span>
-<span class="w"> </span><span class="w w-Error"> </span><span class="nt">persistentVolumeReclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
-<span class="w">  </span><span class="nt">storageClassName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w">  </span><span class="nt">volumeMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Filesystem</span>
-<span class="nt">status</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">phase</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Bound</span>
+</li>
+<li>
+<p>Update the Custom Resource again and remove the entire <code>extensions.pg_tde</code> section (or at least all vault-related configuration).</p>
+</li>
+<li>
+<p>Apply the changes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
 </code></pre></div>
-</details>
-<p>Fields to check if there are any issues in binding with PVC, are the <code>claimRef</code> and <code>nodeAffinity</code>.</p>
-<p>The <code>claimRef</code> one indicates to which PVC this volume is bound to. This means that if by any chance PVC is deleted (e.g. by the appropriate finalizer), this section needs to be modified so that it can bind to a new PVC.</p>
-<p>The <code>spec.nodeAffinity</code> field may influence the PV availability as well: for example, it can make Volume accessed in one availability zone only.</p>
-<h2 id="check-the-storageclass">Check the StorageClass<a class="headerlink" href="#check-the-storageclass" title="Permanent link">&para;</a></h2>
-<p>StorageClass is also a cluster-scoped object, and it indicates what type of underlying storage is used for the Volumes.</p>
-<p>You can set StorageClass in <code>instances.dataVolumeClaimSpec.storageClassName</code>, <code>instances.walVolumeClaimSpec.storageClassName</code>, and <code>backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName</code> Custom Resource options.</p>
-<p>The following command checks all the storage class present in the Kubernetes cluster, and allows to see which storage class is the default one:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>NAME                 PROVISIONER             RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-premium-rwo          pd.csi.storage.gke.io   Delete          WaitForFirstConsumer   true                   44d
-standard (default)   kubernetes.io/gce-pd    Delete          Immediate              true                   44d
-standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsumer   true                   44d
-</code></pre></div>
-</details>
-<p>If some PVC does not refer any storage class explicitly, it means that the default storage class is used. Ensure there is only one default Storage class.</p>
-<p>You can check a specific storage class as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>sc<span class="w"> </span>standard<span class="w"> </span>-oyaml
-</code></pre></div>
-<details class="example" open="open">
-<summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code><span class="nt">allowVolumeExpansion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">storage.k8s.io/v1</span>
-<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">StorageClass</span>
-<span class="nt">metadata</span><span class="p">:</span>
-<span class="w"> </span><span class="nt">annotations</span><span class="p">:</span>
-<span class="w">   </span><span class="nt">storageclass.kubernetes.io/is-default-class</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
-<span class="w"> </span><span class="nt">creationTimestamp</span><span class="p">:</span><span class="w"> </span><span class="s">"2022-10-09T06:28:03Z"</span>
-<span class="w"> </span><span class="nt">labels</span><span class="p">:</span>
-<span class="w">   </span><span class="nt">addonmanager.kubernetes.io/mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EnsureExists</span>
-<span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standard</span>
-<span class="w"> </span><span class="nt">resourceVersion</span><span class="p">:</span><span class="w"> </span><span class="s">"906"</span>
-<span class="w"> </span><span class="nt">uid</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">933d37db-990b-4b2d-bf3a-dd091d0b00ae</span>
-<span class="nt">parameters</span><span class="p">:</span>
-<span class="w"> </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pd-standard</span>
-<span class="nt">provisioner</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubernetes.io/gce-pd</span>
-<span class="nt">reclaimPolicy</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Delete</span>
-<span class="nt">volumeBindingMode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Immediate</span>
-</code></pre></div>
-</details>
-<p>Important things to observe here are the following ones:</p>
-<ul>
-<li>Check if the provisioner and parameters are indicating the type of storage you intend to provision.</li>
-<li>Check the <a href="https://kubernetes.io/docs/concepts/storage/storage-classes/#volume-binding-mode">volumeBindingMode <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> especially if the storage cannot be accessed across availability zones. “WaitForFirstConsumer” volumeBindingMode ensures volume is provisioned only after a Pod requesting the Volume is created.</li>
-<li>If you are going to rely on the Operator <a href="scaling-vertical.html#storage-resizing-with-volume-expansion-capability">storage scaling functionality</a>, ensure the storage class supports PVC expansion (it should have  <code>allowVolumeExpansion: true</code> in the output of the above command).</li>
-</ul>
-<p>You can set PVC storage class with the following Custom Resource options:</p>
-<ul>
-<li><code>instances.walVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL Write-ahead Log storage,</li>
-<li><code>instances.dataVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL database storage,</li>
-<li><code>instances.tablespaceVolumes.dataVolumeClaimSpec.storageClassName</code> allows you to set storage class for PostgreSQL <a href="tablespaces.html">tablespace</a> volumes,</li>
-<li><code>backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName</code> allows you to set storage class for the pgBackRest storage.</li>
-</ul>
+<p>This triggers another rolling restart so the Operator can remove the Vault secret mounts from the containers.</p>
+</li>
+</ol>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="August 31, 2026 11:24:50 UTC">August 31, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
       
         <br>
         Created:
-        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 8, 2024 16:33:14 UTC">October 8, 2024</span>
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
       
     
   </small>
