@@ -313,6 +313,31 @@ spec:
       value: "127.0.0.1:6060"
 ```
 
+### `CERTMANAGER_NAMESPACE`
+
+Specifies the namespace where the Operator creates the CA `Certificate` when [`tls.issuerConf.kind`](operator.md#tlsissuerconfkind) is `ClusterIssuer` and the Operator manages the CA chain. Available starting with Operator 3.1.0.
+
+| Value type | Default | Example |
+| ---------- | ------- | ------- |
+| string     | `cert-manager` | `my-cert-manager` |
+
+**Notes:**
+
+* This variable applies only when the Operator creates cert-manager resources for a `ClusterIssuer`-based CA chain. It does not affect database Pods or TLS Secrets, which remain in the database namespace.
+* Change this value only if cert-manager is installed in a non-default namespace.
+* When you use an existing organizational `ClusterIssuer`, you typically do not need to change this variable. See [Use an existing ClusterIssuer](tls-cert-manager.md#use-an-existing-clusterissuer).
+
+**Example configuration:**
+
+```yaml
+spec:
+  containers:
+  - name: percona-postgresql-operator
+    env:
+    - name: CERTMANAGER_NAMESPACE
+      value: "cert-manager"
+```
+
 ## Update environment variables
 
 ### Using kubectl patch

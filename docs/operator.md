@@ -84,7 +84,53 @@ Validity duration for the root CA certificate. Used only when [cert-manager](tls
 
 ### `tls.pgBackRestCertValidityDuration`
 
-Validity duration for the `pgBackRest` client and repository host certificates
+Validity duration for the `pgBackRest` client and repository host certificates. Used only when [cert-manager](tls-cert-manager.md) manages certificates. Format: Go duration (e.g. `2160h`). Default: `8760h` (1 year).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `2160h` |
+
+The [`tls.issuerConf`](#tlsissuerconfname) options below control which cert-manager issuer
+signs PostgreSQL TLS certificates. 
+
+### `tls.issuerConf.name`
+
+The name of the cert-manager [Issuer or ClusterIssuer :octicons-link-external-16:](https://cert-manager.io/docs/concepts/issuer/) resource that signs PostgreSQL TLS certificates. 
+
+* For Operator-managed namespace-scoped issuers, leave this unset to use the default `<cluster-name>-tls-issuer` name, or set it to customize that Issuer name.
+* For Operator-managed `ClusterIssuer` scope, set a unique base name. The Operator creates `<name>-ca-issuer`, `<name>-ca-cert`, and the CA-backed `<name>` ClusterIssuer.
+* For an existing organizational `ClusterIssuer` or a custom issuer kind, set this to the name of that issuer. The Operator creates `Certificate` resources that reference it and does not create its own CA chain.
+
+See [Use an existing ClusterIssuer](tls-cert-manager.md#use-an-existing-clusterissuer) for setup steps.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `my-org-issuer` |
+
+### `tls.issuerConf.kind`
+
+The cert-manager [issuer type :octicons-link-external-16:](https://cert-manager.io/docs/configuration/) referenced by PostgreSQL `Certificate` resources.
+
+Supported values:
+
+* `Issuer` (default) — namespace-scoped issuer in the database namespace.
+* `ClusterIssuer` — cluster-scoped issuer. Available starting with Operator 3.1.0.
+  
+    Use this when the Operator should manage a shared CA chain across namespaces, or when your platform team manages a cluster-wide issuer. Read more in the [Operator-managed issuers with ClusterIssuer scope](tls-cert-manager.md#operator-managed-issuers-with-clusterissuer-scope) and [Use an existing ClusterIssuer](tls-cert-manager.md#use-an-existing-clusterissuer).
+
+* Any other issuer kind (for example, a Vault-backed custom resource). It is treated as an external issuer. See [Use a custom issuer kind](tls-cert-manager.md#use-a-custom-issuer-kind).
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `ClusterIssuer` |
+
+### `tls.issuerConf.group`
+
+The API group for the issuer referenced in `issuerConf`. Use `cert-manager.io` for built-in cert-manager certificate issuers.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-code-string: string | `cert-manager.io` |
 
 ### `standby.enabled`
 
