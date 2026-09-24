@@ -113,11 +113,12 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
         You must manually set `spec.initContainer.image` on each `PerconaPGCluster` (`pg`) Custom Resource that this Operator manages. Without this, clusters may enter an error state after the Operator upgrade.
 
-        1. Export namespaces you use for commands (use your Operator namespace and the namespace where each cluster CR lives; they may differ in multi-namespace setups):
+        1. Export the namespaces and the cluster name you use in the commands. Use your Operator namespace and the namespace where each cluster Custom Resource lives. They may differ in multi-namespace setups.
 
             ```bash
             export OPERATOR_NAMESPACE=postgres-operator
             export CLUSTER_NAMESPACE=postgres-operator
+            export CLUSTER_NAME=cluster1
             ```
 
         2. Retrieve the current Operator image to reuse for `initContainer.image`:
@@ -133,16 +134,16 @@ Before you upgrade the Operator deployment, prepare your environment depending o
             registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:986941a8c5f5d00a0c9cc7bd12acc9f78aa51fdcc98c7d0acddff05392d4b9a0
             ```
 
-        3. Patch each PostgreSQL cluster Custom Resource, replacing `cluster1` with your cluster name and using the correct cluster namespace:
+        3. Patch each PostgreSQL cluster Custom Resource. Replace `<IMAGE_FROM_PREVIOUS_COMMAND>` with the image value from the previous command:
 
             ```bash
-            oc patch pg cluster1 -n "$CLUSTER_NAMESPACE" --type=merge --patch '{
+            oc patch pg "$CLUSTER_NAME" -n "$CLUSTER_NAMESPACE" --type=merge --patch '{
                 "spec": {
                   "initContainer": { "image": "<IMAGE_FROM_PREVIOUS_COMMAND>" }
                 }}'
             ```
 
-        4. Repeat the previous command for every cluster managed by this Operator.
+        4. Repeat the previous command for every cluster managed by this Operator. Set `CLUSTER_NAME` to the next cluster name before each run.
 
 ### Upgrade the Operator
 
@@ -161,10 +162,11 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
 ### Upgrade steps
 
-1. Export the namespace where your cluster is running as an environment variable:
-    
+1. Export the namespace and the name of your cluster as environment variables:
+
     ```bash
     export CLUSTER_NAMESPACE=<my-namespace>
+    export CLUSTER_NAME=cluster1
     ``` 
     
 2. Find the **new** initial Operator installation image name (it had changed during the Operator upgrade) and other image names for the components of your cluster with the `kubectl get deploy` command:
@@ -173,7 +175,7 @@ Before you upgrade the Operator deployment, prepare your environment depending o
     kubectl get deploy percona-postgresql-operator -n <operator-namespace> -o yaml
     ```
 
-    ??? example "Expected output"
+    ??? example "Sample output"
 
         ```{.json .no-copy}
         {
@@ -203,34 +205,34 @@ Before you upgrade the Operator deployment, prepare your environment depending o
 
 3. [Apply a patch :octicons-link-external-16:](https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/) to update your cluster's Custom Resource. Set the `crVersion` field to match the Operator version and update the images as needed. 
 
-    Depending on whether you've already updated the PMM client, either include its image in the list of images to update in your patch command or exclude the PMM client image from the patch.
+    Depending on whether you have already updated the PMM Client, either include its image in the patch or leave it out.
 
-    If your cluster is named `cluster1`, use the following command as an example:
+    The sha256 digest changes with every release. Replace each sha256 placeholder with the digest from the matching image in the output of the previous command:
 
     === "With PMM Client"
 
         ```bash
-        kubectl patch pg cluster1 -n $CLUSTER_NAMESPACE --type=merge --patch '{
+        kubectl patch pg "$CLUSTER_NAME" -n "$CLUSTER_NAMESPACE" --type=merge --patch '{
         "spec": {
         "crVersion":"{{release}}",
-        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
-        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
-        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
-        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } },
-        "pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805" }
+        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:<INIT_CONTAINER_SHA256>" },
+        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<POSTGRESQL_SHA256>",
+        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<PGBOUNCER_SHA256>" } },
+        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<PGBACKREST_SHA256>" } },
+        "pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<PMM_SHA256>" }
         }}'
         ```
-    
+
     === "Without PMM Client"
 
         ```bash
-        kubectl patch pg cluster1 -n $CLUSTER_NAMESPACE --type=merge --patch '{
+        kubectl patch pg "$CLUSTER_NAME" -n "$CLUSTER_NAMESPACE" --type=merge --patch '{
         "spec": {
         "crVersion":"{{release}}",
-        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },
-        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",
-        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },
-        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } }
+        "initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:<INIT_CONTAINER_SHA256>" },
+        "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<POSTGRESQL_SHA256>",
+        "proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<PGBOUNCER_SHA256>" } },
+        "backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:<PGBACKREST_SHA256>" } }
         }}'
         ```
 
