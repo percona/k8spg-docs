@@ -21174,9 +21174,10 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <p>You must manually set <code>spec.initContainer.image</code> on each <code>PerconaPGCluster</code> (<code>pg</code>) Custom Resource that this Operator manages. Without this, clusters may enter an error state after the Operator upgrade.</p>
 <ol>
 <li>
-<p>Export namespaces you use for commands (use your Operator namespace and the namespace where each cluster CR lives; they may differ in multi-namespace setups):</p>
+<p>Export the namespaces and the cluster name you use in the commands. Use your Operator namespace and the namespace where each cluster Custom Resource lives. They may differ in multi-namespace setups.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">OPERATOR_NAMESPACE</span><span class="o">=</span>postgres-operator
 <span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span>postgres-operator
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAME</span><span class="o">=</span>cluster1
 </code></pre></div>
 </li>
 <li>
@@ -21189,15 +21190,15 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 </code></pre></div>
 </li>
 <li>
-<p>Patch each PostgreSQL cluster Custom Resource, replacing <code>cluster1</code> with your cluster name and using the correct cluster namespace:</p>
-<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<p>Patch each PostgreSQL cluster Custom Resource. Replace <code>&lt;IMAGE_FROM_PREVIOUS_COMMAND&gt;</code> with the image value from the previous command:</p>
+<div class="highlight"><pre><span></span><code>oc<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAME</span><span class="s2">"</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
 <span class="s1">    "spec": {</span>
 <span class="s1">      "initContainer": { "image": "&lt;IMAGE_FROM_PREVIOUS_COMMAND&gt;" }</span>
 <span class="s1">    }}'</span>
 </code></pre></div>
 </li>
 <li>
-<p>Repeat the previous command for every cluster managed by this Operator.</p>
+<p>Repeat the previous command for every cluster managed by this Operator. Set <code>CLUSTER_NAME</code> to the next cluster name before each run.</p>
 </li>
 </ol>
 </li>
@@ -21224,8 +21225,9 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <h3 id="update-openshift-upgrade-steps">Upgrade steps<a class="headerlink" href="#update-openshift-upgrade-steps" title="Permanent link">&para;</a></h3>
 <ol>
 <li>
-<p>Export the namespace where your cluster is running as an environment variable:</p>
+<p>Export the namespace and the name of your cluster as environment variables:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAMESPACE</span><span class="o">=</span>&lt;my-namespace&gt;
+<span class="nb">export</span><span class="w"> </span><span class="nv">CLUSTER_NAME</span><span class="o">=</span>cluster1
 </code></pre></div>
 </li>
 <li>
@@ -21233,7 +21235,7 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 <div class="highlight"><pre><span></span><code>kubectl get deploy percona-postgresql-operator -n &lt;operator-namespace&gt; -o yaml
 </code></pre></div>
 <details class="example">
-<summary>Expected output</summary>
+<summary>Sample output</summary>
 <div class="no-copy highlight"><pre><span></span><code><span class="p">{</span>
 <span class="w">  </span><span class="nt">"initContainer"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
 <span class="w">    </span><span class="nt">"image"</span><span class="p">:</span><span class="w"> </span><span class="s2">"registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2"</span>
@@ -21262,30 +21264,30 @@ However, OLM doesn&rsquo;t modify the <code>PerconaPGCluster</code> Custom Resou
 </li>
 <li>
 <p><a href="https://kubernetes.io/docs/tasks/run-application/update-api-object-kubectl-patch/">Apply a patch <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to update your cluster&rsquo;s Custom Resource. Set the <code>crVersion</code> field to match the Operator version and update the images as needed. </p>
-<p>Depending on whether you&rsquo;ve already updated the PMM client, either include its image in the list of images to update in your patch command or exclude the PMM client image from the patch.</p>
-<p>If your cluster is named <code>cluster1</code>, use the following command as an example:</p>
+<p>Depending on whether you have already updated the PMM Client, either include its image in the patch or leave it out.</p>
+<p>The sha256 digest changes with every release. Replace each sha256 placeholder with the digest from the matching image in the output of the previous command:</p>
 <div class="tabbed-set tabbed-alternate" data-tabs="3:2"><input checked="checked" id="update-openshift-__tabbed_3_1" name="update-openshift-__tabbed_3" type="radio" /><input id="update-openshift-__tabbed_3_2" name="update-openshift-__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="update-openshift-__tabbed_3_1">With PMM Client</label><label for="update-openshift-__tabbed_3_2">Without PMM Client</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAME</span><span class="s2">"</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
 <span class="s1">"spec": {</span>
 <span class="s1">"crVersion":"3.1.0",</span>
-<span class="s1">"initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },</span>
-<span class="s1">"image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",</span>
-<span class="s1">"proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },</span>
-<span class="s1">"backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } },</span>
-<span class="s1">"pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:05dc00f69ed0fae48453476ace93bd43c046bf07a511cdca16e2fcad29c53805" }</span>
+<span class="s1">"initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:&lt;INIT_CONTAINER_SHA256&gt;" },</span>
+<span class="s1">"image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;POSTGRESQL_SHA256&gt;",</span>
+<span class="s1">"proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;PGBOUNCER_SHA256&gt;" } },</span>
+<span class="s1">"backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;PGBACKREST_SHA256&gt;" } },</span>
+<span class="s1">"pmm": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;PMM_SHA256&gt;" }</span>
 <span class="s1">}}'</span>
 </code></pre></div>
 </div>
 <div class="tabbed-block">
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAME</span><span class="s2">"</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$CLUSTER_NAMESPACE</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
 <span class="s1">"spec": {</span>
 <span class="s1">"crVersion":"3.1.0",</span>
-<span class="s1">"initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:ae9b319eaf3367f73d135fdda4ce69f58bcb9a2b05eea71903b7d631bd8b56c2" },</span>
-<span class="s1">"image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:2092b8badac196100a70e708e18ef6c70f9f398c99431f3905e8394b9cadd91a",</span>
-<span class="s1">"proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:73916031a5b9a033efdf86597b9df58837336ae208a8743d4c70874d459daeda" } },</span>
-<span class="s1">"backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:5937c9778be5c94acb4be81d979b6e5503f85dea1196f20f435b19467e56d1d0" } }</span>
+<span class="s1">"initContainer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator@sha256:&lt;INIT_CONTAINER_SHA256&gt;" },</span>
+<span class="s1">"image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;POSTGRESQL_SHA256&gt;",</span>
+<span class="s1">"proxy": { "pgBouncer": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;PGBOUNCER_SHA256&gt;" } },</span>
+<span class="s1">"backups": { "pgbackrest": { "image": "registry.connect.redhat.com/percona/percona-postgresql-operator-containers@sha256:&lt;PGBACKREST_SHA256&gt;" } }</span>
 <span class="s1">}}'</span>
 </code></pre></div>
 </div>
