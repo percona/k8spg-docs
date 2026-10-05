@@ -396,6 +396,12 @@ Starting with this release, Percona certified images are available for UBI 8, 9 
 
 The following tables list the images that you can use with the Percona Operator for PostgreSQL. 
 
+!!! note "Updated component images"
+
+    * **October 5, 2026**: Component images are rebuilt with security (CVE) fixes. pgBackRest is updated to version 2.59.1-2.
+
+    Use the updated images for new deployments and upgrades.
+
 --8<-- [start:images]
 
 The Operator, pgBouncer, pgBackRest, Fluent Bit, and PMM images are the same on every UBI. 
