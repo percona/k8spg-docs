@@ -3,18 +3,18 @@
 # Operator and docs
 
 release: 3.1.0
-upgraderelease: 18.6-17.11-16.15-15.19-14.24-1
+upgraderelease: 18.6-17.11-16.15-15.19-14.24-3
 pruned_version: 2.8.0
 commandName: 'kubectl'
 
 # Percona Distribution images
 
-postgresrecommended: '18.6.1-1'
-postgres17recommended: '17.11.1-1'
-postgres16recommended: '16.15-1'
-postgrespostgisrecommended: 18.6.1-1
-pgbouncerrecommended: '1.25.2-6'
-pgbackrestrecommended: '2.59.0-1'
+postgresrecommended: '18.6.1-3'
+postgres17recommended: '17.11.1-3'
+postgres16recommended: '16.15-3'
+postgrespostgisrecommended: 18.6.1-3
+pgbouncerrecommended: '1.25.2-8'
+pgbackrestrecommended: '2.59.1-2'
 
 # Community images
 
