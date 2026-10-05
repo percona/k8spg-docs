@@ -351,7 +351,7 @@ This Operator version is developed and tested with Percona Distribution for Post
 ### Percona Distribution for PostgreSQL
 
 * PostgreSQL 14.24-1, 15.19-1, 16.15-1, 17.11.1-1, 18.6.1-1 as the database. Other versions may also work but have not been tested.
-* pgBackRest 2.59.0-1 for backup and recovery
+* pgBackRest 2.59.0-1 for backup and recovery. As of October 5, 2026, pgBackRest has been updated to version 2.59.1-2.
 * pgBouncer 1.25.2-6 for connection pooling
 * Patroni version 4.1.5 for high-availability
 * PostGIS version 3.5.7
