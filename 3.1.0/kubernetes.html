@@ -6846,7 +6846,7 @@ cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP  
 </li>
 <li>
 <p>Create a pod and start Percona Distribution for PostgreSQL inside. The following command will do this, naming the new Pod <code>pg-client</code>:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:18.6.1-1<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-i<span class="w"> </span>--rm<span class="w"> </span>--tty<span class="w"> </span>pg-client<span class="w"> </span>--image<span class="o">=</span>percona/percona-distribution-postgresql:18.6.1-3<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-il
 </code></pre></div>
 <p>It may require some time to execute the command and deploy the corresponding Pod.</p>
 </li>
@@ -6858,7 +6858,7 @@ cluster1-replicas    ClusterIP   34.118.234.19    &lt;none&gt;        5432/TCP  
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">18</span>.6.1-1<span class="o">)</span>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span><span class="o">(</span><span class="m">18</span>.6.1-3<span class="o">)</span>
 SSL<span class="w"> </span>connection<span class="w"> </span><span class="o">(</span>protocol:<span class="w"> </span>TLSv1.3,<span class="w"> </span>cipher:<span class="w"> </span>TLS_AES_256_GCM_SHA384,<span class="w"> </span>bits:<span class="w"> </span><span class="m">256</span>,<span class="w"> </span>compression:<span class="w"> </span>off<span class="o">)</span>
 Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </span><span class="k">for</span><span class="w"> </span>help.
 <span class="nv">pgdb</span><span class="o">=</span>&gt;

@@ -6771,8 +6771,8 @@ Status: Image is up to date for docker.io/perconalab/percona-postgresql-operator
     OpenShift <code>pg</code> project:</p>
 <div class="highlight"><pre><span></span><code>docker<span class="w"> </span>tag<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>docker.io/perconalab/percona-postgresql-operator@sha256:991d6049059e5eb1a74981290d829a5fb4ab0554993748fde1e67b2f46f26bf0<span class="w"> </span><span class="se">\</span>
-<span class="w">    </span><span class="m">172</span>.30.162.173:5000/psmdb/percona-postgresql-operator:18.6.1-1
-docker<span class="w"> </span>push<span class="w"> </span><span class="m">172</span>.30.162.173:5000/pg/percona-postgresql-operator:18.6.1-1
+<span class="w">    </span><span class="m">172</span>.30.162.173:5000/psmdb/percona-postgresql-operator:18.6.1-3
+docker<span class="w"> </span>push<span class="w"> </span><span class="m">172</span>.30.162.173:5000/pg/percona-postgresql-operator:18.6.1-3
 </code></pre></div>
 </li>
 <li>
@@ -6782,14 +6782,14 @@ docker<span class="w"> </span>push<span class="w"> </span><span class="m">172</s
 <details class="example">
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>NAME                              DOCKER REPO                                                             TAGS             UPDATED
-percona-postgresql-operator       docker-registry.default.svc:5000/pg/percona-postgresql-operator  18.6.1-1  2 hours ago
+percona-postgresql-operator       docker-registry.default.svc:5000/pg/percona-postgresql-operator  18.6.1-3  2 hours ago
 </code></pre></div>
 </details>
 </li>
 <li>
 <p>When the custom registry image is available, edit the the <code>image:</code> option in
     <code>deploy/operator.yaml</code> configuration file with a Docker Repo + Tag string
-    (it should look like <code>docker-registry.default.svc:5000/pg/percona-postgresql-operator:18.6.1-1</code>)</p>
+    (it should look like <code>docker-registry.default.svc:5000/pg/percona-postgresql-operator:18.6.1-3</code>)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>If the registry requires authentication, you can specify the <code>imagePullSecrets</code> option for all images.</p>
