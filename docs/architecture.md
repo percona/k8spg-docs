@@ -58,6 +58,21 @@ The Operator uses [node affinity and anti-affinity :octicons-link-external-16:](
 
 If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](ha-deploy.md).
 
+#### Services that clients connect to
+
+The Operator creates several Kubernetes Services for each cluster. The following table uses `cluster1` as the cluster name:
+
+| Service | Resolves to | Pooled by pgBouncer | Name in the TLS certificate | External exposure | Typical use |
+|---|---|---|---|---|---|
+| `cluster1-pgbouncer` | pgBouncer Pods | Yes | No, but pgBouncer has its own certificate that includes this name | Yes, with [`proxy.pgBouncer.expose.type`](operator.md#proxypgbouncerexposetype) | Default entry point for applications |
+| `cluster1-primary` | Active primary | No | Yes | No, it's a headless Service | Direct primary access from inside the Kubernetes cluster, especially for clients that verify the server's TLS identity. pgBouncer also uses it to reach the primary |
+| `cluster1-ha` | Active primary. Patroni updates its endpoints on failover | No | No | Yes, with [`expose.type`](operator.md#exposetype) | Direct primary access from outside the Kubernetes cluster without pgBouncer |
+| `cluster1-replicas` | Replica instances | No, unless you [configure a read pool](expose.md#configure-separate-read-and-write-pools) | Yes | Yes, with [`exposeReplicas.type`](operator.md#exposereplicastype) | Read-only queries |
+| `cluster1-pods` | Each PostgreSQL Pod by its own DNS name | No | No | No, it's a headless Service | Pod identity for replication and Operator components. Not for client traffic |
+| `cluster1-ha-config` | Nothing. It carries no client traffic | No | No | No | Patroni keeps its cluster configuration with it. Not for client traffic |
+
+Both `cluster1-primary` and `cluster1-ha` follow failover automatically. Choose between them based on where the client runs and whether it verifies the server's TLS identity. See [Exposing the cluster without pgBouncer](expose.md#exposing-the-cluster-without-pgbouncer).
+
 ## Storage and persistent volumes
 
 Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through **PersistentVolumeClaims (PVCs)**, which request storage resources. The cluster’s CSI driver provisions **PersistentVolumes**, and can **reattach** storage if a Pod moves to another

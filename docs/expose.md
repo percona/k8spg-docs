@@ -52,7 +52,7 @@ You can connect to the cluster without a proxy.
 
 ![image](assets/images/repl2.svg)
 
-For that use the `<clusterName>-ha` Service object:
+The Operator creates two Services that point to the primary: `<clusterName>-primary` and `<clusterName>-ha`. List the Services:
 
 ```bash
 kubectl get service
@@ -65,16 +65,22 @@ kubectl get service
     ...
     cluster1-ha          ClusterIP   10.88.8.121   <none>        5432/TCP   115s
     ...
+    cluster1-primary     ClusterIP   None          <none>        5432/TCP   115s
     cluster1-replicas    ClusterIP   10.88.8.115   <none>        5432/TCP   2m16s
     ```
 
-The `cluster1-ha` service points to the active primary. In case of failover to
-the replica node, it will change the endpoint automatically. Also, you can use
-`cluster1-replicas` service to make read requests to PostgreSQL replica instances.
+Both Services resolve to the active primary. After a failover, both follow the new primary automatically. Each one serves a different connection scenario:
+
+* `cluster1-primary` is a headless Service for clients inside the Kubernetes cluster. The cluster's TLS certificate includes its name, so use it for clients that verify the server's TLS identity by hostname. You can't expose this Service outside the Kubernetes cluster. The `expose.type` option doesn't change it.
+* `cluster1-ha` is the Service that Patroni manages for leader election. The cluster's TLS certificate doesn't include its name. It's the only Service that honors `expose.type`, so use it to reach the primary from outside the Kubernetes cluster without pgBouncer.
+
+To send read requests to PostgreSQL replica instances, use the `cluster1-replicas` Service. Set its type with [`exposeReplicas.type`](operator.md#exposereplicastype).
 Reads through this Service bypass pgBouncer. To pool them, see [Configure separate read and write pools](#configure-separate-read-and-write-pools).
 
-To change the Service type, use `expose.type` in the Custom Resource manifest.
-For example, the following manifest will expose this service through a load
+For a summary of every Service the Operator creates, see [Services that clients connect to](architecture.md#services-that-clients-connect-to).
+
+To change the type of the `cluster1-ha` Service, use [`expose.type`](operator.md#exposetype) in the Custom Resource manifest. This option doesn't affect `cluster1-primary`.
+For example, the following manifest exposes `cluster1-ha` through a load
 balancer:
 
 ```yaml
