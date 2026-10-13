@@ -104,7 +104,7 @@ The cluster needs at least one standby so the replicas Service has endpoints for
 
 The following example uses cluster `cluster1` as the cluster name and database `mydb`. 
 
-The map entries looks as follows:
+The map entries look as follows:
 
 * `"*"` sends any database name you do not list to the `cluster1-primary` Service. Keep this entry.
 * `mydb` sends that database to `cluster1-primary`, which follows the current primary.
