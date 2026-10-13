@@ -195,7 +195,7 @@ You can create a new cluster from a PVC snapshot. This is useful when you want t
 
 To create a new cluster from a PVC snapshot, you need to configure the `PerconaPGCluster` object and specify an `volumesnapshot` object as the `dataSource`. You also need to configure the `instances` and `backups` sections to set up the new cluster. 
 
-For more information about the `dataSource` options, see the [Understand the `dataSource` options](backups-clone.md#understand-the-datasource-options) section. Also check the [Custom Resource reference](operator.md#datasource-subsection) for all available options.
+For more information about the `dataSource` options, see the [Choose a `dataSource` option](backups-clone.md#choose-a-datasource-option) section. Also check the [Custom Resource reference](operator.md#datasource-subsection) for all available options.
 
 Follow the steps below to create a new cluster from a PVC snapshot.
 

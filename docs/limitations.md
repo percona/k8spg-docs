@@ -45,7 +45,7 @@ To recover, you must manually [reinitialize the replica](reinit.md#reinitialize-
 ## Backups and restores
 
 * PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.
-* When you use the `dataSource` option to restore from a backup on a new cluster, you can use either `dataSource.postgresCluster` or `dataSource.pgbackrest`. You cannot use both options. If both are present, `dataSource.postgresCluster` takes precedence. See [Restore the backup to a new cluster](backups-clone.md#understand-the-datasource-options) to learn more.
+* When you use the `dataSource` option to restore from a backup on a new cluster, you can use either `dataSource.postgresCluster` or `dataSource.pgbackrest`. You cannot use both options. If both are present, `dataSource.postgresCluster` takes precedence. See [Restore the backup to a new cluster](backups-clone.md#choose-a-datasource-option) to learn more.
 
 ## Data management
 

@@ -144,4 +144,4 @@ To get the backup ID, do the following:
 * [Point-in-time recovery](backups-pitr.md)
 * [Cluster clone with point-in-time recovery](backups-pitr-cluster-clone.md)
 * [In-place restore with point-in-time recovery from a PVC snapshot](backups-pvc-usage.md#in-place-restore-with-point-in-time-recovery)
-* [Fix the cluster if the restore fails](backups-restore-inplace.md#fix-the-cluster-if-the-restore-fails)
+* [Troubleshoot restore failures](debug-restore.md)
