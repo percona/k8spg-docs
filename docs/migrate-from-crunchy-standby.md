@@ -332,6 +332,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
         #The rest of your configuration
        ```
 
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+
 5. Create the Percona PostgreSQL cluster
     
     ```bash

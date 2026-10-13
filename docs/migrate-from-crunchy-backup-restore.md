@@ -238,6 +238,7 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
     1. Set `spec.postgresVersion` to the same major version as `crunchy-source`.
     2. The `spec.dataSource.pgbackrest` configuration to reference the Secret with the credentials to the object store and to point at the **same** repository path and object store settings as the Crunchy cluster’s `repo1`. (See [Understand the `dataSource` options](backups-clone.md#understand-the-datasource-options) for more information about these options.)
     3. Under `spec.backups.pgbackrest`, use a **different** `repo1-path` than the Crunchy cluster so new backups do not overwrite the migration archive.
+    4. Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
 
     The following fragment shows the important pieces; merge them with the rest of `deploy/cr.yaml` (images, users, resources) for your environment:
 

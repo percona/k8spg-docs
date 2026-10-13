@@ -233,6 +233,7 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
     * Align `spec.postgresVersion` with the old cluster.
     * For the first cutover, set **one** replica on the instance that should attach to the migrated disk
     * Add a `selector` on `dataVolumeClaimSpec` matching the PV label. This ensures the controller binds the PVC to the correct PV that has the specified label.
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
     
     Here is the example configuration:
 

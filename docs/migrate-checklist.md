@@ -194,15 +194,126 @@ FROM pg_database;
 
 ## Compare extensions
 
-Record the extension list and versions on the source cluster before you migrate.
+pgBackRest restore, standby replication, and reusing the existing data volume all start the new cluster on the same data directory the Crunchy cluster was using. That directory still includes the `pg_extension` catalog, so PostgreSQL still has a record what extensions were installed, plus the objects those extensions created. 
+
+The Operator does not read that catalog and copy the Crunchy settings. It applies the extension settings from the `PerconaPGCluster` manifest. 
+
+Before you apply the manifest that creates the Percona cluster, set the extension fields there to match what the source database actually uses. 
+
+### Record extensions on the source
+
+Record the extension name and version in every application database before you migrate.
 
 --8<-- "pg-extensions-list.txt"
 
-Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image. 
+Record the libraries PostgreSQL loads at startup:
 
-You can also [add custom extensions](custom-extensions.md#add-custom-extensions) if you need them. Evaluate the risk before you add any extension.
+```sql
+SHOW shared_preload_libraries;
+```
 
-Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in `PGDATA`. Do not assume an extension is available because it exists in `pg_extension`.
+### Enable built-in extensions
+
+Percona Distribution for PostgreSQL ships a defined set of extensions. Their versions can differ from the Crunchy image. Compare your list with the [extensions shipped with Percona Distribution for PostgreSQL](https://docs.percona.com/postgresql/latest/extensions.html).
+
+These built-in extensions use the following defaults:
+
+| Extension | Enabled |
+| --------- | ------- |
+| `pgvector` | `false` |
+| `pg_stat_statements` | `false` |
+| `pg_stat_monitor` | `false` |
+| `pg_repack` | `false` |
+| `pg_audit` | `true` |
+
+Match the spec to the extensions the source database uses. See [Built-in extensions](custom-extensions.md#built-in-extensions) for the full list.
+
+!!! warning
+
+    The Operator drops a built-in extension that stays disabled. Enable every built-in extension you are migrating in the manifest that creates the cluster. If objects still depend on the extension, the drop fails and the cluster does not reconcile.
+
+On Operator 3.0.0, set the flag under `extensions.builtin`. Starting with version 3.1.0, set `extensions.<name>.enabled`. During the transition, `extensions.builtin` still works. If both forms are set, `extensions.builtin` takes precedence.
+
+The following examples show `pgvector` configuration:
+
+=== "Operator version 3.0.0"
+
+    ```yaml
+    spec:
+      extensions:
+        builtin:
+          pgvector: true
+    ```
+
+=== "Operator version 3.1.0"
+
+    ```yaml
+    spec:
+      extensions:
+        pgvector:
+          enabled: true
+    ```
+
+When you enable a built-in extension that is already installed, the Operator runs `ALTER EXTENSION ... UPDATE`. Compare the extension's version on the source cluster with the version available in the target cluster's image. Test that update in a trial run and check the application before you migrate production.
+
+### PostGIS
+
+PostGIS is a separate case. If the source cluster uses PostGIS, deploy the target with the [PostGIS image](postgis.md).
+
+A database upgrade does not update PostGIS. Run `SELECT PostGIS_Extensions_Upgrade();` in each database that uses PostGIS. See [Upgrade the PostGIS extension](update-extensions.md#upgrade-postgis-extension). 
+
+### Install extensions that are not in the Percona image
+
+Compare your `pg_extension` output with the Percona image you deploy. If you use extensions that are not in the Percona image, add them as [custom extensions](custom-extensions.md#add-custom-extensions).
+
+An extension that ships a native library needs that library to be listed in the `shared_preload_libraries` in the PostgreSQL installation. A catalog row in `pg_extension` does not load the library by itself.
+
+For a preload library the Operator does not append, set `patroni.dynamicConfiguration.postgresql.parameters.shared_preload_libraries`. Include only those libraries. The Operator appends the libraries for built-in extensions you enable. See [Extension parameters](immutable-options.md#extension-parameters).
+
+### Match set_user and pg_cron to the Operator version
+
+`set_user` and `pg_cron` are custom extensions on Operator 3.0.0. Starting with version 3.1.0, they are built-in extensions and default to `disabled`. The Operator drops each one that stays disabled.
+
+| Extension | Operator 3.0.0 | Operator 3.1.0 and later |
+| --------- | -------------- | ------------------------ |
+| `set_user` | Add it under `extensions.custom`. Include `set_user` in `shared_preload_libraries`. | Set `extensions.set_user.enabled` to `true`. The Operator appends `set_user` to `shared_preload_libraries`. |
+| `pg_cron` | Add it under `extensions.custom`. Include `pg_cron` in `shared_preload_libraries`. | Set `extensions.pg_cron.enabled` to `true`. The Operator appends `pg_cron` to `shared_preload_libraries` and sets `cron.database_name` to `postgres`. |
+
+On Operator 3.0.0, install both extensions as custom extensions:
+
+```yaml
+spec:
+  extensions:
+    custom:
+      - name: set_user
+        version: "<set_user-version>"
+      - name: pg_cron
+        version: "<pg_cron-version>"
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          shared_preload_libraries: "set_user,pg_cron"
+```
+
+Starting with version 3.1.0, enable the built-in flags. The Operator appends `set_user` and `pg_cron` to `shared_preload_libraries`. Set that parameter for any other preload libraries:
+
+```yaml
+spec:
+  extensions:
+    set_user:
+      enabled: true
+    pg_cron:
+      enabled: true
+```
+
+!!! warning
+
+    Starting with version 3.1.0, use the built-in flags for a new cluster. Removing `set_user` or `pg_cron` from `extensions.custom` without setting its `enabled` flag to `true` in the same apply deletes the extension.
+
+If the source cluster schedules `pg_cron` jobs in a database other than `postgres`, those jobs stop running after migration. The Operator sets `cron.database_name` to `postgres`.
+
+After the Percona cluster reports `Ready`, check the database logs. Confirm that each extension is still installed and that `\dx` shows the version you tested.
 
 ## Before you cut over
 
