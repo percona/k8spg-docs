@@ -52,7 +52,7 @@ You can connect to the cluster without a proxy.
 
 ![image](assets/images/repl2.svg)
 
-For that use `<clusterName>-ha` Service object:
+For that use the `<clusterName>-ha` Service object:
 
 ```bash
 kubectl get service
@@ -69,8 +69,9 @@ kubectl get service
     ```
 
 The `cluster1-ha` service points to the active primary. In case of failover to
-the replica node, will change the endpoint automatically. Also, you can use
+the replica node, it will change the endpoint automatically. Also, you can use
 `cluster1-replicas` service to make read requests to PostgreSQL replica instances.
+Reads through this Service bypass pgBouncer. To pool them, see [Configure separate read and write pools](#configure-separate-read-and-write-pools).
 
 To change the Service type, use `expose.type` in the Custom Resource manifest.
 For example, the following manifest will expose this service through a load
@@ -82,6 +83,78 @@ spec:
   expose:
     type: LoadBalancer
 ```
+
+## Configure separate read and write pools
+
+By default, pgBouncer pools every connection to the primary. The `<cluster>-replicas` Service reaches the standbys, and those connections skip pgBouncer.
+
+You can configure separate read and write pools so that pgBouncer chooses the PostgreSQL server from the database name in the client connection string. Set that mapping in the [databases] section under [`proxy.pgBouncer.config`](operator.md#proxypgbouncerconfig).
+
+Each entry in the mapping is a key-value pair. The key is the database name the client connects to. The value is the connection pgBouncer opens for that name: `host` and `port` select the Service, and `dbname` selects the database on that Service. When `dbname` is absent, pgBouncer opens the same name the client sent.
+
+The application chooses the pool by using a different database name in the connection string.
+
+The cluster needs at least one standby so the replicas Service has endpoints for the read pool.
+
+The following example uses cluster `cluster1` as the cluster name and database `mydb`. 
+
+The map entries looks as follows:
+
+* `"*"` sends any database name you do not list to the `cluster1-primary` Service. Keep this entry.
+* `mydb` sends that database to `cluster1-primary`, which follows the current primary.
+* `mydb_ro` is the read-only name. The client connects to `mydb_ro`, and pgBouncer opens database `mydb` on the `cluster1-replicas` Service.
+
+```yaml
+proxy:
+  pgBouncer:
+    config:
+      databases:
+        "*": "host=cluster1-primary port=5432"
+        mydb: "host=cluster1-primary port=5432"
+        mydb_ro: "host=cluster1-replicas port=5432 dbname=mydb"
+```
+
+!!! warning
+
+    A `databases` map replaces the list the Operator generates. pgBouncer then accepts only the names in this map. Include the `"*"` entry so every database you do not name still reaches the primary. 
+
+Apply the Custom Resource. The Operator reloads pgBouncer with the new list.
+
+pgBouncer verifies the PostgreSQL server name during the TLS handshake. Use the `<cluster>-primary` and `<cluster>-replicas` Services as these hosts. Set `port` to the PostgreSQL port in the cluster spec. The default is `5432`.
+
+Add one read-only name for each database that serves pooled reads, and set `dbname` to the real database name. Each name has its own pool, so read traffic and write traffic use separate server connections.
+
+After a failover, `<cluster>-primary` follows the new primary and the former primary joins `<cluster>-replicas`.
+
+### Connect clients
+
+Create two connection strings to the pgBouncer Service. For a client inside the cluster, the host is `cluster1-pgbouncer.<namespace>.svc.cluster.local` and the port is `5432`. Use the external address of that Service when the client runs outside the cluster.
+
+Both strings use the same user and password. Change only the database name:
+
+* Write string: database `mydb`. Use it for writes and for reads that must see the latest commit.
+  
+   Example:
+
+   ```
+   host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb user=<user> password=<password>
+   ```
+
+* Read string: database `mydb_ro`. Use it for reads that can run on a standby.
+
+   Example:
+
+   ```
+   host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb_ro user=<user> password=<password>
+   ```
+ 
+The user Secret already stores a connection URI for the write path. See [Connect to the PostgreSQL cluster](connect.md). Copy that URI and set the database name to `mydb_ro` for the read path.
+
+The application has to follow these rules:
+
+* Send writes on the write string. A standby rejects a write sent on the read string.
+* Keep a read on the write string when it must see a transaction that just committed. A standby can lag behind the primary.
+* Keep both strings through failover. The Services move with the primary and the standbys, so the application does not change hosts.
 
 ## Expose a logical replica
 
