@@ -392,6 +392,7 @@ After you delete the Crunchy cluster and clear the PV's claim reference, the PV 
     * In `dataVolumeClaimSpec`, set `storageClassName` to the StorageClass name you gave the PV, and add a `selector` matching the PV label. This ensures the PVC binds only to the migrated PV.
     * If you have a WAL volume, add `walVolumeClaimSpec` with the same StorageClass name and a selector matching the WAL PV label. Without it, PostgreSQL doesn't start: the `postgres-startup` init container fails with `mv: cannot stat '/pgwal/pg18_wal': No such file or directory`.
     * If you have tablespace volumes, add one `tablespaceVolumes` entry per tablespace. Use **the same name** as in the Crunchy cluster, the migration StorageClass name, and a selector matching the tablespace PV label. Without it, the cluster starts and reports `ready`, but queries on tables in the tablespace fail, and so do backups.
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
 
     You don't need node affinity rules, even for node-local storage such as local-path: with the migration StorageClass name, Kubernetes binds the PVC to the PV first, and then schedules the Pod to the node or zone where the PV is.
     

@@ -378,6 +378,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
        ```
 
     * If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can't create the tablespace directories and doesn't start.
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
 
 5. Create the Percona PostgreSQL cluster
     
