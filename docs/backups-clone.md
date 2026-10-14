@@ -160,7 +160,7 @@ Key options are:
 
 The repository number in `repo.name`, in the `global.repo<N>-path` option, and in the credentials in the Secret must be the same. See [Match the repository number](#match-the-repository-number).
 
-For all options, see the [Get the backup settings from the source cluster](#get-the-backup-settings-from-the-source-cluster).
+For all options, see the [Custom Resource reference](operator.md#datasourcepgbackreststanza).
 
 Don't combine `dataSource.pgbackrest` with `dataSource.postgresCluster`. If both are set in the same Custom Resource, `dataSource.postgresCluster` takes precedence and the Operator ignores the `dataSource.pgbackrest` configuration.
 
