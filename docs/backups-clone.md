@@ -36,7 +36,7 @@ To clone a cluster, configure the `dataSource.postgresCluster` subsection in the
 
 * If you clone in the **same namespace** as the source cluster, the new cluster needs a different name. The Operator already manages multiple clusters within one namespace, so no extra configuration is needed.
 
-* If you clone **into a different namespace**, the cluster names can match, but the Operator watching the source namespace won't see a Custom Resource created in the new one. Either deploy a second, separate Operator into that namespace or switch the Operator to the [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) so it watches both namespaces. 
+* If you clone **into a different namespace**, the cluster names can match, but the Operator watching the source namespace won't see a Custom Resource created in the new one. Either deploy a second, separate Operator into that namespace or switch the Operator you already run to the [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) so it watches both namespaces. 
 
 ### Make a full data clone
 
@@ -154,9 +154,11 @@ To clone from cloud storage, configure the `dataSource.pgbackrest` subsection in
 Key options are:
 
 * `dataSource.pgbackrest.stanza` - the name of `pgBackRest` stanza - a unique identifier for a source PostgreSQL cluster's backup configuration
-* `dataSource.pgbackrest.configuration.secret.name` - the name of the Secret object with the credentials to the cloud storage. It must be the same in both source and new clusters because the restore Pod requires the same credentials as the original backup Pod.
+* `dataSource.pgbackrest.configuration.secret.name` - the name of the Secret object with the credentials to the cloud storage. The restore Pod reads the backups with these credentials.
 * `dataSource.pgbackrest.global` is the location of a backup.
-* `dataSource.pgbackrest.repo` is the name of the `pgBackRest` repository. It is the same on both source and new clusters.
+* `dataSource.pgbackrest.repo` is the `pgBackRest` repository to restore from: its name and storage settings.
+
+The repository number in `repo.name`, in the `global.repo<N>-path` option, and in the credentials in the Secret must be the same. See [Match the repository number](#match-the-repository-number).
 
 For all options, see the [Get the backup settings from the source cluster](#get-the-backup-settings-from-the-source-cluster).
 
@@ -255,7 +257,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
 
     Map the output to the new cluster's Custom Resource as follows:
 
-    * `repo<N>-path` → `dataSource.pgbackrest.global.repo<N>-path`. Keep the same repository number as in the source.
+    * `repo<N>-path` → `dataSource.pgbackrest.global.repo<N>-path`. To use a different repository number in the new cluster, see [Match the repository number](#match-the-repository-number).
     * `repo<N>-s3-bucket`, `repo<N>-s3-endpoint`, `repo<N>-s3-region` → `dataSource.pgbackrest.repo.s3`
     * `repo<N>` → `dataSource.pgbackrest.repo.name`
     * Section name in square brackets after `[global]` → `dataSource.pgbackrest.stanza`
@@ -301,7 +303,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
     | Section | Field | Purpose |
     | ------- | ----- | ------- |
     | `dataSource.pgbackrest` | `stanza` | pgBackRest stanza name (usually `db`). Required for cloud restore. |
-    | `dataSource.pgbackrest` | `configuration.secret.name` | Secret with cloud credentials. Must match the Secret used by the source cluster. |
+    | `dataSource.pgbackrest` | `configuration.secret.name` | Secret with cloud credentials. The `repo<N>` prefix of the credentials must match `repo.name`. |
     | `dataSource.pgbackrest` | `global.repo<N>-path` | Path where the **source** cluster stored its backups. Use the same path as in the original cluster's `backups.pgbackrest.global`. |
     | `dataSource.pgbackrest` | `repo` | Storage config (bucket, endpoint, region) matching the source. Single object, not an array. |
     | `backups.pgbackrest` | `global.repo<N>-path` | Path for the **new** cluster's backups. Use a different path (e.g., with the new cluster name) so the clone backs up to its own location and does not overwrite the original backups. |
@@ -378,6 +380,70 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
         ```
 
 If the command times out and the cluster stays in the `initializing` state, check the restore Job logs. See [Troubleshoot restore failures](debug-restore.md). To fix a cluster clone, correct the `dataSource.pgbackrest` values in the new cluster's Custom Resource and apply it again. The Operator starts a new restore Job.
+
+### Match the repository number
+
+The restore Job runs `pgbackrest restore --repo=<N>`, where `<N>` is the number from `dataSource.pgbackrest.repo.name`. pgBackRest then reads the backup path from the `dataSource.pgbackrest.global.repo<N>-path` option and the credentials from the `repo<N>-*` options in the Secret. These three must use the same number:
+
+* `dataSource.pgbackrest.repo.name`, for example `repo2`
+* the path option in `dataSource.pgbackrest.global`, for example `repo2-path`
+* the credentials in the Secret, for example `repo2-s3-key` and `repo2-s3-key-secret`
+
+Only the path must point to the location of the source cluster’s backups. The repository number can differ from the one the source cluster used. This gives you two ways to configure the new cluster:
+
+* Keep the source cluster's repository number and reuse its Secret as is. The [example in Clone from S3 storage](#clone-from-s3-storage) does this with `repo2`.
+* Use a different repository number, for example `repo1`. In this case, create a new Secret with credentials for that number. You can't reuse the source cluster's Secret, because its credentials have the source number in their names. 
+
+If the numbers don't match, the restore Job fails. For example, if `repo.name` is `repo1` but the Secret contains `repo2-*` credentials, the restore Job log shows:
+
+```{.text .no-copy}
++ pgbackrest restore --stanza=db --pg1-path=/pgdata/pg18 --repo=1 --delta --link-map=pg_wal=/pgdata/pg18_wal
+P00  ERROR: [037]: restore command requires option: repo1-s3-key
+```
+
+#### Restore with a different repository number
+
+The following steps create `cluster2` with the `repo1` repository from backups that `cluster1` stored in its `repo2` repository:
+{.power-number}
+
+1. Create a file named `s3.conf` with the storage credentials. Use the number of the new repository in the option names:
+
+    ```ini
+    [global]
+    repo1-s3-key=<your-access-key>
+    repo1-s3-key-secret=<your-secret-key>
+    ```
+
+2. Create the Secret in the namespace of the new cluster:
+
+    ```bash
+    kubectl create secret generic cluster2-restore-secret \
+      --from-file=s3.conf=s3.conf -n <target-namespace>
+    ```
+
+3. In the new cluster's Custom Resource, reference this Secret and use `repo1` in both `repo.name` and the path option. Set the path to the location of the source cluster's `repo2` backups:
+
+    ```yaml
+    spec:
+      dataSource:
+        pgbackrest:
+          stanza: db
+          configuration:
+            - secret:
+                name: cluster2-restore-secret
+          global:
+            repo1-path: /pgbackrest/postgres-operator/cluster1/repo2 # The location of the backup on the source cluster
+          repo:
+            name: repo1
+            s3:
+              bucket: my-bucket
+              endpoint: https://s3.amazonaws.com
+              region: us-east-1
+    ```
+
+    Configure the rest of the Custom Resource, including `backups.pgbackrest` for the new cluster's own backups, as in [Clone from S3 storage](#clone-from-s3-storage).
+
+4. Deploy the cluster and wait until it is ready, as in steps 2 and 3 of [Clone from S3 storage](#clone-from-s3-storage).
 
 ### Clone from cloud, backup to local storage
 
