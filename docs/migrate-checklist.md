@@ -194,7 +194,7 @@ FROM pg_database;
 
 ## Compare extensions
 
-pgBackRest restore, standby replication, and reusing the existing data volume all start the new cluster on the same data directory the Crunchy cluster was using. That directory still includes the `pg_extension` catalog, so PostgreSQL still has a record what extensions were installed, plus the objects those extensions created. 
+pgBackRest restore and standby replication initialize the new cluster from a physical copy of the Crunchy cluster's data, while volume reuse starts it on the original data directory. In all three cases, the migrated data includes the `pg_extension` catalog, so PostgreSQL retains a record of installed extensions and the objects those extensions created.
 
 The Operator does not read that catalog and copy the Crunchy settings. It applies the extension settings from the `PerconaPGCluster` manifest. 
 
@@ -218,13 +218,13 @@ Percona Distribution for PostgreSQL ships a defined set of extensions. Their ver
 
 These built-in extensions use the following defaults:
 
-| Extension | Enabled |
-| --------- | ------- |
-| `pgvector` | `false` |
-| `pg_stat_statements` | `false` |
-| `pg_stat_monitor` | `false` |
-| `pg_repack` | `false` |
-| `pg_audit` | `true` |
+| PostgreSQL extension | `spec.extensions` field | Enabled |
+| -------------------- | ----------------------- | ------- |
+| `vector` | `pgvector` | `false` |
+| `pg_stat_statements` | `pg_stat_statements` | `false` |
+| `pg_stat_monitor` | `pg_stat_monitor` | `false` |
+| `pg_repack` | `pg_repack` | `false` |
+| `pgaudit` | `pg_audit` | `true` |
 
 Match the spec to the extensions the source database uses. See [Built-in extensions](custom-extensions.md#built-in-extensions) for the full list.
 
@@ -266,7 +266,7 @@ A database upgrade does not update PostGIS. Run `SELECT PostGIS_Extensions_Upgra
 
 Compare your `pg_extension` output with the Percona image you deploy. If you use extensions that are not in the Percona image, add them as [custom extensions](custom-extensions.md#add-custom-extensions).
 
-An extension that ships a native library needs that library to be listed in the `shared_preload_libraries` in the PostgreSQL installation. A catalog row in `pg_extension` does not load the library by itself.
+An extension that ships a native library needs that library to be present in the target PostgreSQL installation. If the extension requires startup preloading, also list its preload library in `shared_preload_libraries`; a `pg_extension` catalog row does not provide either requirement.
 
 For a preload library the Operator does not append, set `patroni.dynamicConfiguration.postgresql.parameters.shared_preload_libraries`. Include only those libraries. The Operator appends the libraries for built-in extensions you enable. See [Extension parameters](immutable-options.md#extension-parameters).
 
@@ -279,7 +279,7 @@ For a preload library the Operator does not append, set `patroni.dynamicConfigur
 | `set_user` | Add it under `extensions.custom`. Include `set_user` in `shared_preload_libraries`. | Set `extensions.set_user.enabled` to `true`. The Operator appends `set_user` to `shared_preload_libraries`. |
 | `pg_cron` | Add it under `extensions.custom`. Include `pg_cron` in `shared_preload_libraries`. | Set `extensions.pg_cron.enabled` to `true`. The Operator appends `pg_cron` to `shared_preload_libraries` and sets `cron.database_name` to `postgres`. |
 
-On Operator 3.0.0, install both extensions as custom extensions:
+On Operator 3.0.0, first package and configure both as custom extensions by following [Add custom extensions](custom-extensions.md#add-custom-extensions). After you configure `extensions.image` and `extensions.storage`, add these entries:
 
 ```yaml
 spec:
@@ -313,7 +313,7 @@ spec:
 
 If the source cluster schedules `pg_cron` jobs in a database other than `postgres`, those jobs stop running after migration. The Operator sets `cron.database_name` to `postgres`.
 
-After the Percona cluster reports `Ready`, check the database logs. Confirm that each extension is still installed and that `\dx` shows the version you tested.
+After the Percona cluster reports `Ready`, check the database logs. In every database that you recorded earlier, run `\dx` and confirm that each extension is installed at the version you tested.
 
 ## Before you cut over
 
