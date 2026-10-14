@@ -160,7 +160,7 @@ Key options are:
 
 The repository number in `repo.name`, in the `global.repo<N>-path` option, and in the credentials in the Secret must be the same. See [Match the repository number](#match-the-repository-number).
 
-For all options, see the [Get the backup settings from the source cluster](#get-the-backup-settings-from-the-source-cluster).
+For all options, see the [Custom Resource reference](operator.md#datasourcepgbackreststanza).
 
 Don't combine `dataSource.pgbackrest` with `dataSource.postgresCluster`. If both are set in the same Custom Resource, `dataSource.postgresCluster` takes precedence and the Operator ignores the `dataSource.pgbackrest` configuration.
 
@@ -246,7 +246,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
         ...
         repo2-path = /pgbackrest/postgres-operator/cluster1/repo2
         repo2-s3-bucket = my-bucket
-        repo2-s3-endpoint = https://s3.amazonaws.com
+        repo2-s3-endpoint = s3.amazonaws.com
         repo2-s3-region = us-east-1
         repo2-type = s3
         spool-path = /pgdata/pgbackrest-spool
@@ -354,7 +354,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
           - name: repo2
             s3:
               bucket: my-bucket
-              endpoint: https://s3.amazonaws.com
+              endpoint: s3.amazonaws.com
               region: us-east-1
     ```
 
