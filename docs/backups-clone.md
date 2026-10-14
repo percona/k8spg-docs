@@ -32,25 +32,29 @@ If you already know which option you need, go to its procedure:
 
 ## Clone from an existing cluster
 
-To clone a cluster, configure the `dataSource.postgresCluster` subsection in the Custom Resource of the **new** cluster. The source can be in the same namespace or a different one. The key options are:
+To clone a cluster, configure the `dataSource.postgresCluster` subsection in the Custom Resource of the **new** cluster. The new cluster can be in the same namespace as the source or a different one. 
 
-* `dataSource.postgresCluster.clusterName` is the name of the cluster you restore from. This is the source cluster. The option value corresponds to the `metadata.name` of the source cluster Custom Resource.
-* `dataSource.postgresCluster.clusterNamespace` is the namespace where the source cluster is deployed. Use it if namespaces of source and new clusters differ. Cloning to a different namespace requires the Operator in [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide).
-* `dataSource.postgresCluster.repoName` is the name of the `pgBackRest` repository on the source cluster where the backup you restore from is located. It must exist on the source.
-* `dataSource.postgresCluster.options` are additional `pgBackRest` options that you pass for the restore. For example, you configure them for [point-in-time recovery](backups-pitr-cluster-clone.md) or to [restore specific databases](#restore-specific-databases).
+* If you clone in the **same namespace** as the source cluster, the new cluster needs a different name. The Operator already manages multiple clusters within one namespace, so no extra configuration is needed.
 
-Read more about all available options in the [Custom Resource reference](operator.md#datasource-subsection).
+* If you clone **into a different namespace**, the cluster names can match, but the Operator watching the source namespace won't see a Custom Resource created in the new one. Either deploy a second, separate Operator into that namespace or switch the Operator to the [cluster-wide mode](cluster-wide.md#install-the-operator-cluster-wide) so it watches both namespaces. 
 
 ### Make a full data clone
 
-To create an independent copy of your cluster, add the `dataSource.postgresCluster` section to the Custom Resource of the *new* cluster.
+To create an independent copy of your cluster, configure the Custom Resource for the **new** cluster as follows: 
 
-You also need to configure the storage and backup settings for the new cluster:
+* Add the `dataSource.postgresCluster` section. Copy the values from the *source cluster*:
+  
+  * `clusterName` is the `metadata.name` of the source cluster Custom Resource.
+  * `clusterNamespace` is the namespace of the source cluster. Set it when the new cluster is in a different namespace.
+  * `repoName` is the `pgBackRest` repository on the source cluster that holds the backup you restore. That repository must exist on the source.
+  * `options` are extra `pgBackRest` options for the restore. Use them for [point-in-time recovery](backups-pitr-cluster-clone.md) or to [restore specific databases](#restore-specific-databases).
 
-* In the `instances` section, define the `dataVolumeClaimSpec` for your new cluster, which sets up the PVC. This determines the storage resources (size, access mode, etc.) allocated for your cloned database data.
-* In the `backups.pgbackrest.repos` section, set up a backup repository for the new cluster. The repo name must match the one used in `repoName` above. Also configure the backup storage. This ensures the new cluster both restores data and is able to perform its own backups independently.
+* Set `postgresVersion` to the PostgreSQL major version of the source cluster.
 
-Set `postgresVersion` to the PostgreSQL major version of the source cluster.
+* Define storage and backups on the new cluster:
+
+  * In `instances`, set `dataVolumeClaimSpec` for the cloned data. This creates the PersistentVolumeClaim (PVC), including its size and access mode.
+  * In `backups.pgbackrest.repos`, add a backup repository that belongs to the new cluster. Give it the same name as `dataSource.postgresCluster.repoName`, and configure its storage. The new cluster restores from the source repository, then uses this repository for its own backups.
 
 The following example creates a cluster named `cluster2` as a clone of `cluster1` in the `percona-db-1` namespace:
 
