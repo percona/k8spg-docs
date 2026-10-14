@@ -140,19 +140,19 @@ Both strings use the same user and password. Change only the database name:
 
 * Write string: database `mydb`. Use it for writes and for reads that must see the latest commit.
   
-   Example:
+    Example:
 
-   ```
-   host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb user=<user> password=<password>
-   ```
+    ```
+    host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb user=<user> password=<password>
+    ```
 
 * Read string: database `mydb_ro`. Use it for reads that can run on a standby.
 
-   Example:
+    Example:
 
-   ```
-   host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb_ro user=<user> password=<password>
-   ```
+    ```
+    host=cluster1-pgbouncer.<namespace>.svc.cluster.local port=5432 dbname=mydb_ro user=<user> password=<password>
+    ```
  
 The user Secret already stores a connection URI for the write path. See [Connect to the PostgreSQL cluster](connect.md). Copy that URI and set the database name to `mydb_ro` for the read path.
 

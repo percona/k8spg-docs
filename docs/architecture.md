@@ -67,7 +67,7 @@ The Operator creates several Kubernetes Services for each cluster. The following
 | `cluster1-pgbouncer` | pgBouncer Pods | Yes | No, but pgBouncer has its own certificate that includes this name | Yes, with [`proxy.pgBouncer.expose.type`](operator.md#proxypgbouncerexposetype) | Default entry point for applications |
 | `cluster1-primary` | Active primary | No | Yes | No, it's a headless Service | Direct primary access from inside the Kubernetes cluster, especially for clients that verify the server's TLS identity. pgBouncer also uses it to reach the primary |
 | `cluster1-ha` | Active primary. Patroni updates its endpoints on failover | No | No | Yes, with [`expose.type`](operator.md#exposetype) | Direct primary access from outside the Kubernetes cluster without pgBouncer |
-| `cluster1-replicas` | Replica instances | No, unless you [configure a read pool](expose.md#configure-separate-read-and-write-pools) | Yes | Yes, with [`exposeReplicas.type`](operator.md#exposereplicastype) | Read-only queries |
+| `cluster1-replicas` | Replica instances | No | Yes | Yes, with [`exposeReplicas.type`](operator.md#exposereplicastype) | Read-only queries |
 | `cluster1-pods` | Each PostgreSQL Pod by its own DNS name | No | No | No, it's a headless Service | Pod identity for replication and Operator components. Not for client traffic |
 | `cluster1-ha-config` | Nothing. It carries no client traffic | No | No | No | Patroni keeps its cluster configuration with it. Not for client traffic |
 
