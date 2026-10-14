@@ -193,20 +193,28 @@ rejoining as a replica once the kubelet restarts its container.
 
 **Usually automatic. Manual only if a Pod gets stuck, and the order you act in matters.**
 
-When Kubernetes cleanly and permanently removes a node, meaning it actually deregisters the node and not just marks it unreachable, its own node controller deletes the Node object and reschedules the affected Pods on its own, without getting stuck. Pods are rescheduled within about 7 seconds. The Node object itself is gone around 54 seconds later. The cluster reports `ready` again about 100 seconds after the node was removed. No manual steps are needed in that case.
+After the lost Node object is removed, either by your cloud provider’s controller or by an administrator, Kubernetes replaces the affected Pods. The replacement Pods can run on healthy nodes if their volumes can attach there. A local PersistentVolume stays tied to the lost node through its node affinity, so a Pod that uses one stays `Pending` even after the Node object is removed. For irrecoverably lost local storage, follow the manual recovery steps.
 
-The Pod can get stuck in `Terminating` when the node disappears *without* a clean deregistration, so Kubernetes doesn't know to clean up after it. If that happens:
+Recovery time depends on Pod scheduling and volume attachment. If you rebuild an instance manually, it also depends on how much data must be restored from the backup. If the lost node hosted the primary, writes are unavailable until Patroni promotes a replica.
 
-!!! warning "Delete the PVC before the Pod, not after"
+The Pod can get stuck in `Terminating` when the node disappears *without* a clean deregistration, so Kubernetes doesn't know to clean up after it. If that happens, the manual rebuild is destructive. Confirm two things before you touch it: that the old node has actually stopped, and that you aren't about to destroy storage you could have reattached instead.
 
-    Deleting the stuck Pod first lets Kubernetes immediately reattach a new Pod to the *same*, about-to-be-deleted PersistentVolumeClaim. That leaves the PVC stuck in `Terminating` while the cluster still reports `ready` with all instances. It looks healthy. It isn't, and it stays that way until you notice and delete the Pod a second time. Delete the PVC first instead. The rebuild completes cleanly in one pass, with the replica back to streaming in about a minute.
+!!! warning "This rebuild is destructive"
+
+    Confirm before you act:
+    
+    * `kubectl get nodes` only reflects what the control plane can reach. A node can be unreachable without being dead, and its old PostgreSQL instance can still be running. Force-deleting a Pod removes the Kubernetes object without waiting for the kubelet to confirm the container actually stopped. Combine the two, and a replacement primary can start while the old one is still writing. Confirm the node has genuinely stopped through your infrastructure itself, for example a cloud console or a fencing mechanism, before you force-delete anything.
+
+    * Deleting the stuck Pod first also lets Kubernetes immediately reattach a new Pod to the *same*, about-to-be-deleted PersistentVolumeClaim. That leaves the PVC stuck in `Terminating` while the cluster still reports `ready` with all instances. It looks healthy. It isn't, and it stays that way until you notice and delete the Pod a second time. Delete the PVC first instead, and only once you've confirmed it's unrecoverable: a StorageClass with a `Delete` reclaim policy destroys the underlying disk when its PVC is deleted, not just the Kubernetes object. Preserve any PVC whose storage can still reattach to a replacement node, and delete one only once you have a usable recovery source for the database, such as a backup or a surviving replica.
 
 **Act:**
 
-1. Confirm the node is genuinely gone for good (`kubectl get nodes`) and the Pod is stuck `Terminating` or `Pending` with no progress.
-2. Delete the PVC first: `kubectl delete pvc <pvc-name> -n <namespace> --wait=false`
-3. Then force-delete the Pod: `kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0`
-4. Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the [cluster state checks](#check-the-cluster-state-during-an-incident).
+1. Confirm the node has genuinely stopped, through your infrastructure's own shutdown confirmation or a fencing mechanism. Don't rely on `kubectl get nodes` alone.
+2. Confirm the Pod is stuck `Terminating` or `Pending` with no progress.
+3. Confirm the PVC's storage can't reattach to a replacement node, and that you have a usable recovery source for the database, before you delete it.
+4. Delete the PVC: `kubectl delete pvc <pvc-name> -n <namespace> --wait=false`
+5. Force-delete the Pod: `kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0`
+6. Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the [cluster state checks](#check-the-cluster-state-during-an-incident).
 
 The same two steps work for the repo host Pod specifically. The Operator recreates its pgBackRest stanza on its own. No manual `pgbackrest stanza-create` is needed. Expect the stanza back within about a minute and a full backup completing shortly after.
 
