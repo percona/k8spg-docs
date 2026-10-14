@@ -230,7 +230,8 @@ Match the spec to the extensions the source database uses. See [Built-in extensi
 
 !!! warning
 
-    The Operator drops a built-in extension that stays disabled. Enable every built-in extension you are migrating in the manifest that creates the cluster. If objects still depend on the extension, the drop fails and the cluster does not reconcile.
+      **Enable every built-in extension you are migrating in the manifest that creates the cluster.** The Operator drops a built-in extension that stays disabled. If anything still depends on such disabled extension, the drop fails silently: the cluster still reports `ready`, nothing in its status flags the failure, and the Operator retries the same drop on every reconcile, logging an "Unable to disable ..." event each time. You won't get a clear error telling you to go fix it — the manifest has to be right going in.
+      
 
 On Operator 3.0.0, set the flag under `extensions.builtin`. Starting with version 3.1.0, set `extensions.<name>.enabled`. During the transition, `extensions.builtin` still works. If both forms are set, `extensions.builtin` takes precedence.
 
