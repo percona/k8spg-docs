@@ -675,6 +675,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#services-that-clients-connect-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Services that clients connect to
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6825,6 +6836,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#services-that-clients-connect-to" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Services that clients connect to
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -6943,6 +6965,71 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The Operator uses <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">node affinity and anti-affinity <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.</p>
 <h4 id="automatic-recovery">Automatic recovery<a class="headerlink" href="#automatic-recovery" title="Permanent link">&para;</a></h4>
 <p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="ha-deploy.html">High-availability</a>.</p>
+<h4 id="services-that-clients-connect-to">Services that clients connect to<a class="headerlink" href="#services-that-clients-connect-to" title="Permanent link">&para;</a></h4>
+<p>The Operator creates several Kubernetes Services for each cluster. The following table uses <code>cluster1</code> as the cluster name:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Resolves to</th>
+<th>Pooled by pgBouncer</th>
+<th>Name in the TLS certificate</th>
+<th>External exposure</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cluster1-pgbouncer</code></td>
+<td>pgBouncer Pods</td>
+<td>Yes</td>
+<td>No, but pgBouncer has its own certificate that includes this name</td>
+<td>Yes, with <a href="operator.html#proxypgbouncerexposetype"><code>proxy.pgBouncer.expose.type</code></a></td>
+<td>Default entry point for applications</td>
+</tr>
+<tr>
+<td><code>cluster1-primary</code></td>
+<td>Active primary</td>
+<td>No</td>
+<td>Yes</td>
+<td>No, it&rsquo;s a headless Service</td>
+<td>Direct primary access from inside the Kubernetes cluster, especially for clients that verify the server&rsquo;s TLS identity. pgBouncer also uses it to reach the primary</td>
+</tr>
+<tr>
+<td><code>cluster1-ha</code></td>
+<td>Active primary. Patroni updates its endpoints on failover</td>
+<td>No</td>
+<td>No</td>
+<td>Yes, with <a href="operator.html#exposetype"><code>expose.type</code></a></td>
+<td>Direct primary access from outside the Kubernetes cluster without pgBouncer</td>
+</tr>
+<tr>
+<td><code>cluster1-replicas</code></td>
+<td>Replica instances</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes, with <a href="operator.html#exposereplicastype"><code>exposeReplicas.type</code></a></td>
+<td>Read-only queries</td>
+</tr>
+<tr>
+<td><code>cluster1-pods</code></td>
+<td>Each PostgreSQL Pod by its own DNS name</td>
+<td>No</td>
+<td>No</td>
+<td>No, it&rsquo;s a headless Service</td>
+<td>Pod identity for replication and Operator components. Not for client traffic</td>
+</tr>
+<tr>
+<td><code>cluster1-ha-config</code></td>
+<td>Nothing. It carries no client traffic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Patroni keeps its cluster configuration with it. Not for client traffic</td>
+</tr>
+</tbody>
+</table>
+<p>Both <code>cluster1-primary</code> and <code>cluster1-ha</code> follow failover automatically. Choose between them based on where the client runs and whether it verifies the server&rsquo;s TLS identity. See <a href="expose.html#exposing-the-cluster-without-pgbouncer">Exposing the cluster without pgBouncer</a>.</p>
 <h2 id="storage-and-persistent-volumes">Storage and persistent volumes<a class="headerlink" href="#storage-and-persistent-volumes" title="Permanent link">&para;</a></h2>
 <p>Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through <strong>PersistentVolumeClaims (PVCs)</strong>, which request storage resources. The cluster’s CSI driver provisions <strong>PersistentVolumes</strong>, and can <strong>reattach</strong> storage if a Pod moves to another
 node, thereby ensuring data continuity.</p>
@@ -6954,7 +7041,7 @@ node, thereby ensuring data continuity.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 14, 2026 13:18:18 UTC">October 14, 2026</span>
       
         <br>
         Created:

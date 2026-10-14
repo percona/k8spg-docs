@@ -9102,6 +9102,71 @@ Check upcoming releases on the <a href="https://github.com/orgs/percona/projects
 <p>The Operator uses <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">node affinity and anti-affinity <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.</p>
 <h4 id="architecture-automatic-recovery">Automatic recovery<a class="headerlink" href="#architecture-automatic-recovery" title="Permanent link">&para;</a></h4>
 <p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="#ha-deploy">High-availability</a>.</p>
+<h4 id="architecture-services-that-clients-connect-to">Services that clients connect to<a class="headerlink" href="#architecture-services-that-clients-connect-to" title="Permanent link">&para;</a></h4>
+<p>The Operator creates several Kubernetes Services for each cluster. The following table uses <code>cluster1</code> as the cluster name:</p>
+<table>
+<thead>
+<tr>
+<th>Service</th>
+<th>Resolves to</th>
+<th>Pooled by pgBouncer</th>
+<th>Name in the TLS certificate</th>
+<th>External exposure</th>
+<th>Typical use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>cluster1-pgbouncer</code></td>
+<td>pgBouncer Pods</td>
+<td>Yes</td>
+<td>No, but pgBouncer has its own certificate that includes this name</td>
+<td>Yes, with <a href="#operator-proxypgbouncerexposetype"><code>proxy.pgBouncer.expose.type</code></a></td>
+<td>Default entry point for applications</td>
+</tr>
+<tr>
+<td><code>cluster1-primary</code></td>
+<td>Active primary</td>
+<td>No</td>
+<td>Yes</td>
+<td>No, it&rsquo;s a headless Service</td>
+<td>Direct primary access from inside the Kubernetes cluster, especially for clients that verify the server&rsquo;s TLS identity. pgBouncer also uses it to reach the primary</td>
+</tr>
+<tr>
+<td><code>cluster1-ha</code></td>
+<td>Active primary. Patroni updates its endpoints on failover</td>
+<td>No</td>
+<td>No</td>
+<td>Yes, with <a href="#operator-exposetype"><code>expose.type</code></a></td>
+<td>Direct primary access from outside the Kubernetes cluster without pgBouncer</td>
+</tr>
+<tr>
+<td><code>cluster1-replicas</code></td>
+<td>Replica instances</td>
+<td>No</td>
+<td>Yes</td>
+<td>Yes, with <a href="#operator-exposereplicastype"><code>exposeReplicas.type</code></a></td>
+<td>Read-only queries</td>
+</tr>
+<tr>
+<td><code>cluster1-pods</code></td>
+<td>Each PostgreSQL Pod by its own DNS name</td>
+<td>No</td>
+<td>No</td>
+<td>No, it&rsquo;s a headless Service</td>
+<td>Pod identity for replication and Operator components. Not for client traffic</td>
+</tr>
+<tr>
+<td><code>cluster1-ha-config</code></td>
+<td>Nothing. It carries no client traffic</td>
+<td>No</td>
+<td>No</td>
+<td>No</td>
+<td>Patroni keeps its cluster configuration with it. Not for client traffic</td>
+</tr>
+</tbody>
+</table>
+<p>Both <code>cluster1-primary</code> and <code>cluster1-ha</code> follow failover automatically. Choose between them based on where the client runs and whether it verifies the server&rsquo;s TLS identity. See <a href="#expose-exposing-the-cluster-without-pgbouncer">Exposing the cluster without pgBouncer</a>.</p>
 <h2 id="architecture-storage-and-persistent-volumes">Storage and persistent volumes<a class="headerlink" href="#architecture-storage-and-persistent-volumes" title="Permanent link">&para;</a></h2>
 <p>Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through <strong>PersistentVolumeClaims (PVCs)</strong>, which request storage resources. The cluster’s CSI driver provisions <strong>PersistentVolumes</strong>, and can <strong>reattach</strong> storage if a Pod moves to another
 node, thereby ensuring data continuity.</p>
@@ -12227,7 +12292,7 @@ default. In this case to connect to the database use the internal domain name -
 <h2 id="expose-exposing-the-cluster-without-pgbouncer">Exposing the cluster without <code>pgBouncer</code><a class="headerlink" href="#expose-exposing-the-cluster-without-pgbouncer" title="Permanent link">&para;</a></h2>
 <p>You can connect to the cluster without a proxy.</p>
 <p><img alt="image" src="assets/images/repl2.svg" /></p>
-<p>For that use <code>&lt;clusterName&gt;-ha</code> Service object:</p>
+<p>The Operator creates two Services that point to the primary: <code>&lt;clusterName&gt;-primary</code> and <code>&lt;clusterName&gt;-ha</code>. List the Services:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>service
 </code></pre></div>
 <details class="example" open="open">
@@ -12236,20 +12301,79 @@ default. In this case to connect to the database use the internal domain name -
 ...
 cluster1-ha          ClusterIP   10.88.8.121   &lt;none&gt;        5432/TCP   115s
 ...
+cluster1-primary     ClusterIP   None          &lt;none&gt;        5432/TCP   115s
 cluster1-replicas    ClusterIP   10.88.8.115   &lt;none&gt;        5432/TCP   2m16s
 </code></pre></div>
 </details>
-<p>The <code>cluster1-ha</code> service points to the active primary. In case of failover to
-the replica node, will change the endpoint automatically. Also, you can use
-<code>cluster1-replicas</code> service to make read requests to PostgreSQL replica instances.</p>
-<p>To change the Service type, use <code>expose.type</code> in the Custom Resource manifest.
-For example, the following manifest will expose this service through a load
+<p>Both Services resolve to the active primary. After a failover, both follow the new primary automatically. Each one serves a different connection scenario:</p>
+<ul>
+<li><code>cluster1-primary</code> is a headless Service for clients inside the Kubernetes cluster. The cluster&rsquo;s TLS certificate includes its name, so use it for clients that verify the server&rsquo;s TLS identity by hostname. You can&rsquo;t expose this Service outside the Kubernetes cluster. The <code>expose.type</code> option doesn&rsquo;t change it.</li>
+<li><code>cluster1-ha</code> is the Service that Patroni manages for leader election. The cluster&rsquo;s TLS certificate doesn&rsquo;t include its name. It&rsquo;s the only Service that honors <code>expose.type</code>, so use it to reach the primary from outside the Kubernetes cluster without pgBouncer.</li>
+</ul>
+<p>To send read requests to PostgreSQL replica instances, use the <code>cluster1-replicas</code> Service. Set its type with <a href="#operator-exposereplicastype"><code>exposeReplicas.type</code></a>.
+Reads through this Service bypass pgBouncer. To pool them, see <a href="#expose-configure-separate-read-and-write-pools">Configure separate read and write pools</a>.</p>
+<p>For a summary of every Service the Operator creates, see <a href="#architecture-services-that-clients-connect-to">Services that clients connect to</a>.</p>
+<p>To change the type of the <code>cluster1-ha</code> Service, use <a href="#operator-exposetype"><code>expose.type</code></a> in the Custom Resource manifest. This option doesn&rsquo;t affect <code>cluster1-primary</code>.
+For example, the following manifest exposes <code>cluster1-ha</code> through a load
 balancer:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="nn">...</span>
 <span class="w">  </span><span class="nt">expose</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LoadBalancer</span>
 </code></pre></div>
+<h2 id="expose-configure-separate-read-and-write-pools">Configure separate read and write pools<a class="headerlink" href="#expose-configure-separate-read-and-write-pools" title="Permanent link">&para;</a></h2>
+<p>By default, pgBouncer pools every connection to the primary. The <code>&lt;cluster&gt;-replicas</code> Service reaches the standbys, and those connections skip pgBouncer.</p>
+<p>You can configure separate read and write pools so that pgBouncer chooses the PostgreSQL server from the database name in the client connection string. Set that mapping in the [databases] section under <a href="#operator-proxypgbouncerconfig"><code>proxy.pgBouncer.config</code></a>.</p>
+<p>Each entry in the mapping is a key-value pair. The key is the database name the client connects to. The value is the connection pgBouncer opens for that name: <code>host</code> and <code>port</code> select the Service, and <code>dbname</code> selects the database on that Service. When <code>dbname</code> is absent, pgBouncer opens the same name the client sent.</p>
+<p>The application chooses the pool by using a different database name in the connection string.</p>
+<p>The cluster needs at least one standby so the replicas Service has endpoints for the read pool.</p>
+<p>The following example uses cluster <code>cluster1</code> as the cluster name and database <code>mydb</code>. </p>
+<p>The map entries look as follows:</p>
+<ul>
+<li><code>"*"</code> sends any database name you do not list to the <code>cluster1-primary</code> Service. Keep this entry.</li>
+<li><code>mydb</code> sends that database to <code>cluster1-primary</code>, which follows the current primary.</li>
+<li><code>mydb_ro</code> is the read-only name. The client connects to <code>mydb_ro</code>, and pgBouncer opens database <code>mydb</code> on the <code>cluster1-replicas</code> Service.</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">        </span><span class="s">"*"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"host=cluster1-primary</span><span class="nv"> </span><span class="s">port=5432"</span>
+<span class="w">        </span><span class="nt">mydb</span><span class="p">:</span><span class="w"> </span><span class="s">"host=cluster1-primary</span><span class="nv"> </span><span class="s">port=5432"</span>
+<span class="w">        </span><span class="nt">mydb_ro</span><span class="p">:</span><span class="w"> </span><span class="s">"host=cluster1-replicas</span><span class="nv"> </span><span class="s">port=5432</span><span class="nv"> </span><span class="s">dbname=mydb"</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>A <code>databases</code> map replaces the list the Operator generates. pgBouncer then accepts only the names in this map. Include the <code>"*"</code> entry so every database you do not name still reaches the primary. </p>
+</div>
+<p>Apply the Custom Resource. The Operator reloads pgBouncer with the new list.</p>
+<p>pgBouncer verifies the PostgreSQL server name during the TLS handshake. Use the <code>&lt;cluster&gt;-primary</code> and <code>&lt;cluster&gt;-replicas</code> Services as these hosts. Set <code>port</code> to the PostgreSQL port in the cluster spec. The default is <code>5432</code>.</p>
+<p>Add one read-only name for each database that serves pooled reads, and set <code>dbname</code> to the real database name. Each name has its own pool, so read traffic and write traffic use separate server connections.</p>
+<p>After a failover, <code>&lt;cluster&gt;-primary</code> follows the new primary and the former primary joins <code>&lt;cluster&gt;-replicas</code>.</p>
+<h3 id="expose-connect-clients">Connect clients<a class="headerlink" href="#expose-connect-clients" title="Permanent link">&para;</a></h3>
+<p>Create two connection strings to the pgBouncer Service. For a client inside the cluster, the host is <code>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local</code> and the port is <code>5432</code>. Use the external address of that Service when the client runs outside the cluster.</p>
+<p>Both strings use the same user and password. Change only the database name:</p>
+<ul>
+<li>
+<p>Write string: database <code>mydb</code>. Use it for writes and for reads that must see the latest commit.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>host=cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local port=5432 dbname=mydb user=&lt;user&gt; password=&lt;password&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Read string: database <code>mydb_ro</code>. Use it for reads that can run on a standby.</p>
+<p>Example:</p>
+<div class="highlight"><pre><span></span><code>host=cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local port=5432 dbname=mydb_ro user=&lt;user&gt; password=&lt;password&gt;
+</code></pre></div>
+</li>
+</ul>
+<p>The user Secret already stores a connection URI for the write path. See <a href="#connect">Connect to the PostgreSQL cluster</a>. Copy that URI and set the database name to <code>mydb_ro</code> for the read path.</p>
+<p>The application has to follow these rules:</p>
+<ul>
+<li>Send writes on the write string. A standby rejects a write sent on the read string.</li>
+<li>Keep a read on the write string when it must see a transaction that just committed. A standby can lag behind the primary.</li>
+<li>Keep both strings through failover. The Services move with the primary and the standbys, so the application does not change hosts.</li>
+</ul>
 <h2 id="expose-expose-a-logical-replica">Expose a logical replica<a class="headerlink" href="#expose-expose-a-logical-replica" title="Permanent link">&para;</a></h2>
 <p>A <a href="#logical-replication">logical replica</a> has its own Service, <code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>. It is not behind pgBouncer. Set <code>spec.logicalReplicas[].expose</code> in the same way as <code>spec.expose</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
