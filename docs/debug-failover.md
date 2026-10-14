@@ -16,7 +16,7 @@ Most of the recovery times in this guide come down to one setting: `patroni.lead
 | [Planned switchover](#planned-switchover) | You trigger it, automatic execution | ~8 s direct, ~16 s through pgBouncer | None |
 | [Node hosting the primary powered off](#node-hosting-the-primary-is-powered-off) | Automatic | ~28 s, about one leader-lease duration | None expected, possible under asynchronous replication |
 | [Primary Pod network-partitioned](#network-partition) | Automatic | ~33 s direct; through pgBouncer, as long as the partition lasts unless the client has its own timeout | Yes, writes the isolated primary acknowledged just before it demotes itself |
-| [Node's kubelet loses the Kubernetes API server](#node-loses-the-kubernetes-api-server) | No impact at first; automatic once resolved | None for up to ~5 minutes, then ~9 s | None |
+| [Node's kubelet loses the Kubernetes API server](#node-loses-the-kubernetes-api-server) | No impact while disconnected; failover on reconnection if eviction is pending | None while disconnected; ~9 s on reconnection if the eviction toleration elapsed | None |
 | [Node with the primary and the repo host lost](#node-with-the-primary-and-the-repo-host-lost) | Automatic, but promotion can stall | ~95 s, about three times an ordinary node loss | None from the stall itself |
 | [Primary PostgreSQL frozen](#frozen-primary) | Automatic | ~35 s direct, ~41 s through pgBouncer | Possible, writes acknowledged right before the freeze |
 | [Node permanently lost](#permanent-node-loss) | Usually automatic; manual in one specific case | ~100 s automatic; ~67 s once you act, if you act in the right order | Possible, see the scenario for details |
@@ -77,13 +77,21 @@ Kubernetes sends `SIGTERM` to the Pod. The StatefulSet controller, not the Opera
 
 ### Primary Pod deleted with the Operator down
 
-Failover works exactly the same way, since Patroni and the StatefulSet controller don't need the Operator. Recovery is about 9 seconds direct and about 6 seconds through pgBouncer. The one difference: the recreated Pod isn't fully reconciled (image, labels, and so on) until the Operator starts running again, so the cluster can take noticeably longer than usual to report `ready`.
+Failover works the same way because Patroni and the StatefulSet controller do
+not need the Operator. Recovery is about 9 seconds direct and about 6 seconds
+through pgBouncer. While the Operator is down, the PerconaPGCluster status is
+not refreshed and can report a stale `ready` state. Restore the Operator to
+resume reconciliation and status updates.
 
 ### Planned switchover
 
 You ask the Operator to move the primary role to a specific replica. See [Change the PostgreSQL primary instance](change-primary.md) for the procedure. Direct clients recover in about 8 seconds. pgBouncer recovers more slowly, about 16 seconds, because it caches a failed server login for `server_login_retry` seconds (15 by default) and returns `server login has been failing` to new connections until that passes.
 
-**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). `patronictl list` shows the new or target Pod as `Leader`; `kubectl get pg` reports `ready` (allow extra time if the Operator is down).
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident).
+`patronictl list` shows the new or target Pod as `Leader`. Check Pod readiness
+directly while the Operator is down because the custom resource status can be
+stale. After restoring the Operator, confirm that `kubectl get pg` reports
+`ready`.
 
 **Act:** nothing needed for an involuntary Pod loss. After a planned switchover, set `patroni.switchover.enabled` back to `false`. If the Operator is down, restore its Deployment when you can; it's needed for configuration changes, backups, and scaling, not for failover.
 
@@ -173,7 +181,9 @@ All PostgreSQL processes on the primary stop responding. A stalled disk or a pau
 
     This describes PostgreSQL freezing while the kubelet keeps running. If the whole node or virtual machine pauses, the kubelet pauses with it and can't restart the container. In that case the old primary can resume as a writable primary for a short time on already-open connections. It can accept and acknowledge a few more commits before Patroni notices it lost the lock and demotes it. Those commits are lost.
 
-**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). `patronictl list` shows the new `Leader` streaming normally, and the old primary rejoining once the kubelet restarts its container.
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident).
+`patronictl list` shows the new `Leader` in `running` state and the old primary
+rejoining as a replica once the kubelet restarts its container.
 
 **Act:** nothing needed for failover itself. Investigate the underlying cause, such as storage latency.
 
@@ -194,8 +204,8 @@ The Pod can get stuck in `Terminating` when the node disappears *without* a clea
 **Act:**
 
 1. Confirm the node is genuinely gone for good (`kubectl get nodes`) and the Pod is stuck `Terminating` or `Pending` with no progress.
-2. Delete the PVC first: `kubectl delete pvc <pvc-name> --wait=false`
-3. Then force-delete the Pod: `kubectl delete pod <pod-name> --force --grace-period=0`
+2. Delete the PVC first: `kubectl delete pvc <pvc-name> -n <namespace> --wait=false`
+3. Then force-delete the Pod: `kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0`
 4. Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the [cluster state checks](#check-the-cluster-state-during-an-incident).
 
 The same two steps work for the repo host Pod specifically. The Operator recreates its pgBackRest stanza on its own. No manual `pgbackrest stanza-create` is needed. Expect the stanza back within about a minute and a full backup completing shortly after.
@@ -206,7 +216,7 @@ The same two steps work for the repo host Pod specifically. The Operator recreat
 
 | Goal | What to change | Trade-off |
 | --- | --- | --- |
-| No loss of acknowledged writes on failover | Turn on [synchronous replication](ha-deploy.md#configure-synchronous-replication) | Higher write latency. Writes stop if no synchronous replica is available, unless you configure Patroni otherwise. |
+| No loss of acknowledged writes on automatic failover | Turn on [synchronous replication](ha-deploy.md#configure-synchronous-replication) | Higher write latency. Without strict mode, Patroni can accept asynchronous commits when no synchronous standby is available and prevent automatic promotion of an unsafe standby. Set `synchronous_mode_strict: true` to block writes when no synchronous standby is available. |
 | Faster unplanned failover | Lower [`patroni.leaderLeaseDurationSeconds`](operator.md#patronileaderleasedurationseconds) and [`patroni.syncPeriodSeconds`](operator.md#patronisyncperiodseconds) | More unnecessary failovers when the Kubernetes API server responds slowly |
 | No hung clients | Set a statement or query timeout in your application or connection pool | Long-running queries need a higher timeout |
 | Survive the loss of a node or zone | Spread PostgreSQL Pods and the repo host across nodes and zones with [anti-affinity and topology spread constraints](constraints.md) | Needs enough nodes and zones |
