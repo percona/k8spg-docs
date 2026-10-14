@@ -246,7 +246,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
         ...
         repo2-path = /pgbackrest/postgres-operator/cluster1/repo2
         repo2-s3-bucket = my-bucket
-        repo2-s3-endpoint = https://s3.amazonaws.com
+        repo2-s3-endpoint = s3.amazonaws.com
         repo2-s3-region = us-east-1
         repo2-type = s3
         spool-path = /pgdata/pgbackrest-spool
