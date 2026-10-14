@@ -354,7 +354,7 @@ Run these commands against the **source** cluster. The examples use `cluster1`:
           - name: repo2
             s3:
               bucket: my-bucket
-              endpoint: https://s3.amazonaws.com
+              endpoint: s3.amazonaws.com
               region: us-east-1
     ```
 
