@@ -170,6 +170,10 @@ Next, identify the primary Pod, its data PVC, and backing PV
 
     If your Crunchy Pod uses a volume name other than `postgres-data`, adjust the JSONPath filter.
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Retain the PV and remove the Crunchy cluster
 
 The default reclaim policy for a dynamically PersistentVolume is `Delete`. This means that as soon as there are no Persistent Volume Claims (PVC) bound to this PV, Kubernetes deletes it and all data is lost. To prevent this, change the PV reclaim policy to `Retain`.
@@ -234,7 +238,8 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
     * For the first cutover, set **one** replica on the instance that should attach to the migrated disk
     * Add a `selector` on `dataVolumeClaimSpec` matching the PV label. This ensures the controller binds the PVC to the correct PV that has the specified label.
     * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
-    
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
+
     Here is the example configuration:
 
     ```yaml

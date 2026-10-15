@@ -316,6 +316,41 @@ If the source cluster schedules `pg_cron` jobs in a database other than `postgre
 
 After the Percona cluster reports `Ready`, check the database logs. In every database that you recorded earlier, run `\dx` and confirm that each extension is installed at the version you tested.
 
+## Check what else changes after migration
+
+The migration methods in this guide copy the data directory, so the migrated cluster keeps the data itself. The Operator still applies its own naming, defaults, and labels on top of that data. None of this blocks the migration, but missing it causes problems ranging from broken logins to blind monitoring.
+
+### Match users and passwords
+
+The Operator doesn't copy user credentials from Crunchy during migration. It generates a new password for any user it manages and applies it to the database, overwriting the password that migrated with the data. Existing application logins break the moment the Operator reconciles that user.
+
+To keep the Crunchy passwords, do this **before** you create the cluster:
+
+* Copy the `password` and `verifier` keys into the `<clusterName>-pguser-<userName>` Secret 
+* List every migrated user in `spec.users`. See [Understanding default user management](users.md#understanding-default-user-management) for the naming convention.
+
+### Keep the user schema behavior Crunchy had
+
+Crunchy puts a user's tables in the `public` schema by default. The Operator's `autoCreateUserSchema` defaults to `true` and creates a schema named after the user instead. Set it to `false` in the manifest that creates the cluster if your application expects unqualified table names to resolve to `public`.
+
+### Recreate non-extension Postgres settings
+
+The Operator does not carry over Crunchy's `dynamicConfiguration`. Only `pgaudit` is preloaded by default. If the source cluster set other `postgresql.conf` parameters or preloaded other libraries, add them under `patroni.dynamicConfiguration.postgresql.parameters` and `shared_preload_libraries` the same way you already did for extensions. See [Extension parameters](immutable-options.md#extension-parameters).
+
+### Update labels, Services and anything that reads them
+
+The primary Pod's `postgres-operator.crunchydata.com/role` label changes value from `master` to `primary`, and every Service name follows the new cluster name instead of Crunchy's. Update NetworkPolicies, alert rules, and any script or dashboard that selects on the old label value or Service name.
+
+### Replace monitoring and admin tools
+
+pgMonitor, its `ccp_*` metrics, and its Grafana dashboards don't carry over. Replace them with [Percona Monitoring and Management](monitor-kubernetes.md) or a [`postgres_exporter` sidecar](postgres-exporter.md). 
+
+pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an alternative before cutover if you depend on either.
+
+### Rotate TLS certificates after a standby cutover
+
+[Migrating using a standby cluster](migrate-from-crunchy-standby.md) keeps Crunchy-issued certificates for mutual TLS during replication. Replace them with the Operator-issued or your own certificates after cutover, so the new primary doesn't keep trusting Crunchy's CA indefinitely.
+
 ## Before you cut over
 
 Perform at least **three successful trial runs** in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.
