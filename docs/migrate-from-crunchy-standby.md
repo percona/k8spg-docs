@@ -62,7 +62,7 @@ If you don't, install the Operator Deployment following the [official Crunchy do
 Whether you are deploying a new Crunchy PostgreSQL cluster or already have one running, make sure that:
 
 1. `pgBackRest` is configured to send backups to a remote storage that will be accessible by the Percona standby cluster.
-2. The Crunchy PostgreSQL cluster is exposed for external access so that the Percona cluster can connect to it for streaming replication. This typically involves making the PostgreSQL HA service accessible over the network.
+2. The Percona cluster can reach the Crunchy primary Service for streaming replication. If both clusters run in the same Kubernetes cluster, the `<clusterName>-ha` Service is reachable from other namespaces and needs no changes. If they run in different Kubernetes clusters, expose the Service outside the cluster, for example with `spec.service.type: LoadBalancer` in the `PostgresCluster` Custom Resource.
 
 To meet these requirements, do the following:
 
@@ -96,8 +96,6 @@ To meet these requirements, do the following:
     * The name of the bucket
     * The endpoint on the storage
     * The shared path for both Crunchy and Percona standby clusters
-  
-    For external access, specify the type `LoadBalancer` for the service.
 
     Here's the example configuration for Crunchy PostgreSQL cluster showing these important settings:
 
@@ -147,53 +145,91 @@ To meet these requirements, do the following:
     kubectl apply -f postgres.yaml -n $CRUNCHY_NS
     ```
 
-5. Wait for the cluster to report the "Ready" status:
+5. Wait until all PostgreSQL instances of the cluster are ready. Set the number to the `replicas` value of the `instance1` instance set (`3` in this example):
    
     ```bash
-    kubectl wait pod \
-        -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/data=postgres \
-        -n "${CRUNCHY_NS}" \
-        --for=condition=Ready \
-        --timeout=300s
-    ```
-
-    ??? example "Sample output"
-
-        ```{.text .no-copy}
-        pod/crunchy-source-instance1-n642-0 condition met
-        pod/crunchy-source-instance1-shr4-0 condition met
-        pod/crunchy-source-instance1-xczk-0 condition met
-        ```
-
-## Make a full backup on the Crunchy PostgreSQL cluster before the migration
-
-Make a full backup. This ensures the standby cluster has a recent restore point and needs to replay a small amount of WAL files to synchronize.
-
-
-2. Make a full backup of your Crunchy PostgreSQL cluster:
-
-    ```bash
-    kubectl annotate postgrescluster crunchy-source \
-      --namespace "${CRUNCHY_NS}" \
-      postgres-operator.crunchydata.com/pgbackrest-backup="$(date +%s)"
-    ```
-
-3. Wait for the backup job to complete:
-
-    ```bash
-    kubectl wait job \
-     -l postgres-operator.crunchydata.com/cluster=crunchy-source \
-     -l postgres-operator.crunchydata.com/pgbackrest-backup=manual \
-     -n "${CRUNCHY_NS}" \
-     --for=condition=complete \
-     --timeout=600s
+    kubectl wait postgrescluster.postgres-operator.crunchydata.com/crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      --for=jsonpath='{.status.instances[?(@.name=="instance1")].readyReplicas}'=3 \
+      --timeout=600s
     ```
 
     ??? example "Expected output"
 
         ```{.text .no-copy}
-        job.batch/crunchy-source-backup-ntns condition met
+        postgrescluster.postgres-operator.crunchydata.com/crunchy-source condition met
         ```
+
+    This command waits on the cluster status, so you can run it right after `kubectl apply`. A `kubectl wait pod` command fails with `no matching resources found` if the Pods don't exist yet.
+
+## Make a full backup on the Crunchy PostgreSQL cluster before the migration
+
+Make a full backup. This ensures the standby cluster has a recent restore point and needs to replay a small amount of WAL files to synchronize.
+
+1. Start a full backup of your Crunchy PostgreSQL cluster. The annotation value identifies this backup request, so save it in a variable:
+
+    ```bash
+    BACKUP_ID=$(date +%s)
+    kubectl annotate postgrescluster.postgres-operator.crunchydata.com crunchy-source \
+      --namespace "${CRUNCHY_NS}" \
+      --overwrite \
+      postgres-operator.crunchydata.com/pgbackrest-backup="${BACKUP_ID}"
+    ```
+
+    The `--overwrite` flag lets you re-run the command if the cluster already has this annotation from an earlier backup.
+
+2. Wait until the Crunchy Operator picks up this backup request:
+
+    ```bash
+    kubectl wait postgrescluster.postgres-operator.crunchydata.com/crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      --for=jsonpath='{.status.pgbackrest.manualBackup.id}'="${BACKUP_ID}" \
+      --timeout=120s
+    ```
+
+3. Wait for the backup to finish:
+
+    ```bash
+    kubectl wait postgrescluster.postgres-operator.crunchydata.com/crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      --for=jsonpath='{.status.pgbackrest.manualBackup.finished}'=true \
+      --timeout=600s
+    ```
+
+    On a newly created Crunchy cluster, the Crunchy Operator first completes its automatic initial backup and starts your backup only after that. The timeout covers both backups. For a large cluster, increase it.
+
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        postgrescluster.postgres-operator.crunchydata.com/crunchy-source condition met
+        ```
+
+4. Check that the backup succeeded:
+
+    ```bash
+    kubectl get postgrescluster.postgres-operator.crunchydata.com crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      -o jsonpath='{.status.pgbackrest.manualBackup.succeeded}{"\n"}'
+    ```
+
+    The output is `1` for a successful backup.
+
+    If the backup fails, the Crunchy Operator retries it. During the retries, `finished` stays `false` and the previous wait times out, while `status.pgbackrest.manualBackup.failed` counts the failed attempts. Check it with:
+
+    ```bash
+    kubectl get postgrescluster.postgres-operator.crunchydata.com crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      -o jsonpath='{.status.pgbackrest.manualBackup}{"\n"}'
+    ```
+
+    To find the backup Job and check its logs, run:
+
+    ```bash
+    kubectl get job -n "${CRUNCHY_NS}" \
+      -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/pgbackrest-backup=manual
+    ```
+
+    After you fix the cause, start the backup again with a new `BACKUP_ID` value.
    
 ## Export data for the standby cluster
 
@@ -208,6 +244,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     ??? example "Expected output"
 
         ```{.text .no-copy}
+        crunchy-pgbackrest-secret             Opaque               1      7h29m
         crunchy-source-cluster-cert           Opaque               3      7h29m
         crunchy-source-instance1-khbq-certs   Opaque               6      7h29m
         crunchy-source-instance1-ndrp-certs   Opaque               6      7h29m
@@ -216,13 +253,14 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
         crunchy-source-pgbouncer              Opaque               6      7h29m
         crunchy-source-pguser-crunchy-source           Opaque               12     7h29m
         crunchy-source-replication-cert       Opaque               3      7h29m
+        pgo-root-cacert                       Opaque               2      7h29m
         ```
 
     The Secrets we are interested in are `crunchy-source-cluster-cert` and `crunchy-source-replication-cert`
 
 2. Export Secrets to a file:
     
-    ```
+    ```bash 
     kubectl get secret crunchy-source-cluster-cert -o json -n "$CRUNCHY_NS" \
       | yq -o yaml '
     {
@@ -282,32 +320,38 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
   
         * Set `standby.enabled` to `true`.
         * Specify the repository name to restore from in the `standby.repoName` option.
-        - Specify the name of the service of the Crunchy PostgreSQL to stream data from. The Service name follows the pattern `<service-name>.<namespace>.svc.cluster.local`. 
+        * Specify the name of the service of the Crunchy PostgreSQL to stream data from. The Service name follows the pattern `<service-name>.<namespace>.svc.cluster.local`. 
         * Specify the port of this service.
         
         Replace example names such as `crunchy-source-ha`,
            `crunchy-source-pgbackrest`, and `cluster1-pgbouncer` if you use
            different cluster names. The service name `crunchy-source-ha` in
            the following example is derived from the source `PostgresCluster`
-           name `crunchy-source`.
+           name `crunchy-source`. Replace `<CRUNCHY_NS>` with the namespace of the Crunchy cluster.
       
           ```yaml
           standby:
            enabled: true                     
-           host: crunchy-source-ha.postgres-operator.svc.cluster.local
+           host: crunchy-source-ha.<CRUNCHY_NS>.svc.cluster.local
            port: 5432
            repoName: repo1
           ```
 
-    - For the mutual TLS communication, reference the TLS Secrets you created for the `secrets.customTLSSecret` and `secrets.customReplicationTLSSecret` options
+    * For the mutual TLS communication, reference the TLS Secrets you created for the `secrets.customTLSSecret` and `secrets.customReplicationTLSSecret` options
 
-       ```yaml
-       secrets:
-         customTLSSecret:
-           name: crunchy-source-cluster-cert 
-         customReplicationTLSSecret:
-           name: crunchy-source-replication-cert 
-       ```
+        ```yaml
+        secrets:
+          customTLSSecret:
+            name: crunchy-source-cluster-cert 
+          customReplicationTLSSecret:
+            name: crunchy-source-replication-cert 
+        ```
+
+        !!! warning "pgBouncer doesn't work while the cluster uses the Crunchy certificates"
+
+            The Crunchy server certificate is issued only for the `crunchy-source-primary` and `crunchy-source-replicas` host names. With this certificate, Percona pgBouncer service `cluster1-pgbouncer` can't connect to PostgreSQL, and clients that connect to `cluster1-primary` with `sslmode=verify-full` fail on the host name check. The Operator also doesn't renew these certificates. They expire one year after Crunchy issued them.
+
+            Keep these certificates only for the migration. After the cutover, [switch the cluster to Operator-managed certificates](#switch-to-operator-managed-tls-certificates).
     
     * Configure the backup storage to exactly match the configuration on the Crunchy PostgreSQL cluster:
   
@@ -361,11 +405,11 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 
 7. Verify the data is replicated on the standby. 
     
-    * Export one of the Pods as an environment variable
+    * Export the standby leader Pod as an environment variable. The standby leader replicates from Crunchy, and the other Pods replicate from it. The Operator labels the standby leader with `role=primary`:
 
        ```bash
        STANDBY_POD=$(kubectl get pod -n "${NAMESPACE}" \
-       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres \
+       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
        -o jsonpath='{.items[0].metadata.name}')
        ```
     
@@ -402,21 +446,23 @@ On the Crunchy **primary** Pod, confirm the Percona standby is connected and lag
     ```bash
     kubectl -n "${CRUNCHY_NS}" exec "${CRUNCHY_PRIMARY}" -c database -- \
       psql -c "
-        SELECT client_addr, state,
+        SELECT application_name, client_addr, state,
                pg_wal_lsn_diff(sent_lsn, replay_lsn) AS byte_lag,
                write_lag, flush_lag, replay_lag
         FROM pg_stat_replication;
       "
     ```
 
+    The output also lists the Crunchy replicas. The Percona standby leader is the row whose `application_name` starts with `cluster1-instance1`.
+
     ??? example "Sample output"
 
         ```{.text .no-copy}
-        client_addr |   state   | byte_lag |    write_lag    |    flush_lag    |   replay_lag
-        -------------+-----------+----------+-----------------+-----------------+-----------------
-          10.76.0.6   | streaming |        0 | 00:00:00.004238 | 00:00:00.00733  | 00:00:00.009044
-          10.76.2.9   | streaming |        0 | 00:00:00.011289 | 00:00:00.013495 | 00:00:00.014209
-          10.76.2.11  | streaming |        0 | 00:00:00.001273 | 00:00:00.002045 | 00:00:00.002287
+           application_name         | client_addr |   state   | byte_lag |    write_lag    |    flush_lag    |   replay_lag
+        ----------------------------+-------------+-----------+----------+-----------------+-----------------+-----------------
+         crunchy-source-instance1-n642-0 | 10.76.0.6   | streaming |        0 | 00:00:00.004238 | 00:00:00.00733  | 00:00:00.009044
+         crunchy-source-instance1-shr4-0 | 10.76.2.9   | streaming |        0 | 00:00:00.011289 | 00:00:00.013495 | 00:00:00.014209
+         cluster1-instance1-lfnc-0       | 10.76.2.11  | streaming |        0 | 00:00:00.001273 | 00:00:00.002045 | 00:00:00.002287
         (3 rows)
         ```
 
@@ -426,7 +472,7 @@ Proceed only when `write_lag` and `replay_lag` are null or within your policy (f
 
 Now you are ready for the cutover. Note that this step causes downtime as both clusters will be in standby mode and will not accept writes.
 
-1. Patch the Crunchy PostgreSQL cluster to the standby mode. Specify `repo1` so that Patroni archives the final WAL:
+1. Patch the Crunchy PostgreSQL cluster to the standby mode. Patroni shuts down the primary cleanly, which archives its last WAL segment to the shared repository. The `repoName` option makes Crunchy a standby that follows this repository, which is what [Rollback](#rollback) relies on:
 
     ```bash
     kubectl patch postgrescluster crunchy-source \
@@ -435,18 +481,16 @@ Now you are ready for the cutover. Note that this step causes downtime as both c
       -p '{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'
     ```
 
-2. Check that the former primary reports recovery:
+2. Wait until the former primary reports recovery. Right after the patch, the check can still return `f` or a connection error for a few seconds while Patroni restarts PostgreSQL:
 
     ```bash
-    kubectl -n $CRUNCHY_NS exec "${CRUNCHY_PRIMARY}" -c database -- \
-      psql -t -c "SELECT pg_is_in_recovery();"
+    until [ "$(kubectl -n "${CRUNCHY_NS}" exec "${CRUNCHY_PRIMARY}" -c database -- \
+      psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "t" ]; do
+      echo "Waiting for ${CRUNCHY_PRIMARY} to enter recovery..."
+      sleep 2
+    done
+    echo "${CRUNCHY_PRIMARY} is in recovery"
     ```
-    
-    ??? example "Expected output"
-
-        ```text
-        t
-        ```
 
 ## (Optional) Shut down the Crunchy cluster
 
@@ -486,18 +530,9 @@ Once the LSN value stops changing and stays the same across two consecutive chec
       -p '{"spec": {"standby": {"enabled": false}}}'
     ```
 
-3. Wait for the cluster to report the `Ready` status:
+3. Wait until the cluster leaves recovery mode and accepts writes. Don't rely on the cluster `ready` status for this: it stays `ready` during the promotion, so `kubectl wait` for this status returns immediately.
 
-    ```bash
-    kubectl wait perconapgcluster/cluster1 \
-      -n $NAMESPACE \
-      --for=jsonpath='{.status.state}'=ready \
-      --timeout=600s
-    ```
-
-4. Confirm the cluster is not in a recovery mode and can accept writes:
-
-    * Identify the primary pod:
+    * Identify the primary Pod:
       
        ```bash
        PERCONA_PRIMARY=$(kubectl get pod -n $NAMESPACE \
@@ -505,17 +540,21 @@ Once the LSN value stops changing and stays the same across two consecutive chec
         -o jsonpath='{.items[0].metadata.name}')
        ```
    
-    * Connect to the Pod and check if it is in the recovery mode:
+    * Check the recovery mode until the Pod reports `f`, which means the instance is read-write:
      
        ```bash
-       kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
-        psql -t -c "SELECT pg_is_in_recovery();"
+       until [ "$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+         psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "f" ]; do
+         echo "Waiting for ${PERCONA_PRIMARY} to accept writes..."
+         sleep 2
+       done
+       echo "${PERCONA_PRIMARY} accepts writes"
        ```
 
-      You should see `f`. This means the instance is read-write.
+      The promotion usually takes a few seconds.
     
 
-5. After promoting the Percona cluster, it is important to confirm that the `pgBackRest` stanza has been created. The stanza is required for managing backups and enabling restores; without it, regular backup operations and recovery from backup will not be possible. Waiting for `stanzaCreated` to become true ensures that backup tooling has been initialized properly before proceeding.
+4. After promoting the Percona cluster, it is important to confirm that the `pgBackRest` stanza has been created. The stanza is required for managing backups and enabling restores. Without it, regular backup operations and recovery from backup will not be possible. Waiting for `stanzaCreated` to become `true` ensures that backup tooling has been initialized properly before proceeding.
    
     ```bash
     kubectl wait perconapgcluster/cluster1 \
@@ -532,11 +571,57 @@ Once the LSN value stops changing and stays the same across two consecutive chec
 
 ## Take a post-migration backup 
 
-This creates a clean recovery point on the new timeline. Note that after you make the backup, you can no longer roll back to the Crunchy PostgreSQL.
+After the promotion, `cluster1` still archives WAL to the repository path it shares with Crunchy, and the Operator has already taken an incremental backup there on top of Crunchy's full backup. Move `cluster1` to its own repository path and take a full backup there. This gives the Percona cluster backups that don't depend on the Crunchy archive.
 
-1. Edit the `deploy/backup.yaml` configuration file:
+!!! warning "This step ends the rollback window"
 
-    ```yaml
+    After you change the repository path, Crunchy no longer receives the WAL from `cluster1`. If you roll back after this point, Crunchy doesn't get the writes made on `cluster1`. Do this step only when you no longer need [Rollback](#rollback). Until then, `cluster1` can keep using the shared path.
+
+Do this step before you point applications to `cluster1`. The WAL that `cluster1` generates between the path change and the stanza creation isn't stored in either repository.
+
+1. Change the repository path. Use a path that no other cluster uses:
+
+    ```bash
+    kubectl patch perconapgcluster cluster1 \
+      -n "${NAMESPACE}" \
+      --type=merge \
+      -p '{"spec":{"backups":{"pgbackrest":{"global":{"repo1-path":"/percona/cluster1/repo1"}}}}}'
+    ```
+
+2. Wait until the `pgBackRest` configuration on the primary Pod shows the new path:
+
+    ```bash
+    until kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      grep -qE 'repo1-path *= */percona/cluster1/repo1$' /etc/pgbackrest/conf.d/pgbackrest_instance.conf 2>/dev/null; do
+      echo "Waiting for the new repository path..."
+      sleep 5
+    done
+    ```
+
+3. Create the `pgBackRest` stanza in the new path. The Operator doesn't do it when only the path changes:
+
+    ```bash
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      pgbackrest --stanza=db stanza-create
+    ```
+
+    Until the stanza exists, WAL archiving to the new path fails. In Operator versions 3.0.0 and 3.1.0, `pg_stat_archiver` doesn't show these failures, so don't use it to check archiving.
+
+4. Wait until the repository host Pod also has the new path. Backups run from this Pod, and it gets the new configuration up to a minute later than the primary:
+
+    ```bash
+    until kubectl -n "${NAMESPACE}" exec cluster1-repo-host-0 -c pgbackrest -- \
+      grep -qE 'repo1-path *= */percona/cluster1/repo1$' /etc/pgbackrest/conf.d/pgbackrest_repo.conf 2>/dev/null; do
+      echo "Waiting for the repository host..."
+      sleep 5
+    done
+    ```
+
+Then take a full backup in the new path:
+
+1. Create the `post-migration-backup.yaml` configuration file. Set `--type=full` in `options`: without it, `pgBackRest` makes an incremental backup on top of the last full backup in the repository.
+
+    ```yaml title="post-migration-backup.yaml"
     apiVersion: pgv2.percona.com/v2
     kind: PerconaPGBackup
     metadata:
@@ -544,12 +629,14 @@ This creates a clean recovery point on the new timeline. Note that after you mak
     spec:
       pgCluster: cluster1
       repoName: repo1
+      options:
+        - --type=full
     ```
 
 2. Apply the configuration to start the backup:
 
     ```bash
-    kubectl apply -f deploy/post-migration-backup.yaml -n "${NAMESPACE}"
+    kubectl apply -f post-migration-backup.yaml -n "${NAMESPACE}"
     ```
 
 3. Wait for the backup job to complete:
@@ -561,9 +648,97 @@ This creates a clean recovery point on the new timeline. Note that after you mak
       --timeout=600s
     ```
 
+    ??? example "Expected output"
+
+        ```{.text .no-copy}
+        perconapgbackup.pgv2.percona.com/post-migration-backup condition met
+        ```
+
+4. Check that the backup is a full backup:
+
+    ```bash
+    kubectl get perconapgbackup post-migration-backup \
+      -n "${NAMESPACE}" \
+      -o jsonpath='{.status.backupType}{"\n"}'
+    ```
+
+    The output is `full`.
+
+## Switch to Operator-managed TLS certificates
+
+The cluster still uses the TLS certificates imported from Crunchy. They don't cover the `cluster1` host names, so `cluster1-pgbouncer` can't connect to PostgreSQL, and the Operator doesn't renew them. Replace them with certificates that the Operator issues and renews.
+
+Like the repository path change, this step ends the rollback window: replication between the clusters relies on the Crunchy certificates.
+
+1. Remove the references to the Crunchy certificates from the cluster configuration:
+
+    ```bash
+    kubectl patch perconapgcluster cluster1 \
+      -n "${NAMESPACE}" \
+      --type=json \
+      -p='[
+        {"op":"remove","path":"/spec/secrets/customTLSSecret"},
+        {"op":"remove","path":"/spec/secrets/customReplicationTLSSecret"}
+      ]'
+    ```
+
+    The Operator creates the `cluster1-cluster-cert` and `cluster1-replication-cert` Secrets, restarts the pgBouncer Pods and then restarts the PostgreSQL Pods one by one.
+
+2. Watch the PostgreSQL Pods:
+
+    ```bash
+    kubectl get pod -n "${NAMESPACE}" -w \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres
+    ```
+
+    The restart can stop after the first replica: the restarted replica trusts only the new certificate authority, so it can't connect to the primary that still uses the Crunchy certificate. The replica stays not ready, and its `database` container log shows `certificate verify failed`. If this happens, finish the switch manually:
+
+    1. Delete the other replica Pod that still runs with the old certificates, so that it restarts with the new ones:
+
+        ```bash
+        kubectl delete pod <old-replica-pod> -n "${NAMESPACE}"
+        ```
+
+    2. The replicas with the new certificates can't stream from the primary, so they replay WAL only from the backup repository and lag behind. Patroni refuses a switchover to a lagging replica. Make the primary archive its current WAL file, then check that the lag of the replica you switch to is `0`:
+
+        ```bash
+        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+          psql -c "SELECT pg_switch_wal();"
+        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+          patronictl list
+        ```
+
+        Repeat `patronictl list` until the replay lag of the replica (the last `Lag` column) shows `0`. The first `Lag` column can keep growing: the replica doesn't stream from the primary, so its received position doesn't move.
+
+    3. Make the replica that runs with the new certificates the primary. Writes stop for about 10 seconds during the switchover:
+
+        ```bash
+        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+          patronictl switchover --candidate <new-replica-pod> --force
+        ```
+
+        Check the output for `Successfully switched over`. The command exits with code `0` even when the switchover fails, for example with `Switchover failed, details: 503`. In this case, repeat the previous step and try again.
+
+        The Operator then restarts the former primary with the new certificates.
+
+3. After all PostgreSQL Pods are restarted and ready, check that the cluster reports the `ready` state:
+
+    ```bash
+    kubectl get perconapgcluster cluster1 -n "${NAMESPACE}"
+    ```
+
+4. Check that clients can connect with full certificate verification. Save the certificate authority of the cluster to a file:
+
+    ```bash
+    kubectl get secret cluster1-cluster-cert -n "${NAMESPACE}" \
+      -o jsonpath='{.data.ca\.crt}' | base64 --decode > cluster1-ca.crt
+    ```
+
+    Use this file as `sslrootcert` with `sslmode=verify-full` when you connect to `cluster1-primary` or `cluster1-pgbouncer`. Applications that trusted the Crunchy certificate authority must use this one instead.
+
 ## Update the application connection string 
 
-After you migrated to Percona Operator for PostgreSQL, update your application connection string to use the new Percona cluster:
+After you migrated to Percona Operator for PostgreSQL, update your application connection string to use the new Percona cluster. If you must send traffic to `cluster1` before you [switch the TLS certificates](#switch-to-operator-managed-tls-certificates), use the `cluster1-primary` Service with `sslmode=require` instead of pgBouncer.
 
 1. Get the `pgBouncer` service exposed by the Percona Operator:
 
@@ -585,13 +760,18 @@ After you migrated to Percona Operator for PostgreSQL, update your application c
 
 ## Rollback
 
-The standby path is the most rollback-friendly of the [migration options](migrate-from-crunchy.md): Crunchy and Percona share the same `pgBackRest` repository layout until you establish a new baseline on Percona.
+The standby path is the most rollback-friendly of the [migration options](migrate-from-crunchy.md): Crunchy and Percona share the same `pgBackRest` repository until you move `cluster1` to its own repository path.
 
-### Before the post-migration backup
+### Before you move cluster1 to its own repository
 
-Until you complete [Take a post-migration backup](#take-a-post-migration-backup), you can usually return write traffic to Crunchy if the Crunchy `PostgresCluster` and its `pgBouncer` Service still exist and you have **not** deleted `crunchy-source`.
+You can return write traffic to Crunchy while `cluster1` still archives WAL to the shared repository and uses the Crunchy certificates. In other words, before you complete [Take a post-migration backup](#take-a-post-migration-backup) and [Switch to Operator-managed TLS certificates](#switch-to-operator-managed-tls-certificates). The Crunchy `PostgresCluster` must still exist.
 
-Any writes that landed on `cluster1` **after** you promoted Percona are **not** on Crunchy. Treat rollback as abandoning that window unless you copy data out manually.
+**What happens to the writes made on `cluster1` after the promotion:**
+
+* If the WAL of `cluster1` reaches the shared repository before Crunchy is promoted, Crunchy replays it, and these writes are on Crunchy after the rollback. This is the normal case when you follow the steps below and WAL archiving works. Don't copy these writes to Crunchy manually: you would duplicate them.
+* If some of this WAL is missing from the repository, for example, because archiving failed or `cluster1` stopped without a clean shutdown, the writes in it are lost. Crunchy can then reuse sequence values that `cluster1` already used, and `cluster1` ends up on a timeline that diverged from Crunchy. In this case, delete `cluster1` and create it again as a standby.
+
+To roll back, do the following:
 
 1. Stop application writes to `cluster1`.
 
@@ -604,7 +784,37 @@ Any writes that landed on `cluster1` **after** you promoted Percona are **not** 
       -p '{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'
     ```
 
-3. If you applied [(Optional) Shut down the Crunchy cluster](#optional-shut-down-the-crunchy-cluster), clear shutdown before promoting Crunchy again:
+3. Wait until every `cluster1` Pod is in recovery. A single check right after the patch isn't enough: the primary keeps returning `f`, and then a connection error, for a few seconds while Patroni demotes it.
+
+    ```bash
+    for pod in $(kubectl get pod -n "${NAMESPACE}" -o name \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres); do
+      until [ "$(kubectl -n "${NAMESPACE}" exec "${pod}" -c database -- \
+        psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "t" ]; do
+        echo "Waiting for ${pod} to enter recovery..."
+        sleep 2
+      done
+      echo "${pod} is in recovery"
+    done
+    ```
+
+    !!! danger "Don't promote Crunchy while cluster1 is still a primary"
+
+        If you take Crunchy out of standby while `cluster1` still accepts writes, both clusters accept writes and archive WAL to the same `pgBackRest` stanza on different timelines. Neither Operator reports an error. When `cluster1` later follows Crunchy again, `pg_rewind` discards the writes made on `cluster1` in the meantime.
+
+4. Check that the last WAL of `cluster1` is in the shared repository. Find the current timeline of `cluster1` and compare it with the newest WAL file in the repository:
+
+    ```bash
+    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+      psql -tAc "SELECT lpad(to_hex(timeline_id), 8, '0') FROM pg_control_checkpoint();"
+
+    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+      pgbackrest --stanza=db info
+    ```
+
+    `STANDBY_POD` is the Pod you set in [Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode](#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode). In the `pgbackrest info` output, find the line `wal archive min/max (<version>): <oldest>/<newest>`. The WAL file name after the `/` must start with this timeline, for example `00000004` for timeline `00000004`. If the newest file belongs to an older timeline, the WAL of `cluster1` isn't in the repository, and the writes made on `cluster1` will be lost after the rollback. Check WAL archiving on `cluster1` before you continue. In Operator versions 3.0.0 and 3.1.0, `pg_stat_archiver` doesn't show failed archive attempts, so use the `pgBackRest` output.
+
+5. If you applied [(Optional) Shut down the Crunchy cluster](#optional-shut-down-the-crunchy-cluster), clear shutdown before promoting Crunchy again:
 
     ```bash
     kubectl patch postgrescluster crunchy-source \
@@ -613,7 +823,7 @@ Any writes that landed on `cluster1` **after** you promoted Percona are **not** 
       -p '{"spec": {"shutdown": false}}'
     ```
 
-4. Take Crunchy out of standby so Patroni can promote it back to primary:
+6. Take Crunchy out of standby so Patroni can promote it back to primary:
 
     ```bash
     kubectl patch postgrescluster crunchy-source \
@@ -622,41 +832,66 @@ Any writes that landed on `cluster1` **after** you promoted Percona are **not** 
       -p '{"spec": {"standby": {"enabled": false}}}'
     ```
 
-5. Confirm roles: Crunchy should accept writes and `cluster1` should be in recovery until replication catches up.
+7. Confirm roles: Crunchy should accept writes and `cluster1` should be in recovery until replication catches up. If you shut down Crunchy, its Pods start again first, and the primary appears after 15-30 seconds, so wait for it:
 
     ```bash
-    CRUNCHY_PRIMARY=$(kubectl get pod \
+    until CRUNCHY_PRIMARY=$(kubectl get pod \
       -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=master \
       -n "${CRUNCHY_NS}" \
-      -o jsonpath='{.items[0].metadata.name}')
+      -o jsonpath='{.items[0].metadata.name}' 2>/dev/null) && [ -n "${CRUNCHY_PRIMARY}" ]; do
+      echo "Waiting for the Crunchy primary Pod..."
+      sleep 2
+    done
 
-    kubectl -n "${CRUNCHY_NS}" exec "${CRUNCHY_PRIMARY}" -c database -- \
-      psql -t -c "SELECT pg_is_in_recovery();"
+    until [ "$(kubectl -n "${CRUNCHY_NS}" exec "${CRUNCHY_PRIMARY}" -c database -- \
+      psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "f" ]; do
+      echo "Waiting for ${CRUNCHY_PRIMARY} to accept writes..."
+      sleep 2
+    done
+    echo "${CRUNCHY_PRIMARY} accepts writes"
     ```
 
-    You should see `f` on Crunchy.
+    Check that `cluster1` follows Crunchy:
 
     ```bash
-    STANDBY_POD=$(kubectl get pod -n "${NAMESPACE}" \
-      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres \
-      -o jsonpath='{.items[0].metadata.name}')
-
     kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
       psql -t -c "SELECT pg_is_in_recovery();"
     ```
 
     You should see `t` on Percona while it follows Crunchy.
 
-6. Point applications back at the Crunchy `pgBouncer` Service:
+8. Restore the password of the Crunchy pgBouncer user. After the promotion, the Percona Operator set a new password for the `_crunchypgbouncer` role, and the rollback carried this password back to Crunchy. Until you restore it, the Crunchy pgBouncer fails to authenticate. Set the role password back to the value from the Crunchy pgBouncer Secret:
+
+    ```bash
+    VERIFIER=$(kubectl get secret crunchy-source-pgbouncer -n "${CRUNCHY_NS}" \
+      -o jsonpath='{.data.pgbouncer-verifier}' | base64 --decode)
+    kubectl -n "${CRUNCHY_NS}" exec "${CRUNCHY_PRIMARY}" -c database -- \
+      psql -c "ALTER ROLE \"_crunchypgbouncer\" PASSWORD '${VERIFIER}';"
+    ```
+
+    pgBouncer keeps rejecting connections for about 30 seconds after the change with `server login has been failing`. This is pgBouncer's retry delay. Retry the connection after that.
+
+9. Point applications back at the Crunchy `pgBouncer` Service:
 
     ```bash
     kubectl get service -n "${CRUNCHY_NS}" \
       -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=pgbouncer
     ```
 
-### After the post-migration backup
+!!! note "If you migrate to Percona again after a rollback"
 
-After you take the post-migration backup, timelines and `pgBackRest` history on Percona have diverged from the pre-cutover Crunchy archive. You should treat Crunchy as a historical reference, not a live paired primary.
+    Step 8 sets the Crunchy password for `_crunchypgbouncer`, and `cluster1` replicates it. After you promote `cluster1` again, the Operator doesn't reset this password, so `cluster1-pgbouncer` fails to authenticate. After the promotion, set the password from the Percona pgBouncer Secret on the `cluster1` primary:
+
+    ```bash
+    VERIFIER=$(kubectl get secret cluster1-pgbouncer -n "${NAMESPACE}" \
+      -o jsonpath='{.data.pgbouncer-verifier}' | base64 --decode)
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      psql -c "ALTER ROLE \"_crunchypgbouncer\" PASSWORD '${VERIFIER}';"
+    ```
+
+### After you move cluster1 to its own repository
+
+After `cluster1` archives WAL to its own repository path, Crunchy no longer receives its writes. You should treat Crunchy as a historical reference, not a live paired primary.
 
 Rolling back from here is the same idea as a fresh restore: deploy or restore a Crunchy cluster from the repository state you need, or follow [Migrate from Crunchy using backup and restore](migrate-from-crunchy-backup-restore.md) in reverse order for your environment. Plan the rollback **before** cutover if you require a guaranteed fast path.
 
@@ -675,7 +910,7 @@ If DNS fails, check Service names and namespaces. If DNS succeeds but TCP fails,
 
 ### Replication authentication errors
 
-The Percona standby connects to Crunchy as the PostgreSQL role `_crunchyreplication` using the replication TLS material. Ensure `crunchy-source-replication-cert` exists in `"${NAMESPACE}"` and matches what Crunchy generated (re-export from `"${CRUNCHY_NS}"` if you rotated certificates).
+The Percona standby connects to Crunchy as the PostgreSQL role `_crunchyrepl` using the replication TLS material. Ensure `crunchy-source-replication-cert` exists in `"${NAMESPACE}"` and matches what Crunchy generated (re-export from `"${CRUNCHY_NS}"` if you rotated certificates).
 
 ```bash
 kubectl get secret crunchy-source-replication-cert -n "${NAMESPACE}"
@@ -687,7 +922,7 @@ Verify the `PerconaPGCluster` still references it under `secrets.customReplicati
 
 Symptoms include failed restore Jobs, missing `archive.info`, or the standby never leaving base backup replay.
 
-1. Confirm `repo1-path` is **identical** on Crunchy and on `cluster1` (for example `/crunchy-to-percona/repo1` in this guide).
+1. Confirm `repo1-path` is **identical** on Crunchy and on `cluster1` (for example `/crunchy-to-percona/repo1` in this guide). This applies until you [move `cluster1` to its own repository path](#take-a-post-migration-backup). After the move, the paths differ on purpose.
 
     ```bash
     kubectl get postgrescluster crunchy-source -n "${CRUNCHY_NS}" \
@@ -702,7 +937,7 @@ Symptoms include failed restore Jobs, missing `archive.info`, or the standby nev
 3. From a throwaway Pod in `"${NAMESPACE}"`, verify object storage reachability with your endpoint, bucket, and keys (adapt for your provider):
 
     ```bash
-    kubectl run -i --rm s3-check \
+    kubectl run s3-check \
       --image=perconalab/awscli \
       --restart=Never \
       -n "${NAMESPACE}" \
@@ -714,6 +949,15 @@ Symptoms include failed restore Jobs, missing `archive.info`, or the standby nev
             --no-verify-ssl \
             s3 ls s3://<your-bucket>
       "
+    ```
+
+    The command finishes quickly, so read its output from the Pod logs, and then delete the Pod:
+
+    ```bash
+    kubectl wait pod/s3-check -n "${NAMESPACE}" \
+      --for=jsonpath='{.status.phase}'=Succeeded --timeout=120s
+    kubectl logs s3-check -n "${NAMESPACE}"
+    kubectl delete pod s3-check -n "${NAMESPACE}"
     ```
 
 ### Timeline history file missing after promotion (Crunchy archive)
