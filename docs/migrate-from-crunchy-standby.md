@@ -80,6 +80,8 @@ To meet these requirements, do the following:
         repo1-s3-key-secret=<your-access-secret>
     ```
 
+    Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials.
+
     For more configuration examples for other storages, see [Configure backup storage](backups-storage.md) 
 
 2. Apply the file to create the Secret:
@@ -284,6 +286,10 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     ' > ~/crunchy-source-replication-cert.yaml
     ```
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
 
 1. Deploy Percona Operator for PostgreSQL:
@@ -379,6 +385,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
 
     * If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can't create the tablespace directories and doesn't start.
     * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
 5. Create the Percona PostgreSQL cluster
     

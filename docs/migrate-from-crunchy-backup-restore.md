@@ -275,6 +275,8 @@ stringData:
 EOF
 ``` 
 
+Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials. The same applies to the Secret you created for the Crunchy cluster.
+
 If you use different Secret names, use your name consistently in `spec.dataSource.pgbackrest.configuration` and `spec.backups.pgbackrest.configuration` on `PerconaPGCluster` `cluster1`.
 
 ## Deploy Percona Operator for PostgreSQL
@@ -299,6 +301,10 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
         ```text
         deployment.apps/percona-postgresql-operator condition met
         ```
+
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
 
 ## Prepare the cutover
 
@@ -368,6 +374,7 @@ Now the repository contains every write. Create the Percona cluster in the next 
 
         To store the tablespaces on the data volume instead, add `--tablespace-map-all=/pgdata/tablespaces` to `spec.dataSource.pgbackrest.options`. The tablespace locations then change to `/pgdata/tablespaces/<name>`.
     6. Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+    7. List every user to be migrated in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
     The following fragment shows the important pieces; merge them with the rest of `deploy/cr.yaml` (images, users, resources) for your environment:
 
