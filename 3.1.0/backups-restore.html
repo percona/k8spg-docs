@@ -5186,6 +5186,34 @@
   
   
     <li class="md-nav__item">
+      <a href="debug-restore.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot restore failures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="manage-manually.html" class="md-nav__link">
         
   
@@ -6813,22 +6841,22 @@ flowchart LR
 </thead>
 <tbody>
 <tr>
-<td><a href="backups-clone.html#datasourcepostgrescluster"><code>dataSource.postgresCluster</code></a></td>
+<td><a href="backups-clone.html#clone-from-an-existing-cluster"><code>dataSource.postgresCluster</code></a></td>
 <td>- Source still runs in this Kubernetes cluster; <br> - You want a side copy in the same or another namespace</td>
 <td>- Easiest clone when the source exists; <br> - supports <a href="backups-pitr-cluster-clone.html">point-in-time recovery</a>; <br> - source stays untouched</td>
-<td>- Source must be available; <br> - Doesn&rsquo;t apply for a deleted cluster or another Kubernetes cluster; <br> - Needs restore time and a full data copy</td>
+<td>- Source must be available; <br> - Doesn&rsquo;t apply for a deleted cluster or another Kubernetes cluster; <br> - Needs restore time and a full data copy; <br> - A restore in another namespace requires the Operator in the <a href="cluster-wide.html#install-the-operator-cluster-wide">cluster-wide mode</a></td>
 </tr>
 <tr>
-<td><a href="backups-clone.html#datasourcepgbackrest"><code>dataSource.pgbackrest</code></a></td>
+<td><a href="backups-clone.html#clone-from-cloud-storage-s3-gcs-azure-blob"><code>dataSource.pgbackrest</code></a></td>
 <td>Source is deleted, you restore into another Kubernetes cluster, or you only have object-storage backups</td>
 <td>- Works without a live source; <br> - Fits multi-cluster disaster recovery scenarios</td>
-<td>- You must match path, stanza, Secret, and storage settings; <br> - Restore time and network cost</td>
+<td>- You must match path, stanza, Secret, and storage settings between the source and target clusters; <br> - Cloud access credentials must exist in the target namespace; <br> - Restore time and network or storage cost</td>
 </tr>
 <tr>
-<td><a href="backups-clone.html#datasourcevolumes"><code>dataSource.volumes</code></a></td>
+<td><a href="backups-clone.html#restore-using-data-volumes"><code>dataSource.volumes</code></a></td>
 <td>- Same-infrastructure cutover on existing disks; <br> - Large dataset where a backup restore is too slow</td>
-<td>- Fastest bootstrap; <br> - No object storage required for the cutover</td>
-<td>- Source must stop; <br> - Weak rollback after the new cluster writes</td>
+<td>- Fastest bootstrap; <br> - No object storage required for the cutover; <br> - No double storage, unlike a backup-based restore</td>
+<td>- Source must stop: downtime lasts until the new cluster accepts writes; <br> - Ownership of the volumes moves to the new cluster; <br> - Weak rollback after the new cluster writes (take a backup first); <br> - Requires the same PostgreSQL major version, the same Kubernetes cluster, and compatible storage</td>
 </tr>
 </tbody>
 </table>
@@ -6840,7 +6868,7 @@ flowchart LR
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 16, 2026 13:26:28 UTC">October 16, 2026</span>
       
         <br>
         Created:

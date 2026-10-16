@@ -5208,6 +5208,34 @@
   
   
     <li class="md-nav__item">
+      <a href="debug-restore.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot restore failures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="manage-manually.html" class="md-nav__link">
         
   
@@ -6795,9 +6823,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h1 id="restore-to-an-existing-postgresql-cluster-in-place-restore">Restore to an existing PostgreSQL cluster (in-place restore)<a class="headerlink" href="#restore-to-an-existing-postgresql-cluster-in-place-restore" title="Permanent link">&para;</a></h1>
 <p>To restore data into an existing cluster, use the <code>PerconaPGRestore</code> custom resource. </p>
 <p>Use this document to make <strong>a full restore</strong>. For a restore to a specific moment, use the <a href="backups-pitr-inplace.html">In-place restore with point-in-time recovery</a> tutorial.</p>
-<div class="admonition important">
-<p class="admonition-title">Important</p>
-<p>This operation overwrites the current data and is destructive. An in-place restore also invalidates <a href="logical-replication.html">logical replicas</a>. After the restore, <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> each replica.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This operation overwrites the current data and is destructive. Test it on a staging environment first.</p>
+<p>An in-place restore also invalidates <a href="logical-replication.html">logical replicas</a>. After the restore, <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> each replica.</p>
 </div>
 <p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
 configuration file. The example of the backup configuration file is
@@ -6909,26 +6938,13 @@ Status:
 retrieve from the archive, and <code>%p</code> is replaced by the copy destination path
 name on the server. See <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY">PostgreSQL official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"/></svg></span></a> for more low-level details about this feature.</p>
 <h2 id="fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a class="headerlink" href="#fix-the-cluster-if-the-restore-fails" title="Permanent link">&para;</a></h2>
-<p>The restore process overwrites database files. Wrong data or a misconfigured restore can leave your cluster in a non-operational state.</p>
-<p>For example, incorrect <code>pgBackRest</code> arguments in the <a href="#make-a-full-restore-from-the-latest-backup-default">PerconaPGRestore custom resource</a> can break the database while the restore hangs.</p>
-<p>Here&rsquo;s what you can do:</p>
-<ul>
-<li>
-<p>You can remove the restore annotation from your cluster Custom Resource to stop the restore:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span><span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-restore-
-</code></pre></div>
-</li>
-<li>
-<p>Alternatively, you can delete the cluster <a href="delete.html#delete-a-database-cluster">by removing the Custom Resource</a> and recreate it. Before you delete the Custom Resource, ensure the <a href="operator.html#finalizers-delete-pvc"><code>finalizers.percona.com/delete-pvc</code> finalizer</a> is not set, or you will lose your data. Then run the same <code>kubectl apply</code> command you used to deploy the cluster originally.</p>
-</li>
-</ul>
-<p>Another example that can also cause restore failures is corrupted backup repository or missing files. In that case, <a href="delete.html#delete-a-database-cluster">remove the Custom Resource</a>, <a href="debug-storage.html#check-the-pvc">locate and delete the startup PVC</a>, then recreate the cluster.</p>
+<p>If the restore fails, see <a href="debug-restore.html">Troubleshoot restore failures</a>.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 16, 2026 13:26:28 UTC">October 16, 2026</span>
       
         <br>
         Created:

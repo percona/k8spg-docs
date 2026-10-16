@@ -5208,6 +5208,34 @@
   
   
     <li class="md-nav__item">
+      <a href="debug-restore.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot restore failures
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="manage-manually.html" class="md-nav__link">
         
   
@@ -6982,7 +7010,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 <h2 id="create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot<a class="headerlink" href="#create-a-new-cluster-from-a-pvc-snapshot" title="Permanent link">&para;</a></h2>
 <p>You can create a new cluster from a PVC snapshot. This is useful when you want to restore the data to a new cluster and don&rsquo;t want to overwrite the existing data in the existing cluster.</p>
 <p>To create a new cluster from a PVC snapshot, you need to configure the <code>PerconaPGCluster</code> object and specify an <code>volumesnapshot</code> object as the <code>dataSource</code>. You also need to configure the <code>instances</code> and <code>backups</code> sections to set up the new cluster. </p>
-<p>For more information about the <code>dataSource</code> options, see the <a href="backups-clone.html#understand-the-datasource-options">Understand the <code>dataSource</code> options</a> section. Also check the <a href="operator.html#datasource-subsection">Custom Resource reference</a> for all available options.</p>
+<p>For more information about the <code>dataSource</code> options, see the <a href="backups-clone.html#choose-a-datasource-option">Choose a <code>dataSource</code> option</a> section. Also check the <a href="operator.html#datasource-subsection">Custom Resource reference</a> for all available options.</p>
 <p>Follow the steps below to create a new cluster from a PVC snapshot.</p>
 <ol>
 <li>
@@ -7037,7 +7065,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 11:24:33 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 16, 2026 13:26:28 UTC">October 16, 2026</span>
       
         <br>
         Created:
