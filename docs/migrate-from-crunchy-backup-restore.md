@@ -336,7 +336,13 @@ Now the repository contains every write. Create the Percona cluster in the next 
           - --target="2026-10-15 10:05:55+00"
     ```
 
-    PostgreSQL compares the target with the **commit** time of each transaction. A transaction that commits after the target isn't restored, even if your application recorded an earlier timestamp for it. Set the target to the commit time of the last transaction you need, or later. You don't need to add `--target-action=promote`: the Operator adds it.
+    PostgreSQL compares the target with the **commit** time of each transaction.
+    A transaction that commits after the target isn't restored, even if your
+    application recorded an earlier timestamp for the transaction. Choose a
+    target covered by the archived WAL. Recovery fails if the archive ends
+    before the target is reached. To restore all available writes without a
+    time target, follow [Prepare the cutover](#prepare-the-cutover). The Operator
+    adds `--target-action=promote`, so you don't need to specify that option.
 
 ## Create the Percona PostgreSQL cluster from the Crunchy backup
 

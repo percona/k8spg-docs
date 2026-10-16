@@ -738,7 +738,13 @@ Like the repository path change, this step ends the rollback window: replication
 
 ## Update the application connection string 
 
-After you migrated to Percona Operator for PostgreSQL, update your application connection string to use the new Percona cluster. If you must send traffic to `cluster1` before you [switch the TLS certificates](#switch-to-operator-managed-tls-certificates), use the `cluster1-primary` Service with `sslmode=require` instead of pgBouncer.
+After you migrate to Percona Operator for PostgreSQL, update your application
+connection string to use the new Percona cluster. If you send traffic before you
+[switch the TLS certificates](#switch-to-operator-managed-tls-certificates),
+connect through `cluster1-primary`, not pgBouncer. Use `sslmode=verify-ca` and
+set `sslrootcert` to a file containing `ca.crt` from the imported
+`crunchy-source-cluster-cert` Secret. This verifies the certificate chain but
+not the host name. Restore `sslmode=verify-full` after switching certificates.
 
 1. Get the `pgBouncer` service exposed by the Percona Operator:
 
