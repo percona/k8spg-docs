@@ -76,9 +76,11 @@ To meet these requirements, do the following:
     stringData:
       s3.conf: |
         [global]
-        repo1-s3-key="<your-access-key>"
-        repo1-s3-key-secret="<your-access-secret>"
+        repo1-s3-key=<your-access-key>
+        repo1-s3-key-secret=<your-access-secret>
     ```
+
+    Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials.
 
     For more configuration examples for other storages, see [Configure backup storage](backups-storage.md) 
 
@@ -246,6 +248,10 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     ' > ~/crunchy-source-replication-cert.yaml
     ```
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
 
 1. Deploy Percona Operator for PostgreSQL:
@@ -271,8 +277,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     stringData:
       s3.conf: |
         [global]
-        repo1-s3-key="<your-access-key>"
-        repo1-s3-key-secret="<your-access-secret>"
+        repo1-s3-key=<your-access-key>
+        repo1-s3-key-secret=<your-access-secret>
     " | kubectl apply -n $NAMESPACE -f -
     ```
 
@@ -331,6 +337,10 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
                    region: <YOUR-REGION-HERE>
         #The rest of your configuration
        ```
+
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
 5. Create the Percona PostgreSQL cluster
     

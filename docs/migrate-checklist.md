@@ -194,15 +194,162 @@ FROM pg_database;
 
 ## Compare extensions
 
-Record the extension list and versions on the source cluster before you migrate.
+pgBackRest restore and standby replication initialize the new cluster from a physical copy of the Crunchy cluster's data, while volume reuse starts it on the original data directory. In all three cases, the migrated data includes the `pg_extension` catalog, so PostgreSQL retains a record of installed extensions and the objects those extensions created.
+
+The Operator does not read that catalog and copy the Crunchy settings. It applies the extension settings from the `PerconaPGCluster` manifest. 
+
+Before you apply the manifest that creates the Percona cluster, set the extension fields there to match what the source database actually uses. 
+
+### Record extensions on the source
+
+Record the extension name and version in every application database before you migrate.
 
 --8<-- "pg-extensions-list.txt"
 
-Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image. 
+Record the libraries PostgreSQL loads at startup:
 
-You can also [add custom extensions](custom-extensions.md#add-custom-extensions) if you need them. Evaluate the risk before you add any extension.
+```sql
+SHOW shared_preload_libraries;
+```
 
-Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in `PGDATA`. Do not assume an extension is available because it exists in `pg_extension`.
+### Enable built-in extensions
+
+Percona Distribution for PostgreSQL ships a defined set of extensions. Their versions can differ from the Crunchy image. Compare your list with the [extensions shipped with Percona Distribution for PostgreSQL](https://docs.percona.com/postgresql/latest/extensions.html).
+
+These built-in extensions use the following defaults:
+
+| PostgreSQL extension | `spec.extensions` field | Enabled |
+| -------------------- | ----------------------- | ------- |
+| `vector` | `pgvector` | `false` |
+| `pg_stat_statements` | `pg_stat_statements` | `false` |
+| `pg_stat_monitor` | `pg_stat_monitor` | `false` |
+| `pg_repack` | `pg_repack` | `false` |
+| `pgaudit` | `pg_audit` | `true` |
+
+Match the spec to the extensions the source database uses. See [Built-in extensions](custom-extensions.md#built-in-extensions) for the full list.
+
+!!! warning
+
+      **Enable every built-in extension you are migrating in the manifest that creates the cluster.** The Operator drops a built-in extension that stays disabled. If anything still depends on such disabled extension, the drop fails silently: the cluster still reports `ready`, nothing in its status flags the failure, and the Operator retries the same drop on every reconcile, logging an "Unable to disable ..." event each time. You won't get a clear error telling you to go fix it — the manifest has to be right going in.
+      
+
+On Operator 3.0.0, set the flag under `extensions.builtin`. Starting with version 3.1.0, set `extensions.<name>.enabled`. During the transition, `extensions.builtin` still works. If both forms are set, `extensions.builtin` takes precedence.
+
+The following examples show `pgvector` configuration:
+
+=== "Operator version 3.0.0"
+
+    ```yaml
+    spec:
+      extensions:
+        builtin:
+          pgvector: true
+    ```
+
+=== "Operator version 3.1.0"
+
+    ```yaml
+    spec:
+      extensions:
+        pgvector:
+          enabled: true
+    ```
+
+When you enable a built-in extension that is already installed, the Operator runs `ALTER EXTENSION ... UPDATE`. Compare the extension's version on the source cluster with the version available in the target cluster's image. Test that update in a trial run and check the application before you migrate production.
+
+### PostGIS
+
+PostGIS is a separate case. If the source cluster uses PostGIS, deploy the target with the [PostGIS image](postgis.md).
+
+A database upgrade does not update PostGIS. Run `SELECT PostGIS_Extensions_Upgrade();` in each database that uses PostGIS. See [Upgrade the PostGIS extension](update-extensions.md#upgrade-postgis-extension). 
+
+### Install extensions that are not in the Percona image
+
+Compare your `pg_extension` output with the Percona image you deploy. If you use extensions that are not in the Percona image, add them as [custom extensions](custom-extensions.md#add-custom-extensions).
+
+An extension that ships a native library needs that library to be present in the target PostgreSQL installation. If the extension requires startup preloading, also list its preload library in `shared_preload_libraries`; a `pg_extension` catalog row does not provide either requirement.
+
+For a preload library the Operator does not append, set `patroni.dynamicConfiguration.postgresql.parameters.shared_preload_libraries`. Include only those libraries. The Operator appends the libraries for built-in extensions you enable. See [Extension parameters](immutable-options.md#extension-parameters).
+
+### Match set_user and pg_cron to the Operator version
+
+`set_user` and `pg_cron` are custom extensions on Operator 3.0.0. Starting with version 3.1.0, they are built-in extensions and default to `disabled`. The Operator drops each one that stays disabled.
+
+| Extension | Operator 3.0.0 | Operator 3.1.0 and later |
+| --------- | -------------- | ------------------------ |
+| `set_user` | Add it under `extensions.custom`. Include `set_user` in `shared_preload_libraries`. | Set `extensions.set_user.enabled` to `true`. The Operator appends `set_user` to `shared_preload_libraries`. |
+| `pg_cron` | Add it under `extensions.custom`. Include `pg_cron` in `shared_preload_libraries`. | Set `extensions.pg_cron.enabled` to `true`. The Operator appends `pg_cron` to `shared_preload_libraries` and sets `cron.database_name` to `postgres`. |
+
+On Operator 3.0.0, first package and configure both as custom extensions by following [Add custom extensions](custom-extensions.md#add-custom-extensions). After you configure `extensions.image` and `extensions.storage`, add these entries:
+
+```yaml
+spec:
+  extensions:
+    custom:
+      - name: set_user
+        version: "<set_user-version>"
+      - name: pg_cron
+        version: "<pg_cron-version>"
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          shared_preload_libraries: "set_user,pg_cron"
+```
+
+Starting with version 3.1.0, enable the built-in flags. The Operator appends `set_user` and `pg_cron` to `shared_preload_libraries`. Set that parameter for any other preload libraries:
+
+```yaml
+spec:
+  extensions:
+    set_user:
+      enabled: true
+    pg_cron:
+      enabled: true
+```
+
+!!! warning
+
+    Starting with version 3.1.0, use the built-in flags for a new cluster. Removing `set_user` or `pg_cron` from `extensions.custom` without setting its `enabled` flag to `true` in the same apply deletes the extension.
+
+If the source cluster schedules `pg_cron` jobs in a database other than `postgres`, those jobs stop running after migration. The Operator sets `cron.database_name` to `postgres`.
+
+After the Percona cluster reports `Ready`, check the database logs. In every database that you recorded earlier, run `\dx` and confirm that each extension is installed at the version you tested.
+
+## Check what else changes after migration
+
+The migration methods in this guide copy the data directory, so the migrated cluster keeps the data itself. The Operator still applies its own naming, defaults, and labels on top of that data. None of this blocks the migration, but missing it causes problems ranging from broken logins to blind monitoring.
+
+### Match users and passwords
+
+The Operator doesn't copy user credentials from Crunchy during migration. It generates a new password for any user it manages and applies it to the database, overwriting the password that migrated with the data. Existing application logins break the moment the Operator reconciles that user.
+
+To keep the Crunchy passwords, do this **before** you create the cluster:
+
+* Copy the `password` and `verifier` keys into the `<clusterName>-pguser-<userName>` Secret 
+* List every migrated user in `spec.users`. See [Understanding default user management](users.md#understanding-default-user-management) for the naming convention.
+
+### Keep the user schema behavior Crunchy had
+
+Crunchy puts a user's tables in the `public` schema by default. The Operator's `autoCreateUserSchema` defaults to `true` and creates a schema named after the user instead. Set it to `false` in the manifest that creates the cluster if your application expects unqualified table names to resolve to `public`.
+
+### Recreate non-extension Postgres settings
+
+The Operator does not carry over Crunchy's `dynamicConfiguration`. Only `pgaudit` is preloaded by default. If the source cluster set other `postgresql.conf` parameters or preloaded other libraries, add them under `patroni.dynamicConfiguration.postgresql.parameters` and `shared_preload_libraries` the same way you already did for extensions. See [Extension parameters](immutable-options.md#extension-parameters).
+
+### Update labels, Services and anything that reads them
+
+The primary Pod's `postgres-operator.crunchydata.com/role` label changes value from `master` to `primary`, and every Service name follows the new cluster name instead of Crunchy's. Update NetworkPolicies, alert rules, and any script or dashboard that selects on the old label value or Service name.
+
+### Replace monitoring and admin tools
+
+pgMonitor, its `ccp_*` metrics, and its Grafana dashboards don't carry over. Replace them with [Percona Monitoring and Management](monitor-kubernetes.md) or a [`postgres_exporter` sidecar](postgres-exporter.md). 
+
+pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an alternative before cutover if you depend on either.
+
+### Rotate TLS certificates after a standby cutover
+
+[Migrating using a standby cluster](migrate-from-crunchy-standby.md) keeps Crunchy-issued certificates for mutual TLS during replication. Replace them with the Operator-issued or your own certificates after cutover, so the new primary doesn't keep trusting Crunchy's CA indefinitely.
 
 ## Before you cut over
 
