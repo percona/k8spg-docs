@@ -524,7 +524,7 @@ While the selector and the migration StorageClass name are present in the cluste
       ]'
     ```
 
-    If you have a WAL volume, use this patch instead. It also removes the selector and the StorageClass name from `walVolumeClaimSpec`. For tablespace volumes, add the same two `remove` operations for each entry, for example `/spec/instances/0/tablespaceVolumes/0/dataVolumeClaimSpec/selector` and `/spec/instances/0/tablespaceVolumes/0/dataVolumeClaimSpec/storageClassName`. Otherwise, the tablespace PVCs of the new replicas stay `Pending`. Each replica gets its own new tablespace volume.
+    If you have a WAL volume, use this patch instead. It also removes the selector and the StorageClass name from `walVolumeClaimSpec`:
 
     ```bash
     kubectl patch perconapgcluster cluster1 \
@@ -538,6 +538,15 @@ While the selector and the migration StorageClass name are present in the cluste
         {"op":"replace","path":"/spec/instances/0/replicas","value":3}
       ]'
     ```
+
+    If you have tablespace volumes, add these two operations to the patch for each `tablespaceVolumes` entry. The index (`0` here) is the position of the entry in the list:
+
+    ```text
+    {"op":"remove","path":"/spec/instances/0/tablespaceVolumes/0/dataVolumeClaimSpec/selector"},
+    {"op":"remove","path":"/spec/instances/0/tablespaceVolumes/0/dataVolumeClaimSpec/storageClassName"},
+    ```
+
+    Otherwise, the tablespace PVCs of the new replicas stay `Pending`. Each replica gets its own new tablespace volume.
 
 2. Wait until all three PostgreSQL instances are ready:
     
@@ -696,7 +705,9 @@ If the Crunchy cluster wasn't shut down cleanly, PostgreSQL runs crash recovery 
 
 ### Tables in a tablespace can't be read
 
-The cluster reports `ready`, but queries on tables in a tablespace fail with an error like `ERROR:  could not open file "pg_tblspc/16444/PG_18_202506291/5/16445": No such file or directory`, and backups fail with `ERROR: [041]: unable to get info for missing path/file '/pgdata/pg18/pg_tblspc/16444/PG_18_202506291'`. The Crunchy cluster used tablespace volumes, and the Percona instance doesn't have them. Add `tablespaceVolumes` entries with the same names, bound to the retained tablespace PVs.
+The cluster reports `ready`, but queries on tables in a tablespace fail with an error like `ERROR:  could not open file "pg_tblspc/16444/PG_18_202506291/5/16445": No such file or directory`, and backups fail with `ERROR: [041]: unable to get info for missing path/file '/pgdata/pg18/pg_tblspc/16444/PG_18_202506291'`. The Crunchy cluster used tablespace volumes, and the Percona instance doesn't have them.
+
+To fix it, delete the `PerconaPGCluster` and the PVCs it left behind, clear the `claimRef` of the data PV (and the WAL PV, if you have one) as in [Retain the PV and remove the Crunchy cluster](#retain-the-pv-and-remove-the-crunchy-cluster), and create the cluster again with `tablespaceVolumes` entries that have the same names and are bound to the retained tablespace PVs.
 
 ### PV was deleted
 

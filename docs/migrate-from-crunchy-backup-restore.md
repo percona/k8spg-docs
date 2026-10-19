@@ -268,8 +268,8 @@ metadata:
 stringData:
   s3.conf: |
     [global]
-    repo1-s3-key="<your-access-key>"
-    repo1-s3-key-secret="<your-access-secret>"
+    repo1-s3-key=<your-access-key>
+    repo1-s3-key-secret=<your-access-secret>
 EOF
 ``` 
 
@@ -349,7 +349,7 @@ Now the repository contains every write. Create the Percona cluster in the next 
 
     3. Under `spec.backups.pgbackrest`, use a **different** `repo<N>-path` than the Crunchy cluster so new backups do not overwrite the migration archive.
     4. Set the storage size in `spec.instances[].dataVolumeClaimSpec` so that it fits the Crunchy data and WAL. The default `deploy/cr.yaml` requests only 1Gi.
-    5. If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance. The restore writes each tablespace to `/tablespaces/<name>`, so the volume must exist. For example:
+    5. If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance. The restore writes each tablespace to its original location under `/tablespaces/<name>`, where the Operator mounts the tablespace volume, so the volume must exist. For example:
 
         ```yaml
         instances:
