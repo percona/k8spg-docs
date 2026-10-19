@@ -76,8 +76,8 @@ To meet these requirements, do the following:
     stringData:
       s3.conf: |
         [global]
-        repo1-s3-key="<your-access-key>"
-        repo1-s3-key-secret="<your-access-secret>"
+        repo1-s3-key=<your-access-key>
+        repo1-s3-key-secret=<your-access-secret>
     ```
 
     For more configuration examples for other storages, see [Configure backup storage](backups-storage.md) 
@@ -309,8 +309,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     stringData:
       s3.conf: |
         [global]
-        repo1-s3-key="<your-access-key>"
-        repo1-s3-key-secret="<your-access-secret>"
+        repo1-s3-key=<your-access-key>
+        repo1-s3-key-secret=<your-access-secret>
     " | kubectl apply -n $NAMESPACE -f -
     ```
 
@@ -375,6 +375,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
                    region: <YOUR-REGION-HERE>
         #The rest of your configuration
        ```
+
+    * If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can't create the tablespace directories and doesn't start.
 
 5. Create the Percona PostgreSQL cluster
     
@@ -512,7 +514,15 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 
 Once the LSN value stops changing and stays the same across two consecutive checks, it means all available WAL has been replayed and it’s safe to promote the standby cluster to be the new primary.
 
-1. Verify the Percona standby cluster has stopped replaying WAL files by running:
+1. Verify the Percona standby cluster has stopped replaying WAL files. The Operator can restart the standby Pods after you created the cluster, so look up the standby leader again first:
+
+    ```bash
+    STANDBY_POD=$(kubectl get pod -n "${NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
+      -o jsonpath='{.items[0].metadata.name}')
+    ```
+
+    Then check the replay position:
    
     ```bash
     kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
@@ -775,7 +785,22 @@ To roll back, do the following:
 
 1. Stop application writes to `cluster1`.
 
-2. Put `cluster1` back into standby so it stops acting as the primary (Patroni will follow the Custom Resource). The `standby.host`, `standby.port`, and `standby.repoName` you configured earlier should still be present; merge only toggles standby on:
+2. Record the position of the last write on `cluster1` and the WAL file that contains it, and make `cluster1` archive this file. You need these values to check that Crunchy gets every write. Run this and the following steps in the same terminal session, so that the `FINAL_LSN` and `FINAL_WAL` variables are kept, or note the values from the output:
+
+    ```bash
+    PERCONA_PRIMARY=$(kubectl get pod -n "${NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
+      -o jsonpath='{.items[0].metadata.name}')
+    FINAL_LSN=$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      psql -tAc "SELECT pg_current_wal_lsn();")
+    FINAL_WAL=$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      psql -tAc "SELECT pg_walfile_name(pg_current_wal_lsn());")
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      psql -tAc "SELECT pg_switch_wal();" >/dev/null
+    echo "Final LSN: ${FINAL_LSN}, WAL file: ${FINAL_WAL}"
+    ```
+
+3. Put `cluster1` back into standby so it stops acting as the primary (Patroni will follow the Custom Resource). The `standby.host`, `standby.port`, and `standby.repoName` you configured earlier should still be present; merge only toggles standby on:
 
     ```bash
     kubectl patch perconapgcluster cluster1 \
@@ -784,7 +809,7 @@ To roll back, do the following:
       -p '{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'
     ```
 
-3. Wait until every `cluster1` Pod is in recovery. A single check right after the patch isn't enough: the primary keeps returning `f`, and then a connection error, for a few seconds while Patroni demotes it.
+4. Wait until every `cluster1` Pod is in recovery. A single check right after the patch isn't enough: the primary keeps returning `f`, and then a connection error, for a few seconds while Patroni demotes it.
 
     ```bash
     for pod in $(kubectl get pod -n "${NAMESPACE}" -o name \
@@ -802,19 +827,38 @@ To roll back, do the following:
 
         If you take Crunchy out of standby while `cluster1` still accepts writes, both clusters accept writes and archive WAL to the same `pgBackRest` stanza on different timelines. Neither Operator reports an error. When `cluster1` later follows Crunchy again, `pg_rewind` discards the writes made on `cluster1` in the meantime.
 
-4. Check that the last WAL of `cluster1` is in the shared repository. Find the current timeline of `cluster1` and compare it with the newest WAL file in the repository:
+5. Check that the WAL file with the last write is in the shared repository. The following command tries to fetch the file from the repository for about 6 minutes:
 
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
-      psql -tAc "SELECT lpad(to_hex(timeline_id), 8, '0') FROM pg_control_checkpoint();"
-
-    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
-      pgbackrest --stanza=db info
+    ARCHIVED=no
+    for i in $(seq 1 60); do
+      if kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+        pgbackrest --stanza=db archive-get "${FINAL_WAL}" /tmp/rollback-wal-check >/dev/null 2>&1; then
+        ARCHIVED=yes; echo "${FINAL_WAL} is in the repository"; break
+      fi
+      echo "Waiting for ${FINAL_WAL} to be archived..."
+      sleep 5
+    done
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- rm -f /tmp/rollback-wal-check
+    [ "${ARCHIVED}" = yes ] || echo "ERROR: ${FINAL_WAL} is not in the repository. Don't continue."
     ```
 
-    `STANDBY_POD` is the Pod you set in [Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode](#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode). In the `pgbackrest info` output, find the line `wal archive min/max (<version>): <oldest>/<newest>`. The WAL file name after the `/` must start with this timeline, for example `00000004` for timeline `00000004`. If the newest file belongs to an older timeline, the WAL of `cluster1` isn't in the repository, and the writes made on `cluster1` will be lost after the rollback. Check WAL archiving on `cluster1` before you continue. In Operator versions 3.0.0 and 3.1.0, `pg_stat_archiver` doesn't show failed archive attempts, so use the `pgBackRest` output.
+    Continue only if the output ends with `is in the repository`. If it ends with the error, WAL archiving on `cluster1` failed, and the writes in this file and the files before it would be lost after the rollback. Don't rely on `pg_stat_archiver` to check this: in Operator versions 3.0.0 and 3.1.0 it reports WAL files as archived even when the upload failed.
 
-5. If you applied [(Optional) Shut down the Crunchy cluster](#optional-shut-down-the-crunchy-cluster), clear shutdown before promoting Crunchy again:
+    Fixing the cause, for example wrong storage credentials, isn't enough: PostgreSQL doesn't retry WAL files that the failed archive command reported as archived. After you fix the cause, push the missing WAL files from `cluster1` to the repository manually. The files are still in the `pg_wal` directory of the Pod. Replace `pg18` with your PostgreSQL major version:
+
+    ```bash
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- bash -c '
+      cd /pgdata/pg18/pg_wal
+      for f in $(ls | grep -E "^'"${FINAL_WAL:0:8}"'[0-9A-F]{16}$" | sort); do
+        [[ "$f" > "'"${FINAL_WAL}"'" ]] && break
+        pgbackrest --stanza=db --no-archive-async archive-push "$PWD/$f"
+      done'
+    ```
+
+    This command pushes every WAL file of the current timeline up to `FINAL_WAL`. Pushing a file that is already in the repository with the same content succeeds, so the command is safe to run. Then repeat this step.
+
+6. If you applied [(Optional) Shut down the Crunchy cluster](#optional-shut-down-the-crunchy-cluster), clear shutdown:
 
     ```bash
     kubectl patch postgrescluster crunchy-source \
@@ -823,7 +867,32 @@ To roll back, do the following:
       -p '{"spec": {"shutdown": false}}'
     ```
 
-6. Take Crunchy out of standby so Patroni can promote it back to primary:
+7. Wait until every Crunchy Pod has replayed WAL up to the last write on `cluster1`. Crunchy is still a standby and replays this WAL from the shared repository. If you promote it before it reaches this position, the remaining writes are lost.
+
+    If you shut down Crunchy, it starts the former primary first and the other instances later. Wait until all instances are ready. Set the number to the `replicas` value of the `instance1` instance set (`3` in this example):
+
+    ```bash
+    kubectl wait postgrescluster.postgres-operator.crunchydata.com/crunchy-source \
+      -n "${CRUNCHY_NS}" \
+      --for=jsonpath='{.status.instances[?(@.name=="instance1")].readyReplicas}'=3 \
+      --timeout=600s
+    ```
+
+    Then check the replay position on every Crunchy Pod:
+
+    ```bash
+    for pod in $(kubectl get pod -n "${CRUNCHY_NS}" -o name \
+      -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/data=postgres); do
+      until [ "$(kubectl -n "${CRUNCHY_NS}" exec "${pod}" -c database -- \
+        psql -tAc "SELECT pg_last_wal_replay_lsn() >= '${FINAL_LSN}'::pg_lsn;" 2>/dev/null)" = "t" ]; do
+        echo "Waiting for ${pod} to replay up to ${FINAL_LSN}..."
+        sleep 2
+      done
+      echo "${pod} has replayed up to ${FINAL_LSN}"
+    done
+    ```
+
+8. Take Crunchy out of standby so Patroni can promote it back to primary:
 
     ```bash
     kubectl patch postgrescluster crunchy-source \
@@ -832,7 +901,7 @@ To roll back, do the following:
       -p '{"spec": {"standby": {"enabled": false}}}'
     ```
 
-7. Confirm roles: Crunchy should accept writes and `cluster1` should be in recovery until replication catches up. If you shut down Crunchy, its Pods start again first, and the primary appears after 15-30 seconds, so wait for it:
+9. Confirm roles: Crunchy should accept writes and `cluster1` should be in recovery until replication catches up. The `role=master` label appears on the promoted Pod only after the promotion, so wait for it:
 
     ```bash
     until CRUNCHY_PRIMARY=$(kubectl get pod \
@@ -854,13 +923,13 @@ To roll back, do the following:
     Check that `cluster1` follows Crunchy:
 
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
       psql -t -c "SELECT pg_is_in_recovery();"
     ```
 
     You should see `t` on Percona while it follows Crunchy.
 
-8. Restore the password of the Crunchy pgBouncer user. After the promotion, the Percona Operator set a new password for the `_crunchypgbouncer` role, and the rollback carried this password back to Crunchy. Until you restore it, the Crunchy pgBouncer fails to authenticate. Set the role password back to the value from the Crunchy pgBouncer Secret:
+10. Restore the password of the Crunchy pgBouncer user. After the promotion, the Percona Operator set a new password for the `_crunchypgbouncer` role, and the rollback carried this password back to Crunchy. Until you restore it, the Crunchy pgBouncer fails to authenticate. Set the role password back to the value from the Crunchy pgBouncer Secret:
 
     ```bash
     VERIFIER=$(kubectl get secret crunchy-source-pgbouncer -n "${CRUNCHY_NS}" \
@@ -871,7 +940,7 @@ To roll back, do the following:
 
     pgBouncer keeps rejecting connections for about 30 seconds after the change with `server login has been failing`. This is pgBouncer's retry delay. Retry the connection after that.
 
-9. Point applications back at the Crunchy `pgBouncer` Service:
+11. Point applications back at the Crunchy `pgBouncer` Service:
 
     ```bash
     kubectl get service -n "${CRUNCHY_NS}" \
@@ -880,7 +949,7 @@ To roll back, do the following:
 
 !!! note "If you migrate to Percona again after a rollback"
 
-    Step 8 sets the Crunchy password for `_crunchypgbouncer`, and `cluster1` replicates it. After you promote `cluster1` again, the Operator doesn't reset this password, so `cluster1-pgbouncer` fails to authenticate. After the promotion, set the password from the Percona pgBouncer Secret on the `cluster1` primary:
+    Step 10 sets the Crunchy password for `_crunchypgbouncer`, and `cluster1` replicates it. After you promote `cluster1` again, the Operator doesn't reset this password, so `cluster1-pgbouncer` fails to authenticate. After the promotion, set the password from the Percona pgBouncer Secret on the `cluster1` primary:
 
     ```bash
     VERIFIER=$(kubectl get secret cluster1-pgbouncer -n "${NAMESPACE}" \
@@ -907,6 +976,10 @@ kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
 ```
 
 If DNS fails, check Service names and namespaces. If DNS succeeds but TCP fails, check NetworkPolicies, service mesh rules, and firewalls between namespaces.
+
+### Standby fails with `Read-only file system` for `/tablespaces`
+
+The standby leader is in `CrashLoopBackOff`, and its log shows `unable to create path '/tablespaces': [30] Read-only file system` or `pg_basebackup: error: could not create directory "/tablespaces": Read-only file system`, followed by `Failed to bootstrap cluster`. The Crunchy cluster uses tablespace volumes, and the Percona instance has no `tablespaceVolumes` entry with the same name. Add the entries to the cluster configuration.
 
 ### Replication authentication errors
 
