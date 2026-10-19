@@ -301,6 +301,7 @@ nav:
           - Migrate from Crunchy Operator for PostgreSQL: 
               - "About migration from Crunchy to Percona Operator for PostgreSQL": migrate-from-crunchy.md
               - "Pre-migration compatibility checks": migrate-checklist.md
+              - "Crunchy and Percona Custom Resource differences": migrate-crunchy-differences.md
               - "Migrate using a standby cluster": migrate-from-crunchy-standby.md
               - "Migrate using backup and restore": migrate-from-crunchy-backup-restore.md
               - "Migrate using data volumes": migrate-from-crunchy-data-volumes.md
