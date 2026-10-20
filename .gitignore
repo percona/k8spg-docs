@@ -3,4 +3,5 @@ site/
 .cursor/
 docs/assets/.DS_Store 
 .DS_Store
+Claude outputs/
 .cursor/agents
