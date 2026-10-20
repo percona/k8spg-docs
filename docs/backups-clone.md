@@ -154,13 +154,14 @@ To clone from cloud storage, configure the `dataSource.pgbackrest` subsection in
 Key options are:
 
 * `dataSource.pgbackrest.stanza` - the name of `pgBackRest` stanza - a unique identifier for a source PostgreSQL cluster's backup configuration
-* `dataSource.pgbackrest.configuration.secret.name` - the name of the Secret object with the credentials to the cloud storage. The restore Pod reads the backups with these credentials.
+* `dataSource.pgbackrest.configuration.secret.name` - the name of the Secret object with the credentials to the cloud storage where backups are located. The restore Pod reads the backups with these credentials.
 * `dataSource.pgbackrest.global` is the location of a backup.
 * `dataSource.pgbackrest.repo` is the `pgBackRest` repository to restore from: its name and storage settings.
 
 The repository number in `repo.name`, in the `global.repo<N>-path` option, and in the credentials in the Secret must be the same. See [Match the repository number](#match-the-repository-number).
 
-For all options, see the [Custom Resource reference](operator.md#datasourcepgbackreststanza).
+For all options, see the [Get the backup settings from the source cluster](#get-the-backup-settings-from-the-source-cluster).
+
 
 Don't combine `dataSource.pgbackrest` with `dataSource.postgresCluster`. If both are set in the same Custom Resource, `dataSource.postgresCluster` takes precedence and the Operator ignores the `dataSource.pgbackrest` configuration.
 
