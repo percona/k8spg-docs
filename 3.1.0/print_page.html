@@ -16650,7 +16650,7 @@ flowchart LR
 <td><a href="#backups-clone-clone-from-an-existing-cluster"><code>dataSource.postgresCluster</code></a></td>
 <td>- Source still runs in this Kubernetes cluster; <br> - You want a side copy in the same or another namespace</td>
 <td>- Easiest clone when the source exists; <br> - supports <a href="#backups-pitr-cluster-clone">point-in-time recovery</a>; <br> - source stays untouched</td>
-<td>- Source must be available; <br> - Doesn&rsquo;t apply for a deleted cluster or another Kubernetes cluster; <br> - Needs restore time and a full data copy; <br> - A restore in another namespace requires the Operator in the <a href="#cluster-wide-install-the-operator-cluster-wide">cluster-wide mode</a></td>
+<td>- Source must be available; <br> - Doesn&rsquo;t apply for a deleted cluster or another Kubernetes cluster; <br> - Needs restore time and a full data copy; <br> - Restore in another namespace require the Operator in the <a href="#cluster-wide-install-the-operator-cluster-wide">cluster-wide mode</a></td>
 </tr>
 <tr>
 <td><a href="#backups-clone-clone-from-cloud-storage-s3-gcs-azure-blob"><code>dataSource.pgbackrest</code></a></td>
@@ -16923,12 +16923,12 @@ name on the server. See <a href="https://www.postgresql.org/docs/current/runtime
 <p>Key options are:</p>
 <ul>
 <li><code>dataSource.pgbackrest.stanza</code> - the name of <code>pgBackRest</code> stanza - a unique identifier for a source PostgreSQL cluster&rsquo;s backup configuration</li>
-<li><code>dataSource.pgbackrest.configuration.secret.name</code> - the name of the Secret object with the credentials to the cloud storage. The restore Pod reads the backups with these credentials.</li>
+<li><code>dataSource.pgbackrest.configuration.secret.name</code> - the name of the Secret object with the credentials to the cloud storage where backups are located. The restore Pod reads the backups with these credentials.</li>
 <li><code>dataSource.pgbackrest.global</code> is the location of a backup.</li>
 <li><code>dataSource.pgbackrest.repo</code> is the <code>pgBackRest</code> repository to restore from: its name and storage settings.</li>
 </ul>
 <p>The repository number in <code>repo.name</code>, in the <code>global.repo&lt;N&gt;-path</code> option, and in the credentials in the Secret must be the same. See <a href="#backups-clone-match-the-repository-number">Match the repository number</a>.</p>
-<p>For all options, see the <a href="#operator-datasourcepgbackreststanza">Custom Resource reference</a>.</p>
+<p>For all options, see the <a href="#backups-clone-get-the-backup-settings-from-the-source-cluster">Get the backup settings from the source cluster</a>.</p>
 <p>Don&rsquo;t combine <code>dataSource.pgbackrest</code> with <code>dataSource.postgresCluster</code>. If both are set in the same Custom Resource, <code>dataSource.postgresCluster</code> takes precedence and the Operator ignores the <code>dataSource.pgbackrest</code> configuration.</p>
 <h3 id="backups-clone-before-you-start">Before you start<a class="headerlink" href="#backups-clone-before-you-start" title="Permanent link">&para;</a></h3>
 <p>You need the backup configuration from the original cluster: the path where backups were stored, the Secret with cloud credentials, and the storage settings (bucket, endpoint, region). </p>

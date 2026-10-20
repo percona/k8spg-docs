@@ -7247,12 +7247,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Key options are:</p>
 <ul>
 <li><code>dataSource.pgbackrest.stanza</code> - the name of <code>pgBackRest</code> stanza - a unique identifier for a source PostgreSQL cluster&rsquo;s backup configuration</li>
-<li><code>dataSource.pgbackrest.configuration.secret.name</code> - the name of the Secret object with the credentials to the cloud storage. The restore Pod reads the backups with these credentials.</li>
+<li><code>dataSource.pgbackrest.configuration.secret.name</code> - the name of the Secret object with the credentials to the cloud storage where backups are located. The restore Pod reads the backups with these credentials.</li>
 <li><code>dataSource.pgbackrest.global</code> is the location of a backup.</li>
 <li><code>dataSource.pgbackrest.repo</code> is the <code>pgBackRest</code> repository to restore from: its name and storage settings.</li>
 </ul>
 <p>The repository number in <code>repo.name</code>, in the <code>global.repo&lt;N&gt;-path</code> option, and in the credentials in the Secret must be the same. See <a href="#match-the-repository-number">Match the repository number</a>.</p>
-<p>For all options, see the <a href="operator.html#datasourcepgbackreststanza">Custom Resource reference</a>.</p>
+<p>For all options, see the <a href="#get-the-backup-settings-from-the-source-cluster">Get the backup settings from the source cluster</a>.</p>
 <p>Don&rsquo;t combine <code>dataSource.pgbackrest</code> with <code>dataSource.postgresCluster</code>. If both are set in the same Custom Resource, <code>dataSource.postgresCluster</code> takes precedence and the Operator ignores the <code>dataSource.pgbackrest</code> configuration.</p>
 <h3 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">&para;</a></h3>
 <p>You need the backup configuration from the original cluster: the path where backups were stored, the Secret with cloud credentials, and the storage settings (bucket, endpoint, region). </p>
@@ -7774,7 +7774,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 16, 2026 13:26:28 UTC">October 16, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 20, 2026 07:28:04 UTC">October 20, 2026</span>
       
         <br>
         Created:
