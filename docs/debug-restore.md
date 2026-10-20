@@ -21,7 +21,7 @@ Here's what you can do:
         2026-10-12 16:19:48.515 P00  ERROR: [075]: backup set 20990101-000000F is not valid
         ```
 
-    A wrong stanza or repository path, for example in a [cluster clone from cloud storage](backups-clone.md#get-the-backup-settings-from-the-source-cluster), results in `FileMissingError: unable to open missing file '<repo-path>/backup/<stanza>/backup.info'` followed by `ERROR: [075]: no backup set found to restore`. The Operator deletes the Job after a successful restore.
+    A wrong stanza or repository path, for example in a [cluster clone from cloud storage](backups-clone.md#get-the-backup-settings-from-the-source-cluster), results in `FileMissingError: unable to open missing file '<repo-path>/backup/<stanza>/backup.info'` followed by `ERROR: [075]: no backup set found to restore`. If the repository number in the Secret's credentials differs from the one in `dataSource.pgbackrest.repo.name`, the log shows `ERROR: [037]: restore command requires option: repo1-s3-key`. See [Match the repository number](backups-clone.md#match-the-repository-number). The Operator deletes the Job after a successful restore.
 
 * Stop the failing restore or correct its configuration:
 
