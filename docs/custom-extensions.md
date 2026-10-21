@@ -487,3 +487,55 @@ To update your custom extension inside the Operator, do the following:
     ```bash
     kubectl apply -f deploy/cr.yaml -n <namespace>
     ```
+
+## Switch a custom extension to a built-in extension
+
+Starting with version 3.1.0, `pg_cron` and `set_user` are built-in extensions. Your existing setup via `extensions.custom` remains unchanged and works as expected after the upgrade.
+
+To switch to the built-in flag, do the upgrade and the Custom Resource change in that order. The cluster then finishes each change in one pass.
+
+1. [Upgrade the Operator](update-operator.md) to version 3.1.0 or later. 
+2. [Upgrade the database images](update-db-minor.md) first and wait until Pods rejoin the cluster. 
+3. Reconfigure the extensions. Edit `deploy/cr.yaml` and make both of these changes for each extension you switch:
+
+    * Remove the extension from the `extensions.custom` list
+    * Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
+
+    You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it. Wait until the database Pods rejoin the cluster.
+
+    ```yaml
+    spec:
+      extensions:
+        pg_cron:
+          enabled: true
+        set_user:
+          enabled: true
+    ```
+
+4. Apply the file:
+
+    ```bash
+    kubectl apply -f deploy/cr.yaml -n <namespace>
+    ```
+
+When the built-in flag is `true`, the Operator appends `pg_cron` or `set_user` to `shared_preload_libraries`. For `pg_cron`, the Operator also sets `cron.database_name` to `postgres`. See [Extension parameters](immutable-options.md#extension-parameters).
+
+### Move pg_cron jobs into the postgres database
+
+Check `cron.database_name` before you switch `pg_cron`:
+
+```sql
+SHOW cron.database_name;
+```
+
+When the result is `postgres`, the existing jobs keep running. When it is another database, `pg_cron` stops reading the job list stored there after the switch. In that database, list the jobs:
+
+```sql
+SELECT jobname, schedule, command, database FROM cron.job;
+```
+
+After the cluster is running with `extensions.pg_cron.enabled` set to `true`, connect to the `postgres` database and create each job again with `cron.schedule_in_database`. The last argument is the database where the command runs (`appdb` in this example):
+
+```sql
+SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'appdb');
+```
