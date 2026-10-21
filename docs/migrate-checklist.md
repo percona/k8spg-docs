@@ -225,6 +225,7 @@ These built-in extensions use the following defaults:
 | `pg_stat_monitor` | `pg_stat_monitor` | `false` |
 | `pg_repack` | `pg_repack` | `false` |
 | `pgaudit` | `pg_audit` | `true` |
+| `pg_cron` | `pg_cron` | `false` | 
 
 Match the spec to the extensions the source database uses. See [Built-in extensions](custom-extensions.md#built-in-extensions) for the full list.
 
@@ -312,7 +313,27 @@ spec:
 
     Starting with version 3.1.0, use the built-in flags for a new cluster. Removing `set_user` or `pg_cron` from `extensions.custom` without setting its `enabled` flag to `true` in the same apply deletes the extension.
 
-If the source cluster schedules `pg_cron` jobs in a database other than `postgres`, those jobs stop running after migration. The Operator sets `cron.database_name` to `postgres`.
+If the source cluster schedules `pg_cron` jobs in a database other
+than `postgres`, those jobs stop running after migration. The
+Operator sets `cron.database_name` to `postgres`.
+
+On the source cluster, check the current value:
+
+```sql
+SHOW cron.database_name;
+```
+
+When the result is `postgres`, the existing jobs keep running. When it is another database, `pg_cron` stops reading the job list stored there. In that database, list the jobs:
+
+```sql
+SELECT jobname, schedule, command, database FROM cron.job;
+```
+
+After the Percona cluster is running, connect to the `postgres` database and create each job again with `cron.schedule_in_database`. The last argument is the database where the command runs (`appdb` in this example):
+
+```sql
+SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'appdb');
+```
 
 After the Percona cluster reports `Ready`, check the database logs. In every database that you recorded earlier, run `\dx` and confirm that each extension is installed at the version you tested.
 
@@ -320,7 +341,7 @@ After the Percona cluster reports `Ready`, check the database logs. In every dat
 
 The migration methods in this guide copy the data directory, so the migrated cluster keeps the data itself. The Operator still applies its own naming, defaults, and labels on top of that data. None of this blocks the migration, but missing it causes problems ranging from broken logins to blind monitoring.
 
-### Match users and passwords
+### Match passwords for Operator-managed users
 
 The Operator doesn't copy user credentials from Crunchy during migration. It generates a new password for any user it manages and applies it to the database, overwriting the password that migrated with the data. Existing application logins break the moment the Operator reconciles that user.
 
