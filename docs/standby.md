@@ -14,6 +14,29 @@ You can use the Percona Operator for PostgreSQL to set up several types of stand
 2. A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the [Standby cluster deployment based on streaming replication](standby-streaming.md) tutorial.
 3. Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.
 
+While a standby cluster is read-only, its pgBouncer can't log in to PostgreSQL, so applications can't connect through it. Connect to the database Service of the standby directly instead. In a repo-based standby, pgBouncer starts working after you promote the cluster.
+
+## Recovery point objective
+
+How much data you lose when the Main site is gone depends on the standby type.
+
+A repo-based standby receives WAL only through the pgBackRest repository. PostgreSQL archives a WAL segment when it fills or after `archive_timeout`, whichever comes first. The Operator sets `archive_timeout` to 60 seconds by default. If you lose the Main site, you can lose the last 60 seconds of writes plus the time that archiving takes to reach the repository. In our test, a repo-based standby lost the last 49 seconds of writes.
+
+A standby that also streams loses only what had not yet streamed, usually seconds. In our test, it lost the writes of the last half second.
+
+To shorten the window for a repo-based standby, lower `archive_timeout` on the Main site. The Operator lets you override it under `patroni.dynamicConfiguration.postgresql.parameters`. See [PostgreSQL parameters that can be overridden](immutable-options.md#postgresql-parameters-that-can-be-overridden).
+
+```yaml
+spec:
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          archive_timeout: 15s
+```
+
+The change applies without restarting the database Pods. A lower value creates more WAL segments in the repository. It also makes the lag of a repo-based standby jump more often, as described in [Choose the lag threshold](#choose-the-lag-threshold).
+
 ## Detect replication lag for standby cluster
 
 If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.
@@ -54,10 +77,25 @@ This helps you understand if replication is lagging or broken. By surfacing the 
 
 ### Known limitation for a repo-based standby cluster
 
-For WAL lag detection to work in this standby type, the Operator must have access to the primary cluster. Therefore, WAL lag detection is available in these setups:
+For WAL lag detection to work in this standby type, the Operator must find the Main site. It looks for a cluster that is not a standby and uses the same pgBackRest repository. Therefore, WAL lag detection is available in these setups:
 
 * Primary and standby clusters are deployed in the same namespace
 * Primary and standby are deployed in different namespaces of the same cluster and the Operator is installed in cluster-wide mode.
+
+If the Operator can't find the Main site, for example when it runs in another Kubernetes cluster, the `StandbyLagging` condition is `Unknown` with the reason `MainSiteNotFound`, and no lag limit is enforced. The standby stays ready. To check the condition, run:
+
+```bash
+kubectl get pg <cluster-name> -n <namespace> \
+  -o jsonpath='{.status.conditions[?(@.type=="StandbyLagging")]}'
+```
+
+### Choose the lag threshold
+
+The lag of a repo-based standby is the amount of WAL that the Main site wrote and the standby has not yet replayed. It includes the WAL that is not archived yet. The standby replays WAL only when it fetches a whole segment from the repository, so the lag grows until the next segment is archived.
+
+Every time the Main site switches to a new WAL segment, the lag can briefly jump by up to one segment (16 MiB) even when the write load is low. Set `standby.maxAcceptableLag` above 16 MiB plus the amount of WAL that the Main site writes during `archive_timeout`. For a light workload, `32Mi` to `64Mi` is a reasonable start. A value below 16 MiB marks the standby as unready on routine segment switches.
+
+The Operator checks the lag every 5 minutes, or every minute while the standby is lagging. A new `maxAcceptableLag` value applies at the next check.
 
 ### Disable replication lag detection
 

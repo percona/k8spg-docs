@@ -61,7 +61,7 @@ The pgBackRest repo-based standby is the simplest one. The following is the arch
 
 The configuration of the disaster recovery site is similar [to that of the Main site](#configure-main-site), with the  difference in standby settings.
 
-The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case). Optionally, add `standby.maxAcceptableLag` to enable [replication lag detection](standby.md#detect-replication-lag-for-standby-cluster). Check the [known limitation for this standby type](standby.md#known-limitation-for-a-repo-based-standby-cluster). 
+The following manifest has `standby.enabled` set to `true` and points to the `repoName` where backups are (GCS in our case). Optionally, add `standby.maxAcceptableLag` to enable [replication lag detection](standby.md#detect-replication-lag-for-standby-cluster). Check the [known limitation for this standby type](standby.md#known-limitation-for-a-repo-based-standby-cluster) and [choose the threshold](standby.md#choose-the-lag-threshold) accordingly.
 
 ```yaml
 metadata:
@@ -80,7 +80,7 @@ spec:
   standby:
     enabled: true
     repoName: repo1
-    # maxAcceptableLag: 10Mi  # optional: enables replication lag detection
+    # maxAcceptableLag: 64Mi  # optional: enables replication lag detection
 ```
 
 Deploy the standby cluster by applying the manifest:
@@ -94,3 +94,7 @@ kubectl apply -f deploy/cr.yaml
     ```{.bash .no-copy}
     perconapgcluster.pg.percona.com/standby created
     ```
+
+### Copy the user passwords
+
+After you deploy the standby, copy the user passwords from the Main site to the DR site, so that applications can log in after you promote the DR cluster. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
