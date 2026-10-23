@@ -106,5 +106,13 @@ Once both clusters are up, you can verify that replication is working.
 
 To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.
 
+### Copy the user passwords
+
+Copy the user passwords from the Main site to the DR site, so that applications can log in after you promote the DR cluster. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
+
+## Next steps
+
+Because both sites share the same certificates, you can later [swap their roles](standby-switchover.md). The Main site then follows the DR site without a rebuild.
+
 
 
