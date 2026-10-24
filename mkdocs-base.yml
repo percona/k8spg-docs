@@ -320,14 +320,15 @@ nav:
           - "Retrieve Percona certified images": image-query.md
 
     - Troubleshooting:
-          - "Troubleshoot Operator installation issues": troubleshoot-operator.md
           - "Initial troubleshooting": debug.md
+          - "Failover and recovery": debug-failover.md
           - "Check storage": debug-storage.md
           - "Exec into the container": debug-shell.md
           - "Check the logs": debug-logs.md
           - "Troubleshoot restore failures": debug-restore.md
           - "Manage a database manually": manage-manually.md
           - reinit.md
+          - "Troubleshoot Operator installation issues": troubleshoot-operator.md
     - Reference:
           - Custom Resource reference:
             - "Custom Resource options": operator.md
