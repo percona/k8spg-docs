@@ -73,6 +73,7 @@ extra_javascript:
   - js/kapa.js
   - js/posthog-search.js
   - js/posthog-version.js
+  - js/diagram-zoom.js
 #  - js/percona-select.js
 #  - js/version-select.js
 #  - js/toctree.js
@@ -134,6 +135,10 @@ plugins:
     repository: percona/k8spg-docs
     branch: "2.0"
   section-index: {}
+  # Image lightbox. Mermaid diagrams are wired up in docs/js/diagram-zoom.js.
+  glightbox:
+    zoomable: true
+    draggable: true
   meta-descriptions:
     export_csv: false
     quiet: false
