@@ -20,9 +20,9 @@ While a standby cluster is read-only, its pgBouncer can't log in to PostgreSQL, 
 
 How much data you lose when the Main site is gone depends on the standby type.
 
-A repo-based standby receives WAL only through the pgBackRest repository. PostgreSQL archives a WAL segment when it fills or after `archive_timeout`, whichever comes first. The Operator sets `archive_timeout` to 60 seconds by default. If you lose the Main site, you can lose the last 60 seconds of writes plus the time that archiving takes to reach the repository. In our test, a repo-based standby lost the last 49 seconds of writes.
+A repo-based standby receives WAL only through the pgBackRest repository. PostgreSQL archives a WAL segment when it fills or after `archive_timeout`, whichever comes first. The Operator sets `archive_timeout` to 60 seconds by default. If you lose the Main site, you can lose the last 60 seconds of writes plus the time that archiving takes to reach the repository.
 
-A standby that also streams loses only what had not yet streamed, usually seconds. In our test, it lost the writes of the last half second.
+A standby that also streams loses only what had not yet streamed, usually seconds.
 
 To shorten the window for a repo-based standby, lower `archive_timeout` on the Main site. The Operator lets you override it under `patroni.dynamicConfiguration.postgresql.parameters`. See [PostgreSQL parameters that can be overridden](immutable-options.md#postgresql-parameters-that-can-be-overridden).
 

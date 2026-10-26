@@ -1,6 +1,8 @@
 # Failover
 
-In case of the Main site failure or in other cases, you can promote the standby cluster. The promotion effectively allows writing to the cluster. This creates a net effect of pushing Write Ahead Logs (WALs) to the pgBackrest repository. It might create a split-brain situation where two primary instances attempt to write to the same repository. To avoid this, make sure the primary cluster is either deleted or shut down before trying to promote the standby cluster.
+Promote the standby cluster when the Main site is lost, for example after an outage of its Kubernetes cluster or region. The promotion makes the standby cluster writable, and it starts to push Write Ahead Logs (WALs) to the pgBackRest repository.
+
+Before you promote, make sure that the Main site can't accept writes. A Main site that you can't reach isn't necessarily down: the network can be split, or the site can come back after the promotion. Then both clusters run as primary and write to the same pgBackRest repository. This is a [split brain](#split-brain). To avoid it, shut down or delete the Main cluster before you promote the standby cluster.
 
 The examples on this page use the `main` cluster and the `dr` cluster from the [streaming replication tutorial](standby-streaming.md). Set the namespaces of your clusters once, and you can run the commands as they are:
 
@@ -11,19 +13,21 @@ export DR_NAMESPACE=dr-pg
 
 ## Prepare the user passwords
 
-Do this before you promote, and preferably when you set up the standby. A standby cluster replicates the users and their passwords from the Main site. While the cluster is read-only, the Operator doesn't apply the passwords from the DR cluster's own user Secrets. When you promote the cluster, the Operator sets the password of every user in `spec.users` to the value in the DR Secret `<cluster-name>-pguser-<user-name>`. If that value differs from the Main site password, applications that use the Main site credentials can't log in after the promotion.
+Do this before you promote, and preferably when you set up the standby. A standby cluster replicates the users and their passwords from the Main site. While the cluster is read-only, the Operator doesn't apply the passwords from the Disaster Recovery (DR) cluster's own user Secrets. When you promote the cluster, the Operator sets the password of every user in `spec.users` to the value in the DR Secret `<cluster-name>-pguser-<user-name>`. If that value differs from the Main site password, applications that use the Main site credentials can't log in after the promotion.
 
 If you don't set `spec.users`, there is nothing to copy. The DR cluster creates its own default user and database and leaves the default user of the Main site untouched, so the Main site credentials keep working.
 
 For each user that you define in `spec.users`, copy the password from the Main site Secret to the DR Secret:
 
 ```bash
-PASSWORD=$(kubectl get secret main-pguser-<user-name> -n "${MAIN_NAMESPACE}" \
-  -o jsonpath='{.data.password}' | base64 -d)
+PASSWORD_B64=$(kubectl get secret main-pguser-<user-name> -n "${MAIN_NAMESPACE}" \
+  -o jsonpath='{.data.password}')
 
 kubectl patch secret dr-pguser-<user-name> -n "${DR_NAMESPACE}" \
-  -p "{\"stringData\":{\"password\":\"${PASSWORD}\",\"verifier\":\"\"}}"
+  -p "{\"data\":{\"password\":\"${PASSWORD_B64}\"},\"stringData\":{\"verifier\":\"\"}}"
 ```
+
+The command copies the encoded value as it is, so passwords with quotes, backslashes or non-ASCII characters stay intact. The Operator rebuilds the `verifier` from the new password within a few seconds.
 
 The Operator creates the DR Secret together with the DR cluster, so you can run these commands right after you deploy the standby. The change takes effect when you promote the cluster.
 
@@ -39,7 +43,7 @@ spec:
     enabled: false
 ```
 
-You can leave the other `standby` options, such as `host` and `repoName`, in the Custom Resource. The Operator ignores them when `enabled` is `false`.
+You can leave the other `standby` options, such as `host` and `repoName`, in the Custom Resource. The Operator ignores them when `standby.enabled` is `false`. They apply again if you set `enabled` back to `true`.
 
 Check that `SELECT pg_is_in_recovery();` returns `f`. Now you can start writing to the cluster.
 
@@ -104,14 +108,34 @@ To recover, move the cluster that you keep to a new repository path, create a fu
 
 The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep the DR cluster, exchange the cluster names and the namespace variables. Get the primary Pod of each cluster first, as in [Detect split brain](#detect-split-brain).
 
-1. Choose the cluster to keep. The writes that the other cluster acknowledged after the split aren't in the cluster that you keep. If you need them, export them before you continue. Both clusters continued their sequences from the same point, so exported rows can use the same primary key values as rows on the kept cluster and conflict when you insert them.
+1. Choose the cluster to keep. The writes that the other cluster acknowledged after the split aren't in the cluster that you keep. If you need them, export them in step 2, before you rebuild that cluster in step 6.
 
 2. Stop the application writes to the other cluster and demote it to a standby. It becomes read-only on its own timeline, so you can still read its data for the export:
 
     ```bash
     kubectl patch pg dr -n "${DR_NAMESPACE}" --type=merge \
-      -p '{"spec":{"standby":{"enabled":true,"repoName":"repo1"}}}'
+      -p '{"spec":{"standby":{"enabled":true,"repoName":"repo1","host":null,"port":null}}}'
     ```
+
+    The `null` values remove a streaming source that the cluster kept from an earlier standby setup. Without them, Patroni rewinds the cluster to the kept cluster as soon as you demote it. The writes that you wanted to export are lost, and the cluster can fail to start with `requested timeline 2 does not contain minimum recovery point`.
+
+    Export the writes now. The demoted cluster is read-only, so you can read its tables. The writes that the kept cluster doesn't have are the rows that were written after you promoted the standby cluster. Select them with a column that records the time or the order of the writes. The example exports one table to a file on your computer:
+
+    ```bash
+    kubectl exec -n "${DR_NAMESPACE}" "${DR_PRIMARY}" -c database -- \
+      psql -d <database-name> -c "COPY (SELECT <columns> FROM <table-name> WHERE created_at >= '<promotion-time>') TO STDOUT WITH CSV HEADER" \
+      > <table-name>.csv
+    ```
+
+    Repeat the command for each table that has new rows. When the recovery is complete, load the file into the kept cluster:
+
+    ```bash
+    kubectl exec -i -n "${MAIN_NAMESPACE}" "${MAIN_PRIMARY}" -c database -- \
+      psql -d <database-name> -c "COPY <table-name> (<columns>) FROM STDIN WITH CSV HEADER" \
+      < <table-name>.csv
+    ```
+
+    Both clusters kept counting from the same sequence values, so the exported rows can have the same primary keys as existing rows. Leave the primary key column out of `<columns>` in both commands, so that the kept cluster assigns new keys.
 
 3. Move the kept cluster to a new repository path:
 
@@ -120,7 +144,21 @@ The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep t
       -p '{"spec":{"backups":{"pgbackrest":{"global":{"repo1-path":"/pgbackrest/main-new"}}}}}'
     ```
 
-4. Create the pgBackRest stanza in the new path. The Operator doesn't do it when you change `repo1-path`:
+4. Create the pgBackRest stanza in the new path. The Operator doesn't do it when you change `repo1-path`. The new path reaches the Pod with a delay, so first wait until the Pod uses it. Run this command until the status changes to `missing stanza path`. It takes up to about a minute:
+
+    ```bash
+    kubectl exec -n "${MAIN_NAMESPACE}" "${MAIN_PRIMARY}" -c database -- \
+      pgbackrest --stanza=db info
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        stanza: db
+            status: error (missing stanza path)
+        ```
+
+    If you run `stanza-create` before the status changes, it reports success for the old path and doesn't create the stanza in the new one. Once the status has changed, create the stanza:
 
     ```bash
     kubectl exec -n "${MAIN_NAMESPACE}" "${MAIN_PRIMARY}" -c database -- \
@@ -129,7 +167,7 @@ The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep t
 
     !!! warning
 
-        Run steps 3 and 4 one after another. Until the stanza exists in the new path, PostgreSQL still reports every WAL segment as archived, but the segments are not stored in any repository. A failure of the kept cluster in this time leaves you without those WAL files.
+        Create the stanza as soon as the status changes. Until the stanza exists in the new path, PostgreSQL still reports every WAL segment as archived, but the segments are not stored in any repository. A failure of the kept cluster in this time leaves you without those WAL files.
 
 5. Create a full backup in the new path. Save this manifest as `deploy/backup.yaml`:
 
@@ -153,18 +191,21 @@ The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep t
       --timeout=600s
     ```
 
-6. Set the same repository path on the other cluster and rebuild it. Delete its instance PVC and Pod, and the Operator restores the data from the new path as a standby of the kept cluster:
+6. Set the same repository path on the other cluster and rebuild it. Delete the PVCs and the Pods of all its PostgreSQL instances, and the Operator restores the data from the new path as a standby of the kept cluster. Delete the replicas too. They diverge as well, even though they report `streaming` and stay ready. If you recreate only the primary, Patroni makes a diverged replica the new standby leader.
 
     ```bash
     kubectl patch pg dr -n "${DR_NAMESPACE}" --type=merge \
       -p '{"spec":{"backups":{"pgbackrest":{"global":{"repo1-path":"/pgbackrest/main-new"}}}}}'
 
-    kubectl get pvc -n "${DR_NAMESPACE}" \
-      -l postgres-operator.crunchydata.com/cluster=dr,postgres-operator.crunchydata.com/data=postgres
+    kubectl delete pvc -n "${DR_NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=dr,postgres-operator.crunchydata.com/data=postgres \
+      --wait=false
 
-    kubectl delete pvc <pvc-name> -n "${DR_NAMESPACE}" --wait=false
-    kubectl delete pod "${DR_PRIMARY}" -n "${DR_NAMESPACE}"
+    kubectl delete pod -n "${DR_NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=dr,postgres-operator.crunchydata.com/data=postgres
     ```
+
+    `patronictl reinit` doesn't help here, because the cluster is a standby. It fails with `No replica among provided members` on the primary, and the replicas fail with `invalid option '--scope=main-ha'`.
 
 7. Check the members of the kept cluster. A replica that was created or restored while the split brain lasted may hold the data of the other timeline. It stays not ready, and its log repeats `highest timeline 1 of the primary is behind recovery timeline 2`. Reinitialize it:
 

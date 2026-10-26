@@ -61,14 +61,18 @@ export DR_NAMESPACE=dr-pg
 
     Save this value. Read it after you stop the writes and before you demote the Main site. A value that you read after the demotion is never reached by a repo-based standby, and the wait in step 5 never ends.
 
+    You don't need to run `pg_switch_wal()`. When the Main site shuts down cleanly during the demotion, PostgreSQL switches to a new WAL segment and archives it, so the DR site receives all the writes.
+
 3. Demote the Main site. Set `standby.enabled` to `true` and point the cluster to the repository. For a streaming standby, also set `standby.host` to the DR `-ha` Service:
 
     === "Repo-based standby"
 
         ```bash
         kubectl patch pg main -n "${MAIN_NAMESPACE}" --type=merge \
-          -p '{"spec":{"standby":{"enabled":true,"repoName":"repo1"}}}'
+          -p '{"spec":{"standby":{"enabled":true,"repoName":"repo1","host":null,"port":null}}}'
         ```
+
+        The `null` values remove a `host` that the cluster kept from an earlier standby setup, so that the Main site reads only from the repository.
 
     === "Streaming standby"
 
@@ -131,37 +135,44 @@ Choose one of these ways to bring the Main site back as a standby of DR.
 
 ### Recreate the instance
 
-This is the simplest way. After the swap, DR is the primary and holds all the writes that the Main site acknowledged, and the Main site is a standby. The data on the Main volume has diverged from DR, so you can discard it. The Operator creates a new instance, restores the latest backup from the pgBackRest repository, and replays the WAL from the repository until the Main site catches up with DR. Restore time depends on the size of your data.
+This is the simplest way. After the swap, DR is the primary and holds all the writes that the Main site acknowledged, and the Main site is a standby. The data on the Main volumes has diverged from DR, so you can discard it. The Operator creates new instances, restores the latest backup from the pgBackRest repository, and replays the WAL from the repository until the Main site catches up with DR. Restore time depends on the size of your data.
+
+Recreate every PostgreSQL instance of the Main site. The replicas of the old primary diverge as well, even though they report `streaming` and stay ready. If you recreate only the primary, Patroni makes a diverged replica the new standby leader.
 
 !!! warning
 
-    Delete the Main volume only after the swap is complete. Check that the DR site accepts writes (step 7), that the Main site is in recovery (step 4), and that the repository has a backup:
+    Delete the Main volumes only after the swap is complete. Check that the DR site accepts writes (step 7), that the Main site is in recovery (step 4), and that the repository has a backup:
 
     ```bash
     kubectl exec -n "${DR_NAMESPACE}" "${DR_PRIMARY}" -c database -- pgbackrest --stanza=db info
     ```
 
-    If you delete the volume of a site that is still the only primary, or before DR has replayed the recorded position in step 5, you lose data.
+    If you delete the volumes of a site that is still the only primary, or before DR has replayed the recorded position in step 5, you lose data.
 
-1. Find the PVC of the Main instance:
+1. Delete the PVCs and the Pods of all Main instances:
 
     ```bash
-    kubectl get pvc -n "${MAIN_NAMESPACE}" \
+    kubectl delete pvc -n "${MAIN_NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=main,postgres-operator.crunchydata.com/data=postgres \
+      --wait=false
+
+    kubectl delete pod -n "${MAIN_NAMESPACE}" \
       -l postgres-operator.crunchydata.com/cluster=main,postgres-operator.crunchydata.com/data=postgres
     ```
 
-2. Delete the PVC and the Pod:
+2. Check that every member is on the DR timeline:
 
     ```bash
-    kubectl delete pvc <pvc-name> -n "${MAIN_NAMESPACE}" --wait=false
-    kubectl delete pod "${MAIN_PRIMARY}" -n "${MAIN_NAMESPACE}"
+    kubectl exec -n "${MAIN_NAMESPACE}" <main-pod-name> -c database -- patronictl list
     ```
 
-    `patronictl reinit` doesn't help here. On a site with a single instance it returns `No replica among provided members`, because Patroni reinitializes only replicas.
+    All members show the same `TL` as DR: one `Standby Leader` and the replicas in the `streaming` state.
+
+`patronictl reinit` doesn't help here, because the Main site is a standby. On the primary it fails with `No replica among provided members`, and on the replicas it fails with `invalid option '--scope=main-ha'`.
 
 ### Add a streaming source
 
-With a streaming source, Patroni rewinds the Main site with `pg_rewind` and no restore is needed. The Main site must trust the DR certificates.
+With a streaming source, Patroni rewinds the Main site with `pg_rewind` and no restore is needed. The Main site must trust the DR certificates. This way is for a Main site with one PostgreSQL instance. If your site has replicas, recreate every instance instead.
 
 1. Copy the DR TLS Secrets `dr-cluster-cert` and `dr-replication-cert` to the Main namespace.
 
