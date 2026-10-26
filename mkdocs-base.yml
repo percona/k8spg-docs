@@ -270,6 +270,7 @@ nav:
             - "Deploy standby cluster based on backups": standby-backup.md
             - "Deploy standby cluster based on streaming replication": standby-streaming.md
             - "Failover": standby-failover.md
+            - "Swap roles between sites": standby-switchover.md
           - Scale your cluster:
             - "Overview": scaling.md
             - "Horizontal scaling": scaling-horizontal.md
