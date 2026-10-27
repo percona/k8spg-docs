@@ -212,7 +212,7 @@ The following options shorten the time that reads run on the new primary. They d
 
 ### Recycle the server connections after a switchover or failover
 
-pgBouncer closes the server connections of a pool when you run `RECONNECT` in its admin console. The next connections resolve `cluster1-replicas` again and reach a standby.
+pgBouncer closes the server connections of a pool when you run `RECONNECT` in its admin console. The next connections resolve `cluster1-replicas` again and reach a standby. Each pgBouncer Pod has its own pools, so run the commands on every pgBouncer Pod.
 
 1. Get the password of the admin user `_crunchypgbounceradmin`. The Operator stores it under the `pgbouncer-admin-password` key in the `<clusterName>-pgbouncer` Secret:
 
@@ -221,18 +221,27 @@ pgBouncer closes the server connections of a pool when you run `RECONNECT` in it
       -o jsonpath='{.data.pgbouncer-admin-password}' | base64 -d
     ```
 
-2. From a Pod that has `psql`, connect to the `pgbouncer` administrative database through the pgBouncer Service:
+2. List the pgBouncer Pods and note their IP addresses:
 
     ```bash
-    psql -h cluster1-pgbouncer -p 5432 -U _crunchypgbounceradmin pgbouncer
+    kubectl get pods -n <namespace> -o wide \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
     ```
 
-3. Recycle the read pool and wait until pgBouncer closes the connections:
+3. From a Pod that has `psql`, connect to the `pgbouncer` administrative database on one pgBouncer Pod. Use the Pod IP address, not the Service. The Service sends the connection to a single Pod, and `RECONNECT` affects only that Pod:
+
+    ```bash
+    psql -h <pgbouncer-pod-ip> -p 5432 -U _crunchypgbounceradmin pgbouncer
+    ```
+
+4. Recycle the read pool and wait until pgBouncer closes the connections:
 
     ```sql
     RECONNECT mydb_ro;
     WAIT_CLOSE mydb_ro;
     ```
+
+5. Repeat steps 3 and 4 for every other pgBouncer Pod.
 
 In the `session` pool mode, pgBouncer closes a connection only after the client releases it, which is when the client disconnects. Combine this workaround with the `transaction` pool mode from the next workaround, or restart the clients.
 
@@ -251,7 +260,7 @@ spec:
           mydb_ro: "host=cluster1-replicas port=5432 dbname=mydb pool_mode=transaction server_lifetime=60"
 ```
 
-With `pool_mode=transaction`, pgBouncer releases a server connection after each transaction. With `server_lifetime=60`, pgBouncer closes an unused server connection that is older than 60 seconds. A pool therefore reaches a standby again within about a minute after a role change.
+With `pool_mode=transaction`, pgBouncer releases a server connection after each transaction. With `server_lifetime=60`, pgBouncer closes an unused server connection that is older than 60 seconds. A transaction that stays open, or idle in a transaction, keeps its connection to the new primary beyond that interval. This setting doesn't guarantee a recovery time.
 
 The `transaction` pool mode doesn't keep the session state between transactions. Don't use it if your application relies on `SET`, temporary tables, session-level advisory locks, `LISTEN`, or prepared statements. A short `server_lifetime` also increases the number of new connections to PostgreSQL.
 
@@ -263,7 +272,9 @@ Connect through the read string and run:
 SELECT pg_is_in_recovery();
 ```
 
-The result `t` means that the pool is connected to a standby. The result `f` means that it is connected to the primary. In this case, recycle the server connections. Run the check again after every switchover or failover.
+The result `t` means that the server connection used by this query reaches a standby. The result `f` means that this connection reaches the primary. In this case, recycle the server connections.
+
+This check samples one server connection on one pgBouncer Pod. Other connections can still reach the primary when the result is `t`, so don't treat a single `t` as proof that you can skip recycling. Run the check again after every switchover or failover.
 
 ## Expose a logical replica
 
