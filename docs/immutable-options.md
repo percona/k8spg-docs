@@ -62,6 +62,21 @@ When you enable built-in extensions, the Operator appends or sets the following 
 | --------- | ----- |
 | `shared_preload_libraries` | Appended with `pgaudit` |
 
+Starting with version 3.1.0, `pg_cron` and `set_user` are built-in extensions.
+
+**When `spec.extensions.pg_cron.enabled` is `true`:**
+
+| Parameter | Value |
+| --------- | ----- |
+| `shared_preload_libraries` | Appended with `pg_cron` |
+| `cron.database_name` | `postgres` |
+
+**When `spec.extensions.set_user.enabled` is `true`:**
+
+| Parameter | Value |
+| --------- | ----- |
+| `shared_preload_libraries` | Appended with `set_user` |
+
 **When `spec.extensions.pg_tde.enabled` is `true`:**
 
 | Parameter | Value |
