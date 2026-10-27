@@ -144,7 +144,10 @@ Create a read-only user for the read string. The user can't write, even if the r
 
     The Operator creates the user and the Secret `cluster1-pguser-cluster1-reader` with its password.
 
-2. Connect to the primary as the `postgres` user, bypassing pgBouncer. See [Superuser and pgBouncer](users.md#superuser-and-pgbouncer). Make the user read-only:
+2. Connect to `<your_database>` on the primary as the `postgres` user,
+    bypassing pgBouncer. See
+    [Superuser and pgBouncer](users.md#superuser-and-pgbouncer).
+    Make the user read-only:
 
     ```sql
     ALTER ROLE "cluster1-reader" SET default_transaction_read_only = on;
