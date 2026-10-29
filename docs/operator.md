@@ -2211,7 +2211,9 @@ A custom [Kubernetes Security Context :octicons-link-external-16:](https://kuber
 
 Starting with version 3.1.0, set `readOnlyRootFilesystem` to `true` to run the PMM Client with a read-only root filesystem. The Operator writes the PMM agent configuration to `/tmp/pmm-agent.yaml` file on the Pod's volume. That volume stays writable when the root filesystem is read-only. If you leave this option unset, the container root filesystem stays writable.
 
-Use this setting on platforms that require a read-only root filesystem, such as the OpenShift `restricted-v2` security context constraint. See [Run the PMM Client with a read-only root filesystem](monitoring.md#run-the-pmm-client-with-a-read-only-root-filesystem).
+Use this setting when your cluster's security policy requires a read-only root
+filesystem. See [Run the PMM Client with a read-only root
+filesystem](monitoring.md#run-the-pmm-client-with-a-read-only-root-filesystem).
 
 | Value type | Example |
 | ---------- | ------- |
