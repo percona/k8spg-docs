@@ -6891,7 +6891,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>A <strong>primary</strong> that handles all write operations and streams changes to standbys.</li>
 <li>One or more <strong>standbys</strong> (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.</li>
 </ul>
-<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="expose.html">Exposing cluster</a>.</p>
+<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="expose.html">Exposing cluster</a>. If you pool reads through pgBouncer, read about the <a href="expose.html#known-limitation-connections-are-not-re-routed-after-a-failover">limitation after a failover</a>.</p>
 <h2 id="choose-a-replication-mode">Choose a replication mode<a class="headerlink" href="#choose-a-replication-mode" title="Permanent link">¶</a></h2>
 <p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
 <p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
@@ -7015,7 +7015,7 @@ pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp 
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 29, 2026 08:37:55 UTC">October 29, 2026</span>
       
         <br>
         Created:

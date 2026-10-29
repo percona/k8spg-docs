@@ -9627,6 +9627,10 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <ul>
 <li>Due to security considerations, superusers cannot connect to PostgreSQL via <code>pgBouncer</code> by default. They can either connect via the primary service bypassing <code>pgBouncer</code>, or you must adjust <code>pgBouncer</code> configuration exposing it to superusers. Read more about it in the <a href="#users-superuser-and-pgbouncer">Superusers and pgBouncer</a> section.</li>
 </ul>
+<h2 id="limitations-pgbouncer-read-and-write-pools">pgBouncer read and write pools<a class="headerlink" href="#limitations-pgbouncer-read-and-write-pools" title="Permanent link">¶</a></h2>
+<ul>
+<li>After a switchover or failover, pgBouncer doesn’t move the server connections that it already holds. A <a href="#expose-configure-separate-read-and-write-pools">separate read pool</a> can end up on the new primary and accept writes. Use a read-only user for the read pool. See <a href="#expose-known-limitation-connections-are-not-re-routed-after-a-failover">Known limitation: connections are not re-routed after a failover</a> for the workarounds.</li>
+</ul>
 <h2 id="limitations-backups-and-restores">Backups and restores<a class="headerlink" href="#limitations-backups-and-restores" title="Permanent link">¶</a></h2>
 <ul>
 <li>PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.</li>
@@ -12524,17 +12528,11 @@ balancer:</p>
 </code></pre></div>
 <h2 id="expose-configure-separate-read-and-write-pools">Configure separate read and write pools<a class="headerlink" href="#expose-configure-separate-read-and-write-pools" title="Permanent link">¶</a></h2>
 <p>By default, pgBouncer pools every connection to the primary. The <code>&lt;cluster&gt;-replicas</code> Service reaches the standbys, and those connections skip pgBouncer.</p>
-<p>You can configure separate read and write pools so that pgBouncer chooses the PostgreSQL server from the database name in the client connection string. Set that mapping in the [databases] section under <a href="#operator-proxypgbouncerconfig"><code>proxy.pgBouncer.config</code></a>.</p>
+<p>You can configure separate read and write pools so that pgBouncer chooses the PostgreSQL server from the database name in the client connection string. Set that mapping in the <code>[databases]</code> section under <a href="#operator-proxypgbouncerconfig"><code>proxy.pgBouncer.config</code></a>.</p>
 <p>Each entry in the mapping is a key-value pair. The key is the database name the client connects to. The value is the connection pgBouncer opens for that name: <code>host</code> and <code>port</code> select the Service, and <code>dbname</code> selects the database on that Service. When <code>dbname</code> is absent, pgBouncer opens the same name the client sent.</p>
 <p>The application chooses the pool by using a different database name in the connection string.</p>
 <p>The cluster needs at least one standby so the replicas Service has endpoints for the read pool.</p>
-<p>The following example uses cluster <code>cluster1</code> as the cluster name and database <code>mydb</code>. </p>
-<p>The map entries look as follows:</p>
-<ul>
-<li><code>"*"</code> sends any database name you do not list to the <code>cluster1-primary</code> Service. Keep this entry.</li>
-<li><code>mydb</code> sends that database to <code>cluster1-primary</code>, which follows the current primary.</li>
-<li><code>mydb_ro</code> is the read-only name. The client connects to <code>mydb_ro</code>, and pgBouncer opens database <code>mydb</code> on the <code>cluster1-replicas</code> Service.</li>
-</ul>
+<p>The following example uses cluster <code>cluster1</code> as the cluster name and database <code>mydb</code>.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">proxy</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pgBouncer</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">config</span><span class="p">:</span>
@@ -12545,15 +12543,50 @@ balancer:</p>
 </code></pre></div>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
-<p>A <code>databases</code> map replaces the list the Operator generates. pgBouncer then accepts only the names in this map. Include the <code>"*"</code> entry so every database you do not name still reaches the primary. </p>
+<p>A <code>databases</code> map replaces the list the Operator generates. pgBouncer then accepts only the names in this map. Include the <code>"*"</code> entry so every database you do not name still reaches the primary.</p>
 </div>
-<p>Apply the Custom Resource. The Operator reloads pgBouncer with the new list.</p>
+<p>The map entries work as follows:</p>
+<ul>
+<li><code>"*"</code> sends any database name you do not list to the <code>cluster1-primary</code> Service. Keep this entry.</li>
+<li><code>mydb</code> sends that database to <code>cluster1-primary</code>, which follows the current primary.</li>
+<li><code>mydb_ro</code> is the read-only name. The client connects to <code>mydb_ro</code>, and pgBouncer opens database <code>mydb</code> on the <code>cluster1-replicas</code> Service.</li>
+</ul>
 <p>pgBouncer verifies the PostgreSQL server name during the TLS handshake. Use the <code>&lt;cluster&gt;-primary</code> and <code>&lt;cluster&gt;-replicas</code> Services as these hosts. Set <code>port</code> to the PostgreSQL port in the cluster spec. The default is <code>5432</code>.</p>
 <p>Add one read-only name for each database that serves pooled reads, and set <code>dbname</code> to the real database name. Each name has its own pool, so read traffic and write traffic use separate server connections.</p>
-<p>After a failover, <code>&lt;cluster&gt;-primary</code> follows the new primary and the former primary joins <code>&lt;cluster&gt;-replicas</code>.</p>
+<p>Apply the Custom Resource. The Operator reloads pgBouncer with the new list.</p>
+<h3 id="expose-use-a-read-only-user-for-the-read-pool">Use a read-only user for the read pool<a class="headerlink" href="#expose-use-a-read-only-user-for-the-read-pool" title="Permanent link">¶</a></h3>
+<p>Create a read-only user for the read string. The user can’t write, even if the read pool connects to the primary.</p>
+<ol>
+<li>
+<p>Add the user to the Custom Resource:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">users</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1-reader</span>
+</code></pre></div>
+<p>The Operator creates the user and the Secret <code>cluster1-pguser-cluster1-reader</code> with its password.</p>
+</li>
+<li>
+<p>Connect to <code>&lt;your_database&gt;</code> on the primary as the <code>postgres</code> user,
+    bypassing pgBouncer. See
+    <a href="#users-superuser-and-pgbouncer">Superuser and pgBouncer</a>.
+    Make the user read-only:</p>
+<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="ss">"cluster1-reader"</span><span class="w"> </span><span class="k">SET</span><span class="w"> </span><span class="n">default_transaction_read_only</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">on</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">CONNECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="o">&lt;</span><span class="n">your_database</span><span class="o">&gt;</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="ss">"cluster1-reader"</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">USAGE</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="o">&lt;</span><span class="n">your_schema</span><span class="o">&gt;</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="ss">"cluster1-reader"</span><span class="p">;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="k">ALL</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="o">&lt;</span><span class="n">your_schema</span><span class="o">&gt;</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="ss">"cluster1-reader"</span><span class="p">;</span>
+<span class="k">ALTER</span><span class="w"> </span><span class="k">DEFAULT</span><span class="w"> </span><span class="k">PRIVILEGES</span><span class="w"> </span><span class="k">FOR</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="o">&lt;</span><span class="k">owner</span><span class="o">&gt;</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="k">SCHEMA</span><span class="w"> </span><span class="o">&lt;</span><span class="n">your_schema</span><span class="o">&gt;</span>
+<span class="k">GRANT</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">TABLES</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="ss">"cluster1-reader"</span><span class="p">;</span>
+</code></pre></div>
+<p><code>&lt;owner&gt;</code> is the role that owns the tables. The last statement gives the user <code>SELECT</code> on the tables that this role creates later.</p>
+</li>
+<li>
+<p>Use this user in the connection string for read requests. See <a href="#expose-connect-clients">Connect clients</a> for details.</p>
+</li>
+</ol>
+<p>The <code>default_transaction_read_only</code> setting is a default that a session can change. The privileges that you grant are what keep the user from writing.</p>
 <h3 id="expose-connect-clients">Connect clients<a class="headerlink" href="#expose-connect-clients" title="Permanent link">¶</a></h3>
 <p>Create two connection strings to the pgBouncer Service. For a client inside the cluster, the host is <code>cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local</code> and the port is <code>5432</code>. Use the external address of that Service when the client runs outside the cluster.</p>
-<p>Both strings use the same user and password. Change only the database name:</p>
+<p>The host and the port are the same in both strings. The database name differs. The write string uses the application user. The read string uses the read-only user from the previous section.</p>
 <ul>
 <li>
 <p>Write string: database <code>mydb</code>. Use it for writes and for reads that must see the latest commit.</p>
@@ -12564,17 +12597,79 @@ balancer:</p>
 <li>
 <p>Read string: database <code>mydb_ro</code>. Use it for reads that can run on a standby.</p>
 <p>Example:</p>
-<div class="highlight"><pre><span></span><code>host=cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local port=5432 dbname=mydb_ro user=&lt;user&gt; password=&lt;password&gt;
+<div class="highlight"><pre><span></span><code>host=cluster1-pgbouncer.&lt;namespace&gt;.svc.cluster.local port=5432 dbname=mydb_ro user=&lt;read-only-user&gt; password=&lt;read-only-password&gt;
 </code></pre></div>
 </li>
 </ul>
-<p>The user Secret already stores a connection URI for the write path. See <a href="#connect">Connect to the PostgreSQL cluster</a>. Copy that URI and set the database name to <code>mydb_ro</code> for the read path.</p>
+<p>The user Secret already stores a connection URI for the write path. See <a href="#connect">Connect to the PostgreSQL cluster</a>. Take the host and the port from that URI. For the read path, set the database name to <code>mydb_ro</code> and use the credentials of the read-only user.</p>
 <p>The application has to follow these rules:</p>
 <ul>
-<li>Send writes on the write string. A standby rejects a write sent on the read string.</li>
+<li>Send writes on the write string. The read-only user rejects a write sent on the read string.</li>
 <li>Keep a read on the write string when it must see a transaction that just committed. A standby can lag behind the primary.</li>
-<li>Keep both strings through failover. The Services move with the primary and the standbys, so the application does not change hosts.</li>
 </ul>
+<div class="admonition warning">
+<p class="admonition-title">Existing connections are not re-routed after a failover</p>
+<p>pgBouncer looks up the host only when it opens a server connection. After a switchover or failover, connections that are already open stay on the same PostgreSQL instance. Only connections opened after the change use the new primary and replica targets. See <a href="#expose-known-limitation-connections-are-not-re-routed-after-a-failover">Known limitation: connections are not re-routed after a failover</a>.</p>
+</div>
+<h2 id="expose-known-limitation-connections-are-not-re-routed-after-a-failover">Known limitation: connections are not re-routed after a failover<a class="headerlink" href="#expose-known-limitation-connections-are-not-re-routed-after-a-failover" title="Permanent link">¶</a></h2>
+<p>pgBouncer resolves the host of a pool only when it opens a server connection. The Operator does not check which instance a pool is connected to after that. The <code>cluster1-primary</code> and <code>cluster1-replicas</code> Services follow role changes, but they affect only new connections. After a switchover or failover, the connections that pgBouncer already holds stay on the same PostgreSQL instance.</p>
+<p>If the instance that becomes the primary is the one the read pool is connected to, the following happens:</p>
+<ul>
+<li>Read queries sent on the read string run on the new primary and add load to it.</li>
+<li>Write queries sent on the read string succeed, because the instance is no longer a standby. A standby rejects them. The read-only user from the setup rejects these writes.</li>
+</ul>
+<p>The pool corrects itself when pgBouncer closes the server connection and opens a new one. With the default settings, this takes up to an hour: <code>server_lifetime</code> is 3600 seconds and <code>server_idle_timeout</code> is 600 seconds. In the default <code>session</code> pool mode, a server connection stays in use as long as the client stays connected, so it can last longer.</p>
+<p>The following options shorten the time that reads run on the new primary. They do not stop those reads.</p>
+<h3 id="expose-recycle-the-server-connections-after-a-switchover-or-failover">Recycle the server connections after a switchover or failover<a class="headerlink" href="#expose-recycle-the-server-connections-after-a-switchover-or-failover" title="Permanent link">¶</a></h3>
+<p>pgBouncer closes the server connections of a pool when you run <code>RECONNECT</code> in its admin console. The next connections resolve <code>cluster1-replicas</code> again and reach a standby. Each pgBouncer Pod has its own pools, so run the commands on every pgBouncer Pod.</p>
+<ol>
+<li>
+<p>Get the password of the admin user <code>_crunchypgbounceradmin</code>. The Operator stores it under the <code>pgbouncer-admin-password</code> key in the <code>&lt;clusterName&gt;-pgbouncer</code> Secret:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>cluster1-pgbouncer<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-admin-password}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>-d
+</code></pre></div>
+</li>
+<li>
+<p>List the pgBouncer Pods and note their IP addresses:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>wide<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
+</code></pre></div>
+</li>
+<li>
+<p>From a Pod that has <code>psql</code>, connect to the <code>pgbouncer</code> administrative database on one pgBouncer Pod. Use the Pod IP address, not the Service. The Service sends the connection to a single Pod, and <code>RECONNECT</code> affects only that Pod:</p>
+<div class="highlight"><pre><span></span><code>psql<span class="w"> </span>-h<span class="w"> </span>&lt;pgbouncer-pod-ip&gt;<span class="w"> </span>-p<span class="w"> </span><span class="m">5432</span><span class="w"> </span>-U<span class="w"> </span>_crunchypgbounceradmin<span class="w"> </span>pgbouncer
+</code></pre></div>
+</li>
+<li>
+<p>Recycle the read pool and wait until pgBouncer closes the connections:</p>
+<div class="highlight"><pre><span></span><code><span class="n">RECONNECT</span><span class="w"> </span><span class="n">mydb_ro</span><span class="p">;</span>
+<span class="n">WAIT_CLOSE</span><span class="w"> </span><span class="n">mydb_ro</span><span class="p">;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Repeat steps 3 and 4 for every other pgBouncer Pod.</p>
+</li>
+</ol>
+<p>In the <code>session</code> pool mode, pgBouncer closes a connection only after the client releases it, which is when the client disconnects. Combine this workaround with the <code>transaction</code> pool mode from the next workaround, or restart the clients.</p>
+<h3 id="expose-shorten-the-time-that-a-connection-stays-open">Shorten the time that a connection stays open<a class="headerlink" href="#expose-shorten-the-time-that-a-connection-stays-open" title="Permanent link">¶</a></h3>
+<p>Set <code>server_lifetime</code> and <code>pool_mode</code> for the read pool only. The Operator applies the options to the <code>mydb_ro</code> entry and leaves the write pool unchanged:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">proxy</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgBouncer</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">config</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">databases</span><span class="p">:</span>
+<span class="w">          </span><span class="s">"*"</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="s">"host=cluster1-primary</span><span class="nv"> </span><span class="s">port=5432"</span>
+<span class="w">          </span><span class="nt">mydb</span><span class="p">:</span><span class="w"> </span><span class="s">"host=cluster1-primary</span><span class="nv"> </span><span class="s">port=5432"</span>
+<span class="w">          </span><span class="nt">mydb_ro</span><span class="p">:</span><span class="w"> </span><span class="s">"host=cluster1-replicas</span><span class="nv"> </span><span class="s">port=5432</span><span class="nv"> </span><span class="s">dbname=mydb</span><span class="nv"> </span><span class="s">pool_mode=transaction</span><span class="nv"> </span><span class="s">server_lifetime=60"</span>
+</code></pre></div>
+<p>With <code>pool_mode=transaction</code>, pgBouncer releases a server connection after each transaction. With <code>server_lifetime=60</code>, pgBouncer closes an unused server connection that is older than 60 seconds. A transaction that stays open, or idle in a transaction, keeps its connection to the new primary beyond that interval. This setting doesn’t guarantee a recovery time.</p>
+<p>The <code>transaction</code> pool mode doesn’t keep the session state between transactions. Don’t use it if your application relies on <code>SET</code>, temporary tables, session-level advisory locks, <code>LISTEN</code>, or prepared statements. A short <code>server_lifetime</code> also increases the number of new connections to PostgreSQL.</p>
+<h3 id="expose-verify-the-read-pool">Verify the read pool<a class="headerlink" href="#expose-verify-the-read-pool" title="Permanent link">¶</a></h3>
+<p>Connect through the read string and run:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">pg_is_in_recovery</span><span class="p">();</span>
+</code></pre></div>
+<p>The result <code>t</code> means that the server connection used by this query reaches a standby. The result <code>f</code> means that this connection reaches the primary. In this case, recycle the server connections.</p>
+<p>This check samples one server connection on one pgBouncer Pod. Other connections can still reach the primary when the result is <code>t</code>, so don’t treat a single <code>t</code> as proof that you can skip recycling. Run the check again after every switchover or failover.</p>
 <h2 id="expose-expose-a-logical-replica">Expose a logical replica<a class="headerlink" href="#expose-expose-a-logical-replica" title="Permanent link">¶</a></h2>
 <p>A <a href="#logical-replication">logical replica</a> has its own Service, <code>&lt;cluster-name&gt;-lr-&lt;replica-name&gt;</code>. It is not behind pgBouncer. Set <code>spec.logicalReplicas[].expose</code> in the same way as <code>spec.expose</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -19587,7 +19682,7 @@ To check if your storage supports the expansion capability, run the following co
 <li>A <strong>primary</strong> that handles all write operations and streams changes to standbys.</li>
 <li>One or more <strong>standbys</strong> (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.</li>
 </ul>
-<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="#expose">Exposing cluster</a>.</p>
+<p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="#expose">Exposing cluster</a>. If you pool reads through pgBouncer, read about the <a href="#expose-known-limitation-connections-are-not-re-routed-after-a-failover">limitation after a failover</a>.</p>
 <h2 id="ha-deploy-choose-a-replication-mode">Choose a replication mode<a class="headerlink" href="#ha-deploy-choose-a-replication-mode" title="Permanent link">¶</a></h2>
 <p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
 <p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
