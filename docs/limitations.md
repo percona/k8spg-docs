@@ -42,6 +42,10 @@ To recover, you must manually [reinitialize the replica](reinit.md#reinitialize-
 
 * Due to security considerations, superusers cannot connect to PostgreSQL via `pgBouncer` by default. They can either connect via the primary service bypassing `pgBouncer`, or you must adjust `pgBouncer` configuration exposing it to superusers. Read more about it in the [Superusers and pgBouncer](users.md#superuser-and-pgbouncer) section.
 
+## pgBouncer read and write pools
+
+* After a switchover or failover, pgBouncer doesn't move the server connections that it already holds. A [separate read pool](expose.md#configure-separate-read-and-write-pools) can end up on the new primary and accept writes. Use a read-only user for the read pool. See [Known limitation: connections are not re-routed after a failover](expose.md#known-limitation-connections-are-not-re-routed-after-a-failover) for the workarounds.
+
 ## Backups and restores
 
 * PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.
