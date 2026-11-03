@@ -2828,7 +2828,9 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 
 ### `patroni.syncPeriodSeconds`
 
-How often to perform [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni's [`loop_wait`  :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) setting, in seconds. The Operator uses [Kubernetes Endpoints as the DCS  :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/kubernetes.html). The Operator also reuses this value as the `periodSeconds` for the patroni container's liveness and readiness probes.
+
+The value be less than [`patroni.leaderLeaseDurationSeconds`](#patronileaderleasedurationseconds).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -2836,7 +2838,17 @@ How often to perform [liveness/readiness probes  :octicons-link-external-16:](ht
 
 ### `patroni.leaderLeaseDurationSeconds`
 
-Initial delay for [liveness/readiness probes  :octicons-link-external-16:](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+How long, in seconds, the leader’s lock in the distributed configuration store (DCS) stays valid before Patroni treats it as stale and starts automatic failover. The DCS is how Patroni coordinates cluster state and elects a leader. The Operator uses Kubernetes Endpoints as the DCS.
+
+This setting matches Patroni's [`ttl` :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) option.  
+It works together with [`patroni.syncPeriodSeconds`](#patronisyncperiodseconds) to set failover timing.  
+Lower values trigger faster failover but may cause unwanted failovers if the Kubernetes API server is slow to respond.  
+Higher values slow down failover.  
+A longer setting also increases the risk that an isolated primary continues to accept writes when it should not, which can lead to lost data before Patroni demotes it.
+
+| Value type | Example |
+| ---------- | ------- |
+| :material-numeric-1-box: int | `30` |
 
 ### `patroni.dynamicConfiguration`
 

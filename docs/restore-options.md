@@ -53,7 +53,7 @@ Specify the [command line options supported by `pgBackRest` :octicons-external-l
 
 | Value type  | Example    |
 | ----------- | ---------- |
-| :material-code-string: string     | `--type=time` <br> `--target=YYYY-MM-DD HH:MM:DD +00` <br> `--set=20240628-074416F` (backup name) |
+| :material-code-string: string     | `--type=time` <br> `--target=YYYY-MM-DD HH:MM:SS +00` <br> `--set=20240628-074416F` (backup name) |
 
 To restore from a specific backup, use the `--set` option with the backup label. You can find the backup label in the `status.backupName` field of the `PerconaPGBackup` resource. For the full restore workflow, see [Restore to the same cluster](backups-restore-inplace.md) or [Restore to a new cluster](backups-clone.md). For point-in-time recovery, see [Point-in-time recovery](backups-pitr.md).
 
