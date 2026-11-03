@@ -18,7 +18,7 @@ Key benefits include:
 
 This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). 
 
-Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first.
+Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first. Extension settings come from the `PerconaPGCluster` spec. Set them in the manifest that creates the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
 
 ## Choose a migration method
 
