@@ -9,7 +9,7 @@ In this approach, Percona `PerconaPGCluster` (`cluster1`) starts on the existing
 
 If the backing PV was already deleted with the default **Delete** reclaim policy, use [Migrate from Crunchy using backup and restore](migrate-from-crunchy-backup-restore.md) instead.
 
---8<-- "crunchy-pgo-version.txt::6"
+--8<-- "crunchy-pgo-version.txt::14"
 
 ## Before you migrate
 

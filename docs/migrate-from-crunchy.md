@@ -18,7 +18,7 @@ Key benefits include:
 
 This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). 
 
-Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first.
+Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first. Also check the [Crunchy and Percona Custom Resource differences](migrate-crunchy-differences.md).
 
 ## Choose a migration method
 
