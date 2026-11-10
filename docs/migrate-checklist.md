@@ -105,25 +105,11 @@ Use `pg_dump` / `pg_restore` when you migrate across incompatible architectures.
 
 Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).
 
-### Check operating system 
+### Check operating system and glibc
 
 --8<-- "check-os-glibc.txt"
 
---8<-- "glibc-versions.txt"
-
-If the Crunchy image is UBI 8 and you use the default Percona image (UBI 9), you will see a `glibc` change:
-
-```text
-Source:
-  UBI 8
-  glibc 2.28
-
-Target:
-  UBI 9
-  glibc 2.34
-```
-
-A different `glibc` version does not by itself make the PostgreSQL data directory incompatible. `glibc` provides locale and collation rules that PostgreSQL uses. A change in these rules can make existing collation-dependent indexes inconsistent with the target operating system. See [Locale data changes](https://wiki.postgresql.org/wiki/Locale_data_changes) in the PostgreSQL wiki.
+Ensure `glibc` version at source and destination clusters are the same. If there are any changes in the version, ensure local and collation rules which PostgreSQL uses are not affected.
 
 ### Check ICU library version
 
