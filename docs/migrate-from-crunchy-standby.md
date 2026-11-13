@@ -330,11 +330,12 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
            name `crunchy-source`. Replace `<CRUNCHY_NS>` with the namespace of the Crunchy cluster.
       
           ```yaml
-          standby:
-           enabled: true                     
-           host: crunchy-source-ha.<CRUNCHY_NS>.svc.cluster.local
-           port: 5432
-           repoName: repo1
+          spec:
+             standby:
+               enabled: true                     
+               host: crunchy-source-ha.<CRUNCHY_NS>.svc.cluster.local
+               port: 5432
+               repoName: repo1
           ```
 
     * For the mutual TLS communication, reference the TLS Secrets you created for the `secrets.customTLSSecret` and `secrets.customReplicationTLSSecret` options
@@ -410,7 +411,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     * Export the standby leader Pod as an environment variable. The standby leader replicates from Crunchy, and the other Pods replicate from it. The Operator labels the standby leader with `role=primary`:
 
        ```bash
-       STANDBY_POD=$(kubectl get pod -n "${NAMESPACE}" \
+       STANDBY_POD=$(kubectl get pod -n $NAMESPACE \
        -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
        -o jsonpath='{.items[0].metadata.name}')
        ```
@@ -418,7 +419,7 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     * Connect to the pod and verify the cluster is replicating:
 
        ```bash
-       kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+       kubectl -n $NAMESPACE exec "${STANDBY_POD}" -c database -- \
        psql -t -c "SELECT pg_is_in_recovery(), pg_last_wal_replay_lsn();"
        ```
        
@@ -517,7 +518,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
 1. Verify the Percona standby cluster has stopped replaying WAL files. The Operator can restart the standby Pods after you created the cluster, so look up the standby leader again first:
 
     ```bash
-    STANDBY_POD=$(kubectl get pod -n "${NAMESPACE}" \
+    STANDBY_POD=$(kubectl get pod -n $NAMESPACE \
       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
       -o jsonpath='{.items[0].metadata.name}')
     ```
@@ -525,7 +526,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
     Then check the replay position:
    
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+    kubectl -n $NAMESPACE exec "${STANDBY_POD}" -c database -- \
       psql -t -c "SELECT pg_last_wal_replay_lsn();"
     ```
 
@@ -553,7 +554,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
     * Check the recovery mode until the Pod reports `f`, which means the instance is read-write:
      
        ```bash
-       until [ "$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+       until [ "$(kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
          psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "f" ]; do
          echo "Waiting for ${PERCONA_PRIMARY} to accept writes..."
          sleep 2
@@ -568,7 +569,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
    
     ```bash
     kubectl wait perconapgcluster/cluster1 \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       --for=jsonpath='{.status.pgbackrest.repos[0].stanzaCreated}'=true \
       --timeout=300s
     ```
@@ -593,7 +594,7 @@ Do this step before you point applications to `cluster1`. The WAL that `cluster1
 
     ```bash
     kubectl patch perconapgcluster cluster1 \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       --type=merge \
       -p '{"spec":{"backups":{"pgbackrest":{"global":{"repo1-path":"/percona/cluster1/repo1"}}}}}'
     ```
@@ -601,7 +602,7 @@ Do this step before you point applications to `cluster1`. The WAL that `cluster1
 2. Wait until the `pgBackRest` configuration on the primary Pod shows the new path:
 
     ```bash
-    until kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    until kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       grep -qE 'repo1-path *= */percona/cluster1/repo1$' /etc/pgbackrest/conf.d/pgbackrest_instance.conf 2>/dev/null; do
       echo "Waiting for the new repository path..."
       sleep 5
@@ -611,7 +612,7 @@ Do this step before you point applications to `cluster1`. The WAL that `cluster1
 3. Create the `pgBackRest` stanza in the new path. The Operator doesn't do it when only the path changes:
 
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       pgbackrest --stanza=db stanza-create
     ```
 
@@ -620,7 +621,7 @@ Do this step before you point applications to `cluster1`. The WAL that `cluster1
 4. Wait until the repository host Pod also has the new path. Backups run from this Pod, and it gets the new configuration up to a minute later than the primary:
 
     ```bash
-    until kubectl -n "${NAMESPACE}" exec cluster1-repo-host-0 -c pgbackrest -- \
+    until kubectl -n $NAMESPACE exec cluster1-repo-host-0 -c pgbackrest -- \
       grep -qE 'repo1-path *= */percona/cluster1/repo1$' /etc/pgbackrest/conf.d/pgbackrest_repo.conf 2>/dev/null; do
       echo "Waiting for the repository host..."
       sleep 5
@@ -646,14 +647,14 @@ Then take a full backup in the new path:
 2. Apply the configuration to start the backup:
 
     ```bash
-    kubectl apply -f post-migration-backup.yaml -n "${NAMESPACE}"
+    kubectl apply -f post-migration-backup.yaml -n $NAMESPACE
     ```
 
 3. Wait for the backup job to complete:
 
     ```bash
     kubectl wait perconapgbackup/post-migration-backup \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       --for=jsonpath='{.status.state}'=Succeeded \
       --timeout=600s
     ```
@@ -668,7 +669,7 @@ Then take a full backup in the new path:
 
     ```bash
     kubectl get perconapgbackup post-migration-backup \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       -o jsonpath='{.status.backupType}{"\n"}'
     ```
 
@@ -684,7 +685,7 @@ Like the repository path change, this step ends the rollback window: replication
 
     ```bash
     kubectl patch perconapgcluster cluster1 \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       --type=json \
       -p='[
         {"op":"remove","path":"/spec/secrets/customTLSSecret"},
@@ -697,7 +698,7 @@ Like the repository path change, this step ends the rollback window: replication
 2. Watch the PostgreSQL Pods:
 
     ```bash
-    kubectl get pod -n "${NAMESPACE}" -w \
+    kubectl get pod -n $NAMESPACE -w \
       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres
     ```
 
@@ -706,15 +707,15 @@ Like the repository path change, this step ends the rollback window: replication
     1. Delete the other replica Pod that still runs with the old certificates, so that it restarts with the new ones:
 
         ```bash
-        kubectl delete pod <old-replica-pod> -n "${NAMESPACE}"
+        kubectl delete pod <old-replica-pod> -n $NAMESPACE
         ```
 
     2. The replicas with the new certificates can't stream from the primary, so they replay WAL only from the backup repository and lag behind. Patroni refuses a switchover to a lagging replica. Make the primary archive its current WAL file, then check that the lag of the replica you switch to is `0`:
 
         ```bash
-        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+        kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
           psql -c "SELECT pg_switch_wal();"
-        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+        kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
           patronictl list
         ```
 
@@ -723,7 +724,7 @@ Like the repository path change, this step ends the rollback window: replication
     3. Make the replica that runs with the new certificates the primary. Writes stop for about 10 seconds during the switchover:
 
         ```bash
-        kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+        kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
           patronictl switchover --candidate <new-replica-pod> --force
         ```
 
@@ -734,13 +735,13 @@ Like the repository path change, this step ends the rollback window: replication
 3. After all PostgreSQL Pods are restarted and ready, check that the cluster reports the `ready` state:
 
     ```bash
-    kubectl get perconapgcluster cluster1 -n "${NAMESPACE}"
+    kubectl get perconapgcluster cluster1 -n $NAMESPACE
     ```
 
 4. Check that clients can connect with full certificate verification. Save the certificate authority of the cluster to a file:
 
     ```bash
-    kubectl get secret cluster1-cluster-cert -n "${NAMESPACE}" \
+    kubectl get secret cluster1-cluster-cert -n $NAMESPACE \
       -o jsonpath='{.data.ca\.crt}' | base64 --decode > cluster1-ca.crt
     ```
 
@@ -788,14 +789,14 @@ To roll back, do the following:
 2. Record the position of the last write on `cluster1` and the WAL file that contains it, and make `cluster1` archive this file. You need these values to check that Crunchy gets every write. Run this and the following steps in the same terminal session, so that the `FINAL_LSN` and `FINAL_WAL` variables are kept, or note the values from the output:
 
     ```bash
-    PERCONA_PRIMARY=$(kubectl get pod -n "${NAMESPACE}" \
+    PERCONA_PRIMARY=$(kubectl get pod -n $NAMESPACE \
       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=primary \
       -o jsonpath='{.items[0].metadata.name}')
-    FINAL_LSN=$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    FINAL_LSN=$(kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       psql -tAc "SELECT pg_current_wal_lsn();")
-    FINAL_WAL=$(kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    FINAL_WAL=$(kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       psql -tAc "SELECT pg_walfile_name(pg_current_wal_lsn());")
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       psql -tAc "SELECT pg_switch_wal();" >/dev/null
     echo "Final LSN: ${FINAL_LSN}, WAL file: ${FINAL_WAL}"
     ```
@@ -804,7 +805,7 @@ To roll back, do the following:
 
     ```bash
     kubectl patch perconapgcluster cluster1 \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       --type=merge \
       -p '{"spec": {"standby": {"enabled": true, "repoName": "repo1"}}}'
     ```
@@ -812,9 +813,9 @@ To roll back, do the following:
 4. Wait until every `cluster1` Pod is in recovery. A single check right after the patch isn't enough: the primary keeps returning `f`, and then a connection error, for a few seconds while Patroni demotes it.
 
     ```bash
-    for pod in $(kubectl get pod -n "${NAMESPACE}" -o name \
+    for pod in $(kubectl get pod -n $NAMESPACE -o name \
       -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres); do
-      until [ "$(kubectl -n "${NAMESPACE}" exec "${pod}" -c database -- \
+      until [ "$(kubectl -n $NAMESPACE exec "${pod}" -c database -- \
         psql -tAc 'SELECT pg_is_in_recovery();' 2>/dev/null)" = "t" ]; do
         echo "Waiting for ${pod} to enter recovery..."
         sleep 2
@@ -832,14 +833,14 @@ To roll back, do the following:
     ```bash
     ARCHIVED=no
     for i in $(seq 1 60); do
-      if kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+      if kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
         pgbackrest --stanza=db archive-get "${FINAL_WAL}" /tmp/rollback-wal-check >/dev/null 2>&1; then
         ARCHIVED=yes; echo "${FINAL_WAL} is in the repository"; break
       fi
       echo "Waiting for ${FINAL_WAL} to be archived..."
       sleep 5
     done
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- rm -f /tmp/rollback-wal-check
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- rm -f /tmp/rollback-wal-check
     [ "${ARCHIVED}" = yes ] || echo "ERROR: ${FINAL_WAL} is not in the repository. Don't continue."
     ```
 
@@ -848,7 +849,7 @@ To roll back, do the following:
     Fixing the cause, for example wrong storage credentials, isn't enough: PostgreSQL doesn't retry WAL files that the failed archive command reported as archived. After you fix the cause, push the missing WAL files from `cluster1` to the repository manually. The files are still in the `pg_wal` directory of the Pod. Replace `pg18` with your PostgreSQL major version:
 
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- bash -c '
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- bash -c '
       cd /pgdata/pg18/pg_wal
       for f in $(ls | grep -E "^'"${FINAL_WAL:0:8}"'[0-9A-F]{16}$" | sort); do
         [[ "$f" > "'"${FINAL_WAL}"'" ]] && break
@@ -923,7 +924,7 @@ To roll back, do the following:
     Check that `cluster1` follows Crunchy:
 
     ```bash
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       psql -t -c "SELECT pg_is_in_recovery();"
     ```
 
@@ -952,9 +953,9 @@ To roll back, do the following:
     Step 10 sets the Crunchy password for `_crunchypgbouncer`, and `cluster1` replicates it. After you promote `cluster1` again, the Operator doesn't reset this password, so `cluster1-pgbouncer` fails to authenticate. After the promotion, set the password from the Percona pgBouncer Secret on the `cluster1` primary:
 
     ```bash
-    VERIFIER=$(kubectl get secret cluster1-pgbouncer -n "${NAMESPACE}" \
+    VERIFIER=$(kubectl get secret cluster1-pgbouncer -n $NAMESPACE \
       -o jsonpath='{.data.pgbouncer-verifier}' | base64 --decode)
-    kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+    kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
       psql -c "ALTER ROLE \"_crunchypgbouncer\" PASSWORD '${VERIFIER}';"
     ```
 
@@ -971,7 +972,7 @@ Rolling back from here is the same idea as a fresh restore: deploy or restore a 
 Confirm the PostgreSQL HA Service for `crunchy-source` resolves from the Percona database Pod. Replace `crunchy-source-ha` if your Service name differs.
 
 ```bash
-kubectl -n "${NAMESPACE}" exec "${STANDBY_POD}" -c database -- \
+kubectl -n $NAMESPACE exec "${STANDBY_POD}" -c database -- \
   bash -c "getent hosts crunchy-source-ha.${CRUNCHY_NS}.svc.cluster.local"
 ```
 
@@ -983,10 +984,10 @@ The standby leader is in `CrashLoopBackOff`, and its log shows `unable to create
 
 ### Replication authentication errors
 
-The Percona standby connects to Crunchy as the PostgreSQL role `_crunchyrepl` using the replication TLS material. Ensure `crunchy-source-replication-cert` exists in `"${NAMESPACE}"` and matches what Crunchy generated (re-export from `"${CRUNCHY_NS}"` if you rotated certificates).
+The Percona standby connects to Crunchy as the PostgreSQL role `_crunchyrepl` using the replication TLS material. Ensure `crunchy-source-replication-cert` exists in `$NAMESPACE` and matches what Crunchy generated (re-export from `"${CRUNCHY_NS}"` if you rotated certificates).
 
 ```bash
-kubectl get secret crunchy-source-replication-cert -n "${NAMESPACE}"
+kubectl get secret crunchy-source-replication-cert -n $NAMESPACE
 ```
 
 Verify the `PerconaPGCluster` still references it under `secrets.customReplicationTLSSecret` and `secrets.customTLSSecret` as in [Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode](#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode).
@@ -1001,19 +1002,19 @@ Symptoms include failed restore Jobs, missing `archive.info`, or the standby nev
     kubectl get postgrescluster crunchy-source -n "${CRUNCHY_NS}" \
       -o jsonpath='{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'
 
-    kubectl get perconapgcluster cluster1 -n "${NAMESPACE}" \
+    kubectl get perconapgcluster cluster1 -n $NAMESPACE \
       -o jsonpath='{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'
     ```
 
 2. Confirm both clusters use credentials that can read and write the same bucket (equivalent Secrets). See [Configure backup storage](backups-storage.md) for TLS flags such as `repo1-s3-verify-tls` and path-style settings.
 
-3. From a throwaway Pod in `"${NAMESPACE}"`, verify object storage reachability with your endpoint, bucket, and keys (adapt for your provider):
+3. From a throwaway Pod in `$NAMESPACE`, verify object storage reachability with your endpoint, bucket, and keys (adapt for your provider):
 
     ```bash
     kubectl run s3-check \
       --image=perconalab/awscli \
       --restart=Never \
-      -n "${NAMESPACE}" \
+      -n $NAMESPACE \
       -- bash -c "
         AWS_ACCESS_KEY_ID='<your-access-key>' \
         AWS_SECRET_ACCESS_KEY='<your-secret-key>' \
@@ -1027,10 +1028,10 @@ Symptoms include failed restore Jobs, missing `archive.info`, or the standby nev
     The command finishes quickly, so read its output from the Pod logs, and then delete the Pod:
 
     ```bash
-    kubectl wait pod/s3-check -n "${NAMESPACE}" \
+    kubectl wait pod/s3-check -n $NAMESPACE \
       --for=jsonpath='{.status.phase}'=Succeeded --timeout=120s
-    kubectl logs s3-check -n "${NAMESPACE}"
-    kubectl delete pod s3-check -n "${NAMESPACE}"
+    kubectl logs s3-check -n $NAMESPACE
+    kubectl delete pod s3-check -n $NAMESPACE
     ```
 
 ### Timeline history file missing after promotion (Crunchy archive)
@@ -1038,7 +1039,7 @@ Symptoms include failed restore Jobs, missing `archive.info`, or the standby nev
 Some Crunchy PGO configurations using async archive mode can hit a missing timeline history file on the archive after promotion (see [Crunchy PGO issue #4472 :octicons-link-external-16:](https://github.com/CrunchyData/postgres-operator/issues/4472)). If `pgBackRest` or replicas complain about `*.history` on the archive, push the file once from the **new** primary:
 
 ```bash
-kubectl -n "${NAMESPACE}" exec "${PERCONA_PRIMARY}" -c database -- \
+kubectl -n $NAMESPACE exec "${PERCONA_PRIMARY}" -c database -- \
   bash -c "
     pgbackrest --stanza=db --no-archive-async \
       archive-push \"\${PGDATA}/pg_wal/00000002.history\" || true

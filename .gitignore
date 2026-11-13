@@ -4,3 +4,4 @@ site/
 docs/assets/.DS_Store 
 .DS_Store
 .cursor/agents
+Claude outputs/
