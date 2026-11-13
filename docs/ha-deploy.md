@@ -11,7 +11,7 @@ A PostgreSQL cluster includes:
 * A **primary** that handles all write operations and streams changes to standbys.
 * One or more **standbys** (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.
 
-Standbys can also serve read-only traffic, depending on how you expose the cluster. See [Exposing cluster](expose.md).
+Standbys can also serve read-only traffic, depending on how you expose the cluster. See [Exposing cluster](expose.md). If you pool reads through pgBouncer, read about the [limitation after a failover](expose.md#known-limitation-connections-are-not-re-routed-after-a-failover).
 
 ## Choose a replication mode
 

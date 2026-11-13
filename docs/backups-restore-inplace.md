@@ -4,9 +4,11 @@ To restore data into an existing cluster, use the `PerconaPGRestore` custom reso
 
 Use this document to make **a full restore**. For a restore to a specific moment, use the [In-place restore with point-in-time recovery](backups-pitr-inplace.md) tutorial.
 
-!!! important
+!!! warning
     
-    This operation overwrites the current data and is destructive. An in-place restore also invalidates [logical replicas](logical-replication.md). After the restore, [reseed](logical-replication.md#reseed-a-logical-replica) each replica.
+    This operation overwrites the current data and is destructive. Test it on a staging environment first.
+    
+    An in-place restore also invalidates [logical replicas](logical-replication.md). After the restore, [reseed](logical-replication.md#reseed-a-logical-replica) each replica.
 
 Configure `PerconaPGRestore` custom resource using a *backup restore*
 configuration file. The example of the backup configuration file is
@@ -141,18 +143,4 @@ name on the server. See [PostgreSQL official documentation :octicons-link-extern
 
 ## Fix the cluster if the restore fails
 
-The restore process overwrites database files. Wrong data or a misconfigured restore can leave your cluster in a non-operational state.
-
-For example, incorrect `pgBackRest` arguments in the [PerconaPGRestore custom resource](#make-a-full-restore-from-the-latest-backup-default) can break the database while the restore hangs.
-
-Here's what you can do:
-
-* You can remove the restore annotation from your cluster Custom Resource to stop the restore:
-
-    ```bash
-    kubectl annotate -n $NAMESPACE pg cluster1 postgres-operator.crunchydata.com/pgbackrest-restore-
-    ```
-
-* Alternatively, you can delete the cluster [by removing the Custom Resource](delete.md#delete-a-database-cluster) and recreate it. Before you delete the Custom Resource, ensure the [`finalizers.percona.com/delete-pvc` finalizer](operator.md#finalizers-delete-pvc) is not set, or you will lose your data. Then run the same `kubectl apply` command you used to deploy the cluster originally.
-
-Another example that can also cause restore failures is corrupted backup repository or missing files. In that case, [remove the Custom Resource](delete.md#delete-a-database-cluster), [locate and delete the startup PVC](debug-storage.md#check-the-pvc), then recreate the cluster.
+If the restore fails, see [Troubleshoot restore failures](debug-restore.md).

@@ -94,10 +94,6 @@ The examples in the following sections use the `repo2` repository name. Use the 
                   - secret:
                       name: cluster1-pgbackrest-secrets
                 ...
-                global:
-                  repo2-path: /pgbackrest/postgres-operator/cluster1/repo2
-    
-                ...
                 repos:
                 - name: repo2
                   s3:
