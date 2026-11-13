@@ -18,7 +18,7 @@ Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physica
 
 Ensure you have the following:
 
-- A Kubernetes or OpenShift cluster with permissions to create namespaces, CRDs, Roles, and Deployments.
+- A Kubernetes cluster running on one of the [supported platforms](System-Requirements.md#supported-platforms) with permissions to create namespaces, CRDs, Roles, and Deployments.
 - [Helm](https://helm.sh/) 3.x (if you install operators or optional in-cluster object storage with Helm).
 - `kubectl` or `oc`.
 - [yq](https://github.com/mikefarah/yq) YAML processor (optional, for manifest tricks used in other migration guides).
@@ -31,6 +31,8 @@ Ensure you have the following:
     ```bash
     export CRUNCHY_NS=postgres-operator
     export NAMESPACE=pgo
+    kubectl create namespace postgres-operator
+    kubectl create namespace pgo
     ```
 
 2. Clone the Percona Operator repository at the release you will deploy so you can base your `PerconaPGCluster` manifest on the default `deploy/cr.yaml`:
