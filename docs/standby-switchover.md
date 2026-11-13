@@ -30,9 +30,9 @@ export DR_NAMESPACE=dr-pg
     kubectl get pg dr -n "${DR_NAMESPACE}"
     ```
 
-2. For a streaming standby, check that the Main site can reach the DR `-ha` Service and trusts its certificates. The Main site needs the same [TLS certificates signed by the same CA](standby-streaming.md#configure-dr-site) that the DR site uses. If you copied the Main site certificates to DR when you set up streaming, this is already true.
+2. For a streaming standby, check that the Main site can reach the DR `-ha` Service and trusts its certificates. The certificates of both sites must be [signed by the same CA](standby-streaming.md#configure-dr-site).
 
-3. Make sure that the DR cluster has the same user passwords as the Main site. When the Operator promotes DR, it sets the password of each user in `spec.users` to the value in the DR user Secret. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords) for each user. This covers the first swap. For a swap back, see [Swap back](#swap-back).
+3. Make sure that the DR cluster has the same user passwords and the same pgBouncer password as the Main site. When the Operator promotes DR, it sets the password of each user in `spec.users` and of the pgBouncer user to the value in the DR Secret. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords) for each user, and [Copy the pgBouncer password](standby-failover.md#copy-the-pgbouncer-password). When the passwords are the same on both sites, pgBouncer can authenticate in the new primary. If the passwords differ, see [Swap back](#swap-back).
 
 4. Make sure you can switch application traffic to the DR site after the swap.
 
@@ -174,28 +174,16 @@ Recreate every PostgreSQL instance of the Main site. The replicas of the old pri
 
 With a streaming source, Patroni rewinds the Main site with `pg_rewind` and no restore is needed. The Main site must trust the DR certificates. This way is for a Main site with one PostgreSQL instance. If your site has replicas, recreate every instance instead.
 
-1. Copy the DR TLS Secrets `dr-cluster-cert` and `dr-replication-cert` to the Main namespace.
+1. Check that the certificates of the Main site and of the DR site are signed by the same CA, as in [Configure DR site](standby-streaming.md#configure-dr-site). The Main site then trusts the DR certificates, and it keeps its own certificates.
 
-2. Reference them in the Main cluster and set the DR `-ha` Service as the standby host:
+2. Set the DR `-ha` Service as the standby host of the Main cluster:
 
     ```bash
-    kubectl patch pg main -n "${MAIN_NAMESPACE}" --type=merge -p "$(cat <<EOF
-    {
-      "spec": {
-        "secrets": {
-          "customTLSSecret": {"name": "dr-cluster-cert"},
-          "customReplicationTLSSecret": {"name": "dr-replication-cert"}
-        },
-        "standby": {"enabled": true, "repoName": "repo1", "host": "dr-ha.${DR_NAMESPACE}.svc", "port": 5432}
-      }
-    }
-    EOF
-    )"
+    kubectl patch pg main -n "${MAIN_NAMESPACE}" --type=merge \
+      -p "{\"spec\":{\"standby\":{\"enabled\":true,\"repoName\":\"repo1\",\"host\":\"dr-ha.${DR_NAMESPACE}.svc\",\"port\":5432}}}"
     ```
 
-    The database Pods restart to load the new certificates.
-
-    If you skip the certificates, the rewind fails with `SSL error: certificate verify failed` and the Main site stays diverged.
+    If the Main site doesn't trust the DR certificates, the rewind fails with `SSL error: certificate verify failed` and the Main site stays diverged.
 
 ## Swap back
 
@@ -203,16 +191,24 @@ The roles are now reversed, and the swap back is the same procedure with the sit
 
 ### Re-apply the user passwords
 
-The Operator applies the passwords from the user Secrets of a cluster only when a Secret changes. A site that was primary before keeps the passwords that the other site set while it was primary, including a password that you changed there. The Operator doesn't re-apply the `pgBouncer` user either, so pgBouncer on the promoted site can't log in to PostgreSQL.
+Clear the verifier only if the passwords on the two sites differ. If you copied the user passwords and the pgBouncer password to both sites, and nobody changed them since, skip this section.
 
-After you promote the site, clear the `verifier` in the Secret of each user, so that the Operator rebuilds it from the password in that Secret and applies it again. Do the same for the `pgBouncer` user. The example uses the Main site:
+The Operator applies the passwords from the user Secrets of a cluster only when a Secret changes. A site that was primary before keeps the passwords that the other site set while it was primary, including a password that you changed there. The Operator doesn't re-apply the `pgBouncer` user either, so pgBouncer on the promoted site can't log in to PostgreSQL, unless both sites have the same pgBouncer password and verifier.
+
+After you promote the site, clear the `verifier` in the Secret of each user, so that the Operator rebuilds it from the password in that Secret and applies it again. The example uses the Main site:
 
 ```bash
 kubectl patch secret main-pguser-<user-name> -n "${MAIN_NAMESPACE}" \
   -p '{"stringData":{"verifier":""}}'
+```
 
+The pgBouncer Secret works differently. If you copied the pgBouncer password and verifier between the sites, as in [Copy the pgBouncer password](standby-failover.md#copy-the-pgbouncer-password), pgBouncer already works. Otherwise, clear the pgBouncer verifier. The Operator then generates a new pgBouncer password and a new verifier, and applies them:
+
+```bash
 kubectl patch secret main-pgbouncer -n "${MAIN_NAMESPACE}" \
   -p '{"stringData":{"pgbouncer-verifier":""}}'
 ```
 
-The passwords from the Main Secrets apply again, and logins through pgBouncer work after about a minute. To keep a password that you changed on the other site, copy it to the Main Secret first, as in [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
+The user passwords from the Main Secrets apply again, and logins through pgBouncer work after about a minute. The pgBouncer passwords of the two sites differ afterwards, so copy the pgBouncer password and verifier again before the next swap.
+
+To keep a user password that you changed on the other site, copy it to the Main Secret first, as in [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords). For the pgBouncer password, see [Copy the pgBouncer password](standby-failover.md#copy-the-pgbouncer-password).

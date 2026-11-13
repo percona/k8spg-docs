@@ -2,7 +2,7 @@
 
 Promote the standby cluster when the Main site is lost, for example after an outage of its Kubernetes cluster or region. The promotion makes the standby cluster writable, and it starts to push Write Ahead Logs (WALs) to the pgBackRest repository.
 
-Before you promote, make sure that the Main site can't accept writes. A Main site that you can't reach isn't necessarily down: the network can be split, or the site can come back after the promotion. Then both clusters run as primary and write to the same pgBackRest repository. This is a [split brain](#split-brain). To avoid it, shut down or delete the Main cluster before you promote the standby cluster.
+Before you promote, make sure that the Main site can't accept writes. A Main site that you can't reach isn't necessarily down: the network can be split, or the site can come back after the promotion. Then both clusters run as primary and accept writes. This is a [split brain](#split-brain). To avoid it, shut down or delete the Main cluster before you promote the standby cluster.
 
 The examples on this page use the `main` cluster and the `dr` cluster from the [streaming replication tutorial](standby-streaming.md). Set the namespaces of your clusters once, and you can run the commands as they are:
 
@@ -31,7 +31,24 @@ The command copies the encoded value as it is, so passwords with quotes, backsla
 
 The Operator creates the DR Secret together with the DR cluster, so you can run these commands right after you deploy the standby. The change takes effect when you promote the cluster.
 
-This step covers the first promotion of the DR cluster. If you promote a cluster that was primary before, see [Swap back](standby-switchover.md#swap-back).
+### Copy the pgBouncer password
+
+pgBouncer logs in to PostgreSQL as the `_crunchypgbouncer` user. Its password is in the Secret `<cluster-name>-pgbouncer`. When you promote the DR cluster, the Operator applies this user from the DR Secret, in the same way as the other users. Therefore, copy the pgBouncer password from the Main site to the DR site, so that both sites use the same one. This ensures that pgBouncer can authenticate in the new primary:
+
+```bash
+PGBOUNCER_PASSWORD_B64=$(kubectl get secret main-pgbouncer -n "${MAIN_NAMESPACE}" \
+  -o jsonpath='{.data.pgbouncer-password}')
+
+PGBOUNCER_VERIFIER_B64=$(kubectl get secret main-pgbouncer -n "${MAIN_NAMESPACE}" \
+  -o jsonpath='{.data.pgbouncer-verifier}')
+
+kubectl patch secret dr-pgbouncer -n "${DR_NAMESPACE}" \
+  -p "{\"data\":{\"pgbouncer-password\":\"${PGBOUNCER_PASSWORD_B64}\",\"pgbouncer-verifier\":\"${PGBOUNCER_VERIFIER_B64}\"}}"
+```
+
+Copy the password and the verifier together. If you copy only the password, the Operator applies the old DR verifier when it promotes the cluster, and pgBouncer can't log in after you swap back. Don't set the verifier to an empty string, as you do for the user Secrets. The Operator then generates a new pgBouncer password and discards the one that you copied.
+
+Repeat the copy after you change a password on the Main site. Clear the verifier after a promotion only if the passwords on the two sites differ. If they differ, for example because a password changed on one site after you copied it, see [Swap back](standby-switchover.md#swap-back).
 
 ## Promote the standby
 
@@ -55,9 +72,9 @@ If both sites are healthy and you want to exchange their roles, follow [Swap rol
 
 ## Split brain
 
-Split brain means that both clusters run as primary and write to the same pgBackRest repository. It happens when you promote the standby while the Main site is still running, or when the old primary comes back after you promoted the standby.
+Split brain means that both clusters run as primary and accept writes. It happens when you promote the standby while the Main site is still running, or when the old primary comes back after you promoted the standby.
 
-The Operator doesn't detect it. Both clusters stay `ready`, no condition or event is set, and archiving reports no failures, because both clusters successfully push WAL to the same repository on diverging timelines.
+The Operator doesn't detect it. Both clusters stay `ready` and no condition or event is set. If the standby uses the same pgBackRest repository as the Main site, archiving also reports no failures, because both clusters successfully push WAL to the same repository on diverging timelines.
 
 ### Detect split brain
 
@@ -91,22 +108,40 @@ DR_PRIMARY=$(kubectl get pod -n "${DR_NAMESPACE}" \
     kubectl exec -n "${DR_NAMESPACE}" "${DR_PRIMARY}" -c database -- patronictl list
     ```
 
-3. Check the repository. When two timelines write to it, `wal archive min/max` spans two timelines, and the backups of the second timeline appear in the list. Both sites use the same repository, so run this on one of them:
+3. If both sites use the same pgBackRest repository, check whether the old timeline in the repository still grows. Use this check when you can't reach the Main site. `pgbackrest info` isn't enough: after any promotion it shows the new timeline and the backup that the Operator takes after the promotion, whether the old primary still runs or not. First, list the WAL directories. The output has one directory for each PostgreSQL version, for example `18-1`:
 
     ```bash
-    kubectl exec -n "${MAIN_NAMESPACE}" "${MAIN_PRIMARY}" -c database -- \
-      pgbackrest --stanza=db info
+    kubectl exec -n "${DR_NAMESPACE}" "${DR_PRIMARY}" -c database -- \
+      pgbackrest --stanza=db repo-ls archive/db
     ```
 
-The cluster status from `kubectl get pg` and the `pg_stat_archiver` view don't show a split brain.
+    Then list the WAL files of the old timeline twice, a minute apart. The first 8 characters of the directory name are the timeline, so `0000000100000000` is timeline 1:
+
+    ```bash
+    kubectl exec -n "${DR_NAMESPACE}" "${DR_PRIMARY}" -c database -- \
+      pgbackrest --stanza=db repo-ls archive/db/<version-directory>/0000000100000000
+    ```
+
+    If new files appear on the old timeline after the promotion, the old primary still writes. The absence of new files doesn't prove that the Main site is down, because an idle primary may not archive new WAL. This check doesn't apply to a streaming standby without a repository.
+
+Checks 1 and 2 are the reliable ones when you can reach both sites. The cluster status from `kubectl get pg` and the `pg_stat_archiver` view don't show a split brain.
 
 ### Recover from split brain
+
+The recovery steps depend on the type of your [standby cluster](standby.md#types-of-standby-clusters):
+
+* For a repo-based standby, follow [Recover a repo-based standby](#recover-a-repo-based-standby).
+* For a streaming standby and for a streaming standby with a repository, the steps are the same. Follow [Recover a streaming standby, with or without a repository](#recover-a-streaming-standby-with-or-without-a-repository).
+
+In both cases, you choose the cluster that keeps being the Main site, stop the writes to the other cluster, and rebuild the other cluster as a standby of the kept one.
+
+The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep the DR cluster, exchange the cluster names and the namespace variables. Get the primary Pod of each cluster first, as in [Detect split brain](#detect-split-brain).
+<!--
+#### Recover a repo-based standby
 
 Taking a new full backup from one cluster isn't enough. The repository keeps the history and the WAL of the other timeline, so every restore and every new standby that uses the latest backup tries to follow the wrong timeline and fails.
 
 To recover, move the cluster that you keep to a new repository path, create a full backup there, and rebuild the other cluster from it. The old repository path stays untouched, so you keep its history.
-
-The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep the DR cluster, exchange the cluster names and the namespace variables. Get the primary Pod of each cluster first, as in [Detect split brain](#detect-split-brain).
 
 1. Choose the cluster to keep. The writes that the other cluster acknowledged after the split aren't in the cluster that you keep. If you need them, export them in step 2, before you rebuild that cluster in step 6.
 
@@ -217,6 +252,47 @@ The examples keep the `main` cluster and rebuild the `dr` cluster. If you keep t
 8. Keep the old repository path as long as you need its history for point-in-time recovery or for an investigation. Then delete it from your storage.
 
 Removing the other timeline's files from the repository by hand also works, but it needs several manual deletions in the repository. A mistake destroys the history of the cluster that you keep, so this guide doesn't cover it.
+
+-->
+
+#### Recover a streaming standby, with or without a repository
+
+Delete the cluster that you don't keep, together with its volumes, and create it again as a streaming standby of the kept cluster. A streaming standby without a repository can't restore from a backup, so deleting only its PVCs and Pods doesn't work. The new Pod waits forever with `waiting for standby_leader to bootstrap`.
+
+1. Choose the cluster to keep. Stop the application writes to the other cluster.
+
+    The other cluster loses the writes that it acknowledged after the split, because you delete its volumes in the next step. If you need them, export them first, as in step 2 of [Recover a repo-based standby](#recover-a-repo-based-standby). The cluster is still writable, so you can read its tables right away.
+
+2. Delete the other cluster and its PVCs:
+
+    ```bash
+    kubectl delete pg dr -n "${DR_NAMESPACE}"
+
+    kubectl delete pvc -n "${DR_NAMESPACE}" \
+      -l postgres-operator.crunchydata.com/cluster=dr
+    ```
+
+3. Create the cluster again as a streaming standby of the kept cluster. Set `standby.host` to the `-ha` Service of the kept cluster and `standby.port` to `5432`:
+
+    ```yaml
+    spec:
+      standby:
+        enabled: true
+        host: main-ha.main-pg.svc
+        port: 5432
+    ```
+
+    If your standby also uses a repository, keep the `repoName` and the pgBackRest settings from your original standby manifest.
+
+    The deletion keeps the user Secrets, the pgBouncer Secret and your TLS Secrets, so the new standby uses them again. If you deleted them, create the TLS Secrets again before you apply the manifest, as in [Create the TLS certificates](standby-streaming.md#create-the-tls-certificates). Without them, the cluster doesn't start. Then copy the user and pgBouncer passwords from the kept cluster again, as in [Prepare the user passwords](#prepare-the-user-passwords). Otherwise, pgBouncer on the new standby can't log in to PostgreSQL after a promotion.
+
+4. Check that the new standby is on the timeline of the kept cluster. Get a Pod of the rebuilt cluster, then run:
+
+    ```bash
+    kubectl exec -n "${DR_NAMESPACE}" <dr-pod-name> -c database -- patronictl list
+    ```
+
+    The member shows as `Standby Leader` in the `streaming` state, and the `TL` column has the same value as the kept cluster.
 
 ## Automate the failover
 

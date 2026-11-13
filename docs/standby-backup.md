@@ -95,6 +95,6 @@ kubectl apply -f deploy/cr.yaml
     perconapgcluster.pg.percona.com/standby created
     ```
 
-### Copy the user passwords
+### Copy the user and pgBouncer passwords
 
-After you deploy the standby, copy the user passwords from the Main site to the DR site, so that applications can log in after you promote the DR cluster. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
+After you deploy the standby, copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
