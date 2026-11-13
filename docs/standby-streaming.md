@@ -51,12 +51,18 @@ The following diagram explains how the standby based on streaming replication wo
 
 To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user `_crunchyrepl` will be used.
 
-In the simplest case you can copy the certificates from the Main cluster. You need to look out for two files:
+To ensure authentication, choose one of these options for the server certificate:
 
-* main-cluster-cert
-* main-replication-cert 
+* **One shared server certificate.** Create one server certificate that contains the Service names of both sites, and use it on both clusters. Copy the Secrets with the certificates from the Main site to the DR namespace. Reissue the server certificate first, so that it contains the DR names, and apply it to the Main site too. This option needs the fewest certificates.
+* **A server certificate for each site.** Create a separate server certificate for the DR site, with the names of the DR site only, and sign it with the same CA that signed the certificates of the Main site. The Main site keeps its server certificate.
 
-Copy them to the namespace where DR cluster is going to be running and reference under `spec.secrets` (in the following example they were renamed, replacing "main" with "dr"):
+Follow these rules when you generate the certificates:
+
+1. Certificates for both Main and Standby clusters must be signed by the same CA. The replication user needs this to authenticate with the Main site, and the same CA lets each site trust the other after a [role swap](standby-switchover.md).
+2. `customReplicationTLSSecret` must have a Common Name (CN) setting that matches `_crunchyrepl`, which is a default replication user.
+3. The server certificate of each site must contain the names of its own `<cluster>-primary` and `<cluster>-replicas` Services, each as `<name>`, `<name>.<namespace>`, `<name>.<namespace>.svc` and `<name>.<namespace>.svc.cluster.local`. A shared certificate contains the names of both sites. pgBouncer checks the `<cluster>-primary` name of its own cluster. If the certificate has only the names of the Main site, pgBouncer on the DR site can't connect to PostgreSQL after a promotion, and its log shows `name 'dr-primary' not present in server certificate`.
+
+Create the Secrets in the namespace where the DR cluster is going to run, and reference them under `spec.secrets`:
 
 ```yaml
 spec:
@@ -66,11 +72,6 @@ spec:
     customReplicationTLSSecret:
       name: dr-replication-cert
 ```
-
-If you are generating your own certificates, just remember the following rules:
-
-1. Certificates for both Main and Standby clusters must be signed by the same CA
-2. `customReplicationTLSSecret` must have a Common Name (CN) setting that matches `_crunchyrepl`, which is a default replication user.
 
 You can find more about certificates in the [TLS doc](TLS.md).
 
@@ -105,6 +106,14 @@ Once both clusters are up, you can verify that replication is working.
 2. Connect to the DR cluster
 
 To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.
+
+### Copy the user and pgBouncer passwords
+
+Copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow [Prepare the user passwords](standby-failover.md#prepare-the-user-passwords).
+
+## Next steps
+
+Because the certificates of both sites are signed by the same CA, you can later [swap their roles](standby-switchover.md). The Main site then follows the DR site without a rebuild.
 
 
 
