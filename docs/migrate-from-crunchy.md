@@ -20,6 +20,8 @@ This guide provides three migration methods. They all move PostgreSQL data physi
 
 Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](migrate-checklist.md) first. Also check the [Crunchy and Percona Custom Resource differences](migrate-crunchy-differences.md). Extension settings come from the `PerconaPGCluster` spec. Set them in the manifest that creates the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
 
+Compare also the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that you migrate can return wrong results, and every method needs an index rebuild before applications connect. The rebuild adds to the downtime. See [Compare OS, glibc, and ICU](migrate-checklist.md#compare-os-glibc-and-icu).
+
 ## Choose a migration method
 
 This guide provides three migration methods. Pick the one that best matches your requirements for:

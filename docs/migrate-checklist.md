@@ -18,14 +18,10 @@ flowchart TD
     A[Compare PostgreSQL major versions] -->|Different| B[Do not use standby, backup/restore, or volume reuse]
     A -->|Same| C[Compare CPU architecture]
     C -->|Different| D[Prefer logical migration]
-    C -->|Same| E[Compare OS / glibc / ICU]
+    C -->|Same| E[Compare glibc build and ICU]
     E -->|Same| F[Compare extensions]
-    E -->|Different| G[Check collation versions]
-    G -->|Match| F
-    G -->|Mismatch| H[Identify affected indexes]
-    H --> I[REINDEX]
-    I --> J[REFRESH COLLATION VERSION]
-    J --> F
+    E -->|Different| G[Prefer logical migration, or plan an index rebuild before application traffic]
+    G --> F
     F --> K[Trial runs]
     K --> L[Fix issues if any]
     L --> M[Migrate]
@@ -103,13 +99,17 @@ Use `pg_dump` / `pg_restore` when you migrate across incompatible architectures.
 
 ## Compare OS, glibc, and ICU
 
-Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).
+Crunchy and Percona images can ship different operating system releases and different `glibc` builds. A difference changes how PostgreSQL sorts text, while the indexes that you migrate keep the old order. Read the limitation, compare the images, then decide how to migrate.
+
+### Understand the glibc collation limitation
+
+--8<-- "glibc-collation-limitation.txt"
 
 ### Check operating system and glibc
 
---8<-- "check-os-glibc.txt"
+Run these commands against the source Crunchy Pod. Repeat them against the target Percona image.
 
-Ensure `glibc` version at source and destination clusters are the same. If there are any changes in the version, ensure local and collation rules which PostgreSQL uses are not affected.
+--8<-- "check-os-glibc.txt"
 
 ### Check ICU library version
 
@@ -133,49 +133,28 @@ PostgreSQL may also use ICU for collations. Check the locale provider in each da
 
 `c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
 
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. You can run the index scan on the source cluster beforehand to estimate the work.
+### Decide what to do if the libraries differ
 
-[Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner and run the following query:
+If the `glibc` output is the same for the source and the target, and the ICU libraries match, continue with the next checks.
 
-```sql
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
-```
+If either library differs, the indexes in the migrated data can return wrong results on the target image. Choose one of these ways:
 
-Check indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). If you see affected indexes, find the databases whose collation
-version changed:
+- Migrate logically with `pg_dump` / `pg_restore` or with logical replication. PostgreSQL builds the indexes with the collation rules of the target image, so the limitation doesn't apply.
+- Migrate physically and rebuild the affected objects before any application connects to the new cluster. Plan the downtime for the rebuild. The time depends on the size of your indexes.
 
-```sql
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
-```
+For a physical migration, the moment of the rebuild depends on the method:
 
-??? example "Sample output"
+| Migration method | When to rebuild |
+| ---------------- | --------------- |
+| Standby cluster | After you promote the standby. A standby is read-only and can't rebuild indexes, so don't run application queries that rely on text indexes against it. The rebuild adds to the cutover downtime. |
+| Backup and restore | After the restore completes and before you point applications to the new cluster |
+| Reusing data volumes | After the Percona cluster starts and before you point applications to it |
 
-    ```{.text .no-copy}
-    datname   | datlocprovider | datcollate  | datcollversion
-    ----------+----------------+-------------+----------------
-    postgres  | c              | en_US.utf-8 | 2.28
-    template1 | c              | en_US.utf-8 | 2.28
-    template0 | c              | en_US.utf-8 |
-    cluster1  | c              | en_US.utf-8 | 2.28
-    ```
+### Find and rebuild the affected objects
+
+You can run the index scan on the source cluster beforehand to estimate the work.
+
+--8<-- "collation.txt"
 
 
 ## Compare extensions
@@ -364,4 +343,4 @@ pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an
 
 Perform at least **three successful trial runs** in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.
 
-After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.
+After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that extensions are complete. If the `glibc` builds differ, also confirm that you rebuilt the affected objects before applications connect.

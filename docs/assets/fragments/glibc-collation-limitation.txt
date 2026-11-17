@@ -1,0 +1,17 @@
+PostgreSQL sorts and compares text using the locale data of the operating system's C library (`glibc`). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.
+
+Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a `glibc` build with such a change.
+
+PostgreSQL has no way to detect an incompatible `glibc` update. The collation version that PostgreSQL records is the upstream `glibc` version, so it doesn't show a change in the package build. Plan any move of data files between images with care.
+
+If the collation changes affect an index, you can see:
+
+- Missed or extra rows in query results
+- Wrong results of `ORDER BY` / `LIMIT` and of `min()` / `max()`
+- Duplicate keys in `UNIQUE` indexes and primary keys, and `ON CONFLICT` clauses that misfire
+- Wrong merge joins
+- Runtime errors that report index corruption
+
+The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.
+
+For more details, see the Percona blog [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) and the PostgreSQL wiki page [Locale data changes :octicons-link-external-16:](https://wiki.postgresql.org/wiki/Locale_data_changes).

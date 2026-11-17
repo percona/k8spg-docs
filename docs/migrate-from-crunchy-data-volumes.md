@@ -14,7 +14,13 @@ If the backing PV was already deleted with the default **Delete** reclaim policy
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes on the reused volume can return wrong results. [Rebuild them](#rebuild-indexes-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -509,6 +515,16 @@ After you delete the Crunchy cluster and clear the PV's claim reference, the PV 
        Expect `f` for a writable primary.
 
     About 10-20 seconds after the first start, Patroni restarts PostgreSQL once. Clients that connect at this moment can get one or two connection errors.
+
+## Rebuild indexes if the glibc builds differ
+
+Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
+
+The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Rebuild the affected indexes on the primary, and check the objects that depend on the sort order, before any application connects. 
+
+Follow these steps:
+
+--8<-- "collation.txt"
 
 ## Scale out the cluster
 
