@@ -12,7 +12,13 @@ For **near-zero downtime**, use [Migrate from Crunchy using a standby cluster](m
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Rebuild them](#rebuild-indexes-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -354,6 +360,16 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
         ```{.text .no-copy}
         perconapgcluster.pgv2.percona.com/cluster1 condition met
         ```
+
+## Rebuild indexes if the glibc builds differ
+
+Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
+
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Rebuild the affected indexes on the primary, and check the objects that depend on the sort order, before any application connects. 
+
+Follow these steps:
+
+--8<-- "collation.txt"
 
 ## Take a post-migration backup
 

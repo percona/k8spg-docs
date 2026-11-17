@@ -108,9 +108,18 @@ To restore the cluster from the inconsistent state, reconfigure it to use only t
 
 In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.
 
+## glibc collation changes between images
+
+This limitation applies whenever you reuse PostgreSQL data files on an image that ships a different `glibc` build. For example, if you [upgrade](update-db-major.md) to an image with a different build or during [migration from Crunchy Operator](migrate-from-crunchy.md) using a standby cluster, a backup and restore, or the existing volumes.
+
+--8<-- "glibc-collation-limitation.txt"
+
+To find out if your images differ, follow [Compare OS, glibc, and ICU](migrate-checklist.md#compare-os-glibc-and-icu). To fix the affected objects, see [Find and rebuild the affected objects](migrate-checklist.md#find-and-rebuild-the-affected-objects).
+
 ## Upgrades
 
 * A major database upgrade introduces a downtime because the whole cluster is shut down.
+* If the new image ships a different `glibc` build, the collation rules can change and the existing indexes can return wrong results. Rebuild the affected objects after the upgrade. See [glibc collation changes between images](#glibc-collation-changes-between-images).
 * In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](reinit.md) to ensure it starts properly and starts streaming data from the primary.
 * PostGIS extension is not updated automatically after the database update. You must [manually update](update-extensions.md#upgrade-postgis-extension) it for each database where it is enabled.
 * `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](update-db-major.md#post-upgrade-steps) it manually for each database where it is installed. 

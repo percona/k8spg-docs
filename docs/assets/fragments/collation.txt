@@ -48,11 +48,26 @@ REINDEX INDEX CONCURRENTLY <index_name>;
 
 Repeat for every affected index, or rebuild all indexes in a database with `REINDEX DATABASE <database_name>;`.
 
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL's recorded metadata. It does not rebuild indexes created using the previous collation rules:
+A `UNIQUE` index or a primary key can fail to rebuild because the old sort order let duplicate keys in. Remove the duplicate rows and rebuild the index again.
+
+Next, check the objects that depend on the sort order. `REINDEX` doesn't fix them:
+
+- Partitions with text range bounds. Move the rows that sit in the wrong partition.
+- `CHECK` constraints on text values. Validate them again.
+- Stored generated columns. Recompute the values.
+- Materialized views. Run `REFRESH MATERIALIZED VIEW <view_name>;`.
+
+Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL's recorded metadata. It does not rebuild indexes created using the previous collation rules. Run it last, after the rebuilds:
 
 ```sql
 ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
 ```
 
-This command requires the privileges of a superuser or a database owner. 
+This command requires the privileges of a superuser or a database owner.
 **Repeat for every affected database.**
+
+Finally, update the planner statistics:
+
+```sql
+ANALYZE;
+```

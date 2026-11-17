@@ -8,7 +8,7 @@ This feature is generally available starting with the Operator version 2.9.0.
 
 1. A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.
 2. During the upgrade, the Operator duplicates the data on each PVC and doesn't remove the old version data automatically. Make sure your PVC has enough free space to store data.
-3. If the new image uses a different UBI major, it ships a different `glibc` collation library. After the upgrade, [identify and rebuild indexes](#check-collation) affected by the collation change.
+3. If the new image ships a different `glibc` build, for example because it uses a different UBI major, the collation rules can change. After the upgrade, [identify and rebuild the objects](#check-collation) affected by the change. See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
 
 ## Before you start
 
@@ -24,19 +24,19 @@ SELECT datname, datlocprovider, datcollversion FROM pg_database;
 
 ??? example "Sample output"
 
-   ```text
+    ```text
       datname  | datlocprovider | datcollversion
-   -----------+----------------+----------------
-   postgres  | c              | 2.34
-   template1 | c              | 2.34
-   template0 | c              |
-   cluster1  | c              | 2.34
-   (4 rows)
-   ```
+    -----------+----------------+----------------
+    postgres  | c              | 2.34
+    template1 | c              | 2.34
+    template0 | c              |
+    cluster1  | c              | 2.34
+    (4 rows)
+    ```
 
 `c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
 
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [Check collation](#check-collation)
+If the `glibc` build or ICU differs, rebuild the affected objects as soon as the cluster is ready and before applications use it. You can run the index scan on the current cluster beforehand to estimate the work. See [Check collation](#check-collation).
 
 ### Update PMM
 
@@ -92,7 +92,7 @@ During the upgrade flow, the Operator:
 
 ## Check collation
 
-If the new image uses a different UBI major (for example, UBI 8 to UBI 9), `glibc` collation rules change.
+If the new image ships a different `glibc` build, for example because it uses a different UBI major, the collation rules can change. See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
 
 --8<-- "collation.txt"
 
