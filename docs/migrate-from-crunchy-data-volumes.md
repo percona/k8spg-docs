@@ -13,7 +13,13 @@ If the backing PV was already deleted with the default **Delete** reclaim policy
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes on the reused volume can return wrong results. [Rebuild them](#rebuild-indexes-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -170,6 +176,10 @@ Next, identify the primary Pod, its data PVC, and backing PV
 
     If your Crunchy Pod uses a volume name other than `postgres-data`, adjust the JSONPath filter.
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Retain the PV and remove the Crunchy cluster
 
 The default reclaim policy for a dynamically PersistentVolume is `Delete`. This means that as soon as there are no Persistent Volume Claims (PVC) bound to this PV, Kubernetes deletes it and all data is lost. To prevent this, change the PV reclaim policy to `Retain`.
@@ -233,7 +243,9 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
     * Align `spec.postgresVersion` with the old cluster.
     * For the first cutover, set **one** replica on the instance that should attach to the migrated disk
     * Add a `selector` on `dataVolumeClaimSpec` matching the PV label. This ensures the controller binds the PVC to the correct PV that has the specified label.
-    
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
+
     Here is the example configuration:
 
     ```yaml
@@ -314,6 +326,16 @@ The default reclaim policy for a dynamically PersistentVolume is `Delete`. This 
        ```
 
        Expect `f` for a writable primary.
+
+## Rebuild indexes if the glibc builds differ
+
+Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
+
+The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Rebuild the affected indexes on the primary, and check the objects that depend on the sort order, before any application connects. 
+
+Follow these steps:
+
+--8<-- "collation.txt"
 
 ## Scale out the cluster
 

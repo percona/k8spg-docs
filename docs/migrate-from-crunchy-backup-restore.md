@@ -12,7 +12,13 @@ For **near-zero downtime**, use [Migrate from Crunchy using a standby cluster](m
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Rebuild them](#rebuild-indexes-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -201,10 +207,12 @@ metadata:
 stringData:
   s3.conf: |
     [global]
-    repo1-s3-key="<your-access-key>"
-    repo1-s3-key-secret="<your-access-secret>"
+    repo1-s3-key=<your-access-key>
+    repo1-s3-key-secret=<your-access-secret>
 EOF
 ``` 
+
+Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials. The same applies to the Secret you created for the Crunchy cluster.
 
 If you use different Secret names, use your name consistently in `spec.dataSource.pgbackrest.configuration` and `spec.backups.pgbackrest.configuration` on `PerconaPGCluster` `cluster1`.
 
@@ -231,6 +239,10 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
         deployment.apps/percona-postgresql-operator condition met
         ```
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Create the Percona PostgreSQL cluster from the Crunchy backup
 
 1. Edit the `deploy/cr.yaml` manifest and specify the following:
@@ -238,6 +250,8 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
     1. Set `spec.postgresVersion` to the same major version as `crunchy-source`.
     2. The `spec.dataSource.pgbackrest` configuration to reference the Secret with the credentials to the object store and to point at the **same** repository path and object store settings as the Crunchy cluster’s `repo1`. (See [Clone from cloud storage](backups-clone.md#clone-from-s3-storage) for more information about these options.)
     3. Under `spec.backups.pgbackrest`, use a **different** `repo1-path` than the Crunchy cluster so new backups do not overwrite the migration archive.
+    4. Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+    5. List every user to be migrated in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
     The following fragment shows the important pieces; merge them with the rest of `deploy/cr.yaml` (images, users, resources) for your environment:
 
@@ -346,6 +360,16 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
         ```{.text .no-copy}
         perconapgcluster.pgv2.percona.com/cluster1 condition met
         ```
+
+## Rebuild indexes if the glibc builds differ
+
+Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
+
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Rebuild the affected indexes on the primary, and check the objects that depend on the sort order, before any application connects. 
+
+Follow these steps:
+
+--8<-- "collation.txt"
 
 ## Take a post-migration backup
 
