@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -3399,6 +3399,34 @@
     
   
     Failover
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="standby-switchover.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swap roles between sites
   
 
     
@@ -7256,7 +7284,7 @@ Enabled
 </tr>
 <tr>
 <td><code>StandbyLagging</code></td>
-<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="standby.html#detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
+<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. The status is <code>Unknown</code> with the reason <code>MainSiteNotFound</code> when a repo-based standby can’t find the Main site, and no lag limit is enforced. See <a href="standby.html#detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
 </tr>
 <tr>
 <td><code>ReadyForLogicalReplication</code></td>
@@ -7554,7 +7582,7 @@ Enabled
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2026 10:56:42 UTC">November 18, 2026</span>
       
         <br>
         Created:
@@ -7621,7 +7649,7 @@ Enabled
     
     
 
-      <script src="assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="js/print-site.js"></script>
       

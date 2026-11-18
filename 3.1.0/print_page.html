@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -3399,6 +3399,34 @@
     
   
     Failover
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="standby-switchover.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swap roles between sites
   
 
     
@@ -7727,6 +7755,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Failover
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#standby-switchover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Swap roles between sites
       
     </span>
   </a>
@@ -19141,9 +19180,23 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <p>You can use the Percona Operator for PostgreSQL to set up several types of standby clusters, each suited to different recovery strategies:</p>
 <ol>
 <li>A repo-based standby that recovers WAL files from a <code>pgBackRest</code> repo stored in external storage. For this setup, you reference the <code>pgBackRest</code> repo name and the cloud-based backup configuration that matches the one from the primary site. Refer to the <a href="#standby-backup">Standby cluster deployment based on pgBackRest</a> tutorial for the setup steps.</li>
-<li>A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, both sites must have the same custom TLS certificates. For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the <a href="#standby-streaming">Standby cluster deployment based on streaming replication</a> tutorial.</li>
+<li>A streaming standby receives WAL files by connecting to the primary over the network. The primary site must be accessible over the network and allow secure authentication with TLS. The standby cluster must securely authenticate to the primary. For this reason, the custom TLS certificates of both sites must be signed by the same certificate authority (CA). For the setup, you provide the host and port of the primary cluster and the certificates. Learn more about the setup in the <a href="#standby-streaming">Standby cluster deployment based on streaming replication</a> tutorial.</li>
 <li>Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.</li>
 </ol>
+<p>While a standby cluster is read-only, its pgBouncer can’t log in to PostgreSQL, so applications can’t connect through it. Connect to the database Service of the standby directly instead. In a repo-based standby, pgBouncer starts working after you promote the cluster.</p>
+<h2 id="standby-recovery-point-objective">Recovery point objective<a class="headerlink" href="#standby-recovery-point-objective" title="Permanent link">¶</a></h2>
+<p>How much data you lose when the Main site is gone depends on the standby type.</p>
+<p>A repo-based standby receives WAL only through the pgBackRest repository. PostgreSQL archives a WAL segment when it fills or after <code>archive_timeout</code>, whichever comes first. The Operator sets <code>archive_timeout</code> to 60 seconds by default. If you lose the Main site, you can lose the last 60 seconds of writes plus the time that archiving takes to reach the repository.</p>
+<p>A standby that also streams loses only what had not yet streamed, usually seconds.</p>
+<p>To shorten the window for a repo-based standby, lower <code>archive_timeout</code> on the Main site. The Operator lets you override it under <code>patroni.dynamicConfiguration.postgresql.parameters</code>. See <a href="#immutable-options-postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that can be overridden</a>.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">archive_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+</code></pre></div>
+<p>The change applies without restarting the database Pods. A lower value creates more WAL segments in the repository. It also makes the lag of a repo-based standby jump more often, as described in <a href="#standby-choose-the-lag-threshold">Choose the lag threshold</a>.</p>
 <h2 id="standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster<a class="headerlink" href="#standby-detect-replication-lag-for-standby-cluster" title="Permanent link">¶</a></h2>
 <p>If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.</p>
 <p>You can enable replication lag detection for any standby type by setting the <a href="#operator-standbymaxacceptablelag"><code>standby.maxAcceptableLag</code></a> option in the Custom Resource. </p>
@@ -19174,11 +19227,19 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 </ul>
 <p>This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.</p>
 <h3 id="standby-known-limitation-for-a-repo-based-standby-cluster">Known limitation for a repo-based standby cluster<a class="headerlink" href="#standby-known-limitation-for-a-repo-based-standby-cluster" title="Permanent link">¶</a></h3>
-<p>For WAL lag detection to work in this standby type, the Operator must have access to the primary cluster. Therefore, WAL lag detection is available in these setups:</p>
+<p>For WAL lag detection to work in this standby type, the Operator must find the Main site. It looks for a cluster that is not a standby and uses the same pgBackRest repository. Therefore, WAL lag detection is available in these setups:</p>
 <ul>
 <li>Primary and standby clusters are deployed in the same namespace</li>
 <li>Primary and standby are deployed in different namespaces of the same cluster and the Operator is installed in cluster-wide mode.</li>
 </ul>
+<p>If the Operator can’t find the Main site, for example when it runs in another Kubernetes cluster, the <code>StandbyLagging</code> condition is <code>Unknown</code> with the reason <code>MainSiteNotFound</code>, and no lag limit is enforced. The standby stays ready. To check the condition, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.conditions[?(@.type=="StandbyLagging")]}'</span>
+</code></pre></div>
+<h3 id="standby-choose-the-lag-threshold">Choose the lag threshold<a class="headerlink" href="#standby-choose-the-lag-threshold" title="Permanent link">¶</a></h3>
+<p>The lag of a repo-based standby is the amount of WAL that the Main site wrote and the standby has not yet replayed. It includes the WAL that is not archived yet. The standby replays WAL only when it fetches a whole segment from the repository, so the lag grows until the next segment is archived.</p>
+<p>Every time the Main site switches to a new WAL segment, the lag can briefly jump by up to one segment (16 MiB) even when the write load is low. Set <code>standby.maxAcceptableLag</code> above 16 MiB plus the amount of WAL that the Main site writes during <code>archive_timeout</code>. For a light workload, <code>32Mi</code> to <code>64Mi</code> is a reasonable start. A value below 16 MiB marks the standby as unready on routine segment switches.</p>
+<p>The Operator checks the lag every 5 minutes, or every minute while the standby is lagging. A new <code>maxAcceptableLag</code> value applies at the next check.</p>
 <h3 id="standby-disable-replication-lag-detection">Disable replication lag detection<a class="headerlink" href="#standby-disable-replication-lag-detection" title="Permanent link">¶</a></h3>
 <p>To disable detecting the replication lag, remove the <code>standby.maxAcceptableLag</code> from the Custom Resource. The changes apply without restarting the database Pods.</p></body></html></section><section class="print-page" id="standby-backup" heading-number="7.2.2"><html><head>
         <script type="text/javascript">
@@ -19245,7 +19306,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 </ol>
 <h3 id="standby-backup-configure-dr-site">Configure DR site<a class="headerlink" href="#standby-backup-configure-dr-site" title="Permanent link">¶</a></h3>
 <p>The configuration of the disaster recovery site is similar <a href="#standby-backup-configure-main-site">to that of the Main site</a>, with the  difference in standby settings.</p>
-<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case). Optionally, add <code>standby.maxAcceptableLag</code> to enable <a href="#standby-detect-replication-lag-for-standby-cluster">replication lag detection</a>. Check the <a href="#standby-known-limitation-for-a-repo-based-standby-cluster">known limitation for this standby type</a>. </p>
+<p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case). Optionally, add <code>standby.maxAcceptableLag</code> to enable <a href="#standby-detect-replication-lag-for-standby-cluster">replication lag detection</a>. Check the <a href="#standby-known-limitation-for-a-repo-based-standby-cluster">known limitation for this standby type</a> and <a href="#standby-choose-the-lag-threshold">choose the threshold</a> accordingly.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">standby</span>
 <span class="nt">spec</span><span class="p">:</span><span class="w"> </span>
@@ -19262,7 +19323,7 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 <span class="w">    </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
-<span class="w">    </span><span class="c1"># maxAcceptableLag: 10Mi  # optional: enables replication lag detection</span>
+<span class="w">    </span><span class="c1"># maxAcceptableLag: 64Mi  # optional: enables replication lag detection</span>
 </code></pre></div>
 <p>Deploy the standby cluster by applying the manifest:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
@@ -19271,7 +19332,9 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pg.percona.com/standby<span class="w"> </span>created
 </code></pre></div>
-</details></body></html></section><section class="print-page" id="standby-streaming" heading-number="7.2.3"><html><head>
+</details>
+<h3 id="standby-backup-copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a class="headerlink" href="#standby-backup-copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
+<p>After you deploy the standby, copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow <a href="#standby-failover-prepare-the-user-passwords">Prepare the user passwords</a>.</p></body></html></section><section class="print-page" id="standby-streaming" heading-number="7.2.3"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -19325,12 +19388,18 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 </ol>
 <h3 id="standby-streaming-configure-dr-site">Configure DR site<a class="headerlink" href="#standby-streaming-configure-dr-site" title="Permanent link">¶</a></h3>
 <p>To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user <code>_crunchyrepl</code> will be used.</p>
-<p>In the simplest case you can copy the certificates from the Main cluster. You need to look out for two files:</p>
+<p>To ensure authentication, choose one of these options for the server certificate:</p>
 <ul>
-<li>main-cluster-cert</li>
-<li>main-replication-cert </li>
+<li><strong>One shared server certificate.</strong> Create one server certificate that contains the Service names of both sites, and use it on both clusters. Copy the Secrets with the certificates from the Main site to the DR namespace. Reissue the server certificate first, so that it contains the DR names, and apply it to the Main site too. This option needs the fewest certificates.</li>
+<li><strong>A server certificate for each site.</strong> Create a separate server certificate for the DR site, with the names of the DR site only, and sign it with the same CA that signed the certificates of the Main site. The Main site keeps its server certificate.</li>
 </ul>
-<p>Copy them to the namespace where DR cluster is going to be running and reference under <code>spec.secrets</code> (in the following example they were renamed, replacing “main” with “dr”):</p>
+<p>Follow these rules when you generate the certificates:</p>
+<ol>
+<li>Certificates for both Main and Standby clusters must be signed by the same CA. The replication user needs this to authenticate with the Main site, and the same CA lets each site trust the other after a <a href="#standby-switchover">role swap</a>.</li>
+<li><code>customReplicationTLSSecret</code> must have a Common Name (CN) setting that matches <code>_crunchyrepl</code>, which is a default replication user.</li>
+<li>The server certificate of each site must contain the names of its own <code>&lt;cluster&gt;-primary</code> and <code>&lt;cluster&gt;-replicas</code> Services, each as <code>&lt;name&gt;</code>, <code>&lt;name&gt;.&lt;namespace&gt;</code>, <code>&lt;name&gt;.&lt;namespace&gt;.svc</code> and <code>&lt;name&gt;.&lt;namespace&gt;.svc.cluster.local</code>. A shared certificate contains the names of both sites. pgBouncer checks the <code>&lt;cluster&gt;-primary</code> name of its own cluster. If the certificate has only the names of the Main site, pgBouncer on the DR site can’t connect to PostgreSQL after a promotion, and its log shows <code>name 'dr-primary' not present in server certificate</code>.</li>
+</ol>
+<p>Create the Secrets in the namespace where the DR cluster is going to run, and reference them under <code>spec.secrets</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">secrets</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">customTLSSecret</span><span class="p">:</span>
@@ -19338,11 +19407,6 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <span class="w">    </span><span class="nt">customReplicationTLSSecret</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dr-replication-cert</span>
 </code></pre></div>
-<p>If you are generating your own certificates, just remember the following rules:</p>
-<ol>
-<li>Certificates for both Main and Standby clusters must be signed by the same CA</li>
-<li><code>customReplicationTLSSecret</code> must have a Common Name (CN) setting that matches <code>_crunchyrepl</code>, which is a default replication user.</li>
-</ol>
 <p>You can find more about certificates in the <a href="#tls">TLS doc</a>.</p>
 <p>Apart from setting certificates correctly, you should also set standby configuration.</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
@@ -19368,26 +19432,252 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <li>Insert some data into Main cluster</li>
 <li>Connect to the DR cluster</li>
 </ol>
-<p>To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.</p></body></html></section><section class="print-page" id="standby-failover" heading-number="7.2.4"><html><head>
+<p>To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.</p>
+<h3 id="standby-streaming-copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a class="headerlink" href="#standby-streaming-copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
+<p>Copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow <a href="#standby-failover-prepare-the-user-passwords">Prepare the user passwords</a>.</p>
+<h2 id="standby-streaming-next-steps">Next steps<a class="headerlink" href="#standby-streaming-next-steps" title="Permanent link">¶</a></h2>
+<p>Because the certificates of both sites are signed by the same CA, you can later <a href="#standby-switchover">swap their roles</a>. The Main site then follows the DR site without a rebuild.</p></body></html></section><section class="print-page" id="standby-failover" heading-number="7.2.4"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
         </head><body><h1 id="failover">Failover<a class="headerlink" href="#standby-failover-failover" title="Permanent link">¶</a></h1>
-<p>In case of the Main site failure or in other cases, you can promote the standby cluster. The promotion effectively allows writing to the cluster. This creates a net effect of pushing Write Ahead Logs (WALs) to the pgBackrest repository. It might create a split-brain situation where two primary instances attempt to write to the same repository. To avoid this, make sure the primary cluster is either deleted or shut down before trying to promote the standby cluster.</p>
+<p>Promote the standby cluster when the Main site is lost, for example after an outage of its Kubernetes cluster or region. The promotion makes the standby cluster writable, and it starts to push Write Ahead Logs (WALs) to the pgBackRest repository.</p>
+<p>Before you promote, make sure that the Main site can’t accept writes. A Main site that you can’t reach isn’t necessarily down: the network can be split, or the site can come back after the promotion. Then both clusters run as primary and accept writes. This is a <a href="#standby-failover-split-brain">split brain</a>. To avoid it, shut down or delete the Main cluster before you promote the standby cluster.</p>
+<p>The examples on this page use the <code>main</code> cluster and the <code>dr</code> cluster from the <a href="#standby-streaming">streaming replication tutorial</a>. Set the namespaces of your clusters once, and you can run the commands as they are:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MAIN_NAMESPACE</span><span class="o">=</span>main-pg
+<span class="nb">export</span><span class="w"> </span><span class="nv">DR_NAMESPACE</span><span class="o">=</span>dr-pg
+</code></pre></div>
+<h2 id="standby-failover-prepare-the-user-passwords">Prepare the user passwords<a class="headerlink" href="#standby-failover-prepare-the-user-passwords" title="Permanent link">¶</a></h2>
+<p>Do this before you promote, and preferably when you set up the standby. A standby cluster replicates the users and their passwords from the Main site. While the cluster is read-only, the Operator doesn’t apply the passwords from the Disaster Recovery (DR) cluster’s own user Secrets. When you promote the cluster, the Operator sets the password of every user in <code>spec.users</code> to the value in the DR Secret <code>&lt;cluster-name&gt;-pguser-&lt;user-name&gt;</code>. If that value differs from the Main site password, applications that use the Main site credentials can’t log in after the promotion.</p>
+<p>If you don’t set <code>spec.users</code>, there is nothing to copy. The DR cluster creates its own default user and database and leaves the default user of the Main site untouched, so the Main site credentials keep working.</p>
+<p>For each user that you define in <code>spec.users</code>, copy the password from the Main site Secret to the DR Secret:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PASSWORD_B64</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>main-pguser-&lt;user-name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.password}'</span><span class="k">)</span>
+
+kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>dr-pguser-&lt;user-name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s2">"{\"data\":{\"password\":\"</span><span class="si">${</span><span class="nv">PASSWORD_B64</span><span class="si">}</span><span class="s2">\"},\"stringData\":{\"verifier\":\"\"}}"</span>
+</code></pre></div>
+<p>The command copies the encoded value as it is, so passwords with quotes, backslashes or non-ASCII characters stay intact. The Operator rebuilds the <code>verifier</code> from the new password within a few seconds.</p>
+<p>The Operator creates the DR Secret together with the DR cluster, so you can run these commands right after you deploy the standby. The change takes effect when you promote the cluster.</p>
+<h3 id="standby-failover-copy-the-pgbouncer-password">Copy the pgBouncer password<a class="headerlink" href="#standby-failover-copy-the-pgbouncer-password" title="Permanent link">¶</a></h3>
+<p>pgBouncer logs in to PostgreSQL as the <code>_crunchypgbouncer</code> user. Its password is in the Secret <code>&lt;cluster-name&gt;-pgbouncer</code>. When you promote the DR cluster, the Operator applies this user from the DR Secret, in the same way as the other users. Therefore, copy the pgBouncer password from the Main site to the DR site, so that both sites use the same one. This ensures that pgBouncer can authenticate in the new primary:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_PASSWORD_B64</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>main-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-password}'</span><span class="k">)</span>
+
+<span class="nv">PGBOUNCER_VERIFIER_B64</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>main-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-verifier}'</span><span class="k">)</span>
+
+kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>dr-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s2">"{\"data\":{\"pgbouncer-password\":\"</span><span class="si">${</span><span class="nv">PGBOUNCER_PASSWORD_B64</span><span class="si">}</span><span class="s2">\",\"pgbouncer-verifier\":\"</span><span class="si">${</span><span class="nv">PGBOUNCER_VERIFIER_B64</span><span class="si">}</span><span class="s2">\"}}"</span>
+</code></pre></div>
+<p>Copy the password and the verifier together. If you copy only the password, the Operator applies the old DR verifier when it promotes the cluster, and pgBouncer can’t log in after you swap back. Don’t set the verifier to an empty string, as you do for the user Secrets. The Operator then generates a new pgBouncer password and discards the one that you copied.</p>
+<p>Repeat the copy after you change a password on the Main site. Clear the verifier after a promotion only if the passwords on the two sites differ. If they differ, for example because a password changed on one site after you copied it, see <a href="#standby-switchover-swap-back">Swap back</a>.</p>
+<h2 id="standby-failover-promote-the-standby">Promote the standby<a class="headerlink" href="#standby-failover-promote-the-standby" title="Permanent link">¶</a></h2>
 <p>Once the primary is down or inactive, promote the standby through changing the corresponding section:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
-<p>Now you can start writing to the cluster.</p>
+<p>You can leave the other <code>standby</code> options, such as <code>host</code> and <code>repoName</code>, in the Custom Resource. The Operator ignores them when <code>standby.enabled</code> is <code>false</code>. They apply again if you set <code>enabled</code> back to <code>true</code>.</p>
+<p>Check that <code>SELECT pg_is_in_recovery();</code> returns <code>f</code>. Now you can start writing to the cluster.</p>
+<p>The cluster status is <code>ready</code> before and during the promotion, so don’t use it as a signal. About 10 seconds after the promotion, the Operator applies the user passwords from the DR Secrets. Applications that connect through pgBouncer can fail to log in for up to 30 seconds.</p>
+<p>The Operator doesn’t run scheduled backups while the cluster is a standby, and starts them after the promotion.</p>
+<p>If both sites are healthy and you want to exchange their roles, follow <a href="#standby-switchover">Swap roles between the Main and DR sites</a> instead. A planned swap loses no data.</p>
 <h2 id="standby-failover-split-brain">Split brain<a class="headerlink" href="#standby-failover-split-brain" title="Permanent link">¶</a></h2>
-<p>There might be a case, where your old primary comes up and starts writing to the repository. To recover from this situation, do the following:</p>
+<p>Split brain means that both clusters run as primary and accept writes. It happens when you promote the standby while the Main site is still running, or when the old primary comes back after you promoted the standby.</p>
+<p>The Operator doesn’t detect it. Both clusters stay <code>ready</code> and no condition or event is set. If the standby uses the same pgBackRest repository as the Main site, archiving also reports no failures, because both clusters successfully push WAL to the same repository on diverging timelines.</p>
+<h3 id="standby-failover-detect-split-brain">Detect split brain<a class="headerlink" href="#standby-failover-detect-split-brain" title="Permanent link">¶</a></h3>
+<p>Run these checks on both sites. First, get the primary Pod of each cluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">MAIN_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>main,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+
+<span class="nv">DR_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>dr,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+</code></pre></div>
 <ol>
-<li>Keep only one primary with the latest data running</li>
-<li>Stop the writes on the other one</li>
-<li>Take the new full backup from the primary and upload it to the repo</li>
+<li>
+<p>Check that no more than one cluster is writable. In a split brain, <code>pg_is_in_recovery()</code> returns <code>f</code> on both:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the Patroni state. In a split brain, each site lists its own <code>Leader</code>. The <code>TL</code> (timeline) column usually differs, but both sites can also stay on the same timeline:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+</li>
+<li>
+<p>For a repo-based standby and for a streaming standby with a repository, both sites may use the same pgBackRest repository. This this case, check whether the old primary still writes WAL to it. Use this check when you can’t reach the Main site. <code>pgbackrest info</code> isn’t enough. After a promotion, it lists the backup that the Operator takes after the promotion, whether the old primary still runs or not, and it doesn’t show which site wrote the WAL. First, list the WAL directories. The output has one directory for each PostgreSQL version, for example <code>18-1</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>repo-ls<span class="w"> </span>archive/db
+</code></pre></div>
+<p>Then list the WAL files of the timeline that the Main site was on, twice, a minute apart. The first 8 characters of the directory name are the timeline, so <code>0000000100000000</code> is timeline 1:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>repo-ls<span class="w"> </span>archive/db/&lt;version-directory&gt;/0000000100000000
+</code></pre></div>
+<p>If new files appear on that timeline after the promotion, the old primary still writes. The absence of new files doesn’t prove that the Main site is down, because an idle primary may not archive new WAL. If both sites stay on the same timeline, new files can come from either site, and this check can’t tell them apart. This check doesn’t apply to a streaming standby without a repository.</p>
+</li>
+</ol>
+<p>Checks 1 and 2 are the reliable ones when you can reach both sites. The cluster status from <code>kubectl get pg</code> and the <code>pg_stat_archiver</code> view don’t show a split brain.</p>
+<h3 id="standby-failover-recover-from-split-brain">Recover from split brain<a class="headerlink" href="#standby-failover-recover-from-split-brain" title="Permanent link">¶</a></h3>
+<p>The recovery steps depend on the type of your <a href="#standby-types-of-standby-clusters">standby cluster</a>:</p>
+<ul>
+<li>For a repo-based standby and for a streaming standby with a repository, both sites share the pgBackRest repository. Follow <a href="#standby-failover-recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository">Recover a repo-based standby or a streaming standby with a repository</a>.</li>
+<li>For a streaming standby without a repository, follow <a href="#standby-failover-recover-a-streaming-standby-without-a-repository">Recover a streaming standby without a repository</a>.</li>
+</ul>
+<p>In both cases, you choose the cluster that keeps being the Main site, stop the writes to the other cluster, and rebuild the other cluster as a standby of the kept one.</p>
+<p>The examples keep the <code>main</code> cluster and rebuild the <code>dr</code> cluster. If you keep the DR cluster, exchange the cluster names and the namespace variables. Get the primary Pod of each cluster first, as in <a href="#standby-failover-detect-split-brain">Detect split brain</a>.</p>
+<h4 id="standby-failover-recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository">Recover a repo-based standby or a streaming standby with a repository<a class="headerlink" href="#standby-failover-recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository" title="Permanent link">¶</a></h4>
+<p>Taking a new full backup from one cluster isn’t enough. The repository keeps the history and the WAL of the other timeline, so every restore and every new standby that uses the latest backup tries to follow the wrong timeline and fails.</p>
+<p>To recover, move the cluster that you keep to a new repository path, create a full backup there, and recreate the other cluster with that path. The old repository path stays untouched, so you keep its history.</p>
+<ol>
+<li>
+<p>Stop the application writes to the other cluster, and export the rows that it accepted after the split. The writes that the kept cluster doesn’t have are the rows that were written after you promoted the standby cluster. Select them with a column that records the time or the order of the writes. The example exports one table to a file on your computer:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-d<span class="w"> </span>&lt;database-name&gt;<span class="w"> </span>-c<span class="w"> </span><span class="s2">"COPY (SELECT &lt;columns&gt; FROM &lt;table-name&gt; WHERE created_at &gt;= '&lt;promotion-time&gt;') TO STDOUT WITH CSV HEADER"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;<span class="w"> </span>&lt;table-name&gt;.csv
+</code></pre></div>
+<p>Repeat the command for each table that has new rows. Then pause the other cluster, so that it stops accepting writes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>dr<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"pause":true}}'</span>
+</code></pre></div>
+<p>You can delete the cluster instead. In this case, only its PVCs are left to delete.</p>
+</li>
+<li>
+<p>Set a new, unused repository path on the kept cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>main<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"backups":{"pgbackrest":{"global":{"repo1-path":"/pgbackrest/main-new"}}}}}'</span>
+</code></pre></div>
+</li>
+<li>
+<p>Wait until the Pod of the kept cluster uses the new path. The new path reaches the Pod with a delay of up to about a minute. Run this command until the status changes to <code>missing stanza path</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>stanza: db
+    status: error (missing stanza path)
+</code></pre></div>
+</details>
+<p>If you run <code>stanza-create</code> before the status changes, it reports success for the old path and doesn’t create the stanza in the new one.</p>
+</li>
+<li>
+<p>Create the pgBackRest stanza in the new path right away. The Operator doesn’t do it when you change <code>repo1-path</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>stanza-create
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Until the stanza exists in the new path, PostgreSQL still reports every WAL segment as archived, but the segments are not stored in any repository. A failure of the kept cluster in this time leaves you without those WAL files.</p>
+</div>
+</li>
+<li>
+<p>Push the current timeline history file of the kept cluster to the new path. The new path doesn’t have it yet, and a standby that restores from this path needs it to follow the timeline of the kept cluster. Get the timeline number from the <code>TL</code> column of <code>patronictl list</code>. The history file name has eight digits, for example <code>00000002.history</code> for timeline 2. Replace <code>&lt;version&gt;</code> with your PostgreSQL major version:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>--no-archive-async<span class="w"> </span>archive-push<span class="w"> </span>/pgdata/pg&lt;version&gt;/pg_wal/&lt;history-file&gt;
+</code></pre></div>
+<p>If the kept cluster is on timeline 1, it has no history file. Skip this step.</p>
+</li>
+<li>
+<p>Create a full backup in the new path. Save this manifest as <code>deploy/backup.yaml</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">after-split-brain</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main</span>
+<span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=full</span>
+</code></pre></div>
+<p>Apply the manifest and wait for the backup to complete:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
+
+kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgbackup/after-split-brain<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="o">=</span>600s
+</code></pre></div>
+</li>
+<li>
+<p>Delete the other cluster and its PVCs, then create it again with the same <code>repo1-path</code> as the kept cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg<span class="w"> </span>dr<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
+
+kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>dr
+</code></pre></div>
+<p>Apply the manifest of the cluster again with the new path. Keep the other options of your standby, such as <code>repoName</code>. For a streaming standby with a repository, also keep <code>host</code> and <code>port</code>, and point <code>host</code> to the <code>-ha</code> Service of the kept cluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">global</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pgbackrest/main-new</span>
+<span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+</code></pre></div>
+<p>The Operator restores the data from the new path as a standby of the kept cluster. The user and pgBouncer Secrets stay in the namespace, so the passwords don’t change. Check that every member is on the timeline of the kept cluster. Get a Pod of the rebuilt cluster, then run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>&lt;dr-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+</li>
+<li>
+<p>Import the exported rows into the kept cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-i<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-d<span class="w"> </span>&lt;database-name&gt;<span class="w"> </span>-c<span class="w"> </span><span class="s2">"COPY &lt;table-name&gt; (&lt;columns&gt;) FROM STDIN WITH CSV HEADER"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&lt;<span class="w"> </span>&lt;table-name&gt;.csv
+</code></pre></div>
+<p>Both clusters kept counting from the same sequence values, so the exported rows can have the same primary keys as existing rows. Leave the primary key column out of <code>&lt;columns&gt;</code> in both the export and the import, so that the kept cluster assigns new keys.</p>
+</li>
+<li>
+<p>Keep the old repository path as long as you need its history for point-in-time recovery or for an investigation. Then delete it from your storage.</p>
+</li>
+</ol>
+<p>Removing the other timeline’s files from the repository by hand also works, but it needs several manual deletions in the repository. A mistake destroys the history of the cluster that you keep, so this guide doesn’t cover it.</p>
+<h4 id="standby-failover-recover-a-streaming-standby-without-a-repository">Recover a streaming standby without a repository<a class="headerlink" href="#standby-failover-recover-a-streaming-standby-without-a-repository" title="Permanent link">¶</a></h4>
+<p>Delete the cluster that you don’t keep, together with its volumes, and create it again as a streaming standby of the kept cluster. A streaming standby without a repository can’t restore from a backup, so deleting only its PVCs and Pods doesn’t work. The new Pod waits forever with <code>waiting for standby_leader to bootstrap</code>.</p>
+<ol>
+<li>
+<p>Choose the cluster to keep. Stop the application writes to the other cluster, and export the rows that it accepted after the split.</p>
+<p>The other cluster loses these writes, because you delete its volumes in the next step. The writes that the kept cluster doesn’t have are the rows that were written after you promoted the standby cluster. The cluster is still writable, so you can read its tables right away. Select the rows with a column that records the time or the order of the writes. The example exports one table to a file on your computer:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-d<span class="w"> </span>&lt;database-name&gt;<span class="w"> </span>-c<span class="w"> </span><span class="s2">"COPY (SELECT &lt;columns&gt; FROM &lt;table-name&gt; WHERE created_at &gt;= '&lt;promotion-time&gt;') TO STDOUT WITH CSV HEADER"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&gt;<span class="w"> </span>&lt;table-name&gt;.csv
+</code></pre></div>
+<p>Repeat the command for each table that has new rows.</p>
+</li>
+<li>
+<p>Delete the other cluster and its PVCs:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg<span class="w"> </span>dr<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
+
+kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>dr
+</code></pre></div>
+</li>
+<li>
+<p>Create the cluster again as a streaming standby of the kept cluster. Set <code>standby.host</code> to the <code>-ha</code> Service of the kept cluster and <code>standby.port</code> to <code>5432</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">host</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">main-ha.main-pg.svc</span>
+<span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5432</span>
+</code></pre></div>
+<p>The deletion keeps the user Secrets, the pgBouncer Secret and your TLS Secrets, so the new standby uses them again. If you deleted them, create the TLS Secrets again before you apply the manifest, as in <a href="#standby-streaming-configure-dr-site">Configure DR site</a>. Without them, the cluster doesn’t start. Then copy the user and pgBouncer passwords from the kept cluster again, as in <a href="#standby-failover-prepare-the-user-passwords">Prepare the user passwords</a>. Otherwise, pgBouncer on the new standby can’t log in to PostgreSQL after a promotion.</p>
+</li>
+<li>
+<p>Check that the new standby is on the timeline of the kept cluster. Get a Pod of the rebuilt cluster, then run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>&lt;dr-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+<p>The member shows as <code>Standby Leader</code> in the <code>streaming</code> state, and the <code>TL</code> column has the same value as the kept cluster.</p>
+</li>
 </ol>
 <h2 id="standby-failover-automate-the-failover">Automate the failover<a class="headerlink" href="#standby-failover-automate-the-failover" title="Permanent link">¶</a></h2>
 <p>Automated failover consists of multiple steps and is outside of the Operator’s scope. There are a few steps that you can take to reduce the Recovery Time Objective (RTO). To detect the failover we recommend having the 3<sup>rd</sup> site to monitor both DR and Main sites. In this case you can be sure that Main really failed and it is not a network split situation.</p>
@@ -19396,7 +19686,200 @@ If the finalizer is enabled, the Operator will delete all the backups from all t
 <li>Global Load Balancer - various clouds and vendors provide their solutions</li>
 <li>Multi Cluster Services or MCS - available on most of the public clouds</li>
 <li>Federation or other multi-cluster solutions</li>
-</ol></body></html></section></section>
+</ol></body></html></section><section class="print-page" id="standby-switchover" heading-number="7.2.5"><html><head>
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head><body><h1 id="swap-roles-between-the-main-and-dr-sites">Swap roles between the Main and DR sites<a class="headerlink" href="#standby-switchover-swap-roles-between-the-main-and-dr-sites" title="Permanent link">¶</a></h1>
+<p>A planned switchover turns the DR site into the primary and the Main site into the standby, while both sites stay healthy. Use it for maintenance, for a disaster recovery drill, or to move the primary to another region. If the Main site is already lost, <a href="#standby-failover">promote the standby</a> instead.</p>
+<p>Stop application writes to the Main site before you start. The swap then loses no data. Writes stay unavailable for about 15 to 25 seconds, plus the time the DR site needs to replay any WAL that it hasn’t applied yet.</p>
+<h2 id="standby-switchover-what-happens-to-the-old-primary">What happens to the old primary<a class="headerlink" href="#standby-switchover-what-happens-to-the-old-primary" title="Permanent link">¶</a></h2>
+<p>The type of your <a href="#standby-types-of-standby-clusters">standby cluster</a> decides what the Main site does after DR is promoted:</p>
+<table>
+<thead>
+<tr>
+<th>Standby type</th>
+<th>Main site after the swap</th>
+<th>What you do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Streaming, or streaming with a repository</td>
+<td>Follows the new primary on its own</td>
+<td>Nothing. Check with <code>patronictl list</code></td>
+</tr>
+<tr>
+<td>Repo-based</td>
+<td>Stays on its old timeline and can’t follow DR</td>
+<td><a href="#standby-switchover-rebuild-the-old-primary-of-a-repo-based-standby">Rebuild the Main site</a></td>
+</tr>
+</tbody>
+</table>
+<p>A repository-based Main site cannot follow because the shutdown checkpoint never reaches the pgBackRest repository. This checkpoint is the final record that PostgreSQL writes when it stops. The DR site never replays that record, so the two sites end up on different timelines. If you plan regular swaps, use a streaming standby and avoid the rebuild.</p>
+<h2 id="standby-switchover-before-you-start">Before you start<a class="headerlink" href="#standby-switchover-before-you-start" title="Permanent link">¶</a></h2>
+<p>The examples use the <code>main</code> cluster and the <code>dr</code> cluster from the <a href="#standby-streaming">streaming replication tutorial</a>. Set the namespaces of your clusters once, and you can run the commands as they are:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MAIN_NAMESPACE</span><span class="o">=</span>main-pg
+<span class="nb">export</span><span class="w"> </span><span class="nv">DR_NAMESPACE</span><span class="o">=</span>dr-pg
+</code></pre></div>
+<ol>
+<li>
+<p>Check that the DR cluster is <code>ready</code> and that the <code>StandbyLagging</code> condition isn’t <code>True</code>:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>dr<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+</li>
+<li>
+<p>For a streaming standby, check that the Main site can reach the DR <code>-ha</code> Service and trusts its certificates. The certificates of both sites must be <a href="#standby-streaming-configure-dr-site">signed by the same CA</a>.</p>
+</li>
+<li>
+<p>Make sure that the DR cluster has the same user passwords and the same pgBouncer password as the Main site. When the Operator promotes DR, it sets the password of each user in <code>spec.users</code> and of the pgBouncer user to the value in the DR Secret. Follow <a href="#standby-failover-prepare-the-user-passwords">Prepare the user passwords</a> for each user, and <a href="#standby-failover-copy-the-pgbouncer-password">Copy the pgBouncer password</a>. When the passwords are the same on both sites, pgBouncer can authenticate in the new primary. If the passwords differ, see <a href="#standby-switchover-swap-back">Swap back</a>.</p>
+</li>
+<li>
+<p>Make sure you can switch application traffic to the DR site after the swap.</p>
+</li>
+</ol>
+<h2 id="standby-switchover-swap-the-roles">Swap the roles<a class="headerlink" href="#standby-switchover-swap-the-roles" title="Permanent link">¶</a></h2>
+<ol>
+<li>
+<p>Stop application writes to the Main site.</p>
+<p>The Operator doesn’t stop two clusters from running as primary at the same time. Writes that both sites accept during an overlap are lost on the site that you demote.</p>
+</li>
+<li>
+<p>Get the Main primary Pod and record its current WAL position:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">MAIN_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>main,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_current_wal_lsn();"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>0/7034CF8
+</code></pre></div>
+</details>
+<p>Save this value. Read it after you stop the writes and before you demote the Main site. A value that you read after the demotion is never reached by a repo-based standby, and the wait in step 5 never ends.</p>
+<p>You don’t need to run <code>pg_switch_wal()</code>. When the Main site shuts down cleanly during the demotion, PostgreSQL switches to a new WAL segment and archives it, so the DR site receives all the writes.</p>
+</li>
+<li>
+<p>Demote the Main site. Set <code>standby.enabled</code> to <code>true</code> and point the cluster to the repository. For a streaming standby, also set <code>standby.host</code> to the DR <code>-ha</code> Service:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="standby-switchover-__tabbed_1_1" name="standby-switchover-__tabbed_1" type="radio"><input id="standby-switchover-__tabbed_1_2" name="standby-switchover-__tabbed_1" type="radio"><div class="tabbed-labels"><label for="standby-switchover-__tabbed_1_1">Repo-based standby</label><label for="standby-switchover-__tabbed_1_2">Streaming standby</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>main<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"standby":{"enabled":true,"repoName":"repo1","host":null,"port":null}}}'</span>
+</code></pre></div>
+<p>The <code>null</code> values remove a <code>host</code> that the cluster kept from an earlier standby setup, so that the Main site reads only from the repository.</p>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>main<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s2">"{\"spec\":{\"standby\":{\"enabled\":true,\"repoName\":\"repo1\",\"host\":\"dr-ha.</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">.svc\",\"port\":5432}}}"</span>
+</code></pre></div>
+<p>If your standby has no repository, omit <code>repoName</code>.</p>
+</div>
+</div>
+</div>
+</li>
+<li>
+<p>Wait for the Main site to stop accepting writes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
+</code></pre></div>
+<p>Don’t continue until the command returns <code>t</code>.</p>
+</li>
+<li>
+<p>Wait until the DR site replays the position that you recorded in step 2. Get the DR primary Pod, then run the check until it returns <code>t</code>. Replace <code>&lt;lsn&gt;</code> with the saved value:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">DR_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>dr,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+
+kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_last_wal_replay_lsn() &gt;= '&lt;lsn&gt;'::pg_lsn;"</span>
+</code></pre></div>
+<p>A repo-based standby replays WAL when it fetches a segment from the repository, so this step can take several seconds.</p>
+</li>
+<li>
+<p>Promote the DR site:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>dr<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec":{"standby":{"enabled":false}}}'</span>
+</code></pre></div>
+</li>
+<li>
+<p>Confirm that the DR site accepts writes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-A<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
+</code></pre></div>
+<p>The command returns <code>f</code>. Switch your applications to the DR site. The Operator applies the user passwords about 10 seconds later. If your applications connect through pgBouncer, they can fail to log in for up to 30 seconds.</p>
+</li>
+<li>
+<p>Check the Main site. For a streaming standby, <code>patronictl list</code> shows the Main member as <code>Standby Leader</code> in the <code>streaming</code> state on the new timeline:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+<p>For a repo-based standby, the member stays in <code>in archive recovery</code> on the old timeline. The PostgreSQL log repeats <code>new timeline 2 forked off current database system timeline 1</code>. Rebuild the Main site as described in the next section.</p>
+</li>
+</ol>
+<h2 id="standby-switchover-rebuild-the-old-primary-of-a-repo-based-standby">Rebuild the old primary of a repo-based standby<a class="headerlink" href="#standby-switchover-rebuild-the-old-primary-of-a-repo-based-standby" title="Permanent link">¶</a></h2>
+<p>Choose one of these ways to bring the Main site back as a standby of DR.</p>
+<h3 id="standby-switchover-recreate-the-instance">Recreate the instance<a class="headerlink" href="#standby-switchover-recreate-the-instance" title="Permanent link">¶</a></h3>
+<p>This is the simplest way. After the swap, DR is the primary and holds all the writes that the Main site acknowledged, and the Main site is a standby. The data on the Main volumes has diverged from DR, so you can discard it. The Operator creates new instances, restores the latest backup from the pgBackRest repository, and replays the WAL from the repository until the Main site catches up with DR. Restore time depends on the size of your data.</p>
+<p>Recreate every PostgreSQL instance of the Main site. The replicas of the old primary diverge as well, even though they report <code>streaming</code> and stay ready. If you recreate only the primary, Patroni makes a diverged replica the new standby leader.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Delete the Main volumes only after the swap is complete. Check that the DR site accepts writes (step 7), that the Main site is in recovery (step 4), and that the repository has a backup:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">DR_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+</code></pre></div>
+<p>If you delete the volumes of a site that is still the only primary, or before DR has replayed the recorded position in step 5, you lose data.</p>
+</div>
+<ol>
+<li>
+<p>Delete the PVCs and the Pods of all Main instances:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>main,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--wait<span class="o">=</span><span class="nb">false</span>
+
+kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>main,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres
+</code></pre></div>
+</li>
+<li>
+<p>Check that every member is on the DR timeline:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>&lt;main-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+<p>All members show the same <code>TL</code> as DR: one <code>Standby Leader</code> and the replicas in the <code>streaming</code> state.</p>
+</li>
+</ol>
+<p><code>patronictl reinit</code> doesn’t help here, because the Main site is a standby. On the primary it fails with <code>No replica among provided members</code>, and on the replicas it fails with <code>invalid option '--scope=main-ha'</code>.</p>
+<h3 id="standby-switchover-add-a-streaming-source">Add a streaming source<a class="headerlink" href="#standby-switchover-add-a-streaming-source" title="Permanent link">¶</a></h3>
+<p>With a streaming source, Patroni rewinds the Main site with <code>pg_rewind</code> and no restore is needed. The Main site must trust the DR certificates. This way is for a Main site with one PostgreSQL instance. If your site has replicas, recreate every instance instead.</p>
+<ol>
+<li>
+<p>Check that the certificates of the Main site and of the DR site are signed by the same CA, as in <a href="#standby-streaming-configure-dr-site">Configure DR site</a>. The Main site then trusts the DR certificates, and it keeps its own certificates.</p>
+</li>
+<li>
+<p>Set the DR <code>-ha</code> Service as the standby host of the Main cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>main<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s2">"{\"spec\":{\"standby\":{\"enabled\":true,\"repoName\":\"repo1\",\"host\":\"dr-ha.</span><span class="si">${</span><span class="nv">DR_NAMESPACE</span><span class="si">}</span><span class="s2">.svc\",\"port\":5432}}}"</span>
+</code></pre></div>
+<p>If the Main site doesn’t trust the DR certificates, the rewind fails with <code>SSL error: certificate verify failed</code> and the Main site stays diverged.</p>
+</li>
+</ol>
+<h2 id="standby-switchover-swap-back">Swap back<a class="headerlink" href="#standby-switchover-swap-back" title="Permanent link">¶</a></h2>
+<p>The roles are now reversed, and the swap back is the same procedure with the sites exchanged. For a repo-based standby, you rebuild the DR site the same way. To avoid the rebuild, <a href="#standby-streaming">add a streaming source</a> to the standby before the next swap.</p>
+<h3 id="standby-switchover-re-apply-the-user-passwords">Re-apply the user passwords<a class="headerlink" href="#standby-switchover-re-apply-the-user-passwords" title="Permanent link">¶</a></h3>
+<p>Clear the verifier only if the passwords on the two sites differ. If you copied the user passwords and the pgBouncer password to both sites, and nobody changed them since, skip this section.</p>
+<p>The Operator applies the passwords from the user Secrets of a cluster only when a Secret changes. A site that was primary before keeps the passwords that the other site set while it was primary, including a password that you changed there. The Operator doesn’t re-apply the <code>pgBouncer</code> user either, so pgBouncer on the promoted site can’t log in to PostgreSQL, unless both sites have the same pgBouncer password and verifier.</p>
+<p>After you promote the site, clear the <code>verifier</code> in the Secret of each user, so that the Operator rebuilds it from the password in that Secret and applies it again. The example uses the Main site:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>main-pguser-&lt;user-name&gt;<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"stringData":{"verifier":""}}'</span>
+</code></pre></div>
+<p>The pgBouncer Secret works differently. If you copied the pgBouncer password and verifier between the sites, as in <a href="#standby-failover-copy-the-pgbouncer-password">Copy the pgBouncer password</a>, pgBouncer already works. Otherwise, clear the pgBouncer verifier. The Operator then generates a new pgBouncer password and a new verifier, and applies them:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>main-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"stringData":{"pgbouncer-verifier":""}}'</span>
+</code></pre></div>
+<p>The user passwords from the Main Secrets apply again, and logins through pgBouncer work after about a minute. The pgBouncer passwords of the two sites differ afterwards, so copy the pgBouncer password and verifier again before the next swap.</p>
+<p>To keep a user password that you changed on the other site, copy it to the Main Secret first, as in <a href="#standby-failover-prepare-the-user-passwords">Prepare the user passwords</a>. For the pgBouncer password, see <a href="#standby-failover-copy-the-pgbouncer-password">Copy the pgBouncer password</a>.</p></body></html></section></section>
                     <section class='print-page md-section' id='section-7-3' heading-number='7.3'>
                         <h1>Scale your cluster<a class='headerlink' href='#section-7-3' title='Permanent link'></a>
                         </h1>
@@ -33437,7 +33920,7 @@ Enabled
 </tr>
 <tr>
 <td><code>StandbyLagging</code></td>
-<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. See <a href="#standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
+<td>The standby cluster WAL lag exceeds <code>spec.standby.maxAcceptableLag</code>. The status is <code>Unknown</code> with the reason <code>MainSiteNotFound</code> when a repo-based standby can’t find the Main site, and no lag limit is enforced. See <a href="#standby-detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster</a>.</td>
 </tr>
 <tr>
 <td><code>ReadyForLogicalReplication</code></td>
@@ -38362,6 +38845,8 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #standby-failover > h1:before { content: '7.2.4 ' }
 
+.print-site-enumerate-headings #standby-switchover > h1:before { content: '7.2.5 ' }
+
 .print-site-enumerate-headings #section-7-3 > h1:before { content: '7.3 ' }
 .print-site-enumerate-headings #scaling > h1:before { content: '7.3.1 ' }
 
@@ -38596,7 +39081,7 @@ In addition to that:</p>
     
     
 
-      <script src="assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="js/print-site.js"></script>
       

@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.0">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -3460,8 +3460,30 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#copy-the-user-and-pgbouncer-passwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy the user and pgBouncer passwords
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
   
 </li>
       
@@ -3489,6 +3511,34 @@
     
   
     Failover
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="standby-switchover.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Swap roles between sites
   
 
     
@@ -6736,8 +6786,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#copy-the-user-and-pgbouncer-passwords" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy the user and pgBouncer passwords
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#next-steps" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Next steps
+      
+    </span>
+  </a>
   
 </li>
       
@@ -6822,12 +6894,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ol>
 <h3 id="configure-dr-site">Configure DR site<a class="headerlink" href="#configure-dr-site" title="Permanent link">¶</a></h3>
 <p>To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user <code>_crunchyrepl</code> will be used.</p>
-<p>In the simplest case you can copy the certificates from the Main cluster. You need to look out for two files:</p>
+<p>To ensure authentication, choose one of these options for the server certificate:</p>
 <ul>
-<li>main-cluster-cert</li>
-<li>main-replication-cert </li>
+<li><strong>One shared server certificate.</strong> Create one server certificate that contains the Service names of both sites, and use it on both clusters. Copy the Secrets with the certificates from the Main site to the DR namespace. Reissue the server certificate first, so that it contains the DR names, and apply it to the Main site too. This option needs the fewest certificates.</li>
+<li><strong>A server certificate for each site.</strong> Create a separate server certificate for the DR site, with the names of the DR site only, and sign it with the same CA that signed the certificates of the Main site. The Main site keeps its server certificate.</li>
 </ul>
-<p>Copy them to the namespace where DR cluster is going to be running and reference under <code>spec.secrets</code> (in the following example they were renamed, replacing “main” with “dr”):</p>
+<p>Follow these rules when you generate the certificates:</p>
+<ol>
+<li>Certificates for both Main and Standby clusters must be signed by the same CA. The replication user needs this to authenticate with the Main site, and the same CA lets each site trust the other after a <a href="standby-switchover.html">role swap</a>.</li>
+<li><code>customReplicationTLSSecret</code> must have a Common Name (CN) setting that matches <code>_crunchyrepl</code>, which is a default replication user.</li>
+<li>The server certificate of each site must contain the names of its own <code>&lt;cluster&gt;-primary</code> and <code>&lt;cluster&gt;-replicas</code> Services, each as <code>&lt;name&gt;</code>, <code>&lt;name&gt;.&lt;namespace&gt;</code>, <code>&lt;name&gt;.&lt;namespace&gt;.svc</code> and <code>&lt;name&gt;.&lt;namespace&gt;.svc.cluster.local</code>. A shared certificate contains the names of both sites. pgBouncer checks the <code>&lt;cluster&gt;-primary</code> name of its own cluster. If the certificate has only the names of the Main site, pgBouncer on the DR site can’t connect to PostgreSQL after a promotion, and its log shows <code>name 'dr-primary' not present in server certificate</code>.</li>
+</ol>
+<p>Create the Secrets in the namespace where the DR cluster is going to run, and reference them under <code>spec.secrets</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">secrets</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">customTLSSecret</span><span class="p">:</span>
@@ -6835,11 +6913,6 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="nt">customReplicationTLSSecret</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">dr-replication-cert</span>
 </code></pre></div>
-<p>If you are generating your own certificates, just remember the following rules:</p>
-<ol>
-<li>Certificates for both Main and Standby clusters must be signed by the same CA</li>
-<li><code>customReplicationTLSSecret</code> must have a Common Name (CN) setting that matches <code>_crunchyrepl</code>, which is a default replication user.</li>
-</ol>
 <p>You can find more about certificates in the <a href="TLS.html">TLS doc</a>.</p>
 <p>Apart from setting certificates correctly, you should also set standby configuration.</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
@@ -6866,12 +6939,16 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Connect to the DR cluster</li>
 </ol>
 <p>To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.</p>
+<h3 id="copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a class="headerlink" href="#copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
+<p>Copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow <a href="standby-failover.html#prepare-the-user-passwords">Prepare the user passwords</a>.</p>
+<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<p>Because the certificates of both sites are signed by the same CA, you can later <a href="standby-switchover.html">swap their roles</a>. The Main site then follows the DR site without a rebuild.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:38:22 UTC">March 24, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2026 10:56:42 UTC">November 18, 2026</span>
       
         <br>
         Created:
@@ -6938,7 +7015,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
     
 
-      <script src="assets/javascripts/bundle.c21346df.min.js"></script>
+      <script src="assets/javascripts/bundle.a5f9d56c.min.js"></script>
       
         <script src="js/print-site.js"></script>
       
