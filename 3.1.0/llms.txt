@@ -1,0 +1,201 @@
+# Percona Operator for PostgreSQL
+
+> Documentation
+
+Each page below is also available as markdown. For the documentation of all Percona products, see https://docs.percona.com/llms.txt.
+
+## Overview
+
+- [Home](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/index.md)
+- [Get help from Percona](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/get-help.md)
+
+## Understand the Operator
+
+- [Kubernetes Operator concepts](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator-concepts.md)
+- [Features and capabilities](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/features.md)
+- [How the Operator works](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator-how-it-works.md)
+- [Cluster architecture](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/architecture.md)
+- [Comparison with other solutions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/compare.md)
+- [Known limitations](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.md)
+
+## Quickstart guide
+
+- [Overview](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/quickstart.md)
+- [System requirements](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/System-Requirements.md)
+- [With kubectl](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/kubectl.md)
+- [With Helm](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/helm.md)
+- [2 Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.md)
+- [3 Insert data](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/data-insert.md)
+- [4 Make a backup](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backup-tutorial.md)
+- [5 Monitor the database with PMM](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/monitoring-tutorial.md)
+- [What's next](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/what-next.md)
+
+## Installation
+
+- [Install on Minikube](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/minikube.md)
+- [Install with OpenEverest](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/everest.md)
+- [Install on Google Kubernetes Engine (GKE)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/gke.md)
+- [Install on Amazon Elastic Kubernetes Service (AWS EKS)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/eks.md)
+- [Install on Microsoft Azure Kubernetes Service (AKS)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/aks.md)
+- [Install on OpenShift](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/openshift.md)
+- [Install on Rancher Kubernetes Engine (RKE2)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/rke2.md)
+- [Generic Kubernetes installation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/kubernetes.md)
+
+## Configuration
+
+- [Application and system users](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/users.md)
+- [About LDAP authentication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/LDAP.md)
+- [Configure LDAP authentication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ldap-setup.md)
+- [Exposing the cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/expose.md)
+- [Changing PostgreSQL options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/options.md)
+- [Anti-affinity and tolerations](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/constraints.md)
+- [Labels and annotations](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/annotations.md)
+- [About TDE](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption.md)
+- [Configure TDE with HashiCorp Vault](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption-setup.md)
+- [Disable encryption](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption-disable.md)
+- [About TLS/SSL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/TLS.md)
+- [Configure TLS/SSL with the Operator using cert-manager](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-cert-manager.md)
+- [Migrate from Operator-generated certificates to cert-manager](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-migrate-to-cert-manager.md)
+- [Migrate from cert-manager to custom TLS certificates](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-migrate-from-cert-manager.md)
+- [Generate certificates manually](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-manual.md)
+- [Trust additional CAs for PgBouncer client mTLS](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-pgbouncer-trusted-cas.md)
+- [Update TLS/SSL certificates](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-update.md)
+- [Check TLS communication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-verify-communication.md)
+- [TLS certificate management policy](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-cert-management-policy.md)
+- [Telemetry](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/telemetry.md)
+- [Configure concurrency for a cluster reconciliation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reconciliation-concurrency.md)
+- [About environment variables](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/env-vars.md)
+- [Operator environment variables](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/env-var-operator.md)
+- [Cluster component environment variables](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/env-var-cluster.md)
+
+## Management
+
+- [About backups](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups.md)
+- [Overview](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage.md)
+- [Amazon S3 storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-s3.md)
+- [Google Cloud Storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-gcs.md)
+- [Microsoft Azure Blob Storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-azure.md)
+- [Persistent Volume](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-pv.md)
+- [Scheduled backup](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-schedule.md)
+- [On-demand backup](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-ondemand.md)
+- [Restore options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-restore.md)
+- [To the same cluster (in-place restore)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-restore-inplace.md)
+- [To a new cluster (cluster clone)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-clone.md)
+- [About point-in-time recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pitr.md)
+- [In-place restore with point-in-time recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pitr-inplace.md)
+- [Cluster clone with point-in-time recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pitr-cluster-clone.md)
+- [About PVC snapshots](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pvc-snapshots.md)
+- [Configure PVC snapshots](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pvc-setup.md)
+- [Configure PVC snapshots on EKS](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pvc-setup-eks.md)
+- [Use PVC snapshots](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pvc-usage.md)
+- [Backup encryption](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backup-encryption.md)
+- [Speed up backups](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/async-archiving.md)
+- [Backup retention](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backup-retention.md)
+- [Delete the unneeded backup](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-delete.md)
+- [Disable backups](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-disable.md)
+- [Introduction](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/standby.md)
+- [Deploy standby cluster based on backups](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/standby-backup.md)
+- [Deploy standby cluster based on streaming replication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/standby-streaming.md)
+- [Failover](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/standby-failover.md)
+- [Swap roles between sites](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/standby-switchover.md)
+- [Overview](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/scaling.md)
+- [Horizontal scaling](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/scaling-horizontal.md)
+- [Vertical scaling](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/scaling-vertical.md)
+- [High-availability](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.md)
+- [Deploy logical replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.md)
+- [Huge pages](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/huge-pages.md)
+- [Add sidecar containers](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/sidecar.md)
+- [Add extra volumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/extra-volumes.md)
+- [Restart or pause the cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/pause.md)
+- [Orchestrate pgBouncer connections](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/pause-pgbouncer.md)
+- [Monitor the database with PMM](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/monitoring.md)
+- [Monitor Kubernetes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/monitor-kubernetes.md)
+- [Expose Prometheus metrics using postgres_exporter](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/postgres-exporter.md)
+- [Persistent logging](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/persistent-logging.md)
+- [Log rotation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/log-rotation.md)
+
+## Upgrade
+
+- [About upgrades](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update.md)
+- [Upgrade the Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-operator.md)
+- [About database upgrades](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-database.md)
+- [Minor version upgrade of Percona Distribution for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.md)
+- [Major version upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.md)
+- [Upgrade PostgreSQL extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-extensions.md)
+- [Upgrade on Percona Operator for PostgreSQL on OpenShift](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-openshift.md)
+- [About migration from Crunchy to Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy.md)
+- [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.md)
+- [Migrate using a standby cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-standby.md)
+- [Migrate using backup and restore](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-backup-restore.md)
+- [Migrate using data volumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-data-volumes.md)
+
+## How-to
+
+- [Install the database with customized parameters](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-install.md)
+- [Run Initialization SQL commands at cluster creation time](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/initsql.md)
+- [Change PostgreSQL primary instance](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/change-primary.md)
+- [How to use private registry](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-registry.md)
+- [Deploy a cluster with community PostgreSQL images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/install-community.md)
+- [Manage PostgreSQL extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.md)
+- [Provide Percona Operator for PostgreSQL single-namespace and multi-namespace deployment](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/cluster-wide.md)
+- [Use PostgreSQL tablespaces with Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tablespaces.md)
+- [Use PostGIS extension](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/postgis.md)
+- [Configure DNS suffix for service discovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/dns-suffix.md)
+- [Delete the Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/delete.md)
+- [Retrieve Percona certified images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/image-query.md)
+
+## Troubleshooting
+
+- [Troubleshoot Operator installation issues](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/troubleshoot-operator.md)
+- [Initial troubleshooting](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug.md)
+- [Check storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-storage.md)
+- [Exec into the container](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-shell.md)
+- [Check the logs](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-logs.md)
+- [Troubleshoot restore failures](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-restore.md)
+- [Manage a database manually](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.md)
+- [Reinitialize replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.md)
+
+## Reference
+
+- [Custom Resource options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.md)
+- [Backup resource options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backup-resource-options.md)
+- [Restore resource options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/restore-options.md)
+- [Custom resource statuses](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/cr-statuses.md)
+- [Secrets options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/secret-options.md)
+- [Upgrade resource options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/upgrade-options.md)
+- [Immutable options](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/immutable-options.md)
+- [Percona certified images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images.md)
+- [PostgreSQL Community images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images-community.md)
+- [Versions compatibility](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/versions.md)
+- [About documentation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/about-docs.md)
+- [Copyright and licensing information](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/copyright.md)
+- [Trademark policy](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/trademark-policy.md)
+- [Legal notice](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/legal-notice.md)
+
+## Release Notes
+
+- [Release notes index](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/index.md)
+- [Percona Operator for PostgreSQL 3.1.0 (2026-09-09)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.md)
+- [Percona Operator for PostgreSQL 3.0.0 (2026-05-22)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.0.0.md)
+- [Percona Operator for PostgreSQL 2.9.0 (2026-04-01)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.md)
+- [Percona Operator for PostgreSQL 2.8.2 (2025-12-25)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.2.md)
+- [Percona Operator for PostgreSQL 2.8.1 (2025-12-16)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.1.md)
+- [Percona Operator for PostgreSQL 2.8.0 (2025-11-13)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.8.0.md)
+- [Percona Operator for PostgreSQL 2.7.0 (2025-07-18)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.7.0.md)
+- [Percona Operator for PostgreSQL 2.6.0 (2025-03-17)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.6.0.md)
+- [Percona Operator for PostgreSQL 2.5.1 (2025-03-03)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.1.md)
+- [Percona Operator for PostgreSQL 2.5.0 (2024-10-08)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.5.0.md)
+- [Percona Operator for PostgreSQL 2.4.1 (2024-08-06)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.1.md)
+- [Percona Operator for PostgreSQL 2.4.0 (2024-06-24)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.4.0.md)
+- [Percona Operator for PostgreSQL 2.3.1 (2024-01-23)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.1.md)
+- [Percona Operator for PostgreSQL 2.3.0 (2023-12-21)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.3.0.md)
+- [Percona Operator for PostgreSQL 2.2.0 (2023-06-30)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.2.0.md)
+- [Percona Operator for PostgreSQL 2.1.0 Tech preview (2023-05-04)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.1.0.md)
+- [Percona Operator for PostgreSQL 2.0.0 Tech preview (2022-12-30)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.0.0.md)
+
+## Optional
+
+- [Upgrade using backup and restore](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-backup-restore.md)
+- [Upgrade using data volumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-data-volumes.md)
+- [Migrate using Standby](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-standby.md)
+

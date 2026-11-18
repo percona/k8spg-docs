@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7102,12 +7102,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="custom-resource-statuses">Custom resource statuses<a class="headerlink" href="#custom-resource-statuses" title="Permanent link">¶</a></h1>
+<h1 id="custom-resource-statuses">Custom resource statuses<a data-markdown-ignore class="headerlink" href="#custom-resource-statuses" title="Permanent link">¶</a></h1>
 <p>Status fields show the current state of a Custom Resource (CR). The Operator sets these fields in the <code>.status</code> section of a Custom Resource. You do not edit the status.</p>
 <p>Use status values to confirm progress, detect failures and decide when it is safe to run the next action. For example, start a backup after the cluster is ready for backups, or start a restore after a backup has succeeded.</p>
-<h2 id="how-to-view-custom-resource-statuses">How to view custom resource statuses<a class="headerlink" href="#how-to-view-custom-resource-statuses" title="Permanent link">¶</a></h2>
+<h2 id="how-to-view-custom-resource-statuses">How to view custom resource statuses<a data-markdown-ignore class="headerlink" href="#how-to-view-custom-resource-statuses" title="Permanent link">¶</a></h2>
 <p>To check the status of your Percona custom resources, use the <code>kubectl get &lt;resource-type&gt;</code> or <code>kubectl describe &lt;resource-type&gt;</code> commands. See how to use them to get the quick overview, in-depth details, and targeted queries.</p>
-<h3 id="get-a-quick-overview">Get a quick overview<a class="headerlink" href="#get-a-quick-overview" title="Permanent link">¶</a></h3>
+<h3 id="get-a-quick-overview">Get a quick overview<a data-markdown-ignore class="headerlink" href="#get-a-quick-overview" title="Permanent link">¶</a></h3>
 <p>List your resources and check their high-level STATUS:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 kubectl<span class="w"> </span>get<span class="w"> </span>pg-backup<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
@@ -7119,13 +7119,13 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pg-restore<span class=
 cluster1   cluster1-pgbouncer.default.svc      ready    3          3           30m
 </code></pre></div>
 </details>
-<h3 id="view-full-details">View full details<a class="headerlink" href="#view-full-details" title="Permanent link">¶</a></h3>
+<h3 id="view-full-details">View full details<a data-markdown-ignore class="headerlink" href="#view-full-details" title="Permanent link">¶</a></h3>
 <p>See all status details as well as conditions and events:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>-o<span class="w"> </span>yaml
 kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <p>Check for the <code>.status</code> field in the output to find the current state, readiness, messages, and conditions.</p>
-<h3 id="query-a-status-field-directly">Query a status field directly<a class="headerlink" href="#query-a-status-field-directly" title="Permanent link">¶</a></h3>
+<h3 id="query-a-status-field-directly">Query a status field directly<a data-markdown-ignore class="headerlink" href="#query-a-status-field-directly" title="Permanent link">¶</a></h3>
 <p>You can extract specific status fields using <code>jsonpath</code>.</p>
 <p><strong>Example 1. Check whether the cluster is ready for backups:</strong></p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
@@ -7170,7 +7170,7 @@ Enabled
 </code></pre></div>
 </details>
 <p>Also check <code>PGTDEVaultProviderReady</code> the same way when you need to confirm that the Vault key provider matches the Custom Resource.</p>
-<h2 id="perconapgcluster-status">PerconaPGCluster status<a class="headerlink" href="#perconapgcluster-status" title="Permanent link">¶</a></h2>
+<h2 id="perconapgcluster-status">PerconaPGCluster status<a data-markdown-ignore class="headerlink" href="#perconapgcluster-status" title="Permanent link">¶</a></h2>
 <p>The main cluster state is recorded in <code>status.state</code>. For component-level readiness, see <code>status.postgres</code> and <code>status.pgbouncer</code>. Backup repository details appear under <code>status.pgbackrest</code>, and Patroni details under <code>status.patroni</code>.</p>
 <p>Common fields:</p>
 <ul>
@@ -7187,7 +7187,7 @@ Enabled
 <li><code>status.observedGeneration</code> – the generation of the Custom Resource that the Operator last successfully wrote into status.</li>
 <li><code>status.installedCustomExtensions</code> – names of custom extensions installed from the Custom Resource</li>
 </ul>
-<h3 id="cluster-state-values">Cluster state values<a class="headerlink" href="#cluster-state-values" title="Permanent link">¶</a></h3>
+<h3 id="cluster-state-values">Cluster state values<a data-markdown-ignore class="headerlink" href="#cluster-state-values" title="Permanent link">¶</a></h3>
 <p><code>status.state</code> values are:</p>
 <table>
 <thead>
@@ -7216,7 +7216,7 @@ Enabled
 </tbody>
 </table>
 <p>Unlike some other Percona Operators, <code>PerconaPGCluster</code> does not use an <code>error</code> value for <code>status.state</code>. Investigate problems through conditions, events, and Pod or Job status.</p>
-<h3 id="conditions">Conditions<a class="headerlink" href="#conditions" title="Permanent link">¶</a></h3>
+<h3 id="conditions">Conditions<a data-markdown-ignore class="headerlink" href="#conditions" title="Permanent link">¶</a></h3>
 <p>Conditions show more detail about cluster state changes. You can see them in <code>status.conditions[]</code>.</p>
 <p>Common condition fields:</p>
 <ul>
@@ -7349,7 +7349,7 @@ Enabled
 <li><code>ManualBackupComplete</code>, <code>ManualBackupFailed</code></li>
 <li><code>Paused</code> (for <code>PGBouncerPaused</code>)</li>
 </ul>
-<h3 id="standby-status">Standby status<a class="headerlink" href="#standby-status" title="Permanent link">¶</a></h3>
+<h3 id="standby-status">Standby status<a data-markdown-ignore class="headerlink" href="#standby-status" title="Permanent link">¶</a></h3>
 <p>When you enable replication lag detection on a <a href="standby.html">standby cluster</a>, the Operator also populates <code>status.standby</code>:</p>
 <table>
 <thead>
@@ -7370,7 +7370,7 @@ Enabled
 </tbody>
 </table>
 <p>When lag exceeds your threshold, <code>status.state</code> becomes <code>initializing</code>, the standby primary Pod is marked unready, and the <code>StandbyLagging</code> condition is set to <code>True</code>.</p>
-<h3 id="logical-replica-status">Logical replica status<a class="headerlink" href="#logical-replica-status" title="Permanent link">¶</a></h3>
+<h3 id="logical-replica-status">Logical replica status<a data-markdown-ignore class="headerlink" href="#logical-replica-status" title="Permanent link">¶</a></h3>
 <p>When you define <a href="logical-replication.html">logical replicas</a>, the Operator populates <code>status.logicalReplicas[]</code>:</p>
 <table>
 <thead>
@@ -7442,7 +7442,7 @@ Enabled
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.logicalReplicas}'</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span>
 </code></pre></div>
-<h2 id="perconapgbackup-status">PerconaPGBackup status<a class="headerlink" href="#perconapgbackup-status" title="Permanent link">¶</a></h2>
+<h2 id="perconapgbackup-status">PerconaPGBackup status<a data-markdown-ignore class="headerlink" href="#perconapgbackup-status" title="Permanent link">¶</a></h2>
 <p>Backup progress and results are in <code>status.state</code>. You also get destination, type, and timing details that help you validate backups and point-in-time recovery ranges. Backups are managed with <code>pgBackRest</code> (or <code>VolumeSnapshots</code> when you choose that method).</p>
 <p>Common fields are:</p>
 <ul>
@@ -7462,7 +7462,7 @@ Enabled
 <li><code>status.state</code> – backup job state</li>
 <li><code>status.storageType</code> – storage backend (<code>s3</code>, <code>gcs</code>, <code>azure</code>, or <code>filesystem</code>)</li>
 </ul>
-<h3 id="backup-state-values">Backup state values<a class="headerlink" href="#backup-state-values" title="Permanent link">¶</a></h3>
+<h3 id="backup-state-values">Backup state values<a data-markdown-ignore class="headerlink" href="#backup-state-values" title="Permanent link">¶</a></h3>
 <p><code>status.state</code> values are:</p>
 <table>
 <thead>
@@ -7494,7 +7494,7 @@ Enabled
 </tr>
 </tbody>
 </table>
-<h3 id="backup-conditions">Backup conditions<a class="headerlink" href="#backup-conditions" title="Permanent link">¶</a></h3>
+<h3 id="backup-conditions">Backup conditions<a data-markdown-ignore class="headerlink" href="#backup-conditions" title="Permanent link">¶</a></h3>
 <p><code>PerconaPGBackup</code> may include conditions such as:</p>
 <table>
 <thead>
@@ -7510,7 +7510,7 @@ Enabled
 </tr>
 </tbody>
 </table>
-<h2 id="perconapgrestore-status">PerconaPGRestore status<a class="headerlink" href="#perconapgrestore-status" title="Permanent link">¶</a></h2>
+<h2 id="perconapgrestore-status">PerconaPGRestore status<a data-markdown-ignore class="headerlink" href="#perconapgrestore-status" title="Permanent link">¶</a></h2>
 <p>Restore progress and results are in <code>status.state</code>. Use these fields to confirm when a restore starts, finishes, or fails.</p>
 <p>Common fields:</p>
 <ul>
@@ -7519,7 +7519,7 @@ Enabled
 <li><code>status.completed</code> – completion timestamp</li>
 </ul>
 <p>For in-place restores driven through the cluster Custom Resource, also check the <code>PGBackRestoreProgressing</code> condition on the related <code>PerconaPGCluster</code>.</p>
-<h3 id="restore-state-values">Restore state values<a class="headerlink" href="#restore-state-values" title="Permanent link">¶</a></h3>
+<h3 id="restore-state-values">Restore state values<a data-markdown-ignore class="headerlink" href="#restore-state-values" title="Permanent link">¶</a></h3>
 <p><code>status.state</code> values are:</p>
 <table>
 <thead>
@@ -7551,7 +7551,7 @@ Enabled
 </tr>
 </tbody>
 </table>
-<h2 id="perconapgupgrade-status">PerconaPGUpgrade status<a class="headerlink" href="#perconapgupgrade-status" title="Permanent link">¶</a></h2>
+<h2 id="perconapgupgrade-status">PerconaPGUpgrade status<a data-markdown-ignore class="headerlink" href="#perconapgupgrade-status" title="Permanent link">¶</a></h2>
 <p>Major PostgreSQL upgrades use the <code>PerconaPGUpgrade</code> Custom Resource. Progress is reported through conditions rather than a single <code>status.state</code> field.</p>
 <p>Common fields:</p>
 <ul>

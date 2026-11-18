@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6912,11 +6912,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="deploy-a-standby-cluster-for-disaster-recovery">Deploy a standby cluster for Disaster Recovery<a class="headerlink" href="#deploy-a-standby-cluster-for-disaster-recovery" title="Permanent link">¶</a></h1>
+<h1 id="deploy-a-standby-cluster-for-disaster-recovery">Deploy a standby cluster for Disaster Recovery<a data-markdown-ignore class="headerlink" href="#deploy-a-standby-cluster-for-disaster-recovery" title="Permanent link">¶</a></h1>
 <p>A standby cluster is a special type of PostgreSQL cluster designed to maintain a continually updated, read-only copy of your primary PostgreSQL cluster. A standby cluster applies changes made on the primary cluster either through backups or streaming replication. This ensures you always have an up-to-date replica ready to take over if the primary becomes unavailable.</p>
 <p>In disaster recovery scenarios, standby clusters are invaluable. They let you minimize downtime and data loss by quickly promoting the standby to a writable primary when needed. This is especially important in multi-cloud or multi-regional environments, where your PostgreSQL workloads may span across various platforms and geographies.</p>
 <p>The Percona Operator for PostgreSQL makes it straightforward to deploy and manage standby clusters on Kubernetes. By automating complex tasks and integrating tightly with Kubernetes, the operator helps you protect critical data and achieve high availability, while simplifying your operational experience.</p>
-<h2 id="types-of-standby-clusters">Types of standby clusters<a class="headerlink" href="#types-of-standby-clusters" title="Permanent link">¶</a></h2>
+<h2 id="types-of-standby-clusters">Types of standby clusters<a data-markdown-ignore class="headerlink" href="#types-of-standby-clusters" title="Permanent link">¶</a></h2>
 <p>You can use the Percona Operator for PostgreSQL to set up several types of standby clusters, each suited to different recovery strategies:</p>
 <ol>
 <li>A repo-based standby that recovers WAL files from a <code>pgBackRest</code> repo stored in external storage. For this setup, you reference the <code>pgBackRest</code> repo name and the cloud-based backup configuration that matches the one from the primary site. Refer to the <a href="standby-backup.html">Standby cluster deployment based on pgBackRest</a> tutorial for the setup steps.</li>
@@ -6924,7 +6924,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Streaming standby with external repository is the combination of two previous types and is configured with the options from both types. In this setup, the standby cluster streams WAL records from the primary. If the streaming replication falls behind, the cluster recovers WAL from the backup repo.</li>
 </ol>
 <p>While a standby cluster is read-only, its pgBouncer can’t log in to PostgreSQL, so applications can’t connect through it. Connect to the database Service of the standby directly instead. In a repo-based standby, pgBouncer starts working after you promote the cluster.</p>
-<h2 id="recovery-point-objective">Recovery point objective<a class="headerlink" href="#recovery-point-objective" title="Permanent link">¶</a></h2>
+<h2 id="recovery-point-objective">Recovery point objective<a data-markdown-ignore class="headerlink" href="#recovery-point-objective" title="Permanent link">¶</a></h2>
 <p>How much data you lose when the Main site is gone depends on the standby type.</p>
 <p>A repo-based standby receives WAL only through the pgBackRest repository. PostgreSQL archives a WAL segment when it fills or after <code>archive_timeout</code>, whichever comes first. The Operator sets <code>archive_timeout</code> to 60 seconds by default. If you lose the Main site, you can lose the last 60 seconds of writes plus the time that archiving takes to reach the repository.</p>
 <p>A standby that also streams loses only what had not yet streamed, usually seconds.</p>
@@ -6937,10 +6937,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">          </span><span class="nt">archive_timeout</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
 </code></pre></div>
 <p>The change applies without restarting the database Pods. A lower value creates more WAL segments in the repository. It also makes the lag of a repo-based standby jump more often, as described in <a href="#choose-the-lag-threshold">Choose the lag threshold</a>.</p>
-<h2 id="detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster<a class="headerlink" href="#detect-replication-lag-for-standby-cluster" title="Permanent link">¶</a></h2>
+<h2 id="detect-replication-lag-for-standby-cluster">Detect replication lag for standby cluster<a data-markdown-ignore class="headerlink" href="#detect-replication-lag-for-standby-cluster" title="Permanent link">¶</a></h2>
 <p>If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. This may cause the standby to fall behind. This lag can result in replication issues and temporarily leave some data unavailable on the standby cluster.</p>
 <p>You can enable replication lag detection for any standby type by setting the <a href="operator.html#standbymaxacceptablelag"><code>standby.maxAcceptableLag</code></a> option in the Custom Resource. </p>
-<h3 id="how-replication-lag-is-detected-and-handled">How replication lag is detected and handled<a class="headerlink" href="#how-replication-lag-is-detected-and-handled" title="Permanent link">¶</a></h3>
+<h3 id="how-replication-lag-is-detected-and-handled">How replication lag is detected and handled<a data-markdown-ignore class="headerlink" href="#how-replication-lag-is-detected-and-handled" title="Permanent link">¶</a></h3>
 <p>The Operator checks the WAL source based on the standby type: from the primary site or from an external repository. </p>
 <p>For a standby cluster configured with both streaming and external repository, the Operator detects the replication lag as follows:</p>
 <ol>
@@ -6954,7 +6954,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The cluster goes into the <code>initializing</code> state</li>
 <li>The <code>StandbyLagging</code> condition is set in the cluster status. You can check the conditions with the <code>kubectl describe pg &lt;cluster-name&gt; -n &lt;namespace&gt;</code> command. See <a href="cr-statuses.html#conditions">Custom resource statuses</a> for the full list of conditions.</li>
 </ul>
-<h3 id="monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a class="headerlink" href="#monitor-lag-in-the-cluster-status" title="Permanent link">¶</a></h3>
+<h3 id="monitor-lag-in-the-cluster-status">Monitor lag in the cluster status<a data-markdown-ignore class="headerlink" href="#monitor-lag-in-the-cluster-status" title="Permanent link">¶</a></h3>
 <p>When lag detection is enabled, the cluster status includes a <code>standby</code> section that shows the current lag and when it was last computed. Use <code>kubectl get pg &lt;cluster-name&gt; -n &lt;namespace&gt; -o yaml</code> and look at <code>status.standby</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">status</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
@@ -6966,7 +6966,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><code>lagLastComputedAt</code> — the timestamp of the last lag check</li>
 </ul>
 <p>This helps you understand if replication is lagging or broken. By surfacing the standby lag condition, you get a clear signal when your standby is not ready to serve traffic, enabling faster troubleshooting and preventing application downtime during disaster recovery scenarios.</p>
-<h3 id="known-limitation-for-a-repo-based-standby-cluster">Known limitation for a repo-based standby cluster<a class="headerlink" href="#known-limitation-for-a-repo-based-standby-cluster" title="Permanent link">¶</a></h3>
+<h3 id="known-limitation-for-a-repo-based-standby-cluster">Known limitation for a repo-based standby cluster<a data-markdown-ignore class="headerlink" href="#known-limitation-for-a-repo-based-standby-cluster" title="Permanent link">¶</a></h3>
 <p>For WAL lag detection to work in this standby type, the Operator must find the Main site. It looks for a cluster that is not a standby and uses the same pgBackRest repository. Therefore, WAL lag detection is available in these setups:</p>
 <ul>
 <li>Primary and standby clusters are deployed in the same namespace</li>
@@ -6976,11 +6976,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.conditions[?(@.type=="StandbyLagging")]}'</span>
 </code></pre></div>
-<h3 id="choose-the-lag-threshold">Choose the lag threshold<a class="headerlink" href="#choose-the-lag-threshold" title="Permanent link">¶</a></h3>
+<h3 id="choose-the-lag-threshold">Choose the lag threshold<a data-markdown-ignore class="headerlink" href="#choose-the-lag-threshold" title="Permanent link">¶</a></h3>
 <p>The lag of a repo-based standby is the amount of WAL that the Main site wrote and the standby has not yet replayed. It includes the WAL that is not archived yet. The standby replays WAL only when it fetches a whole segment from the repository, so the lag grows until the next segment is archived.</p>
 <p>Every time the Main site switches to a new WAL segment, the lag can briefly jump by up to one segment (16 MiB) even when the write load is low. Set <code>standby.maxAcceptableLag</code> above 16 MiB plus the amount of WAL that the Main site writes during <code>archive_timeout</code>. For a light workload, <code>32Mi</code> to <code>64Mi</code> is a reasonable start. A value below 16 MiB marks the standby as unready on routine segment switches.</p>
 <p>The Operator checks the lag every 5 minutes, or every minute while the standby is lagging. A new <code>maxAcceptableLag</code> value applies at the next check.</p>
-<h3 id="disable-replication-lag-detection">Disable replication lag detection<a class="headerlink" href="#disable-replication-lag-detection" title="Permanent link">¶</a></h3>
+<h3 id="disable-replication-lag-detection">Disable replication lag detection<a data-markdown-ignore class="headerlink" href="#disable-replication-lag-detection" title="Permanent link">¶</a></h3>
 <p>To disable detecting the replication lag, remove the <code>standby.maxAcceptableLag</code> from the Custom Resource. The changes apply without restarting the database Pods.</p>
 <hr>
 <div class="md-source-file">

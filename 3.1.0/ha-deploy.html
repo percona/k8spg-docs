@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6910,30 +6910,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="high-availability">High availability<a class="headerlink" href="#high-availability" title="Permanent link">¶</a></h1>
+<h1 id="high-availability">High availability<a data-markdown-ignore class="headerlink" href="#high-availability" title="Permanent link">¶</a></h1>
 <p>High availability (HA) keeps your PostgreSQL database accessible when a Pod or node fails. With Percona Operator for PostgreSQL, HA comes from multiple PostgreSQL members in one cluster, <a href="https://patroni.readthedocs.io/">Patroni <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for automated failover, and PostgreSQL streaming replication for data consistency.</p>
 <p>Adding members can also increase read capacity. That is a <a href="scaling-horizontal.html">horizontal scaling</a> concern. This document focuses on keeping the cluster alive and consistent through failures.</p>
-<h2 id="understand-cluster-members">Understand cluster members<a class="headerlink" href="#understand-cluster-members" title="Permanent link">¶</a></h2>
+<h2 id="understand-cluster-members">Understand cluster members<a data-markdown-ignore class="headerlink" href="#understand-cluster-members" title="Permanent link">¶</a></h2>
 <p>A PostgreSQL cluster includes:</p>
 <ul>
 <li>A <strong>primary</strong> that handles all write operations and streams changes to standbys.</li>
 <li>One or more <strong>standbys</strong> (replicas) that continuously receive and replay changes from the primary. If the primary fails, Patroni can promote a standby to become the new primary.</li>
 </ul>
 <p>Standbys can also serve read-only traffic, depending on how you expose the cluster. See <a href="expose.html">Exposing cluster</a>. If you pool reads through pgBouncer, read about the <a href="expose.html#known-limitation-connections-are-not-re-routed-after-a-failover">limitation after a failover</a>.</p>
-<h2 id="choose-a-replication-mode">Choose a replication mode<a class="headerlink" href="#choose-a-replication-mode" title="Permanent link">¶</a></h2>
+<h2 id="choose-a-replication-mode">Choose a replication mode<a data-markdown-ignore class="headerlink" href="#choose-a-replication-mode" title="Permanent link">¶</a></h2>
 <p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
 <p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
 <p><strong>Synchronous replication</strong> is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See <a href="#configure-synchronous-replication">Configure synchronous replication</a>.</p>
-<h2 id="size-your-high-availability-cluster">Size your high availability cluster<a class="headerlink" href="#size-your-high-availability-cluster" title="Permanent link">¶</a></h2>
+<h2 id="size-your-high-availability-cluster">Size your high availability cluster<a data-markdown-ignore class="headerlink" href="#size-your-high-availability-cluster" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Minimum:</strong> 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.</li>
 <li><strong>Recommended:</strong> <strong>3 or more</strong> PostgreSQL members for production HA.</li>
 </ul>
 <p>For how to add or remove members, see <a href="scaling-horizontal.html">Scale horizontally</a>.</p>
-<h2 id="place-pods-for-resilience">Place Pods for resilience<a class="headerlink" href="#place-pods-for-resilience" title="Permanent link">¶</a></h2>
+<h2 id="place-pods-for-resilience">Place Pods for resilience<a data-markdown-ignore class="headerlink" href="#place-pods-for-resilience" title="Permanent link">¶</a></h2>
 <p>Extra members only help if they do not all fail together. Use <a href="constraints.html">anti-affinity, topology spread constraints, and tolerations</a> so PostgreSQL Pods land on different Kubernetes nodes or availability zones when your cluster topology allows it.</p>
 <p>The Operator and Kubernetes scheduler work together on placement; affinity rules are part of a production HA design, not an optional extra.</p>
-<h2 id="configure-synchronous-replication">Configure synchronous replication<a class="headerlink" href="#configure-synchronous-replication" title="Permanent link">¶</a></h2>
+<h2 id="configure-synchronous-replication">Configure synchronous replication<a data-markdown-ignore class="headerlink" href="#configure-synchronous-replication" title="Permanent link">¶</a></h2>
 <p>Synchronous replication confirms that a transaction has reached one or more synchronous standbys before the primary considers the commit complete. The trade-off is higher write latency and lower write throughput.</p>
 <p>Turn on synchronous replication with <code>patroni.dynamicConfiguration</code>:</p>
 <ul>
@@ -6953,10 +6953,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <p>After you apply the configuration, the requested number of standbys operate in synchronous mode.</p>
 <p>Find more options useful to tune how your database cluster should operate in synchronous mode <a href="https://patroni.readthedocs.io/en/latest/replication_modes.html#synchronous-mode">in the official Patroni documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h2 id="logical-replicas-and-failover">Logical replicas and failover<a class="headerlink" href="#logical-replicas-and-failover" title="Permanent link">¶</a></h2>
+<h2 id="logical-replicas-and-failover">Logical replicas and failover<a data-markdown-ignore class="headerlink" href="#logical-replicas-and-failover" title="Permanent link">¶</a></h2>
 <p><a href="logical-replication.html">Logical replicas</a> are not Patroni members and are not promoted during failover. Their replication slots live on the PostgreSQL instance that created them. After failover, the new primary often does not have those slots, and the logical replica status becomes <code>broken</code> with reason <code>SourceSlotMissing</code>.</p>
 <p>The Operator tells Patroni not to drop logical <code>pgoutput</code> slots on the current primary. That does not copy slots to other instances.</p>
-<h3 id="persist-replication-slots-across-failover">Persist replication slots across failover<a class="headerlink" href="#persist-replication-slots-across-failover" title="Permanent link">¶</a></h3>
+<h3 id="persist-replication-slots-across-failover">Persist replication slots across failover<a data-markdown-ignore class="headerlink" href="#persist-replication-slots-across-failover" title="Permanent link">¶</a></h3>
 <p>To keep logical replication slots available on the new primary after failover, enable Patroni permanent slots and define a slot for <strong>each</strong> database the logical replica replicates.</p>
 <ol>
 <li>Bootstrap the logical replica first and wait until it is healthy. If you configure replication slots before bootstrap finishes, creation can fail with an error that the slot already exists.</li>
@@ -7016,7 +7016,7 @@ pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp 
 <p>With <code>use_slots: true</code>, WAL can accumulate on the primary if a logical replica falls behind. Monitor disk usage and replica lag.</p>
 </div>
 <p>Permanent Patroni slots help the slot survive failover. They do <strong>not</strong> guarantee that logical replication keeps running. Subscriptions are created with <code>disable_on_error</code>, so an error during failover can disable the subscription, and the Operator does not re-enable it automatically.</p>
-<h3 id="if-the-subscription-is-disabled-after-failover">If the subscription is disabled after failover<a class="headerlink" href="#if-the-subscription-is-disabled-after-failover" title="Permanent link">¶</a></h3>
+<h3 id="if-the-subscription-is-disabled-after-failover">If the subscription is disabled after failover<a data-markdown-ignore class="headerlink" href="#if-the-subscription-is-disabled-after-failover" title="Permanent link">¶</a></h3>
 <p>Check the logical replica status:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-o<span class="w"> </span>yaml<span class="w"> </span><span class="p">|</span><span class="w"> </span>yq<span class="w"> </span><span class="s1">'.status.logicalReplicas'</span>
 </code></pre></div>

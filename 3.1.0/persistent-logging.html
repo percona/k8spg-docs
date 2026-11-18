@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6768,7 +6768,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="persistent-logging">Persistent logging<a class="headerlink" href="#persistent-logging" title="Permanent link">¶</a></h1>
+<h1 id="persistent-logging">Persistent logging<a data-markdown-ignore class="headerlink" href="#persistent-logging" title="Permanent link">¶</a></h1>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.html">3.1.0</a></p>
 </div>
@@ -6784,7 +6784,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <p>You can additionally configure Fluent Bit outputs such as S3 or an OpenTelemetry (OTel) envelope and have the logs forwarded there. Refer to the <a href="#customize-fluent-bit">Customize Fluent Bit</a> section for details.</p>
 <p>Log collection <strong>enabled by default only for new clusters</strong>. After you upgrade your deployment from earlier versions, you must <a href="#enable-log-collector">enable log collector</a> explicitly in the Custom Resource to use it. When enabled, the Operator also adds a <code>logrotate</code> sidecar that manages retention of the on-disk log files. See <a href="log-rotation.html">Log rotation</a> for details.</p>
-<h2 id="enable-log-collector">Enable log collector<a class="headerlink" href="#enable-log-collector" title="Permanent link">¶</a></h2>
+<h2 id="enable-log-collector">Enable log collector<a data-markdown-ignore class="headerlink" href="#enable-log-collector" title="Permanent link">¶</a></h2>
 <p>Enable persistent logging with the <code>logcollector.enabled</code> key in the <code>deploy/cr.yaml</code> Custom Resource manifest:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">logcollector</span><span class="p">:</span>
@@ -6794,7 +6794,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Apply the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
-<h2 id="customize-fluent-bit">Customize Fluent Bit<a class="headerlink" href="#customize-fluent-bit" title="Permanent link">¶</a></h2>
+<h2 id="customize-fluent-bit">Customize Fluent Bit<a data-markdown-ignore class="headerlink" href="#customize-fluent-bit" title="Permanent link">¶</a></h2>
 <p>You can further customize Fluent Bit to add filters, processors (for example OpenTelemetry envelope), or outputs such as S3. </p>
 <p>Add your configuration via the <code>logcollector.configuration</code> subsection. You must use the <a href="https://docs.fluentbit.io/manual/administration/configuring-fluent-bit/yaml/">Fluent Bit YAML configuration format <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. </p>
 <p>The following example adds a marker field and an S3 output for PostgreSQL logs:</p>

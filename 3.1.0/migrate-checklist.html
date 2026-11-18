@@ -139,7 +139,7 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6913,7 +6913,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="pre-migration-compatibility-checks">Pre-migration compatibility checks<a class="headerlink" href="#pre-migration-compatibility-checks" title="Permanent link">¶</a></h1>
+<h1 id="pre-migration-compatibility-checks">Pre-migration compatibility checks<a data-markdown-ignore class="headerlink" href="#pre-migration-compatibility-checks" title="Permanent link">¶</a></h1>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
 <p>Read this before you migrate.</p>
@@ -6921,7 +6921,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Complete these checks <strong>before</strong> you pick a migration method. Verify that source and target environments are compatible. Migration methods such as pgBackRest restore, standby replication or reusing the existing
 PostgreSQL data volume all reuse the source PGDATA files. For all these methods, CPU architecture and the PostgreSQL major version must match. If they don’t, migrate using <code>pg_dump</code> / <code>pg_restore</code> instead.</p>
 <p>Differences in the operating system, libraries like <code>glibc</code>, ICU, or PostgreSQL extensions do not always block reuse of <code>PGDATA</code>. But you must take extra steps before or after the migration.</p>
-<h2 id="decide-whether-you-can-reuse-the-data-files">Decide whether you can reuse the data files<a class="headerlink" href="#decide-whether-you-can-reuse-the-data-files" title="Permanent link">¶</a></h2>
+<h2 id="decide-whether-you-can-reuse-the-data-files">Decide whether you can reuse the data files<a data-markdown-ignore class="headerlink" href="#decide-whether-you-can-reuse-the-data-files" title="Permanent link">¶</a></h2>
 <p>Use this flow to interpret the checks. Then gather the facts in the sections that follow.</p>
 <pre class="mermaid"><code>flowchart TD
     A[Compare PostgreSQL major versions] --&gt;|Different| B[Do not use standby, backup/restore, or volume reuse]
@@ -6939,7 +6939,7 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
     K --&gt; L[Fix issues if any]
     L --&gt; M[Migrate]
     M --&gt; N[Validate PostgreSQL and check the logs]</code></pre>
-<h2 id="compare-postgresql-major-versions">Compare PostgreSQL major versions<a class="headerlink" href="#compare-postgresql-major-versions" title="Permanent link">¶</a></h2>
+<h2 id="compare-postgresql-major-versions">Compare PostgreSQL major versions<a data-markdown-ignore class="headerlink" href="#compare-postgresql-major-versions" title="Permanent link">¶</a></h2>
 <p>The PostgreSQL major version of the source and target database images must match.</p>
 <p>Check the source (Crunchy) PostgreSQL version:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;source-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
@@ -6961,7 +6961,7 @@ Target: postgres (PostgreSQL) 18.6 - Percona Server for PostgreSQL 18.6.1
 </code></pre></div>
 <p>A difference in the minor version is normally supported by PostgreSQL’s physical storage format, but the target minor version should be equal to or newer than the source.</p>
 <p>Do not reuse <code>PGDATA</code> or restore a physical backup directly into a different PostgreSQL major version.</p>
-<h2 id="compare-cpu-architecture">Compare CPU architecture<a class="headerlink" href="#compare-cpu-architecture" title="Permanent link">¶</a></h2>
+<h2 id="compare-cpu-architecture">Compare CPU architecture<a data-markdown-ignore class="headerlink" href="#compare-cpu-architecture" title="Permanent link">¶</a></h2>
 <p>Check the architecture of both the source and target PostgreSQL containers:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;source-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>uname<span class="w"> </span>-m
 kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;percona-postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>uname<span class="w"> </span>-m
@@ -6981,9 +6981,9 @@ ARM64  -&gt; ARM64     OK
 x86_64 -&gt; ARM64     Not OK
 </code></pre></div>
 <p>Use <code>pg_dump</code> / <code>pg_restore</code> when you migrate across incompatible architectures.</p>
-<h2 id="compare-os-glibc-and-icu">Compare OS, glibc, and ICU<a class="headerlink" href="#compare-os-glibc-and-icu" title="Permanent link">¶</a></h2>
+<h2 id="compare-os-glibc-and-icu">Compare OS, glibc, and ICU<a data-markdown-ignore class="headerlink" href="#compare-os-glibc-and-icu" title="Permanent link">¶</a></h2>
 <p>Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).</p>
-<h3 id="check-operating-system">Check operating system<a class="headerlink" href="#check-operating-system" title="Permanent link">¶</a></h3>
+<h3 id="check-operating-system">Check operating system<a data-markdown-ignore class="headerlink" href="#check-operating-system" title="Permanent link">¶</a></h3>
 <p>Check the operating system used by the PostgreSQL container:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>cat<span class="w"> </span>/etc/os-release
@@ -7029,7 +7029,7 @@ Target:
   glibc 2.34
 </code></pre></div>
 <p>A different <code>glibc</code> version does not by itself make the PostgreSQL data directory incompatible. <code>glibc</code> provides locale and collation rules that PostgreSQL uses. A change in these rules can make existing collation-dependent indexes inconsistent with the target operating system. See <a href="https://wiki.postgresql.org/wiki/Locale_data_changes">Locale data changes</a> in the PostgreSQL wiki.</p>
-<h3 id="check-icu-library-version">Check ICU library version<a class="headerlink" href="#check-icu-library-version" title="Permanent link">¶</a></h3>
+<h3 id="check-icu-library-version">Check ICU library version<a data-markdown-ignore class="headerlink" href="#check-icu-library-version" title="Permanent link">¶</a></h3>
 <p>PostgreSQL may also use ICU for collations. Check the locale provider in each database:</p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
@@ -7081,7 +7081,7 @@ template0 | c              | en_US.utf-8 |
 cluster1  | c              | en_US.utf-8 | 2.28
 </code></pre></div>
 </details>
-<h2 id="compare-extensions">Compare extensions<a class="headerlink" href="#compare-extensions" title="Permanent link">¶</a></h2>
+<h2 id="compare-extensions">Compare extensions<a data-markdown-ignore class="headerlink" href="#compare-extensions" title="Permanent link">¶</a></h2>
 <p>Record the extension list and versions on the source cluster before you migrate.</p>
 <p>Extensions are installed per database. Check every application database, not only <code>postgres</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
@@ -7103,7 +7103,7 @@ pgcrypto            | 1.3
 <p>Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image. </p>
 <p>You can also <a href="custom-extensions.html#add-custom-extensions">add custom extensions</a> if you need them. Evaluate the risk before you add any extension.</p>
 <p>Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in <code>PGDATA</code>. Do not assume an extension is available because it exists in <code>pg_extension</code>.</p>
-<h2 id="before-you-cut-over">Before you cut over<a class="headerlink" href="#before-you-cut-over" title="Permanent link">¶</a></h2>
+<h2 id="before-you-cut-over">Before you cut over<a data-markdown-ignore class="headerlink" href="#before-you-cut-over" title="Permanent link">¶</a></h2>
 <p>Perform at least <strong>three successful trial runs</strong> in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.</p>
 <p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.</p>
 <hr>

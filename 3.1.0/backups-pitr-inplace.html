@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6814,7 +6814,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">¶</a></h1>
+<h1 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a data-markdown-ignore class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">¶</a></h1>
 <p>Restore an existing cluster to a specific moment using a base backup and archived WAL. This operation uses the <code>PerconaPGRestore</code> custom resource.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -6822,11 +6822,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </div>
 <p>For how point-in-time recovery works and how to use the latest restorable time, see <a href="backups-pitr.html">Point-in-time recovery</a>. For a full restore to the same cluster (without a target time), see <a href="backups-restore-inplace.html">Restore to an existing PostgreSQL cluster</a>.</p>
 <p>If you restore from a PVC snapshot and then replay WAL, follow <a href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery from a PVC snapshot</a> instead.</p>
-<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
+<h2 id="prepare-your-environment">Prepare your environment<a data-markdown-ignore class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
 <p>Export the namespace where your cluster is running as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
 </code></pre></div>
-<h2 id="restore-to-a-point-in-time">Restore to a point in time<a class="headerlink" href="#restore-to-a-point-in-time" title="Permanent link">¶</a></h2>
+<h2 id="restore-to-a-point-in-time">Restore to a point in time<a data-markdown-ignore class="headerlink" href="#restore-to-a-point-in-time" title="Permanent link">¶</a></h2>
 <p>To make a point-in-time restore, you need the following:</p>
 <ul>
 <li>A backup that finished before your target time. You cannot restore to the time where there was no backup</li>
@@ -6878,7 +6878,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore<a class="headerlink" href="#specify-a-base-backup-for-point-in-time-restore" title="Permanent link">¶</a></h2>
+<h2 id="specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore<a data-markdown-ignore class="headerlink" href="#specify-a-base-backup-for-point-in-time-restore" title="Permanent link">¶</a></h2>
 <p>By default, the Operator uses the latest successful full backup as the base. You can select another base backup by its ID and pass it with the <code>--set</code> option in the restore configuration file.</p>
 <p>To get the backup ID, do the following:</p>
 <ol>
@@ -6937,7 +6937,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="related-topics">Related topics<a class="headerlink" href="#related-topics" title="Permanent link">¶</a></h2>
+<h2 id="related-topics">Related topics<a data-markdown-ignore class="headerlink" href="#related-topics" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="backups-pitr.html">Point-in-time recovery</a></li>
 <li><a href="backups-pitr-cluster-clone.html">Cluster clone with point-in-time recovery</a></li>

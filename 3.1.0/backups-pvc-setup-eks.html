@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6982,10 +6982,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="configure-pvc-snapshots-on-amazon-eks">Configure PVC snapshots on Amazon EKS<a class="headerlink" href="#configure-pvc-snapshots-on-amazon-eks" title="Permanent link">¶</a></h1>
+<h1 id="configure-pvc-snapshots-on-amazon-eks">Configure PVC snapshots on Amazon EKS<a data-markdown-ignore class="headerlink" href="#configure-pvc-snapshots-on-amazon-eks" title="Permanent link">¶</a></h1>
 <p>This tutorial walks you through setting up PVC snapshots for Percona Operator for PostgreSQL on Amazon Elastic Kubernetes Service (EKS). EKS has specific requirements that differ from other Kubernetes providers such as GKE.</p>
 <p>For a high-level explanation of PVC snapshots, see the <a href="backups-pvc-snapshots.html#overview">PVC snapshot support</a> chapter. </p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>To proceed with the setup, ensure you have:</p>
 <ul>
 <li>An EKS cluster (or plan to create one)</li>
@@ -6993,7 +6993,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The AWS CLI installed and configured</li>
 </ul>
 <p>EKS requires specific addons, a <code>gp3</code> storage class, and a matching VolumeSnapshotClass before you can use PVC snapshots.</p>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <ol>
 <li>Check the <a href="#prerequisites">prerequisites</a> and <a href="backups-pvc-snapshots.html#limitations">limitations</a></li>
 <li>
@@ -7007,10 +7007,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
-<h3 id="enable-required-eks-addons">Enable required EKS addons<a class="headerlink" href="#enable-required-eks-addons" title="Permanent link">¶</a></h3>
+<h2 id="configuration">Configuration<a data-markdown-ignore class="headerlink" href="#configuration" title="Permanent link">¶</a></h2>
+<h3 id="enable-required-eks-addons">Enable required EKS addons<a data-markdown-ignore class="headerlink" href="#enable-required-eks-addons" title="Permanent link">¶</a></h3>
 <p>EKS requires two addons for volume snapshots: the Amazon EBS CSI driver and the snapshot controller. You can enable them when you create the cluster or add them to an existing cluster.</p>
-<h4 id="option-a-add-addons-when-creating-the-cluster">Option A: Add addons when creating the cluster<a class="headerlink" href="#option-a-add-addons-when-creating-the-cluster" title="Permanent link">¶</a></h4>
+<h4 id="option-a-add-addons-when-creating-the-cluster">Option A: Add addons when creating the cluster<a data-markdown-ignore class="headerlink" href="#option-a-add-addons-when-creating-the-cluster" title="Permanent link">¶</a></h4>
 <p>If you deploy the cluster with <code>eksctl</code> or a similar tool, include these addons in your cluster configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">addons</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">aws-ebs-csi-driver</span>
@@ -7023,7 +7023,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="nt">minSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 <span class="w">    </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span>
 </code></pre></div>
-<h4 id="option-b-add-addons-to-an-existing-cluster">Option B: Add addons to an existing cluster<a class="headerlink" href="#option-b-add-addons-to-an-existing-cluster" title="Permanent link">¶</a></h4>
+<h4 id="option-b-add-addons-to-an-existing-cluster">Option B: Add addons to an existing cluster<a data-markdown-ignore class="headerlink" href="#option-b-add-addons-to-an-existing-cluster" title="Permanent link">¶</a></h4>
 <p>If your cluster already exists, enable the addons with the AWS CLI:</p>
 <div class="highlight"><pre><span></span><code>aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--cluster-name<span class="w"> </span>&lt;CLUSTER_NAME&gt;<span class="w"> </span><span class="se">\</span>
@@ -7035,7 +7035,7 @@ aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w
 <span class="w">  </span>--addon-name<span class="w"> </span>snapshot-controller
 </code></pre></div>
 <p>Replace <code>&lt;CLUSTER_NAME&gt;</code> with the name of your EKS cluster.</p>
-<h3 id="create-a-gp3-storage-class">Create a gp3 storage class<a class="headerlink" href="#create-a-gp3-storage-class" title="Permanent link">¶</a></h3>
+<h3 id="create-a-gp3-storage-class">Create a gp3 storage class<a data-markdown-ignore class="headerlink" href="#create-a-gp3-storage-class" title="Permanent link">¶</a></h3>
 <p>The default <code>gp2</code> storage class on EKS doesn’t support volume snapshots. You must use <code>gp3</code> instead.</p>
 <ol>
 <li>
@@ -7057,7 +7057,7 @@ aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w
 </code></pre></div>
 </li>
 </ol>
-<h3 id="create-a-volumesnapshotclass">Create a VolumeSnapshotClass<a class="headerlink" href="#create-a-volumesnapshotclass" title="Permanent link">¶</a></h3>
+<h3 id="create-a-volumesnapshotclass">Create a VolumeSnapshotClass<a data-markdown-ignore class="headerlink" href="#create-a-volumesnapshotclass" title="Permanent link">¶</a></h3>
 <ol>
 <li>
 <p>Create a VolumeSnapshotClass configuration file:</p>
@@ -7080,7 +7080,7 @@ aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w
 </details>
 </li>
 </ol>
-<h3 id="enable-the-feature-gate">Enable the feature gate<a class="headerlink" href="#enable-the-feature-gate" title="Permanent link">¶</a></h3>
+<h3 id="enable-the-feature-gate">Enable the feature gate<a data-markdown-ignore class="headerlink" href="#enable-the-feature-gate" title="Permanent link">¶</a></h3>
 <p>If you have the Operator Deployment up and running, you can edit the <code>deploy/operator.yaml</code> manifest. If you deploy the Operator from scratch, edit the <code>deploy/bundle.yaml</code> manifest.</p>
 <ol>
 <li>
@@ -7102,7 +7102,7 @@ aws<span class="w"> </span>eks<span class="w"> </span>create-addon<span class="w
 </code></pre></div>
 </li>
 </ol>
-<h4 id="configure-pvc-snapshots-in-your-cluster">Configure PVC snapshots in your cluster<a class="headerlink" href="#configure-pvc-snapshots-in-your-cluster" title="Permanent link">¶</a></h4>
+<h4 id="configure-pvc-snapshots-in-your-cluster">Configure PVC snapshots in your cluster<a data-markdown-ignore class="headerlink" href="#configure-pvc-snapshots-in-your-cluster" title="Permanent link">¶</a></h4>
 <p>You must reference the <code>VolumeSnapshotClass</code> in your cluster Custom Resource.</p>
 <ol>
 <li>

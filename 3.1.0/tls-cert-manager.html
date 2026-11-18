@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6944,7 +6944,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a class="headerlink" href="#configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">¶</a></h1>
+<h1 id="configure-tls-security-with-the-operator-using-cert-manager">Configure TLS security with the Operator using cert-manager<a data-markdown-ignore class="headerlink" href="#configure-tls-security-with-the-operator-using-cert-manager" title="Permanent link">¶</a></h1>
 <p>Percona Operator for PostgreSQL integrates with <a href="https://cert-manager.io/">cert-manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for TLS certificate management.</p>
 <p>When the Operator creates a database cluster, it checks whether cert-manager is installed and whether you have provided custom TLS secrets. If cert-manager is available and you have not set custom secrets, the Operator requests certificates from cert-manager, stores them in Kubernetes Secrets, and uses those Secrets for TLS. cert-manager then manages issuance, renewal, and rotation. You do not need to restart the cluster when certificates are renewed.</p>
 <p>You can use cert-manager in these ways:</p>
@@ -6957,7 +6957,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ul>
 <p>If cert-manager is not installed or not ready, the Operator falls back to its built-in certificate generation.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>To use cert-manager with the Operator, ensure the following:</p>
 <ol>
 <li>You have deployed the Operator. Check if it runs with <code>kubectl get deploy -n &lt;namespace&gt;</code> command.</li>
@@ -6971,10 +6971,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>If you provide any of these, the Operator uses your custom certificates and does not create cert-manager resources.</p>
 </li>
 </ol>
-<h2 id="install-cert-manager">Install cert-manager<a class="headerlink" href="#install-cert-manager" title="Permanent link">¶</a></h2>
+<h2 id="install-cert-manager">Install cert-manager<a data-markdown-ignore class="headerlink" href="#install-cert-manager" title="Permanent link">¶</a></h2>
 <p>Install cert-manager before deploying the Operator and cluster. You can use either kubectl or Helm.</p>
 <p>By default the cert-manager is installed in the <code>cert-manager</code> namespace. </p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">with kubectl</label><label for="__tabbed_1_2">with Helm</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">with kubectl</label><label for="__tabbed_1_2">with Helm</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>https://github.com/cert-manager/cert-manager/releases/download/v1.21.1/cert-manager.yaml<span class="w"> </span>
@@ -7080,7 +7080,7 @@ cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 </details>
 <p>At this point you are ready to <a href="kubernetes.html">install the Operator and deploy a Percona Distribution for PostgreSQL cluster</a>.</p>
 <p>See the sections below for how you can fine-tune the Operator and cert-manager when managing TLS for your cluster:</p>
-<h2 id="configure-the-certificate-validity">Configure the certificate validity<a class="headerlink" href="#configure-the-certificate-validity" title="Permanent link">¶</a></h2>
+<h2 id="configure-the-certificate-validity">Configure the certificate validity<a data-markdown-ignore class="headerlink" href="#configure-the-certificate-validity" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Add the <code>tls</code> section to your Custom Resource to set certificate validity durations. These options apply only when cert-manager is used.</p>
@@ -7099,7 +7099,7 @@ cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 </li>
 </ol>
 <p>Once you create the database with the Operator, it will automatically trigger the cert-manager to create certificates. Whenever you check certificates for expiration, you will find that they are valid and short-term.</p>
-<h2 id="operator-managed-namespace-scoped-issuers-default">Operator-managed namespace-scoped issuers (default)<a class="headerlink" href="#operator-managed-namespace-scoped-issuers-default" title="Permanent link">¶</a></h2>
+<h2 id="operator-managed-namespace-scoped-issuers-default">Operator-managed namespace-scoped issuers (default)<a data-markdown-ignore class="headerlink" href="#operator-managed-namespace-scoped-issuers-default" title="Permanent link">¶</a></h2>
 <p>Once you create the database with the Operator and cert-manager is running, the Operator automatically creates:</p>
 <ul>
 <li>a self-signed CA <code>Issuer</code> (<code>&lt;cluster-name&gt;-ca-issuer</code>) and CA <code>Certificate</code> (<code>&lt;cluster-name&gt;-cluster-ca-cert</code>) in the database namespace,</li>
@@ -7107,7 +7107,7 @@ cert-manager-webhook-6c8678dc46-whmxp     1/1     Running   0          22s
 <li>leaf TLS <code>Certificate</code> resources for the cluster, instances, replication client, PgBouncer, and pgBackRest.</li>
 </ul>
 <p>cert-manager issues short-lived certificates and renews them on schedule. You can optionally set <a href="operator.html#tlsissuerconfname"><code>tls.issuerConf.name</code></a> with <code>kind: Issuer</code> to customize the name of the signing <code>Issuer</code> the Operator manages.</p>
-<h2 id="operator-managed-issuers-with-clusterissuer-scope">Operator-managed issuers with ClusterIssuer scope<a class="headerlink" href="#operator-managed-issuers-with-clusterissuer-scope" title="Permanent link">¶</a></h2>
+<h2 id="operator-managed-issuers-with-clusterissuer-scope">Operator-managed issuers with ClusterIssuer scope<a data-markdown-ignore class="headerlink" href="#operator-managed-issuers-with-clusterissuer-scope" title="Permanent link">¶</a></h2>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.html">3.1.0</a></p>
 </div>
@@ -7149,7 +7149,7 @@ kubectl<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<
 </li>
 </ol>
 <p>If you installed cert-manager in a custom namespace, set the <a href="env-var-operator.html#certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code></a> environment variable on the Operator Deployment.</p>
-<h2 id="use-an-existing-clusterissuer">Use an existing ClusterIssuer<a class="headerlink" href="#use-an-existing-clusterissuer" title="Permanent link">¶</a></h2>
+<h2 id="use-an-existing-clusterissuer">Use an existing ClusterIssuer<a data-markdown-ignore class="headerlink" href="#use-an-existing-clusterissuer" title="Permanent link">¶</a></h2>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.html">3.1.0</a></p>
 </div>
@@ -7165,7 +7165,7 @@ kubectl<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<
 <p>Replace <code>my-org-issuer</code> with the name of your existing <code>ClusterIssuer</code>.</p>
 <p>When you deploy the cluster, the Operator creates <code>Certificate</code> resources that reference your <code>ClusterIssuer</code> and cert-manager signs the resulting Secrets. The Operator does not create a parallel CA or overwrite your issuer.</p>
 <p>Because the Operator does not manage the root CA in this mode, it reads the CA certificate from the issued leaf Secrets (the <code>ca.crt</code> key) when it needs CA material for components such as pgBackRest.</p>
-<h2 id="use-a-custom-issuer-kind">Use a custom issuer kind<a class="headerlink" href="#use-a-custom-issuer-kind" title="Permanent link">¶</a></h2>
+<h2 id="use-a-custom-issuer-kind">Use a custom issuer kind<a data-markdown-ignore class="headerlink" href="#use-a-custom-issuer-kind" title="Permanent link">¶</a></h2>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.html">3.1.0</a></p>
 </div>
@@ -7178,9 +7178,9 @@ kubectl<span class="w"> </span>create<span class="w"> </span>clusterrolebinding<
 <span class="w">      </span><span class="nt">group</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">vault.example.com</span>
 </code></pre></div>
 <p>The Operator treats this as an external issuer: it creates only the leaf <code>Certificate</code> resources and does not manage a CA chain.</p>
-<h2 id="verify-cert-manager-resources">Verify cert-manager resources<a class="headerlink" href="#verify-cert-manager-resources" title="Permanent link">¶</a></h2>
+<h2 id="verify-cert-manager-resources">Verify cert-manager resources<a data-markdown-ignore class="headerlink" href="#verify-cert-manager-resources" title="Permanent link">¶</a></h2>
 <p>After the cluster is created, you can inspect the cert-manager resources:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">Namespace-scoped Issuer (default)</label><label for="__tabbed_2_2">ClusterIssuer</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_2_1">Namespace-scoped Issuer (default)</label><label for="__tabbed_2_2">ClusterIssuer</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="c1"># List Issuers</span>
@@ -7209,10 +7209,10 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificate<span class
 </div>
 </div>
 </div>
-<h2 id="operator-environment-variable">Operator environment variable<a class="headerlink" href="#operator-environment-variable" title="Permanent link">¶</a></h2>
+<h2 id="operator-environment-variable">Operator environment variable<a data-markdown-ignore class="headerlink" href="#operator-environment-variable" title="Permanent link">¶</a></h2>
 <p>When the Operator manages a CA chain with <code>tls.issuerConf.kind: ClusterIssuer</code>, it stores the CA <code>Certificate</code> in the cert-manager namespace. By default this namespace is <code>cert-manager</code>. If you installed cert-manager elsewhere, set the <a href="env-var-operator.html#certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code></a> environment variable on the Operator Deployment.</p>
 <p>For more details on all cert-manager-related Custom Resource options, see the <a href="operator.html#tlsissuerconfname"><code>tls.issuerConf</code> options</a> in the Operator spec reference.</p>
-<h2 id="related">Related<a class="headerlink" href="#related" title="Permanent link">¶</a></h2>
+<h2 id="related">Related<a data-markdown-ignore class="headerlink" href="#related" title="Permanent link">¶</a></h2>
 <p>If you want to stop using cert-manager for an existing cluster and use your own TLS Secrets instead, see <a href="tls-migrate-from-cert-manager.html">Migrate from cert-manager to custom TLS certificates</a>.</p>
 <hr>
 <div class="md-source-file">

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6912,7 +6912,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="tls-certificate-management-policy">TLS certificate management policy<a class="headerlink" href="#tls-certificate-management-policy" title="Permanent link">¶</a></h1>
+<h1 id="tls-certificate-management-policy">TLS certificate management policy<a data-markdown-ignore class="headerlink" href="#tls-certificate-management-policy" title="Permanent link">¶</a></h1>
 <div class="admonition note">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN3.1.0.html">3.1.0</a></p>
 </div>
@@ -6936,7 +6936,7 @@ AWS Secrets Manager or via <a href="https://external-secrets.io/">External Secre
 <p><strong>When to use:</strong> You run cert-manager for other workloads, but this cluster must stay on Operator-generated certificates.</p>
 </li>
 </ul>
-<h2 id="what-happens-when-tls-secrets-are-missing">What happens when TLS Secrets are missing<a class="headerlink" href="#what-happens-when-tls-secrets-are-missing" title="Permanent link">¶</a></h2>
+<h2 id="what-happens-when-tls-secrets-are-missing">What happens when TLS Secrets are missing<a data-markdown-ignore class="headerlink" href="#what-happens-when-tls-secrets-are-missing" title="Permanent link">¶</a></h2>
 <p>The following table explains how the Operator responds under each policy when it cannot access TLS Secrets.</p>
 <table>
 <thead>
@@ -6974,7 +6974,7 @@ AWS Secrets Manager or via <a href="https://external-secrets.io/">External Secre
 </tr>
 </tbody>
 </table>
-<h2 id="configure-the-userprovidedonly-policy">Configure the userProvidedOnly policy<a class="headerlink" href="#configure-the-userprovidedonly-policy" title="Permanent link">¶</a></h2>
+<h2 id="configure-the-userprovidedonly-policy">Configure the userProvidedOnly policy<a data-markdown-ignore class="headerlink" href="#configure-the-userprovidedonly-policy" title="Permanent link">¶</a></h2>
 <p>This example sets <code>userProvidedOnly</code> when you create the cluster. Use it when you already manage TLS Secrets yourself and you do not want the Operator to create replacements if those Secrets go missing.</p>
 <div class="admonition important">
 <p class="admonition-title">Important</p>
@@ -7012,15 +7012,15 @@ AWS Secrets Manager or via <a href="https://external-secrets.io/">External Secre
 </li>
 </ol>
 <p>For Helm installations, set the equivalent value in your Helm values file for <code>tls.certManagementPolicy</code>.</p>
-<h2 id="monitor-the-cluster-state">Monitor the cluster state<a class="headerlink" href="#monitor-the-cluster-state" title="Permanent link">¶</a></h2>
+<h2 id="monitor-the-cluster-state">Monitor the cluster state<a data-markdown-ignore class="headerlink" href="#monitor-the-cluster-state" title="Permanent link">¶</a></h2>
 <p>Check the cluster state for the following conditions: <code>TLSSecretsReady</code> and <code>Progressing</code>.</p>
 <p>Run the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .status.conditions[?(@.type=="TLSSecretsReady" || @.type=="Progressing")]}{.type}{"\t"}{.status}{"\t"}{.reason}{"\t"}{.message}{"\n"}{end}'</span>
 </code></pre></div>
 <p>What you should see depends on the policy. See <a href="cr-statuses.html#conditions">Custom resource statuses</a> for the full list of conditions.</p>
-<h3 id="auto">auto<a class="headerlink" href="#auto" title="Permanent link">¶</a></h3>
+<h3 id="auto">auto<a data-markdown-ignore class="headerlink" href="#auto" title="Permanent link">¶</a></h3>
 <p><code>TLSSecretsReady</code> is <code>True</code> when the required Secrets exist. If a Secret is missing, the Operator or cert-manager creates a replacement. </p>
-<h3 id="userprovidedonly">userProvidedOnly<a class="headerlink" href="#userprovidedonly" title="Permanent link">¶</a></h3>
+<h3 id="userprovidedonly">userProvidedOnly<a data-markdown-ignore class="headerlink" href="#userprovidedonly" title="Permanent link">¶</a></h3>
 <p>If a required TLS Secret is missing, the Operator does not create a replacement. It sets these conditions on the <code>PerconaPGCluster</code>:</p>
 <ul>
 <li><code>TLSSecretsReady=False</code> with reason <code>TLSSecretsMissing</code>. The message lists the missing Secret names.</li>
@@ -7034,9 +7034,9 @@ Missing user-provided TLS secrets: cluster1-cluster-cert, cluster1-replication-c
 </code></pre></div>
 </details>
 <p>Treat <code>TLSSecretsReady=False</code> as a blocked state. Existing Pods may keep running with certificates already mounted, but you should restore the Secrets promptly. See <a href="#restore-tls-secrets">Restore TLS Secrets</a>.</p>
-<h3 id="operatorprovidedonly">operatorProvidedOnly<a class="headerlink" href="#operatorprovidedonly" title="Permanent link">¶</a></h3>
+<h3 id="operatorprovidedonly">operatorProvidedOnly<a data-markdown-ignore class="headerlink" href="#operatorprovidedonly" title="Permanent link">¶</a></h3>
 <p><code>TLSSecretsReady</code> is <code>True</code> with reason <code>TLSSecretsFound</code> and the message <code>certManagementPolicy is operatorProvidedOnly</code>. If a Secret is missing, the Operator recreates it with internal PKI, so this condition does not stay <code>False</code>.</p>
-<h2 id="restore-tls-secrets">Restore TLS Secrets<a class="headerlink" href="#restore-tls-secrets" title="Permanent link">¶</a></h2>
+<h2 id="restore-tls-secrets">Restore TLS Secrets<a data-markdown-ignore class="headerlink" href="#restore-tls-secrets" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Find the missing Secret names in the <code>TLSSecretsReady</code> message, or check the expected names. If you referenced custom Secrets, use <code>spec.secrets.customTLSSecret</code> and <code>spec.secrets.customReplicationTLSSecret</code> instead.</p>
@@ -7062,7 +7062,7 @@ Missing user-provided TLS secrets: cluster1-cluster-cert, cluster1-replication-c
 <p>Confirm <code>TLSSecretsReady</code> is <code>True</code>. Restoring Secrets does not force a restart. Pods keep the certificates already loaded until you <a href="tls-update.html">update certificates</a>.</p>
 </li>
 </ol>
-<h2 id="rotate-certificates-with-userprovidedonly">Rotate certificates with userProvidedOnly<a class="headerlink" href="#rotate-certificates-with-userprovidedonly" title="Permanent link">¶</a></h2>
+<h2 id="rotate-certificates-with-userprovidedonly">Rotate certificates with userProvidedOnly<a data-markdown-ignore class="headerlink" href="#rotate-certificates-with-userprovidedonly" title="Permanent link">¶</a></h2>
 <p>Certificate rotation remains your responsibility.  Follow the steps in <a href="tls-update.html">Update certificates</a> for your certificate source.</p>
 <p>The Operator picks up new Secret content and reconciles Pods according to its normal TLS update flow.</p>
 <hr>

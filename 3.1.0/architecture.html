@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6956,9 +6956,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
+<h1 id="architecture">Architecture<a data-markdown-ignore class="headerlink" href="#architecture" title="Permanent link">¶</a></h1>
 <p>This document provides a high-level overview of Percona Operator for PostgreSQL architecture, explaining how the various components connect to create a production-ready PostgreSQL cluster on Kubernetes. See also <a href="operator-how-it-works.html">How the Operator works</a>.</p>
-<h2 id="components">Components<a class="headerlink" href="#components" title="Permanent link">¶</a></h2>
+<h2 id="components">Components<a data-markdown-ignore class="headerlink" href="#components" title="Permanent link">¶</a></h2>
 <p>The Operator components are the following:</p>
 <ul>
 <li>
@@ -6981,7 +6981,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ul>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/images/pgo.svg" data-desc-position="bottom"><img alt="Operator overview" src="assets/images/pgo.svg"></a></p>
-<h3 id="how-components-work-together">How components work together<a class="headerlink" href="#how-components-work-together" title="Permanent link">¶</a></h3>
+<h3 id="how-components-work-together">How components work together<a data-markdown-ignore class="headerlink" href="#how-components-work-together" title="Permanent link">¶</a></h3>
 <p>This workflow shows how cluster components work together:</p>
 <ol>
 <li>Your <strong>application</strong> connects through a Kubernetes <strong>Service</strong> that routes the traffic to pgBouncer.</li>
@@ -6993,7 +6993,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>PMM Client collects performance metrics and sends them to the PMM Server for you to see and analyze. See <a href="monitoring.html">Monitor the database with PMM</a> to learn more.</li>
 <li>When <a href="persistent-logging.html">persistent logging</a> is enabled, the <code>logs</code> sidecar reads PostgreSQL and pgBackRest client logs from the instance data volume and ships them. The paired <code>logrotate</code> sidecar keeps on-disk log growth under control. See <a href="log-rotation.html">Log rotation</a>.</li>
 </ol>
-<h2 id="default-cluster-configuration">Default cluster configuration<a class="headerlink" href="#default-cluster-configuration" title="Permanent link">¶</a></h2>
+<h2 id="default-cluster-configuration">Default cluster configuration<a data-markdown-ignore class="headerlink" href="#default-cluster-configuration" title="Permanent link">¶</a></h2>
 <p>The default Percona Distribution for PostgreSQL configuration includes:</p>
 <ul>
 <li>3 PostgreSQL servers, one primary and two replicas.</li>
@@ -7002,14 +7002,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>(optional) a PMM client instance - a monitoring and management tool for PostgreSQL that provides a way to monitor your database health and performance. PMM Client is disabled by default and runs as a sidecar container in the database Pods when you <a href="monitoring.html">configure monitoring</a></li>
 <li><code>logs</code> and <code>logrotate</code> sidecar containers on PostgreSQL instance Pods collect PostgreSQL and pgBackRest logs that persist across Pod restarts. Enabled by default for new clusters. See <a href="persistent-logging.html">configure persistent logging</a> for steps to enable persistent logging on existing deployments.</li>
 </ul>
-<h3 id="primary-replicas-and-high-availability">Primary, replicas, and high availability<a class="headerlink" href="#primary-replicas-and-high-availability" title="Permanent link">¶</a></h3>
+<h3 id="primary-replicas-and-high-availability">Primary, replicas, and high availability<a data-markdown-ignore class="headerlink" href="#primary-replicas-and-high-availability" title="Permanent link">¶</a></h3>
 <p>Each PostgreSQL cluster has <strong>one primary</strong> instance that accepts read/write transactions. <strong>Replicas</strong> are standbys: they replicate from the primary and typically serve <strong>read-only</strong> traffic (depending on how you expose them).</p>
 <p>The Operator provides high availability through multiple layers of protection:</p>
-<h4 id="pod-distribution">Pod distribution<a class="headerlink" href="#pod-distribution" title="Permanent link">¶</a></h4>
+<h4 id="pod-distribution">Pod distribution<a data-markdown-ignore class="headerlink" href="#pod-distribution" title="Permanent link">¶</a></h4>
 <p>The Operator uses <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">node affinity and anti-affinity <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.</p>
-<h4 id="automatic-recovery">Automatic recovery<a class="headerlink" href="#automatic-recovery" title="Permanent link">¶</a></h4>
+<h4 id="automatic-recovery">Automatic recovery<a data-markdown-ignore class="headerlink" href="#automatic-recovery" title="Permanent link">¶</a></h4>
 <p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="ha-deploy.html">High-availability</a>.</p>
-<h4 id="services-that-clients-connect-to">Services that clients connect to<a class="headerlink" href="#services-that-clients-connect-to" title="Permanent link">¶</a></h4>
+<h4 id="services-that-clients-connect-to">Services that clients connect to<a data-markdown-ignore class="headerlink" href="#services-that-clients-connect-to" title="Permanent link">¶</a></h4>
 <p>The Operator creates several Kubernetes Services for each cluster. The following table uses <code>cluster1</code> as the cluster name:</p>
 <table>
 <thead>
@@ -7074,11 +7074,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tbody>
 </table>
 <p>Both <code>cluster1-primary</code> and <code>cluster1-ha</code> follow failover automatically. Choose between them based on where the client runs and whether it verifies the server’s TLS identity. See <a href="expose.html#exposing-the-cluster-without-pgbouncer">Exposing the cluster without pgBouncer</a>.</p>
-<h2 id="storage-and-persistent-volumes">Storage and persistent volumes<a class="headerlink" href="#storage-and-persistent-volumes" title="Permanent link">¶</a></h2>
+<h2 id="storage-and-persistent-volumes">Storage and persistent volumes<a data-markdown-ignore class="headerlink" href="#storage-and-persistent-volumes" title="Permanent link">¶</a></h2>
 <p>Stateful applications require their data to persist even if Pods are restarted or rescheduled. In Kubernetes, this is achieved through <strong>PersistentVolumeClaims (PVCs)</strong>, which request storage resources. The cluster’s CSI driver provisions <strong>PersistentVolumes</strong>, and can <strong>reattach</strong> storage if a Pod moves to another
 node, thereby ensuring data continuity.</p>
 <p>If a node fails, the expectation is that the volume can be mounted elsewhere and the Pod recreated, while Patroni and PostgreSQL recover the database layer. When <a href="persistent-logging.html">persistent logging</a> is enabled, PostgreSQL and pgBackRest log files also live on the instance data volume, so log history survives Pod restarts the same way database data does. For storage troubleshooting, see <a href="debug-storage.html">Check storage</a>.</p>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p>For a comparison of Percona’s approach with other deployment models, see <a href="compare.html">Comparison with other solutions</a>.</p>
 <hr>
 <div class="md-source-file">

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6844,11 +6844,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a class="headerlink" href="#pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">¶</a></h1>
-<h2 id="pause-and-resume-the-cluster">Pause and resume the cluster<a class="headerlink" href="#pause-and-resume-the-cluster" title="Permanent link">¶</a></h2>
+<h1 id="pauseresume-and-standby-mode-for-a-postgresql-cluster">Pause/resume and standby mode for a PostgreSQL cluster<a data-markdown-ignore class="headerlink" href="#pauseresume-and-standby-mode-for-a-postgresql-cluster" title="Permanent link">¶</a></h1>
+<h2 id="pause-and-resume-the-cluster">Pause and resume the cluster<a data-markdown-ignore class="headerlink" href="#pause-and-resume-the-cluster" title="Permanent link">¶</a></h2>
 <p>You can temporarily shut down your PostgreSQL cluster and bring it back later without losing data or configuration. You may want to pause the cluster for maintenance tasks, emergency manual intervention or debugging.</p>
 <p>When paused, all changes to the cluster’s current state are suspended and no statuses other than the “Progressing” condition are updated until you resume the reconciliation.</p>
-<h3 id="how-to-pause">How to pause<a class="headerlink" href="#how-to-pause" title="Permanent link">¶</a></h3>
+<h3 id="how-to-pause">How to pause<a data-markdown-ignore class="headerlink" href="#how-to-pause" title="Permanent link">¶</a></h3>
 <p>Set the <code>spec.pause</code> option to <code>true</code> in your <code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pause</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -6858,7 +6858,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>The Operator will gracefully stop the cluster (primary, replicas, pgBackRest, and related jobs). <a href="logical-replication.html">Logical replica</a> Pods keep running, but the apply workers stop while the primary is down.</p>
-<h3 id="how-to-resume">How to resume<a class="headerlink" href="#how-to-resume" title="Permanent link">¶</a></h3>
+<h3 id="how-to-resume">How to resume<a data-markdown-ignore class="headerlink" href="#how-to-resume" title="Permanent link">¶</a></h3>
 <p>Set <code>spec.pause</code> back to <code>false</code> in the same Custom Resource and apply:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pause</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
@@ -6867,13 +6867,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml
 </code></pre></div>
 <p>The Operator will start the cluster again using the existing data volumes.</p>
-<h3 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h3>
+<h3 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h3>
 <p><strong>The Operator does not pause the cluster</strong></p>
 <p>If a backup job is running, the Operator will not pause the cluster and will log a warning. Remove a running backup job so you can pause:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>job<span class="w"> </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
 </code></pre></div>
 <p>Then retry pausing the cluster.</p>
-<h2 id="standby-mode">Standby mode<a class="headerlink" href="#standby-mode" title="Permanent link">¶</a></h2>
+<h2 id="standby-mode">Standby mode<a data-markdown-ignore class="headerlink" href="#standby-mode" title="Permanent link">¶</a></h2>
 <p>Standby PostgreSQL clusters provide a continuously replicated copy of your primary cluster, forming the backbone of high‑availability and disaster‑recovery strategies. They stay in sync through streaming replication, enabling you to quickly promote a standby if the primary becomes unavailable. Standby clusters can also run in separate regions or environments, helping you maintain business continuity during outages.</p>
 <p>The standby mode for a cluster is controlled with the <code>spec.standby.enabled</code> option plus the <code>spec.standby.repoName</code> and/or <code>spec.standby.host</code> and <code>spec.standby.port</code> options in the Custom Resource. What options to specify depends on the standby cluster type. </p>
 <p>Read more about the supported types of standby clusters and their setup in the <a href="standby.html">Deploy a standby cluster for Disaster Recovery</a> documentation.</p>

@@ -1,0 +1,131 @@
+> For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
+
+# 5 Monitor the database
+
+Finally, when we are [done with backup](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backup-tutorial.html), it’s time for one more step. In this section you will learn how to monitor the health of Percona Distribution for PostgreSQL with [Percona Monitoring and Management (PMM)](https://docs.percona.com/percona-monitoring-and-management/3/setting-up/client/postgresql.html) .
+
+PMM is a client/server application. It includes the [PMM Server](https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-server) and the number of [PMM Clients](https://docs.percona.com/percona-monitoring-and-management/3/reference/index.html#pmm-client) running on each node with the database you wish to monitor.
+
+A PMM Client collects needed metrics and sends gathered data to the PMM Server. As a user, you connect to the PMM Server to see database metrics on a number of dashboards.
+
+PMM Client must be compatible with PMM server. You install them separately. This tutorial uses PMM3.
+
+## Install PMM Server
+
+You must have PMM server up and running. You can run PMM Server as a *Docker image*, a *virtual appliance*, or in Kubernetes. Please refer to the [official PMM documentation](https://docs.percona.com/percona-monitoring-and-management/3/install-pmm/install-pmm-server/index.html) for the installation instructions.
+
+## Install PMM Client
+
+PMM Client is installed as a side-car container in the database Pods in your Kubernetes-based environment. To install PMM Client, do the following:
+
+### Configure authentication
+
+PMM uses Grafana service accounts to control access to PMM server components and resources. To authenticate in PMM server, you need a service account token. [Generate a service account and token](https://docs.percona.com/percona-monitoring-and-management/3/api/authentication.html?h=authe#generate-a-service-account-and-token) . Specify the Admin role for the service account.
+
+Warning
+
+When you create a service account token, you can select its lifetime: it can be either a permanent token that never expires or the one with the expiration date. PMM server cannot rotate service account tokens after they expire. So you must take care of reconfiguring PMM Client in this case.
+
+### Create a secret
+
+Now you must pass the credentials to the Operator. To do so, create a Secret object.
+
+1. Create a Secret configuration file. You can use the [deploy/secrets.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/secrets.yaml) secrets file.
+
+   Specify the service account token as the `PMM_SERVER_TOKEN` value in the secrets file:
+
+   ```
+   apiVersion: v1
+   kind: Secret
+   metadata:
+       name: cluster1-pmm-secret
+   type: Opaque
+   stringData:
+       PMM_SERVER_TOKEN: ""
+   ```
+
+1. Create the Secrets object using the `deploy/secrets.yaml` file.
+
+   ```
+   kubectl apply -f deploy/secrets.yaml -n postgres-operator
+   ```
+
+   Expected output
+
+   ```
+   secret/cluster1-pmm-secret created
+   ```
+
+### Deploy a PMM Client
+
+1. Update the `pmm` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/master/deploy/cr.yaml) file.
+
+   - Set `pmm.enabled`=`true`.
+   - Specify your PMM Server hostname / an IP address for the `pmm.serverHost` option. The PMM Server IP address should be resolvable and reachable from within your cluster.
+   - Specify the name of the Secret object that you created earlier
+
+   ```
+     pmm:
+       enabled: true
+       image: percona/pmm-client:3.9.1
+   #    imagePullPolicy: IfNotPresent
+       secret: cluster1-pmm-secret
+       serverHost: monitoring-service
+   ```
+
+1. Update the cluster
+
+   ```
+   kubectl apply -f deploy/cr.yaml -n postgres-operator
+   ```
+
+1. Check that corresponding Pods are not in a cycle of stopping and restarting. This cycle occurs if there are errors on the previous steps:
+
+   ```
+   kubectl get pods -n postgres-operator
+   kubectl logs <pod_name> -c pmm-client
+   ```
+
+## Update the secrets file
+
+The `deploy/secrets.yaml` file contains all values for each key/value pair in a convenient plain text format. But the resulting Secrets Objects contains passwords stored as base64-encoded strings. If you want to *update* the password field, you need to encode the new password into the base64 format and pass it to the Secrets Object.
+
+To encode a password or any other parameter, run the following command:
+
+**Linux**
+
+```
+echo -n "password" | base64 --wrap=0
+```
+
+**macOS**
+
+```
+echo -n "password" | base64
+```
+
+For example, to set the new service account token in the `my-cluster-name-secrets` object, do the following:
+
+**Linux**
+
+```
+kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64 --wrap=0)'}}'
+```
+
+**macOS**
+
+```
+kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64)'}}'
+```
+
+## Check the metrics
+
+Let’s see how the collected data is visualized in PMM.
+
+1. Log in to PMM server.
+1. Click **PostgreSQL** from the left-hand navigation menu. You land on the **Instances Overview** page.
+1. Click **PostgreSQL** → **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in.
+
+## Next steps
+
+[What’s next](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/what-next.html)

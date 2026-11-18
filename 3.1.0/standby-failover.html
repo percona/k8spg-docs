@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6958,14 +6958,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="failover">Failover<a class="headerlink" href="#failover" title="Permanent link">¶</a></h1>
+<h1 id="failover">Failover<a data-markdown-ignore class="headerlink" href="#failover" title="Permanent link">¶</a></h1>
 <p>Promote the standby cluster when the Main site is lost, for example after an outage of its Kubernetes cluster or region. The promotion makes the standby cluster writable, and it starts to push Write Ahead Logs (WALs) to the pgBackRest repository.</p>
 <p>Before you promote, make sure that the Main site can’t accept writes. A Main site that you can’t reach isn’t necessarily down: the network can be split, or the site can come back after the promotion. Then both clusters run as primary and accept writes. This is a <a href="#split-brain">split brain</a>. To avoid it, shut down or delete the Main cluster before you promote the standby cluster.</p>
 <p>The examples on this page use the <code>main</code> cluster and the <code>dr</code> cluster from the <a href="standby-streaming.html">streaming replication tutorial</a>. Set the namespaces of your clusters once, and you can run the commands as they are:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MAIN_NAMESPACE</span><span class="o">=</span>main-pg
 <span class="nb">export</span><span class="w"> </span><span class="nv">DR_NAMESPACE</span><span class="o">=</span>dr-pg
 </code></pre></div>
-<h2 id="prepare-the-user-passwords">Prepare the user passwords<a class="headerlink" href="#prepare-the-user-passwords" title="Permanent link">¶</a></h2>
+<h2 id="prepare-the-user-passwords">Prepare the user passwords<a data-markdown-ignore class="headerlink" href="#prepare-the-user-passwords" title="Permanent link">¶</a></h2>
 <p>Do this before you promote, and preferably when you set up the standby. A standby cluster replicates the users and their passwords from the Main site. While the cluster is read-only, the Operator doesn’t apply the passwords from the Disaster Recovery (DR) cluster’s own user Secrets. When you promote the cluster, the Operator sets the password of every user in <code>spec.users</code> to the value in the DR Secret <code>&lt;cluster-name&gt;-pguser-&lt;user-name&gt;</code>. If that value differs from the Main site password, applications that use the Main site credentials can’t log in after the promotion.</p>
 <p>If you don’t set <code>spec.users</code>, there is nothing to copy. The DR cluster creates its own default user and database and leaves the default user of the Main site untouched, so the Main site credentials keep working.</p>
 <p>For each user that you define in <code>spec.users</code>, copy the password from the Main site Secret to the DR Secret:</p>
@@ -6977,7 +6977,7 @@ kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w
 </code></pre></div>
 <p>The command copies the encoded value as it is, so passwords with quotes, backslashes or non-ASCII characters stay intact. The Operator rebuilds the <code>verifier</code> from the new password within a few seconds.</p>
 <p>The Operator creates the DR Secret together with the DR cluster, so you can run these commands right after you deploy the standby. The change takes effect when you promote the cluster.</p>
-<h3 id="copy-the-pgbouncer-password">Copy the pgBouncer password<a class="headerlink" href="#copy-the-pgbouncer-password" title="Permanent link">¶</a></h3>
+<h3 id="copy-the-pgbouncer-password">Copy the pgBouncer password<a data-markdown-ignore class="headerlink" href="#copy-the-pgbouncer-password" title="Permanent link">¶</a></h3>
 <p>pgBouncer logs in to PostgreSQL as the <code>_crunchypgbouncer</code> user. Its password is in the Secret <code>&lt;cluster-name&gt;-pgbouncer</code>. When you promote the DR cluster, the Operator applies this user from the DR Secret, in the same way as the other users. Therefore, copy the pgBouncer password from the Main site to the DR site, so that both sites use the same one. This ensures that pgBouncer can authenticate in the new primary:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">PGBOUNCER_PASSWORD_B64</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>main-pgbouncer<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.pgbouncer-password}'</span><span class="k">)</span>
@@ -6990,7 +6990,7 @@ kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w
 </code></pre></div>
 <p>Copy the password and the verifier together. If you copy only the password, the Operator applies the old DR verifier when it promotes the cluster, and pgBouncer can’t log in after you swap back. Don’t set the verifier to an empty string, as you do for the user Secrets. The Operator then generates a new pgBouncer password and discards the one that you copied.</p>
 <p>Repeat the copy after you change a password on the Main site. Clear the verifier after a promotion only if the passwords on the two sites differ. If they differ, for example because a password changed on one site after you copied it, see <a href="standby-switchover.html#swap-back">Swap back</a>.</p>
-<h2 id="promote-the-standby">Promote the standby<a class="headerlink" href="#promote-the-standby" title="Permanent link">¶</a></h2>
+<h2 id="promote-the-standby">Promote the standby<a data-markdown-ignore class="headerlink" href="#promote-the-standby" title="Permanent link">¶</a></h2>
 <p>Once the primary is down or inactive, promote the standby through changing the corresponding section:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">standby</span><span class="p">:</span>
@@ -7001,10 +7001,10 @@ kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w
 <p>The cluster status is <code>ready</code> before and during the promotion, so don’t use it as a signal. About 10 seconds after the promotion, the Operator applies the user passwords from the DR Secrets. Applications that connect through pgBouncer can fail to log in for up to 30 seconds.</p>
 <p>The Operator doesn’t run scheduled backups while the cluster is a standby, and starts them after the promotion.</p>
 <p>If both sites are healthy and you want to exchange their roles, follow <a href="standby-switchover.html">Swap roles between the Main and DR sites</a> instead. A planned swap loses no data.</p>
-<h2 id="split-brain">Split brain<a class="headerlink" href="#split-brain" title="Permanent link">¶</a></h2>
+<h2 id="split-brain">Split brain<a data-markdown-ignore class="headerlink" href="#split-brain" title="Permanent link">¶</a></h2>
 <p>Split brain means that both clusters run as primary and accept writes. It happens when you promote the standby while the Main site is still running, or when the old primary comes back after you promoted the standby.</p>
 <p>The Operator doesn’t detect it. Both clusters stay <code>ready</code> and no condition or event is set. If the standby uses the same pgBackRest repository as the Main site, archiving also reports no failures, because both clusters successfully push WAL to the same repository on diverging timelines.</p>
-<h3 id="detect-split-brain">Detect split brain<a class="headerlink" href="#detect-split-brain" title="Permanent link">¶</a></h3>
+<h3 id="detect-split-brain">Detect split brain<a data-markdown-ignore class="headerlink" href="#detect-split-brain" title="Permanent link">¶</a></h3>
 <p>Run these checks on both sites. First, get the primary Pod of each cluster:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">MAIN_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>main,postgres-operator.crunchydata.com/role<span class="o">=</span>primary<span class="w"> </span><span class="se">\</span>
@@ -7044,7 +7044,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 </li>
 </ol>
 <p>Checks 1 and 2 are the reliable ones when you can reach both sites. The cluster status from <code>kubectl get pg</code> and the <code>pg_stat_archiver</code> view don’t show a split brain.</p>
-<h3 id="recover-from-split-brain">Recover from split brain<a class="headerlink" href="#recover-from-split-brain" title="Permanent link">¶</a></h3>
+<h3 id="recover-from-split-brain">Recover from split brain<a data-markdown-ignore class="headerlink" href="#recover-from-split-brain" title="Permanent link">¶</a></h3>
 <p>The recovery steps depend on the type of your <a href="standby.html#types-of-standby-clusters">standby cluster</a>:</p>
 <ul>
 <li>For a repo-based standby and for a streaming standby with a repository, both sites share the pgBackRest repository. Follow <a href="#recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository">Recover a repo-based standby or a streaming standby with a repository</a>.</li>
@@ -7052,7 +7052,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 </ul>
 <p>In both cases, you choose the cluster that keeps being the Main site, stop the writes to the other cluster, and rebuild the other cluster as a standby of the kept one.</p>
 <p>The examples keep the <code>main</code> cluster and rebuild the <code>dr</code> cluster. If you keep the DR cluster, exchange the cluster names and the namespace variables. Get the primary Pod of each cluster first, as in <a href="#detect-split-brain">Detect split brain</a>.</p>
-<h4 id="recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository">Recover a repo-based standby or a streaming standby with a repository<a class="headerlink" href="#recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository" title="Permanent link">¶</a></h4>
+<h4 id="recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository">Recover a repo-based standby or a streaming standby with a repository<a data-markdown-ignore class="headerlink" href="#recover-a-repo-based-standby-or-a-streaming-standby-with-a-repository" title="Permanent link">¶</a></h4>
 <p>Taking a new full backup from one cluster isn’t enough. The repository keeps the history and the WAL of the other timeline, so every restore and every new standby that uses the latest backup tries to follow the wrong timeline and fails.</p>
 <p>To recover, move the cluster that you keep to a new repository path, create a full backup there, and recreate the other cluster with that path. The old repository path stays untouched, so you keep its history.</p>
 <ol>
@@ -7158,7 +7158,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w">
 </li>
 </ol>
 <p>Removing the other timeline’s files from the repository by hand also works, but it needs several manual deletions in the repository. A mistake destroys the history of the cluster that you keep, so this guide doesn’t cover it.</p>
-<h4 id="recover-a-streaming-standby-without-a-repository">Recover a streaming standby without a repository<a class="headerlink" href="#recover-a-streaming-standby-without-a-repository" title="Permanent link">¶</a></h4>
+<h4 id="recover-a-streaming-standby-without-a-repository">Recover a streaming standby without a repository<a data-markdown-ignore class="headerlink" href="#recover-a-streaming-standby-without-a-repository" title="Permanent link">¶</a></h4>
 <p>Delete the cluster that you don’t keep, together with its volumes, and create it again as a streaming standby of the kept cluster. A streaming standby without a repository can’t restore from a backup, so deleting only its PVCs and Pods doesn’t work. The new Pod waits forever with <code>waiting for standby_leader to bootstrap</code>.</p>
 <ol>
 <li>
@@ -7195,7 +7195,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pvc<span class="w">
 <p>The member shows as <code>Standby Leader</code> in the <code>streaming</code> state, and the <code>TL</code> column has the same value as the kept cluster.</p>
 </li>
 </ol>
-<h2 id="automate-the-failover">Automate the failover<a class="headerlink" href="#automate-the-failover" title="Permanent link">¶</a></h2>
+<h2 id="automate-the-failover">Automate the failover<a data-markdown-ignore class="headerlink" href="#automate-the-failover" title="Permanent link">¶</a></h2>
 <p>Automated failover consists of multiple steps and is outside of the Operator’s scope. There are a few steps that you can take to reduce the Recovery Time Objective (RTO). To detect the failover we recommend having the 3<sup>rd</sup> site to monitor both DR and Main sites. In this case you can be sure that Main really failed and it is not a network split situation.</p>
 <p>Another aspect of automation is to switch the traffic for the application from Main to Standby after promotion. It can be done through various Kubernetes configurations and heavily depends on how your networking and application are designed. The following options are quite common:</p>
 <ol>

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6868,7 +6868,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="about-backups">About backups<a class="headerlink" href="#about-backups" title="Permanent link">¶</a></h1>
+<h1 id="about-backups">About backups<a data-markdown-ignore class="headerlink" href="#about-backups" title="Permanent link">¶</a></h1>
 <p>In this section you will learn how to set up and manage backups of your data using the Operator.</p>
 <p>You can make backups in two ways:</p>
 <ul>
@@ -6877,13 +6877,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <a href="https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 file. The Operator makes them automatically according to the schedule. </li>
 </ul>
-<h2 id="what-you-need-to-know">What you need to know<a class="headerlink" href="#what-you-need-to-know" title="Permanent link">¶</a></h2>
-<h3 id="backup-methods">Backup methods<a class="headerlink" href="#backup-methods" title="Permanent link">¶</a></h3>
+<h2 id="what-you-need-to-know">What you need to know<a data-markdown-ignore class="headerlink" href="#what-you-need-to-know" title="Permanent link">¶</a></h2>
+<h3 id="backup-methods">Backup methods<a data-markdown-ignore class="headerlink" href="#backup-methods" title="Permanent link">¶</a></h3>
 <p>By default, the Operator uses the open source <a href="https://pgbackrest.org/">pgBackRest <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> backup
 and restore utility to make backups.</p>
 <p>Starting with version 2.9.0, the Operator also supports <a href="backups-pvc-snapshots.html">PVC snapshots</a> - storage-level copies of your data volumes. PVC snapshots offer much faster backups and restores. When used with <code>pgBackRest</code> WAL archiving, they maintain data consistency and enable you to make a <a href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">point-in-time recovery</a> of your database.</p>
 <p>This feature is in the tech preview stage. You must explicitly enable it for the Operator deployment.</p>
-<h3 id="backup-repositories">Backup repositories<a class="headerlink" href="#backup-repositories" title="Permanent link">¶</a></h3>
+<h3 id="backup-repositories">Backup repositories<a data-markdown-ignore class="headerlink" href="#backup-repositories" title="Permanent link">¶</a></h3>
 <p>When the Operator creates a new PostgreSQL cluster, it also creates a special <em>pgBackRest repository</em> to facilitate the usage of the pgBackRest
 features. You can notice an additional <code>repo-host</code> Pod after the cluster
 creation.</p>
@@ -6897,7 +6897,7 @@ creation.</p>
 </ul>
 <p>In the <code>/deploy/cr.yml</code> file, pgBackRest repositories are listed in the <code>backups.pgbackrest.repos</code> subsection. You can have up to 4 repositories as <code>repo1</code>, <code>repo2</code>, <code>repo3</code>,
 and <code>repo4</code>.</p>
-<h3 id="backup-types">Backup types<a class="headerlink" href="#backup-types" title="Permanent link">¶</a></h3>
+<h3 id="backup-types">Backup types<a data-markdown-ignore class="headerlink" href="#backup-types" title="Permanent link">¶</a></h3>
 <p>You can make the following types of backups:</p>
 <ul>
 <li><code>full</code>: A full backup of all the contents of the PostgreSQL cluster,</li>
@@ -6906,7 +6906,7 @@ the last full backup,</li>
 <li><code>incremental</code>: Default. A backup of only the files that have changed since the
 last full or differential backup. </li>
 </ul>
-<h3 id="backup-storage">Backup storage<a class="headerlink" href="#backup-storage" title="Permanent link">¶</a></h3>
+<h3 id="backup-storage">Backup storage<a data-markdown-ignore class="headerlink" href="#backup-storage" title="Permanent link">¶</a></h3>
 <p>You have the following options to store PostgreSQL backups:</p>
 <ul>
 <li>
@@ -6921,7 +6921,7 @@ last full or differential backup. </li>
 <p>A <a href="backups-storage-pv.html">Persistent Volume</a> attached to the pgBackRest Pod.</p>
 </li>
 </ul>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p>Ready to move forward? <a href="backups-storage.html">Configure backup storage</a></p>
 <hr>
 <div class="md-source-file">

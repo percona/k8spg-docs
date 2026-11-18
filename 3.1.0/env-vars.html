@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6768,14 +6768,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="define-environment-variables">Define environment variables<a class="headerlink" href="#define-environment-variables" title="Permanent link">¶</a></h1>
+<h1 id="define-environment-variables">Define environment variables<a data-markdown-ignore class="headerlink" href="#define-environment-variables" title="Permanent link">¶</a></h1>
 <p>You can configure environment variables in Percona Operator for PostgreSQL for the following purposes:</p>
 <ol>
 <li><strong>Operator environment variables</strong> – To control the Operator’s behavior, such as logging, telemetry, and which namespaces it watches. You set these in the Operator Deployment (for example in <code>deploy/bundle.yaml</code> or via the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">Helm chart</a> values).</li>
 <li><strong>Cluster component environment variables</strong> – To customize the behavior of cluster components (PostgreSQL, pgBackRest, pgBouncer). You define these in your cluster Custom Resource and, when needed, store sensitive values in <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secrets</a>.</li>
 <li><strong>Backup and restore environment variables</strong> – To customize backup and restore flows. You can specify the environment variables either directly in the backup / restore manifest, or reference a <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Kubernetes Secret</a> that stores sensitive values.</li>
 </ol>
-<h2 id="when-to-use-environment-variables">When to use environment variables<a class="headerlink" href="#when-to-use-environment-variables" title="Permanent link">¶</a></h2>
+<h2 id="when-to-use-environment-variables">When to use environment variables<a data-markdown-ignore class="headerlink" href="#when-to-use-environment-variables" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6798,7 +6798,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="env-var-operator.html">Configure Operator environment variables</a>
 <a class="md-button" href="env-var-cluster.html">Environment variables for cluster components</a></p>
 <hr>

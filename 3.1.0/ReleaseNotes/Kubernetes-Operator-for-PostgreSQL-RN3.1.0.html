@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7608,19 +7608,19 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-310-2026-09-09">Percona Operator for PostgreSQL 3.1.0 (2026-09-09)<a class="headerlink" href="#percona-operator-for-postgresql-310-2026-09-09" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-310-2026-09-09">Percona Operator for PostgreSQL 3.1.0 (2026-09-09)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-310-2026-09-09" title="Permanent link">¶</a></h1>
 <div class="admonition warning">
 <p>Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a <a href="../update-operator.html#operator-and-crd-compatibility">supported Operator version</a> to keep your clusters current and protected.</p>
 </div>
 <p><a class="md-button" href="../quickstart.html">Get started with the Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg></span></a></p>
-<h2 id="whats-new-at-a-glance">What’s new at a glance<a class="headerlink" href="#whats-new-at-a-glance" title="Permanent link">¶</a></h2>
-<h3 id="security">Security<a class="headerlink" href="#security" title="Permanent link">¶</a></h3>
+<h2 id="whats-new-at-a-glance">What’s new at a glance<a data-markdown-ignore class="headerlink" href="#whats-new-at-a-glance" title="Permanent link">¶</a></h2>
+<h3 id="security">Security<a data-markdown-ignore class="headerlink" href="#security" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#transparent-data-encryption-support-with-pg_tde">Transparent data encryption with <code>pg_tde</code></a></li>
 <li><a href="#more-control-over-tls-certificate-management">Control TLS certificate management for manually provisioned Secrets</a></li>
 <li><a href="#enable-mutual-tls-mtls-between-clients-and-pgbouncer">Client mTLS with pgBouncer and additional trusted CAs</a></li>
 </ul>
-<h3 id="operations-and-observability">Operations and observability<a class="headerlink" href="#operations-and-observability" title="Permanent link">¶</a></h3>
+<h3 id="operations-and-observability">Operations and observability<a data-markdown-ignore class="headerlink" href="#operations-and-observability" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods">Persistent logging across Pod restarts</a></li>
 <li><a href="#configure-log-rotation-for-persistent-logs">Configurable log rotation for persistent logs</a></li>
@@ -7628,11 +7628,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="#keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest">Auto-growable disks for pgBackRest repository volumes</a></li>
 <li><a href="#mount-extra-volumes-into-postgresql-instances">Mount extra volumes into PostgreSQL instances</a></li>
 </ul>
-<h3 id="read-scaling">Read scaling<a class="headerlink" href="#read-scaling" title="Permanent link">¶</a></h3>
+<h3 id="read-scaling">Read scaling<a data-markdown-ignore class="headerlink" href="#read-scaling" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#define-logical-replicas-declaratively-tech-preview">Declarative logical replicas for read-only workloads</a> (tech preview)</li>
 </ul>
-<h3 id="images-and-platforms">Images and platforms<a class="headerlink" href="#images-and-platforms" title="Permanent link">¶</a></h3>
+<h3 id="images-and-platforms">Images and platforms<a data-markdown-ignore class="headerlink" href="#images-and-platforms" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql">UBI 8, 9, and 10 images</a></li>
 <li><a href="#support-for-community-postgresql-images">Community PostgreSQL images and custom registries</a></li>
@@ -7640,15 +7640,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="#official-support-for-rancher-kubernetes-engine-rke2">Official support for Rancher Kubernetes Engine (RKE2)</a></li>
 <li><a href="#the-operator-is-now-fully-supported-on-arm64-architectures">Full ARM64 support for Operator images</a></li>
 </ul>
-<h3 id="upgrade-notes">Upgrade notes<a class="headerlink" href="#upgrade-notes" title="Permanent link">¶</a></h3>
+<h3 id="upgrade-notes">Upgrade notes<a data-markdown-ignore class="headerlink" href="#upgrade-notes" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#deprecation-change-rename-and-removal">PMM2 support removed</a> — upgrade to PMM3</li>
 <li><a href="#deprecation-change-rename-and-removal">Operator 2.8.0 has reached end of life</a></li>
 <li><a href="#deprecation-change-rename-and-removal"><code>extensions.builtin</code> deprecated</a> — use <code>extensions.&lt;extension&gt;.enabled</code></li>
 <li><a href="#deprecation-change-rename-and-removal"><code>pg_cron</code> and <code>set_user</code> are now built-in extensions</a></li>
 </ul>
-<h2 id="release-highlights">Release highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
-<h3 id="transparent-data-encryption-support-with-pg_tde">Transparent data encryption support with <code>pg_tde</code><a class="headerlink" href="#transparent-data-encryption-support-with-pg_tde" title="Permanent link">¶</a></h3>
+<h2 id="release-highlights">Release highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h3 id="transparent-data-encryption-support-with-pg_tde">Transparent data encryption support with <code>pg_tde</code><a data-markdown-ignore class="headerlink" href="#transparent-data-encryption-support-with-pg_tde" title="Permanent link">¶</a></h3>
 <p>You can now protect PostgreSQL data at rest with <a href="https://docs.percona.com/pg-tde/index.html"><code>pg_tde</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, Percona’s fully open source transparent data encryption extension.</p>
 <p>Data in tables, indexes, temporary tables, and write-ahead log (WAL) files is encrypted on disk. Without the keys, that data stays unreadable even if storage is compromised.</p>
 <p>Enable <code>pg_tde</code> in the Custom Resource and configure HashiCorp Vault as the key provider. The Operator installs and configures the extension for you. After setup, you can create encrypted tables or convert existing ones. Backups and restores work as usual when the Operator can reach the encryption key.</p>
@@ -7656,11 +7656,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 release, only HashiCorp Vault (KV v2) is supported as a key
 provider. KMIP and other providers are planned for later.</p>
 <p>See <a href="../encryption.html">Data-at-rest encryption</a> and <a href="../encryption-setup.html">Configure data-at-rest encryption with HashiCorp Vault</a>.</p>
-<h3 id="improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods">Improve operational resilience and observability with persistent logging for PostgreSQL Pods<a class="headerlink" href="#improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods" title="Permanent link">¶</a></h3>
+<h3 id="improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods">Improve operational resilience and observability with persistent logging for PostgreSQL Pods<a data-markdown-ignore class="headerlink" href="#improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods" title="Permanent link">¶</a></h3>
 <p>Debugging distributed systems just got easier. Percona Operator for PostgreSQL now supports persistent logging, so PostgreSQL and pgBackRest logs on the instance data volume stay available even across Pod restarts.</p>
 <p>The Operator uses <a href="https://fluentbit.io/">Fluent Bit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to collect logs. Fluent Bit runs a <code>logs</code> sidecar container on each PostgreSQL instance Pod and mounts the same data volume. It collects logs and streams them to its own stdout as JSON lines. You can additionally configure Fluent Bit outputs such as S3 or Open Telemetry (OTel) envelope and have the logs forwarded there.</p>
 <p><a href="../persistent-logging.html">Learn more about persistent logging in the documentation</a>.</p>
-<h3 id="configure-log-rotation-for-persistent-logs">Configure log rotation for persistent logs<a class="headerlink" href="#configure-log-rotation-for-persistent-logs" title="Permanent link">¶</a></h3>
+<h3 id="configure-log-rotation-for-persistent-logs">Configure log rotation for persistent logs<a data-markdown-ignore class="headerlink" href="#configure-log-rotation-for-persistent-logs" title="Permanent link">¶</a></h3>
 <p>You can now customize log rotation for persistent logs. This helps you keep the right amount of data for troubleshooting or compliance, extend the default configuration with your custom settings and schedule rotations to fit your operational windows.</p>
 <p>You can configure log rotation in these ways:</p>
 <ul>
@@ -7669,13 +7669,13 @@ provider. KMIP and other providers are planned for later.</p>
 <li>Set a new rotation schedule</li>
 </ul>
 <p>See our <a href="../log-rotation.html">documentation</a> for step-by-step instructions for each option.</p>
-<h3 id="define-logical-replicas-declaratively-tech-preview">Define logical replicas declaratively (tech preview)<a class="headerlink" href="#define-logical-replicas-declaratively-tech-preview" title="Permanent link">¶</a></h3>
+<h3 id="define-logical-replicas-declaratively-tech-preview">Define logical replicas declaratively (tech preview)<a data-markdown-ignore class="headerlink" href="#define-logical-replicas-declaratively-tech-preview" title="Permanent link">¶</a></h3>
 <p>You can now add a read-only logical replica in the same cluster and point reporting or other heavy reads at this replica instead of the primary. The replica has its own volume and Service, so those queries do not compete with your high-availability set.</p>
 <p>Declare the replica in the Custom Resource when you create the cluster or later during runtime. You can also define which databases receive the changes after the replica is bootstrapped.</p>
 <p>The Operator creates the volume, copies the data, converts the physical replica to the logical one and keeps the databases you list in sync. It also creates a Service you can connect to. </p>
 <p>Patroni does not manage nor promote it, so it stays a stable read endpoint.</p>
 <p>Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See <a href="../logical-replication.html">Deploy a logical replica</a>.</p>
-<h3 id="mount-extra-volumes-into-postgresql-instances">Mount extra volumes into PostgreSQL instances<a class="headerlink" href="#mount-extra-volumes-into-postgresql-instances" title="Permanent link">¶</a></h3>
+<h3 id="mount-extra-volumes-into-postgresql-instances">Mount extra volumes into PostgreSQL instances<a data-markdown-ignore class="headerlink" href="#mount-extra-volumes-into-postgresql-instances" title="Permanent link">¶</a></h3>
 <p>You can now mount additional Kubernetes volumes into the PostgreSQL container so that every instance in the cluster sees the same files.</p>
 <p>This is useful when PostgreSQL needs files outside the data
 directory such as for full text search.</p>
@@ -7683,7 +7683,7 @@ directory such as for full text search.</p>
 another volume source that Kubernetes supports. </p>
 <p>Every instance in the set sees the same mounts, so your assets stay consistent across the cluster. Prefer <code>subPath</code> mounts when you add files next to the existing directory, so you do not replace the contents that PostgreSQL already ships.</p>
 <p>For steps and examples, see <a href="../extra-volumes.html">Mount extra volumes into PostgreSQL instances</a>.</p>
-<h3 id="more-control-over-tls-certificate-management">More control over TLS certificate management<a class="headerlink" href="#more-control-over-tls-certificate-management" title="Permanent link">¶</a></h3>
+<h3 id="more-control-over-tls-certificate-management">More control over TLS certificate management<a data-markdown-ignore class="headerlink" href="#more-control-over-tls-certificate-management" title="Permanent link">¶</a></h3>
 <p>If you manage TLS certificates manually, such as through Kubernetes Secrets synced from AWS Secrets Manager or via External Secrets, losing access to those Secrets even briefly can lead to a service outage.</p>
 <p>By default, the Operator treats a missing TLS Secret as a signal to create new certificates, restart the database Pods, and apply the new CA. Applications that still trust your original CA may lose connectivity.</p>
 <p>Starting with this release, set <code>spec.tls.certManagementPolicy</code> in the Custom Resource to control the Operator’s behavior. The policies are:</p>
@@ -7705,12 +7705,12 @@ another volume source that Kubernetes supports. </p>
 <span class="w">      </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">replication1-cert</span>
 </code></pre></div>
 <p>See <a href="../tls-cert-management-policy.html">TLS certificate management policy</a> for more information.</p>
-<h3 id="enable-mutual-tls-mtls-between-clients-and-pgbouncer">Enable Mutual TLS (mTLS) between clients and pgBouncer<a class="headerlink" href="#enable-mutual-tls-mtls-between-clients-and-pgbouncer" title="Permanent link">¶</a></h3>
+<h3 id="enable-mutual-tls-mtls-between-clients-and-pgbouncer">Enable Mutual TLS (mTLS) between clients and pgBouncer<a data-markdown-ignore class="headerlink" href="#enable-mutual-tls-mtls-between-clients-and-pgbouncer" title="Permanent link">¶</a></h3>
 <p>Mutual TLS (mTLS) needs <code>pgBouncer</code> to trust the CA that signed client certificates. Previously, you could only do that by providing TLS material in  <code>proxy.pgBouncer.customTLSSecret</code> and you had to manage the full certificate lifecycle yourself.</p>
 <p>Now, you can extend the pgBouncer frontend trust bundle with your external CA that signed client certificates. Create the Secret with this CA and add it to the cluster with the<code>proxy.pgBouncer.additionalTrustedCAs</code> option. The Operator appends your external CAs to the trust bundle and keeps rotating the pgBouncer and cluster certificates.</p>
 <p>With this improvement, you get mTLS for clients that use your corporate or application CA, and keep Operator-managed TLS for the cluster.</p>
 <p>See <a href="../tls-pgbouncer-trusted-cas.html">Trust additional CAs for pgBouncer client mTLS</a> for configuration steps.</p>
-<h3 id="keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest">Keep backup storage healthy with auto-growable disks for pgBackRest<a class="headerlink" href="#keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest" title="Permanent link">¶</a></h3>
+<h3 id="keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest">Keep backup storage healthy with auto-growable disks for pgBackRest<a data-markdown-ignore class="headerlink" href="#keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest" title="Permanent link">¶</a></h3>
 <p>A full <code>pgBackRest</code> repository volume can interrupt backups. Starting with this release, auto-growable disks cover pgBackRest repository volumes on the repo host, not only PostgreSQL data volumes. The Operator monitors disk usage and expands the PVC automatically up to the limit you set.</p>
 <p>Turn on the <code>AutoGrowVolumes=true</code> feature gate and set <code>spec.backups.pgbackrest.repos[].volume.volumeClaimSpec.resources.limits.storage</code> in the Custom Resource. If you already use automated storage scaling for data volumes, apply the same approach to your backup repos.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -7727,7 +7727,7 @@ another volume source that Kubernetes supports. </p>
 <span class="w">                </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
 </code></pre></div>
 <p>See <a href="../scaling-vertical.html#automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a> for the full setup.</p>
-<h3 id="pause-and-resume-pgbouncer-connections">Pause and resume pgBouncer connections<a class="headerlink" href="#pause-and-resume-pgbouncer-connections" title="Permanent link">¶</a></h3>
+<h3 id="pause-and-resume-pgbouncer-connections">Pause and resume pgBouncer connections<a data-markdown-ignore class="headerlink" href="#pause-and-resume-pgbouncer-connections" title="Permanent link">¶</a></h3>
 <p>You can now pause client traffic through pgBouncer without dropping application connections. Active queries finish, then new client requests wait in a queue until you resume. Use this for a short, controlled window to restart PostgreSQL, run a planned switchover, or drain backend load.</p>
 <p>Set <code>proxy.pgBouncer.paused</code> to <code>true</code> in the Custom Resource to pause, and back to <code>false</code> to resume. The Operator connects to each <code>pgBouncer</code> Pod
 and runs the <code>PAUSE</code> command. Pods with active connections
@@ -7735,7 +7735,7 @@ remain running until they finish, then the Pod changes its state
 to <code>paused</code>. If a pgBouncer Pod restarts while paused, a startup
 probe re-applies <code>PAUSE</code>
 so the intended state survives restarts.</p>
-<h3 id="support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql">Support for UBI 8, UBI 9, and UBI 10 images for Percona Distribution for PostgreSQL<a class="headerlink" href="#support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql" title="Permanent link">¶</a></h3>
+<h3 id="support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql">Support for UBI 8, UBI 9, and UBI 10 images for Percona Distribution for PostgreSQL<a data-markdown-ignore class="headerlink" href="#support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql" title="Permanent link">¶</a></h3>
 <p>You can now choose Red Hat Universal Base Image (UBI) 8, 9, or 10 for Percona Distribution clusters. That lets you migrate to Percona Operator without changing the OS inside the PostgreSQL container, so you can keep working extensions, stay aligned with your Enterprise Linux version, or move to a newer UBI when you are ready.</p>
 <p>UBI is the operating system inside the PostgreSQL container. PostgreSQL uses OS-provided <code>glibc</code> and ICU libraries to sort and compare text, and each UBI major version ships different library versions. The UBI choice is part of the database runtime.</p>
 <p>By default, images that ship with the Operator are based on UBI 9 and have no OS version in the tag, for example <code>docker.io/percona/percona-distribution-postgresql:18.6.1-3</code>. UBI 8 and UBI 10 images add the OS version to the tag:</p>
@@ -7751,18 +7751,18 @@ Stay on UBI 8 when older extensions or Enterprise Linux 8 requirements still app
 <p>Switching UBI major versions changes <code>glibc</code> and ICU. PostgreSQL reports a collation version mismatch, and indexes on <code>text</code>, <code>varchar</code>, <code>char</code>, and similar types can return incorrect results until you rebuild them. After you switch, identify affected indexes, run <code>REINDEX</code>, then run <code>ALTER DATABASE ... REFRESH COLLATION VERSION</code>. See the <a href="../update-db-minor.html">minor upgrade</a> and <a href="../update-db-major.html">major upgrade</a> documentation.</p>
 </div>
 <p>Keep every instance in a cluster on the same UBI version. Treat a UBI change as an OS upgrade: take a backup first, and confirm that custom extensions are built for the target UBI.</p>
-<h3 id="support-for-community-postgresql-images">Support for community PostgreSQL images<a class="headerlink" href="#support-for-community-postgresql-images" title="Permanent link">¶</a></h3>
+<h3 id="support-for-community-postgresql-images">Support for community PostgreSQL images<a data-markdown-ignore class="headerlink" href="#support-for-community-postgresql-images" title="Permanent link">¶</a></h3>
 <p>You can now run the Operator with PostgreSQL Community images built from the official <a href="https://www.postgresql.org/download/">PostgreSQL Global Development Group (PGDG) packages <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. You can also use the images you build and store in your own registry. In this way you are no longer limited to Percona Distribution images for the database runtime, so you can add community extensions and keep the image supply chain under your control.</p>
 <p>We publish evaluation images for PostgreSQL, pgBouncer, and pgBackRest built from those PGDG packages on UBI 8 and UBI 9. You can use them to try the flow, then reproduce the same build with the Dockerfiles in <a href="https://github.com/percona/percona-docker/tree/main/postgresql-containers/community">percona-docker/postgresql-containers/community <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> and push the result to a registry you control.</p>
 <p>Point the cluster at those images with <code>spec.image</code>, <code>spec.proxy.pgBouncer.image</code>, and <code>spec.backups.pgbackrest.image</code>. The Operator deploys and manages the cluster the same way it does for Percona Distribution for PostgreSQL. You cannot use Percona-only features such as <a href="#transparent-data-encryption-support-with-pg_tde">Transparent data encryption</a>. You own the image lifecycle and support. You need Operator 3.1.0 or later. See <a href="#postgresql-community-images">PostgreSQL Community images</a> for the published tags.</p>
 <p>Community images are an experimental project. Try them and tell us what works, what is missing, and what you want the Operator to support. For build and deploy steps, see <a href="../install-community.html">Deploy a cluster with community PostgreSQL images</a> and the Percona Blog post <a href="https://www.percona.com/blog/postgresql-community-images-operator/">Community Docker Images: keeping the operator open without a vendor registry lock-in</a> by Slava Sarzhan.</p>
-<h3 id="support-of-postgresql-19-tech-preview">Support of PostgreSQL 19 (tech preview)<a class="headerlink" href="#support-of-postgresql-19-tech-preview" title="Permanent link">¶</a></h3>
+<h3 id="support-of-postgresql-19-tech-preview">Support of PostgreSQL 19 (tech preview)<a data-markdown-ignore class="headerlink" href="#support-of-postgresql-19-tech-preview" title="Permanent link">¶</a></h3>
 <p>With this release, the Operator supports deployment of Community PostgreSQL 19. This support is currently in the tech preview stage because this major version is not officially released yet. However, you can already deploy it and evaluate the features coming with this version. This allows you to stay on top of upcoming enhancements and gives you enough time to prepare your upgrade and migration plans before the final release lands. See <a href="../install-community.html">Deploy the Operator with Community images</a> for guidelines.</p>
-<h3 id="official-support-for-rancher-kubernetes-engine-rke2">Official support for Rancher Kubernetes Engine (RKE2)<a class="headerlink" href="#official-support-for-rancher-kubernetes-engine-rke2" title="Permanent link">¶</a></h3>
+<h3 id="official-support-for-rancher-kubernetes-engine-rke2">Official support for Rancher Kubernetes Engine (RKE2)<a data-markdown-ignore class="headerlink" href="#official-support-for-rancher-kubernetes-engine-rke2" title="Permanent link">¶</a></h3>
 <p><a href="https://docs.rke2.io/">Rancher Kubernetes Engine (RKE2) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> is now an officially supported platform. Every Operator release is now tested on RKE2 to ensure that you can run it on Rancher-managed Kubernetes clusters with confidence. Check the current <a href="#known-limitations">known limitation</a> for using custom extensions on Rancher.</p>
-<h3 id="the-operator-is-now-fully-supported-on-arm64-architectures">The Operator is now fully supported on ARM64 architectures<a class="headerlink" href="#the-operator-is-now-fully-supported-on-arm64-architectures" title="Permanent link">¶</a></h3>
+<h3 id="the-operator-is-now-fully-supported-on-arm64-architectures">The Operator is now fully supported on ARM64 architectures<a data-markdown-ignore class="headerlink" href="#the-operator-is-now-fully-supported-on-arm64-architectures" title="Permanent link">¶</a></h3>
 <p>All Operator images are now available for ARM64, giving you native support on ARM based clusters with no extra setup.</p>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p>Removed support for PMM2. This Operator release no longer supports PMM2 as it has reached the end-of-life state. Upgrade to PMM3 as soon as possible. For how to upgrade, refer to <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
@@ -7785,16 +7785,16 @@ Stay on UBI 8 when older extensions or Enterprise Linux 8 requirements still app
 <p>Field descriptions were removed from the inherited <code>CrunchyBridgeCluster</code> CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running <code>kubectl explain</code> for those fields no longer shows help text.</p>
 </li>
 </ul>
-<h2 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
-<h3 id="custom-extensions-on-rancher-rke2">Custom extensions on Rancher (RKE2)<a class="headerlink" href="#custom-extensions-on-rancher-rke2" title="Permanent link">¶</a></h3>
+<h2 id="known-limitations">Known limitations<a data-markdown-ignore class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
+<h3 id="custom-extensions-on-rancher-rke2">Custom extensions on Rancher (RKE2)<a data-markdown-ignore class="headerlink" href="#custom-extensions-on-rancher-rke2" title="Permanent link">¶</a></h3>
 <p>When you enable custom extensions, the Operator restarts the cluster’s Pods. On Rancher (RKE2) clusters, a former primary may fail to rejoin the cluster as the replica if it has a diverged timeline. </p>
 <p>The affected Pod’s PostgreSQL log shows the following:</p>
 <div class="highlight"><pre><span></span><code>LOG:  invalid xl_info in checkpoint record
 PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 </code></pre></div>
 <p>To recover, you must manually <a href="../reinit.html#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim">reinitialize the replica</a>. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.</p>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
-<h2 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
+<h2 id="changelog">Changelog<a data-markdown-ignore class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
+<h2 id="new-features">New Features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-911">K8SPG-911</a> - Added native transparent data encryption support via <code>pg_tde</code> so you can encrypt data at rest from the Custom Resource.</p>
@@ -7818,7 +7818,7 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-949">K8SPG-949</a> - Added official support for Rancher Kubernetes Engine (RKE2). Every Operator release is now tested on RKE2 so you can run on Rancher-managed clusters with confidence.</p>
 </li>
 </ul>
-<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
+<h3 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-440">K8SPG-440</a> - Added the ability to mount extra volumes into PostgreSQL instances so every Pod can share files such as full-text search dictionaries. </p>
@@ -7869,7 +7869,7 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1115">K8SPG-1115</a> - Added the ability to pause and resume pgBouncer connections from the Custom Resource without dropping clients. Set <code>proxy.pgBouncer.paused</code> to queue new requests while active queries finish during planned maintenance.</p>
 </li>
 </ul>
-<h3 id="fixed-bugs">Fixed bugs<a class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
+<h3 id="fixed-bugs">Fixed bugs<a data-markdown-ignore class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-991">K8SPG-991</a> - Fixed the issue where outdated backup cleanup failed during minor upgrades and logged noisy errors. The Operator now handles repo-host readiness more reliably before attempting cleanup.</p>
@@ -7899,7 +7899,7 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1138">K8SPG-1138</a> - Fixed the issue snapshot restore-prepare job not being scheduled on tainted nodes because of missing tolerations. You can now assign tolerations to snapshot restore jobs. </p>
 </li>
 </ul>
-<h3 id="documentation-updates">Documentation updates<a class="headerlink" href="#documentation-updates" title="Permanent link">¶</a></h3>
+<h3 id="documentation-updates">Documentation updates<a data-markdown-ignore class="headerlink" href="#documentation-updates" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-232">K8SPG-232</a> - Expanded restore documentation to explain in-place restore, side-cluster restore, and restore into an external environment. You can choose the right recovery pattern for your topology more easily.</p>
@@ -7914,9 +7914,9 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1123">K8SPG-1123</a> - Added documentation for deploying the Operator with Community PostgreSQL images. The guide covers how to set custom image fields and what Percona-only features are unavailable with community builds.</p>
 </li>
 </ul>
-<h2 id="supported-software">Supported software<a class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
+<h2 id="supported-software">Supported software<a data-markdown-ignore class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
 <p>This Operator version is developed and tested with Percona Distribution for PostgreSQL and PostgreSQL Community.</p>
-<h3 id="percona-distribution-for-postgresql">Percona Distribution for PostgreSQL<a class="headerlink" href="#percona-distribution-for-postgresql" title="Permanent link">¶</a></h3>
+<h3 id="percona-distribution-for-postgresql">Percona Distribution for PostgreSQL<a data-markdown-ignore class="headerlink" href="#percona-distribution-for-postgresql" title="Permanent link">¶</a></h3>
 <ul>
 <li><strong>PostgreSQL</strong> 14.24-3, 15.19-3, 16.15-3, 17.11.1-3, 18.6.1-3 as the database. Other versions may also work but have not been tested.</li>
 <li><strong>pgBackRest</strong> 2.59.1-2 for backup and recovery. As of October 5, 2026, pgBackRest has been updated to version 2.59.1-2.</li>
@@ -7926,13 +7926,13 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <li><strong>PMM Client</strong> version 3.9.1</li>
 <li><strong>cert-manager</strong> 1.21.1</li>
 </ul>
-<h3 id="postgresql-community">PostgreSQL Community<a class="headerlink" href="#postgresql-community" title="Permanent link">¶</a></h3>
+<h3 id="postgresql-community">PostgreSQL Community<a data-markdown-ignore class="headerlink" href="#postgresql-community" title="Permanent link">¶</a></h3>
 <ul>
 <li>PostgreSQL 14.24, 15.19, 16.15, 17.11, 18.6, and 19 (tech preview) as the database.</li>
 <li>pgBackRest 2.59.0 for backup and recovery</li>
 <li>pgBouncer 1.25.2 for connection pooling</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below:</p>
 <ul>
@@ -7944,9 +7944,9 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <li><a href="https://rancher.com/docs/rke2/latest/en/">Rancher <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> with Rancher Kubernetes Engine (RKE2) - 1.34 - 1.36</li>
 </ul>
 <p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
-<h2 id="postgresql-community-images">PostgreSQL Community images<a class="headerlink" href="#postgresql-community-images" title="Permanent link">¶</a></h2>
+<h2 id="postgresql-community-images">PostgreSQL Community images<a data-markdown-ignore class="headerlink" href="#postgresql-community-images" title="Permanent link">¶</a></h2>
 <p>Community images are available on UBI 9 and UBI 8. PostgreSQL 19 is a tech preview and ships on UBI 9 only. pgBouncer and pgBackRest community images are compatible with both UBI 8 and 9. See <a href="../images-community.html">PostgreSQL community images</a>.</p>
-<h2 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
+<h2 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
 <p>Starting with this release, Percona certified images are available for UBI 8, 9 and 10.</p>
 <p>The following tables list the images that you can use with the Percona Operator for PostgreSQL. </p>
 <div class="admonition note">
@@ -7958,7 +7958,7 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 </div>
 <p>The Operator, pgBouncer, pgBackRest, Fluent Bit, and PMM images are the same on every UBI. </p>
 <p>PostgreSQL, PostGIS, and the upgrade images are built separately for each UBI version. The Fluent Bit image is identical for UBI 8 and UBI 9 because both use a compatible version of the <code>GLIBC</code> library. For UBI 10, a separate Fluent Bit image is provided due to incompatibility with the earlier <code>GLIBC</code> versions.</p>
-<h3 id="shared-images">Shared images<a class="headerlink" href="#shared-images" title="Permanent link">¶</a></h3>
+<h3 id="shared-images">Shared images<a data-markdown-ignore class="headerlink" href="#shared-images" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -8013,8 +8013,8 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 </tr>
 </tbody>
 </table>
-<h3 id="percona-distribution-for-postgresql-images-by-ubi">Percona Distribution for PostgreSQL images by UBI<a class="headerlink" href="#percona-distribution-for-postgresql-images-by-ubi" title="Permanent link">¶</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">UBI 9 (default)</label><label for="__tabbed_1_2">UBI 8</label><label for="__tabbed_1_3">UBI 10</label></div>
+<h3 id="percona-distribution-for-postgresql-images-by-ubi">Percona Distribution for PostgreSQL images by UBI<a data-markdown-ignore class="headerlink" href="#percona-distribution-for-postgresql-images-by-ubi" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">UBI 9 (default)</label><label for="__tabbed_1_2">UBI 8</label><label for="__tabbed_1_3">UBI 10</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <table>

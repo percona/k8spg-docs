@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6954,11 +6954,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-260-2025-03-17">Percona Operator for PostgreSQL 2.6.0 (2025-03-17)<a class="headerlink" href="#percona-operator-for-postgresql-260-2025-03-17" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-260-2025-03-17">Percona Operator for PostgreSQL 2.6.0 (2025-03-17)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-260-2025-03-17" title="Permanent link">¶</a></h1>
 <p><a class="md-button" href="../System-Requirements.html#installation-guidelines">Installation</a> </p>
-<h2 id="release-highlights"><strong>Release Highlights</strong><a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights"><strong>Release Highlights</strong><a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
 <p>This release provides the following features and improvements:</p>
-<h3 id="backup-improvements"><strong>Backup improvements</strong><a class="headerlink" href="#backup-improvements" title="Permanent link">¶</a></h3>
+<h3 id="backup-improvements"><strong>Backup improvements</strong><a data-markdown-ignore class="headerlink" href="#backup-improvements" title="Permanent link">¶</a></h3>
 <p>This release implemented several improvements to the backup/restore process:</p>
 <ul>
 <li>
@@ -6971,7 +6971,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>You can now <a href="../backups-restore-inplace.html#provide-pgbackrest-with-a-custom-restore-command">overwrite</a> the default restore command for <code>pgBackRest</code> via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option. Particularly, this allows to control and filter files restored to <code>pg_wal</code> directory without editing these files in the backup repository storage.</p>
 </li>
 </ul>
-<h3 id="postgresql-17-support">PostgreSQL 17 support<a class="headerlink" href="#postgresql-17-support" title="Permanent link">¶</a></h3>
+<h3 id="postgresql-17-support">PostgreSQL 17 support<a data-markdown-ignore class="headerlink" href="#postgresql-17-support" title="Permanent link">¶</a></h3>
 <p>PostgreSQL 17 is now supported by the Operator in addition to versions 13 - 16. The appropriate images are now included in the <a href="../images.html">list of Percona-certified images</a>. See these blogposts for details about the latest PostgreSQL 17 features with the added security and functionality improvements:</p>
 <ul>
 <li><a href="https://www.percona.com/blog/encrypt-postgresql-data-at-rest-on-kubernetes/">Encrypt PostgreSQL Data at Rest on Kubernetes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> by Ege Gunes</li>
@@ -6980,15 +6980,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>PostgreSQL 17 is currently not recommended for production environments due to the <a href="#known-limitations">known limitation</a>.</p>
 <p><em>Update from April 1, 2025</em>: We have added PostgreSQL 17.4 image and database cluster components based on this image. It is now production ready and we recommend updating the database cluster from PostgreSQL 17.2 to 17.4. Check the <a href="../update-db-minor.html">upgrade instructions</a> for steps</p>
-<h3 id="pgvector-is-added-to-the-postgresql-image"><code>pgvector</code> is added to the PostgreSQL image<a class="headerlink" href="#pgvector-is-added-to-the-postgresql-image" title="Permanent link">¶</a></h3>
+<h3 id="pgvector-is-added-to-the-postgresql-image"><code>pgvector</code> is added to the PostgreSQL image<a data-markdown-ignore class="headerlink" href="#pgvector-is-added-to-the-postgresql-image" title="Permanent link">¶</a></h3>
 <p>To support you with your AI journey, we’ve added the <code>pgvector</code> extension to the PostgreSQL images shipped with our Operator. Now, you can easily use Percona Distribution for PostgreSQL as a vector database by simply enabling it in your <a href="../operator.html#extensionsbuiltinpgvector">Custom Resource options</a>. No more <a href="https://www.percona.com/blog/create-an-ai-expert-with-open-source-tools-and-pgvector/">custom extension installations <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> needed.</p>
-<h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
+<h2 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-628">K8SPG-628</a>: The custom <code>restore_command</code> <a href="../backups-restore-inplace.html#provide-pgbackrest-with-a-custom-restore-command">can be now passed</a> to pgBackRest via the <a href="../operator.html#patronidynamicconfiguration">patroni.dynamicConfiguration</a> Custom Resource option</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-619">K8SPG-619</a>: New <code>backups.pgbackrest.jobs.backoffLimit</code> and <code>backups.pgbackrest.jobs.restartPolicy</code> Custom Resource options allow to retry backup in the backup Pod for a specified number of times before abandoning the Pod and creating the new one</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-648">K8SPG-648</a>: PostgreSQL 17 is now supported by the Operator</li>
 </ul>
-<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
+<h2 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-487">K8SPG-487</a>: New <code>spec.metadata.labels</code> and <code>spec.metadata.annotations</code> Custom Resource options allow setting labels and annotation globally for all Kubernetes objects created by the Operator</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-554">K8SPG-554</a>: New <code>tlsOnly</code> Custom Resource option allows the user to enforce TLS connections for the database cluster</li>
@@ -7001,7 +7001,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-702">K8SPG-702</a>: A retry logic was implemented to fix intermittent Pod exec failures caused by timeouts (Thanks to dcaputo-harmoni for contribution)</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-711">K8SPG-711</a>: The new <a href="https://github.com/percona/percona-docker/blob/main/postgresql-containers/README.md">README.md  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> explains how to build your own images for the PostgreSQL cluster components used by the Operator</li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
+<h2 id="bugs-fixed">Bugs Fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-594">K8SPG-594</a>: Fix a bug where extension was still appearing in pg_extension table after being removed from Custom Resource and physically deleted by the Operator</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-637">K8SPG-637</a>: Fix a bug where restore was failing with “waiting for another restore to finish” if the pg-restore object of a previous unfinished restore was manually deleted</li>
@@ -7010,7 +7010,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-681">K8SPG-681</a>: Fixed a bug where the “Last Recoverable Time” information field was missing from the output of the <code>kubectl get pg-backup</code> command due to misdetection cases</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-713">K8SPG-713</a>: Fix a bug where The cluster not found errors were appearing in the Operator logs on cluster deletion</li>
 </ul>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p>The new versions of Percona distribution for PostgreSQL used by the Operator come with Patroni 4.x, which introduces breaking changes compared to previously used 3.x versions.  </p>
@@ -7022,7 +7022,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>PostgreSQL 12 is no longer supported by the Operator 2.6.0 and newer versions.</p>
 </li>
 </ul>
-<h2 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
+<h2 id="known-limitations">Known limitations<a data-markdown-ignore class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p>PostgreSQL 17.2 image and images for other database cluster components based on PostgreSQL 17 contain the known <a href="https://www.postgresql.org/support/security/CVE-2025-1094/">CVE-2025-1094 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> - a vulnerability in the libpq PostgreSQL client library, which makes images used by the Operator vulnerable to SQL injection within the PostgreSQL interactive terminal due to the lack of neutralizing quoting. Images for PostgreSQL 17 will be available soon, while images for other PosgreSQL versions have already been fixed.</p>
@@ -7031,7 +7031,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>PostgreSQL 17.4 image includes the fix for <a href="https://www.postgresql.org/support/security/CVE-2025-1094/">CVE-2025-1094 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, which closed a vulnerability in the <code>libpq</code> PostgreSQL client library but introduced a regression related to string handling for non-null terminated strings. The error would be visible based on how a PostgreSQL client implemented this behavior. </p>
 </li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>The Operator 2.6.0 is developed, tested and based on:</p>
 <ul>
 <li>PostgreSQL 13.20, 14.17, 15.12, 16.8, 17.2 and 17.4 as the database. Other versions may also work but have not been tested. </li>

@@ -140,7 +140,7 @@ platform. For more information on the EKS, see the Amazon EKS official documenta
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6868,12 +6868,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="install-percona-distribution-for-postgresql-on-amazon-elastic-kubernetes-service-eks">Install Percona Distribution for PostgreSQL on Amazon Elastic Kubernetes Service (EKS)<a class="headerlink" href="#install-percona-distribution-for-postgresql-on-amazon-elastic-kubernetes-service-eks" title="Permanent link">¶</a></h1>
+<h1 id="install-percona-distribution-for-postgresql-on-amazon-elastic-kubernetes-service-eks">Install Percona Distribution for PostgreSQL on Amazon Elastic Kubernetes Service (EKS)<a data-markdown-ignore class="headerlink" href="#install-percona-distribution-for-postgresql-on-amazon-elastic-kubernetes-service-eks" title="Permanent link">¶</a></h1>
 <p>This guide shows you how to deploy Percona Operator for PostgreSQL on Amazon
 Elastic Kubernetes Service (EKS). The document assumes some experience with the
 platform. For more information on the EKS, see the <a href="https://aws.amazon.com/eks/">Amazon EKS official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
-<h3 id="software-installation">Software installation<a class="headerlink" href="#software-installation" title="Permanent link">¶</a></h3>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h3 id="software-installation">Software installation<a data-markdown-ignore class="headerlink" href="#software-installation" title="Permanent link">¶</a></h3>
 <p>The following tools are used in this guide and therefore should be preinstalled:</p>
 <ol>
 <li>
@@ -6891,7 +6891,7 @@ platform. For more information on the EKS, see the <a href="https://aws.amazon.c
 </ol>
 <p>Also, you need to configure AWS CLI with your credentials according to the
 <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">official guide <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h3 class="power-number" id="creating-the-eks-cluster">Creating the EKS cluster<a class="headerlink" href="#creating-the-eks-cluster" title="Permanent link">¶</a></h3>
+<h3 class="power-number" id="creating-the-eks-cluster">Creating the EKS cluster<a data-markdown-ignore class="headerlink" href="#creating-the-eks-cluster" title="Permanent link">¶</a></h3>
 <ol>
 <li>
 <p>To create your cluster, you will need the following data:</p>
@@ -6919,7 +6919,7 @@ e.g. for testing purposes.</p>
 </div>
 </li>
 </ol>
-<h2 id="install-the-operator-and-percona-distribution-for-postgresql">Install the Operator and Percona Distribution for PostgreSQL<a class="headerlink" href="#install-the-operator-and-percona-distribution-for-postgresql" title="Permanent link">¶</a></h2>
+<h2 id="install-the-operator-and-percona-distribution-for-postgresql">Install the Operator and Percona Distribution for PostgreSQL<a data-markdown-ignore class="headerlink" href="#install-the-operator-and-percona-distribution-for-postgresql" title="Permanent link">¶</a></h2>
 <p class="power-number">The following steps are needed to deploy the Operator and Percona Distribution for PostgreSQL in
 your Kubernetes environment:</p>
 <ol>
@@ -7002,7 +7002,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </details>
 </li>
 </ol>
-<h2 id="verifying-the-cluster-operation">Verifying the cluster operation<a class="headerlink" href="#verifying-the-cluster-operation" title="Permanent link">¶</a></h2>
+<h2 id="verifying-the-cluster-operation">Verifying the cluster operation<a data-markdown-ignore class="headerlink" href="#verifying-the-cluster-operation" title="Permanent link">¶</a></h2>
 <p>When creation process is over, <code>kubectl get pg</code> command will show you the
 cluster status as <code>ready</code>, and you can try to connect to the cluster.</p>
 <p class="power-number">When the Operator deploys a database cluster, it generates several
@@ -7059,7 +7059,7 @@ Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </spa
 </details>
 </li>
 </ol>
-<h2 id="removing-the-cluster">Removing the cluster<a class="headerlink" href="#removing-the-cluster" title="Permanent link">¶</a></h2>
+<h2 id="removing-the-cluster">Removing the cluster<a data-markdown-ignore class="headerlink" href="#removing-the-cluster" title="Permanent link">¶</a></h2>
 <p>If you need to delete the Operator and PostgreSQL cluster (for example, to clean
 up the testing deployment before adopting it for production use), check
 <a href="delete.html">this HowTo</a>.</p>

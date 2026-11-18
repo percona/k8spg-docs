@@ -1,0 +1,165 @@
+> For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
+
+# Using PostgreSQL tablespaces with Percona Operator for PostgreSQL
+
+Tablespaces allow DBAs to store a database on multiple file systems within the same server and to control where (on which file systems) specific parts of the database are stored. You can think about it as if you were giving names to your disk mounts and then using those names as additional parameters when creating database objects.
+
+PostgreSQL supports this feature, allowing you to *store data outside of the primary data directory*, and Percona Operator for PostgreSQL is a good option to bring this to your Kubernetes environment when needed.
+
+## Possible use cases
+
+The most obvious use case for tablespaces is performance optimization. You place appropriate parts of the database on fast but expensive storage and engage slower but cheaper storage for lesser-used database objects. The classic example would be using an SSD for heavily-used indexes and using a large slow HDD for archive data.
+
+Of course, the Operator [already provides](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/constraints.html) you with [traditional Kubernetes approaches](https://kubernetes.io/docs/concepts/scheduling-eviction/assign-pod-node/) to achieve this on a per-Pod basis (Tolerations, etc.). But if you would like to go deeper and make such differentiation at the level of your database objects (tables and indexes), tablespaces are exactly what you would need for that.
+
+Another well-known use case for tablespaces is quickly adding a new partition to the database cluster when you run out of space on the initially used one and cannot extend it (which may look less typical for cloud storage). Finally, you may need tablespaces when migrating your existing architecture to the cloud.
+
+Each tablespace created by Percona Operator for PostgreSQL corresponds to a separate Persistent Volume, mounted in a container to the `/tablespaces` directory.
+
+## Creating a new tablespace
+
+To provide a new tablespace for your database in Kubernetes, you should do the following:
+
+1. Configure the new tablespace storage with the Operator,
+1. Create database objects in this tablespace with PostgreSQL.
+
+### Configure the new tablespace storage with the Operator
+
+Modify the Custom Resource and configure the [spec.instances.tablespaceVolumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html#instancestablespacevolumesname) section for tablespaces.
+
+**kubectl**
+
+1. Edit the `deploy/cr.yaml` configuration file. Specify the volume name, access mode and resource requests. Refer to [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details.
+
+   This example configuration shows how to create tablespace storage 1Gi in size:
+
+   ```
+   spec:
+     instances:
+       ...
+       tablespaceVolumes:
+         - name: user
+           dataVolumeClaimSpec:
+             accessModes:
+               - 'ReadWriteOnce'
+             resources:
+               requests:
+                 storage: 1Gi
+   ```
+
+1. Apply the configuration:
+
+   ```
+   kubectl apply -f deploy/cr.yaml -n <namespace>
+   ```
+
+**Helm**
+
+1. Create or update the existing `values.yaml` file and specify the tablespace storage configuration:
+
+   - the name for the storage
+   - access mode
+   - resource requests
+
+   Refer to [official Kubernetes documentation on Persistent Volumes](https://kubernetes.io/docs/concepts/storage/persistent-volumes/) for details.
+
+   This example configuration shows how to create tablespace storage 1Gb in size:
+
+   my-values.yaml
+
+   ```
+   instances:
+   - name: instance1
+     replicas: 3
+     dataVolumeClaimSpec:
+       accessModes:
+         - ReadWriteOnce
+       resources:
+         requests:
+           storage: 5Gi
+     tablespaceVolumes:
+       - name: user
+         dataVolumeClaimSpec:
+           accessModes:
+             - 'ReadWriteOnce'
+           resources:
+             requests:
+               storage: 1Gi
+   ```
+
+1. Update your release object for the database cluster:
+
+   ```
+   helm upgrade -f my-values.yaml <release-name> percona/pg-db -n <namespace>
+   ```
+
+1. Check if your settings took effect:
+
+   ```
+   helm get values <release-name> -n <namespace>
+   ```
+
+   Expected output
+
+   ```
+   USER-SUPPLIED VALUES:
+   instances:
+   - dataVolumeClaimSpec:
+       accessModes:
+       - ReadWriteOnce
+       resources:
+         requests:
+           storage: 5Gi
+     name: instance1
+     replicas: 3
+     tablespaceVolumes:
+     - dataVolumeClaimSpec:
+         accessModes:
+         - ReadWriteOnce
+         resources:
+           requests:
+             storage: 1Gi
+       name: user
+   ```
+
+After you apply the new configuration, the new `/tablespaces/user/` mountpoint will appear for your database. Please take into account that if you add your new tablespace to the already existing PostgreSQL cluster, it may take time for the Operator to create Persistent Volume Claims and get Persistent Volumes actually mounted.
+
+Now you should actually create your tablespace on this volume with the `CREATE TABLESPACE <tablespace name> LOCATION <mount point>` command, and then create objects in it (of course, your user should have appropriate `CREATE` privileges to make it possible):
+
+```
+CREATE TABLESPACE user121
+LOCATION '/tablespaces/user/data';
+```
+
+Now when the tablespace is created you can append `TABLESPACE <tablespace_name>` to your `CREATE` SQL statements to implicitly create tables, indexes, or even entire databases in specific tablespace.
+
+Let’s create an example table in the already mentioned `user121` tablespace:
+
+```
+CREATE TABLE products (
+    product_sku character(10),
+    quantity int,
+    manufactured_date timestamptz)
+TABLESPACE user121;
+```
+
+It is also possible to set a default tablespace with the `SET default_tablespace = <tablespace_name>;` statement. It will affect all further `CREATE TABLE` and `CREATE INDEX` commands without an explicit tablespace specifier, until you unset it with an empty string.
+
+As you can see, Percona Operator for PostgreSQL simplifies tablespace creation by carrying on all necessary modifications with Persistent Volumes and Pods. The same would not be true for the deletion of an already existing tablespace, which is not automated, neither by the Operator nor by PostgreSQL.
+
+## Deleting an existing tablespace
+
+Deleting an existing tablespace from your database in Kubernetes also involves two parts:
+
+- Delete related database objects and tablespace with PostgreSQL,
+- Delete tablespace storage in Kubernetes.
+
+To make tablespace deletion with PostgreSQL possible, you should make this tablespace empty (it is impossible to drop a tablespace until *all objects in all databases using this tablespace* have been removed). Tablespaces are listed in the `pg_tablespace` table, and you can use it to find out which objects are stored in a specific tablespace. The example command for the `lake` tablespace will look as follows:
+
+```
+SELECT relname FROM pg_class WHERE reltablespace=(SELECT oid FROM pg_tablespace WHERE spcname='user121');
+```
+
+When your tablespace is empty, you can log in to the *PostgreSQL Primary instance* as a *superuser*, and then execute the `DROP TABLESPACE <tablespace_name>;` command.
+
+Now, when the PostgreSQL part is finished, you can remove the tablespace entry from the `tablespaceStorages` section (don’t forget to run the `kubectl apply -f deploy/cr.yaml` command to apply changes).

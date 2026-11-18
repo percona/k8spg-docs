@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6846,7 +6846,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="standby-cluster-deployment-based-on-streaming-replication">Standby cluster deployment based on streaming replication<a class="headerlink" href="#standby-cluster-deployment-based-on-streaming-replication" title="Permanent link">¶</a></h1>
+<h1 id="standby-cluster-deployment-based-on-streaming-replication">Standby cluster deployment based on streaming replication<a data-markdown-ignore class="headerlink" href="#standby-cluster-deployment-based-on-streaming-replication" title="Permanent link">¶</a></h1>
 <p>The following diagram explains how the standby based on streaming replication works:</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/images/dr-stream.svg" data-desc-position="bottom"><img alt="image" src="assets/images/dr-stream.svg"></a></p>
 <ol>
@@ -6863,8 +6863,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>We set up streaming replication between these two clusters</p>
 </li>
 </ol>
-<h2 id="deploy-disaster-recovery-for-postgresql-on-kubernetes">Deploy disaster recovery for PostgreSQL on Kubernetes<a class="headerlink" href="#deploy-disaster-recovery-for-postgresql-on-kubernetes" title="Permanent link">¶</a></h2>
-<h3 id="configure-main-site">Configure Main site<a class="headerlink" href="#configure-main-site" title="Permanent link">¶</a></h3>
+<h2 id="deploy-disaster-recovery-for-postgresql-on-kubernetes">Deploy disaster recovery for PostgreSQL on Kubernetes<a data-markdown-ignore class="headerlink" href="#deploy-disaster-recovery-for-postgresql-on-kubernetes" title="Permanent link">¶</a></h2>
+<h3 id="configure-main-site">Configure Main site<a data-markdown-ignore class="headerlink" href="#configure-main-site" title="Permanent link">¶</a></h3>
 <ol>
 <li>
 <p>Deploy the Operator <a href="System-Requirements.html#installation-guidelines">using your favorite method</a>.</p>
@@ -6892,7 +6892,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h3 id="configure-dr-site">Configure DR site<a class="headerlink" href="#configure-dr-site" title="Permanent link">¶</a></h3>
+<h3 id="configure-dr-site">Configure DR site<a data-markdown-ignore class="headerlink" href="#configure-dr-site" title="Permanent link">¶</a></h3>
 <p>To get the replication working, the Standby cluster would need to authenticate with the Main one. To get there, both clusters must have certificates signed by the same certificate authority (CA). Default replication user <code>_crunchyrepl</code> will be used.</p>
 <p>To ensure authentication, choose one of these options for the server certificate:</p>
 <ul>
@@ -6939,9 +6939,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Connect to the DR cluster</li>
 </ol>
 <p>To connect to the DR cluster, use the credentials that you used to connect to Main. This also verifies that the connection is working. You should see whatever data you have in the Main cluster in the Disaster Recovery.</p>
-<h3 id="copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a class="headerlink" href="#copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
+<h3 id="copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a data-markdown-ignore class="headerlink" href="#copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
 <p>Copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow <a href="standby-failover.html#prepare-the-user-passwords">Prepare the user passwords</a>.</p>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p>Because the certificates of both sites are signed by the same CA, you can later <a href="standby-switchover.html">swap their roles</a>. The Main site then follows the DR site without a rebuild.</p>
 <hr>
 <div class="md-source-file">

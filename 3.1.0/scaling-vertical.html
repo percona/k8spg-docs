@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6824,9 +6824,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="scale-a-postgresql-cluster-vertically">Scale a PostgreSQL cluster vertically<a class="headerlink" href="#scale-a-postgresql-cluster-vertically" title="Permanent link">¶</a></h1>
+<h1 id="scale-a-postgresql-cluster-vertically">Scale a PostgreSQL cluster vertically<a data-markdown-ignore class="headerlink" href="#scale-a-postgresql-cluster-vertically" title="Permanent link">¶</a></h1>
 <p>Vertical scaling adds CPU, memory, or disk to existing PostgreSQL members. Use it when the cluster needs more resources per Pod rather than more members. For adding members, see <a href="scaling-horizontal.html">Scale horizontally</a>.</p>
-<h2 id="scale-compute-resources">Scale compute resources<a class="headerlink" href="#scale-compute-resources" title="Permanent link">¶</a></h2>
+<h2 id="scale-compute-resources">Scale compute resources<a data-markdown-ignore class="headerlink" href="#scale-compute-resources" title="Permanent link">¶</a></h2>
 <p>The Operator deploys and manages several components: PostgreSQL instances, pgBouncer, pgBackRest, and others. See <a href="architecture.html">Architecture</a> for the full list.</p>
 <p>You can manage CPU or memory for every component in the corresponding section of the Custom Resource. The Operator follows the Kubernetes model for <a href="https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/">requests and limits <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>:</p>
 <ul>
@@ -6849,7 +6849,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <p>If you set only <code>limits</code> and omit <code>requests</code>, Kubernetes defaults the request to the limit value.</p>
 <p>See the <a href="operator.html">Custom Resource options</a> for other components.</p>
-<h2 id="scale-storage">Scale storage<a class="headerlink" href="#scale-storage" title="Permanent link">¶</a></h2>
+<h2 id="scale-storage">Scale storage<a data-markdown-ignore class="headerlink" href="#scale-storage" title="Permanent link">¶</a></h2>
 <p>Kubernetes manages storage with the following components:</p>
 <ul>
 <li>a PersistentVolume (PV) - a segment of storage supplied by the Kubernetes administrator</li>
@@ -6872,7 +6872,7 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </details>
 <p>Find exact details about PVCs and the supported volume types in <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/#expanding-persistent-volumes-claims">Kubernetes documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h3 id="storage-resizing-with-volume-expansion-capability">Storage resizing with Volume Expansion capability<a class="headerlink" href="#storage-resizing-with-volume-expansion-capability" title="Permanent link">¶</a></h3>
+<h3 id="storage-resizing-with-volume-expansion-capability">Storage resizing with Volume Expansion capability<a data-markdown-ignore class="headerlink" href="#storage-resizing-with-volume-expansion-capability" title="Permanent link">¶</a></h3>
 <p>Starting with Operator version 2.5.0, the Operator automatically expands storage that supports Volume Expansion when you change the size in the Custom Resource.</p>
 <p class="power-number">To resize storage, do the following:</p>
 <ol>
@@ -6894,7 +6894,7 @@ To check if your storage supports the expansion capability, run the following co
 </code></pre></div>
 </li>
 </ol>
-<h3 id="automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks<a class="headerlink" href="#automated-scaling-with-auto-growable-disks" title="Permanent link">¶</a></h3>
+<h3 id="automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks<a data-markdown-ignore class="headerlink" href="#automated-scaling-with-auto-growable-disks" title="Permanent link">¶</a></h3>
 <p>Starting with Operator version 2.5.0, the Operator can detect when storage usage on a PVC reaches a certain threshold and trigger a PVC resize. Starting with Operator version 3.1.0, the Operator automatically resizes pgBackRest repository volumes on the repo host.</p>
 <p>This autoscaling needs the upstream auto-growable disk feature turned on when you deploy the Operator.</p>
 <p>This feature gives you:</p>

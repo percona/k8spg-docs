@@ -134,7 +134,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6691,13 +6691,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="upgrade-using-backup-and-restore">Upgrade using backup and restore<a class="headerlink" href="#upgrade-using-backup-and-restore" title="Permanent link">¶</a></h1>
+<h1 id="upgrade-using-backup-and-restore">Upgrade using backup and restore<a data-markdown-ignore class="headerlink" href="#upgrade-using-backup-and-restore" title="Permanent link">¶</a></h1>
 <p>This method allows you to migrate from the version 1.x to version 2.x cluster by restoring (actually creating) a new version 2.x PostgreSQL cluster using a backup from the version 1.x cluster.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>To make sure that all transactions are captured in the backup, you need to stop the old cluster. This brings downtime to the application.</p>
 </div>
-<h2 class="power-number" id="prepare-the-backup">Prepare the backup<a class="headerlink" href="#prepare-the-backup" title="Permanent link">¶</a></h2>
+<h2 class="power-number" id="prepare-the-backup">Prepare the backup<a data-markdown-ignore class="headerlink" href="#prepare-the-backup" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create the backup on the version 1.x cluster, following the <a href="https://docs.percona.com/percona-operator-for-postgresql/1.0/backups.html#making-on-demand-backup">official guide for manual (on-demand) backups</a>.
@@ -6716,7 +6716,7 @@ When it’s set, local backups will be kept after the cluster deletion, so you c
 </div>
 </li>
 </ol>
-<h2 id="restore-the-backup-as-a-version-2x-cluster">Restore the backup as a version 2.x cluster<a class="headerlink" href="#restore-the-backup-as-a-version-2x-cluster" title="Permanent link">¶</a></h2>
+<h2 id="restore-the-backup-as-a-version-2x-cluster">Restore the backup as a version 2.x cluster<a data-markdown-ignore class="headerlink" href="#restore-the-backup-as-a-version-2x-cluster" title="Permanent link">¶</a></h2>
 <p class="power-number"><strong>Restore from S3 / Google Cloud Storage for backups repository</strong></p>
 <ol>
 <li>

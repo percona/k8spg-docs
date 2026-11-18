@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6868,7 +6868,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="ldap-authentication">LDAP authentication<a class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h1>
+<h1 id="ldap-authentication">LDAP authentication<a data-markdown-ignore class="headerlink" href="#ldap-authentication" title="Permanent link">¶</a></h1>
 <div class="admonition admonition">
 <p class="admonition-title">Version added: <a href="ReleaseNotes/Kubernetes-Operator-for-PostgreSQL-RN2.9.0.html">2.9.0</a></p>
 </div>
@@ -6880,7 +6880,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Let users log in to the database with their existing organizational credentials and don’t have to remember multiple logins</li>
 <li>Easily enforce centralized password policies and improve security</li>
 </ul>
-<h2 id="how-ldap-authentication-works">How LDAP authentication works<a class="headerlink" href="#how-ldap-authentication-works" title="Permanent link">¶</a></h2>
+<h2 id="how-ldap-authentication-works">How LDAP authentication works<a data-markdown-ignore class="headerlink" href="#how-ldap-authentication-works" title="Permanent link">¶</a></h2>
 <ol>
 <li>You configure usernames and passwords in the LDAP server of your choice as Distinguished Names (DNs). You also specify these users in the Custom Resource.</li>
 <li>You configure the authentication parameters in the Custom Resource. This instructs the Operator to generate authentication rules in <code>pg_hba.conf</code>.</li>
@@ -6889,8 +6889,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>PostgreSQL performs an LDAP bind to verify the user (using either <a href="#bind-modes">simple bind or search+bind</a>).</li>
 <li>If the bind succeeds, PostgreSQL grants access according to the privileges you defined for this user.</li>
 </ol>
-<h2 id="connection-and-bind-modes">Connection and bind modes<a class="headerlink" href="#connection-and-bind-modes" title="Permanent link">¶</a></h2>
-<h3 id="connection-plain-ldap-vs-ldaps">Connection: plain LDAP vs LDAPS<a class="headerlink" href="#connection-plain-ldap-vs-ldaps" title="Permanent link">¶</a></h3>
+<h2 id="connection-and-bind-modes">Connection and bind modes<a data-markdown-ignore class="headerlink" href="#connection-and-bind-modes" title="Permanent link">¶</a></h2>
+<h3 id="connection-plain-ldap-vs-ldaps">Connection: plain LDAP vs LDAPS<a data-markdown-ignore class="headerlink" href="#connection-plain-ldap-vs-ldaps" title="Permanent link">¶</a></h3>
 <p>You can connect to the LDAP server over an unencrypted or encrypted channel.</p>
 <p><strong>Plain LDAP</strong> sends credentials over the network without encryption. This connection is available at port <code>389</code>. Use it only in trusted networks, for example in development or when the LDAP server runs in the same cluster.</p>
 <p><strong>LDAPS</strong> uses TLS to encrypt traffic between PostgreSQL and the LDAP server. This connection is available at port <code>636</code>. Use LDAPS in production. You must provide the CA certificate that signed the LDAP server’s certificate so PostgreSQL can verify the connection. You can generate these certificates via the cert-manager or use your custom ones.</p>
@@ -6898,18 +6898,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p class="admonition-title">Encryption scope</p>
 <p>LDAPS encrypts only the link between PostgreSQL and the LDAP server. To encrypt the connection between the client and PostgreSQL as well, configure <a href="TLS.html">TLS for the database</a>.</p>
 </div>
-<h3 id="bind-modes">Bind modes<a class="headerlink" href="#bind-modes" title="Permanent link">¶</a></h3>
+<h3 id="bind-modes">Bind modes<a data-markdown-ignore class="headerlink" href="#bind-modes" title="Permanent link">¶</a></h3>
 <p>PostgreSQL supports two ways to look up and verify users in LDAP.</p>
 <p><strong>Simple bind</strong> builds the user’s Distinguished Name (DN) from a prefix and suffix you configure. The DN format is <code>&lt;ldapprefix&gt;&lt;username&gt;&lt;ldapsuffix&gt;</code>. For example, with <code>ldapprefix="uid="</code> and <code>ldapsuffix=",ou=users,dc=example,dc=com"</code>, user <code>alice</code> becomes <code>uid=alice,ou=users,dc=example,dc=com</code>. PostgreSQL then binds to LDAP as that DN with the password the client supplied. This is the simplest mode and works well when your LDAP structure is predictable.</p>
 <p><strong>Search+bind</strong> is more flexible. PostgreSQL first binds to LDAP (with a fixed service account or anonymously), searches for the user under a base DN using an attribute or filter, then re-binds as the found user with the client’s password. Use search+bind when users live in different subtrees or when you need custom search logic (for example, matching by <code>uid</code> or <code>mail</code>). It requires <code>ldapbasedn</code> and either <code>ldapsearchattribute</code> or <code>ldapsearchfilter</code>; optionally <code>ldapbinddn</code> and <code>ldapbindpasswd</code> for the initial bind.</p>
 <p>You cannot mix simple-bind options (<code>ldapprefix</code>, <code>ldapsuffix</code>) with search+bind options (<code>ldapbasedn</code>, <code>ldapsearchattribute</code>, etc.) in the same rule.</p>
 <p>To learn more, see <a href="https://www.postgresql.org/docs/current/auth-ldap.html">PostgreSQL documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a></p>
-<h2 id="username-mapping">Username mapping<a class="headerlink" href="#username-mapping" title="Permanent link">¶</a></h2>
+<h2 id="username-mapping">Username mapping<a data-markdown-ignore class="headerlink" href="#username-mapping" title="Permanent link">¶</a></h2>
 <ul>
 <li>PostgreSQL expects the LDAP username to match the PostgreSQL username.</li>
 <li>If a username contains special characters (such as <code>@</code>), escape them appropriately in both LDAP and PostgreSQL. For example, you can use <code>user@domain</code> directly if both LDAP and PostgreSQL support that character in usernames. For accurate rules on escaping special characters, refer to <a href="https://datatracker.ietf.org/doc/html/rfc4514">RFC4514 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, <a href="https://datatracker.ietf.org/doc/html/rfc4515">RFC4515 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, <a href="https://datatracker.ietf.org/doc/html/rfc4516">RFC4516 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, or consult your LDAP server documentation.</li>
 </ul>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="ldap-setup.html">Configure LDAP authentication</a></p>
 <hr>
 <div class="md-source-file">

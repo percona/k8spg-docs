@@ -134,7 +134,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6702,10 +6702,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="migrate-using-standby">Migrate using Standby<a class="headerlink" href="#migrate-using-standby" title="Permanent link">¶</a></h1>
+<h1 id="migrate-using-standby">Migrate using Standby<a data-markdown-ignore class="headerlink" href="#migrate-using-standby" title="Permanent link">¶</a></h1>
 <p>This method allows you to migrate from version 1.x to version 2.x by creating a new version 2.x PostgreSQL cluster in a “standby” mode, mirroring the version 1.x cluster to it continuously. This method can provide minimal downtime, but requires additional computing resources to run two clusters in parallel.</p>
 <p>This method only works if the version 1.x cluster uses <a href="https://en.wikipedia.org/wiki/Amazon_S3#S3_API_and_competing_services">Amazon S3 or S3-compatible storage <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, or <a href="https://cloud.google.com/storage">Google Cloud storage (GCS) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for backups. For more information on standby clusters, please refer to <a href="https://www.postgresql.org/docs/current/warm-standby.html">this article <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h2 id="migrate-to-version-2">Migrate to version 2<a class="headerlink" href="#migrate-to-version-2" title="Permanent link">¶</a></h2>
+<h2 id="migrate-to-version-2">Migrate to version 2<a data-markdown-ignore class="headerlink" href="#migrate-to-version-2" title="Permanent link">¶</a></h2>
 <p class="power-number">There is no need to perform any additional configuration on version 1.x cluster, you will only need to configure  the version 2.x one.</p>
 <ol>
 <li>
@@ -6746,7 +6746,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="promote-version-2x-cluster">Promote version 2.x cluster<a class="headerlink" href="#promote-version-2x-cluster" title="Permanent link">¶</a></h2>
+<h2 id="promote-version-2x-cluster">Promote version 2.x cluster<a data-markdown-ignore class="headerlink" href="#promote-version-2x-cluster" title="Permanent link">¶</a></h2>
 <p class="power-number">Once the standby cluster is up and running, you can promote it.</p>
 <ol>
 <li>
@@ -6763,7 +6763,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 </ol>
 <p>You can use version 2.x cluster now. Also the 2.x version is now managing the object storage with backups, so you should not start your old cluster.</p>
-<h2 id="create-the-replication-user">Create the replication user<a class="headerlink" href="#create-the-replication-user" title="Permanent link">¶</a></h2>
+<h2 id="create-the-replication-user">Create the replication user<a data-markdown-ignore class="headerlink" href="#create-the-replication-user" title="Permanent link">¶</a></h2>
 <p>Right after disabling standby, run the following SQL commands as a PostgreSQL superuser. For example, you can login as the <code>postgres</code> user, or exec into the Pod and use <code>psql</code>:</p>
 <ul>
 <li>add the managed replication user</li>

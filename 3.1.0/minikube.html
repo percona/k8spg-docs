@@ -139,7 +139,7 @@ is the easiest way to try it locally without a cloud provider.">
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6811,7 +6811,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="install-percona-distribution-for-postgresql-on-minikube">Install Percona Distribution for PostgreSQL on Minikube<a class="headerlink" href="#install-percona-distribution-for-postgresql-on-minikube" title="Permanent link">¶</a></h1>
+<h1 id="install-percona-distribution-for-postgresql-on-minikube">Install Percona Distribution for PostgreSQL on Minikube<a data-markdown-ignore class="headerlink" href="#install-percona-distribution-for-postgresql-on-minikube" title="Permanent link">¶</a></h1>
 <p>Installing the Percona Operator for PostgreSQL on <a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 is the easiest way to try it locally without a cloud provider. </p>
 <p>Minikube runs
@@ -6821,7 +6821,7 @@ a popular way to test Kubernetes application locally prior to deploying it on a
 cloud.</p>
 <p>This document describes how to deploy the Operator and Percona Distribution
 for PostgreSQL on Minikube.</p>
-<h2 class="power-number" id="set-up-minikube">Set up Minikube<a class="headerlink" href="#set-up-minikube" title="Permanent link">¶</a></h2>
+<h2 class="power-number" id="set-up-minikube">Set up Minikube<a data-markdown-ignore class="headerlink" href="#set-up-minikube" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p><a href="https://kubernetes.io/docs/tasks/tools/install-minikube/">Install Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, using a way recommended for your system. This includes the installation of the following three components:</p>
@@ -6851,7 +6851,7 @@ cluster.</p>
     default web browser.</p>
 </li>
 </ol>
-<h2 class="power-number" id="deploy-the-percona-operator-for-postgresql">Deploy the Percona Operator for PostgreSQL<a class="headerlink" href="#deploy-the-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
+<h2 class="power-number" id="deploy-the-percona-operator-for-postgresql">Deploy the Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#deploy-the-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create the Kubernetes namespace for your cluster. It is a good practice to isolate workloads in Kubernetes by installing the Operator in a custom namespace. For example, let’s name it <code>postgres-operator</code>:</p>
@@ -6924,7 +6924,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </details>
 </li>
 </ol>
-<h2 id="verify-the-percona-distribution-for-postgresql-cluster-operation">Verify the Percona Distribution for PostgreSQL cluster operation<a class="headerlink" href="#verify-the-percona-distribution-for-postgresql-cluster-operation" title="Permanent link">¶</a></h2>
+<h2 id="verify-the-percona-distribution-for-postgresql-cluster-operation">Verify the Percona Distribution for PostgreSQL cluster operation<a data-markdown-ignore class="headerlink" href="#verify-the-percona-distribution-for-postgresql-cluster-operation" title="Permanent link">¶</a></h2>
 <p>When creation process is over, the output of the <code>kubectl get pg</code> command shows the cluster status as <code>ready</code>. You can try to connect to the cluster.</p>
 <p class="power-number">When the Operator deploys a database cluster, it generates several
 <a href="https://kubernetes.io/docs/concepts/configuration/secret/">Secrets <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. Among them there is the Secret with the credentials of the default PostgreSQL user. This default
@@ -6980,7 +6980,7 @@ Type<span class="w"> </span><span class="s2">"help"</span><span class="w"> </spa
 </details>
 </li>
 </ol>
-<h2 id="delete-the-cluster">Delete the cluster<a class="headerlink" href="#delete-the-cluster" title="Permanent link">¶</a></h2>
+<h2 id="delete-the-cluster">Delete the cluster<a data-markdown-ignore class="headerlink" href="#delete-the-cluster" title="Permanent link">¶</a></h2>
 <p>If you need to delete the Operator and PostgreSQL cluster (for example, to clean
 up the testing deployment before adopting it for production use), check
 <a href="delete.html">this HowTo</a>.</p>

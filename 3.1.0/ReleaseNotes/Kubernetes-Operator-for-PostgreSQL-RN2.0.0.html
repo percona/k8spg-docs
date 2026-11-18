@@ -136,7 +136,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6808,7 +6808,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-200-tech-preview">Percona Operator for PostgreSQL 2.0.0 (Tech preview)<a class="headerlink" href="#percona-operator-for-postgresql-200-tech-preview" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-200-tech-preview">Percona Operator for PostgreSQL 2.0.0 (Tech preview)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-200-tech-preview" title="Permanent link">¶</a></h1>
 <ul>
 <li>
 <p><strong>Date</strong></p>
@@ -6829,10 +6829,10 @@ consistent and vetted environment is key.</p>
 As of today, we recommend using <a href="https://docs.percona.com/percona-operator-for-postgresql/1.0/index.html">Percona Operator for PostgreSQL 1.x</a>, which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.</p>
 </div>
 <p>The <em>Percona Operator for PostgreSQL 2.x</em> is based on the 5.x branch of the <a href="https://access.crunchydata.com/documentation/postgres-operator/latest/">Postgres Operator developed by Crunchy Data <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. Please see the main changes in this version below.</p>
-<h2 id="architecture">Architecture<a class="headerlink" href="#architecture" title="Permanent link">¶</a></h2>
+<h2 id="architecture">Architecture<a data-markdown-ignore class="headerlink" href="#architecture" title="Permanent link">¶</a></h2>
 <p><a href="https://sdk.operatorframework.io/">Operator SDK <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> is now used to build and package the Operator. It simplifies the development and brings  more contribution friendliness to the code, resulting in better potential for growing the community. Users now have full control over Custom Resource Definitions that Operator relies on, which simplifies the deployment and management of the operator.</p>
 <p>In version 1.x we relied on Deployment resources to run PostgreSQL clusters, whereas in 2.0 Statefulsets are used, which are the de-facto standard for running stateful workloads in Kubernetes. This change improves stability of the clusters and removes a lot of complexity from the Operator.</p>
-<h2 id="backups">Backups<a class="headerlink" href="#backups" title="Permanent link">¶</a></h2>
+<h2 id="backups">Backups<a data-markdown-ignore class="headerlink" href="#backups" title="Permanent link">¶</a></h2>
 <p>One of the biggest challenges in version 1.x is backups and restores. There are two main problems that our user faced:</p>
 <ul>
 <li>Not possible to change backup configuration for the existing cluster</li>
@@ -6845,11 +6845,11 @@ In addition to that:</p>
 <li><a href="../backups.html">Bootstrap the cluster</a> from the existing backup through Custom Resource</li>
 <li><a href="../backups-storage-azure.html">Azure Blob Storage support</a></li>
 </ul>
-<h2 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">¶</a></h2>
+<h2 id="operations">Operations<a data-markdown-ignore class="headerlink" href="#operations" title="Permanent link">¶</a></h2>
 <p>Deploying complex topologies in Kubernetes is not possible without affinity and anti-affinity rules. In version 1.x there were various limitations and issues, whereas this version comes with substantial <a href="../constraints.html">improvements</a> that enables users to craft the topology of their choice. </p>
 <p>Within the same cluster users can deploy <a href="../operator.html#instancesname">multiple instances</a>. These instances are going to have the same data, but can have different configuration and resources. This can be useful if you plan to migrate to new hardware or need to test the new topology.</p>
 <p>Each postgreSQL node can have <a href="../operator.html#instancessidecarsimage">sidecar containers</a> now to provide integration with your existing tools or expand the capabilities of the cluster.</p>
-<h2 id="try-it-out-now">Try it out now<a class="headerlink" href="#try-it-out-now" title="Permanent link">¶</a></h2>
+<h2 id="try-it-out-now">Try it out now<a data-markdown-ignore class="headerlink" href="#try-it-out-now" title="Permanent link">¶</a></h2>
 <p>Excited with what you read above?</p>
 <ul>
 <li>We encourage you to install the Operator following <a href="../quickstart.html">our documentation</a>.</li>

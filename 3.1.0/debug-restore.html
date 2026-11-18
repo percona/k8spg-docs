@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6677,7 +6677,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="troubleshoot-restore-failures">Troubleshoot restore failures<a class="headerlink" href="#troubleshoot-restore-failures" title="Permanent link">¶</a></h1>
+<h1 id="troubleshoot-restore-failures">Troubleshoot restore failures<a data-markdown-ignore class="headerlink" href="#troubleshoot-restore-failures" title="Permanent link">¶</a></h1>
 <p>This page helps you fix failures for both restore methods: an in-place restore with the <code>backupName</code> and a cluster clone with the <code>dataSource</code> options. Where the steps differ, select the tab for your restore method.</p>
 <p>The restore process overwrites database files. Wrong data or a misconfigured restore can leave your cluster in a non-operational state.</p>
 <p>For example, incorrect <code>pgBackRest</code> arguments in the <a href="backups-restore-inplace.html#make-a-full-restore-from-the-latest-backup-default">PerconaPGRestore custom resource</a> can break the database while the restore hangs.</p>
@@ -6697,7 +6697,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 <li>
 <p>Stop the failing restore or correct its configuration:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">In-place restore</label><label for="__tabbed_1_2">Cluster clone</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">In-place restore</label><label for="__tabbed_1_2">Cluster clone</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Remove the restore annotation from your cluster Custom Resource to stop the restore:</p>
@@ -6713,7 +6713,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
 <li>
 <p>If correcting the configuration doesn’t help, recreate the cluster:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">In-place restore</label><label for="__tabbed_2_2">Cluster clone</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_2_1">In-place restore</label><label for="__tabbed_2_2">Cluster clone</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <p>Don’t delete the cluster’s PersistentVolumeClaims (PVCs). They hold your database, and it can be the only intact copy of your data.</p>

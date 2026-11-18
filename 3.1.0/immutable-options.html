@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7176,7 +7176,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="immutable-options">Immutable options<a class="headerlink" href="#immutable-options" title="Permanent link">¶</a></h1>
+<h1 id="immutable-options">Immutable options<a data-markdown-ignore class="headerlink" href="#immutable-options" title="Permanent link">¶</a></h1>
 <p>Percona Operator for PostgreSQL manages certain options internally to ensure cluster health, backup integrity, and security. You cannot change these options through the Custom Resource or other configuration methods. If you try to modify them, the Operator reconciles the cluster and reverts your changes.</p>
 <p>There are some options that you can override and some of them have modification limits.</p>
 <p>This document lists all of them:</p>
@@ -7185,9 +7185,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="#postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that you can override</a></li>
 <li><a href="#custom-resource-options-with-modification-limits">Custom Resource options with modification limits</a>.</li>
 </ul>
-<h2 id="postgresql-parameters-that-cannot-be-overridden">PostgreSQL parameters that cannot be overridden<a class="headerlink" href="#postgresql-parameters-that-cannot-be-overridden" title="Permanent link">¶</a></h2>
+<h2 id="postgresql-parameters-that-cannot-be-overridden">PostgreSQL parameters that cannot be overridden<a data-markdown-ignore class="headerlink" href="#postgresql-parameters-that-cannot-be-overridden" title="Permanent link">¶</a></h2>
 <p>The Operator sets and enforces the following PostgreSQL parameters. You cannot override them via <code>patroni.dynamicConfiguration.postgresql.parameters</code> or any other method. The Operator reconciles the Patroni configuration and restores these values.</p>
-<h3 id="tls-and-security">TLS and security<a class="headerlink" href="#tls-and-security" title="Permanent link">¶</a></h3>
+<h3 id="tls-and-security">TLS and security<a data-markdown-ignore class="headerlink" href="#tls-and-security" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -7219,7 +7219,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="cluster-internals">Cluster internals<a class="headerlink" href="#cluster-internals" title="Permanent link">¶</a></h3>
+<h3 id="cluster-internals">Cluster internals<a data-markdown-ignore class="headerlink" href="#cluster-internals" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -7241,7 +7241,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="wal-archiving-and-recovery-pgbackrest-parameters">WAL archiving and recovery (pgBackRest parameters)<a class="headerlink" href="#wal-archiving-and-recovery-pgbackrest-parameters" title="Permanent link">¶</a></h3>
+<h3 id="wal-archiving-and-recovery-pgbackrest-parameters">WAL archiving and recovery (pgBackRest parameters)<a data-markdown-ignore class="headerlink" href="#wal-archiving-and-recovery-pgbackrest-parameters" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -7268,7 +7268,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="extension-parameters">Extension parameters<a class="headerlink" href="#extension-parameters" title="Permanent link">¶</a></h3>
+<h3 id="extension-parameters">Extension parameters<a data-markdown-ignore class="headerlink" href="#extension-parameters" title="Permanent link">¶</a></h3>
 <p>When you enable built-in extensions, the Operator appends or sets the following parameters. You cannot override these values while the extension is enabled.</p>
 <p><strong>When <code>spec.extensions.pg_stat_statements.enabled</code> is <code>true</code>:</strong></p>
 <table>
@@ -7346,7 +7346,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p class="admonition-title">Note</p>
 <p>To view the full list of parameters the Operator sets, run <code>patronictl show-config</code> inside a PostgreSQL Pod. See <a href="manage-manually.html#override-postgresql-parameters">Manage a database manually</a> for details. Any changes you make via <code>patronictl edit-config</code> will be reverted when the Operator reconciles, unless the cluster is in <a href="manage-manually.html#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode">unmanaged mode</a>.</p>
 </div>
-<h2 id="postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that can be overridden<a class="headerlink" href="#postgresql-parameters-that-can-be-overridden" title="Permanent link">¶</a></h2>
+<h2 id="postgresql-parameters-that-can-be-overridden">PostgreSQL parameters that can be overridden<a data-markdown-ignore class="headerlink" href="#postgresql-parameters-that-can-be-overridden" title="Permanent link">¶</a></h2>
 <p>The following parameters are set by the Operator but you can override them via <code>patroni.dynamicConfiguration.postgresql.parameters</code>:</p>
 <table>
 <thead>
@@ -7382,29 +7382,29 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h2 id="custom-resource-options-with-modification-limits">Custom Resource options with modification limits<a class="headerlink" href="#custom-resource-options-with-modification-limits" title="Permanent link">¶</a></h2>
-<h3 id="metadataname"><code>metadata.name</code><a class="headerlink" href="#metadataname" title="Permanent link">¶</a></h3>
+<h2 id="custom-resource-options-with-modification-limits">Custom Resource options with modification limits<a data-markdown-ignore class="headerlink" href="#custom-resource-options-with-modification-limits" title="Permanent link">¶</a></h2>
+<h3 id="metadataname"><code>metadata.name</code><a data-markdown-ignore class="headerlink" href="#metadataname" title="Permanent link">¶</a></h3>
 <p>The cluster name is set at creation time and cannot be changed. Kubernetes Custom Resource names are immutable. To use a different name, create a new cluster and migrate data.</p>
-<h3 id="usersdatabases"><code>users.databases</code><a class="headerlink" href="#usersdatabases" title="Permanent link">¶</a></h3>
+<h3 id="usersdatabases"><code>users.databases</code><a data-markdown-ignore class="headerlink" href="#usersdatabases" title="Permanent link">¶</a></h3>
 <p>You can add databases to a user’s access list, but you cannot revoke access to a database once it has been granted. Removing a database from the list does not revoke existing privileges.</p>
-<h3 id="usersoptions"><code>users.options</code><a class="headerlink" href="#usersoptions" title="Permanent link">¶</a></h3>
+<h3 id="usersoptions"><code>users.options</code><a data-markdown-ignore class="headerlink" href="#usersoptions" title="Permanent link">¶</a></h3>
 <p>The <code>ALTER ROLE</code> options (such as <code>SUPERUSER</code>) are ignored for the <code>postgres</code> user. The Operator manages the superuser role.</p>
-<h3 id="databaseinitsql"><code>databaseInitSQL</code><a class="headerlink" href="#databaseinitsql" title="Permanent link">¶</a></h3>
+<h3 id="databaseinitsql"><code>databaseInitSQL</code><a data-markdown-ignore class="headerlink" href="#databaseinitsql" title="Permanent link">¶</a></h3>
 <p>Initialization SQL runs only at cluster creation time. You cannot add or change init SQL for an existing cluster. The Operator executes the script once during bootstrap.</p>
-<h3 id="datasource"><code>dataSource</code><a class="headerlink" href="#datasource" title="Permanent link">¶</a></h3>
+<h3 id="datasource"><code>dataSource</code><a data-markdown-ignore class="headerlink" href="#datasource" title="Permanent link">¶</a></h3>
 <p>The <code>dataSource</code> subsection configures restore-from-backup for a <em>new</em> cluster. It applies only during initial cluster creation. You cannot change the data source of an existing cluster.</p>
-<h3 id="tlscertmanagementpolicy"><code>tls.certManagementPolicy</code><a class="headerlink" href="#tlscertmanagementpolicy" title="Permanent link">¶</a></h3>
+<h3 id="tlscertmanagementpolicy"><code>tls.certManagementPolicy</code><a data-markdown-ignore class="headerlink" href="#tlscertmanagementpolicy" title="Permanent link">¶</a></h3>
 <p>You can set the TLS certificate management policy only when you create the cluster. You cannot change it on a running cluster. To use a different policy, create a new cluster. See <a href="tls-cert-management-policy.html">TLS certificate management policy</a>.</p>
-<h3 id="logicalreplicasbootstrapmethod"><code>logicalReplicas.bootstrapMethod</code><a class="headerlink" href="#logicalreplicasbootstrapmethod" title="Permanent link">¶</a></h3>
+<h3 id="logicalreplicasbootstrapmethod"><code>logicalReplicas.bootstrapMethod</code><a data-markdown-ignore class="headerlink" href="#logicalreplicasbootstrapmethod" title="Permanent link">¶</a></h3>
 <p>The Operator reads this only during bootstrap. Changing it later has no effect. To use a different method, <a href="logical-replication.html#reseed-a-logical-replica">reseed the replica</a>.</p>
-<h3 id="logicalreplicasdatabases"><code>logicalReplicas.databases</code><a class="headerlink" href="#logicalreplicasdatabases" title="Permanent link">¶</a></h3>
+<h3 id="logicalreplicasdatabases"><code>logicalReplicas.databases</code><a data-markdown-ignore class="headerlink" href="#logicalreplicasdatabases" title="Permanent link">¶</a></h3>
 <p>The Operator records the database list at bootstrap. Changing it later does not change which databases keep receiving row changes. To change the list, reseed the replica.</p>
-<h2 id="backup-options">Backup options<a class="headerlink" href="#backup-options" title="Permanent link">¶</a></h2>
-<h3 id="backup-encryption">Backup encryption<a class="headerlink" href="#backup-encryption" title="Permanent link">¶</a></h3>
+<h2 id="backup-options">Backup options<a data-markdown-ignore class="headerlink" href="#backup-options" title="Permanent link">¶</a></h2>
+<h3 id="backup-encryption">Backup encryption<a data-markdown-ignore class="headerlink" href="#backup-encryption" title="Permanent link">¶</a></h3>
 <p>You cannot change encryption settings after backups are established. To enable encryption or change the encryption key, create a new repository. See <a href="backup-encryption.html">Backup encryption</a>.</p>
-<h3 id="storage-size">Storage size<a class="headerlink" href="#storage-size" title="Permanent link">¶</a></h3>
+<h3 id="storage-size">Storage size<a data-markdown-ignore class="headerlink" href="#storage-size" title="Permanent link">¶</a></h3>
 <p>You cannot shrink the size of an existing Persistent Volume Claim (PVC). Kubernetes allows only volume expansion. See <a href="scaling-vertical.html#scale-storage">Scale storage</a>.</p>
-<h2 id="patroni-dynamic-configuration">Patroni dynamic configuration<a class="headerlink" href="#patroni-dynamic-configuration" title="Permanent link">¶</a></h2>
+<h2 id="patroni-dynamic-configuration">Patroni dynamic configuration<a data-markdown-ignore class="headerlink" href="#patroni-dynamic-configuration" title="Permanent link">¶</a></h2>
 <p>Only the <code>parameters</code> and <code>pg_hba</code> subsections under <code>patroni.dynamicConfiguration.postgresql</code> are applied. All other Patroni dynamic configuration options (such as <code>use_slots</code>, <code>use_pg_rewind</code>, or <code>loop_wait</code>) are ignored. See <a href="options.html">Changing PostgreSQL options</a>.</p>
 <hr>
 <div class="md-source-file">

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6790,7 +6790,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="scale-a-postgresql-cluster-horizontally">Scale a PostgreSQL cluster horizontally<a class="headerlink" href="#scale-a-postgresql-cluster-horizontally" title="Permanent link">¶</a></h1>
+<h1 id="scale-a-postgresql-cluster-horizontally">Scale a PostgreSQL cluster horizontally<a data-markdown-ignore class="headerlink" href="#scale-a-postgresql-cluster-horizontally" title="Permanent link">¶</a></h1>
 <p>Horizontal scaling means adding members to your PostgreSQL cluster. New members join as standbys via streaming replication.</p>
 <p>Horizontal scaling enhances your cluster’s <strong>read</strong> capacity and increases the number of available failover candidates. However, it does not increase write throughput. PostgreSQL still has only <strong>one primary</strong> member that handles all write operations. Standbys are read-only.</p>
 <p>You can add extra nodes in two ways:</p>
@@ -6803,7 +6803,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>An <strong>instance set</strong> is one entry under <code>spec.instances</code>. Members in the same set share the same resources, storage, sidecars, and related settings. The Operator manages each PostgreSQL member as its own StatefulSet within that set.</li>
 <li><strong><code>replicas</code></strong> is how many PostgreSQL members belong to that instance set. One member becomes primary; the others are standbys.</li>
 </ul>
-<h2 id="choose-between-replicas-and-instance-sets">Choose between replicas and instance sets<a class="headerlink" href="#choose-between-replicas-and-instance-sets" title="Permanent link">¶</a></h2>
+<h2 id="choose-between-replicas-and-instance-sets">Choose between replicas and instance sets<a data-markdown-ignore class="headerlink" href="#choose-between-replicas-and-instance-sets" title="Permanent link">¶</a></h2>
 <table>
 <thead>
 <tr>
@@ -6825,7 +6825,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h2 id="add-replicas-in-an-instance-set">Add replicas in an instance set<a class="headerlink" href="#add-replicas-in-an-instance-set" title="Permanent link">¶</a></h2>
+<h2 id="add-replicas-in-an-instance-set">Add replicas in an instance set<a data-markdown-ignore class="headerlink" href="#add-replicas-in-an-instance-set" title="Permanent link">¶</a></h2>
 <p>Use this approach when you want a cluster with <strong>identical</strong> members for high availability or to serve more read traffic.</p>
 <p>For example, you have three members (one primary and 2 standbys):</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -6854,7 +6854,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Raise the replica count gradually. Wait until each new standby finishes syncing before you rely on it.</li>
 <li>If you reduce the number of replicas in the instance set, the Operator keeps the primary and removes a standby Pod. You can set the target count but you cannot define which standby Pod to remove.</li>
 </ul>
-<h2 id="add-an-extra-instance-set">Add an extra instance set<a class="headerlink" href="#add-an-extra-instance-set" title="Permanent link">¶</a></h2>
+<h2 id="add-an-extra-instance-set">Add an extra instance set<a data-markdown-ignore class="headerlink" href="#add-an-extra-instance-set" title="Permanent link">¶</a></h2>
 <p>Add another <code>spec.instances</code> entry when members need a <strong>different</strong> configuration, or when you want to scale one group independently of another.</p>
 <p>Each instance set can have its own configuration for resources, storage class, sidecars, and more. The Operator creates a separate StatefulSet for each configured set. However, all these sets remain part of the same PostgreSQL/Patroni cluster and synchronize the data through replication.</p>
 <p>Typical use cases:</p>

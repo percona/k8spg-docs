@@ -141,7 +141,7 @@ Prometheus-compatible scraper then collects those metrics from the /metrics endp
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6881,7 +6881,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="expose-prometheus-metrics-using-postgres_exporter">Expose Prometheus metrics using postgres_exporter<a class="headerlink" href="#expose-prometheus-metrics-using-postgres_exporter" title="Permanent link">¶</a></h1>
+<h1 id="expose-prometheus-metrics-using-postgres_exporter">Expose Prometheus metrics using postgres_exporter<a data-markdown-ignore class="headerlink" href="#expose-prometheus-metrics-using-postgres_exporter" title="Permanent link">¶</a></h1>
 <p>You can expose PostgreSQL metrics in Prometheus format by running
 <a href="https://github.com/prometheus-community/postgres_exporter">postgres_exporter <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 as a sidecar container in each PostgreSQL instance Pod. Prometheus or another
@@ -6893,7 +6893,7 @@ metrics in the same pipeline.</p>
 <a href="sidecar.html">custom sidecar</a>, then create a Service so Prometheus can discover
 the endpoints. You configure the scrape job in your Prometheus stack, not in the
 Operator Custom Resource.</p>
-<h2 id="how-the-setup-works">How the setup works<a class="headerlink" href="#how-the-setup-works" title="Permanent link">¶</a></h2>
+<h2 id="how-the-setup-works">How the setup works<a data-markdown-ignore class="headerlink" href="#how-the-setup-works" title="Permanent link">¶</a></h2>
 <p>Each PostgreSQL instance Pod gets a <code>postgres_exporter</code> sidecar. Containers in a
 Pod share a network namespace, so the exporter connects to PostgreSQL on
 <code>localhost:5432</code> and serves the <code>/metrics</code> endpoint on port <code>9187</code>.</p>
@@ -6903,7 +6903,7 @@ reaches the exporter only through a Kubernetes Service.</p>
 They do not include sidecar ports. You create a headless Service on port <code>9187</code>
 so Prometheus can discover every instance Pod and scrape its exporter, instead
 of load-balancing to a single Pod.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Before you start, check that you have the following:</p>
 <ul>
 <li>A running Percona Distribution for PostgreSQL cluster. This document uses the
@@ -6919,7 +6919,7 @@ of load-balancing to a single Pod.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
 </code></pre></div>
 <p>This example setup uses <code>postgres_exporter</code> version 0.20.1. Replace it with your required version.</p>
-<h2 id="create-a-monitoring-user">Create a monitoring user<a class="headerlink" href="#create-a-monitoring-user" title="Permanent link">¶</a></h2>
+<h2 id="create-a-monitoring-user">Create a monitoring user<a data-markdown-ignore class="headerlink" href="#create-a-monitoring-user" title="Permanent link">¶</a></h2>
 <p>Create a dedicated PostgreSQL user for the exporter. Do not use the <code>postgres</code>
 superuser for this purpose.</p>
 <ol>
@@ -6943,7 +6943,7 @@ and <code>password</code> keys. For more information about custom users, see
 <a href="users.html">Users</a>.</p>
 </li>
 </ol>
-<h2 id="grant-monitoring-privileges">Grant monitoring privileges<a class="headerlink" href="#grant-monitoring-privileges" title="Permanent link">¶</a></h2>
+<h2 id="grant-monitoring-privileges">Grant monitoring privileges<a data-markdown-ignore class="headerlink" href="#grant-monitoring-privileges" title="Permanent link">¶</a></h2>
 <p>The <code>users.options</code> field accepts only <code>ALTER ROLE</code> attributes, such as
 <code>SUPERUSER</code> or <code>CREATEDB</code>. It cannot grant the <code>pg_monitor</code> role. You must grant
 that privilege yourself.</p>
@@ -6972,7 +6972,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 <p>For a new cluster, you can put these <code>GRANT</code> statements in
 <a href="initsql.html">initialization SQL</a> instead of running them by hand.</p>
 </div>
-<h2 id="add-the-postgres_exporter-sidecar">Add the postgres_exporter sidecar<a class="headerlink" href="#add-the-postgres_exporter-sidecar" title="Permanent link">¶</a></h2>
+<h2 id="add-the-postgres_exporter-sidecar">Add the postgres_exporter sidecar<a data-markdown-ignore class="headerlink" href="#add-the-postgres_exporter-sidecar" title="Permanent link">¶</a></h2>
 <p>Add the exporter to the PostgreSQL instance Pods in the Custom Resource.</p>
 <p>This example setup uses <code>prometheus_exporter</code> version 0.20.1. Replace it with your required version.</p>
 <ol>
@@ -7045,7 +7045,7 @@ mounted file path. See the
 <a href="https://github.com/prometheus-community/postgres_exporter#quick-start">postgres_exporter documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 for details.</p>
 </div>
-<h2 id="verify-that-the-exporter-is-running">Verify that the exporter is running<a class="headerlink" href="#verify-that-the-exporter-is-running" title="Permanent link">¶</a></h2>
+<h2 id="verify-that-the-exporter-is-running">Verify that the exporter is running<a data-markdown-ignore class="headerlink" href="#verify-that-the-exporter-is-running" title="Permanent link">¶</a></h2>
 <p>Confirm that the sidecar is up and that it can reach PostgreSQL.</p>
 <ol>
 <li>
@@ -7092,7 +7092,7 @@ Counters at <code>0</code> are normal on an idle cluster.</p>
 <code>DATA_SOURCE_URI</code> to <code>localhost:5432/postgres?sslmode=disable</code>. If certificate
 verification fails, keep <code>sslmode=require</code>. Do not use <code>verify-full</code> unless you
 also mount the cluster CA certificate into the sidecar.</p>
-<h2 id="create-a-headless-service-for-scrape-discovery">Create a headless Service for scrape discovery<a class="headerlink" href="#create-a-headless-service-for-scrape-discovery" title="Permanent link">¶</a></h2>
+<h2 id="create-a-headless-service-for-scrape-discovery">Create a headless Service for scrape discovery<a data-markdown-ignore class="headerlink" href="#create-a-headless-service-for-scrape-discovery" title="Permanent link">¶</a></h2>
 <p>The Operator does not add sidecar ports to its Services. Create a headless
 Service so that Prometheus can reach port <code>9187</code> on every instance Pod.</p>
 <p>A <code>ClusterIP</code> Service has one virtual IP and load-balances to a single Pod. That

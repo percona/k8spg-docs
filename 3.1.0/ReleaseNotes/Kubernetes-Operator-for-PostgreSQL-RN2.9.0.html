@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7452,14 +7452,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-290-2026-04-01">Percona Operator for PostgreSQL 2.9.0 (2026-04-01)<a class="headerlink" href="#percona-operator-for-postgresql-290-2026-04-01" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-290-2026-04-01">Percona Operator for PostgreSQL 2.9.0 (2026-04-01)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-290-2026-04-01" title="Permanent link">¶</a></h1>
 <p><a class="md-button" href="../quickstart.html">Get started with the Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg></span></a></p>
-<h2 id="whats-new-at-a-glance">What’s new at a glance<a class="headerlink" href="#whats-new-at-a-glance" title="Permanent link">¶</a></h2>
-<h3 id="backup-and-restore">Backup and restore<a class="headerlink" href="#backup-and-restore" title="Permanent link">¶</a></h3>
+<h2 id="whats-new-at-a-glance">What’s new at a glance<a data-markdown-ignore class="headerlink" href="#whats-new-at-a-glance" title="Permanent link">¶</a></h2>
+<h3 id="backup-and-restore">Backup and restore<a data-markdown-ignore class="headerlink" href="#backup-and-restore" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#boost-backup-and-restore-performance-with-pvc-snapshot-support">Use PVC snapshots for faster backups and restores</a> (tech preview)</li>
 </ul>
-<h3 id="operations">Operations<a class="headerlink" href="#operations" title="Permanent link">¶</a></h3>
+<h3 id="operations">Operations<a data-markdown-ignore class="headerlink" href="#operations" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#improve-replication-for-standby-clusters-with-wal-lag-detection">Configure WAL lag detection for standby clusters</a></li>
 <li><a href="#mount-volumes-to-sidecar-containers">Mount volumes to sidecar containers</a></li>
@@ -7468,7 +7468,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="#configurable-dns-suffix-for-operator-connections">Specify custom DNS suffix for vcluster or custom DNS setups</a></li>
 <li><a href="#ability-to-configure-wal_level">Configure <code>wal_level</code> for replication requirements</a></li>
 </ul>
-<h3 id="database-and-integrations">Database and integrations<a class="headerlink" href="#database-and-integrations" title="Permanent link">¶</a></h3>
+<h3 id="database-and-integrations">Database and integrations<a data-markdown-ignore class="headerlink" href="#database-and-integrations" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="#postgresql-18-is-now-the-default-version">PostgreSQL 18 is now the default version</a></li>
 <li><a href="#general-availability-for-major-upgrades">Major upgrade flow is generally available</a></li>
@@ -7476,14 +7476,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="#automated-tls-certificate-lifecycle-management-via-the-cert-manager">Automated TLS certificate management via cert-manager</a></li>
 <li><a href="#official-docker-image-for-postgis">Official PostGIS Docker image</a></li>
 </ul>
-<h2 id="release-highlights">Release Highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights">Release Highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
 <p>This release provides the following features and improvements:</p>
-<h3 id="postgresql-18-is-now-the-default-version">PostgreSQL 18 is now the default version<a class="headerlink" href="#postgresql-18-is-now-the-default-version" title="Permanent link">¶</a></h3>
+<h3 id="postgresql-18-is-now-the-default-version">PostgreSQL 18 is now the default version<a data-markdown-ignore class="headerlink" href="#postgresql-18-is-now-the-default-version" title="Permanent link">¶</a></h3>
 <p>Starting with this release PostgreSQL 18 becomes the default and recommended version for new cluster deployments using the Operator. This change enables you to benefit from its latest features, performance improvements, and enhanced security.</p>
-<h3 id="general-availability-for-major-upgrades">General availability for major upgrades<a class="headerlink" href="#general-availability-for-major-upgrades" title="Permanent link">¶</a></h3>
+<h3 id="general-availability-for-major-upgrades">General availability for major upgrades<a data-markdown-ignore class="headerlink" href="#general-availability-for-major-upgrades" title="Permanent link">¶</a></h3>
 <p>With this release the major upgrade flow is generally available. This means it has undergone thorough testing and you can use it in production environments.</p>
 <p>See our <a href="../update-db-major.html">upgrade guide</a> for the detailed step-by-step instructions.</p>
-<h3 id="boost-backup-and-restore-performance-with-pvc-snapshot-support">Boost backup and restore performance with PVC snapshot support<a class="headerlink" href="#boost-backup-and-restore-performance-with-pvc-snapshot-support" title="Permanent link">¶</a></h3>
+<h3 id="boost-backup-and-restore-performance-with-pvc-snapshot-support">Boost backup and restore performance with PVC snapshot support<a data-markdown-ignore class="headerlink" href="#boost-backup-and-restore-performance-with-pvc-snapshot-support" title="Permanent link">¶</a></h3>
 <p>You can now use PVC snapshots to speed up backups and restores in your PostgreSQL clusters. A PVC snapshot is a point-in-time copy of your data volumes taken directly at the storage layer. Instead of streaming data to cloud storage, the Operator creates fast, storage level snapshots. This is especially beneficial for large data set owners, boosting their backup and restore performance.</p>
 <p>Using PVC snapshots, you benefit from:</p>
 <ul>
@@ -7496,15 +7496,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>You can find details about the workflow, requirements, and limitations in <a href="../backups-pvc-snapshots.html">the PVC snapshot support documentation</a>.</p>
 <p>PVC snapshot support is released as a tech preview. We don’t recommend using it in production yet, but we encourage you to try it out and share your feedback. To enable the feature, turn on the <code>BackupSnapshots</code> feature gate in your Operator Deployment.</p>
 <p>Refer to our tutorials for <a href="../backups-pvc-setup.html">setting up</a> and <a href="../backups-pvc-usage.html">using</a> PVC snapshots.</p>
-<h3 id="improve-replication-for-standby-clusters-with-wal-lag-detection">Improve replication for standby clusters with WAL lag detection<a class="headerlink" href="#improve-replication-for-standby-clusters-with-wal-lag-detection" title="Permanent link">¶</a></h3>
+<h3 id="improve-replication-for-standby-clusters-with-wal-lag-detection">Improve replication for standby clusters with WAL lag detection<a data-markdown-ignore class="headerlink" href="#improve-replication-for-standby-clusters-with-wal-lag-detection" title="Permanent link">¶</a></h3>
 <p>If your primary cluster has a large volume of WAL files, the standby cluster may not be able to apply them quickly enough. When this happens, the standby can fall behind, experience replication issues, and temporarily miss the most recent data.</p>
 <p>To improve the replication, you can now enable replication lag detection for your standby cluster. You set the maximum amount of WAL data the standby is allowed to lag behind. When the amount of WAL files exceeds this threshold, the primary Pod in the standby cluster is marked as <code>Unready</code>, the cluster enters the <code>Initializing</code> state and the <code>StandbyLagging</code> condition is recorded in the cluster status.</p>
 <p>This enhancement gives you a clear view of your replication health, speeds up troubleshooting, and helps prevent application downtime during disaster recovery scenarios. To learn more about it, read our <a href="../standby.html#detect-replication-lag-for-standby-cluster">documentation</a>.</p>
-<h3 id="centralize-user-identity-management-with-ldap-authentication-support">Centralize user identity management with LDAP authentication support<a class="headerlink" href="#centralize-user-identity-management-with-ldap-authentication-support" title="Permanent link">¶</a></h3>
+<h3 id="centralize-user-identity-management-with-ldap-authentication-support">Centralize user identity management with LDAP authentication support<a data-markdown-ignore class="headerlink" href="#centralize-user-identity-management-with-ldap-authentication-support" title="Permanent link">¶</a></h3>
 <p>LDAP authentication is now available in Percona Operator for PostgreSQL, giving you a straightforward way to centralize database access around your existing corporate identity systems. Instead of verifying user passwords locally, PostgreSQL delegates it to an LDAP server.</p>
 <p>You have the flexibility to make a <em>simple LDAP bind</em> where the user Distinguished Name is constructed from the prefix and suffix you provide, or make a <em>bind and search</em> for a user using a specific attribute. See our <a href="../LDAP.html">documentation</a> to learn more.</p>
 <p>This improvement lets users log in to the database with their existing organizational credentials and not have to remember multiple logins. You benefit from a deployment that is easier to secure, audit and operate at scale.</p>
-<h3 id="automated-tls-certificate-lifecycle-management-via-the-cert-manager">Automated TLS certificate lifecycle management via the cert-manager<a class="headerlink" href="#automated-tls-certificate-lifecycle-management-via-the-cert-manager" title="Permanent link">¶</a></h3>
+<h3 id="automated-tls-certificate-lifecycle-management-via-the-cert-manager">Automated TLS certificate lifecycle management via the cert-manager<a data-markdown-ignore class="headerlink" href="#automated-tls-certificate-lifecycle-management-via-the-cert-manager" title="Permanent link">¶</a></h3>
 <p>You can now install and use the <code>cert-manager</code> to generate TLS certificates and manage their lifecycle. The Operator automatically detects if the cert-manager is installed in your Kubernetes environment and requests certificates from it when it deploys Percona Distribution for PostgreSQL cluster. You can additionally configure the certificate duration via the Custom Resource to follow your security policies.</p>
 <p>With this improvement, you benefit from the following:</p>
 <ul>
@@ -7513,16 +7513,16 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Centralized management</strong> – use cert-manager’s tooling and policies for all TLS certificates in the cluster</li>
 </ul>
 <p>Follow our <a href="../tls-cert-manager.html">documentation</a> on how to install and use the cert-manager in your deployment.</p>
-<h3 id="troubleshoot-operator-with-pprof-profiling">Troubleshoot Operator with pprof profiling<a class="headerlink" href="#troubleshoot-operator-with-pprof-profiling" title="Permanent link">¶</a></h3>
+<h3 id="troubleshoot-operator-with-pprof-profiling">Troubleshoot Operator with pprof profiling<a data-markdown-ignore class="headerlink" href="#troubleshoot-operator-with-pprof-profiling" title="Permanent link">¶</a></h3>
 <p><code>pprof</code> is Go’s built-in profiling tool for CPU and memory analysis. You can use it to investigate Operator performance issues, high CPU usage, or memory leaks when troubleshooting. Set the <code>PPROF_BIND_ADDRESS</code> environment variable in the Operator’s deployment to an address that the controller should bind to for serving <code>pprof</code> metrics. An example value is <code>127.0.0.1:6060</code>. Then expose the port from inside the Operator Pod to your local machine so that you can collect CPU or memory profiles.</p>
-<h3 id="configurable-dns-suffix-for-operator-connections">Configurable DNS suffix for Operator connections<a class="headerlink" href="#configurable-dns-suffix-for-operator-connections" title="Permanent link">¶</a></h3>
+<h3 id="configurable-dns-suffix-for-operator-connections">Configurable DNS suffix for Operator connections<a data-markdown-ignore class="headerlink" href="#configurable-dns-suffix-for-operator-connections" title="Permanent link">¶</a></h3>
 <p>You can now specify a custom DNS suffix that the Operator uses when it generates service names. This is useful when the Operator runs in a vcluster or in a cluster with a custom DNS configuration. In those setups, the default <code>cluster.local</code> suffix can cause incorrect domain name resolution and, as a result, failed connections to external services such as PMM or <code>pgBackRest</code>. By setting the <code>clusterServiceDNSSuffix</code> in the Custom Resource to your cluster’s DNS suffix, the Operator generates hostnames that match your DNS configuration. This ensures the service discoverability and correct communication between workloads.</p>
-<h3 id="mount-volumes-to-sidecar-containers">Mount volumes to sidecar containers<a class="headerlink" href="#mount-volumes-to-sidecar-containers" title="Permanent link">¶</a></h3>
+<h3 id="mount-volumes-to-sidecar-containers">Mount volumes to sidecar containers<a data-markdown-ignore class="headerlink" href="#mount-volumes-to-sidecar-containers" title="Permanent link">¶</a></h3>
 <p>You can now attach volumes and PersistentVolumeClaims to custom sidecar containers in PostgreSQL instance Pods, pgBouncer Pods, and pgBackRest repo host Pods.</p>
 <p>You can either claim storage via Persistent Volume Claim or mount volume Secrets and/or ConfigMaps to sidecars, all via the Custom Resource.</p>
 <p>This improvement lets the main application container and sidecars share data without the need for complex API calls for information exchange. You can also update the configuration dynamically, without restarts, which provides additional flexibility in operating sidecars.</p>
 <p>For more details and examples, see the <a href="../sidecar.html">sidecar documentation</a>.</p>
-<h3 id="configurable-leader-election-for-percona-operator-for-postgresql">Configurable leader election for Percona Operator for PostgreSQL<a class="headerlink" href="#configurable-leader-election-for-percona-operator-for-postgresql" title="Permanent link">¶</a></h3>
+<h3 id="configurable-leader-election-for-percona-operator-for-postgresql">Configurable leader election for Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#configurable-leader-election-for-percona-operator-for-postgresql" title="Permanent link">¶</a></h3>
 <p>You can now tune leader election settings for the Operator Deployment via environment variables. This helps when the Operator hits leader election failures, for example in high-latency or resource-constrained clusters.</p>
 <ul>
 <li>Use the <code>PGO_CONTROLLER_LEASE_DURATION</code>, <code>PGO_CONTROLLER_RENEW_DEADLINE</code>, <code>PGO_CONTROLLER_RETRY_PERIOD</code> environment variables to adjust timing for lease acquisition and renewal.</li>
@@ -7530,7 +7530,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Use the <code>PGO_CONTROLLER_LEASE_NAME</code> environment variable to use a custom Lease resource for a leader lock.</li>
 </ul>
 <p>Learn more about available environment variables in our <a href="../env-var-operator.html">documentation</a>.</p>
-<h3 id="ability-to-configure-wal_level">Ability to configure wal_level<a class="headerlink" href="#ability-to-configure-wal_level" title="Permanent link">¶</a></h3>
+<h3 id="ability-to-configure-wal_level">Ability to configure wal_level<a data-markdown-ignore class="headerlink" href="#ability-to-configure-wal_level" title="Permanent link">¶</a></h3>
 <p>The <code>wal_level</code> setting defines how much information to write to Write Ahead Log (WAL) in PostgreSQL. The Operator sets the default <code>wal_level</code> to <code>logical</code>. This works well if you use logical replication. However, for clusters that only need physical replication or no replication at all, it can add unnecessary overhead: more WAL data, extra I/O, and higher CPU usage.</p>
 <p>You can now choose the right level for your use case. Set <code>wal_level</code> in the Custom Resource when you create a cluster or update it later.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -7542,22 +7542,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 <p>If you change the <code>wal_level</code> value on an existing cluster, your PostgreSQL Pods will be restarted.</p>
 <p>This ability to configure <code>wal_level</code> gives you control over WAL behavior and lets you avoid extra overhead when you don’t need logical replication.</p>
-<h3 id="official-docker-image-for-postgis">Official Docker image for PostGIS<a class="headerlink" href="#official-docker-image-for-postgis" title="Permanent link">¶</a></h3>
+<h3 id="official-docker-image-for-postgis">Official Docker image for PostGIS<a data-markdown-ignore class="headerlink" href="#official-docker-image-for-postgis" title="Permanent link">¶</a></h3>
 <p>The Operator now uses the official Percona Docker images for PostGIS, with the image path <code>percona/percona-distribution-postgresql-with-postgis:&lt;postgresql-version&gt;</code>.</p>
 <p>Note that there is no official Docker image for PostGIS for PostgreSQL 13 as this major version <a href="#postgresql-13-is-end-of-life">entered end-of-life</a>.</p>
 <p>Pay attention to the image path when you <a href="../update-db-minor.html">upgrade the database</a>.</p>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
-<h3 id="deprecated-support-for-pmm2">Deprecated support for PMM2<a class="headerlink" href="#deprecated-support-for-pmm2" title="Permanent link">¶</a></h3>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h3 id="deprecated-support-for-pmm2">Deprecated support for PMM2<a data-markdown-ignore class="headerlink" href="#deprecated-support-for-pmm2" title="Permanent link">¶</a></h3>
 <p>The Operator deprecates support for PMM2 as this version entered the end-of-life stage. PMM2 remains available so you can still monitor the health of your database using this version. However, we encourage you to plan migration to PMM3 to enjoy all features and fixes that this version provides. See the <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for steps.</p>
 <p>The support for PMM2 will be dropped in the Operator in two releases.</p>
-<h3 id="postgresql-13-is-end-of-life">PostgreSQL 13 is end-of-life<a class="headerlink" href="#postgresql-13-is-end-of-life" title="Permanent link">¶</a></h3>
+<h3 id="postgresql-13-is-end-of-life">PostgreSQL 13 is end-of-life<a data-markdown-ignore class="headerlink" href="#postgresql-13-is-end-of-life" title="Permanent link">¶</a></h3>
 <p>PostgreSQL 13 has now end-of-life and is not included in this Operator release.</p>
-<h3 id="operators-in-red-hat-marketplace-catalog-are-no-longer-maintained">Operators in Red Hat Marketplace catalog are no longer maintained<a class="headerlink" href="#operators-in-red-hat-marketplace-catalog-are-no-longer-maintained" title="Permanent link">¶</a></h3>
+<h3 id="operators-in-red-hat-marketplace-catalog-are-no-longer-maintained">Operators in Red Hat Marketplace catalog are no longer maintained<a data-markdown-ignore class="headerlink" href="#operators-in-red-hat-marketplace-catalog-are-no-longer-maintained" title="Permanent link">¶</a></h3>
 <p>Red Hat Marketplace was discontinued in April 2025. Percona Operator for PostgreSQL will remain listed in the Marketplace catalog, but it won’t be updated beyond OpenShift 4.22.</p>
 <p>If you use the Operator from Red Hat Marketplace, switch to the Certified Operator Catalog for future updates and support.</p>
-<h3 id="pg_stat_monitor-is-disabled-by-default"><code>pg_stat_monitor</code> is disabled by default<a class="headerlink" href="#pg_stat_monitor-is-disabled-by-default" title="Permanent link">¶</a></h3>
+<h3 id="pg_stat_monitor-is-disabled-by-default"><code>pg_stat_monitor</code> is disabled by default<a data-markdown-ignore class="headerlink" href="#pg_stat_monitor-is-disabled-by-default" title="Permanent link">¶</a></h3>
 <p>Starting with this release <code>pg_stat_monitor</code> is disabled by default when you deploy a new cluster. If you wish to keep using this extension after upgrading to this version, re-enable it in the Custom resource explicitly.</p>
-<h3 id="crd-changes">CRD changes<a class="headerlink" href="#crd-changes" title="Permanent link">¶</a></h3>
+<h3 id="crd-changes">CRD changes<a data-markdown-ignore class="headerlink" href="#crd-changes" title="Permanent link">¶</a></h3>
 <ul>
 <li>The description of the <code>.spec.majorVersion</code> option has been updated to include PostgreSQL 18.</li>
 <li>
@@ -7569,8 +7569,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><code>tls.properties.pgBackRestCertValidityDuration</code></li>
 <li><code>tls.properties.certValidityDuration</code></li>
 </ul>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
-<h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
+<h2 id="changelog">Changelog<a data-markdown-ignore class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
+<h3 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-374">K8SPG-374</a> - Added the WAL lag detection for standby clusters based on user defined thresholds</p>
@@ -7579,7 +7579,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-771">K8SPG-771</a> - Added support of PVC snapshots, which enable storage-level snapshot capabilities and allow for faster backups and restores of large databases.</p>
 </li>
 </ul>
-<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
+<h3 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-552">K8SPG-552</a> - Added the ability to automatically create TLS certificates via the cert-manager and configurable certificate duration via the Custom Resource</p>
@@ -7618,7 +7618,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-956">K8SPG-956</a> - Optimized the <code>archive_command</code> to reduce CPU usage by applying resource manager filters in <code>pg_waldump</code> during WAL processing.</p>
 </li>
 </ul>
-<h3 id="bugs-fixed">Bugs fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h3>
+<h3 id="bugs-fixed">Bugs fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-647">K8SPG-647</a> - Resolved a race condition that occasionally prevented secondary nodes from reaching a ready state following a major version upgrade or restore.</p>
@@ -7669,7 +7669,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-983">K8SPG-983</a> - Fixed the issue with PMM QAN exporter not respecting pg_stat_statements set as teh query source by adding the value mapping to correctly parse the query-source value.</p>
 </li>
 </ul>
-<h3 id="documentation-improvements">Documentation improvements<a class="headerlink" href="#documentation-improvements" title="Permanent link">¶</a></h3>
+<h3 id="documentation-improvements">Documentation improvements<a data-markdown-ignore class="headerlink" href="#documentation-improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>Updated OpenShift documentation to better show available installation options</li>
 <li>Updated PostGIS documentation now features simplified deployment steps and clarifies the how to connect to PostgreSQL and enable the extension.</li>
@@ -7678,7 +7678,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Added documentation about immutable options in the Operator</li>
 <li>Added instructions how to override resource names when installing the Operator via Helm </li>
 </ul>
-<h2 id="supported-software">Supported software<a class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
+<h2 id="supported-software">Supported software<a data-markdown-ignore class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
 <p>This Operator version is developed, tested and based on:</p>
 <ul>
 <li>PostgreSQL 14.22-1, 15.17-1, 16.13-1, 17.9-1, 18.3-1 as the database. Other versions may also work but have not been tested.</li>
@@ -7688,7 +7688,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>PostGIS version 3.5.5</li>
 <li>PMM Client versions 2.44.1-1 and 3.6.0</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below:</p>
 <ul>
@@ -7699,7 +7699,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> 1.38.1 with Kubernetes v1.35.1</li>
 </ul>
 <p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
-<h2 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
+<h2 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
 <p>Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.</p>
 <table>
 <thead>

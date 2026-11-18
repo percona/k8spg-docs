@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6932,7 +6932,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-250">Percona Operator for PostgreSQL 2.5.0<a class="headerlink" href="#percona-operator-for-postgresql-250" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-250">Percona Operator for PostgreSQL 2.5.0<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-250" title="Permanent link">¶</a></h1>
 <ul>
 <li>
 <p><strong>Date</strong></p>
@@ -6943,15 +6943,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="../System-Requirements.html#installation-guidelines">Installing Percona Operator for PostgreSQL</a> </p>
 </li>
 </ul>
-<h2 id="release-highlights">Release Highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
-<h3 id="automated-storage-scaling">Automated storage scaling<a class="headerlink" href="#automated-storage-scaling" title="Permanent link">¶</a></h3>
+<h2 id="release-highlights">Release Highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h3 id="automated-storage-scaling">Automated storage scaling<a data-markdown-ignore class="headerlink" href="#automated-storage-scaling" title="Permanent link">¶</a></h3>
 <p>Starting from this release, the Operator is able to detect if the storage usage on the PVC reaches a certain threshold, and trigger the PVC resize. Such autoscaling needs the upstream <a href="https://access.crunchydata.com/documentation/postgres-operator/latest/guides/autogrowable-disk">auto-growable disk <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> feature turned on when deploying the Operator. This is done via the <code>PGO_FEATURE_GATES</code> environment variable set in the <code>deploy/operator.yaml</code> manifest (or in the appropriate part of <code>deploy/bundle.yaml</code>):</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"AutoGrowVolumes=true"</span>
 </code></pre></div>
 <p>When the support for auto-growable disks is turned on, the <code>spec.instances[].dataVolumeClaimSpec.resources.limits.storage</code> Custom Resource option sets the maximum value available for the Operator to scale up.</p>
 <p>See <a href="../scaling-vertical.html#scale-storage">official documentation</a> for more details and limitations of the feature.</p>
-<h3 id="major-versions-upgrade-improvements">Major versions upgrade improvements<a class="headerlink" href="#major-versions-upgrade-improvements" title="Permanent link">¶</a></h3>
+<h3 id="major-versions-upgrade-improvements">Major versions upgrade improvements<a data-markdown-ignore class="headerlink" href="#major-versions-upgrade-improvements" title="Permanent link">¶</a></h3>
 <p>Major version upgrade, introduced in the Operator version 2.4.0 as a tech preview, had undergone some improvements. Now it is possible to upgrade from one PostgreSQL major version to another with custom images for the database cluster components (PostgreSQL, pgBouncer, and pgBackRest). The upgrade is still triggered by applying the YAML manifest with the information about the existing and desired major versions, which now includes image names. The resulting manifest may look as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGUpgrade</span>
@@ -6966,14 +6966,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">  </span><span class="nt">toPgBouncerImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbouncer1.23.1</span>
 <span class="w">  </span><span class="nt">toPgBackRestImage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona/percona-postgresql-operator:2.5.0-ppg16.4-pgbackrest2.53-1</span>
 </code></pre></div>
-<h3 id="azure-kubernetes-service-and-azure-blob-storage-support">Azure Kubernetes Service and Azure Blob Storage support<a class="headerlink" href="#azure-kubernetes-service-and-azure-blob-storage-support" title="Permanent link">¶</a></h3>
+<h3 id="azure-kubernetes-service-and-azure-blob-storage-support">Azure Kubernetes Service and Azure Blob Storage support<a data-markdown-ignore class="headerlink" href="#azure-kubernetes-service-and-azure-blob-storage-support" title="Permanent link">¶</a></h3>
 <p><a href="../aks.html">Azure Kubernetes Service (AKS)</a> is now an officially supported platform, so developers and vendors of the solutions based on the Azure platform can take advantage of the official support from Percona or just use officially certified Percona Operator for PostgreSQL images; also, <a href="../backups-storage-azure.html">Azure Blob Storage can now be used for backups</a>.</p>
-<h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
+<h2 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-227">K8SPG-227</a> and <a href="https://jira.percona.com/browse/K8SPG-157">K8SPG-157</a>: Add support for the <a href="../aks.html">Azure Kubernetes Service (AKS)</a> platform and allow <a href="../backups-storage-azure.html">using Azure Blob Storage</a> for backups</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-244">K8SPG-244</a>: <a href="../scaling-vertical.html#scale-storage">Automated storage scaling</a> is now supported</li>
 </ul>
-<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
+<h2 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-630">K8SPG-630</a>: A new <code>backups.trackLatestRestorableTime</code> Custom Resource option allows to disable latest restorable time tracking for users who need reducing S3 API calls usage</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-605">K8SPG-605</a> and <a href="https://jira.percona.com/browse/K8SPG-593">K8SPG-593</a>: Documentation now includes information about <a href="../update-operator.html#upgrade-via-helm">upgrading the Operator via Helm</a> and <a href="../initsql.html">using databaseInitSQL commands</a></li>
@@ -6984,16 +6984,16 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-454">K8SPG-454</a>: Cluster status obtained with <code>kubectl get pg</code> command is now “ready” not only when all Pods are ready, but also takes into account if all StatefulSets are up to date</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-577">K8SPG-577</a>: A new <code>pmm.querySource</code> Custom Resource option allows to set PMM query source</li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
+<h2 id="bugs-fixed">Bugs Fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-629">K8SPG-629</a>: Fix a bug where the Operator was not deleting backup Pods when cleaning outdated backups according to the retention policy</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-499">K8SPG-499</a>: Fix a bug where cluster was getting stuck in the init state if pgBackRest secret didn’t exist</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-588">K8SPG-588</a>: Fix a bug where the Operator didn’t stop WAL watcher if the namespace and/or cluster were deleted</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-644">K8SPG-644</a>: Fix a bug in the <code>pg-db</code> Helm chart which prevented from setting more than one Toleration</li>
 </ul>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <p>With the Operator versions prior to 2.5.0, <a href="../TLS.html">autogenerated TLS certificates</a> for all database clusters were based on the same generated root CA. Starting from 2.5.0, the Operator creates root CA on a per-cluster basis.</p>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>The Operator was developed and tested with PostgreSQL versions 12.20, 13.16, 14.13, 15.8, and 16.4. Other options may also work but have not been tested. The Operator 2.5.0 provides connection pooling based on pgBouncer 1.23.1 and high-availability implementation based on Patroni 3.3.2.</p>
 <p>The following platforms were tested and are officially supported by the Operator
 2.5.0:</p>

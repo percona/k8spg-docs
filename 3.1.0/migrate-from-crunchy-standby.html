@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7254,22 +7254,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster">Migrate from Crunchy to Percona Operator for PostgreSQL using a standby cluster<a class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster" title="Permanent link">¶</a></h1>
+<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster">Migrate from Crunchy to Percona Operator for PostgreSQL using a standby cluster<a data-markdown-ignore class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-using-a-standby-cluster" title="Permanent link">¶</a></h1>
 <p>A standby cluster is a PostgreSQL cluster that doesn’t have a writable primary. Instead, it applies changes from backups or from streaming replication from another database that acts as the source.</p>
 <p>Using a standby cluster when migrating your PostgreSQL workloads, you maintain a live, synchronized copy of your original Crunchy cluster in Percona Operator for PostgreSQL. This approach minimizes downtime and gives you a way to validate the new cluster before switching over.</p>
 <p>In this migration guide, we deploy Percona Operator for PostgreSQL as a standby cluster for a Crunchy PostgreSQL cluster by using a combination of backup and streaming replication. This approach ensures a fast initial data sync and keeps your data up to date with minimal downtime during cutover. For more information about standby cluster types, see <a href="standby.html#types-of-standby-clusters">standby cluster types</a>.</p>
 <p>Then we cut over the Crunchy PostgreSQL cluster and promote Percona Operator for PostgreSQL.</p>
 <p>This migration provides minimal downtime that happens only during the cutover.</p>
-<h2 id="versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
+<h2 id="versions-used-in-this-guide">Versions used in this guide<a data-markdown-ignore class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
 <p>For this migration tutorial, we use the following versions of the Operators:</p>
 <ul>
 <li>Crunchy PostgreSQL Operator 5.8.x</li>
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 <li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
 </ul>
-<h2 id="before-you-migrate">Before you migrate<a class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
+<h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
 <li>A Kubernetes or OpenShift cluster with permissions to create namespaces, CRDs, Roles, and Deployments.</li>
@@ -7278,7 +7278,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor.</li>
 <li>A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.</li>
 </ul>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create the namespaces for Crunchy Operator for PostgreSQL and Percona Operator for PostgreSQL and export them as the environment variables. If you already run Crunchy Operator for PostgreSQL, export its namespace as the environment variable.</p>
@@ -7300,10 +7300,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="deploy-crunchy-operator-for-postgresql">Deploy Crunchy Operator for PostgreSQL<a class="headerlink" href="#deploy-crunchy-operator-for-postgresql" title="Permanent link">¶</a></h2>
+<h2 id="deploy-crunchy-operator-for-postgresql">Deploy Crunchy Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#deploy-crunchy-operator-for-postgresql" title="Permanent link">¶</a></h2>
 <p>Skip this step if you already run Crunchy Operator for PostgreSQL.</p>
 <p>If you don’t, install the Operator Deployment following the <a href="https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart">official Crunchy documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h2 id="adapt-the-configuration-for-crunchy-postgresql-cluster">Adapt the configuration for Crunchy PostgreSQL cluster<a class="headerlink" href="#adapt-the-configuration-for-crunchy-postgresql-cluster" title="Permanent link">¶</a></h2>
+<h2 id="adapt-the-configuration-for-crunchy-postgresql-cluster">Adapt the configuration for Crunchy PostgreSQL cluster<a data-markdown-ignore class="headerlink" href="#adapt-the-configuration-for-crunchy-postgresql-cluster" title="Permanent link">¶</a></h2>
 <p>Whether you are deploying a new Crunchy PostgreSQL cluster or already have one running, make sure that:</p>
 <ol>
 <li><code>pgBackRest</code> is configured to send backups to a remote storage that will be accessible by the Percona standby cluster.</li>
@@ -7402,7 +7402,7 @@ pod/crunchy-source-instance1-xczk-0 condition met
 </details>
 </li>
 </ol>
-<h2 id="make-a-full-backup-on-the-crunchy-postgresql-cluster-before-the-migration">Make a full backup on the Crunchy PostgreSQL cluster before the migration<a class="headerlink" href="#make-a-full-backup-on-the-crunchy-postgresql-cluster-before-the-migration" title="Permanent link">¶</a></h2>
+<h2 id="make-a-full-backup-on-the-crunchy-postgresql-cluster-before-the-migration">Make a full backup on the Crunchy PostgreSQL cluster before the migration<a data-markdown-ignore class="headerlink" href="#make-a-full-backup-on-the-crunchy-postgresql-cluster-before-the-migration" title="Permanent link">¶</a></h2>
 <p>Make a full backup. This ensures the standby cluster has a recent restore point and needs to replay a small amount of WAL files to synchronize.</p>
 <ol>
 <li>
@@ -7428,7 +7428,7 @@ pod/crunchy-source-instance1-xczk-0 condition met
 </details>
 </li>
 </ol>
-<h2 id="export-data-for-the-standby-cluster">Export data for the standby cluster<a class="headerlink" href="#export-data-for-the-standby-cluster" title="Permanent link">¶</a></h2>
+<h2 id="export-data-for-the-standby-cluster">Export data for the standby cluster<a data-markdown-ignore class="headerlink" href="#export-data-for-the-standby-cluster" title="Permanent link">¶</a></h2>
 <p>If the Percona cluster runs in a <strong>different</strong> namespace than Crunchy, copy the Crunchy TLS secrets into the Percona namespace for mutual TLS on the replication connection:</p>
 <ol>
 <li>
@@ -7475,7 +7475,7 @@ kubectl get secret crunchy-source-replication-cert -o json -n "$CRUNCHY_NS" \
 </code></pre></div>
 </li>
 </ol>
-<h2 id="deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode">Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode<a class="headerlink" href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode" title="Permanent link">¶</a></h2>
+<h2 id="deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode">Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode<a data-markdown-ignore class="headerlink" href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Deploy Percona Operator for PostgreSQL:</p>
@@ -7605,7 +7605,7 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 </details>
 </li>
 </ol>
-<h2 id="verify-streaming-replication-lag-before-cutover">Verify streaming replication lag before cutover<a class="headerlink" href="#verify-streaming-replication-lag-before-cutover" title="Permanent link">¶</a></h2>
+<h2 id="verify-streaming-replication-lag-before-cutover">Verify streaming replication lag before cutover<a data-markdown-ignore class="headerlink" href="#verify-streaming-replication-lag-before-cutover" title="Permanent link">¶</a></h2>
 <p>On the Crunchy <strong>primary</strong> Pod, confirm the Percona standby is connected and lag is acceptable:</p>
 <ol>
 <li>
@@ -7639,7 +7639,7 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 </li>
 </ol>
 <p>Proceed only when <code>write_lag</code> and <code>replay_lag</code> are null or within your policy (for example a few seconds).</p>
-<h2 id="cut-over-the-crunchy-postgresql-cluster">Cut over the Crunchy PostgreSQL cluster<a class="headerlink" href="#cut-over-the-crunchy-postgresql-cluster" title="Permanent link">¶</a></h2>
+<h2 id="cut-over-the-crunchy-postgresql-cluster">Cut over the Crunchy PostgreSQL cluster<a data-markdown-ignore class="headerlink" href="#cut-over-the-crunchy-postgresql-cluster" title="Permanent link">¶</a></h2>
 <p>Now you are ready for the cutover. Note that this step causes downtime as both clusters will be in standby mode and will not accept writes.</p>
 <ol>
 <li>
@@ -7662,14 +7662,14 @@ psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span>
 </details>
 </li>
 </ol>
-<h2 id="optional-shut-down-the-crunchy-cluster">(Optional) Shut down the Crunchy cluster<a class="headerlink" href="#optional-shut-down-the-crunchy-cluster" title="Permanent link">¶</a></h2>
+<h2 id="optional-shut-down-the-crunchy-cluster">(Optional) Shut down the Crunchy cluster<a data-markdown-ignore class="headerlink" href="#optional-shut-down-the-crunchy-cluster" title="Permanent link">¶</a></h2>
 <p>After the Percona standby has replayed WAL, shut down Crunchy to avoid split-brain:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-p<span class="w"> </span><span class="s1">'{"spec": {"shutdown": true}}'</span>
 </code></pre></div>
-<h2 id="promote-percona-postgresql-cluster">Promote Percona PostgreSQL cluster<a class="headerlink" href="#promote-percona-postgresql-cluster" title="Permanent link">¶</a></h2>
+<h2 id="promote-percona-postgresql-cluster">Promote Percona PostgreSQL cluster<a data-markdown-ignore class="headerlink" href="#promote-percona-postgresql-cluster" title="Permanent link">¶</a></h2>
 <p>Before promoting the Percona PostgreSQL cluster, make sure it has finished replaying all WAL (Write-Ahead Log) data. </p>
 <p>After the Crunchy cluster is shut down, no new WAL files will be generated. 
 The Percona standby will keep replaying existing WAL files from S3 object storage, and its Log Sequence Number (LSN) will advance each time new WAL is applied.</p>
@@ -7729,7 +7729,7 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 </details>
 </li>
 </ol>
-<h2 id="take-a-post-migration-backup">Take a post-migration backup<a class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
+<h2 id="take-a-post-migration-backup">Take a post-migration backup<a data-markdown-ignore class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
 <p>This creates a clean recovery point on the new timeline. Note that after you make the backup, you can no longer roll back to the Crunchy PostgreSQL.</p>
 <ol>
 <li>
@@ -7757,7 +7757,7 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 </code></pre></div>
 </li>
 </ol>
-<h2 id="update-the-application-connection-string">Update the application connection string<a class="headerlink" href="#update-the-application-connection-string" title="Permanent link">¶</a></h2>
+<h2 id="update-the-application-connection-string">Update the application connection string<a data-markdown-ignore class="headerlink" href="#update-the-application-connection-string" title="Permanent link">¶</a></h2>
 <p>After you migrated to Percona Operator for PostgreSQL, update your application connection string to use the new Percona cluster:</p>
 <ol>
 <li>
@@ -7777,9 +7777,9 @@ Port:   5432
 </li>
 </ol>
 <p>Replace <code>${NAMESPACE}</code> with your cluster’s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
-<h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
+<h2 id="rollback">Rollback<a data-markdown-ignore class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
 <p>The standby path is the most rollback-friendly of the <a href="migrate-from-crunchy.html">migration options</a>: Crunchy and Percona share the same <code>pgBackRest</code> repository layout until you establish a new baseline on Percona.</p>
-<h3 id="before-the-post-migration-backup">Before the post-migration backup<a class="headerlink" href="#before-the-post-migration-backup" title="Permanent link">¶</a></h3>
+<h3 id="before-the-post-migration-backup">Before the post-migration backup<a data-markdown-ignore class="headerlink" href="#before-the-post-migration-backup" title="Permanent link">¶</a></h3>
 <p>Until you complete <a href="#take-a-post-migration-backup">Take a post-migration backup</a>, you can usually return write traffic to Crunchy if the Crunchy <code>PostgresCluster</code> and its <code>pgBouncer</code> Service still exist and you have <strong>not</strong> deleted <code>crunchy-source</code>.</p>
 <p>Any writes that landed on <code>cluster1</code> <strong>after</strong> you promoted Percona are <strong>not</strong> on Crunchy. Treat rollback as abandoning that window unless you copy data out manually.</p>
 <ol>
@@ -7837,22 +7837,22 @@ kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</spa
 </code></pre></div>
 </li>
 </ol>
-<h3 id="after-the-post-migration-backup">After the post-migration backup<a class="headerlink" href="#after-the-post-migration-backup" title="Permanent link">¶</a></h3>
+<h3 id="after-the-post-migration-backup">After the post-migration backup<a data-markdown-ignore class="headerlink" href="#after-the-post-migration-backup" title="Permanent link">¶</a></h3>
 <p>After you take the post-migration backup, timelines and <code>pgBackRest</code> history on Percona have diverged from the pre-cutover Crunchy archive. You should treat Crunchy as a historical reference, not a live paired primary.</p>
 <p>Rolling back from here is the same idea as a fresh restore: deploy or restore a Crunchy cluster from the repository state you need, or follow <a href="migrate-from-crunchy-backup-restore.html">Migrate from Crunchy using backup and restore</a> in reverse order for your environment. Plan the rollback <strong>before</strong> cutover if you require a guaranteed fast path.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
-<h3 id="percona-standby-cannot-resolve-or-reach-the-crunchy-primary">Percona standby cannot resolve or reach the Crunchy primary<a class="headerlink" href="#percona-standby-cannot-resolve-or-reach-the-crunchy-primary" title="Permanent link">¶</a></h3>
+<h2 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<h3 id="percona-standby-cannot-resolve-or-reach-the-crunchy-primary">Percona standby cannot resolve or reach the Crunchy primary<a data-markdown-ignore class="headerlink" href="#percona-standby-cannot-resolve-or-reach-the-crunchy-primary" title="Permanent link">¶</a></h3>
 <p>Confirm the PostgreSQL HA Service for <code>crunchy-source</code> resolves from the Percona database Pod. Replace <code>crunchy-source-ha</code> if your Service name differs.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">STANDBY_POD</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"getent hosts crunchy-source-ha.</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">.svc.cluster.local"</span>
 </code></pre></div>
 <p>If DNS fails, check Service names and namespaces. If DNS succeeds but TCP fails, check NetworkPolicies, service mesh rules, and firewalls between namespaces.</p>
-<h3 id="replication-authentication-errors">Replication authentication errors<a class="headerlink" href="#replication-authentication-errors" title="Permanent link">¶</a></h3>
+<h3 id="replication-authentication-errors">Replication authentication errors<a data-markdown-ignore class="headerlink" href="#replication-authentication-errors" title="Permanent link">¶</a></h3>
 <p>The Percona standby connects to Crunchy as the PostgreSQL role <code>_crunchyreplication</code> using the replication TLS material. Ensure <code>crunchy-source-replication-cert</code> exists in <code>"${NAMESPACE}"</code> and matches what Crunchy generated (re-export from <code>"${CRUNCHY_NS}"</code> if you rotated certificates).</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-replication-cert<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>Verify the <code>PerconaPGCluster</code> still references it under <code>secrets.customReplicationTLSSecret</code> and <code>secrets.customTLSSecret</code> as in <a href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode">Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode</a>.</p>
-<h3 id="pgbackrest-restore-or-wal-archive-problems"><code>pgBackRest</code> restore or WAL archive problems<a class="headerlink" href="#pgbackrest-restore-or-wal-archive-problems" title="Permanent link">¶</a></h3>
+<h3 id="pgbackrest-restore-or-wal-archive-problems"><code>pgBackRest</code> restore or WAL archive problems<a data-markdown-ignore class="headerlink" href="#pgbackrest-restore-or-wal-archive-problems" title="Permanent link">¶</a></h3>
 <p>Symptoms include failed restore Jobs, missing <code>archive.info</code>, or the standby never leaving base backup replay.</p>
 <ol>
 <li>
@@ -7884,7 +7884,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 </code></pre></div>
 </li>
 </ol>
-<h3 id="timeline-history-file-missing-after-promotion-crunchy-archive">Timeline history file missing after promotion (Crunchy archive)<a class="headerlink" href="#timeline-history-file-missing-after-promotion-crunchy-archive" title="Permanent link">¶</a></h3>
+<h3 id="timeline-history-file-missing-after-promotion-crunchy-archive">Timeline history file missing after promotion (Crunchy archive)<a data-markdown-ignore class="headerlink" href="#timeline-history-file-missing-after-promotion-crunchy-archive" title="Permanent link">¶</a></h3>
 <p>Some Crunchy PGO configurations using async archive mode can hit a missing timeline history file on the archive after promotion (see <a href="https://github.com/CrunchyData/postgres-operator/issues/4472">Crunchy PGO issue #4472 <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>). If <code>pgBackRest</code> or replicas complain about <code>*.history</code> on the archive, push the file once from the <strong>new</strong> primary:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s2">"</span>

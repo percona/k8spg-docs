@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6810,10 +6810,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-troubleshooting">Percona Operator troubleshooting<a class="headerlink" href="#percona-operator-troubleshooting" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-troubleshooting">Percona Operator troubleshooting<a data-markdown-ignore class="headerlink" href="#percona-operator-troubleshooting" title="Permanent link">¶</a></h1>
 <p>This section provides information on how to troubleshoot issues when you install Percona Operator for PostgreSQL.</p>
 <p>Make sure you have CLI tool <code>kubectl</code> installed to interact with Kubernetes API.</p>
-<h2 id="check-connection-to-kubernetes-cluster">Check connection to Kubernetes cluster<a class="headerlink" href="#check-connection-to-kubernetes-cluster" title="Permanent link">¶</a></h2>
+<h2 id="check-connection-to-kubernetes-cluster">Check connection to Kubernetes cluster<a data-markdown-ignore class="headerlink" href="#check-connection-to-kubernetes-cluster" title="Permanent link">¶</a></h2>
 <p>It may happen that <code>kubectl</code> you installed locally is not connected to your Kubernetes cluster. </p>
 <p>To check connectivity to your Kubernetes API, run the following command:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>cluster-info
@@ -6842,7 +6842,7 @@ CoreDNS is running at https://&lt;control-plane-ip&gt;:49475/api/v1/namespaces/k
 </li>
 </ol>
 <p>If you are still running into issues, check with your Kubernetes cluster administrator to resolve the connectivity or configuration issues. </p>
-<h2 id="troubleshoot-operator-installation-issues">Troubleshoot Operator installation issues<a class="headerlink" href="#troubleshoot-operator-installation-issues" title="Permanent link">¶</a></h2>
+<h2 id="troubleshoot-operator-installation-issues">Troubleshoot Operator installation issues<a data-markdown-ignore class="headerlink" href="#troubleshoot-operator-installation-issues" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Check the Operator logs</p>
@@ -6881,7 +6881,7 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 <p>Events provide good information about affinity issues, resource issues etc.</p>
 </li>
 </ol>
-<h2 id="troubleshooting-database-cluster-issues">Troubleshooting database cluster issues<a class="headerlink" href="#troubleshooting-database-cluster-issues" title="Permanent link">¶</a></h2>
+<h2 id="troubleshooting-database-cluster-issues">Troubleshooting database cluster issues<a data-markdown-ignore class="headerlink" href="#troubleshooting-database-cluster-issues" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>The Operator deployment must be in the <code>Running</code> state for the database cluster to function properly. Check the Operator Pod for restarts to identify potential issues.</p>
@@ -6946,7 +6946,7 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 </li>
 </ol>
 <p>See the <a href="manage-manually.html#disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p>
-<h2 id="profiling-the-operator-with-pprof">Profiling the Operator with pprof<a class="headerlink" href="#profiling-the-operator-with-pprof" title="Permanent link">¶</a></h2>
+<h2 id="profiling-the-operator-with-pprof">Profiling the Operator with pprof<a data-markdown-ignore class="headerlink" href="#profiling-the-operator-with-pprof" title="Permanent link">¶</a></h2>
 <p>When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go’s pprof tooling.</p>
 <ol>
 <li>

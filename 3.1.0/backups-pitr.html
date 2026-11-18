@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6848,7 +6848,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="point-in-time-recovery">Point-in-time recovery<a class="headerlink" href="#point-in-time-recovery" title="Permanent link">¶</a></h1>
+<h1 id="point-in-time-recovery">Point-in-time recovery<a data-markdown-ignore class="headerlink" href="#point-in-time-recovery" title="Permanent link">¶</a></h1>
 <p>Point-in-time recovery (PITR) lets you restore your database to the state it was in before a change occurred. For example, before accidental data deletion or corruption.</p>
 <p>This document explains how point-in-time recovery works with the Operator and how to use the latest restorable time when you choose a restore target. If you already know the concept and want the steps, jump to a tutorial:</p>
 <ul>
@@ -6856,7 +6856,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="backups-pitr-cluster-clone.html">Restore to a new cluster with point-in-time recovery</a></li>
 <li><a href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery from a PVC snapshot</a></li>
 </ul>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
+<h2 id="how-it-works">How it works<a data-markdown-ignore class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
 <p>Point-in-time recovery combines a base backup with Write-Ahead Log (WAL) archives:</p>
 <ol>
 <li>The Operator restores a backup that finished <strong>before</strong> your target time.</li>
@@ -6864,14 +6864,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ol>
 <p>The Operator automatically creates an initial full backup when it creates a new cluster for you. That backup is the starting point for point-in-time recovery. It is required internally and does not appear when you run <code>kubectl get pg-backup</code>.</p>
 <p>By default, the Operator uses the latest successful full backup as the base. You can point the restore at another backup by its ID. See <a href="backups-pitr-inplace.html#specify-a-base-backup-for-point-in-time-restore">Specify a base backup for point-in-time restore</a>.</p>
-<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">¶</a></h2>
+<h2 id="what-you-need">What you need<a data-markdown-ignore class="headerlink" href="#what-you-need" title="Permanent link">¶</a></h2>
 <p>To make a point-in-time restore, you need the following:</p>
 <ul>
 <li>A backup that finished before your target time. You cannot restore to a time where there was no backup.</li>
 <li>All relevant WAL files successfully archived to the backup repository.</li>
 <li>The <code>--type=time</code> and <code>--target</code> options in your restore configuration. You specify them either in the <code>PerconaPGRestore</code> object for in-place restore, or in the <code>dataSource</code> options in the target cluster’s Custom Resource during a cluster clone.</li>
 </ul>
-<h2 id="latest-restorable-time">Latest restorable time<a class="headerlink" href="#latest-restorable-time" title="Permanent link">¶</a></h2>
+<h2 id="latest-restorable-time">Latest restorable time<a data-markdown-ignore class="headerlink" href="#latest-restorable-time" title="Permanent link">¶</a></h2>
 <p>By default, the Operator tracks the latest restorable time for a backup. This behavior is controlled by the <a href="operator.html#backupstracklatestrestorabletime">backups.trackLatestRestorableTime</a> Custom Resource option. </p>
 <p>When tracking is enabled, the Operator records the timestamp of the latest committed transaction that has been archived to the backup repository. That value appears on the latest successful backup as <code>status.latestRestorableTime</code>. Use it as a safe upper bound when you choose a point-in-time restore target.</p>
 <p>The Operator updates this field as WAL is archived. </p>
@@ -6890,14 +6890,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The timestamp reflects the last archived WAL with commits, not the current tip of the primary. By default, PostgreSQL switches WAL every 60 seconds. This interval is defined by the <code>archive_timeout</code> option.</li>
 <li>If the field is empty or stale while you test on an idle cluster, create a small write transaction (for example, an <code>INSERT</code> or <code>UPDATE</code>) and wait for the next WAL archive.</li>
 </ul>
-<h3 id="disable-latest-restorable-time-tracking">Disable latest restorable time tracking<a class="headerlink" href="#disable-latest-restorable-time-tracking" title="Permanent link">¶</a></h3>
+<h3 id="disable-latest-restorable-time-tracking">Disable latest restorable time tracking<a data-markdown-ignore class="headerlink" href="#disable-latest-restorable-time-tracking" title="Permanent link">¶</a></h3>
 <p>Set <code>backups.trackLatestRestorableTime</code> to <code>false</code> if you do not need this helper. For example, to reduce archive overhead or S3 API usage from status checks or if a restricted security policy conflicts with the tracking archive command.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">backups</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">trackLatestRestorableTime</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <p>Backups and restores continue to work. When tracking is disabled, the Operator also does not inject the tracking logic into <code>archive_command</code>.</p>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="backups-pitr-inplace.html">In-place point-in-time restore</a>
 <a class="md-button" href="backups-pitr-cluster-clone.html">Clone with point-in-time recovery</a>
 <a class="md-button" href="backups-pvc-usage.html#in-place-restore-with-point-in-time-recovery">Point-in-time restore from a PVC snapshot</a></p>

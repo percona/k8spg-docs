@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7154,15 +7154,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="configure-transparent-data-encryption-tde-with-hashicorp-vault">Configure transparent data encryption (TDE) with HashiCorp Vault<a class="headerlink" href="#configure-transparent-data-encryption-tde-with-hashicorp-vault" title="Permanent link">¶</a></h1>
+<h1 id="configure-transparent-data-encryption-tde-with-hashicorp-vault">Configure transparent data encryption (TDE) with HashiCorp Vault<a data-markdown-ignore class="headerlink" href="#configure-transparent-data-encryption-tde-with-hashicorp-vault" title="Permanent link">¶</a></h1>
 <p>This document guides you through setting up transparent data encryption (TDE) with <code>pg_tde</code> and HashiCorp Vault as the key provider. To learn more about TDE and how it works, see <a href="encryption.html">Transparent data encryption</a>.</p>
-<h2 id="assumptions">Assumptions<a class="headerlink" href="#assumptions" title="Permanent link">¶</a></h2>
+<h2 id="assumptions">Assumptions<a data-markdown-ignore class="headerlink" href="#assumptions" title="Permanent link">¶</a></h2>
 <ol>
 <li>This guide is provided as a best effort and builds upon procedures described in the official Vault documentation. Since Vault’s setup steps may change in future releases, this document may become outdated; we cannot guarantee ongoing accuracy or responsibility for such changes. For the most up-to-date and reliable information, please always refer to <a href="https://developer.hashicorp.com/vault/tutorials/kubernetes/kubernetes-minikube-tls#kubernetes-minikube-tls">the official Vault documentation</a>.</li>
 <li>In the following sections we deploy the Vault server in High Availability (HA) mode on Kubernetes via Helm with TLS enabled. The HA setup uses Raft storage backend and consists of 3 replicas for redundancy. Using Helm is not mandatory. Any supported Vault deployment (on-premises, in the cloud, or a managed Vault service) works as long as the Operator can reach it.</li>
 <li>This guide uses Vault Helm chart version 0.30.0. You may want to change it to the required version by setting the <code>VAULT_HELM_VERSION</code> variable.</li>
 </ol>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>To configure TDE, you need the following:</p>
 <ul>
 <li><code>kubectl</code>- Kubernetes command-line interface</li>
@@ -7170,7 +7170,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><code>jq</code> - JSON processor</li>
 <li>The Operator and Percona Distribution for PostgreSQL installed. </li>
 </ul>
-<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
+<h2 id="prepare-your-environment">Prepare your environment<a data-markdown-ignore class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create the namespaces for Vault and the database cluster. If you have installed the Operator and Percona Distribution for PostgreSQL, you don’t need to create a namespace for them.</p>
@@ -7203,7 +7203,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="generate-tls-certificates">Generate TLS certificates<a class="headerlink" href="#generate-tls-certificates" title="Permanent link">¶</a></h2>
+<h2 id="generate-tls-certificates">Generate TLS certificates<a data-markdown-ignore class="headerlink" href="#generate-tls-certificates" title="Permanent link">¶</a></h2>
 <p>To use TLS, you’ll need the following certificates:</p>
 <ul>
 <li>A private key for the Vault server</li>
@@ -7211,11 +7211,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The Kubernetes CA certificate</li>
 </ul>
 <p>These files store sensitive information. Make sure to keep them in a secure location.</p>
-<h3 id="generate-the-private-key">Generate the private key<a class="headerlink" href="#generate-the-private-key" title="Permanent link">¶</a></h3>
+<h3 id="generate-the-private-key">Generate the private key<a data-markdown-ignore class="headerlink" href="#generate-the-private-key" title="Permanent link">¶</a></h3>
 <p>Generate a private key for the Vault server:</p>
 <div class="highlight"><pre><span></span><code>openssl<span class="w"> </span>genrsa<span class="w"> </span>-out<span class="w"> </span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.key<span class="w"> </span><span class="m">2048</span>
 </code></pre></div>
-<h3 id="create-the-certificate-signing-request-csr">Create the Certificate Signing Request (CSR)<a class="headerlink" href="#create-the-certificate-signing-request-csr" title="Permanent link">¶</a></h3>
+<h3 id="create-the-certificate-signing-request-csr">Create the Certificate Signing Request (CSR)<a data-markdown-ignore class="headerlink" href="#create-the-certificate-signing-request-csr" title="Permanent link">¶</a></h3>
 <p>A Certificate Signing Request (CSR) is a file that contains information about your server and the certificate you need. You create it using your private key, and then submit it to Kubernetes to get a certificate signed by the Kubernetes Certificate Authority (CA). The signed certificate proves your server’s identity and enables secure TLS connections.</p>
 <ol>
 <li>
@@ -7262,7 +7262,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h3 id="issue-the-certificate">Issue the certificate<a class="headerlink" href="#issue-the-certificate" title="Permanent link">¶</a></h3>
+<h3 id="issue-the-certificate">Issue the certificate<a data-markdown-ignore class="headerlink" href="#issue-the-certificate" title="Permanent link">¶</a></h3>
 <p>To get your certificate signed by Kubernetes, you need to submit the CSR through the Kubernetes API. The CSR file you generated with OpenSSL must be wrapped in a Kubernetes CertificateSigningRequest resource.</p>
 <ol>
 <li>
@@ -7312,7 +7312,7 @@ vault-csr   16s   kubernetes.io/kubelet-serving   minikube-user   &lt;none&gt;  
 </details>
 </li>
 </ol>
-<h3 id="retrieve-the-certificates">Retrieve the certificates<a class="headerlink" href="#retrieve-the-certificates" title="Permanent link">¶</a></h3>
+<h3 id="retrieve-the-certificates">Retrieve the certificates<a data-markdown-ignore class="headerlink" href="#retrieve-the-certificates" title="Permanent link">¶</a></h3>
 <p>After Kubernetes approves and signs your CSR, you need to retrieve the signed certificate and the Kubernetes CA certificate. These certificates are required to configure TLS for your Vault server.</p>
 <ol>
 <li>
@@ -7332,7 +7332,7 @@ vault-csr   16s   kubernetes.io/kubelet-serving   minikube-user   &lt;none&gt;  
 </code></pre></div>
 </li>
 </ol>
-<h3 id="store-certificates-in-kubernetes-secrets">Store certificates in Kubernetes secrets<a class="headerlink" href="#store-certificates-in-kubernetes-secrets" title="Permanent link">¶</a></h3>
+<h3 id="store-certificates-in-kubernetes-secrets">Store certificates in Kubernetes secrets<a data-markdown-ignore class="headerlink" href="#store-certificates-in-kubernetes-secrets" title="Permanent link">¶</a></h3>
 <p>Create a TLS secret in Kubernetes to store the certificates and key:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span><span class="si">${</span><span class="nv">SECRET_NAME_VAULT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--namespace<span class="w"> </span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
@@ -7340,7 +7340,7 @@ vault-csr   16s   kubernetes.io/kubelet-serving   minikube-user   &lt;none&gt;  
 <span class="w">  </span>--from-file<span class="o">=</span>vault.crt<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.crt<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--from-file<span class="o">=</span>vault.ca<span class="o">=</span><span class="nv">$WORKDIR</span>/vault.ca
 </code></pre></div>
-<h2 id="install-vault-with-tls">Install Vault with TLS<a class="headerlink" href="#install-vault-with-tls" title="Permanent link">¶</a></h2>
+<h2 id="install-vault-with-tls">Install Vault with TLS<a data-markdown-ignore class="headerlink" href="#install-vault-with-tls" title="Permanent link">¶</a></h2>
 <p>For this setup, we install Vault in Kubernetes using the <a href="https://helm.sh/">Helm 3 package manager <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> in High Availability (HA) mode with Raft storage backend and with TLS enabled.</p>
 <ol>
 <li>
@@ -7423,7 +7423,7 @@ vault-2
 </details>
 </li>
 </ol>
-<h2 id="initialize-and-unseal-vault">Initialize and unseal Vault<a class="headerlink" href="#initialize-and-unseal-vault" title="Permanent link">¶</a></h2>
+<h2 id="initialize-and-unseal-vault">Initialize and unseal Vault<a data-markdown-ignore class="headerlink" href="#initialize-and-unseal-vault" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>After Vault is installed, you need to initialize it. Run the following command to initialize the first pod:</p>
@@ -7521,7 +7521,7 @@ HA Enabled              true
 </details>
 </li>
 </ol>
-<h2 id="configure-vault">Configure Vault<a class="headerlink" href="#configure-vault" title="Permanent link">¶</a></h2>
+<h2 id="configure-vault">Configure Vault<a data-markdown-ignore class="headerlink" href="#configure-vault" title="Permanent link">¶</a></h2>
 <p>At this step you need to configure Vault and enable secrets engine within it. To do so you must first authenticate in Vault.</p>
 <p>When you started Vault, it generates and starts with a <a href="https://developer.hashicorp.com/vault/docs/concepts/tokens">root token <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> that provides full access to Vault. Use this token to authenticate.</p>
 <p>Run the following command on a leader node. The remaining ones will synchronize from the leader.</p>
@@ -7567,7 +7567,7 @@ HA Enabled              true
 </details>
 </li>
 </ol>
-<h2 id="create-a-non-root-token">Create a non-root token<a class="headerlink" href="#create-a-non-root-token" title="Permanent link">¶</a></h2>
+<h2 id="create-a-non-root-token">Create a non-root token<a data-markdown-ignore class="headerlink" href="#create-a-non-root-token" title="Permanent link">¶</a></h2>
 <p>Using the root token for authentication is not recommended, as it poses significant security risks. Instead, you should create a dedicated, non-root token for the Operator to use when accessing Vault. The permissions for this token are controlled by an access policy. Before you create a token you must first create the access policy.</p>
 <ol>
 <li>
@@ -7611,7 +7611,7 @@ HA Enabled              true
 </details>
 </li>
 </ol>
-<h2 id="create-a-secret-for-vault">Create a Secret for Vault<a class="headerlink" href="#create-a-secret-for-vault" title="Permanent link">¶</a></h2>
+<h2 id="create-a-secret-for-vault">Create a Secret for Vault<a data-markdown-ignore class="headerlink" href="#create-a-secret-for-vault" title="Permanent link">¶</a></h2>
 <p>To enable Vault for the Operator, create a Secret object for it using the Vault token and the path to TLS certificates. Note that you must create the Secret in the namespace where the Operator and the database cluster is running.</p>
 <p>For the following command specify the token and the path to the <code>ca.cert</code> file (this is <code>vault.ca</code> in our example):</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-vault<span class="w"> </span>--from-literal<span class="o">=</span><span class="nv">token</span><span class="o">=</span><span class="nv">$NEW_TOKEN</span><span class="w"> </span>--from-file<span class="o">=</span>ca.crt<span class="o">=</span><span class="si">${</span><span class="nv">WORKDIR</span><span class="si">}</span>/vault.ca<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
@@ -7619,7 +7619,7 @@ HA Enabled              true
 <p>Check that the Secret is created:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CLUSTER_NAMESPACE</span>
 </code></pre></div>
-<h2 id="configure-pg_tde-in-the-custom-resource-manifest">Configure <code>pg_tde</code> in the Custom Resource manifest<a class="headerlink" href="#configure-pg_tde-in-the-custom-resource-manifest" title="Permanent link">¶</a></h2>
+<h2 id="configure-pg_tde-in-the-custom-resource-manifest">Configure <code>pg_tde</code> in the Custom Resource manifest<a data-markdown-ignore class="headerlink" href="#configure-pg_tde-in-the-custom-resource-manifest" title="Permanent link">¶</a></h2>
 <p>Now, enable the <code>pg_tde</code> extension for your cluster and configure Vault as the key provider. Also enable write-ahead log (WAL) segments encryption on disk. When WAL encryption is enabled, the Operator then adjusts PostgreSQL and pgBackRest so that archiving and restore continue to work with encrypted WAL.</p>
 <p>To learn how WAL encryption works with backups, see <a href="encryption.html#wal-encryption">WAL encryption</a>.</p>
 <div class="admonition important">
@@ -7726,7 +7726,7 @@ HA Enabled              true
 <p class="admonition-title">Note</p>
 <p>WAL files that pgBackRest stores in the backup repository are decrypted before upload. To keep repository contents encrypted, configure <a href="backup-encryption.html">backup encryption</a> with <code>repo-cipher-pass</code>.</p>
 </div>
-<h2 id="verify-the-encryption">Verify the encryption<a class="headerlink" href="#verify-the-encryption" title="Permanent link">¶</a></h2>
+<h2 id="verify-the-encryption">Verify the encryption<a data-markdown-ignore class="headerlink" href="#verify-the-encryption" title="Permanent link">¶</a></h2>
 <p>Check that the encryption is enabled. To do that, create a table in PostgreSQL using the <code>tde_heap</code> access method. To learn more, refer to the <a href="https://docs.percona.com/pg-tde/index/table-access-method.html">Table Access Methods and pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> documentation.</p>
 <ol>
 <li>
@@ -7793,7 +7793,7 @@ postgres=#
 </details>
 </li>
 </ol>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<h2 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
 <p>If you encounter issues during the setup, use the following troubleshooting tips:</p>
 <ol>
 <li>
@@ -7822,11 +7822,11 @@ postgres=#
 <p>Verify that you reference the correct secret name in your Custom Resource.</p>
 </li>
 </ol>
-<h2 id="clean-up">Clean up<a class="headerlink" href="#clean-up" title="Permanent link">¶</a></h2>
+<h2 id="clean-up">Clean up<a data-markdown-ignore class="headerlink" href="#clean-up" title="Permanent link">¶</a></h2>
 <p>After you finish the setup and ensure everything works as expected, you can clean up the temporary files:</p>
 <div class="highlight"><pre><span></span><code>rm<span class="w"> </span>-rf<span class="w"> </span><span class="nv">$WORKDIR</span>
 </code></pre></div>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="encryption-disable.html">Disable encryption</a></p>
 <hr>
 <div class="md-source-file">

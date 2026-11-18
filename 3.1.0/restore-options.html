@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6978,22 +6978,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="restore-resource-options">Restore Resource Options<a class="headerlink" href="#restore-resource-options" title="Permanent link">¶</a></h1>
+<h1 id="restore-resource-options">Restore Resource Options<a data-markdown-ignore class="headerlink" href="#restore-resource-options" title="Permanent link">¶</a></h1>
 <p>A Restore resource is a Kubernetes object that tells the Operator how to restore your database from a specific backup. The <code>deploy/restore.yaml</code> file is a template for creating restore resources. It defines the <code>PerconaPGRestore</code> resource.</p>
 <p>This document describes all available options that you can use to customize a restore.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">¶</a></h2>
+<h2 id="apiversion"><code>apiVersion</code><a data-markdown-ignore class="headerlink" href="#apiversion" title="Permanent link">¶</a></h2>
 <p>Specifies the API version of the Custom Resource.
 <code>pgv2.percona.com</code> indicates the group, and <code>v2</code> is the version of the API.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">¶</a></h2>
+<h2 id="kind"><code>kind</code><a data-markdown-ignore class="headerlink" href="#kind" title="Permanent link">¶</a></h2>
 <p>Defines the type of resource being created: <code>PerconaPGRestore</code>.</p>
-<h2 id="metadata"><code>metadata</code><a class="headerlink" href="#metadata" title="Permanent link">¶</a></h2>
+<h2 id="metadata"><code>metadata</code><a data-markdown-ignore class="headerlink" href="#metadata" title="Permanent link">¶</a></h2>
 <p>The metadata part of the <code>deploy/restore.yaml</code> contains metadata about the resource, such as its name and other attributes. It includes the following keys:</p>
 <ul>
 <li><code>name</code> - The name of the restore resource used to identify it in your deployment. You use this name to track the restore operation status and view information about it.</li>
 </ul>
-<h2 id="spec"><code>spec</code><a class="headerlink" href="#spec" title="Permanent link">¶</a></h2>
+<h2 id="spec"><code>spec</code><a data-markdown-ignore class="headerlink" href="#spec" title="Permanent link">¶</a></h2>
 <p>This subsection includes the configuration of a restore resource.</p>
-<h3 id="pgcluster"><code>pgCluster</code><a class="headerlink" href="#pgcluster" title="Permanent link">¶</a></h3>
+<h3 id="pgcluster"><code>pgCluster</code><a data-markdown-ignore class="headerlink" href="#pgcluster" title="Permanent link">¶</a></h3>
 <p>Specifies the name of the PostgreSQL cluster to restore.</p>
 <table>
 <thead>
@@ -7009,7 +7009,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="reponame"><code>repoName</code><a class="headerlink" href="#reponame" title="Permanent link">¶</a></h3>
+<h3 id="reponame"><code>repoName</code><a data-markdown-ignore class="headerlink" href="#reponame" title="Permanent link">¶</a></h3>
 <p>Specifies the name of one of the 4 pgBackRest repositories, already configured in the <code>backups.pgbackrest.repos</code> subsection of the <code>deploy/cr.yaml</code> file.</p>
 <table>
 <thead>
@@ -7025,7 +7025,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="volumesnapshotbackupname"><code>volumeSnapshotBackupName</code><a class="headerlink" href="#volumesnapshotbackupname" title="Permanent link">¶</a></h3>
+<h3 id="volumesnapshotbackupname"><code>volumeSnapshotBackupName</code><a data-markdown-ignore class="headerlink" href="#volumesnapshotbackupname" title="Permanent link">¶</a></h3>
 <p>Specifies the name of a PVC snapshot-based backup to restore from. See <a href="backups-pvc-setup.html">Configure and use PVC snapshots</a> to learn more.</p>
 <table>
 <thead>
@@ -7041,7 +7041,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="options"><code>options</code><a class="headerlink" href="#options" title="Permanent link">¶</a></h3>
+<h3 id="options"><code>options</code><a data-markdown-ignore class="headerlink" href="#options" title="Permanent link">¶</a></h3>
 <p>Specify the <a href="https://pgbackrest.org/configuration.html">command line options supported by <code>pgBackRest</code> :octicons-external-link-16:</a>. For example, to make a <a href="backups-pitr.html">point-in-time restore</a> or to restore from a specific backup.</p>
 <table>
 <thead>
@@ -7058,7 +7058,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tbody>
 </table>
 <p>To restore from a specific backup, use the <code>--set</code> option with the backup label. You can find the backup label in the <code>status.backupName</code> field of the <code>PerconaPGBackup</code> resource. For the full restore workflow, see <a href="backups-restore-inplace.html">Restore to the same cluster</a> or <a href="backups-clone.html">Restore to a new cluster</a>. For point-in-time recovery, see <a href="backups-pitr.html">Point-in-time recovery</a>.</p>
-<h3 id="containeroptionsenvname"><code>containerOptions.env.name</code><a class="headerlink" href="#containeroptionsenvname" title="Permanent link">¶</a></h3>
+<h3 id="containeroptionsenvname"><code>containerOptions.env.name</code><a data-markdown-ignore class="headerlink" href="#containeroptionsenvname" title="Permanent link">¶</a></h3>
 <p>Specifies the name of a custom environment variable that you pass to backup containers for restore Pods.</p>
 <table>
 <thead>
@@ -7074,7 +7074,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="containeroptionsenvvalue"><code>containerOptions.env.value</code><a class="headerlink" href="#containeroptionsenvvalue" title="Permanent link">¶</a></h3>
+<h3 id="containeroptionsenvvalue"><code>containerOptions.env.value</code><a data-markdown-ignore class="headerlink" href="#containeroptionsenvvalue" title="Permanent link">¶</a></h3>
 <p>Specifies the value for a custom environment variable that you pass to backup containers for restore Pods.</p>
 <table>
 <thead>
@@ -7090,7 +7090,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="containeroptionsenvfromsecretrefname"><code>containerOptions.envFrom.secretRef.name</code><a class="headerlink" href="#containeroptionsenvfromsecretrefname" title="Permanent link">¶</a></h3>
+<h3 id="containeroptionsenvfromsecretrefname"><code>containerOptions.envFrom.secretRef.name</code><a data-markdown-ignore class="headerlink" href="#containeroptionsenvfromsecretrefname" title="Permanent link">¶</a></h3>
 <p>Name of a Secret, key/values of which are used as environment variables for restore Pods.</p>
 <table>
 <thead>

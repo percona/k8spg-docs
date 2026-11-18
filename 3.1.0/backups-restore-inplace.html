@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6836,7 +6836,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="restore-to-an-existing-postgresql-cluster-in-place-restore">Restore to an existing PostgreSQL cluster (in-place restore)<a class="headerlink" href="#restore-to-an-existing-postgresql-cluster-in-place-restore" title="Permanent link">¶</a></h1>
+<h1 id="restore-to-an-existing-postgresql-cluster-in-place-restore">Restore to an existing PostgreSQL cluster (in-place restore)<a data-markdown-ignore class="headerlink" href="#restore-to-an-existing-postgresql-cluster-in-place-restore" title="Permanent link">¶</a></h1>
 <p>To restore data into an existing cluster, use the <code>PerconaPGRestore</code> custom resource. </p>
 <p>Use this document to make <strong>a full restore</strong>. For a restore to a specific moment, use the <a href="backups-pitr-inplace.html">In-place restore with point-in-time recovery</a> tutorial.</p>
 <div class="admonition warning">
@@ -6847,11 +6847,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Configure <code>PerconaPGRestore</code> custom resource using a <em>backup restore</em>
 configuration file. The example of the backup configuration file is
 <a href="https://github.com/percona/percona-postgresql-operator/blob/v3.1.0/deploy/restore.yaml">deploy/restore.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
-<h2 id="prepare-your-environment">Prepare your environment<a class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
+<h2 id="prepare-your-environment">Prepare your environment<a data-markdown-ignore class="headerlink" href="#prepare-your-environment" title="Permanent link">¶</a></h2>
 <p>Export the namespace where your cluster is running as an environment variable. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>&lt;namespace&gt;
 </code></pre></div>
-<h2 id="make-a-full-restore-from-the-latest-backup-default">Make a full restore from the latest backup (default)<a class="headerlink" href="#make-a-full-restore-from-the-latest-backup-default" title="Permanent link">¶</a></h2>
+<h2 id="make-a-full-restore-from-the-latest-backup-default">Make a full restore from the latest backup (default)<a data-markdown-ignore class="headerlink" href="#make-a-full-restore-from-the-latest-backup-default" title="Permanent link">¶</a></h2>
 <p>Specify the following options in the <code>deploy/restore.yaml</code> configuration file for the <code>PerconaPGRestore</code> object:</p>
 <ul>
 <li><code>pgCluster</code> - the name of your cluster,</li>
@@ -6870,7 +6870,7 @@ configuration file. The example of the backup configuration file is
 <p>Start the restore process:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/restore.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$NAMESPACE</span>
 </code></pre></div>
-<h2 id="restore-from-a-specific-backup">Restore from a specific backup<a class="headerlink" href="#restore-from-a-specific-backup" title="Permanent link">¶</a></h2>
+<h2 id="restore-from-a-specific-backup">Restore from a specific backup<a data-markdown-ignore class="headerlink" href="#restore-from-a-specific-backup" title="Permanent link">¶</a></h2>
 <p>When you have multiple backups, the Operator restores the <a href="#make-a-full-restore-from-the-latest-backup-default">latest full backup</a> by default.</p>
 <p>If you want to restore from a specific previous backup, use the <code>--set</code> option with the backup label. </p>
 <p class="power-number">Here’s the sequence of steps to follow:</p>
@@ -6942,7 +6942,7 @@ Status:
 </code></pre></div>
 </li>
 </ol>
-<h2 id="provide-pgbackrest-with-a-custom-restore-command">Provide pgBackRest with a custom restore command<a class="headerlink" href="#provide-pgbackrest-with-a-custom-restore-command" title="Permanent link">¶</a></h2>
+<h2 id="provide-pgbackrest-with-a-custom-restore-command">Provide pgBackRest with a custom restore command<a data-markdown-ignore class="headerlink" href="#provide-pgbackrest-with-a-custom-restore-command" title="Permanent link">¶</a></h2>
 <p>There may be cases where it is needed to control what files are restored from the backup and apply fine-grained filtering to them. For such scenarios there is a possibility to overwrite the <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-ARCHIVE-RECOVERY">restore_command used in PosgreSQL archive recovery <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. You can do it in the <code>patroni.dynamicConfiguration</code> subsection of the Custom Resource as follows:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
@@ -6953,7 +6953,7 @@ Status:
 <p>The <code>%f</code> template in the above example is replaced by the name of the file to
 retrieve from the archive, and <code>%p</code> is replaced by the copy destination path
 name on the server. See <a href="https://www.postgresql.org/docs/current/runtime-config-wal.html#RUNTIME-CONFIG-WAL-RECOVERY">PostgreSQL official documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for more low-level details about this feature.</p>
-<h2 id="fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a class="headerlink" href="#fix-the-cluster-if-the-restore-fails" title="Permanent link">¶</a></h2>
+<h2 id="fix-the-cluster-if-the-restore-fails">Fix the cluster if the restore fails<a data-markdown-ignore class="headerlink" href="#fix-the-cluster-if-the-restore-fails" title="Permanent link">¶</a></h2>
 <p>If the restore fails, see <a href="debug-restore.html">Troubleshoot restore failures</a>.</p>
 <hr>
 <div class="md-source-file">

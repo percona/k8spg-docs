@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7132,7 +7132,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore">Migrate from Crunchy to Percona Operator for PostgreSQL using backup and restore<a class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore" title="Permanent link">¶</a></h1>
+<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore">Migrate from Crunchy to Percona Operator for PostgreSQL using backup and restore<a data-markdown-ignore class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-using-backup-and-restore" title="Permanent link">¶</a></h1>
 <p>You can migrate by taking a full <code>pgBackRest</code> backup on your Crunchy <code>PostgresCluster</code> and creating a new <code>PerconaPGCluster</code> that restores from that backup before its first start. This path is straightforward when you can accept downtime between the final backup and an application cutover.</p>
 <table>
 <thead>
@@ -7149,16 +7149,16 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tbody>
 </table>
 <p>For <strong>near-zero downtime</strong>, use <a href="migrate-from-crunchy-standby.html">Migrate from Crunchy using a standby cluster</a> instead.</p>
-<h2 id="versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
+<h2 id="versions-used-in-this-guide">Versions used in this guide<a data-markdown-ignore class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
 <p>For this migration tutorial, we use the following versions of the Operators:</p>
 <ul>
 <li>Crunchy PostgreSQL Operator 5.8.x</li>
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 <li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
 </ul>
-<h2 id="before-you-migrate">Before you migrate<a class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
+<h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
 <li>A Kubernetes or OpenShift cluster with permissions to create namespaces, CRDs, Roles, and Deployments.</li>
@@ -7167,7 +7167,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor (optional, for manifest tricks used in other migration guides).</li>
 <li>A remote backup storage reachable from Pods in both the Crunchy and Percona namespaces.</li>
 </ul>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create or choose namespaces for Crunchy and Percona and export them.</p>
@@ -7181,7 +7181,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h2 id="configure-crunchy-postgresql-cluster-for-remote-backups">Configure Crunchy PostgreSQL cluster for remote backups<a class="headerlink" href="#configure-crunchy-postgresql-cluster-for-remote-backups" title="Permanent link">¶</a></h2>
+<h2 id="configure-crunchy-postgresql-cluster-for-remote-backups">Configure Crunchy PostgreSQL cluster for remote backups<a data-markdown-ignore class="headerlink" href="#configure-crunchy-postgresql-cluster-for-remote-backups" title="Permanent link">¶</a></h2>
 <p>If you already run Crunchy PGO, configure the  <code>PostgresCluster</code> object so that <code>pgBackRest</code> writes backups and WAL (Write-Ahead Logs) to remote storage that the Percona cluster can access and read. This ensures that Percona can restore from your latest backups when you perform the migration.</p>
 <p>If you are deploying Crunchy for testing or migration rehearsal, make sure your <code>PostgresCluster</code> manifest configures <code>pgBackRest</code> to use the same remote object storage (for example, S3 or S3-compatible, Google Cloud Storage, or compatible endpoint) for both backups and WAL archives. The Percona PostgreSQL cluster will need access to this storage location for a successful restore.</p>
 <p>This involves:</p>
@@ -7260,7 +7260,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </code></pre></div>
 </details>
 <p>The <code>stanzaCreated</code> status confirms that <code>pgBackRest</code> has scanned the configuration and the data directory and is ready to manage backups for your cluster.</p>
-<h2 id="create-the-migration-backup">Create the migration backup<a class="headerlink" href="#create-the-migration-backup" title="Permanent link">¶</a></h2>
+<h2 id="create-the-migration-backup">Create the migration backup<a data-markdown-ignore class="headerlink" href="#create-the-migration-backup" title="Permanent link">¶</a></h2>
 <p>Add a few test records to your database, then trigger a full backup.</p>
 <p>This backup is the restore point for <code>cluster1</code> on Percona. <strong>Stop application writes</strong> before you trigger it if you need a consistent cutover; otherwise treat everything after this backup as disposable until cutover.</p>
 <ol>
@@ -7303,7 +7303,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </details>
 </li>
 </ol>
-<h2 id="prepare-pgbackrest-credentials-in-the-percona-namespace">Prepare pgBackRest credentials in the Percona namespace<a class="headerlink" href="#prepare-pgbackrest-credentials-in-the-percona-namespace" title="Permanent link">¶</a></h2>
+<h2 id="prepare-pgbackrest-credentials-in-the-percona-namespace">Prepare pgBackRest credentials in the Percona namespace<a data-markdown-ignore class="headerlink" href="#prepare-pgbackrest-credentials-in-the-percona-namespace" title="Permanent link">¶</a></h2>
 <p>Create a Secret in <code>$NAMESPACE</code> with the <strong>same</strong> credentials and storage information such as endpoint and region that you used to configure <code>pgBackRest</code> in the Crunchy PostgreSQL cluster.</p>
 <p>The following example command creates a Secret with the name <code>percona-pgbackrest-secret</code> for the Percona cluster; keep that name if you copy the manifest below.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="nv">$NAMESPACE</span><span class="s2">"</span><span class="w"> </span>-f<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;EOF</span>
@@ -7319,7 +7319,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="s">EOF</span>
 </code></pre></div>
 <p>If you use different Secret names, use your name consistently in <code>spec.dataSource.pgbackrest.configuration</code> and <code>spec.backups.pgbackrest.configuration</code> on <code>PerconaPGCluster</code> <code>cluster1</code>.</p>
-<h2 id="deploy-percona-operator-for-postgresql">Deploy Percona Operator for PostgreSQL<a class="headerlink" href="#deploy-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
+<h2 id="deploy-percona-operator-for-postgresql">Deploy Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#deploy-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Deploy Percona Operator for PostgreSQL:</p>
@@ -7340,7 +7340,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </details>
 </li>
 </ol>
-<h2 id="create-the-percona-postgresql-cluster-from-the-crunchy-backup">Create the Percona PostgreSQL cluster from the Crunchy backup<a class="headerlink" href="#create-the-percona-postgresql-cluster-from-the-crunchy-backup" title="Permanent link">¶</a></h2>
+<h2 id="create-the-percona-postgresql-cluster-from-the-crunchy-backup">Create the Percona PostgreSQL cluster from the Crunchy backup<a data-markdown-ignore class="headerlink" href="#create-the-percona-postgresql-cluster-from-the-crunchy-backup" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Edit the <code>deploy/cr.yaml</code> manifest and specify the following:</p>
@@ -7451,7 +7451,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </details>
 </li>
 </ol>
-<h2 id="take-a-post-migration-backup">Take a post-migration backup<a class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
+<h2 id="take-a-post-migration-backup">Take a post-migration backup<a data-markdown-ignore class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
 <p>Create a baseline backup on Percona’s own repository path so future restores do not depend on the Crunchy archive.</p>
 <ol>
 <li>
@@ -7479,7 +7479,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </code></pre></div>
 </li>
 </ol>
-<h2 id="point-applications-to-percona">Point applications to Percona<a class="headerlink" href="#point-applications-to-percona" title="Permanent link">¶</a></h2>
+<h2 id="point-applications-to-percona">Point applications to Percona<a data-markdown-ignore class="headerlink" href="#point-applications-to-percona" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Discover the <code>pgBouncer</code> Service for <code>cluster1</code>:</p>
@@ -7495,16 +7495,16 @@ Port:   5432
 </li>
 </ol>
 <p>Replace <code>${NAMESPACE}</code> with your cluster’s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
-<h2 id="decommission-the-crunchy-cluster">Decommission the Crunchy cluster<a class="headerlink" href="#decommission-the-crunchy-cluster" title="Permanent link">¶</a></h2>
+<h2 id="decommission-the-crunchy-cluster">Decommission the Crunchy cluster<a data-markdown-ignore class="headerlink" href="#decommission-the-crunchy-cluster" title="Permanent link">¶</a></h2>
 <p>After traffic runs on Percona and you are satisfied with validation, you can delete the Crunchy PostgreSQL cluster:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>Uninstall Crunchy Operator from its namespace when no <code>PostgresCluster</code> resources remain.</p>
-<h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
+<h2 id="rollback">Rollback<a data-markdown-ignore class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
 <p>Until you move write traffic to <code>cluster1</code>, rollback is to point applications back at the Crunchy <code>pgBouncer</code> Service. After cutover, new writes exist only on Percona; reconciling them back to Crunchy is a manual process.</p>
 <p>After you delete the <code>crunchy-source</code> cluster, rollback means restoring a new Crunchy cluster from the <strong>original</strong> <code>repo1</code> content in object storage, if you still have that repository.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
-<h3 id="archiveinfo-missing-or-restore-errors"><code>archive.info</code> missing or restore errors<a class="headerlink" href="#archiveinfo-missing-or-restore-errors" title="Permanent link">¶</a></h3>
+<h2 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<h3 id="archiveinfo-missing-or-restore-errors"><code>archive.info</code> missing or restore errors<a data-markdown-ignore class="headerlink" href="#archiveinfo-missing-or-restore-errors" title="Permanent link">¶</a></h3>
 <p>The value of <code>spec.dataSource.pgbackrest.global.repo1-path</code> must match the Crunchy cluster’s <code>spec.backups.pgbackrest.global.repo1-path</code> exactly.</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'</span>
@@ -7512,16 +7512,16 @@ Port:   5432
 kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.dataSource.pgbackrest.global.repo1-path}{"\n"}'</span>
 </code></pre></div>
-<h3 id="restore-job-failures-tls-endpoint">Restore job failures (TLS, endpoint)<a class="headerlink" href="#restore-job-failures-tls-endpoint" title="Permanent link">¶</a></h3>
+<h3 id="restore-job-failures-tls-endpoint">Restore job failures (TLS, endpoint)<a data-markdown-ignore class="headerlink" href="#restore-job-failures-tls-endpoint" title="Permanent link">¶</a></h3>
 <p><code>pgBackRest</code> uses HTTPS for S3-compatible endpoints. Fix TLS trust (correct CA or <code>repo1-s3-verify-tls</code>) and confirm network reachability from the restore Pod to the bucket endpoint. See <a href="backups-storage.html">Configure backup storage</a>.</p>
-<h3 id="cluster-stuck-in-restore">Cluster stuck in restore<a class="headerlink" href="#cluster-stuck-in-restore" title="Permanent link">¶</a></h3>
+<h3 id="cluster-stuck-in-restore">Cluster stuck in restore<a data-markdown-ignore class="headerlink" href="#cluster-stuck-in-restore" title="Permanent link">¶</a></h3>
 <p>Inspect restore Pods or Jobs and <code>pgBackRest</code> logs:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/pgbackrest-restore<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-c<span class="w"> </span>pgbackrest
 </code></pre></div>
-<h3 id="wrong-or-incomplete-data">Wrong or incomplete data<a class="headerlink" href="#wrong-or-incomplete-data" title="Permanent link">¶</a></h3>
+<h3 id="wrong-or-incomplete-data">Wrong or incomplete data<a data-markdown-ignore class="headerlink" href="#wrong-or-incomplete-data" title="Permanent link">¶</a></h3>
 <p>If you need a fresher cutover point, stop writes, take another full backup on Crunchy, delete <code>cluster1</code> on Percona, and re-apply the restore manifest so it bootstraps again from the newer backup.</p>
 <hr>
 <div class="md-source-file">

@@ -1,0 +1,123 @@
+> For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
+
+# Known limitations
+
+This page describes known limitations of Percona Operator for PostgreSQL. Understanding these constraints helps you plan deployments and avoid unexpected behavior.
+
+## Replica management
+
+- Delayed replicas are not supported
+- The Operator doesn’t automatically update Patroni configuration inside running instances when `create_replica_methods` is updated. You must manually run `patronictl reload` on each replica to make Patroni aware of the change. See [Override Patroni configuration](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.html#override-patroni-configuration) for details.
+
+## Logical replicas
+
+- Logical replicas require Operator 3.1.0 or later and PostgreSQL 17 or later. See [Deploy a logical replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html).
+- Patroni does not manage logical replicas and does not promote them.
+- Failover often breaks replication because slots stay on the old primary. [Reseed](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html#reseed-a-logical-replica) the replica, or see [Logical replicas and failover](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#logical-replicas-and-failover).
+- An in-place restore invalidates logical replicas. Reseed each replica after the restore.
+- A major upgrade invalidates logical replicas. Before you upgrade, ensure the replication is healthy. Otherwise, remove the replica. After the upgrade, reseed each replica. See [Major version upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html).
+- A failed bootstrap does not retry on the same volume. Remove the replica from the spec, wait until it leaves status, then add it back.
+- Pausing the cluster stops the logical replica Pod.
+- Removing a logical replica always deletes its PVC, even if the cluster `delete-pvc` finalizer is off.
+- Logical replication is not supported when [Transparent Data Encryption](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption.html) is enabled in the cluster. This limitation is planned to be removed in future releases.
+
+## Custom extensions on Rancher (RKE2)
+
+When you enable custom extensions, the Operator restarts the cluster’s Pods. On Rancher (RKE2) clusters, a former primary may fail to rejoin the cluster as the replica if it has a diverged timeline.
+
+The affected Pod’s PostgreSQL log shows the following:
+
+```
+LOG:  invalid xl_info in checkpoint record
+PANIC:  could not locate a valid checkpoint record at <LSN>
+```
+
+To recover, you must manually [reinitialize the replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.html#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim). Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
+
+## Service control
+
+- By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container.
+
+You can shut down the entire cluster gracefully by [pausing](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/pause.html) it and resuming it later to restore its operation. The Operator handles this process for you.
+
+To have a per-pod service control for maintenance, debugging, or controlled downtime requires manual operation. Refer to the [Manual management of database clusters](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.html) chapter for details how to do it.
+
+- Due to security considerations, superusers cannot connect to PostgreSQL via `pgBouncer` by default. They can either connect via the primary service bypassing `pgBouncer`, or you must adjust `pgBouncer` configuration exposing it to superusers. Read more about it in the [Superusers and pgBouncer](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/users.html#superuser-and-pgbouncer) section.
+
+## pgBouncer read and write pools
+
+- After a switchover or failover, pgBouncer doesn’t move the server connections that it already holds. A [separate read pool](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/expose.html#configure-separate-read-and-write-pools) can end up on the new primary and accept writes. Use a read-only user for the read pool. See [Known limitation: connections are not re-routed after a failover](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/expose.html#known-limitation-connections-are-not-re-routed-after-a-failover) for the workarounds.
+
+## Backups and restores
+
+- PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.
+- When you use the `dataSource` option to restore from a backup on a new cluster, you can use either `dataSource.postgresCluster` or `dataSource.pgbackrest`. You cannot use both options. If both are present, `dataSource.postgresCluster` takes precedence. See [Restore the backup to a new cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-clone.html#choose-a-datasource-option) to learn more.
+
+## Data management
+
+- Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see [Delete existing tablespaces](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tablespaces.html#deleting-an-existing-tablespace).
+
+## Data-at-rest encryption (`pg_tde`)
+
+- Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.
+- Before you disable `pg_tde`, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See [Disable encryption](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption-disable.html).
+
+## Community PostgreSQL images
+
+Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use [Percona certified images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images.html). See [Deploy a cluster with community PostgreSQL images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/install-community.html) for deployment steps.
+
+## Node memory overcommit
+
+[PostgreSQL](https://www.postgresql.org/docs/current/kernel-resources.html) recommends strict virtual memory allocation by setting `vm.overcommit_memory=2` to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats `vm.overcommit_memory` as an unsafe `sysctl` and rejects attempts to set it to `2`. Most Kubernetes node OS images also default to `1`.
+
+To avoid node-level OOM events, consider tuning PostgreSQL memory parameters like `shared_buffers`, `work_mem`, `max_connections`, and so on accordingly.
+
+## TLS and cert-manager
+
+**For the Operator upgraded to version 2.9.0**: If you had cert-manager installed and your cluster used the Operator-generated TLS certificates, the Operator switches TLS management to cert-manager. The Operator creates the cert-manager `Issuer` and `Certificate` resources so that the cert-manager can start start issuing and renewing TLS certificates for your cluster.
+
+However, the Operator hasn’t verified if the cert-manager owned the root CA certificate. As a result, the CA Secret remained managed by the Operator’s internal PKI and the keys inside it (`root.crt` and `root.key`) differ from what the cert-manager expects (`tls.crt` and `tls.key`). This caused the `Issuer` resource to fail and brought the cluster to the inconsistent state: the CA certificate stayed on the internal PKI, while cert-manager attempted to take ownership of the leaf certificates for the cluster, database instances, pgBouncer and pgBackRest. Those leaf certificates then reported the `Not Ready` status because of the failed `Issuer`.
+
+If you are in this situation, you have these options:
+
+- [Switch the cluster to use only the certificates managed by the cert-manager](#switch-to-use-only-the-certificates-managed-by-the-cert-manager).
+- Switch the cluster to use custom certificates only. Refer to the [Migrate from cert-manager to custom TLS certificates](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-migrate-from-cert-manager.html) for the steps.
+
+### Switch to use only the certificates managed by the cert-manager
+
+To restore the cluster from the inconsistent state, reconfigure it to use only the certificates managed by the cert-manager:
+
+1. Delete the CA Secret `<cluster-name>-cluster-ca-cert` that still remains on the Operator’s internal PKI:
+
+   ```
+   kubectl delete Secret <cluster-name>cluster-ca-cert> -n <namespace>
+   ```
+
+   This makes the Operator to recreate the Secret through the cert-manager, with the correct keys.
+
+1. Trigger the cluster reconciliation. You can do so by deleting the `pgBouncer` Pod:
+
+   ```
+   kubectl delete pod <cluster-name>-pgbouncer-<hash> -n <namespace>
+   ```
+
+   The Operator detects the missing root CA Secret, creates cert-manager resources for the CA, and lets cert-manager issue new leaf certificates.
+
+1. Check the Issuer and Certificate status:
+
+   ```
+   kubectl get issuers -n <namespace>
+   kubectl get certificates -n <namespace>
+   ```
+
+   Both Issuer and Certificate resources must report the `Ready` status.
+
+In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.
+
+## Upgrades
+
+- A major database upgrade introduces a downtime because the whole cluster is shut down.
+- In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.html) to ensure it starts properly and starts streaming data from the primary.
+- PostGIS extension is not updated automatically after the database update. You must [manually update](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-extensions.html#upgrade-postgis-extension) it for each database where it is enabled.
+- `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#post-upgrade-steps) it manually for each database where it is installed.
+- If you have installed [custom PostgreSQL extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html), you need to build and package each custom extension for the new PostgreSQL major version. During the upgrade, the Operator will install extensions into the upgrade container.

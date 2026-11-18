@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7020,14 +7020,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h1>
+<h1 id="known-limitations">Known limitations<a data-markdown-ignore class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h1>
 <p>This page describes known limitations of Percona Operator for PostgreSQL. Understanding these constraints helps you plan deployments and avoid unexpected behavior.</p>
-<h2 id="replica-management">Replica management<a class="headerlink" href="#replica-management" title="Permanent link">¶</a></h2>
+<h2 id="replica-management">Replica management<a data-markdown-ignore class="headerlink" href="#replica-management" title="Permanent link">¶</a></h2>
 <ul>
 <li>Delayed replicas are not supported</li>
 <li>The Operator doesn’t automatically update Patroni configuration inside running instances when  <code>create_replica_methods</code> is updated. You must manually run <code>patronictl reload</code> on each replica to make Patroni aware of the change. See <a href="manage-manually.html#override-patroni-configuration">Override Patroni configuration</a> for details.</li>
 </ul>
-<h2 id="logical-replicas">Logical replicas<a class="headerlink" href="#logical-replicas" title="Permanent link">¶</a></h2>
+<h2 id="logical-replicas">Logical replicas<a data-markdown-ignore class="headerlink" href="#logical-replicas" title="Permanent link">¶</a></h2>
 <ul>
 <li>Logical replicas require Operator 3.1.0 or later and PostgreSQL 17 or later. See <a href="logical-replication.html">Deploy a logical replica</a>.</li>
 <li>Patroni does not manage logical replicas and does not promote them.</li>
@@ -7039,14 +7039,14 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Removing a logical replica always deletes its PVC, even if the cluster <code>delete-pvc</code> finalizer is off.</li>
 <li>Logical replication is not supported when <a href="encryption.html">Transparent Data Encryption</a> is enabled in the cluster. This limitation is planned to be removed in future releases.</li>
 </ul>
-<h2 id="custom-extensions-on-rancher-rke2">Custom extensions on Rancher (RKE2)<a class="headerlink" href="#custom-extensions-on-rancher-rke2" title="Permanent link">¶</a></h2>
+<h2 id="custom-extensions-on-rancher-rke2">Custom extensions on Rancher (RKE2)<a data-markdown-ignore class="headerlink" href="#custom-extensions-on-rancher-rke2" title="Permanent link">¶</a></h2>
 <p>When you enable custom extensions, the Operator restarts the cluster’s Pods. On Rancher (RKE2) clusters, a former primary may fail to rejoin the cluster as the replica if it has a diverged timeline.</p>
 <p>The affected Pod’s PostgreSQL log shows the following:</p>
 <div class="highlight"><pre><span></span><code>LOG:  invalid xl_info in checkpoint record
 PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 </code></pre></div>
 <p>To recover, you must manually <a href="reinit.html#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim">reinitialize the replica</a>. Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.</p>
-<h2 id="service-control">Service control<a class="headerlink" href="#service-control" title="Permanent link">¶</a></h2>
+<h2 id="service-control">Service control<a data-markdown-ignore class="headerlink" href="#service-control" title="Permanent link">¶</a></h2>
 <ul>
 <li>By default, stopping a PostgreSQL process in the Operator triggers a Pod restart because Kubernetes treats the stopped process as a failed container.</li>
 </ul>
@@ -7055,30 +7055,30 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <ul>
 <li>Due to security considerations, superusers cannot connect to PostgreSQL via <code>pgBouncer</code> by default. They can either connect via the primary service bypassing <code>pgBouncer</code>, or you must adjust <code>pgBouncer</code> configuration exposing it to superusers. Read more about it in the <a href="users.html#superuser-and-pgbouncer">Superusers and pgBouncer</a> section.</li>
 </ul>
-<h2 id="pgbouncer-read-and-write-pools">pgBouncer read and write pools<a class="headerlink" href="#pgbouncer-read-and-write-pools" title="Permanent link">¶</a></h2>
+<h2 id="pgbouncer-read-and-write-pools">pgBouncer read and write pools<a data-markdown-ignore class="headerlink" href="#pgbouncer-read-and-write-pools" title="Permanent link">¶</a></h2>
 <ul>
 <li>After a switchover or failover, pgBouncer doesn’t move the server connections that it already holds. A <a href="expose.html#configure-separate-read-and-write-pools">separate read pool</a> can end up on the new primary and accept writes. Use a read-only user for the read pool. See <a href="expose.html#known-limitation-connections-are-not-re-routed-after-a-failover">Known limitation: connections are not re-routed after a failover</a> for the workarounds.</li>
 </ul>
-<h2 id="backups-and-restores">Backups and restores<a class="headerlink" href="#backups-and-restores" title="Permanent link">¶</a></h2>
+<h2 id="backups-and-restores">Backups and restores<a data-markdown-ignore class="headerlink" href="#backups-and-restores" title="Permanent link">¶</a></h2>
 <ul>
 <li>PVC snapshots are in tech preview stage. When you use PVC snapshots as scheduled backups, they are not deleted automatically. You must manually delete them. The retention policy for scheduled backups made from PVC snapshots is planned for future releases.</li>
 <li>When you use the <code>dataSource</code> option to restore from a backup on a new cluster, you can use either <code>dataSource.postgresCluster</code> or <code>dataSource.pgbackrest</code>. You cannot use both options. If both are present, <code>dataSource.postgresCluster</code> takes precedence. See <a href="backups-clone.html#choose-a-datasource-option">Restore the backup to a new cluster</a> to learn more.</li>
 </ul>
-<h2 id="data-management">Data management<a class="headerlink" href="#data-management" title="Permanent link">¶</a></h2>
+<h2 id="data-management">Data management<a data-markdown-ignore class="headerlink" href="#data-management" title="Permanent link">¶</a></h2>
 <ul>
 <li>Tablespace deletion is not automated; you must remove all objects in all databases using the tablespace before dropping it. For details, see <a href="tablespaces.html#deleting-an-existing-tablespace">Delete existing tablespaces</a>.</li>
 </ul>
-<h2 id="data-at-rest-encryption-pg_tde">Data-at-rest encryption (<code>pg_tde</code>)<a class="headerlink" href="#data-at-rest-encryption-pg_tde" title="Permanent link">¶</a></h2>
+<h2 id="data-at-rest-encryption-pg_tde">Data-at-rest encryption (<code>pg_tde</code>)<a data-markdown-ignore class="headerlink" href="#data-at-rest-encryption-pg_tde" title="Permanent link">¶</a></h2>
 <ul>
 <li>Only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are not yet available.</li>
 <li>Before you disable <code>pg_tde</code>, you must remove encrypted objects yourself. The Operator does not rewrite or drop them. See <a href="encryption-disable.html">Disable encryption</a>.</li>
 </ul>
-<h2 id="community-postgresql-images">Community PostgreSQL images<a class="headerlink" href="#community-postgresql-images" title="Permanent link">¶</a></h2>
+<h2 id="community-postgresql-images">Community PostgreSQL images<a data-markdown-ignore class="headerlink" href="#community-postgresql-images" title="Permanent link">¶</a></h2>
 <p>Percona-specific features that exist only in the Percona Distribution build are not available with community images. Transparent Data Encryption (TDE) is one example. If you need those features, use <a href="images.html">Percona certified images</a>. See <a href="install-community.html">Deploy a cluster with community PostgreSQL images</a> for deployment steps.</p>
-<h2 id="node-memory-overcommit">Node memory overcommit<a class="headerlink" href="#node-memory-overcommit" title="Permanent link">¶</a></h2>
+<h2 id="node-memory-overcommit">Node memory overcommit<a data-markdown-ignore class="headerlink" href="#node-memory-overcommit" title="Permanent link">¶</a></h2>
 <p><a href="https://www.postgresql.org/docs/current/kernel-resources.html">PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> recommends strict virtual memory allocation by setting <code>vm.overcommit_memory=2</code> to ensure predictable memory accounting and reduce the risk of the OOM killer terminating the postmaster. However, Kubernetes does not allow Pods or Operators to configure this setting. The kubelet treats <code>vm.overcommit_memory</code> as an unsafe <code>sysctl</code> and rejects attempts to set it to <code>2</code>. Most Kubernetes node OS images also default to <code>1</code>.</p>
 <p>To avoid node-level OOM events, consider tuning PostgreSQL memory parameters  like <code>shared_buffers</code>, <code>work_mem</code>, <code>max_connections</code>, and so on accordingly.</p>
-<h2 id="tls-and-cert-manager">TLS and cert-manager<a class="headerlink" href="#tls-and-cert-manager" title="Permanent link">¶</a></h2>
+<h2 id="tls-and-cert-manager">TLS and cert-manager<a data-markdown-ignore class="headerlink" href="#tls-and-cert-manager" title="Permanent link">¶</a></h2>
 <p><strong>For the Operator upgraded to version 2.9.0</strong>: If you had cert-manager installed and your cluster used the Operator-generated TLS certificates, the Operator switches TLS management to cert-manager. The Operator creates the cert-manager <code>Issuer</code> and <code>Certificate</code> resources so that the cert-manager can start start issuing and renewing TLS certificates for your cluster.</p>
 <p>However, the Operator hasn’t verified if the cert-manager owned the root CA certificate. As a result, the CA Secret remained managed by the Operator’s internal PKI and the keys inside it (<code>root.crt</code> and <code>root.key</code>) differ from what the cert-manager expects (<code>tls.crt</code> and <code>tls.key</code>). This caused the <code>Issuer</code> resource to fail and brought the cluster to the inconsistent state: the CA certificate stayed on the internal PKI, while cert-manager attempted to take ownership of the leaf certificates for the cluster, database instances, pgBouncer and pgBackRest. Those leaf certificates then reported the <code>Not Ready</code> status because of the failed <code>Issuer</code>.</p>
 <p>If you are in this situation, you have these options:</p>
@@ -7086,7 +7086,7 @@ PANIC:  could not locate a valid checkpoint record at &lt;LSN&gt;
 <li><a href="#switch-to-use-only-the-certificates-managed-by-the-cert-manager">Switch the cluster to use only the certificates managed by the cert-manager</a>.</li>
 <li>Switch the cluster to use custom certificates only. Refer to the <a href="tls-migrate-from-cert-manager.html">Migrate from cert-manager to custom TLS certificates</a> for the steps.</li>
 </ul>
-<h3 id="switch-to-use-only-the-certificates-managed-by-the-cert-manager">Switch to use only the certificates managed by the cert-manager<a class="headerlink" href="#switch-to-use-only-the-certificates-managed-by-the-cert-manager" title="Permanent link">¶</a></h3>
+<h3 id="switch-to-use-only-the-certificates-managed-by-the-cert-manager">Switch to use only the certificates managed by the cert-manager<a data-markdown-ignore class="headerlink" href="#switch-to-use-only-the-certificates-managed-by-the-cert-manager" title="Permanent link">¶</a></h3>
 <p>To restore the cluster from the inconsistent state, reconfigure it to use only the certificates managed by the cert-manager:</p>
 <ol>
 <li>
@@ -7110,7 +7110,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
 </li>
 </ol>
 <p>In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.</p>
-<h2 id="upgrades">Upgrades<a class="headerlink" href="#upgrades" title="Permanent link">¶</a></h2>
+<h2 id="upgrades">Upgrades<a data-markdown-ignore class="headerlink" href="#upgrades" title="Permanent link">¶</a></h2>
 <ul>
 <li>A major database upgrade introduces a downtime because the whole cluster is shut down.</li>
 <li>In clusters with very low write traffic, the first restore after a major upgrade can fail with the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>. In this case you must <a href="reinit.html">reinitialize the replica</a> to ensure it starts properly and starts streaming data from the primary.</li>

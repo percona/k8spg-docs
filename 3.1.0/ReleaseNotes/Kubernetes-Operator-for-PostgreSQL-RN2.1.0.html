@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6832,7 +6832,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-210-tech-preview">Percona Operator for PostgreSQL 2.1.0 (Tech preview)<a class="headerlink" href="#percona-operator-for-postgresql-210-tech-preview" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-210-tech-preview">Percona Operator for PostgreSQL 2.1.0 (Tech preview)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-210-tech-preview" title="Permanent link">¶</a></h1>
 <ul>
 <li>
 <p><strong>Date</strong></p>
@@ -6852,7 +6852,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Version 2.1.0 of the Percona Operator for PostgreSQL is a <strong>tech preview release</strong> and it is <strong>not recommended for production environments.</strong>
 As of today, we recommend using <a href="https://docs.percona.com/percona-operator-for-postgresql/1.0/index.html">Percona Operator for PostgreSQL 1.x</a>, which is production-ready and contains everything you need to quickly and consistently deploy and scale PostgreSQL clusters in a Kubernetes-based environment, on-premises or in the cloud.</p>
 </div>
-<h2 id="release-highlights">Release Highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights">Release Highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p>PostgreSQL 15 is now officially supported by the Operator with the <a href="https://www.percona.com/blog/postgresql-15-new-features-to-be-excited-about/">new exciting features <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> it brings to developers</p>
@@ -6861,7 +6861,7 @@ As of today, we recommend using <a href="https://docs.percona.com/percona-operat
 <p>UX improvements related to Custom Resource have been added in this release, including the handy <code>pg</code>, <code>pg-backup</code>, and <code>pg-restore</code> short names useful to quickly query the cluster state with the <code>kubectl get</code> command and additional information in the status fields, which now show <code>name</code>, <code>endpoint</code>, <code>status</code>, and <code>age</code></p>
 </li>
 </ul>
-<h2 id="new-features">New Features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
+<h2 id="new-features">New Features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p><a href="https://jira.percona.com/browse/K8SPG-328">K8SPG-328</a>: The new <code>delete-pvc</code> finalizer allows to either delete or preserve Persistent Volumes at Custom Resource deletion</p>
@@ -6876,7 +6876,7 @@ As of today, we recommend using <a href="https://docs.percona.com/percona-operat
 <p><a href="https://jira.percona.com/browse/K8SPG-282">K8SPG-282</a>: PostgreSQL 15 is now officially supported by the Operator</p>
 </li>
 </ul>
-<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
+<h2 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p><a href="https://jira.percona.com/browse/K8SPG-262">K8SPG-262</a>: The Operator now does not attempt to start Percona Monitoring and Management (PMM) client if the corresponding secret does not contain the <code>pmmserver</code> or <code>pmmserverkey</code> key</p>
@@ -6894,7 +6894,7 @@ As of today, we recommend using <a href="https://docs.percona.com/percona-operat
 <p><a href="https://jira.percona.com/browse/K8SPG-325">K8SPG-325</a>: Custom Resource options previously named <code>paused</code> and <code>shutdown</code> were renamed to <code>unmanaged</code> and <code>pause</code> for better alignment with other Percona Operators</p>
 </li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
+<h2 id="bugs-fixed">Bugs Fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p><a href="https://jira.percona.com/browse/K8SPG-272">K8SPG-272</a>: Fix a bug due to which PMM agent related to the Pod wasn’t deleted from the PMM Server inventory on Pod termination</p>
@@ -6909,7 +6909,7 @@ As of today, we recommend using <a href="https://docs.percona.com/percona-operat
 <p><a href="https://jira.percona.com/browse/K8SPG-334">K8SPG-334</a>: Fix a bug which made it possible for the monitoring user to have special characters in the autogenerated password, making it incompatible with the PMM Client</p>
 </li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>The following platforms were tested and are officially supported by the Operator
 2.1.0:</p>
 <ul>

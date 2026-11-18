@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6836,9 +6836,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="use-pvc-snapshots">Use PVC snapshots<a class="headerlink" href="#use-pvc-snapshots" title="Permanent link">¶</a></h1>
+<h1 id="use-pvc-snapshots">Use PVC snapshots<a data-markdown-ignore class="headerlink" href="#use-pvc-snapshots" title="Permanent link">¶</a></h1>
 <p>Once the PVC snapshots are configured, you can use them to make backups and restores. </p>
-<h2 id="make-an-on-demand-backup-from-a-pvc-snapshot">Make an on-demand backup from a PVC snapshot<a class="headerlink" href="#make-an-on-demand-backup-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
+<h2 id="make-an-on-demand-backup-from-a-pvc-snapshot">Make an on-demand backup from a PVC snapshot<a data-markdown-ignore class="headerlink" href="#make-an-on-demand-backup-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Configure the <code>PerconaPGBackup</code> object. Edit the <code>deploy/backup.yaml</code> manifest and specify the following keys:</p>
@@ -6877,7 +6877,7 @@ my-snapshot-backup                      cluster1   repo1                 Succeed
 </details>
 </li>
 </ol>
-<h2 id="make-a-scheduled-snapshot-based-backup">Make a scheduled snapshot-based backup<a class="headerlink" href="#make-a-scheduled-snapshot-based-backup" title="Permanent link">¶</a></h2>
+<h2 id="make-a-scheduled-snapshot-based-backup">Make a scheduled snapshot-based backup<a data-markdown-ignore class="headerlink" href="#make-a-scheduled-snapshot-based-backup" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Configure the backup schedule in your cluster Custom Resource. Edit the <code>deploy/cr.yaml</code> manifest. In the <code>schedule</code> key in the <code>volumeSnapshots</code> subsection under <code>backups</code>, specify the schedule in the Cron format for the snapshots to be made automatically. Your updated configuration should look like this:</p>
@@ -6899,7 +6899,7 @@ my-snapshot-backup                      cluster1   repo1                 Succeed
 </code></pre></div>
 </li>
 </ol>
-<h2 id="in-place-restore-from-a-pvc-snapshot">In-place restore from a PVC snapshot<a class="headerlink" href="#in-place-restore-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
+<h2 id="in-place-restore-from-a-pvc-snapshot">In-place restore from a PVC snapshot<a data-markdown-ignore class="headerlink" href="#in-place-restore-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
 <p>An in-place restore is a restore to the same cluster using the <code>PerconaPGRestore</code> custom resource. You can make a full in-place restore or a point-in-time restore. </p>
 <p>When you create the <code>PerconaPGRestore</code> object, the Operator performs the following steps:</p>
 <ol>
@@ -6952,7 +6952,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 </details>
 </li>
 </ol>
-<h2 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">¶</a></h2>
+<h2 id="in-place-restore-with-point-in-time-recovery">In-place restore with point-in-time recovery<a data-markdown-ignore class="headerlink" href="#in-place-restore-with-point-in-time-recovery" title="Permanent link">¶</a></h2>
 <p>You can make a <a href="backups-pitr.html">point-in-time restore</a> from a PVC snapshot and replay WAL files from a WAL archive made with pgBackRest. For this scenario, your cluster must meet the following requirements:</p>
 <ol>
 <li>Have a <code>pgBackRest</code> configuration, including the backup storage and at least one repository. See the <a href="backups-storage.html">Configure backup storage</a> section for configuration steps.</li>
@@ -7023,7 +7023,7 @@ restore1     cluster1     Succeeded   2026-02-16T11:00:00Z   2m20s
 </code></pre></div>
 </li>
 </ol>
-<h2 id="create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot<a class="headerlink" href="#create-a-new-cluster-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
+<h2 id="create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot<a data-markdown-ignore class="headerlink" href="#create-a-new-cluster-from-a-pvc-snapshot" title="Permanent link">¶</a></h2>
 <p>You can create a new cluster from a PVC snapshot. This is useful when you want to restore the data to a new cluster and don’t want to overwrite the existing data in the existing cluster.</p>
 <p>To create a new cluster from a PVC snapshot, you need to configure the <code>PerconaPGCluster</code> object and specify an <code>volumesnapshot</code> object as the <code>dataSource</code>. You also need to configure the <code>instances</code> and <code>backups</code> sections to set up the new cluster. </p>
 <p>For more information about the <code>dataSource</code> options, see the <a href="backups-clone.html#choose-a-datasource-option">Choose a <code>dataSource</code> option</a> section. Also check the <a href="operator.html#datasource-subsection">Custom Resource reference</a> for all available options.</p>

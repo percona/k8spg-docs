@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6920,10 +6920,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="features-and-capabilities">Features and capabilities<a class="headerlink" href="#features-and-capabilities" title="Permanent link">¶</a></h1>
+<h1 id="features-and-capabilities">Features and capabilities<a data-markdown-ignore class="headerlink" href="#features-and-capabilities" title="Permanent link">¶</a></h1>
 <p>Percona Operator for PostgreSQL is a Kubernetes-native controller that automatically manages the full lifecycle of <a href="https://www.percona.com/software/postgresql-distribution">Percona Distribution for PostgreSQL <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> clusters. The Operator offloads your teams from manual day-to-day database management operations empowering them to focus on tasks that matter instead. To learn how the Operator fits into Kubernetes, see <a href="operator-concepts.html">Kubernetes Operator concepts</a>.</p>
 <p>Here’s what Percona Operator for PostgreSQL brings to your infrastructure:</p>
-<h2 id="high-availability-and-failover">High availability and failover<a class="headerlink" href="#high-availability-and-failover" title="Permanent link">¶</a></h2>
+<h2 id="high-availability-and-failover">High availability and failover<a data-markdown-ignore class="headerlink" href="#high-availability-and-failover" title="Permanent link">¶</a></h2>
 <p>Run PostgreSQL with confidence: <a href="https://patroni.readthedocs.io/">Patroni <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> provides automatic leader election, failover, and coordination with Distributed Configuration Store, so your cluster stays available through node and Pod failures. For architecture details, see <a href="architecture.html">Cluster architecture</a>.</p>
 <ul>
 <li><strong>Automatic failover</strong> — Patroni manages leader election and failover to ensure the cluster always has a healthy primary. See <a href="ha-deploy.html">High availability</a>.</li>
@@ -6931,7 +6931,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Health monitoring</strong> — Continuous health checks trigger failover when PostgreSQL is not ready to serve traffic.</li>
 <li><strong>Manual switchover</strong> — <a href="change-primary.html">Promote a replica to primary</a> in a controlled way for maintenance.</li>
 </ul>
-<h2 id="automated-backup-and-restore-flows">Automated backup and restore flows<a class="headerlink" href="#automated-backup-and-restore-flows" title="Permanent link">¶</a></h2>
+<h2 id="automated-backup-and-restore-flows">Automated backup and restore flows<a data-markdown-ignore class="headerlink" href="#automated-backup-and-restore-flows" title="Permanent link">¶</a></h2>
 <p>Safeguard your data at any scale: the Operator automates backups and restores using <a href="https://pgbackrest.org/">pgBackRest <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, a robust open source solution trusted for PostgreSQL in production. Read <a href="backups.html">About backups</a> for the full workflow.</p>
 <p>Also, leverage Kubernetes <a href="backups-pvc-snapshots.html">PersistentVolumeClaim snapshots</a> for rapid, consistent backup and restore operations. It is especially valuable for large database clusters.</p>
 <ul>
@@ -6943,7 +6943,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Encryption</strong> — <a href="backup-encryption.html">Secure backups at rest</a> where your storage backends and configuration allow it.</li>
 <li><strong>Retention</strong> — Manage backup lifecycle and <a href="backup-retention.html">automate old backup cleanup</a> to prevent storage sprawl.</li>
 </ul>
-<h2 id="connection-pooling-with-pgbouncer">Connection pooling with pgBouncer<a class="headerlink" href="#connection-pooling-with-pgbouncer" title="Permanent link">¶</a></h2>
+<h2 id="connection-pooling-with-pgbouncer">Connection pooling with pgBouncer<a data-markdown-ignore class="headerlink" href="#connection-pooling-with-pgbouncer" title="Permanent link">¶</a></h2>
 <p>Reduce connection churn and spread read load without extra operational burden.</p>
 <ul>
 <li><strong>Efficient pooling</strong> — Lower PostgreSQL connection overhead by pooling client connections</li>
@@ -6953,7 +6953,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Pause and resume connections</strong> — <a href="pause-pgbouncer.html">Pause pgBouncer</a> for planned restarts, maintenance, or switchover without dropping client connections</li>
 <li><strong>Integrated lifecycle</strong> — Automatically configured and managed by the Operator</li>
 </ul>
-<h2 id="automated-scaling-and-resource-management">Automated scaling and resource management<a class="headerlink" href="#automated-scaling-and-resource-management" title="Permanent link">¶</a></h2>
+<h2 id="automated-scaling-and-resource-management">Automated scaling and resource management<a data-markdown-ignore class="headerlink" href="#automated-scaling-and-resource-management" title="Permanent link">¶</a></h2>
 <p>Scale your cluster up or down to match demand while keeping changes declarative.</p>
 <ul>
 <li><strong>Declarative clusters</strong> — Describe desired cluster state in YAML; the Operator automatically reconciles Kubernetes resources to match.</li>
@@ -6963,7 +6963,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Rolling updates</strong> — Apply configuration and image updates with controlled rollouts.</li>
 <li><strong>Storage expansion</strong> — Automatically <a href="scaling-vertical.html#scale-storage">increase storage size</a> for PostgreSQL instances when supported by your environment and configuration.</li>
 </ul>
-<h2 id="postgresql-specific-features">PostgreSQL-specific features<a class="headerlink" href="#postgresql-specific-features" title="Permanent link">¶</a></h2>
+<h2 id="postgresql-specific-features">PostgreSQL-specific features<a data-markdown-ignore class="headerlink" href="#postgresql-specific-features" title="Permanent link">¶</a></h2>
 <p>Use PostgreSQL capabilities that operators expect in production.</p>
 <ul>
 <li><strong>WAL storage</strong> — Optional dedicated volumes for Write-Ahead Logs when you want to separate I/O.</li>
@@ -6973,21 +6973,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Init SQL</strong> — Execute <a href="initsql.html">custom SQL scripts during cluster initialization</a>.</li>
 <li><strong>Logical replicas</strong> (tech preview) — Extra read-only instances in the same cluster for reporting and other heavy reads. Each replica has its own volume and Service. Patroni does not manage or promote them. See <a href="logical-replication.html">Deploy a logical replica</a>.</li>
 </ul>
-<h2 id="standby-clusters-for-disaster-recovery">Standby clusters for disaster recovery<a class="headerlink" href="#standby-clusters-for-disaster-recovery" title="Permanent link">¶</a></h2>
+<h2 id="standby-clusters-for-disaster-recovery">Standby clusters for disaster recovery<a data-markdown-ignore class="headerlink" href="#standby-clusters-for-disaster-recovery" title="Permanent link">¶</a></h2>
 <p>Leverage disaster-recovery topologies that fit your RTO and RPO.</p>
 <ul>
 <li><strong>Backups or streaming</strong> — Deploy your standby cluster based on backups or streaming replication, depending on your architecture</li>
 <li><strong>Cross-namespace or cross-cluster</strong> — Primary and standby clusters can run in different namespaces or Kubernetes clusters</li>
 <li><strong>Promotion</strong> — Promote a standby to primary when you need to recover from an outage or drill a failover</li>
 </ul>
-<h2 id="security-and-compliance">Security and compliance<a class="headerlink" href="#security-and-compliance" title="Permanent link">¶</a></h2>
+<h2 id="security-and-compliance">Security and compliance<a data-markdown-ignore class="headerlink" href="#security-and-compliance" title="Permanent link">¶</a></h2>
 <p>Keep traffic and data protected with encryption and flexible TLS workflows.</p>
 <ul>
 <li><strong>Data-at-rest encryption</strong> — Encrypt PostgreSQL table data on disk with <a href="encryption.html">pg_tde and HashiCorp Vault</a> (tech preview).</li>
 <li><strong>TLS for connections</strong> — Encrypt client traffic and traffic between cluster components</li>
 <li><strong>Certificates</strong> — Comply with your security policy via <a href="tls-manual.html">custom certificates</a> or automated certificate generation <a href="tls-cert-manager.html">with cert-manager</a> with configurable lifecycle management.</li>
 </ul>
-<h2 id="monitoring-and-observability">Monitoring and observability<a class="headerlink" href="#monitoring-and-observability" title="Permanent link">¶</a></h2>
+<h2 id="monitoring-and-observability">Monitoring and observability<a data-markdown-ignore class="headerlink" href="#monitoring-and-observability" title="Permanent link">¶</a></h2>
 <p>Understand performance and troubleshoot faster with metrics and optional Percona tooling.</p>
 <ul>
 <li><strong>PMM integration</strong> — Connect the cluster to <a href="https://www.percona.com/software/database-tools/percona-monitoring-and-management">Percona Monitoring and Management (PMM) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for dashboards and alerting.</li>
@@ -6996,7 +6996,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><strong>Broad metrics</strong> — Track connection counts, transaction rates, cache hit ratios, replication lag, and more.</li>
 <li><strong>Query analytics</strong> — Deeper query analysis in PMM. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/use/qan/index.html#__tabbed_1_2">Query Analytics <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> in the PMM documentation.</li>
 </ul>
-<h2 id="operator-capabilities">Operator capabilities<a class="headerlink" href="#operator-capabilities" title="Permanent link">¶</a></h2>
+<h2 id="operator-capabilities">Operator capabilities<a data-markdown-ignore class="headerlink" href="#operator-capabilities" title="Permanent link">¶</a></h2>
 <p>Operate at the scale of your platform with flexible reconciliation scope.</p>
 <ul>
 <li><strong>Selective namespaces</strong> — Reconcile clusters in a single namespace or multi-namespace mode. See <a href="cluster-wide.html">cluster-wide deployment</a> to learn more.</li>

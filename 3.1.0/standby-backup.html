@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6846,10 +6846,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="standby-cluster-deployment-based-on-pgbackrest">Standby cluster deployment based on pgBackRest<a class="headerlink" href="#standby-cluster-deployment-based-on-pgbackrest" title="Permanent link">¶</a></h1>
+<h1 id="standby-cluster-deployment-based-on-pgbackrest">Standby cluster deployment based on pgBackRest<a data-markdown-ignore class="headerlink" href="#standby-cluster-deployment-based-on-pgbackrest" title="Permanent link">¶</a></h1>
 <p>The pgBackRest repo-based standby is the simplest one. The following is the architecture diagram:</p>
 <p><a class="glightbox" data-type="image" data-width="auto" data-height="auto" href="assets/images/dr1.svg" data-desc-position="bottom"><img alt="image" src="assets/images/dr1.svg"></a></p>
-<h2 id="pgbackrest-repo-based-standby">pgBackrest repo based standby<a class="headerlink" href="#pgbackrest-repo-based-standby" title="Permanent link">¶</a></h2>
+<h2 id="pgbackrest-repo-based-standby">pgBackrest repo based standby<a data-markdown-ignore class="headerlink" href="#pgbackrest-repo-based-standby" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>This solution describes two Kubernetes clusters in different regions, clouds or running in hybrid mode (on-premises and cloud). One cluster is Main and the other is Disaster Recovery (DR)</p>
@@ -6870,8 +6870,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>pgBackrest on the DR site takes these backups and streams them to the standby cluster</p>
 </li>
 </ol>
-<h2 id="deploy-disaster-recovery-for-postgresql-on-kubernetes">Deploy disaster recovery for PostgreSQL on Kubernetes<a class="headerlink" href="#deploy-disaster-recovery-for-postgresql-on-kubernetes" title="Permanent link">¶</a></h2>
-<h3 id="configure-main-site">Configure Main site<a class="headerlink" href="#configure-main-site" title="Permanent link">¶</a></h3>
+<h2 id="deploy-disaster-recovery-for-postgresql-on-kubernetes">Deploy disaster recovery for PostgreSQL on Kubernetes<a data-markdown-ignore class="headerlink" href="#deploy-disaster-recovery-for-postgresql-on-kubernetes" title="Permanent link">¶</a></h2>
+<h3 id="configure-main-site">Configure Main site<a data-markdown-ignore class="headerlink" href="#configure-main-site" title="Permanent link">¶</a></h3>
 <ol>
 <li>
 <p>Deploy the Operator <a href="System-Requirements.html#installation-guidelines">using your favorite method</a>. Once installed, configure the Custom Resource manifest, so that pgBackrest starts using the Object Storage of your choice. Skip this step if you already have it configured.</p>
@@ -6903,7 +6903,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The backups should appear in the object storage. By default pgBackrest puts them into the pgbackrest folder.</p>
 </li>
 </ol>
-<h3 id="configure-dr-site">Configure DR site<a class="headerlink" href="#configure-dr-site" title="Permanent link">¶</a></h3>
+<h3 id="configure-dr-site">Configure DR site<a data-markdown-ignore class="headerlink" href="#configure-dr-site" title="Permanent link">¶</a></h3>
 <p>The configuration of the disaster recovery site is similar <a href="#configure-main-site">to that of the Main site</a>, with the  difference in standby settings.</p>
 <p>The following manifest has <code>standby.enabled</code> set to <code>true</code> and points to the <code>repoName</code> where backups are (GCS in our case). Optionally, add <code>standby.maxAcceptableLag</code> to enable <a href="standby.html#detect-replication-lag-for-standby-cluster">replication lag detection</a>. Check the <a href="standby.html#known-limitation-for-a-repo-based-standby-cluster">known limitation for this standby type</a> and <a href="standby.html#choose-the-lag-threshold">choose the threshold</a> accordingly.</p>
 <div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
@@ -6932,7 +6932,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="no-copy highlight"><pre><span></span><code>perconapgcluster.pg.percona.com/standby<span class="w"> </span>created
 </code></pre></div>
 </details>
-<h3 id="copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a class="headerlink" href="#copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
+<h3 id="copy-the-user-and-pgbouncer-passwords">Copy the user and pgBouncer passwords<a data-markdown-ignore class="headerlink" href="#copy-the-user-and-pgbouncer-passwords" title="Permanent link">¶</a></h3>
 <p>After you deploy the standby, copy the user passwords and the pgBouncer password from the Main site to the DR site, so that applications and pgBouncer can log in after you promote the DR cluster. Follow <a href="standby-failover.html#prepare-the-user-passwords">Prepare the user passwords</a>.</p>
 <hr>
 <div class="md-source-file">

@@ -134,7 +134,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6702,8 +6702,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="upgrade-using-data-volumes">Upgrade using data volumes<a class="headerlink" href="#upgrade-using-data-volumes" title="Permanent link">¶</a></h1>
-<h2 id="prerequisites">Prerequisites:<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h1 id="upgrade-using-data-volumes">Upgrade using data volumes<a data-markdown-ignore class="headerlink" href="#upgrade-using-data-volumes" title="Permanent link">¶</a></h1>
+<h2 id="prerequisites">Prerequisites:<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>The following conditions should be met for the Volumes-based migration:</p>
 <ul>
 <li>You have a version 1.x cluster with <code>spec.keepData: true</code> in the Custom Resource</li>
@@ -6712,7 +6712,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>This migration method has two limitations. First of all, this migration method introduces a downtime. 
 Also, you can only reverse such migration by restoring the old cluster from the backup. See <a href="update.html">other migration methods</a> if you need lower downtime and a roll back plan.</p>
-<h2 class="power-number" id="prepare-version-1x-cluster-for-the-migration">Prepare version 1.x cluster for the migration<a class="headerlink" href="#prepare-version-1x-cluster-for-the-migration" title="Permanent link">¶</a></h2>
+<h2 class="power-number" id="prepare-version-1x-cluster-for-the-migration">Prepare version 1.x cluster for the migration<a data-markdown-ignore class="headerlink" href="#prepare-version-1x-cluster-for-the-migration" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Remove all Replicas from the cluster, keeping only primary running. It is required to assure that Volume of the primary <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">PVC <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> does not change. The <code>deploy/cr.yaml</code> configuration file should have it as follows:</p>
@@ -6774,7 +6774,7 @@ cluster1-pgbr-repo   Bound    pvc-afb00490-5a45-45cb-a1cb-10af8e48bb13   1Gi    
 </code></pre></div>
 </li>
 </ol>
-<h2 id="execute-the-migration-to-version-2x">Execute the migration to version 2.x<a class="headerlink" href="#execute-the-migration-to-version-2x" title="Permanent link">¶</a></h2>
+<h2 id="execute-the-migration-to-version-2x">Execute the migration to version 2.x<a data-markdown-ignore class="headerlink" href="#execute-the-migration-to-version-2x" title="Permanent link">¶</a></h2>
 <p class="power-number">The old cluster is shut down, and Volumes are ready to be used to provision the new cluster managed by the Operator version 2.x.</p>
 <ol>
 <li>

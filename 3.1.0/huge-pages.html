@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6888,11 +6888,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a class="headerlink" href="#using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<h1 id="using-huge-pages-with-percona-operator-for-postgresql">Using huge pages with Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#using-huge-pages-with-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
+<h2 id="overview">Overview<a data-markdown-ignore class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
 <p>Huge Pages (also called large or super pages) are bigger memory blocks that help reduce CPU overhead. Normally, memory is managed in 4kB chunks, also called “pages”, but when your PostgreSQL workload grows, the CPU has to juggle a lot of these small pages. By switching to larger pages like 2MiB or 1GiB, you reduce the number of pages the CPU needs to track, which can improve efficiency and performance.</p>
 <p>For PostgreSQL clusters managed by Percona Operator for PostgreSQL, enabling huge pages is a recommended optimization, especially for memory-intensive workloads.</p>
-<h2 id="why-to-use-huge-pages-in-postgresql">Why to use huge pages in PostgreSQL<a class="headerlink" href="#why-to-use-huge-pages-in-postgresql" title="Permanent link">¶</a></h2>
+<h2 id="why-to-use-huge-pages-in-postgresql">Why to use huge pages in PostgreSQL<a data-markdown-ignore class="headerlink" href="#why-to-use-huge-pages-in-postgresql" title="Permanent link">¶</a></h2>
 <p>PostgreSQL uses shared memory extensively for:</p>
 <ul>
 <li>Shared buffer pool</li>
@@ -6905,8 +6905,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The system spends less time managing memory.</li>
 <li>Performance improves, especially under heavy load.</li>
 </ul>
-<h2 id="configure-huge-pages-for-percona-operator-for-postgresql">Configure huge pages for Percona Operator for PostgreSQL<a class="headerlink" href="#configure-huge-pages-for-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
-<h3 id="enable-huge-pages-in-your-kubernetes-environment">Enable huge pages in your Kubernetes environment<a class="headerlink" href="#enable-huge-pages-in-your-kubernetes-environment" title="Permanent link">¶</a></h3>
+<h2 id="configure-huge-pages-for-percona-operator-for-postgresql">Configure huge pages for Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#configure-huge-pages-for-percona-operator-for-postgresql" title="Permanent link">¶</a></h2>
+<h3 id="enable-huge-pages-in-your-kubernetes-environment">Enable huge pages in your Kubernetes environment<a data-markdown-ignore class="headerlink" href="#enable-huge-pages-in-your-kubernetes-environment" title="Permanent link">¶</a></h3>
 <p>Before configuring your cluster, make sure huge pages are enabled and available on the Kubernetes nodes. This setup is done outside the Operator and depends on your Kubernetes environment, whether you use a cloud-based Kubernetes like GKE, EKS, etc or use a bare-metal one.</p>
 <p>Consult the Kubernetes environment’s official documentation for how to enable huge pages there. </p>
 <p>For the further setup, you need to keep in mind the following:</p>
@@ -6917,7 +6917,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Do all nodes that will run PostgreSQL pods have huge pages available </li>
 <li>When adding more nodes to your cluster, will they have huge pages available</li>
 </ul>
-<h3 id="request-huge-pages-in-your-cluster-custom-resource">Request huge pages in your cluster Custom Resource<a class="headerlink" href="#request-huge-pages-in-your-cluster-custom-resource" title="Permanent link">¶</a></h3>
+<h3 id="request-huge-pages-in-your-cluster-custom-resource">Request huge pages in your cluster Custom Resource<a data-markdown-ignore class="headerlink" href="#request-huge-pages-in-your-cluster-custom-resource" title="Permanent link">¶</a></h3>
 <p>Once your Kubernetes nodes are ready, you can configure your PostgreSQL cluster to use huge pages.</p>
 <ol>
 <li>
@@ -6942,12 +6942,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </code></pre></div>
 </li>
 </ol>
-<h3 id="verify-huge-pages-are-reserved">Verify huge pages are reserved<a class="headerlink" href="#verify-huge-pages-are-reserved" title="Permanent link">¶</a></h3>
+<h3 id="verify-huge-pages-are-reserved">Verify huge pages are reserved<a data-markdown-ignore class="headerlink" href="#verify-huge-pages-are-reserved" title="Permanent link">¶</a></h3>
 <p>After deploying your cluster with huge pages configured, you can verify that they’re being used by checking inside the database container:</p>
 <div class="highlight"><pre><span></span><code>cat<span class="w"> </span>/proc/meminfo<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>HugePages
 </code></pre></div>
 <p>You should see values for <code>HugePages_Total</code>, <code>HugePages_Free</code>, and <code>HugePages_Rsvd</code>, confirming that huge pages are reserved and in use.</p>
-<h2 id="a-note-on-default-behavior">A note on default behavior<a class="headerlink" href="#a-note-on-default-behavior" title="Permanent link">¶</a></h2>
+<h2 id="a-note-on-default-behavior">A note on default behavior<a data-markdown-ignore class="headerlink" href="#a-note-on-default-behavior" title="Permanent link">¶</a></h2>
 <p>To avoid unexpected startup failures, Percona Operator disables huge pages by default (<code>huge_pages = off</code>). This prevents PostgreSQL from trying to use huge pages when none were requested. Once you explicitly configure huge pages in your spec, the Operator sets <code>huge_pages = try</code>, allowing PostgreSQL to use them if available.</p>
 <p>If huge pages are enabled on your nodes but not requested by your pods, PostgreSQL might fall back to minimal memory settings. To avoid this, either:</p>
 <ul>

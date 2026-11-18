@@ -1,0 +1,73 @@
+> For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
+
+# Upgrade using backup and restore
+
+This method allows you to migrate from the version 1.x to version 2.x cluster by restoring (actually creating) a new version 2.x PostgreSQL cluster using a backup from the version 1.x cluster.
+
+Note
+
+To make sure that all transactions are captured in the backup, you need to stop the old cluster. This brings downtime to the application.
+
+## Prepare the backup
+
+1. Create the backup on the version 1.x cluster, following the [official guide for manual (on-demand) backups](https://docs.percona.com/percona-operator-for-postgresql/1.0/backups.html#making-on-demand-backup). This involves preparing the manifest in YAML and applying it in the usual way:
+
+   ```
+   kubectl apply -f deploy/backup/backup.yaml
+   ```
+
+1. [Pause](https://docs.percona.com/percona-operator-for-postgresql/1.0/pause.html) or delete the version 1.x cluster to ensure that you have the latest data.
+
+   Warning
+
+   Before deleting the cluster, make sure that the [spec.keepBackups](https://docs.percona.com/percona-operator-for-postgresql/1.0/operator.html#spec-keepbackups) Custom Resource option is set to `true`. When it’s set, local backups will be kept after the cluster deletion, so you can proceed with deleting your cluster as follows:
+
+   ```
+   kubectl delete perconapgcluster cluster1
+   ```
+
+## Restore the backup as a version 2.x cluster
+
+**Restore from S3 / Google Cloud Storage for backups repository**
+
+1. To restore from the S3 or Google Cloud Storage for backups (GCS) repository, you should first configure the `spec.backups.pgbackrest.repos` subsection in your version 2.x cluster Custom Resource to point to the backup storage system. Just follow the repository documentation instruction for [Amazon S3 or S3-compatible storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-s3.html) or [Google Cloud Storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage-gcs.html). For example, for GCS you can define the repository similar to the following:
+
+   ```
+   spec:
+     backups:
+       pgbackrest:
+         repos:
+         - name: repo1
+           gcs:
+             bucket: MY-BUCKET
+             region: us-central1
+   ```
+
+1. Create and configure any required Secrets or desired custom pgBackrest configuration as described in [the backup documentation for te Operator version 2.x](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups.html).
+
+1. Set the repository path in the `backups.pgbackrest.global` subsection. By default it is `/backrestrepo/&lt;clusterName>-backrest-shared-repo`:
+
+   ```
+     spec:
+     backups:
+       pgbackrest:
+         global:
+           repo1: /backrestrepo/cluster1-backrest-shared-repo
+   ```
+
+1. Set the `spec.dataSource` option to create the version 2.x cluster from the specific repository:
+
+   ```
+   spec:
+     dataSource:
+       postgresCluster:
+         repoName: repo1
+   ```
+
+   You can also provide other pgBackRest restore options. For example, if you wish to restore to a specific [point-in-time (PITR)](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pitr.html).
+
+1. Create the version 2.x cluster:
+
+   ```
+   kubectl apply -f cr.yaml
+   ```

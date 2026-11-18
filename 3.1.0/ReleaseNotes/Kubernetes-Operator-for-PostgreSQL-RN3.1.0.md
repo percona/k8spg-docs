@@ -1,0 +1,455 @@
+> For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
+
+# Percona Operator for PostgreSQL 3.1.0 (2026-09-09)
+
+Operator 2.8.0 and all 2.8.x patch releases have reached end of life. They no longer receive bug fixes, security updates, or support. Upgrade to a [supported Operator version](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-operator.html#operator-and-crd-compatibility) to keep your clusters current and protected.
+
+[Get started with the Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/quickstart.html)
+
+## What’s new at a glance
+
+### Security
+
+- [Transparent data encryption with `pg_tde`](#transparent-data-encryption-support-with-pg_tde)
+- [Control TLS certificate management for manually provisioned Secrets](#more-control-over-tls-certificate-management)
+- [Client mTLS with pgBouncer and additional trusted CAs](#enable-mutual-tls-mtls-between-clients-and-pgbouncer)
+
+### Operations and observability
+
+- [Persistent logging across Pod restarts](#improve-operational-resilience-and-observability-with-persistent-logging-for-postgresql-pods)
+- [Configurable log rotation for persistent logs](#configure-log-rotation-for-persistent-logs)
+- [Pause and resume pgBouncer without dropping client connections](#pause-and-resume-pgbouncer-connections)
+- [Auto-growable disks for pgBackRest repository volumes](#keep-backup-storage-healthy-with-auto-growable-disks-for-pgbackrest)
+- [Mount extra volumes into PostgreSQL instances](#mount-extra-volumes-into-postgresql-instances)
+
+### Read scaling
+
+- [Declarative logical replicas for read-only workloads](#define-logical-replicas-declaratively-tech-preview) (tech preview)
+
+### Images and platforms
+
+- [UBI 8, 9, and 10 images](#support-for-ubi-8-ubi-9-and-ubi-10-images-for-percona-distribution-for-postgresql)
+- [Community PostgreSQL images and custom registries](#support-for-community-postgresql-images)
+- [PostgreSQL 19 support](#support-of-postgresql-19-tech-preview) (tech preview)
+- [Official support for Rancher Kubernetes Engine (RKE2)](#official-support-for-rancher-kubernetes-engine-rke2)
+- [Full ARM64 support for Operator images](#the-operator-is-now-fully-supported-on-arm64-architectures)
+
+### Upgrade notes
+
+- [PMM2 support removed](#deprecation-change-rename-and-removal) — upgrade to PMM3
+- [Operator 2.8.0 has reached end of life](#deprecation-change-rename-and-removal)
+- [`extensions.builtin` deprecated](#deprecation-change-rename-and-removal) — use `extensions.<extension>.enabled`
+- [`pg_cron` and `set_user` are now built-in extensions](#deprecation-change-rename-and-removal)
+
+## Release highlights
+
+### Transparent data encryption support with `pg_tde`
+
+You can now protect PostgreSQL data at rest with [`pg_tde`](https://docs.percona.com/pg-tde/index.html) , Percona’s fully open source transparent data encryption extension.
+
+Data in tables, indexes, temporary tables, and write-ahead log (WAL) files is encrypted on disk. Without the keys, that data stays unreadable even if storage is compromised.
+
+Enable `pg_tde` in the Custom Resource and configure HashiCorp Vault as the key provider. The Operator installs and configures the extension for you. After setup, you can create encrypted tables or convert existing ones. Backups and restores work as usual when the Operator can reach the encryption key.
+
+This feature is available with PostgreSQL 17 and 18. In this release, only HashiCorp Vault (KV v2) is supported as a key provider. KMIP and other providers are planned for later.
+
+See [Data-at-rest encryption](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption.html) and [Configure data-at-rest encryption with HashiCorp Vault](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/encryption-setup.html).
+
+### Improve operational resilience and observability with persistent logging for PostgreSQL Pods
+
+Debugging distributed systems just got easier. Percona Operator for PostgreSQL now supports persistent logging, so PostgreSQL and pgBackRest logs on the instance data volume stay available even across Pod restarts.
+
+The Operator uses [Fluent Bit](https://fluentbit.io/) to collect logs. Fluent Bit runs a `logs` sidecar container on each PostgreSQL instance Pod and mounts the same data volume. It collects logs and streams them to its own stdout as JSON lines. You can additionally configure Fluent Bit outputs such as S3 or Open Telemetry (OTel) envelope and have the logs forwarded there.
+
+[Learn more about persistent logging in the documentation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/persistent-logging.html).
+
+### Configure log rotation for persistent logs
+
+You can now customize log rotation for persistent logs. This helps you keep the right amount of data for troubleshooting or compliance, extend the default configuration with your custom settings and schedule rotations to fit your operational windows.
+
+You can configure log rotation in these ways:
+
+- Override the default configuration via the Custom Resource
+- Define additional configuration via a ConfigMap. In this case, the Operator adds your options to the default configuration
+- Set a new rotation schedule
+
+See our [documentation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/log-rotation.html) for step-by-step instructions for each option.
+
+### Define logical replicas declaratively (tech preview)
+
+You can now add a read-only logical replica in the same cluster and point reporting or other heavy reads at this replica instead of the primary. The replica has its own volume and Service, so those queries do not compete with your high-availability set.
+
+Declare the replica in the Custom Resource when you create the cluster or later during runtime. You can also define which databases receive the changes after the replica is bootstrapped.
+
+The Operator creates the volume, copies the data, converts the physical replica to the logical one and keeps the databases you list in sync. It also creates a Service you can connect to.
+
+Patroni does not manage nor promote it, so it stays a stable read endpoint.
+
+Logical replication is in the tech preview stage and requires PostgreSQL 17 or later. See [Deploy a logical replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html).
+
+### Mount extra volumes into PostgreSQL instances
+
+You can now mount additional Kubernetes volumes into the PostgreSQL container so that every instance in the cluster sees the same files.
+
+This is useful when PostgreSQL needs files outside the data directory such as for full text search.
+
+Configure the volume and mount path under `instances.extraVolumes` in the Custom Resource. You can use a ConfigMap, Secret, PersistentVolumeClaim, emptyDir, or another volume source that Kubernetes supports.
+
+Every instance in the set sees the same mounts, so your assets stay consistent across the cluster. Prefer `subPath` mounts when you add files next to the existing directory, so you do not replace the contents that PostgreSQL already ships.
+
+For steps and examples, see [Mount extra volumes into PostgreSQL instances](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/extra-volumes.html).
+
+### More control over TLS certificate management
+
+If you manage TLS certificates manually, such as through Kubernetes Secrets synced from AWS Secrets Manager or via External Secrets, losing access to those Secrets even briefly can lead to a service outage.
+
+By default, the Operator treats a missing TLS Secret as a signal to create new certificates, restart the database Pods, and apply the new CA. Applications that still trust your original CA may lose connectivity.
+
+Starting with this release, set `spec.tls.certManagementPolicy` in the Custom Resource to control the Operator’s behavior. The policies are:
+
+- `auto` (default) — If TLS Secrets are missing, the Operator creates certificates. It may use cert-manager when cert-manager is installed.
+- `userProvidedOnly` — You own the certificate lifecycle. The Operator does not create or replace TLS certificates if a Secret is temporarily unavailable. Applications can keep using the certificates already loaded while you restore the Secret.
+- `operatorProvidedOnly` — The Operator always manages TLS with its own PKI and does not use cert-manager.
+
+For manually provided TLS, use `userProvidedOnly`:
+
+```
+spec:
+  tls:
+    mode: preferTLS
+    certManagementPolicy: userProvidedOnly
+    allowInvalidCertificates: false
+  secrets:
+    customTLSSecret:
+      name: cluster1-cert
+    customReplicationTLSSecret:
+      name: replication1-cert
+```
+
+See [TLS certificate management policy](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-cert-management-policy.html) for more information.
+
+### Enable Mutual TLS (mTLS) between clients and pgBouncer
+
+Mutual TLS (mTLS) needs `pgBouncer` to trust the CA that signed client certificates. Previously, you could only do that by providing TLS material in `proxy.pgBouncer.customTLSSecret` and you had to manage the full certificate lifecycle yourself.
+
+Now, you can extend the pgBouncer frontend trust bundle with your external CA that signed client certificates. Create the Secret with this CA and add it to the cluster with the`proxy.pgBouncer.additionalTrustedCAs` option. The Operator appends your external CAs to the trust bundle and keeps rotating the pgBouncer and cluster certificates.
+
+With this improvement, you get mTLS for clients that use your corporate or application CA, and keep Operator-managed TLS for the cluster.
+
+See [Trust additional CAs for pgBouncer client mTLS](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tls-pgbouncer-trusted-cas.html) for configuration steps.
+
+### Keep backup storage healthy with auto-growable disks for pgBackRest
+
+A full `pgBackRest` repository volume can interrupt backups. Starting with this release, auto-growable disks cover pgBackRest repository volumes on the repo host, not only PostgreSQL data volumes. The Operator monitors disk usage and expands the PVC automatically up to the limit you set.
+
+Turn on the `AutoGrowVolumes=true` feature gate and set `spec.backups.pgbackrest.repos[].volume.volumeClaimSpec.resources.limits.storage` in the Custom Resource. If you already use automated storage scaling for data volumes, apply the same approach to your backup repos.
+
+```
+spec:
+  backups:
+    pgbackrest:
+      repos:
+      - name: repo1
+        volume:
+          volumeClaimSpec:
+            resources:
+              requests:
+                storage: 1Gi
+              limits:
+                storage: 5Gi
+```
+
+See [Automated scaling with auto-growable disks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/scaling-vertical.html#automated-scaling-with-auto-growable-disks) for the full setup.
+
+### Pause and resume pgBouncer connections
+
+You can now pause client traffic through pgBouncer without dropping application connections. Active queries finish, then new client requests wait in a queue until you resume. Use this for a short, controlled window to restart PostgreSQL, run a planned switchover, or drain backend load.
+
+Set `proxy.pgBouncer.paused` to `true` in the Custom Resource to pause, and back to `false` to resume. The Operator connects to each `pgBouncer` Pod and runs the `PAUSE` command. Pods with active connections remain running until they finish, then the Pod changes its state to `paused`. If a pgBouncer Pod restarts while paused, a startup probe re-applies `PAUSE` so the intended state survives restarts.
+
+### Support for UBI 8, UBI 9, and UBI 10 images for Percona Distribution for PostgreSQL
+
+You can now choose Red Hat Universal Base Image (UBI) 8, 9, or 10 for Percona Distribution clusters. That lets you migrate to Percona Operator without changing the OS inside the PostgreSQL container, so you can keep working extensions, stay aligned with your Enterprise Linux version, or move to a newer UBI when you are ready.
+
+UBI is the operating system inside the PostgreSQL container. PostgreSQL uses OS-provided `glibc` and ICU libraries to sort and compare text, and each UBI major version ships different library versions. The UBI choice is part of the database runtime.
+
+By default, images that ship with the Operator are based on UBI 9 and have no OS version in the tag, for example `docker.io/percona/percona-distribution-postgresql:18.6.1-3`. UBI 8 and UBI 10 images add the OS version to the tag:
+
+```
+docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi8
+docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi8-arm64
+docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi10
+docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi10-arm64
+```
+
+Use UBI 9 as the baseline for PostgreSQL 14–18. This page lists the UBI 9 images. For UBI 8 and UBI 10, see [Percona certified images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images.html). Stay on UBI 8 when older extensions or Enterprise Linux 8 requirements still apply. Choose UBI 10 to align with RHEL 10 or OpenShift nodes that run Enterprise Linux 10, and to stay on an OS with a longer remaining support window and newer system libraries.
+
+Important
+
+Switching UBI major versions changes `glibc` and ICU. PostgreSQL reports a collation version mismatch, and indexes on `text`, `varchar`, `char`, and similar types can return incorrect results until you rebuild them. After you switch, identify affected indexes, run `REINDEX`, then run `ALTER DATABASE ... REFRESH COLLATION VERSION`. See the [minor upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html) and [major upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html) documentation.
+
+Keep every instance in a cluster on the same UBI version. Treat a UBI change as an OS upgrade: take a backup first, and confirm that custom extensions are built for the target UBI.
+
+### Support for community PostgreSQL images
+
+You can now run the Operator with PostgreSQL Community images built from the official [PostgreSQL Global Development Group (PGDG) packages](https://www.postgresql.org/download/) . You can also use the images you build and store in your own registry. In this way you are no longer limited to Percona Distribution images for the database runtime, so you can add community extensions and keep the image supply chain under your control.
+
+We publish evaluation images for PostgreSQL, pgBouncer, and pgBackRest built from those PGDG packages on UBI 8 and UBI 9. You can use them to try the flow, then reproduce the same build with the Dockerfiles in [percona-docker/postgresql-containers/community](https://github.com/percona/percona-docker/tree/main/postgresql-containers/community) and push the result to a registry you control.
+
+Point the cluster at those images with `spec.image`, `spec.proxy.pgBouncer.image`, and `spec.backups.pgbackrest.image`. The Operator deploys and manages the cluster the same way it does for Percona Distribution for PostgreSQL. You cannot use Percona-only features such as [Transparent data encryption](#transparent-data-encryption-support-with-pg_tde). You own the image lifecycle and support. You need Operator 3.1.0 or later. See [PostgreSQL Community images](#postgresql-community-images) for the published tags.
+
+Community images are an experimental project. Try them and tell us what works, what is missing, and what you want the Operator to support. For build and deploy steps, see [Deploy a cluster with community PostgreSQL images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/install-community.html) and the Percona Blog post [Community Docker Images: keeping the operator open without a vendor registry lock-in](https://www.percona.com/blog/postgresql-community-images-operator/) by Slava Sarzhan.
+
+### Support of PostgreSQL 19 (tech preview)
+
+With this release, the Operator supports deployment of Community PostgreSQL 19. This support is currently in the tech preview stage because this major version is not officially released yet. However, you can already deploy it and evaluate the features coming with this version. This allows you to stay on top of upcoming enhancements and gives you enough time to prepare your upgrade and migration plans before the final release lands. See [Deploy the Operator with Community images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/install-community.html) for guidelines.
+
+### Official support for Rancher Kubernetes Engine (RKE2)
+
+[Rancher Kubernetes Engine (RKE2)](https://docs.rke2.io/) is now an officially supported platform. Every Operator release is now tested on RKE2 to ensure that you can run it on Rancher-managed Kubernetes clusters with confidence. Check the current [known limitation](#known-limitations) for using custom extensions on Rancher.
+
+### The Operator is now fully supported on ARM64 architectures
+
+All Operator images are now available for ARM64, giving you native support on ARM based clusters with no extra setup.
+
+## Deprecation, Change, Rename and Removal
+
+- Removed support for PMM2. This Operator release no longer supports PMM2 as it has reached the end-of-life state. Upgrade to PMM3 as soon as possible. For how to upgrade, refer to [PMM documentation](https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html) .
+
+- The Operator version 2.8.0 and all 2.8.x patch versions have reached end of life and are no longer supported.
+
+- The `extensions.builtin` section is deprecated and will be removed after version 3.4.0. We encourage you to use `extensions.<extension>.enabled`. You can still use the old form during the transition. If both forms are set at the same time, `extensions.builtin` takes precedence.
+
+- `pg_cron` and `set_user` extensions have been added to the list of built-in extensions. Your existing setup via `extensions.custom` remains unchanged and works as expected after the upgrade.
+
+  Upgrade the database images first and wait until Pods rejoin the cluster. Then reconfigure the extensions. Completing these steps one after the other lets the cluster finish each change in one pass.
+
+  After the database upgrade, switch to built-in extensions as follows:
+
+  - Remove the extension from the `extensions.custom` list
+  - Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
+
+  You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it.
+
+- Field descriptions were removed from the inherited `CrunchyBridgeCluster` CRD (upstream.pgv2.percona.com/v1beta1). The object schema and cluster behavior are unchanged. Running `kubectl explain` for those fields no longer shows help text.
+
+## Known limitations
+
+### Custom extensions on Rancher (RKE2)
+
+When you enable custom extensions, the Operator restarts the cluster’s Pods. On Rancher (RKE2) clusters, a former primary may fail to rejoin the cluster as the replica if it has a diverged timeline.
+
+The affected Pod’s PostgreSQL log shows the following:
+
+```
+LOG:  invalid xl_info in checkpoint record
+PANIC:  could not locate a valid checkpoint record at <LSN>
+```
+
+To recover, you must manually [reinitialize the replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.html#reinitialize-by-deleting-replica-pod-and-its-persistentvolumeclaim). Before doing so, check if this replica has any transactions that are not replicated anywhere else. Then remove its data directory and let the instance perform a full copy from the primary.
+
+## Changelog
+
+## New Features
+
+- [K8SPG-911](https://perconadev.atlassian.net/browse/K8SPG-911) - Added native transparent data encryption support via `pg_tde` so you can encrypt data at rest from the Custom Resource.
+- [K8SPG-650](https://perconadev.atlassian.net/browse/K8SPG-650) - Added support for declaring additional pgBouncer users in the Custom Resource so monitoring and other integrations can keep dedicated credentials. The Operator now manages the pgBouncer user list for you instead of relying on manual Secret edits that could be overwritten.
+- [K8SPG-851](https://perconadev.atlassian.net/browse/K8SPG-851) - Added persistent logging for PostgreSQL and pgBackRest so logs remain available across Pod restarts. Fluent Bit collects logs on the instance data volume and can forward them as JSON or to configured outputs such as S3 or OpenTelemetry.
+- [K8SPG-1114](https://perconadev.atlassian.net/browse/K8SPG-1114) - Added declarative logical replicas for read-only workloads so you can offload reporting queries from the primary. The Operator creates the volume, bootstraps replication, and exposes a dedicated Service that Patroni does not promote.
+- [K8SPG-1056](https://perconadev.atlassian.net/browse/K8SPG-1056) - Added support for Community PostgreSQL images and custom registries so you are not locked to Percona-only tags. Set `spec.image`, `proxy.pgBouncer.image`, and `backups.pgbackrest.image` to deploy and manage community or privately built images.
+- [K8SPG-952](https://perconadev.atlassian.net/browse/K8SPG-952) - Added the ability to provide additional trusted CA to pgBouncer. This way you can enable client mTLS while cluster components communicate using Operator-managed PKI and the Operator continues to manage cluster TLS rotation.
+- [K8SPG-949](https://perconadev.atlassian.net/browse/K8SPG-949) - Added official support for Rancher Kubernetes Engine (RKE2). Every Operator release is now tested on RKE2 so you can run on Rancher-managed clusters with confidence.
+
+### Improvements
+
+- [K8SPG-440](https://perconadev.atlassian.net/browse/K8SPG-440) - Added the ability to mount extra volumes into PostgreSQL instances so every Pod can share files such as full-text search dictionaries.
+- [K8SPG-691](https://perconadev.atlassian.net/browse/K8SPG-691) - Extended auto-growable disks to pgBackRest repository volumes so a full backup repo no longer blocks backups. The Operator monitors repo-host disk usage and expands the PVC up to the limit you set when the `AutoGrowVolumes` feature gate is enabled.
+- [K8SPG-870](https://perconadev.atlassian.net/browse/K8SPG-870) - Added a `status.size` field on full, differential, and incremental `PerconaPGBackup` objects so you can see backup size without inspecting storage directly. This makes backup capacity planning and troubleshooting easier.
+- [K8SPG-881](https://perconadev.atlassian.net/browse/K8SPG-881) - Added full ARM64 support for Operator images so you can run natively on ARM-based Kubernetes clusters. No extra setup is required beyond using the ARM64 image digests published with this release.
+- [K8SPG-944](https://perconadev.atlassian.net/browse/K8SPG-944) - Removed PMM2 support now that PMM2 has reached end of life. Upgrade monitoring to PMM3 so cluster health checks continue to work with this Operator version.
+- [K8SPG-951](https://perconadev.atlassian.net/browse/K8SPG-951) - Added the support of custom CA issuer so you can plug in your own cert-manager Issuer or ClusterIssuer instead of the hardcoded self-signed CA. This lets you issue cluster TLS certificates from Vault or an existing corporate CA.
+- [K8SPG-1011](https://perconadev.atlassian.net/browse/K8SPG-1011) - Removed the requirement to set a pgBackRest image when backups are disabled. Clusters with `backups.enabled: false` no longer need unused backup image configuration.
+- [K8SPG-1040](https://perconadev.atlassian.net/browse/K8SPG-1040) - Added `pg_cron` and `set_user` to the built-in extensions list so you can enable them with `extensions.<name>.enabled`. Existing custom-extension installs continue to work; migrate by updating the Custom Resource in a single apply.
+- [K8SPG-1045](https://perconadev.atlassian.net/browse/K8SPG-1045) - Added the ability to define TLS management policy for the Operator. This gives you a control whether the Operator recreates TLS Secrets when they are temporarily missing. Use `userProvidedOnly` to keep manually provisioned certificates stable during Secret sync outages.
+- [K8SPG-1047](https://perconadev.atlassian.net/browse/K8SPG-1047) - Updated major-upgrade images to use the official Percona Distribution for PostgreSQL upgrade Dockerfile. This keeps upgrade containers aligned with the same build pipeline as the database images.
+- [K8SPG-1051](https://perconadev.atlassian.net/browse/K8SPG-1051) - Added tech-preview support for Community PostgreSQL 19 so you can evaluate the next major version early. Use this to test application compatibility before PostgreSQL 19 is generally available.
+- [K8SPG-1053](https://perconadev.atlassian.net/browse/K8SPG-1053) - Relocated the PMM agent config to a writable `/tmp` volume so the PMM sidecar starts when `readOnlyRootFilesystem: true` is enforced. Hardened environments such as OpenShift `restricted-v2` can now monitor clusters without relaxing the root filesystem policy.
+- [K8SPG-1073](https://perconadev.atlassian.net/browse/K8SPG-1073) - Stopped configuring Patroni’s `restore_command` when backups are disabled so replicas no longer call pgBackRest against a missing stanza. WAL fetch failures in backup-less clusters fall back cleanly instead of producing archive errors.
+- [K8SPG-1083](https://perconadev.atlassian.net/browse/K8SPG-1083) - Improved Operator telemetry to report the Kubernetes platform in use, such as EKS, GKE, AKS, or Rancher. This helps Percona understand deployment environments and improve platform-specific testing.
+- [K8SPG-1085](https://perconadev.atlassian.net/browse/K8SPG-1085) - Improved SmartUpdate logging so rolling instance updates are visible in the Operator logs. You can track when Pods are being restarted during automated updates without extra debugging.
+- [K8SPG-1115](https://perconadev.atlassian.net/browse/K8SPG-1115) - Added the ability to pause and resume pgBouncer connections from the Custom Resource without dropping clients. Set `proxy.pgBouncer.paused` to queue new requests while active queries finish during planned maintenance.
+
+### Fixed bugs
+
+- [K8SPG-991](https://perconadev.atlassian.net/browse/K8SPG-991) - Fixed the issue where outdated backup cleanup failed during minor upgrades and logged noisy errors. The Operator now handles repo-host readiness more reliably before attempting cleanup.
+- [K8SPG-994](https://perconadev.atlassian.net/browse/K8SPG-994) - Fixed a bug where `customRootCATLSSecret` kept only the first certificate from a multi-cert PEM bundle. Intermediate and root CA chains are now preserved so TLS verification works for corporate PKI setups.
+- [K8SPG-1010](https://perconadev.atlassian.net/browse/K8SPG-1010) - Fixed an ordering issue where delete finalizers removed Secrets before the underlying `PostgresCluster` was gone, allowing Secrets to be recreated and left behind. Secret cleanup now runs after the cluster is fully deleted.
+- [K8SPG-1012](https://perconadev.atlassian.net/browse/K8SPG-1012) - Fixed a bootstrap restore issue where the timeline history file was lost and after point-in-time recovery replicas could fail to rejoin via `pg_rewind`. History files are now archived correctly during restore bootstrap.
+- [K8SPG-1049](https://perconadev.atlassian.net/browse/K8SPG-1049) - Fixed restore Jobs that ignored cluster tolerations and could not schedule on tainted nodes. Restore Pods now inherit the same tolerations as the backup jobs. (Thank you @Avapaa for reporting this issue)
+- [K8SPG-1058](https://perconadev.atlassian.net/browse/K8SPG-1058) - Fixed `PerconaPGUpgrade` failures when the upgrade resource name was too long for generated Kubernetes object names. Long upgrade names no longer block major version upgrades. (Thank you Jakub Jaruszewski for contributing to this fix)
+- [K8SPG-1113](https://perconadev.atlassian.net/browse/K8SPG-1113) - Fixed a bug where `latestRestorableTime` on older backups was overwritten with the newest restorable timestamp. Each backup now keeps its own restorable time for accurate point-in-time recovery choices.
+- [K8SPG-1119](https://perconadev.atlassian.net/browse/K8SPG-1119) - Fixed restores from `dataSource.volumes` that failed validation because `repoName` was required. Volume-based bootstraps no longer need a pgBackRest repository name.
+- [K8SPG-1138](https://perconadev.atlassian.net/browse/K8SPG-1138) - Fixed the issue snapshot restore-prepare job not being scheduled on tainted nodes because of missing tolerations. You can now assign tolerations to snapshot restore jobs.
+
+### Documentation updates
+
+- [K8SPG-232](https://perconadev.atlassian.net/browse/K8SPG-232) - Expanded restore documentation to explain in-place restore, side-cluster restore, and restore into an external environment. You can choose the right recovery pattern for your topology more easily.
+- [K8SPG-793](https://perconadev.atlassian.net/browse/K8SPG-793) - Documented the `trackLatestRestorableTime` logic, including when to use them and how they interact with read-only filesystem policies. Also reorganized point-in-time recovery guides.
+- [K8SPG-963](https://perconadev.atlassian.net/browse/K8SPG-963) - Documented Custom Resource statuses and conditions so you can interpret cluster health from `status` without reading Operator source code.
+- [K8SPG-1123](https://perconadev.atlassian.net/browse/K8SPG-1123) - Added documentation for deploying the Operator with Community PostgreSQL images. The guide covers how to set custom image fields and what Percona-only features are unavailable with community builds.
+
+## Supported software
+
+This Operator version is developed and tested with Percona Distribution for PostgreSQL and PostgreSQL Community.
+
+### Percona Distribution for PostgreSQL
+
+- **PostgreSQL** 14.24-3, 15.19-3, 16.15-3, 17.11.1-3, 18.6.1-3 as the database. Other versions may also work but have not been tested.
+- **pgBackRest** 2.59.1-2 for backup and recovery. As of October 5, 2026, pgBackRest has been updated to version 2.59.1-2.
+- **pgBouncer** 1.25.2-8 for connection pooling
+- **Patroni** version 4.1.5 for high-availability
+- **PostGIS** version 3.5.7
+- **PMM Client** version 3.9.1
+- **cert-manager** 1.21.1
+
+### PostgreSQL Community
+
+- PostgreSQL 14.24, 15.19, 16.15, 17.11, 18.6, and 19 (tech preview) as the database.
+- pgBackRest 2.59.0 for backup and recovery
+- pgBouncer 1.25.2 for connection pooling
+
+## Supported platforms
+
+Percona Operators are designed for compatibility with all [CNCF-certified](https://www.cncf.io/training/certification/software-conformance/) Kubernetes distributions.
+
+Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below:
+
+- [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) 1.34 - 1.35
+- [Amazon Elastic Kubernetes Service (EKS)](https://aws.amazon.com) 1.34 - 1.36
+- [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.34 - 1.36
+- [OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.19.43 - 4.22.10
+- [Minikube](https://github.com/kubernetes/minikube) 1.38.1 with Kubernetes v1.35.1
+- [Rancher](https://rancher.com/docs/rke2/latest/en/) with Rancher Kubernetes Engine (RKE2) - 1.34 - 1.36
+
+This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.
+
+## PostgreSQL Community images
+
+Community images are available on UBI 9 and UBI 8. PostgreSQL 19 is a tech preview and ships on UBI 9 only. pgBouncer and pgBackRest community images are compatible with both UBI 8 and 9. See [PostgreSQL community images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images-community.html).
+
+## Percona certified images
+
+Starting with this release, Percona certified images are available for UBI 8, 9 and 10.
+
+The following tables list the images that you can use with the Percona Operator for PostgreSQL.
+
+Updated component images
+
+- **October 5, 2026**: Component images are rebuilt with security (CVE) fixes. pgBackRest is updated to version 2.59.1-2.
+
+Use the updated images for new deployments and upgrades.
+
+The Operator, pgBouncer, pgBackRest, Fluent Bit, and PMM images are the same on every UBI.
+
+PostgreSQL, PostGIS, and the upgrade images are built separately for each UBI version. The Fluent Bit image is identical for UBI 8 and UBI 9 because both use a compatible version of the `GLIBC` library. For UBI 10, a separate Fluent Bit image is provided due to incompatibility with the earlier `GLIBC` versions.
+
+### Shared images
+
+| Image                                              | Digest                                                           |
+| -------------------------------------------------- | ---------------------------------------------------------------- |
+| percona/percona-postgresql-operator:3.1.0 (x86_64) | a15ac0f3fc4183e6f3096a2ae5802454846721ba92c4462c472fc5bc33151f52 |
+| percona/percona-postgresql-operator:3.1.0 (ARM64)  | 29e063555a7ae437be1a04e369424eaa9ac4bcc7bd94ed20b94f952615f4980e |
+| percona/percona-pgbouncer:1.25.2-8 (x86_64)        | 1cfc120aa41e2e3131962900248a0272b5e9176e839171d9894e21b2024ce2d6 |
+| percona/percona-pgbouncer:1.25.2-8 (ARM64)         | cc2ce09fb5818e1cc61e6a56f631e9320d35cce965d182c0f2be5ce0c3fcc0c5 |
+| percona/percona-pgbackrest:2.59.1-2 (x86_64)       | ed613bd66ac18c014674034d020a18705d5ae9bc3c5b95cd43d0861acda866a6 |
+| percona/percona-pgbackrest:2.59.1-2 (ARM64)        | ac63cad70311b495db24a09e376eceeb29d9123477bd5ef5324ded96828c978b |
+| percona/fluentbit:5.1.1-1 (x86_64)                 | 332ac2386031925cef314367366abea5cb6ec1ac0bc601b824422753346bc5df |
+| percona/fluentbit:5.1.1-1 (ARM64)                  | 1d528ec4a8c9bab32762c83eb4e33458f2e48d9af94f0aa59bba0ce4e89904dd |
+| percona/pmm-client:3.9.1 (x86_64)                  | 6b4309035f1fc4c0dcb6b7374ac7a01526319374a071759282a21eb016f754bf |
+| percona/pmm-client:3.9.1 (ARM64)                   | ab419b7e10cd81fa44dd198e4a10c44dc056e87ea73fd836a66b6a2356bc4efc |
+| percona/pmm-server:3.9.1 (x86_64)                  | f7011cf6723aba28d06b09bd7f8a1e7e1c6ba84a80a45e62cbfec80f98f20e60 |
+
+### Percona Distribution for PostgreSQL images by UBI
+
+**UBI 9 (default)**
+
+| Image                                                                                   | Digest                                                           |
+| --------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3 (x86_64) | 313e077dbdd1db878a5cdd2e6633419bd8c5071d2ea387c6c6cae682d5864304 |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3 (ARM64)  | 4a063fc89f9c22dc23f4fa094a6e8f3e78bae96f83652aa8f3818be8ee10a5e2 |
+| percona/percona-distribution-postgresql:18.6.1-3 (x86_64)                               | 91ffd3f3cef11ebbac6e18211869a736dd1c8a7aa733c7a8c951c976c4afcfa4 |
+| percona/percona-distribution-postgresql:18.6.1-3 (ARM64)                                | 0e9598318eb9bd89ba6d423fb81ab9d94d37938b22203501d50b003fbd4197ae |
+| percona/percona-distribution-postgresql:17.11.1-3 (x86_64)                              | e80b7d694e25e5bd46a571c30faf1e7db9d5ae477c547e99a7c321923079418b |
+| percona/percona-distribution-postgresql:17.11.1-3 (ARM64)                               | 797482ccedb17b8f2bf1a873c125b6080f99d07e2d09850167f2fa19c498ae9b |
+| percona/percona-distribution-postgresql:16.15-3 (x86_64)                                | c4746bb052182bde94f6b80b0f3d42029d0b0c78cba53f43ad5b19cf722d5f3e |
+| percona/percona-distribution-postgresql:16.15-3 (ARM64)                                 | cbc54ef5619bc4b1c4f7268cc2e64e6c288039ef02253b95f057e60bd98d4b80 |
+| percona/percona-distribution-postgresql:15.19-3 (x86_64)                                | 41a5de1ba4889078b6813f141126e6c29325ae6b849c318cff7acb4cd4e3ab9a |
+| percona/percona-distribution-postgresql:15.19-3 (ARM64)                                 | 38c7d2fe9a8880179874e5577c6d9ac14875805000abfe2ee4dfccf4837f71b7 |
+| percona/percona-distribution-postgresql:14.24-3 (x86_64)                                | 600a731a7b7ff4e9f22cee7486def38c9b2d9faa3a324896eedd4ed025db422a |
+| percona/percona-distribution-postgresql:14.24-3 (ARM64)                                 | edc65db23d1c183bfa1b1dcc6d7d9470a82251e97464e4daacfa417d82f2352b |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3 (x86_64)                  | 7ac2782afc11321cfd3fb5f5f393b1cf9cada727e32c404cd6f5285604e504e3 |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3 (ARM64)                   | 9c33db4aacb426d6573c03e29c68a48ee35883e5ea4623f48ce82717f54abb60 |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3 (x86_64)                 | 5d391ae90335aa472eccf1b7d72dd22e9331a7e1028e56beab5386f62d71a302 |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3 (ARM64)                  | 18508d2925aa138a9f89fd725be0446c99dce4e4fe914588d8c10a8d71443c88 |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3 (x86_64)                   | b35ddd1dfa7472622e3ad75d24635216a28c4797701aa71ac5b56431b4616f0f |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3 (ARM64)                    | baf204a4a74a458c7e4a39563c93ce6c25ba77343ec977b54e54dfc152b7351c |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3 (x86_64)                   | 6a8e070600f446c4e3d01a4bca38741dace31b7a9e17f830294f9bf2b8f58055 |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3 (ARM64)                    | c07a7a379c503ba5b5a4117bc1f8809dcdadd821bf3419fe361ca3f0e3349b63 |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3 (x86_64)                   | 4f4605c90b74d48e35df21c08ddff9985b9d3a733b52fd735524df8203c9ea43 |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3 (ARM64)                    | a5dee8ca9d8156abd2598e1996f9ae6bfd5770985b256d8c01b8b0c18b743910 |
+
+**UBI 8**
+
+| Image                                                                                        | Digest                                                           |
+| -------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3-ubi8 (x86_64) | ac5f270495da920f3df0d989d661b9e3e5610f7a60460c006689af33aec660ef |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3-ubi8 (ARM64)  | bc34828429ff2ff30f24d1da3ff8628c5fc881827adf0c4267fa2dea88de04e3 |
+| percona/percona-distribution-postgresql:18.6.1-3-ubi8 (x86_64)                               | 25bf72cf497b8208a4fe2ba032392f45a7da966cb9962c7ee30fc79bfed3ec4a |
+| percona/percona-distribution-postgresql:18.6.1-3-ubi8 (ARM64)                                | ef4052027353da4637f080f19bb757b0b1925a640d1c816c123eb5b4faf14d2f |
+| percona/percona-distribution-postgresql:17.11.1-3-ubi8 (x86_64)                              | 69c823155f3edacdd2a8f19a40bd3e253819b7a80a63f976a74dbffe00599979 |
+| percona/percona-distribution-postgresql:17.11.1-3-ubi8 (ARM64)                               | 3c0291d71c0674c321284607fd497c94611159ad7f158ab229b24402f5290408 |
+| percona/percona-distribution-postgresql:16.15-3-ubi8 (x86_64)                                | 5b9888f849a8ba36f6a066968933801df9a045fcf9a7538b9f6ce13963dea94e |
+| percona/percona-distribution-postgresql:16.15-3-ubi8 (ARM64)                                 | e2fc2562f4f1644e9eab17485d32e96e1ea8d09294fbed0746a744814b04a6e6 |
+| percona/percona-distribution-postgresql:15.19-3-ubi8 (x86_64)                                | f0f564edc98ed6878e5bd6b8c5da8930b38c9319a7f80ea4a5064ec6e6131213 |
+| percona/percona-distribution-postgresql:15.19-3-ubi8 (ARM64)                                 | f8516acc6c247e4e5bfb7354e2fcde2ba68cabe3a35fdf932b7588bf01c7cf14 |
+| percona/percona-distribution-postgresql:14.24-3-ubi8 (x86_64)                                | 858784721db2d235ecbf9a44ea6904aad28463f80a674ec2da656daffbf4de1f |
+| percona/percona-distribution-postgresql:14.24-3-ubi8 (ARM64)                                 | 9fb51063212b2eddddc0769ac27a8f9c3ccb6ae53a32c6afa8475771e0d6966e |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3-ubi8 (x86_64)                  | c7060d88bb4f2e15aa272b88fcb6b003f76ee11c3d69ab0fdc31554c393818ac |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3-ubi8 (ARM64)                   | 40dd3f1d4370a74ba1de1d3bd490af75c1687e753696176f9049ad35a76c364f |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3-ubi8 (x86_64)                 | 4ff16f0f8a61aa7edfeb0af53ee24bc97d75f477ccffba238d42313495271a71 |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3-ubi8 (ARM64)                  | f9806285af50c823a0f28ceb3adb912a070491d3a0af2871a2fe7a55afff7a58 |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3-ubi8 (x86_64)                   | e9f069174a741fdaea4decd9caeb1321e04737ac5c8c0d62dde37b7527dbeea1 |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3-ubi8 (ARM64)                    | 06f50b54389240ab3ef1371fd19804b6e94ad7fd051d22fd02ddb41ef8227cf7 |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3-ubi8 (x86_64)                   | e4fdc0e84f106f9df545c65978c4571d703319df7f34749a21f360126a34e632 |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3-ubi8 (ARM64)                    | 82cd6e53ab563c8c2c3c8dfe3a3194b053dba56027f87cc8700f665af616aa92 |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3-ubi8 (x86_64)                   | c00f6280b72cbd2492cb0923ec5876f0a0002f61d85cc808779ec5173ad7c1bc |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3-ubi8 (ARM64)                    | d26df1855f2913bea8dca3c69b52554c35c74df690ae1a46565a5f95da7a78f1 |
+
+**UBI 10**
+
+| Image                                                                                         | Digest                                                           |
+| --------------------------------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3-ubi10 (x86_64) | 32a26957c322d0568927aa4e4a950da87174d2fa1d39c4eaee67580a1511143a |
+| percona/percona-distribution-postgresql-upgrade:18.6-17.11-16.15-15.19-14.24-3-ubi10 (ARM64)  | 0e655d4d4cc98c66e0c2fcb0899af54f0a2713f8a5eae9d76d7141abf683a378 |
+| percona/percona-distribution-postgresql:18.6.1-3-ubi10 (x86_64)                               | 9b3187302d32d66a0c9273c6fd28f586e0c56e10bc49180f00aa82b063df1108 |
+| percona/percona-distribution-postgresql:18.6.1-3-ubi10 (ARM64)                                | 234554e2305ea171eddbf63d23cfa570e1de6a1800dbe141d7e73d356fd78572 |
+| percona/percona-distribution-postgresql:17.11.1-3-ubi10 (x86_64)                              | 2d018b5428b96060cdfe226b267afec9600e84c644966cef42324dd0062ae928 |
+| percona/percona-distribution-postgresql:17.11.1-3-ubi10 (ARM64)                               | 1cf5d1a02288a56bcb2b2e1fb594dfeb77dc8ec8b24755e7c3cd942fddc4c9de |
+| percona/percona-distribution-postgresql:16.15-3-ubi10 (x86_64)                                | c9bab91d6bc0ceaa63ff098b034717fc50cd681fe2ddba725b3383f9be3eb72a |
+| percona/percona-distribution-postgresql:16.15-3-ubi10 (ARM64)                                 | 8de1292fe4849c8b785df3567e3a5cdc119225625e7a8b8bf5d6d663d4a6478b |
+| percona/percona-distribution-postgresql:15.19-3-ubi10 (x86_64)                                | 6095a0f4431ad81392c17ab465514e208903cbf06a5fe6f3532e342dbd01a6d3 |
+| percona/percona-distribution-postgresql:15.19-3-ubi10 (ARM64)                                 | 3cd2647c6b3274612b04b6a560ea707dddfc968c591e24e173e17ed4338fa5da |
+| percona/percona-distribution-postgresql:14.24-3-ubi10 (x86_64)                                | 25a6f697ab55a599e18f8953b46010b184ebf4c709e8c9141d566ccf4659b2d0 |
+| percona/percona-distribution-postgresql:14.24-3-ubi10 (ARM64)                                 | 7116fb94c01ec31ff0d67926a48da4b143f417eb4c4fecab45ed64e9bd5a2e2d |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3-ubi10 (x86_64)                  | ae0d50698dc94da1d9c892b93a58ae420910f01ddbe3c52199d063d4cd8d0aea |
+| percona/percona-distribution-postgresql-with-postgis:18.6.1-3-ubi10 (ARM64)                   | d56c3d7629d49d9276ec8acd062caa40e0b46a6be8a9336a55fcc71b7576bc67 |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3-ubi10 (x86_64)                 | 7530a7b43be9d727d10036450e415094a66eb73923583da96644164e1d02b3d3 |
+| percona/percona-distribution-postgresql-with-postgis:17.11.1-3-ubi10 (ARM64)                  | a3c91b4eb2c5e53122aeb020221ee015ed023a36f3c2e560c5fb9ccfbc2ede27 |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3-ubi10 (x86_64)                   | 54721d6cef5af7b3f89710e406913051ede817f1b1a44b4cf4b167d328ee288e |
+| percona/percona-distribution-postgresql-with-postgis:16.15-3-ubi10 (ARM64)                    | c2d7769ee6dbfb89ccf94c754e465bcb6c77278d0ba2841a632ab004d856a1d7 |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3-ubi10 (x86_64)                   | 78354b4cd46255ffa8009ff432b3574616290d766a6abde5e5c8a576467c8c75 |
+| percona/percona-distribution-postgresql-with-postgis:15.19-3-ubi10 (ARM64)                    | 59ebcafb1e3e1ae80ab0134495ea99a8124f63f896b04b3a86c5299f71d0a0b0 |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3-ubi10 (x86_64)                   | e40485ad24d1f50ee2967b28ce27e877c17101396c9910736d0d931c35a7f475 |
+| percona/percona-distribution-postgresql-with-postgis:14.24-3-ubi10 (ARM64)                    | 7e4980cd2dfecf3acf84cd74e3b93e170a9a6fdbe32f2bf962c048e80ca3c052 |
+| percona/fluentbit:5.1.1-1-ubi10 (x86_64)                                                      | 6deee2b13c03511605ecfb3fec1d5e5121aee63fa425c5bd4c9b51fe1a76ff7d |
+| percona/fluentbit:5.1.1-1-ubi10 (ARM64)                                                       | 77dd38e8bee9ddadfe5e0813519415c780ab044b17832a7faa5e940d8e2b6017 |

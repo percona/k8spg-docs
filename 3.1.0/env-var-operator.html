@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7166,15 +7166,15 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="configure-the-operator-environment-variables">Configure the Operator environment variables<a class="headerlink" href="#configure-the-operator-environment-variables" title="Permanent link">¶</a></h1>
+<h1 id="configure-the-operator-environment-variables">Configure the Operator environment variables<a data-markdown-ignore class="headerlink" href="#configure-the-operator-environment-variables" title="Permanent link">¶</a></h1>
 <p>You can configure the Percona Operator for PostgreSQL behavior by setting environment variables in the Operator Deployment. You can set them when you install the Operator in the following ways:</p>
 <ul>
 <li>For installations via <code>kubectl</code>, edit the Operator Deployment manifest <code>deploy/operator.yaml</code> or <code>deploy/cw-operator.yaml</code>. Alternatively you can modify the Deployment resource in <code>deploy/bundle.yaml</code>, or <code>deploy/cw-bundle.yaml</code> files.</li>
 <li>For Helm installations you can set environment variables through Helm values when you install the <code>percona/pg-operator</code> chart.</li>
 <li>For installations on OpenShift, you can edit the manifests and apply them with the <code>oc apply</code> command. If you installed via the <a href="openshift.html#install-via-the-operator-lifecycle-manager-olm">Operator Lifecycle Manager (OLM)</a>, you can configure environment variables through the OLM subscription.</li>
 </ul>
-<h2 id="available-environment-variables">Available environment variables<a class="headerlink" href="#available-environment-variables" title="Permanent link">¶</a></h2>
-<h3 id="log_level"><code>LOG_LEVEL</code><a class="headerlink" href="#log_level" title="Permanent link">¶</a></h3>
+<h2 id="available-environment-variables">Available environment variables<a data-markdown-ignore class="headerlink" href="#available-environment-variables" title="Permanent link">¶</a></h2>
+<h3 id="log_level"><code>LOG_LEVEL</code><a data-markdown-ignore class="headerlink" href="#log_level" title="Permanent link">¶</a></h3>
 <p>Controls the verbosity of the Operator’s logging output. This helps with debugging and monitoring the Operator behavior. </p>
 <table>
 <thead>
@@ -7207,7 +7207,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_LEVEL</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"DEBUG"</span>
 </code></pre></div>
-<h3 id="disable_telemetry"><code>DISABLE_TELEMETRY</code><a class="headerlink" href="#disable_telemetry" title="Permanent link">¶</a></h3>
+<h3 id="disable_telemetry"><code>DISABLE_TELEMETRY</code><a data-markdown-ignore class="headerlink" href="#disable_telemetry" title="Permanent link">¶</a></h3>
 <p>Controls whether the Operator sends anonymous telemetry data to Percona. Telemetry helps Percona understand usage patterns and improve the Operator. </p>
 <table>
 <thead>
@@ -7235,7 +7235,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">DISABLE_TELEMETRY</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
 </code></pre></div>
-<h3 id="pgo_feature_gates"><code>PGO_FEATURE_GATES</code><a class="headerlink" href="#pgo_feature_gates" title="Permanent link">¶</a></h3>
+<h3 id="pgo_feature_gates"><code>PGO_FEATURE_GATES</code><a data-markdown-ignore class="headerlink" href="#pgo_feature_gates" title="Permanent link">¶</a></h3>
 <p>Enables experimental or advanced features in the Operator. Feature gates allow you to opt into specific functionality that may not be enabled by default.</p>
 <p>The value is a comma-separated list of feature gate key-value pairs. By default this variable is not set in the Operator.</p>
 <table>
@@ -7275,7 +7275,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_FEATURE_GATES</span>
 <span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"AutoGrowVolumes=true,BackupSnapshots=true"</span>
 </code></pre></div>
-<h3 id="log_structured"><code>LOG_STRUCTURED</code><a class="headerlink" href="#log_structured" title="Permanent link">¶</a></h3>
+<h3 id="log_structured"><code>LOG_STRUCTURED</code><a data-markdown-ignore class="headerlink" href="#log_structured" title="Permanent link">¶</a></h3>
 <p>Controls whether the Operator outputs logs in a structured JSON format instead of the plain text. Structured logging is useful for log aggregation tools.</p>
 <table>
 <thead>
@@ -7302,7 +7302,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LOG_STRUCTURED</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"true"</span>
 </code></pre></div>
-<h3 id="pgo_workers"><code>PGO_WORKERS</code><a class="headerlink" href="#pgo_workers" title="Permanent link">¶</a></h3>
+<h3 id="pgo_workers"><code>PGO_WORKERS</code><a data-markdown-ignore class="headerlink" href="#pgo_workers" title="Permanent link">¶</a></h3>
 <p>Specifies the number of worker threads the Operator uses to process events and reconcile resources. This controls the Operator’s concurrency. Default value is <code>1</code>.</p>
 <table>
 <thead>
@@ -7335,7 +7335,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_WORKERS</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"4"</span>
 </code></pre></div>
-<h3 id="watch_namespace"><code>WATCH_NAMESPACE</code><a class="headerlink" href="#watch_namespace" title="Permanent link">¶</a></h3>
+<h3 id="watch_namespace"><code>WATCH_NAMESPACE</code><a data-markdown-ignore class="headerlink" href="#watch_namespace" title="Permanent link">¶</a></h3>
 <p>Specifies which namespaces the Operator watches for Custom Resources (PerconaPGCluster and related resources). This is a critical configuration for determining the Operator’s scope of operation. </p>
 <p>By default, the value is set to the Operator’s own namespace from the <code>metadata.namespace</code> option via a downward API <code>fieldRef</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WATCH_NAMESPACE</span>
@@ -7374,7 +7374,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WATCH_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"pg-operator,percona-db-1,percona-db-2"</span>
 </code></pre></div>
-<h3 id="pgo_namespace"><code>PGO_NAMESPACE</code><a class="headerlink" href="#pgo_namespace" title="Permanent link">¶</a></h3>
+<h3 id="pgo_namespace"><code>PGO_NAMESPACE</code><a data-markdown-ignore class="headerlink" href="#pgo_namespace" title="Permanent link">¶</a></h3>
 <p>Specifies the Kubernetes namespace where the Operator itself is deployed and runs. The value is set automatically by Kubernetes from <code>metadata.namespace</code> via a downward API <code>fieldRef</code>.</p>
 <p>This variable is used by the Operator to refer objects like Secrets for the normal functioning of the Operator.</p>
 <p>This is particularly important in <a href="cluster-wide.html">cluster-wide</a> deployment scenarios where the Operator manages resources across multiple namespaces.</p>
@@ -7386,7 +7386,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"pg-operator"</span>
 </code></pre></div>
-<h3 id="pgo_controller_leader_election_enabled"><code>PGO_CONTROLLER_LEADER_ELECTION_ENABLED</code><a class="headerlink" href="#pgo_controller_leader_election_enabled" title="Permanent link">¶</a></h3>
+<h3 id="pgo_controller_leader_election_enabled"><code>PGO_CONTROLLER_LEADER_ELECTION_ENABLED</code><a data-markdown-ignore class="headerlink" href="#pgo_controller_leader_election_enabled" title="Permanent link">¶</a></h3>
 <p>Controls whether the Operator uses leader election. Leader election ensures only one Operator instance manages resources when multiple replicas run. Set to <code>"false"</code> to disable leader election (single-replica deployments only).</p>
 <table>
 <thead>
@@ -7412,7 +7412,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEADER_ELECTION_ENABLED</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"false"</span>
 </code></pre></div>
-<h3 id="pgo_controller_lease_name"><code>PGO_CONTROLLER_LEASE_NAME</code><a class="headerlink" href="#pgo_controller_lease_name" title="Permanent link">¶</a></h3>
+<h3 id="pgo_controller_lease_name"><code>PGO_CONTROLLER_LEASE_NAME</code><a data-markdown-ignore class="headerlink" href="#pgo_controller_lease_name" title="Permanent link">¶</a></h3>
 <p>Specifies the name of the Lease resource used for the leader lock. Leave empty to use the default Lease <code>08db3feb.percona.com</code> .</p>
 <table>
 <thead>
@@ -7438,7 +7438,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEASE_NAME</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"my-lease"</span>
 </code></pre></div>
-<h3 id="pgo_controller_lease_duration"><code>PGO_CONTROLLER_LEASE_DURATION</code><a class="headerlink" href="#pgo_controller_lease_duration" title="Permanent link">¶</a></h3>
+<h3 id="pgo_controller_lease_duration"><code>PGO_CONTROLLER_LEASE_DURATION</code><a data-markdown-ignore class="headerlink" href="#pgo_controller_lease_duration" title="Permanent link">¶</a></h3>
 <p>Duration that non-leader candidates wait before forcing leader acquisition. This is measured against the time of last observed acknowledgment. Uses Go duration format (for example, <code>60s</code>). You can increase this value if the Operator experiences leader election failures in high-latency or resource-constrained environments.</p>
 <table>
 <thead>
@@ -7464,7 +7464,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_LEASE_DURATION</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"90s"</span>
 </code></pre></div>
-<h3 id="pgo_controller_renew_deadline"><code>PGO_CONTROLLER_RENEW_DEADLINE</code><a class="headerlink" href="#pgo_controller_renew_deadline" title="Permanent link">¶</a></h3>
+<h3 id="pgo_controller_renew_deadline"><code>PGO_CONTROLLER_RENEW_DEADLINE</code><a data-markdown-ignore class="headerlink" href="#pgo_controller_renew_deadline" title="Permanent link">¶</a></h3>
 <p>Duration that the acting leader retries refreshing the lease before giving up. Uses Go duration format (for example, <code>60s</code>).</p>
 <table>
 <thead>
@@ -7490,7 +7490,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_RENEW_DEADLINE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"60s"</span>
 </code></pre></div>
-<h3 id="pgo_controller_retry_period"><code>PGO_CONTROLLER_RETRY_PERIOD</code><a class="headerlink" href="#pgo_controller_retry_period" title="Permanent link">¶</a></h3>
+<h3 id="pgo_controller_retry_period"><code>PGO_CONTROLLER_RETRY_PERIOD</code><a data-markdown-ignore class="headerlink" href="#pgo_controller_retry_period" title="Permanent link">¶</a></h3>
 <p>Duration between leader election retry attempts. Uses Go duration format (for example, <code>60s</code>).</p>
 <table>
 <thead>
@@ -7516,7 +7516,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PGO_CONTROLLER_RETRY_PERIOD</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"15s"</span>
 </code></pre></div>
-<h3 id="pprof_bind_address"><code>PPROF_BIND_ADDRESS</code><a class="headerlink" href="#pprof_bind_address" title="Permanent link">¶</a></h3>
+<h3 id="pprof_bind_address"><code>PPROF_BIND_ADDRESS</code><a data-markdown-ignore class="headerlink" href="#pprof_bind_address" title="Permanent link">¶</a></h3>
 <p>Specifies the TCP address that the controller binds to for serving pprof profiling endpoints. Use this when you need to collect CPU or memory profiles or investigate Operator performance issues.</p>
 <table>
 <thead>
@@ -7544,7 +7544,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PPROF_BIND_ADDRESS</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"127.0.0.1:6060"</span>
 </code></pre></div>
-<h3 id="certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code><a class="headerlink" href="#certmanager_namespace" title="Permanent link">¶</a></h3>
+<h3 id="certmanager_namespace"><code>CERTMANAGER_NAMESPACE</code><a data-markdown-ignore class="headerlink" href="#certmanager_namespace" title="Permanent link">¶</a></h3>
 <p>Specifies the namespace where the Operator creates the CA <code>Certificate</code> when <a href="operator.html#tlsissuerconfkind"><code>tls.issuerConf.kind</code></a> is <code>ClusterIssuer</code> and the Operator manages the CA chain. Available starting with Operator 3.1.0.</p>
 <table>
 <thead>
@@ -7576,8 +7576,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">CERTMANAGER_NAMESPACE</span>
 <span class="w">      </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="s">"cert-manager"</span>
 </code></pre></div>
-<h2 id="update-environment-variables">Update environment variables<a class="headerlink" href="#update-environment-variables" title="Permanent link">¶</a></h2>
-<h3 id="using-kubectl-patch">Using kubectl patch<a class="headerlink" href="#using-kubectl-patch" title="Permanent link">¶</a></h3>
+<h2 id="update-environment-variables">Update environment variables<a data-markdown-ignore class="headerlink" href="#update-environment-variables" title="Permanent link">¶</a></h2>
+<h3 id="using-kubectl-patch">Using kubectl patch<a data-markdown-ignore class="headerlink" href="#using-kubectl-patch" title="Permanent link">¶</a></h3>
 <p>You can update environment variables in an existing Operator Deployment by applying a patch. To keep existing variables, include the full list in your patch.</p>
 <ol>
 <li>
@@ -7589,9 +7589,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Edit the output to add or change a variable (for example <code>PGO_WORKERS</code>), then apply a patch with the full <code>env</code> list. Alternatively, patch a single entry by index (see <a href="reconciliation-concurrency.html">Configure concurrency for a cluster reconciliation</a>).</p>
 </li>
 </ol>
-<h3 id="using-helm">Using Helm<a class="headerlink" href="#using-helm" title="Permanent link">¶</a></h3>
+<h3 id="using-helm">Using Helm<a data-markdown-ignore class="headerlink" href="#using-helm" title="Permanent link">¶</a></h3>
 <p>For Helm installations, set or change environment variables through Helm values (for example <code>logLevel</code>, <code>logStructured</code>, <code>disableTelemetry</code>, <code>watchNamespace</code>, <code>watchAllNamespaces</code>). Refer to the <a href="https://github.com/percona/percona-helm-charts/tree/main/charts/pg-operator">pg-operator chart</a> documentation for the exact value names and syntax. To add variables not exposed by the chart, use a chart value that merges extra env entries if supported, or switch to patching the Deployment after install.</p>
-<h2 id="after-the-update">After the update<a class="headerlink" href="#after-the-update" title="Permanent link">¶</a></h2>
+<h2 id="after-the-update">After the update<a data-markdown-ignore class="headerlink" href="#after-the-update" title="Permanent link">¶</a></h2>
 <p>After you change environment variables, the Operator Pod is restarted so the new configuration takes effect.</p>
 <hr>
 <div class="md-source-file">

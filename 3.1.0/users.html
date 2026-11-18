@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7066,11 +7066,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="users">Users<a class="headerlink" href="#users" title="Permanent link">¶</a></h1>
+<h1 id="users">Users<a data-markdown-ignore class="headerlink" href="#users" title="Permanent link">¶</a></h1>
 <p>The Percona Operator for PostgreSQL includes built-in functionality to simplify management of users and databases within your PostgreSQL cluster. By default, the Operator creates a single unprivileged user and the database that matches the cluster name. </p>
 <p>However, many production workloads require more granular user access, separate databases for different applications, or restricted privileges for security and compliance. With the Operator, you can define custom users and manage their access to your database cluster resources.</p>
 <p>This document explains how you can customize user and database management for your specific use case.</p>
-<h2 id="understanding-default-user-management">Understanding default user management<a class="headerlink" href="#understanding-default-user-management" title="Permanent link">¶</a></h2>
+<h2 id="understanding-default-user-management">Understanding default user management<a data-markdown-ignore class="headerlink" href="#understanding-default-user-management" title="Permanent link">¶</a></h2>
 <p>When you create a PostgreSQL cluster with the Operator and do not specify any additional users or databases, the Operator does the following:</p>
 <ol>
 <li>Creates a database that matches the name of your PostgreSQL cluster.</li>
@@ -7096,13 +7096,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>A PostgreSQL user named <code>cluster1</code>.</li>
 <li>A Secret named <code>cluster1-pguser-cluster1</code> that contains the user credentials and connection information.</li>
 </ul>
-<h2 id="custom-users-and-databases">Custom users and databases<a class="headerlink" href="#custom-users-and-databases" title="Permanent link">¶</a></h2>
+<h2 id="custom-users-and-databases">Custom users and databases<a data-markdown-ignore class="headerlink" href="#custom-users-and-databases" title="Permanent link">¶</a></h2>
 <p>You can add and manage custom users and databases using the <code>spec.users</code> section in the Custom Resource. You can do this:</p>
 <ul>
 <li>at the cluster creation time </li>
 <li>at runtime. </li>
 </ul>
-<h3 id="considerations">Considerations<a class="headerlink" href="#considerations" title="Permanent link">¶</a></h3>
+<h3 id="considerations">Considerations<a data-markdown-ignore class="headerlink" href="#considerations" title="Permanent link">¶</a></h3>
 <p>Here’s what you need to know:</p>
 <p><strong>Adding custom users and databases:</strong></p>
 <ul>
@@ -7129,7 +7129,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Similarly, the Operator does <strong>not</strong> automatically drop databases when you remove them from the Custom Resource. (See how to actually drop a database <a href="users.html#deleting-users-and-databases">here</a>.)</li>
 <li>Role attributes (such as SUPERUSER) are not automatically removed if you delete them from the Custom Resource. You must specify the opposite attribute (e.g., <code>NOSUPERUSER</code>) to explicitly revoke privileges.</li>
 </ul>
-<h3 id="creating-a-new-user">Creating a new user<a class="headerlink" href="#creating-a-new-user" title="Permanent link">¶</a></h3>
+<h3 id="creating-a-new-user">Creating a new user<a data-markdown-ignore class="headerlink" href="#creating-a-new-user" title="Permanent link">¶</a></h3>
 <p>Change <code>PerconaPGCluster</code> Custom Resource by editing your YAML manifest in the <code>deploy/cr.yaml</code> configuration file:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">spec</span><span class="p">:</span>
@@ -7150,8 +7150,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgtest</span><span class="w"> </span>
 </code></pre></div>
 <p>If you inspect the <code>&lt;clusterName&gt;-pguser-perconapg</code> Secret after applying the changes, you will see <code>dbname</code> and <code>uri</code> options populated there, and the database <code>pgtest</code> is created in PostgreSQL as well.</p>
-<h3 id="managing-user-passwords">Managing user passwords<a class="headerlink" href="#managing-user-passwords" title="Permanent link">¶</a></h3>
-<h4 id="operator-generated-passwords">Operator-generated passwords<a class="headerlink" href="#operator-generated-passwords" title="Permanent link">¶</a></h4>
+<h3 id="managing-user-passwords">Managing user passwords<a data-markdown-ignore class="headerlink" href="#managing-user-passwords" title="Permanent link">¶</a></h3>
+<h4 id="operator-generated-passwords">Operator-generated passwords<a data-markdown-ignore class="headerlink" href="#operator-generated-passwords" title="Permanent link">¶</a></h4>
 <p>The Operator generates a random password for each PostgreSQL user it creates. PostgreSQL allows almost any character
 in its passwords and the Operator generates passwords in <a href="https://en.wikipedia.org/wiki/ASCII">ASCII</a> format by default. </p>
 <p>Your application may have stricter requirements to password creation. For example, if you need passwords without special characters, set the <code>spec.users.password.type</code> field for that user to <code>AlphaNumeric</code>.</p>
@@ -7160,7 +7160,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span>postgres-operator<span class="w"> </span>cluster1-pguser-cluster1<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"data":{"password":""}}'</span>
 </code></pre></div>
 <p>Replace the namespace and the secret name with your values to reuse this command.</p>
-<h4 id="custom-passwords">Custom passwords<a class="headerlink" href="#custom-passwords" title="Permanent link">¶</a></h4>
+<h4 id="custom-passwords">Custom passwords<a data-markdown-ignore class="headerlink" href="#custom-passwords" title="Permanent link">¶</a></h4>
 <p>You may want a complete control over user passwords by setting a specific password for a PostgreSQL user instead of letting Percona Operator for PostgreSQL generate one for you. To do that, create a user Secret and specify the password within.</p>
 <p>When you create a user Secret, the way you name it is important:</p>
 <ul>
@@ -7205,7 +7205,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 </li>
 <li>
 <p>Add a user and reference the Secret for them in the Custom Resource:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">via cr.yaml</label><label for="__tabbed_1_2">via kubectl patch</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">via cr.yaml</label><label for="__tabbed_1_2">via kubectl patch</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="w"> </span><span class="nt">users</span><span class="p">:</span>
@@ -7247,7 +7247,7 @@ in its passwords and the Operator generates passwords in <a href="https://en.wik
 <p>Verify that the user is created by <a href="connect.html">connecting to the database</a> as your custom user. </p>
 </li>
 </ol>
-<h4 id="password-rotation">Password rotation<a class="headerlink" href="#password-rotation" title="Permanent link">¶</a></h4>
+<h4 id="password-rotation">Password rotation<a data-markdown-ignore class="headerlink" href="#password-rotation" title="Permanent link">¶</a></h4>
 <p>If you want to rotate a user’s password, just remove the old password in the
 corresponding Secret: the Operator will immediately generate a new password
 and save it to the appropriate Secret. You can remove the old password with the
@@ -7257,7 +7257,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <p>In the same way you can update a password with your custom one for the user. Do it as follows:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>secret<span class="w"> </span>&lt;clusterName&gt;-pguser-&lt;userName&gt;<span class="w"> </span>-p<span class="w"> </span><span class="s1">'{"stringData":{"password":"&lt;custom_password&gt;", "verifier":""}}'</span>
 </code></pre></div>
-<h3 id="adjusting-privileges">Adjusting privileges<a class="headerlink" href="#adjusting-privileges" title="Permanent link">¶</a></h3>
+<h3 id="adjusting-privileges">Adjusting privileges<a data-markdown-ignore class="headerlink" href="#adjusting-privileges" title="Permanent link">¶</a></h3>
 <p>You can set role privileges by using the standard <a href="https://www.postgresql.org/docs/current/role-attributes.html">role attributes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> that PostgreSQL provides and adding them to the <code>spec.users.options</code> subsection in the Custom Resource. </p>
 <p><strong>Grant privileges</strong></p>
 <p>The following example will make the <code>perconapg</code> a superuser. You can add the following to the spec in your <code>deploy/cr.yaml</code>:</p>
@@ -7289,7 +7289,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgtest</span>
 <span class="w">      </span><span class="nt">options</span><span class="p">:</span><span class="w"> </span><span class="s">"NOSUPERUSER"</span>
 </code></pre></div>
-<h3 id="postgres-user"><code>postgres</code> User<a class="headerlink" href="#postgres-user" title="Permanent link">¶</a></h3>
+<h3 id="postgres-user"><code>postgres</code> User<a data-markdown-ignore class="headerlink" href="#postgres-user" title="Permanent link">¶</a></h3>
 <p>By default, the Operator does not create the <code>postgres</code> user. You can create it by applying the following change to your Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
 <span class="nt">spec</span><span class="p">:</span>
@@ -7297,7 +7297,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres</span>
 </code></pre></div>
 <p>This will create a Secret named <code>&lt;clusterName&gt;-pguser-postgres</code> that contains the credentials of the <code>postgres</code> user. The Operator creates a user <code>postgres</code> who can access the <code>postgres</code> database.</p>
-<h3 id="deleting-users-and-databases">Deleting users and databases<a class="headerlink" href="#deleting-users-and-databases" title="Permanent link">¶</a></h3>
+<h3 id="deleting-users-and-databases">Deleting users and databases<a data-markdown-ignore class="headerlink" href="#deleting-users-and-databases" title="Permanent link">¶</a></h3>
 <p>The Operator does not delete users and databases automatically. After you remove the user from the Custom Resource, it will continue to exist in your cluster. To remove a user and all of its objects, as a superuser you will need to run <code>DROP OWNED</code> in each database the user has objects in, and <code>DROP ROLE</code> in your PostgreSQL cluster.</p>
 <div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="n">OWNED</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="n">perconapg</span><span class="p">;</span>
 <span class="k">DROP</span><span class="w"> </span><span class="k">ROLE</span><span class="w"> </span><span class="n">perconapg</span><span class="p">;</span>
@@ -7305,17 +7305,17 @@ and save it to the appropriate Secret. You can remove the old password with the
 <p>For databases, you should run the <code>DROP DATABASE</code> command as a superuser:</p>
 <div class="highlight"><pre><span></span><code><span class="k">DROP</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">pgtest</span><span class="p">;</span>
 </code></pre></div>
-<h3 id="system-users-for-pgbouncer">System users for pgBouncer<a class="headerlink" href="#system-users-for-pgbouncer" title="Permanent link">¶</a></h3>
+<h3 id="system-users-for-pgbouncer">System users for pgBouncer<a data-markdown-ignore class="headerlink" href="#system-users-for-pgbouncer" title="Permanent link">¶</a></h3>
 <p>The Operator creates internal users that applications should not use:</p>
 <ul>
 <li><code>_crunchypgbouncer</code> — used by pgBouncer to authenticate to PostgreSQL</li>
 <li><code>_crunchypgbounceradmin</code> — used by the Operator to issue <code>PAUSE</code> and <code>RESUME</code> on pgBouncer. Credentials are stored in the pgBouncer Secret as <code>pgbouncer-admin-password</code>.</li>
 </ul>
 <p>Do not define these names in <code>spec.users</code> or in a custom pgBouncer users Secret.</p>
-<h3 id="superuser-and-pgbouncer">Superuser and pgBouncer<a class="headerlink" href="#superuser-and-pgbouncer" title="Permanent link">¶</a></h3>
+<h3 id="superuser-and-pgbouncer">Superuser and pgBouncer<a data-markdown-ignore class="headerlink" href="#superuser-and-pgbouncer" title="Permanent link">¶</a></h3>
 <p>For security reasons we do not allow superusers to connect to cluster through pgBouncer by default. As a superuser, you can connect through the <code>primary</code> service. Read more about this service in <a href="expose.html">Expose the cluster documentation</a>.</p>
 <p>Otherwise you can use the <a href="operator.html#proxypgbouncerexposesuperusers">proxy.pgBouncer.exposeSuperusers</a> Custom Resource option to enable superusers to connect via pgBouncer.</p>
-<h4 id="add-extra-users-to-the-pgbouncer-authentication-file">Add extra users to the pgBouncer authentication file<a class="headerlink" href="#add-extra-users-to-the-pgbouncer-authentication-file" title="Permanent link">¶</a></h4>
+<h4 id="add-extra-users-to-the-pgbouncer-authentication-file">Add extra users to the pgBouncer authentication file<a data-markdown-ignore class="headerlink" href="#add-extra-users-to-the-pgbouncer-authentication-file" title="Permanent link">¶</a></h4>
 <p>By default the Operator generates the pgBouncer user list and stores it in the <code>&lt;cluster-name&gt;-pgbouncer</code> Secret as <code>pgbouncer-users.txt</code> key. If you edit that Secret, the Operator can overwrite your changes the next time it reconciles the cluster, such as when you update the Custom Resource.</p>
 <p>To add extra pgBouncer users  that persist, create your own Secret and reference it with <code>spec.proxy.pgBouncer.usersSecret</code>. A typical use is a dedicated user for a monitoring agent that queries pgBouncer.</p>
 <p>The steps are:</p>
@@ -7345,7 +7345,7 @@ and save it to the appropriate Secret. You can remove the old password with the
 </li>
 <li>
 <p>Reference the Secret in the Custom Resource:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div class="tabbed-labels"><label for="__tabbed_2_1">via cr.yaml</label><label for="__tabbed_2_2">via kubectl patch</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio"><input id="__tabbed_2_2" name="__tabbed_2" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_2_1">via cr.yaml</label><label for="__tabbed_2_2">via kubectl patch</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7010,13 +7010,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-300-2026-05-22">Percona Operator for PostgreSQL 3.0.0 (2026-05-22)<a class="headerlink" href="#percona-operator-for-postgresql-300-2026-05-22" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-300-2026-05-22">Percona Operator for PostgreSQL 3.0.0 (2026-05-22)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-300-2026-05-22" title="Permanent link">¶</a></h1>
 <p><a class="md-button" href="../quickstart.html">Get started with the Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg></span></a></p>
 <p>We are excited to announce the release of Percona Operator for PostgreSQL 3.0.0 — a new major release that marks a new chapter for the Operator and everyone who relies on it.</p>
 <p>As of version 3.0.0, Percona Operator for PostgreSQL becomes a <strong>hard fork of the <a href="https://github.com/CrunchyData/postgres-operator">Crunchy PGO project <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a></strong>. This marks a significant change in how the Operator is built and maintained going forward.</p>
 <p>As a hard fork, Percona Operator for PostgreSQL is now fully independent, empowering the Percona team and community to drive and rapidly deliver features and improvements tailored to user needs. This shift brings long-term sustainability, greater flexibility, and a product that evolves in direct response to community feedback and real-world requirements.</p>
-<h2 id="release-highlights">Release highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
-<h3 id="crunchy-crd-renaming-and-seamless-resource-migration">Crunchy CRD renaming and seamless resource migration<a class="headerlink" href="#crunchy-crd-renaming-and-seamless-resource-migration" title="Permanent link">¶</a></h3>
+<h2 id="release-highlights">Release highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h3 id="crunchy-crd-renaming-and-seamless-resource-migration">Crunchy CRD renaming and seamless resource migration<a data-markdown-ignore class="headerlink" href="#crunchy-crd-renaming-and-seamless-resource-migration" title="Permanent link">¶</a></h3>
 <p>With this release, all Crunchy CRDs are renamed and moved under a new API group <code>upstream.pgv2.percona.com</code>. All references to Crunchy CRDs in dependent objects, such as Custom Resources, Deployments, Secrets, ConfigMaps, Jobs, and so on, are updated accordingly.</p>
 <p>When you update from the earlier Operator versions to 3.0.0 and newer, new API group CRDs are created alongside the legacy CRDs to keep existing workflows uninterrupted. Then the Operator automatically migrates all resources that depend on the legacy CRDs to the new API group. No manual intervention is required.</p>
 <div class="admonition important">
@@ -7031,7 +7031,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Smooth migration from Crunchy Operator to Percona Operator using native PostgreSQL techniques and without re-architecting your deployments</li>
 </ul>
 <p>For how to migrate to Percona Operator from Crunchy PGO, see our <a href="../migrate-from-crunchy.html">documentaton</a>.</p>
-<h3 id="improved-namespace-scoping-for-operator-olm-installations-from-community-catalogues">Improved namespace scoping for Operator OLM installations from Community catalogues<a class="headerlink" href="#improved-namespace-scoping-for-operator-olm-installations-from-community-catalogues" title="Permanent link">¶</a></h3>
+<h3 id="improved-namespace-scoping-for-operator-olm-installations-from-community-catalogues">Improved namespace scoping for Operator OLM installations from Community catalogues<a data-markdown-ignore class="headerlink" href="#improved-namespace-scoping-for-operator-olm-installations-from-community-catalogues" title="Permanent link">¶</a></h3>
 <p>When you install the Operator from a Community catalogue through OpenShift Lifecycle Manager (OLM), it now honors the namespace scope as defined by its <code>OperatorGroup</code> settings:</p>
 <ul>
 <li><strong>All namespaces</strong> — The Operator watches all namespaces, as intended for this mode. In earlier releases, it watched only its own installation namespace, which left PostgreSQL custom resources in other namespaces unmanaged.</li>
@@ -7059,15 +7059,15 @@ If you use the command-line, update the subscription and approve the Install Pla
 See our [documentation](../update-openshift.md#before-you-start) for the step-by-step instructions.
 -->
 
-<h3 id="official-docker-image-for-major-version-upgrades">Official Docker image for major version upgrades<a class="headerlink" href="#official-docker-image-for-major-version-upgrades" title="Permanent link">¶</a></h3>
+<h3 id="official-docker-image-for-major-version-upgrades">Official Docker image for major version upgrades<a data-markdown-ignore class="headerlink" href="#official-docker-image-for-major-version-upgrades" title="Permanent link">¶</a></h3>
 <p>Starting with this release, the Operator performs major upgrades using the official Percona Docker image: <code>percona/percona-distribution-postgresql-upgrade:&lt;available-upgrade-versions&gt;</code>.</p>
 <p>Refer to our <a href="../update-db-major.html">major upgrade documentation</a> for detailed instructions, including the updated image path.</p>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>The support of version 2.7.0 is dropped from CRDs. </li>
 </ul>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
-<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
+<h2 id="changelog">Changelog<a data-markdown-ignore class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
+<h3 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1007">K8SPG-1007</a> - Renamed upstream Custom Resource Definitions (CRDs) to simplify migration from other PostgreSQL operators. This change allows users to install the Percona Operator for PostgreSQL alongside existing installations without resource conflicts or API group overlapping.</p>
@@ -7079,7 +7079,7 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1022">K8SPG-1022</a> - Updated the major upgrade documentation to include critical instructions for the <code>pgaudit</code> extension. Users are now guided to drop and reinstall the extension during the upgrade process to ensure it functions correctly on the new version.</p>
 </li>
 </ul>
-<h3 id="fixed-bugs">Fixed bugs<a class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
+<h3 id="fixed-bugs">Fixed bugs<a data-markdown-ignore class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-737">K8SPG-737</a> - Fixed an issue where disk usage statistics were not accessible by PMM <code>node_exporter</code> in PostgreSQL pods. The update ensures the data directory is correctly exposed to the monitoring sidecar, enabling full visibility into storage metrics through PMM.</p>
@@ -7091,13 +7091,13 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-1017">K8SPG-1017</a> - Resolved a critical issue where upgrading to version 2.9.0 caused TLS configurations to unexpectedly switch from the internal PKI to cert-manager. This fix prevents unwanted certificate re-issuance and service disruption for clusters that rely on the Operator’s internal certificate management.</p>
 </li>
 </ul>
-<h3 id="documentation-updates">Documentation updates<a class="headerlink" href="#documentation-updates" title="Permanent link">¶</a></h3>
+<h3 id="documentation-updates">Documentation updates<a data-markdown-ignore class="headerlink" href="#documentation-updates" title="Permanent link">¶</a></h3>
 <ul>
 <li>Created <a href="../migrate-from-crunchy.html">Migration from Crunchy Postgres Operator to Percona Operator for PostgreSQL tutorials</a></li>
 <li>Improved the <a href="../update-db-major.html#post-upgrade-steps">major upgrade description</a> for users of <code>pgAudit</code> extension.</li>
 <li>Database cluster upgrade documentation now uses PostgreSQL 18 as the default example in upgrade commands. If you are upgrading a cluster running PostgreSQL 17 or below, refer to the <a href="../images.html">certified images list</a> to determine the correct version and image tags.</li>
 </ul>
-<h2 id="supported-software">Supported software<a class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
+<h2 id="supported-software">Supported software<a data-markdown-ignore class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
 <p>This Operator version is developed, tested and based on:</p>
 <ul>
 <li>PostgreSQL 14.23-1, 15.18-1, 16.14-1, 17.10-1, 18.4-1 as the database. Other versions may also work but have not been tested.</li>
@@ -7107,7 +7107,7 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 <li>PostGIS version 3.5.6</li>
 <li>PMM Client version 2.44.1-1 and 3.7.1</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below:</p>
 <ul>
@@ -7118,7 +7118,7 @@ See our [documentation](../update-openshift.md#before-you-start) for the step-by
 <li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> 1.38.1 with Kubernetes v1.35.1</li>
 </ul>
 <p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
-<h2 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
+<h2 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
 <p>Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.</p>
 <table>
 <thead>

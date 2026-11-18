@@ -140,7 +140,7 @@ Patroni dynamic configuration .">
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6802,7 +6802,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="changing-postgresql-options">Changing PostgreSQL options<a class="headerlink" href="#changing-postgresql-options" title="Permanent link">¶</a></h1>
+<h1 id="changing-postgresql-options">Changing PostgreSQL options<a data-markdown-ignore class="headerlink" href="#changing-postgresql-options" title="Permanent link">¶</a></h1>
 <p>You can pass PostgreSQL parameters to cluster instances through the Custom Resource.
 The Operator applies them with
 <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html">Patroni dynamic configuration <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
@@ -6813,7 +6813,7 @@ override that value. See <a href="immutable-options.html">Immutable options</a> 
 <code>patronictl show-config</code> inside a PostgreSQL Pod. See
 <a href="manage-manually.html#override-postgresql-parameters">Manage a database manually</a>.</p>
 <p>This page shows how to pass additional options to PostgreSQL.</p>
-<h2 id="how-to-pass-postgresql-options">How to pass PostgreSQL options<a class="headerlink" href="#how-to-pass-postgresql-options" title="Permanent link">¶</a></h2>
+<h2 id="how-to-pass-postgresql-options">How to pass PostgreSQL options<a data-markdown-ignore class="headerlink" href="#how-to-pass-postgresql-options" title="Permanent link">¶</a></h2>
 <p>Add parameters under <code>patroni.dynamicConfiguration.postgresql.parameters</code> in your
 <code>deploy/cr.yaml</code> Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">...</span>
@@ -6845,7 +6845,7 @@ the <code>patroni.dynamicConfiguration.postgresql.parameters</code> subsection a
 Other Patroni options in the <code>patroni.dynamicConfiguration</code> subsection are
 ignored.</p>
 </div>
-<h3 id="example-override-an-operator-default-wal_level">Example: override an Operator default (<code>wal_level</code>)<a class="headerlink" href="#example-override-an-operator-default-wal_level" title="Permanent link">¶</a></h3>
+<h3 id="example-override-an-operator-default-wal_level">Example: override an Operator default (<code>wal_level</code>)<a data-markdown-ignore class="headerlink" href="#example-override-an-operator-default-wal_level" title="Permanent link">¶</a></h3>
 <p>The Operator sets <code>wal_level</code> to <code>logical</code> by default. That value supports
 logical replication and also increases WAL volume and I/O compared with
 <code>replica</code>.</p>
@@ -6870,7 +6870,7 @@ more WAL data.</p>
 </code></pre></div>
 <p><code>wal_level</code> has the postmaster context. After you change it, Patroni restarts
 all PostgreSQL instances.</p>
-<h2 id="using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a class="headerlink" href="#using-host-based-authentication-pg_hba" title="Permanent link">¶</a></h2>
+<h2 id="using-host-based-authentication-pg_hba">Using host-based authentication (pg_hba)<a data-markdown-ignore class="headerlink" href="#using-host-based-authentication-pg_hba" title="Permanent link">¶</a></h2>
 <p>PostgreSQL Host-Based Authentication (pg_hba) controls database access based on
 the client IP or hostname. Configure it in the
 <code>patroni.dynamicConfiguration.postgresql.pg_hba</code> section of the Custom Resource:</p>

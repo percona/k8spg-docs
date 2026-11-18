@@ -139,7 +139,7 @@ Older backups are automatically deleted.">
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6747,7 +6747,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="delete-the-unneeded-backup">Delete the unneeded backup<a class="headerlink" href="#delete-the-unneeded-backup" title="Permanent link">¶</a></h1>
+<h1 id="delete-the-unneeded-backup">Delete the unneeded backup<a data-markdown-ignore class="headerlink" href="#delete-the-unneeded-backup" title="Permanent link">¶</a></h1>
 <p>The maximum amount of stored backups is controlled by the <a href="backup-retention.html">retention policies</a>.
 Older backups are automatically deleted. </p>
 <p>Manual deleting of a previously saved backup requires not more than the backup
@@ -6758,7 +6758,7 @@ by the following command:</p>
 <p>When the name is known, backup can be deleted as follows:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>pg-backup/&lt;backup-name&gt;
 </code></pre></div>
-<h2 id="delete-backups-on-cluster-deletion">Delete backups on cluster deletion<a class="headerlink" href="#delete-backups-on-cluster-deletion" title="Permanent link">¶</a></h2>
+<h2 id="delete-backups-on-cluster-deletion">Delete backups on cluster deletion<a data-markdown-ignore class="headerlink" href="#delete-backups-on-cluster-deletion" title="Permanent link">¶</a></h2>
 <p>You can enable <a href="operator.html#finalizers-delete-backups"><code>percona.com/delete-backups</code> finalizer</a> in the Custom Resource (turned off by default) to ensure that all backups are removed when the cluster is deleted.
 If the finalizer is enabled, the Operator will delete all the backups from all the configured repos on cluster deletion. Besides removing all the physical backup files, finalizer will also delete all <code>pg-backup</code> objects.</p>
 <div class="admonition warning">

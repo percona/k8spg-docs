@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6768,7 +6768,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="trust-additional-cas-for-pgbouncer-client-mtls">Trust additional CAs for PgBouncer client mTLS<a class="headerlink" href="#trust-additional-cas-for-pgbouncer-client-mtls" title="Permanent link">¶</a></h1>
+<h1 id="trust-additional-cas-for-pgbouncer-client-mtls">Trust additional CAs for PgBouncer client mTLS<a data-markdown-ignore class="headerlink" href="#trust-additional-cas-for-pgbouncer-client-mtls" title="Permanent link">¶</a></h1>
 <p>To establish a mutual TLS (mTLS) between clients and PgBouncer, PgBouncer must trust the Certificate Authority (CA) that signed the client certificates.</p>
 <p>By default, pgBouncer trusts only the CA that the Operator manages when it creates TLS material for the cluster.
 Client certificates signed by an external CA fail verification. If you provide your custom CA via the <code>proxy.pgBouncer.customTLSSecret</code>, pgBouncer trusts that certificate, but you need to manage the whole certificate lifecycle yourself.</p>
@@ -6779,7 +6779,7 @@ management for the cluster.</p>
 <p>The same approach works when you already use
 <code>proxy.pgBouncer.customTLSSecret</code>. The Operator still merges the
 additional CA bundles into the trust material that PgBouncer mounts.</p>
-<h2 id="configure-additional-trusted-cas">Configure additional trusted CAs<a class="headerlink" href="#configure-additional-trusted-cas" title="Permanent link">¶</a></h2>
+<h2 id="configure-additional-trusted-cas">Configure additional trusted CAs<a data-markdown-ignore class="headerlink" href="#configure-additional-trusted-cas" title="Permanent link">¶</a></h2>
 <p class="power-number">The following steps use Operator-managed certificates and require clients
 to present a certificate that your external CA signed.</p>
 <ol>
@@ -6837,7 +6837,7 @@ certificate in <code>pgbouncer-frontend.ca-roots</code>. For a cluster named
 CA are both present.</p>
 <p>Propagation of the updated Secret into PgBouncer Pods and the
 configuration reload can take a few minutes.</p>
-<h2 id="connect-with-a-client-certificate">Connect with a client certificate<a class="headerlink" href="#connect-with-a-client-certificate" title="Permanent link">¶</a></h2>
+<h2 id="connect-with-a-client-certificate">Connect with a client certificate<a data-markdown-ignore class="headerlink" href="#connect-with-a-client-certificate" title="Permanent link">¶</a></h2>
 <p>Connect through the PgBouncer Service and present the client certificate
 and key. The client also verifies the PgBouncer server certificate with
 the cluster CA (from <code>&lt;cluster-name&gt;-cluster-cert</code> by default):</p>

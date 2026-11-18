@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6888,10 +6888,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="manual-management-of-database-clusters-deployed-with-percona-operator-for-postgresql">Manual management of database clusters deployed with Percona Operator for PostgreSQL<a class="headerlink" href="#manual-management-of-database-clusters-deployed-with-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
+<h1 id="manual-management-of-database-clusters-deployed-with-percona-operator-for-postgresql">Manual management of database clusters deployed with Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#manual-management-of-database-clusters-deployed-with-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
 <p>The purpose of the Operator is to automate database management tasks for you. However, you may need to manage the database cluster manually. For example, to troubleshoot issues or for maintenance. </p>
 <p>The following sections explain how you can manage your cluster manually. </p>
-<h2 id="disable-health-check-probes-for-maintenance">Disable health check probes for maintenance<a class="headerlink" href="#disable-health-check-probes-for-maintenance" title="Permanent link">¶</a></h2>
+<h2 id="disable-health-check-probes-for-maintenance">Disable health check probes for maintenance<a data-markdown-ignore class="headerlink" href="#disable-health-check-probes-for-maintenance" title="Permanent link">¶</a></h2>
 <p>Probes are tasks Kubernetes runs to gather information about the health and status of containers running within Pods. They serve as a mechanism to ensure the system is running smoothly by periodically checking the state of applications and services.</p>
 <p>Kubernetes has various types of probes:</p>
 <ul>
@@ -6943,7 +6943,7 @@ server started
 </code></pre></div>
 </li>
 </ol>
-<h2 id="stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode">Stop reconciliation by putting a cluster into an unmanaged mode<a class="headerlink" href="#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode" title="Permanent link">¶</a></h2>
+<h2 id="stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode">Stop reconciliation by putting a cluster into an unmanaged mode<a data-markdown-ignore class="headerlink" href="#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode" title="Permanent link">¶</a></h2>
 <p>The Operator reconciles the database cluster to ensure its current state doesn’t differ from the state defined in the configuration. It can automatically install, update, or repair the cluster when needed.</p>
 <p>By doing this, the Operator might interfere with your operations during the maintenance. Therefore, you can put a cluster in an unmanaged mode to stop the Operator from reconciling the cluster at all.</p>
 <p>Edit the <code>deploy/cr.yaml</code> Custom Resource manifest and set the <code>spec.unmanaged</code> option to <code>true</code>:</p>
@@ -6962,8 +6962,8 @@ server started
 <p class="admonition-title">Warning</p>
 <p>Putting a cluster in an unmanaged mode doesn’t disable any of the health check probes already configured for containers. The Operator is only responsible for configuring the probes, not for running them. Refer to the <a href="#disable-health-check-probes-for-maintenance">Disabling health check probes for maintenance</a> section for the steps.</p>
 </div>
-<h2 id="override-patroni-configuration">Override Patroni configuration<a class="headerlink" href="#override-patroni-configuration" title="Permanent link">¶</a></h2>
-<h3 id="for-a-whole-cluster">For a whole cluster<a class="headerlink" href="#for-a-whole-cluster" title="Permanent link">¶</a></h3>
+<h2 id="override-patroni-configuration">Override Patroni configuration<a data-markdown-ignore class="headerlink" href="#override-patroni-configuration" title="Permanent link">¶</a></h2>
+<h3 id="for-a-whole-cluster">For a whole cluster<a data-markdown-ignore class="headerlink" href="#for-a-whole-cluster" title="Permanent link">¶</a></h3>
 <p>The Operator creates a ConfigMap called <code>&lt;cluster-name&gt;-config</code> to store a Patroni cluster configuration. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in this ConfigMap and keep the changes, you need to annotate it using a special annotation <code>pgv2.percona.com/override-config</code>. </p>
 <p>Here is the example command for the cluster named <code>cluster1</code>:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
@@ -6990,7 +6990,7 @@ server started
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-config<span class="w"> </span>pgv2.percona.com/override-config-
 </code></pre></div>
 </div>
-<h3 id="for-an-individual-pod">For an individual Pod<a class="headerlink" href="#for-an-individual-pod" title="Permanent link">¶</a></h3>
+<h3 id="for-an-individual-pod">For an individual Pod<a data-markdown-ignore class="headerlink" href="#for-an-individual-pod" title="Permanent link">¶</a></h3>
 <p>Operator creates a ConfigMap called <code>&lt;pod-name&gt;-config</code> to store Patroni instance configuration for each Pod. If you just edit the ConfigMap contents, the Operator will immediately rewrite and remove your changes. To override anything in these ConfigMaps and keep the changes, you need to annotate them using a special annotation:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-config<span class="w"> </span>pgv2.percona.com/override-config<span class="o">=</span><span class="nb">true</span>
 </code></pre></div>
@@ -7030,7 +7030,7 @@ server started
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>cm<span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>pgv2.percona.com/override-config-
 </code></pre></div>
 </div>
-<h2 id="override-postgresql-parameters">Override PostgreSQL parameters<a class="headerlink" href="#override-postgresql-parameters" title="Permanent link">¶</a></h2>
+<h2 id="override-postgresql-parameters">Override PostgreSQL parameters<a data-markdown-ignore class="headerlink" href="#override-postgresql-parameters" title="Permanent link">¶</a></h2>
 <p>Use the <code>patronictl show-config</code> command to print PostgreSQL parameters used in the cluster. For example:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>cluster1-instance1-24b8-0<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>show-config
 </code></pre></div>
@@ -7113,7 +7113,7 @@ Apply these changes? [y/N]:
 <p class="admonition-title">Warning</p>
 <p>If you update any object controlled by the Operator, it’ll reconcile the cluster and your configuration changes will be reverted. You can <a href="#stop-reconciliation-by-putting-a-cluster-into-an-unmanaged-mode">put the cluster in an unmanaged mode</a> to prevent this.</p>
 </div>
-<h2 id="override-pg_hba-entries">Override <code>pg_hba</code> entries<a class="headerlink" href="#override-pg_hba-entries" title="Permanent link">¶</a></h2>
+<h2 id="override-pg_hba-entries">Override <code>pg_hba</code> entries<a data-markdown-ignore class="headerlink" href="#override-pg_hba-entries" title="Permanent link">¶</a></h2>
 <p>You may want to append entries to <code>pg_hba</code>. You can use the <code>spec.patroni.postgresl.pg_hba</code> field to add your rules. </p>
 <div class="highlight"><pre><span></span><code><span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6924,10 +6924,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="swap-roles-between-the-main-and-dr-sites">Swap roles between the Main and DR sites<a class="headerlink" href="#swap-roles-between-the-main-and-dr-sites" title="Permanent link">¶</a></h1>
+<h1 id="swap-roles-between-the-main-and-dr-sites">Swap roles between the Main and DR sites<a data-markdown-ignore class="headerlink" href="#swap-roles-between-the-main-and-dr-sites" title="Permanent link">¶</a></h1>
 <p>A planned switchover turns the DR site into the primary and the Main site into the standby, while both sites stay healthy. Use it for maintenance, for a disaster recovery drill, or to move the primary to another region. If the Main site is already lost, <a href="standby-failover.html">promote the standby</a> instead.</p>
 <p>Stop application writes to the Main site before you start. The swap then loses no data. Writes stay unavailable for about 15 to 25 seconds, plus the time the DR site needs to replay any WAL that it hasn’t applied yet.</p>
-<h2 id="what-happens-to-the-old-primary">What happens to the old primary<a class="headerlink" href="#what-happens-to-the-old-primary" title="Permanent link">¶</a></h2>
+<h2 id="what-happens-to-the-old-primary">What happens to the old primary<a data-markdown-ignore class="headerlink" href="#what-happens-to-the-old-primary" title="Permanent link">¶</a></h2>
 <p>The type of your <a href="standby.html#types-of-standby-clusters">standby cluster</a> decides what the Main site does after DR is promoted:</p>
 <table>
 <thead>
@@ -6951,7 +6951,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tbody>
 </table>
 <p>A repository-based Main site cannot follow because the shutdown checkpoint never reaches the pgBackRest repository. This checkpoint is the final record that PostgreSQL writes when it stops. The DR site never replays that record, so the two sites end up on different timelines. If you plan regular swaps, use a streaming standby and avoid the rebuild.</p>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <p>The examples use the <code>main</code> cluster and the <code>dr</code> cluster from the <a href="standby-streaming.html">streaming replication tutorial</a>. Set the namespaces of your clusters once, and you can run the commands as they are:</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">MAIN_NAMESPACE</span><span class="o">=</span>main-pg
 <span class="nb">export</span><span class="w"> </span><span class="nv">DR_NAMESPACE</span><span class="o">=</span>dr-pg
@@ -6972,7 +6972,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Make sure you can switch application traffic to the DR site after the swap.</p>
 </li>
 </ol>
-<h2 id="swap-the-roles">Swap the roles<a class="headerlink" href="#swap-the-roles" title="Permanent link">¶</a></h2>
+<h2 id="swap-the-roles">Swap the roles<a data-markdown-ignore class="headerlink" href="#swap-the-roles" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Stop application writes to the Main site.</p>
@@ -6997,7 +6997,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 </li>
 <li>
 <p>Demote the Main site. Set <code>standby.enabled</code> to <code>true</code> and point the cluster to the repository. For a streaming standby, also set <code>standby.host</code> to the DR <code>-ha</code> Service:</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">Repo-based standby</label><label for="__tabbed_1_2">Streaming standby</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">Repo-based standby</label><label for="__tabbed_1_2">Streaming standby</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>main<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">MAIN_NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span><span class="se">\</span>
@@ -7052,9 +7052,9 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 <p>For a repo-based standby, the member stays in <code>in archive recovery</code> on the old timeline. The PostgreSQL log repeats <code>new timeline 2 forked off current database system timeline 1</code>. Rebuild the Main site as described in the next section.</p>
 </li>
 </ol>
-<h2 id="rebuild-the-old-primary-of-a-repo-based-standby">Rebuild the old primary of a repo-based standby<a class="headerlink" href="#rebuild-the-old-primary-of-a-repo-based-standby" title="Permanent link">¶</a></h2>
+<h2 id="rebuild-the-old-primary-of-a-repo-based-standby">Rebuild the old primary of a repo-based standby<a data-markdown-ignore class="headerlink" href="#rebuild-the-old-primary-of-a-repo-based-standby" title="Permanent link">¶</a></h2>
 <p>Choose one of these ways to bring the Main site back as a standby of DR.</p>
-<h3 id="recreate-the-instance">Recreate the instance<a class="headerlink" href="#recreate-the-instance" title="Permanent link">¶</a></h3>
+<h3 id="recreate-the-instance">Recreate the instance<a data-markdown-ignore class="headerlink" href="#recreate-the-instance" title="Permanent link">¶</a></h3>
 <p>This is the simplest way. After the swap, DR is the primary and holds all the writes that the Main site acknowledged, and the Main site is a standby. The data on the Main volumes has diverged from DR, so you can discard it. The Operator creates new instances, restores the latest backup from the pgBackRest repository, and replays the WAL from the repository until the Main site catches up with DR. Restore time depends on the size of your data.</p>
 <p>Recreate every PostgreSQL instance of the Main site. The replicas of the old primary diverge as well, even though they report <code>streaming</code> and stay ready. If you recreate only the primary, Patroni makes a diverged replica the new standby leader.</p>
 <div class="admonition warning">
@@ -7083,7 +7083,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w">
 </li>
 </ol>
 <p><code>patronictl reinit</code> doesn’t help here, because the Main site is a standby. On the primary it fails with <code>No replica among provided members</code>, and on the replicas it fails with <code>invalid option '--scope=main-ha'</code>.</p>
-<h3 id="add-a-streaming-source">Add a streaming source<a class="headerlink" href="#add-a-streaming-source" title="Permanent link">¶</a></h3>
+<h3 id="add-a-streaming-source">Add a streaming source<a data-markdown-ignore class="headerlink" href="#add-a-streaming-source" title="Permanent link">¶</a></h3>
 <p>With a streaming source, Patroni rewinds the Main site with <code>pg_rewind</code> and no restore is needed. The Main site must trust the DR certificates. This way is for a Main site with one PostgreSQL instance. If your site has replicas, recreate every instance instead.</p>
 <ol>
 <li>
@@ -7097,9 +7097,9 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w">
 <p>If the Main site doesn’t trust the DR certificates, the rewind fails with <code>SSL error: certificate verify failed</code> and the Main site stays diverged.</p>
 </li>
 </ol>
-<h2 id="swap-back">Swap back<a class="headerlink" href="#swap-back" title="Permanent link">¶</a></h2>
+<h2 id="swap-back">Swap back<a data-markdown-ignore class="headerlink" href="#swap-back" title="Permanent link">¶</a></h2>
 <p>The roles are now reversed, and the swap back is the same procedure with the sites exchanged. For a repo-based standby, you rebuild the DR site the same way. To avoid the rebuild, <a href="standby-streaming.html">add a streaming source</a> to the standby before the next swap.</p>
-<h3 id="re-apply-the-user-passwords">Re-apply the user passwords<a class="headerlink" href="#re-apply-the-user-passwords" title="Permanent link">¶</a></h3>
+<h3 id="re-apply-the-user-passwords">Re-apply the user passwords<a data-markdown-ignore class="headerlink" href="#re-apply-the-user-passwords" title="Permanent link">¶</a></h3>
 <p>Clear the verifier only if the passwords on the two sites differ. If you copied the user passwords and the pgBouncer password to both sites, and nobody changed them since, skip this section.</p>
 <p>The Operator applies the passwords from the user Secrets of a cluster only when a Secret changes. A site that was primary before keeps the passwords that the other site set while it was primary, including a password that you changed there. The Operator doesn’t re-apply the <code>pgBouncer</code> user either, so pgBouncer on the promoted site can’t log in to PostgreSQL, unless both sites have the same pgBouncer password and verifier.</p>
 <p>After you promote the site, clear the <code>verifier</code> in the Secret of each user, so that the Operator rebuilds it from the password in that Secret and applies it again. The example uses the Main site:</p>

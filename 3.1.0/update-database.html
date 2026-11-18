@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6768,7 +6768,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a class="headerlink" href="#upgrade-percona-distribution-for-postgresql" title="Permanent link">¶</a></h1>
+<h1 id="upgrade-percona-distribution-for-postgresql">Upgrade Percona Distribution for PostgreSQL<a data-markdown-ignore class="headerlink" href="#upgrade-percona-distribution-for-postgresql" title="Permanent link">¶</a></h1>
 <p>There are two types of PostgreSQL upgrades available through the Operator:</p>
 <ul>
 <li><strong>Minor upgrade</strong> is upgrading within the same major version. For example, from 15.5 to 15.7 or from 16.1 to 16.3.</li>
@@ -6776,9 +6776,9 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p><em>Major upgrades</em> are supported starting from Operator <strong>2.4.0</strong> as a tech preview. Starting with Operator <strong>2.9.0</strong>, major upgrades are <strong>generally available (GA)</strong> and fully supported.</p>
 <p>Before Operator 2.4.0, only minor upgrades were allowed.</p>
-<h2 id="image-compatibility">Image compatibility<a class="headerlink" href="#image-compatibility" title="Permanent link">¶</a></h2>
+<h2 id="image-compatibility">Image compatibility<a data-markdown-ignore class="headerlink" href="#image-compatibility" title="Permanent link">¶</a></h2>
 <p>When the target PostgreSQL image uses a different UBI major, it ships a different <code>glibc</code> (and possibly ICU) collation library. Collation-dependent indexes can become inconsistent until you rebuild them. Both upgrade procedures include those steps after the new image is running.</p>
-<h2 id="choose-an-upgrade-type">Choose an upgrade type<a class="headerlink" href="#choose-an-upgrade-type" title="Permanent link">¶</a></h2>
+<h2 id="choose-an-upgrade-type">Choose an upgrade type<a data-markdown-ignore class="headerlink" href="#choose-an-upgrade-type" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="update-db-minor.html">Run a minor version upgrade</a>
 <a class="md-button" href="update-db-major.html">Run a major version upgrade</a></p>
 <hr>

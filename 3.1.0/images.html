@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6844,11 +6844,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h1>
+<h1 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h1>
 <p>This page lists Percona’s certified Docker images that you can use with Percona Operator for PostgreSQL 3.1.0. </p>
 <p>To find images for a specific Operator version, see <a href="image-query.html">Retrieve Percona certified images</a>.</p>
 <p>To run the Operator against upstream-built PostgreSQL images instead of Percona Distribution images, see <a href="install-community.html">Deploy a cluster with community PostgreSQL images</a> (tech preview).</p>
-<h2 id="image-path">Image path<a class="headerlink" href="#image-path" title="Permanent link">¶</a></h2>
+<h2 id="image-path">Image path<a data-markdown-ignore class="headerlink" href="#image-path" title="Permanent link">¶</a></h2>
 <p>Each certified image uses this path:</p>
 <div class="highlight"><pre><span></span><code>&lt;registry&gt;/&lt;namespace&gt;/&lt;image-name&gt;:&lt;tag&gt;
 </code></pre></div>
@@ -6859,7 +6859,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>docker.io/percona/percona-pgbouncer:1.25.2-8
 docker.io/percona/percona-pgbackrest:2.59.1-2
 </code></pre></div>
-<h2 id="ubi-version-tags">UBI version tags<a class="headerlink" href="#ubi-version-tags" title="Permanent link">¶</a></h2>
+<h2 id="ubi-version-tags">UBI version tags<a data-markdown-ignore class="headerlink" href="#ubi-version-tags" title="Permanent link">¶</a></h2>
 <p>Starting with Operator 3.1.0, Percona Distribution images are
 available on UBI 8, UBI 9, and UBI 10.</p>
 <p>UBI 9 is the default. Those tags have no OS version, for example
@@ -6869,11 +6869,11 @@ available on UBI 8, UBI 9, and UBI 10.</p>
 docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi8
 docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi10
 </code></pre></div>
-<h2 id="images-reference">Images reference<a class="headerlink" href="#images-reference" title="Permanent link">¶</a></h2>
+<h2 id="images-reference">Images reference<a data-markdown-ignore class="headerlink" href="#images-reference" title="Permanent link">¶</a></h2>
 <p>The following tables list the images that you can use with the Percona Operator for PostgreSQL 3.1.0. They omit <code>docker.io/</code>. You can add it if your cluster requires an explicit registry.</p>
 <p>The Operator, pgBouncer, pgBackRest, Fluent Bit, and PMM images are the same on every UBI. </p>
 <p>PostgreSQL, PostGIS, and the upgrade images are built separately for each UBI version. The Fluent Bit image is identical for UBI 8 and UBI 9 because both use a compatible version of the <code>GLIBC</code> library. For UBI 10, a separate Fluent Bit image is provided due to incompatibility with the earlier <code>GLIBC</code> versions.</p>
-<h3 id="shared-images">Shared images<a class="headerlink" href="#shared-images" title="Permanent link">¶</a></h3>
+<h3 id="shared-images">Shared images<a data-markdown-ignore class="headerlink" href="#shared-images" title="Permanent link">¶</a></h3>
 <table>
 <thead>
 <tr>
@@ -6928,8 +6928,8 @@ docker.io/percona/percona-distribution-postgresql:18.6.1-3-ubi10
 </tr>
 </tbody>
 </table>
-<h3 id="percona-distribution-for-postgresql-images-by-ubi">Percona Distribution for PostgreSQL images by UBI<a class="headerlink" href="#percona-distribution-for-postgresql-images-by-ubi" title="Permanent link">¶</a></h3>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div class="tabbed-labels"><label for="__tabbed_1_1">UBI 9 (default)</label><label for="__tabbed_1_2">UBI 8</label><label for="__tabbed_1_3">UBI 10</label></div>
+<h3 id="percona-distribution-for-postgresql-images-by-ubi">Percona Distribution for PostgreSQL images by UBI<a data-markdown-ignore class="headerlink" href="#percona-distribution-for-postgresql-images-by-ubi" title="Permanent link">¶</a></h3>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><input id="__tabbed_1_3" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">UBI 9 (default)</label><label for="__tabbed_1_2">UBI 8</label><label for="__tabbed_1_3">UBI 10</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <table>

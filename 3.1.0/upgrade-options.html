@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6978,22 +6978,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="upgrade-resource-options">Upgrade Resource options<a class="headerlink" href="#upgrade-resource-options" title="Permanent link">¶</a></h1>
+<h1 id="upgrade-resource-options">Upgrade Resource options<a data-markdown-ignore class="headerlink" href="#upgrade-resource-options" title="Permanent link">¶</a></h1>
 <p>When you upgrade from one major version of Percona Distribution for PostgreSQL to another one (for example, from 17 to 18), the Operator creates a special Upgrade resource, <code>PerconaPGUpgrade</code>.</p>
 <p>This document describes all available options that you can use to configure the major upgrade flow.</p>
-<h2 id="apiversion"><code>apiVersion</code><a class="headerlink" href="#apiversion" title="Permanent link">¶</a></h2>
+<h2 id="apiversion"><code>apiVersion</code><a data-markdown-ignore class="headerlink" href="#apiversion" title="Permanent link">¶</a></h2>
 <p>Specifies the API version of the Custom Resource.
 <code>pgv2.percona.com</code> indicates the group, and <code>v2</code> is the version of the API.</p>
-<h2 id="kind"><code>kind</code><a class="headerlink" href="#kind" title="Permanent link">¶</a></h2>
+<h2 id="kind"><code>kind</code><a data-markdown-ignore class="headerlink" href="#kind" title="Permanent link">¶</a></h2>
 <p>Defines the type of resource being created: <code>PerconaPGUpgrade</code>.</p>
-<h2 id="metadata"><code>metadata</code><a class="headerlink" href="#metadata" title="Permanent link">¶</a></h2>
+<h2 id="metadata"><code>metadata</code><a data-markdown-ignore class="headerlink" href="#metadata" title="Permanent link">¶</a></h2>
 <p>The metadata part of the <code>deploy/upgrade.yaml</code> contains metadata about the upgrade, such as the name and other attributes. It includes the following keys:</p>
 <ul>
 <li><code>name</code> - The name of the upgrade resource used to identify it in your deployment. You also use the upgrade name to track the upgrade progress.</li>
 </ul>
-<h2 id="spec"><code>spec</code><a class="headerlink" href="#spec" title="Permanent link">¶</a></h2>
+<h2 id="spec"><code>spec</code><a data-markdown-ignore class="headerlink" href="#spec" title="Permanent link">¶</a></h2>
 <p>This subsection includes the configuration of an upgrade resource.</p>
-<h3 id="postgresclustername"><code>postgresClusterName</code><a class="headerlink" href="#postgresclustername" title="Permanent link">¶</a></h3>
+<h3 id="postgresclustername"><code>postgresClusterName</code><a data-markdown-ignore class="headerlink" href="#postgresclustername" title="Permanent link">¶</a></h3>
 <p>Specifies the name of the PostgreSQL cluster to upgrade.</p>
 <table>
 <thead>
@@ -7009,7 +7009,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="image"><code>image</code><a class="headerlink" href="#image" title="Permanent link">¶</a></h3>
+<h3 id="image"><code>image</code><a data-markdown-ignore class="headerlink" href="#image" title="Permanent link">¶</a></h3>
 <p>Specifies the special upgrade image used for the major upgrade.</p>
 <table>
 <thead>
@@ -7025,7 +7025,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="frompostgresversion"><code>fromPostgresVersion</code><a class="headerlink" href="#frompostgresversion" title="Permanent link">¶</a></h3>
+<h3 id="frompostgresversion"><code>fromPostgresVersion</code><a data-markdown-ignore class="headerlink" href="#frompostgresversion" title="Permanent link">¶</a></h3>
 <p>Specifies the current major version of PostgreSQL from which you wish to upgrade.</p>
 <table>
 <thead>
@@ -7041,7 +7041,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="topostgresversion"><code>toPostgresVersion</code><a class="headerlink" href="#topostgresversion" title="Permanent link">¶</a></h3>
+<h3 id="topostgresversion"><code>toPostgresVersion</code><a data-markdown-ignore class="headerlink" href="#topostgresversion" title="Permanent link">¶</a></h3>
 <p>Specifies the target major version of PostgreSQL to which you wish to upgrade. You can only upgrade to the next major version (for example, from 16 to 17, or from 17 to 18). Skipping major versions (such as upgrading directly from 15 to 17) is not supported.</p>
 <table>
 <thead>
@@ -7057,7 +7057,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="topostgresimage"><code>toPostgresImage</code><a class="headerlink" href="#topostgresimage" title="Permanent link">¶</a></h3>
+<h3 id="topostgresimage"><code>toPostgresImage</code><a data-markdown-ignore class="headerlink" href="#topostgresimage" title="Permanent link">¶</a></h3>
 <p>Specifies the image for the target major version of PostgreSQL.</p>
 <table>
 <thead>
@@ -7073,7 +7073,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="topgbouncerimage"><code>toPgBouncerImage</code><a class="headerlink" href="#topgbouncerimage" title="Permanent link">¶</a></h3>
+<h3 id="topgbouncerimage"><code>toPgBouncerImage</code><a data-markdown-ignore class="headerlink" href="#topgbouncerimage" title="Permanent link">¶</a></h3>
 <p>Specifies the image for the <code>pgBouncer</code> connection pooler that is compatible with the target major version of PostgreSQL.</p>
 <table>
 <thead>
@@ -7089,7 +7089,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
-<h3 id="topgbackrestimage"><code>toPgBackRestImage</code><a class="headerlink" href="#topgbackrestimage" title="Permanent link">¶</a></h3>
+<h3 id="topgbackrestimage"><code>toPgBackRestImage</code><a data-markdown-ignore class="headerlink" href="#topgbackrestimage" title="Permanent link">¶</a></h3>
 <p>Specifies the image for the <code>pgBackRest</code> backup and restore solution that is compatible with the target major version of PostgreSQL.</p>
 <table>
 <thead>

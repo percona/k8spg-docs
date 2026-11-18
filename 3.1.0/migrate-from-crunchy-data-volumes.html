@@ -139,7 +139,7 @@ In this approach, Percona PerconaPGCluster (cluster1) starts on the existing PGD
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7133,7 +7133,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes">Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes<a class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes" title="Permanent link">¶</a></h1>
+<h1 id="migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes">Migrate from Crunchy to Percona Operator for PostgreSQL by reusing persistent volumes<a data-markdown-ignore class="headerlink" href="#migrate-from-crunchy-to-percona-operator-for-postgresql-by-reusing-persistent-volumes" title="Permanent link">¶</a></h1>
 <p>This guide shows how to migrate to Percona Operator for PostgreSQL using the <strong>primary</strong> PostgreSQL data volume from your Crunchy <code>PostgresCluster</code>.
 In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) starts on the existing <code>PGDATA</code> data directory without running a backup-restore cycle over the network.</p>
 <table>
@@ -7151,22 +7151,22 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 </tbody>
 </table>
 <p>If the backing PV was already deleted with the default <strong>Delete</strong> reclaim policy, use <a href="migrate-from-crunchy-backup-restore.html">Migrate from Crunchy using backup and restore</a> instead.</p>
-<h2 id="versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
+<h2 id="versions-used-in-this-guide">Versions used in this guide<a data-markdown-ignore class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
 <p>For this migration tutorial, we use the following versions of the Operators:</p>
 <ul>
 <li>Crunchy PostgreSQL Operator 5.8.x</li>
 <li>Percona Operator for PostgreSQL 3.x.x</li>
 </ul>
-<h2 id="before-you-migrate">Before you migrate<a class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
+<h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
-<h2 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
+<h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
 <li>A Kubernetes or OpenShift cluster with permissions to patch PersistentVolumes, delete <code>PostgresCluster</code> resources, and deploy the Percona Operator.</li>
 <li><code>kubectl</code> or <code>oc</code>.</li>
 <li>Storage where you can set the PV reclaim policy to <code>Retain</code> and clear <code>claimRef</code> (cluster-admin privileges are often required).</li>
 </ul>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Create or choose namespaces for Crunchy and Percona and export them as the environment variables.</p>
@@ -7180,7 +7180,7 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 </code></pre></div>
 </li>
 </ol>
-<h2 id="deploy-operators">Deploy Operators<a class="headerlink" href="#deploy-operators" title="Permanent link">¶</a></h2>
+<h2 id="deploy-operators">Deploy Operators<a data-markdown-ignore class="headerlink" href="#deploy-operators" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Install Crunchy Operator for PostgreSQL into <code>$CRUNCHY_NS</code> if it is not already installed. See the <a href="https://access.crunchydata.com/documentation/postgres-operator/5.8/quickstart">Crunchy quickstart <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the steps.</p>
@@ -7206,7 +7206,7 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 </details>
 </li>
 </ol>
-<h2 id="deploy-the-crunchy-source-cluster">Deploy the Crunchy source cluster<a class="headerlink" href="#deploy-the-crunchy-source-cluster" title="Permanent link">¶</a></h2>
+<h2 id="deploy-the-crunchy-source-cluster">Deploy the Crunchy source cluster<a data-markdown-ignore class="headerlink" href="#deploy-the-crunchy-source-cluster" title="Permanent link">¶</a></h2>
 <p>If you already have a PostgreSQL cluster running in the Crunchy namespace, make sure it is set up so that only one database server (replica) is running. This means changing the configuration so <code>instances.replicas</code> is set to <code>1</code>.</p>
 <p>If you are deploying Crunchy for testing or migration rehearsal, create it with <strong>one</strong> Postgres instance (<code>replicas: 1</code> on the primary set) so a single data PVC represents the primary. </p>
 <p>This is the sample <code>PostgresCluster</code> Custom Resource configuration:</p>
@@ -7259,7 +7259,7 @@ In this approach, Percona <code>PerconaPGCluster</code> (<code>cluster1</code>) 
 </details>
 </li>
 </ol>
-<h2 id="stop-writes-and-identify-the-primarys-persistent-volume">Stop writes and identify the primary’s Persistent Volume<a class="headerlink" href="#stop-writes-and-identify-the-primarys-persistent-volume" title="Permanent link">¶</a></h2>
+<h2 id="stop-writes-and-identify-the-primarys-persistent-volume">Stop writes and identify the primary’s Persistent Volume<a data-markdown-ignore class="headerlink" href="#stop-writes-and-identify-the-primarys-persistent-volume" title="Permanent link">¶</a></h2>
 <p>Stop application from writing to the database. This marks the <strong>start of downtime</strong>. </p>
 <p>Next, identify the primary Pod, its data PVC, and backing PV</p>
 <ol>
@@ -7298,7 +7298,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <p>If your Crunchy Pod uses a volume name other than <code>postgres-data</code>, adjust the JSONPath filter.</p>
 </li>
 </ol>
-<h2 id="retain-the-pv-and-remove-the-crunchy-cluster">Retain the PV and remove the Crunchy cluster<a class="headerlink" href="#retain-the-pv-and-remove-the-crunchy-cluster" title="Permanent link">¶</a></h2>
+<h2 id="retain-the-pv-and-remove-the-crunchy-cluster">Retain the PV and remove the Crunchy cluster<a data-markdown-ignore class="headerlink" href="#retain-the-pv-and-remove-the-crunchy-cluster" title="Permanent link">¶</a></h2>
 <p>The default reclaim policy for a dynamically PersistentVolume is <code>Delete</code>. This means that as soon as there are no Persistent Volume Claims (PVC) bound to this PV, Kubernetes deletes it and all data is lost. To prevent this, change the PV reclaim policy to <code>Retain</code>.</p>
 <ol>
 <li>
@@ -7347,7 +7347,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </code></pre></div>
 </li>
 </ol>
-<h2 id="create-the-percona-cluster-bound-to-the-retained-volume">Create the Percona cluster bound to the retained volume<a class="headerlink" href="#create-the-percona-cluster-bound-to-the-retained-volume" title="Permanent link">¶</a></h2>
+<h2 id="create-the-percona-cluster-bound-to-the-retained-volume">Create the Percona cluster bound to the retained volume<a data-markdown-ignore class="headerlink" href="#create-the-percona-cluster-bound-to-the-retained-volume" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Edit the <code>deploy/cr.yaml</code> and specify the following settings:</p>
@@ -7429,7 +7429,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 <p>Expect <code>f</code> for a writable primary.</p>
 </li>
 </ol>
-<h2 id="scale-out-the-cluster">Scale out the cluster<a class="headerlink" href="#scale-out-the-cluster" title="Permanent link">¶</a></h2>
+<h2 id="scale-out-the-cluster">Scale out the cluster<a data-markdown-ignore class="headerlink" href="#scale-out-the-cluster" title="Permanent link">¶</a></h2>
 <p>You started the cluster with a single replica, so the Operator created a PersistentVolumeClaim (PVC) that bound to your labelled PersistentVolume (PV) containing the migrated data. Once you have confirmed that the primary instance is healthy, scale out your cluster for high availability. </p>
 <p>While the selector is present in the cluster configuration, it blocks the Operator to create new replica PVCs because no other PV carries <code>percona-pv-migration=migrated</code>. Therefore, you need to remove the selector. Doing so enables the Operator to create new PVCs for each replica using your default StorageClass.</p>
 <ol>
@@ -7458,7 +7458,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </details>
 </li>
 </ol>
-<h2 id="take-a-post-migration-backup">Take a post-migration backup<a class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
+<h2 id="take-a-post-migration-backup">Take a post-migration backup<a data-markdown-ignore class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
 <p>Create a new baseline for further point-in-time restores by making a full backup. You can reuse the volume-based backup repository, such as <code>repo1</code>, that this guide uses to keep local backups on persistent storage within your cluster. Or see <a href="backups-storage.html">Configure backup storage</a> to stream backups there.</p>
 <ol>
 <li>
@@ -7486,7 +7486,7 @@ PV:          pvc-32f7bc5d-82c7-4d36-9886-56a581124cbd
 </code></pre></div>
 </li>
 </ol>
-<h2 id="point-applications-to-percona">Point applications to Percona<a class="headerlink" href="#point-applications-to-percona" title="Permanent link">¶</a></h2>
+<h2 id="point-applications-to-percona">Point applications to Percona<a data-markdown-ignore class="headerlink" href="#point-applications-to-percona" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Discover the <code>pgBouncer</code> Service for <code>cluster1</code>:</p>
@@ -7502,24 +7502,24 @@ Port:   5432
 </li>
 </ol>
 <p>Replace <code>${NAMESPACE}</code> with your cluster’s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">¶</a></h2>
+<h2 id="cleanup">Cleanup<a data-markdown-ignore class="headerlink" href="#cleanup" title="Permanent link">¶</a></h2>
 <p>Remove the migration label from the PV after you no longer need to pin binding:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>percona-pv-migration-
 </code></pre></div>
-<h2 id="rollback">Rollback<a class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
+<h2 id="rollback">Rollback<a data-markdown-ignore class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
 <p>PV reuse is the least rollback-friendly path: once <code>cluster1</code> runs on the old directory, the previous Crunchy timeline is no longer authoritative. If you need a fallback, take a full Crunchy <code>pgBackRest</code> backup <strong>before</strong> you delete <code>crunchy-source</code>, and treat that backup as your recovery source for a new Crunchy deployment.</p>
-<h2 id="troubleshooting">Troubleshooting<a class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
-<h3 id="pvc-stays-pending">PVC stays <code>Pending</code><a class="headerlink" href="#pvc-stays-pending" title="Permanent link">¶</a></h3>
+<h2 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
+<h3 id="pvc-stays-pending">PVC stays <code>Pending</code><a data-markdown-ignore class="headerlink" href="#pvc-stays-pending" title="Permanent link">¶</a></h3>
 <p>Confirm the PV label and phase:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>--show-labels
 kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PV_NAME</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.phase}{"\n"}'</span>
 </code></pre></div>
-<h3 id="postgresql-fails-to-start">PostgreSQL fails to start<a class="headerlink" href="#postgresql-fails-to-start" title="Permanent link">¶</a></h3>
+<h3 id="postgresql-fails-to-start">PostgreSQL fails to start<a data-markdown-ignore class="headerlink" href="#postgresql-fails-to-start" title="Permanent link">¶</a></h3>
 <p>Inspect database container logs:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>logs<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database
 </code></pre></div>
 <p>Unclean shutdowns may require crash recovery; follow Patroni and PostgreSQL logs for progress.</p>
-<h3 id="pv-was-deleted">PV was deleted<a class="headerlink" href="#pv-was-deleted" title="Permanent link">¶</a></h3>
+<h3 id="pv-was-deleted">PV was deleted<a data-markdown-ignore class="headerlink" href="#pv-was-deleted" title="Permanent link">¶</a></h3>
 <p>If the dynamic provisioner deleted the volume when the PVC disappeared, data is gone from that path. Use <a href="migrate-from-crunchy-backup-restore.html">Migrate from Crunchy using backup and restore</a> from your latest remote backup instead.</p>
 <hr>
 <div class="md-source-file">

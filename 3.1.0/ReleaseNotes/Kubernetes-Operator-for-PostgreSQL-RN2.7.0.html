@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7054,30 +7054,30 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-270-2025-07-18">Percona Operator for PostgreSQL 2.7.0 (2025-07-18)<a class="headerlink" href="#percona-operator-for-postgresql-270-2025-07-18" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-270-2025-07-18">Percona Operator for PostgreSQL 2.7.0 (2025-07-18)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-270-2025-07-18" title="Permanent link">¶</a></h1>
 <p><a class="md-button" href="../quickstart.html">Get started with the Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg></span></a></p>
-<h2 id="release-highlights"><strong>Release Highlights</strong><a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights"><strong>Release Highlights</strong><a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
 <p>This release provides the following features and improvements:</p>
-<h3 id="pmm3-support">PMM3 support<a class="headerlink" href="#pmm3-support" title="Permanent link">¶</a></h3>
+<h3 id="pmm3-support">PMM3 support<a data-markdown-ignore class="headerlink" href="#pmm3-support" title="Permanent link">¶</a></h3>
 <p>The Operator is natively integrated with PMM 3, enabling you to monitor the health and performance of your Percona Distribution for PostgreSQL deployment and at the same time enjoy enhanced performance, new features, and improved security that PMM 3 provides.</p>
 <p>Note that the Operator supports both PMM2 and PMM3. The decision on what PMM version is used depends on the authentication method you provide in the Operator configuration: PMM2 uses API keys while PMM3 uses service account token. If the Operator configuration contains both authentication methods with non-empty values, PMM3 takes the priority.</p>
 <p>To use PMM, ensure that the PMM client image is compatible with the PMM Server version. Check <a href="../images.html">Percona certified images</a> for the correct client image.</p>
 <p>For how to configure monitoring with PMM see the <a href="../monitoring-tutorial.html">documentation</a>.</p>
-<h3 id="improved-monitoring-for-clusters-in-multi-region-or-multi-namespace-deployments-in-pmm">Improved monitoring for clusters in multi-region or multi-namespace deployments in PMM<a class="headerlink" href="#improved-monitoring-for-clusters-in-multi-region-or-multi-namespace-deployments-in-pmm" title="Permanent link">¶</a></h3>
+<h3 id="improved-monitoring-for-clusters-in-multi-region-or-multi-namespace-deployments-in-pmm">Improved monitoring for clusters in multi-region or multi-namespace deployments in PMM<a data-markdown-ignore class="headerlink" href="#improved-monitoring-for-clusters-in-multi-region-or-multi-namespace-deployments-in-pmm" title="Permanent link">¶</a></h3>
 <p>Now you can define a custom name for your clusters deployed in different data centers. This name helps Percona Management and Monitoring (PMM) Server to correctly recognize clusters as connected and monitor them as one deployment. Similarly, PMM Server identifies clusters deployed with the same names in different namespaces as separate ones and correctly displays performance metrics for you on dashboards.</p>
 <p>To assign a custom name, define this configuration in the Custom Resource manifest for your cluster:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pmm</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">customClusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgresql-cluster</span>
 </code></pre></div>
-<h3 id="added-labels-to-identify-the-version-of-the-operator">Added labels to identify the version of the Operator<a class="headerlink" href="#added-labels-to-identify-the-version-of-the-operator" title="Permanent link">¶</a></h3>
+<h3 id="added-labels-to-identify-the-version-of-the-operator">Added labels to identify the version of the Operator<a data-markdown-ignore class="headerlink" href="#added-labels-to-identify-the-version-of-the-operator" title="Permanent link">¶</a></h3>
 <p>Custom Resource Definition (CRD) is compatible with the last three Operator versions. To know which Operator version is attached to it, we’ve added labels to all Custom Resource Definitions. The labels help you identify the current Operator version and decide if you need to update the CRD.
 To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.com  --show-labels</code>.</p>
-<h3 id="grant-users-access-to-a-public-schema">Grant users access to a public schema<a class="headerlink" href="#grant-users-access-to-a-public-schema" title="Permanent link">¶</a></h3>
+<h3 id="grant-users-access-to-a-public-schema">Grant users access to a public schema<a data-markdown-ignore class="headerlink" href="#grant-users-access-to-a-public-schema" title="Permanent link">¶</a></h3>
 <p>Starting with PostgreSQL 15, a non-database owner cannot access the default <code>public</code> schema and cannot create tables in it. We have improved this behavior so that the Operator creates a user and a schema with the name matching the username for all databases listed for this user. This custom schema is set by default enabling you to work in the database right away.</p>
 <p>You can explicitly grant access to a <code>public</code> schema for a non-superuser setting the <code>grantPublicSchemaAccess</code> option to <code>true</code>. This grants the user permission to create tables and update in the <code>public</code> schema of every database they own. If multiple users are granted access to the <code>public</code> schema in the same database, each user can only access the tables they have created themselves. If you want one user to access tables created by another user in the <code>public</code> schema, the owner of those tables must connect to PostgreSQL and explicitly grant the necessary privileges to the other user.</p>
 <p>Superusers have access to the <code>public</code> schema for their databases by default.</p>
-<h2 id="improved-troubleshooting-with-the-ability-to-override-patroni-configuration">Improved troubleshooting with the ability to override Patroni configuration<a class="headerlink" href="#improved-troubleshooting-with-the-ability-to-override-patroni-configuration" title="Permanent link">¶</a></h2>
+<h2 id="improved-troubleshooting-with-the-ability-to-override-patroni-configuration">Improved troubleshooting with the ability to override Patroni configuration<a data-markdown-ignore class="headerlink" href="#improved-troubleshooting-with-the-ability-to-override-patroni-configuration" title="Permanent link">¶</a></h2>
 <p>You can now override Patroni configuration for the whole cluster as well as for an individual Pod. This gives you more control over the database and simplifies troubleshooting.</p>
 <p>Also, you can redefine what method the Operator will use when it creates replica instances in your PostgreSQL cluster. For example, to force the Operator to use <code>pgbasebackup</code>, edit the <code>deploy/cr.yaml</code> manifest:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">patroni</span><span class="p">:</span>
@@ -7087,8 +7087,8 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 </code></pre></div>
 <p>Note that after you apply this configuration, the Operator updates the Patroni ConfigMap, but it doesn’t apply this configuration to Patroni. You must manually reload the Patroni configuration of every database instance for it to come into force.</p>
 <p>Read more about these troubleshooting methods in the <a href="../manage-manually.html#override-patroni-configuration">documentation</a>.</p>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
-<h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
+<h2 id="changelog">Changelog<a data-markdown-ignore class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
+<h3 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-615">K8SPG-615</a> - Introduced a custom delay on the entrypoint of the backup pod. The backup process waits the defined time before connecting to the API server</p>
@@ -7106,7 +7106,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-719">K8SPG-719</a> - Added support for PMM v3</p>
 </li>
 </ul>
-<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
+<h3 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-571">K8SPG-571</a> - Added the ability to access to a public schema for a non-superuser custom user for every database listed for them. </p>
@@ -7163,7 +7163,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-828">K8SPG-828</a> - Added registry name to images due to Openshift 4.19 changes</p>
 </li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
+<h2 id="bugs-fixed">Bugs Fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-532">K8SPG-532</a> - Improved log visibility to include logs about missing data source to INFO logs</p>
@@ -7211,7 +7211,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-812">K8SPG-812</a> - Fixed image in PerconaPGUpgrade example</p>
 </li>
 </ul>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>
 <p>New repositories for <code>pgBouncer</code> and <code>pgBackRest</code></p>
@@ -7226,7 +7226,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <p>Follow our <a href="../update.html">upgrade documentation</a> for update guidelines.</p>
 </li>
 </ul>
-<h2 id="supported-software">Supported software<a class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
+<h2 id="supported-software">Supported software<a data-markdown-ignore class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
 <p>This version of the Operator is developed, tested and based on:</p>
 <ul>
 <li>PostgreSQL 13.21, 14.18, 15.13, 16.9, 17.5.2 as the database. Other versions may also work but have not been tested.</li>
@@ -7234,7 +7234,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <li>Patroni version 4.0.5 for high-availability</li>
 <li>PostGIS version 3.3.8</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.7.0:</p>
 <ul>
@@ -7245,7 +7245,7 @@ To view the labels, run: <code>kubectl get crd perconapgclusters.pgv2.percona.co
 <li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> 1.36.0 with Kubernetes v1.33.1</li>
 </ul>
 <p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
-<h2 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
+<h2 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
 <p>Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.</p>
 <table>
 <thead>

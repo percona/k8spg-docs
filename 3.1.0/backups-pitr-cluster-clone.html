@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6792,18 +6792,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="cluster-clone-with-point-in-time-recovery">Cluster clone with point-in-time recovery<a class="headerlink" href="#cluster-clone-with-point-in-time-recovery" title="Permanent link">¶</a></h1>
+<h1 id="cluster-clone-with-point-in-time-recovery">Cluster clone with point-in-time recovery<a data-markdown-ignore class="headerlink" href="#cluster-clone-with-point-in-time-recovery" title="Permanent link">¶</a></h1>
 <p>Restore a backup to a <strong>new</strong> cluster and bring it forward to a specific moment using archived WAL. You define the restore in the Custom Resource of the new cluster under <code>spec.dataSource</code>.</p>
 <p>For how point-in-time recovery works and how to use the latest restorable time, see <a href="backups-pitr.html">Point-in-time recovery</a>. For a full clone without a target time, see <a href="backups-clone.html">Restore the backup to a new cluster</a>.</p>
 <p>If you create a new cluster from a PVC snapshot, see <a href="backups-pvc-usage.html#create-a-new-cluster-from-a-pvc-snapshot">Create a new cluster from a PVC snapshot</a>. </p>
-<h2 id="what-you-need">What you need<a class="headerlink" href="#what-you-need" title="Permanent link">¶</a></h2>
+<h2 id="what-you-need">What you need<a data-markdown-ignore class="headerlink" href="#what-you-need" title="Permanent link">¶</a></h2>
 <p>To perform a point-in-time recovery, ensure you have:</p>
 <ul>
 <li>A backup that completed before your chosen target time. Restores cannot go back further than your available backups.</li>
 <li>All relevant WAL files archived successfully</li>
 <li>The <code>--type=time</code> and <code>--target</code> options included in the <code>dataSource.postgresCluster.options</code> section of your cluster spec</li>
 </ul>
-<h2 id="make-a-clone-with-point-in-time-recovery">Make a clone with point-in-time recovery<a class="headerlink" href="#make-a-clone-with-point-in-time-recovery" title="Permanent link">¶</a></h2>
+<h2 id="make-a-clone-with-point-in-time-recovery">Make a clone with point-in-time recovery<a data-markdown-ignore class="headerlink" href="#make-a-clone-with-point-in-time-recovery" title="Permanent link">¶</a></h2>
 <p>Add the <code>dataSource.postgresCluster</code> section to the Custom Resource of the <em>new</em> cluster. Define these key fields:</p>
 <ul>
 <li><code>clusterName</code> – name of the source cluster</li>
@@ -6871,7 +6871,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>percona-db-2
 </code></pre></div>
 <p>The new cluster will be restored to the specified point in time and then promoted. You can start accessing it from that specific timestamp.</p>
-<h2 id="related-topics">Related topics<a class="headerlink" href="#related-topics" title="Permanent link">¶</a></h2>
+<h2 id="related-topics">Related topics<a data-markdown-ignore class="headerlink" href="#related-topics" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="backups-pitr.html">Point-in-time recovery</a></li>
 <li><a href="backups-pitr-inplace.html">In-place restore with point-in-time recovery</a></li>

@@ -140,7 +140,7 @@ need to remove some (or all) of the following objects:">
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6812,7 +6812,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a class="headerlink" href="#delete-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
+<h1 id="delete-percona-operator-for-postgresql">Delete Percona Operator for PostgreSQL<a data-markdown-ignore class="headerlink" href="#delete-percona-operator-for-postgresql" title="Permanent link">¶</a></h1>
 <p>When cleaning up your Kubernetes environment (e.g., moving from a trial
 deployment to a production one, or testing experimental configurations), you may
 need to remove some (or all) of the following objects:</p>
@@ -6822,7 +6822,7 @@ need to remove some (or all) of the following objects:</p>
 <li>Custom Resource Definition deployed with the Operator</li>
 <li>Resources like PVCs and Secrets</li>
 </ul>
-<h2 id="delete-a-database-cluster">Delete a database cluster<a class="headerlink" href="#delete-a-database-cluster" title="Permanent link">¶</a></h2>
+<h2 id="delete-a-database-cluster">Delete a database cluster<a data-markdown-ignore class="headerlink" href="#delete-a-database-cluster" title="Permanent link">¶</a></h2>
 <p>You can delete the Percona Distribution for PosgreSQL cluster managed by the
 Operator by deleting the appropriate Custom Resource.</p>
 <div class="admonition note">
@@ -6872,7 +6872,7 @@ cluster1   cluster1-pgbouncer.default.svc   ready    3          3           30m
 </details>
 </li>
 </ol>
-<h2 id="delete-the-operator">Delete the Operator<a class="headerlink" href="#delete-the-operator" title="Permanent link">¶</a></h2>
+<h2 id="delete-the-operator">Delete the Operator<a data-markdown-ignore class="headerlink" href="#delete-the-operator" title="Permanent link">¶</a></h2>
 <p class="power-number">You can uninstall the Operator by deleting the <a href="https://kubernetes.io/docs/concepts/workloads/controllers/deployment/">Deployments <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 related to it.</p>
 <ol>
@@ -6905,7 +6905,7 @@ percona-postgresql-operator   1/1     1            1           13m
 </details>
 </li>
 </ol>
-<h2 id="delete-custom-resource-definition">Delete Custom Resource Definition<a class="headerlink" href="#delete-custom-resource-definition" title="Permanent link">¶</a></h2>
+<h2 id="delete-custom-resource-definition">Delete Custom Resource Definition<a data-markdown-ignore class="headerlink" href="#delete-custom-resource-definition" title="Permanent link">¶</a></h2>
 <p>If you are not just deleting the Operator and PostgreSQL cluster from a specific
 namespace, but want to clean up your entire Kubernetes environment,
 you can also delete the <a href="https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/#customresourcedefinitions">CustomResourceDefinitions (CRDs) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. </p>
@@ -6959,7 +6959,7 @@ customresourcedefinition.apiextensions.k8s.io "perconapgrestores.pgv2.percona.co
 </details>
 </li>
 </ol>
-<h2 id="clean-up-resources">Clean up resources<a class="headerlink" href="#clean-up-resources" title="Permanent link">¶</a></h2>
+<h2 id="clean-up-resources">Clean up resources<a data-markdown-ignore class="headerlink" href="#clean-up-resources" title="Permanent link">¶</a></h2>
 <p>By default, TLS-related objects and data volumes remain in Kubernetes environment after you delete the cluster to allow you to recreate it without losing the data.</p>
 <p>You can automate resource cleanup by turning on <code>percona.com/delete-pvc</code> and/or <code>percona.com/delete-ssl</code> <a href="operator.html#metadata-name">finalizers</a>). You can also delete TLS-related objects and PVCs manually.</p>
 <p class="power-number">To manually clean up resources, do the following:</p>

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6990,17 +6990,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="major-version-upgrade">Major version upgrade<a class="headerlink" href="#major-version-upgrade" title="Permanent link">¶</a></h1>
+<h1 id="major-version-upgrade">Major version upgrade<a data-markdown-ignore class="headerlink" href="#major-version-upgrade" title="Permanent link">¶</a></h1>
 <p>Major version upgrade allows you to jump from one database major version to another (for example, upgrade from PostgreSQL 17.x to PostgreSQL 18.x).</p>
 <p>This feature is generally available starting with the Operator version 2.9.0.</p>
-<h2 id="considerations">Considerations<a class="headerlink" href="#considerations" title="Permanent link">¶</a></h2>
+<h2 id="considerations">Considerations<a data-markdown-ignore class="headerlink" href="#considerations" title="Permanent link">¶</a></h2>
 <ol>
 <li>A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.</li>
 <li>During the upgrade, the Operator duplicates the data on each PVC and doesn’t remove the old version data automatically. Make sure your PVC has enough free space to store data.</li>
 <li>If the new image uses a different UBI major, it ships a different <code>glibc</code> collation library. After the upgrade, <a href="#check-collation">identify and rebuild indexes</a> affected by the collation change.</li>
 </ol>
-<h2 id="before-you-start">Before you start<a class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
-<h3 id="check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a class="headerlink" href="#check-operating-system-and-collation-libraries-version" title="Permanent link">¶</a></h3>
+<h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
+<h3 id="check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a data-markdown-ignore class="headerlink" href="#check-operating-system-and-collation-libraries-version" title="Permanent link">¶</a></h3>
 <p>Check the operating system used by the PostgreSQL container:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>cat<span class="w"> </span>/etc/os-release
@@ -7012,7 +7012,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code>glibc 2.34
 </code></pre></div>
-<h3 id="check-the-locale-provider-in-each-database">Check the locale provider in each database<a class="headerlink" href="#check-the-locale-provider-in-each-database" title="Permanent link">¶</a></h3>
+<h3 id="check-the-locale-provider-in-each-database">Check the locale provider in each database<a data-markdown-ignore class="headerlink" href="#check-the-locale-provider-in-each-database" title="Permanent link">¶</a></h3>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
 </code></pre></div>
 <details class="example">
@@ -7028,12 +7028,12 @@ cluster1  | c              | 2.34
 </code></pre></div>
 <p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
 <p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. See <a href="#check-collation">Check collation</a></p>
-<h3 id="update-pmm">Update PMM<a class="headerlink" href="#update-pmm" title="Permanent link">¶</a></h3>
+<h3 id="update-pmm">Update PMM<a data-markdown-ignore class="headerlink" href="#update-pmm" title="Permanent link">¶</a></h3>
 <ol>
 <li><a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html">Update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
 <li>PMM2 has reached its end-of-life stage and is no longer supported in the Operator. See <a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/migrating_from_pmm_2.html">PMM upgrade documentation <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for how to migrate from version 2 to version 3.</li>
 </ol>
-<h2 id="upgrade-steps">Upgrade steps<a class="headerlink" href="#upgrade-steps" title="Permanent link">¶</a></h2>
+<h2 id="upgrade-steps">Upgrade steps<a data-markdown-ignore class="headerlink" href="#upgrade-steps" title="Permanent link">¶</a></h2>
 <p>To start the upgrade, you need to create a special <code>PerconaPGUpgrade</code> resource. This resource refers to the special <em>Operator upgrade image</em> and contains the information about the existing and target major versions. Find the example <code>PerconaPGUpgrade</code> configuration file in <code>deploy/upgrade.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGUpgrade</span>
@@ -7059,7 +7059,7 @@ cluster1  | c              | 2.34
 <li>Creates jobs to migrate the data,</li>
 <li>Starts up the cluster after the upgrade finishes.</li>
 </ol>
-<h2 id="post-upgrade-steps">Post-upgrade steps<a class="headerlink" href="#post-upgrade-steps" title="Permanent link">¶</a></h2>
+<h2 id="post-upgrade-steps">Post-upgrade steps<a data-markdown-ignore class="headerlink" href="#post-upgrade-steps" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>The <code>pgaudit</code> extension is not upgraded automatically. If you use this extension, you must drop and recreate it <strong>in each database</strong> where it is installed. <a href="connect.html">Connect to PostgreSQL</a> with the privileges of the superuser and run the following commands:</p>
@@ -7072,7 +7072,7 @@ cluster1  | c              | 2.34
 <p>A successful major upgrade invalidates existing <a href="logical-replication.html">logical replicas</a>. After the cluster is <code>ready</code>, <a href="logical-replication.html#reseed-a-logical-replica">reseed</a> each logical replica.</p>
 </li>
 </ol>
-<h2 id="check-collation">Check collation<a class="headerlink" href="#check-collation" title="Permanent link">¶</a></h2>
+<h2 id="check-collation">Check collation<a data-markdown-ignore class="headerlink" href="#check-collation" title="Permanent link">¶</a></h2>
 <p>If the new image uses a different UBI major (for example, UBI 8 to UBI 9), <code>glibc</code> collation rules change.</p>
 <p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="connect.html">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
@@ -7118,7 +7118,7 @@ cluster1  | c              | en_US.utf-8 | 2.28
 </code></pre></div>
 <p>This command requires the privileges of a superuser or a database owner. 
 <strong>Repeat for every affected database.</strong></p>
-<h2 id="cleanup">Cleanup<a class="headerlink" href="#cleanup" title="Permanent link">¶</a></h2>
+<h2 id="cleanup">Cleanup<a data-markdown-ignore class="headerlink" href="#cleanup" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>You can remove old version data at your discretion by <a href="debug-shell.html">executing into containers</a> and running the following commands (example for PostgreSQL 17):</p>
@@ -7132,9 +7132,9 @@ rm<span class="w"> </span>-rf<span class="w"> </span>/pgdata/pg17_wal
 </code></pre></div>
 </li>
 </ol>
-<h2 id="troubleshooting-upgrade-issues">Troubleshooting upgrade issues<a class="headerlink" href="#troubleshooting-upgrade-issues" title="Permanent link">¶</a></h2>
+<h2 id="troubleshooting-upgrade-issues">Troubleshooting upgrade issues<a data-markdown-ignore class="headerlink" href="#troubleshooting-upgrade-issues" title="Permanent link">¶</a></h2>
 <p>If the upgrade fails for some reason, the cluster will stay in paused mode. Resume the cluster <a href="pause.html">manually</a> to check what went wrong with upgrade (it will start with the old version). You can check the <code>PerconaPGUpgrade</code> resource with <code>kubectl get perconapgupgrade -o yaml</code> command, and <a href="debug-logs.html">check the logs</a> of the upgraded Pods to debug the issue.</p>
-<h3 id="failed-first-restore-after-the-upgrade">Failed first restore after the upgrade<a class="headerlink" href="#failed-first-restore-after-the-upgrade" title="Permanent link">¶</a></h3>
+<h3 id="failed-first-restore-after-the-upgrade">Failed first restore after the upgrade<a data-markdown-ignore class="headerlink" href="#failed-first-restore-after-the-upgrade" title="Permanent link">¶</a></h3>
 <p>After a major upgrade, PostgreSQL starts a new WAL timeline. PostgreSQL treats the upgraded cluster as a new logical generation, so it increments the timeline ID and begins writing WAL from that new point.</p>
 <p>In clusters with very low write traffic, the upgraded primary may generate very few WAL segments after the upgrade. </p>
 <p>When you make a first restore after the upgrade, the restored replicas need to replay WAL from the primary to catch up. To do that, PostgreSQL uses the <code>pg_rewind</code> tool. <code>pg_rewind</code> searches a common WAL ancestor — a point in history where both the primary and the replica share the same WAL record. If there are few WAL records, there may not be a common WAL ancestor and the replica may fail to rejoin the primary. When this happens, you see the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>.</p>

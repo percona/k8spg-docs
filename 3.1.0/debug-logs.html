@@ -139,7 +139,7 @@ database Pods and the Operator Pod.">
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6745,7 +6745,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="check-the-logs">Check the logs<a class="headerlink" href="#check-the-logs" title="Permanent link">¶</a></h1>
+<h1 id="check-the-logs">Check the logs<a data-markdown-ignore class="headerlink" href="#check-the-logs" title="Permanent link">¶</a></h1>
 <p>Logs provide valuable information. It makes sense to check the logs of the
 database Pods and the Operator Pod.</p>
 <p>If you enable <a href="persistent-logging.html">persistent logging</a>, the Operator also runs a <code>logs</code> (Fluent Bit) sidecar container on each PostgreSQL instance Pod. That sidecar streams collected PostgreSQL and pgBackRest log records to its own stdout, and the source files remain on the instance data volume across Pod restarts. </p>
@@ -6809,7 +6809,7 @@ logs with the <code>kubectl logs</code> command:</p>
 </code></pre></div>
 </li>
 </ul>
-<h2 id="increase-pgbackrest-log-verbosity">Increase pgBackRest log verbosity<a class="headerlink" href="#increase-pgbackrest-log-verbosity" title="Permanent link">¶</a></h2>
+<h2 id="increase-pgbackrest-log-verbosity">Increase pgBackRest log verbosity<a data-markdown-ignore class="headerlink" href="#increase-pgbackrest-log-verbosity" title="Permanent link">¶</a></h2>
 <p>The pgBackRest tool used for backups <a href="https://pgbackrest.org/configuration.html#section-log/option-log-level-stderr">supports different log verbosity levels <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. By default, it logs warnings and errors, but sometimes fixing backup/restore issues can be simpler when you get more debugging information from it.</p>
 <p>Log verbosity is controlled by pgBackRest <a href="https://pgbackrest.org/configuration.html#section-log/option-log-level-stderr">–log-level-stderr <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> option.</p>
 <p>You can add it to the <code>deploy/backup.yaml</code> file to use it with <a href="backups-ondemand.html">on-demand backups</a> as follows:</p>

@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7034,13 +7034,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="transparent-data-encryption-tde">Transparent data encryption (TDE)<a class="headerlink" href="#transparent-data-encryption-tde" title="Permanent link">¶</a></h1>
+<h1 id="transparent-data-encryption-tde">Transparent data encryption (TDE)<a data-markdown-ignore class="headerlink" href="#transparent-data-encryption-tde" title="Permanent link">¶</a></h1>
 <p>Transparent Data Encryption (TDE) protects your data stored on disk even if the underlying storage is compromised. This process is transparent to your applications, meaning you don’t need to change your application code. If an unauthorized user gains access to the storage, they can’t read the data files.</p>
 <p>The Operator supports transparent data encryption (TDE) via the <a href="https://docs.percona.com/pg-tde/index.html">pg_tde <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> extension. When enabled, <code>pg_tde</code> encrypts user data in tables, indexes, and temporary tables on disk so that data remains unreadable without the proper encryption keys, even if someone gains access to the storage.</p>
 <p><code>pg_tde</code> can also encrypt write-ahead log (WAL) segments stored on disk. To enable WAL encryption, you must explicitly set this option in the Custom Resource. When WAL encryption is enabled, the Operator automatically reconfigures PostgreSQL and pgBackRest to ensure compatibility. <code>pg_tde</code> uses the same global principal key that the Operator sets up in Vault. See <a href="#wal-encryption">WAL encryption</a> to learn more.</p>
 <p>This feature is available with Percona Distribution for PostgreSQL 17 and above. </p>
 <p>To store encryption keys, the Operator uses a key management system (KMS). The Operator currently supports HashiCorp Vault as the key value storage engine (KV v2). Support of KMIP and other key providers will be added in future releases.</p>
-<h2 id="how-it-works">How it works<a class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
+<h2 id="how-it-works">How it works<a data-markdown-ignore class="headerlink" href="#how-it-works" title="Permanent link">¶</a></h2>
 <p>When you enable <code>pg_tde</code> and provide Vault configuration, the Operator automates the setup:</p>
 <ol>
 <li>Adds <code>pg_tde</code> to <code>shared_preload_libraries</code> so the extension loads at startup.</li>
@@ -7050,7 +7050,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Sets <code>pg_tde.wal_encrypt</code> to <code>off</code> unless you <a href="#wal-encryption">Enable WAL encryption</a>. </li>
 </ol>
 <p>For restore, the Operator also enables <code>pg_tde</code> in the restore job and mounts the Vault secrets so encrypted backups can be restored.</p>
-<h2 id="wal-encryption">WAL encryption<a class="headerlink" href="#wal-encryption" title="Permanent link">¶</a></h2>
+<h2 id="wal-encryption">WAL encryption<a data-markdown-ignore class="headerlink" href="#wal-encryption" title="Permanent link">¶</a></h2>
 <p>WAL encryption protects write-ahead log segments on the database Pod storage. When you set <code>extensions.pg_tde.walEncryption</code> to <code>true</code>, the Operator:</p>
 <ol>
 <li>Sets the PostgreSQL parameter <code>pg_tde.wal_encrypt</code> to <code>on</code>.</li>
@@ -7059,33 +7059,33 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Adjusts <code>pgBackRest</code> settings to ensure compatibility with encrypted WAL (<code>archive-async=n</code>, <code>checksum-page=n</code>, and <code>archive-header-check=n</code>).</li>
 </ol>
 <p>For the step-by-step procedure, see <a href="encryption-setup.html">Configure transparent data encryption</a>.</p>
-<h3 id="how-wal-encryption-interacts-with-backups">How WAL encryption interacts with backups<a class="headerlink" href="#how-wal-encryption-interacts-with-backups" title="Permanent link">¶</a></h3>
+<h3 id="how-wal-encryption-interacts-with-backups">How WAL encryption interacts with backups<a data-markdown-ignore class="headerlink" href="#how-wal-encryption-interacts-with-backups" title="Permanent link">¶</a></h3>
 <p><code>pg_tde</code> keeps WAL segments encrypted on the Pod disks. The archive command decrypts each segment before upload, and the restore command encrypts it after download. As a result, WAL files in the pgBackRest repository are stored in plaintext unless you also configure <a href="backup-encryption.html">pgBackRest repository encryption</a> with <code>repo-cipher-pass</code>.</p>
 <p>Disabling asynchronous WAL archival (<code>archive-async=n</code>) can reduce archive throughput compared to clusters without WAL encryption.</p>
 <p>After you change the Vault provider or token, create a new backup. Restoring from backups taken before that change fails. See <a href="#key-rotation">Key rotation</a>.</p>
-<h3 id="considerations-for-wal-encryption">Considerations for WAL encryption<a class="headerlink" href="#considerations-for-wal-encryption" title="Permanent link">¶</a></h3>
+<h3 id="considerations-for-wal-encryption">Considerations for WAL encryption<a data-markdown-ignore class="headerlink" href="#considerations-for-wal-encryption" title="Permanent link">¶</a></h3>
 <ol>
 <li>The safest time to enable WAL encryption is before the cluster has application writes. </li>
 <li>WAL segments in the pgBackRest repository are stored in plaintext unless you configure <a href="backup-encryption.html">pgBackRest repository encryption</a>.</li>
 <li>WAL encryption disables asynchronous WAL archival in pgBackRest, which can reduce archive performance.</li>
 </ol>
-<h2 id="status-and-conditions">Status and conditions<a class="headerlink" href="#status-and-conditions" title="Permanent link">¶</a></h2>
+<h2 id="status-and-conditions">Status and conditions<a data-markdown-ignore class="headerlink" href="#status-and-conditions" title="Permanent link">¶</a></h2>
 <p>The Operator tracks the <code>pg_tde</code> configuration with a revision hash and exposes state through conditions in <code>status.conditions</code>.</p>
 <p>To see the <code>pg_tde</code> status, run:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;cluster-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>
 </code></pre></div>
-<h3 id="pgtdeenabled"><code>PGTDEEnabled</code><a class="headerlink" href="#pgtdeenabled" title="Permanent link">¶</a></h3>
+<h3 id="pgtdeenabled"><code>PGTDEEnabled</code><a data-markdown-ignore class="headerlink" href="#pgtdeenabled" title="Permanent link">¶</a></h3>
 <p>Indicates that the <code>pg_tde</code> extension is created in all databases and added to <code>shared_preload_libraries</code>. This condition also controls whether instance Pods carry the Vault volume.</p>
 <p>The condition can be <code>True</code> and the cluster status <code>Ready</code> even when there are issues with the token or key provider configuration. The Operator logs those errors. If encryption fails, check the Operator logs and the <code>PGTDEVaultProviderReady</code> condition.</p>
-<h3 id="pgtdevaultproviderready"><code>PGTDEVaultProviderReady</code><a class="headerlink" href="#pgtdevaultproviderready" title="Permanent link">¶</a></h3>
+<h3 id="pgtdevaultproviderready"><code>PGTDEVaultProviderReady</code><a data-markdown-ignore class="headerlink" href="#pgtdevaultproviderready" title="Permanent link">¶</a></h3>
 <p>Reports whether the Vault key provider in PostgreSQL matches the configuration in the Custom Resource. It becomes <code>False</code> while a credential change is in progress and stays <code>False</code> if the change stalls or fails. Unlike <code>PGTDEEnabled</code>, it does not change Pod mounts or <code>shared_preload_libraries</code>; it surfaces stalled Vault credential updates.</p>
-<h3 id="configuration-revision">Configuration revision<a class="headerlink" href="#configuration-revision" title="Permanent link">¶</a></h3>
+<h3 id="configuration-revision">Configuration revision<a data-markdown-ignore class="headerlink" href="#configuration-revision" title="Permanent link">¶</a></h3>
 <p>The Operator stores a hash of the Vault configuration in the underlying <code>PostgresCluster</code> status field <code>status.pgTDERevision</code>. It uses this hash to detect configuration changes and reconfigure <code>pg_tde</code>. The field is cleared when you disable <code>pg_tde</code>.</p>
-<h2 id="global-key-handling">Global key handling<a class="headerlink" href="#global-key-handling" title="Permanent link">¶</a></h2>
+<h2 id="global-key-handling">Global key handling<a data-markdown-ignore class="headerlink" href="#global-key-handling" title="Permanent link">¶</a></h2>
 <p>The global key name is derived from the cluster’s <code>metadata.uid</code> (for example, <code>global-master-key-ad19534a-d778-460e-ac87-ca38ef5e6755</code>), so it changes if you delete and recreate the cluster. <code>pg_tde</code> handles this like key rotation as long as both old and new keys remain accessible (for example, you deleted and recreated the cluster without removing PVCs).</p>
 <p>If you delete a cluster with <code>pg_tde</code> enabled but retain the PVCs, or if you disable and later re-enable <code>pg_tde</code>, the Operator may log “already exists” errors for the Vault provider or global key. It handles these errors and continues configuration.</p>
 <p>With <code>pg_tde</code> enabled you can make backups and restores as usual. For restore, the Operator must have access to the encryption key that was used to encrypt the backup data.</p>
-<h2 id="key-rotation">Key rotation<a class="headerlink" href="#key-rotation" title="Permanent link">¶</a></h2>
+<h2 id="key-rotation">Key rotation<a data-markdown-ignore class="headerlink" href="#key-rotation" title="Permanent link">¶</a></h2>
 <p>To rotate the Vault token, create a new Secret containing the updated token and modify the Custom Resource to reference this new Secret.</p>
 <p>When you change Vault token, the Operator updates the key provider in two phases:</p>
 <ol>
@@ -7097,7 +7097,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p class="admonition-title">Important</p>
 <p>If WAL encryption is enabled, create a new backup after you change the Vault provider or token. Restoring from backups taken before that change fails.</p>
 </div>
-<h2 id="implementation-specifics">Implementation specifics<a class="headerlink" href="#implementation-specifics" title="Permanent link">¶</a></h2>
+<h2 id="implementation-specifics">Implementation specifics<a data-markdown-ignore class="headerlink" href="#implementation-specifics" title="Permanent link">¶</a></h2>
 <ol>
 <li><code>pg_tde</code> is available with PostgreSQL 17 and above. </li>
 <li>Vault must use a <strong>KV secrets engine v2</strong> for the mount path. The default for <code>mountPath</code> is <code>secret/data</code>. You can change it to your actual mount (for example, <code>tde</code>).</li>
@@ -7112,9 +7112,9 @@ and without TLS. The <code>caSecret</code> field is optional; omit it only when 
 <li>The Operator does not drop or rewrite encrypted objects for you. Before you disable <code>pg_tde</code>, you must remove encrypted objects yourself. See <a href="encryption-disable.html">Disable encryption</a> to learn more.</li>
 <li>If you need to migrate from one Vault instance to another and rotate encryption keys at the same time, ensure you transfer all existing keys from the old Vault to the new Vault instance.</li>
 </ol>
-<h2 id="known-limitations">Known limitations<a class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
+<h2 id="known-limitations">Known limitations<a data-markdown-ignore class="headerlink" href="#known-limitations" title="Permanent link">¶</a></h2>
 <p>Only HashiCorp Vault is currently supported as a key provider. Other providers and KMIP support are planned for future releases.</p>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="encryption-setup.html">Configure transparent data encryption</a></p>
 <hr>
 <div class="md-source-file">

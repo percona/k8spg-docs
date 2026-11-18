@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6836,7 +6836,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="pvc-snapshot-support">PVC snapshot support<a class="headerlink" href="#pvc-snapshot-support" title="Permanent link">¶</a></h1>
+<h1 id="pvc-snapshot-support">PVC snapshot support<a data-markdown-ignore class="headerlink" href="#pvc-snapshot-support" title="Permanent link">¶</a></h1>
 <div class="admonition note">
 <p>This feature is in the tech preview stage. The API and behavior may change in future releases.</p>
 </div>
@@ -6852,10 +6852,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 </li>
 </ul>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
+<h2 id="overview">Overview<a data-markdown-ignore class="headerlink" href="#overview" title="Permanent link">¶</a></h2>
 <p>A PVC snapshot is a point-in-time copy of a <a href="https://kubernetes.io/docs/concepts/storage/persistent-volumes/">Persistent Volume Claim <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> created by the storage provider. It captures the volume contents at a specific moment without copying data block by block. </p>
 <p>PVC snapshots are much faster than streaming data to cloud storage or a backup volume. This is especially beneficial for large datasets. The Operator uses the <a href="https://kubernetes.io/docs/concepts/storage/volume-snapshots/">Kubernetes VolumeSnapshot API <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to create PVC snapshots at the storage level. When used with <code>pgBackRest</code> WAL archiving, PVC snapshots ensure data consistency and provide support for point-in-time recovery.</p>
-<h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">¶</a></h2>
+<h2 id="workflow">Workflow<a data-markdown-ignore class="headerlink" href="#workflow" title="Permanent link">¶</a></h2>
 <p>The Operator currently supports only cold backups (the <code>offline</code> mode). 
 A cold backup is also known as an offline backup. 
 It is a storage-level backup taken from a PostgreSQL replica instance after it is temporarily suspended by the Operator.
@@ -6870,14 +6870,14 @@ This ensures consistency by capturing the entire database exactly as it exists a
 <li><strong>Resumes</strong> the replica StatefulSet.</li>
 </ol>
 <p>This approach ensures a crash-consistent snapshot while minimizing the impact on the primary. Only a replica is taken offline, so the cluster continues serving read/write traffic on the primary during the snapshot.</p>
-<h2 id="why-to-use-pvc-snapshots">Why to use PVC snapshots<a class="headerlink" href="#why-to-use-pvc-snapshots" title="Permanent link">¶</a></h2>
+<h2 id="why-to-use-pvc-snapshots">Why to use PVC snapshots<a data-markdown-ignore class="headerlink" href="#why-to-use-pvc-snapshots" title="Permanent link">¶</a></h2>
 <p>PVC snapshots speed up backups and restores, which is especially beneficial for large data sets. With this feature, you get:</p>
 <ul>
 <li><strong>Much faster backups</strong> – Snapshot creation is typically seconds to minutes, regardless of database size. Time it takes to run traditional full backups increases as the size of your database grows.</li>
 <li><strong>Much faster restores</strong> – Restoring from a snapshot is significantly faster than restoring from cloud storage. Both in-place restores and restores to a new cluster are supported.</li>
 <li><strong>Lower resource usage</strong> – Snapshots avoid the CPU and network overhead of streaming data to a remote storage.</li>
 </ul>
-<h2 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">¶</a></h2>
+<h2 id="requirements">Requirements<a data-markdown-ignore class="headerlink" href="#requirements" title="Permanent link">¶</a></h2>
 <p>Before enabling PVC snapshots, ensure the following:</p>
 <ol>
 <li>
@@ -6905,7 +6905,7 @@ This ensures consistency by capturing the entire database exactly as it exists a
 <li>You must explicitly enable the <code>BackupSnapshots</code> feature gate in the Operator Deployment. See <a href="backups-pvc-setup.html#enable-the-feature-gate">Enable the feature gate</a>.</li>
 <li>You must explicitly specify the storage class whose CSI driver supports VolumeSnapshot API in the <code>spec.instances.[]dataVolumeClaimSpec.storageClassName</code> option in the Custom Resource for your cluster.</li>
 </ol>
-<h2 id="limitations">Limitations<a class="headerlink" href="#limitations" title="Permanent link">¶</a></h2>
+<h2 id="limitations">Limitations<a data-markdown-ignore class="headerlink" href="#limitations" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Currently only offline mode</strong> – Only offline snapshots are supported; the Operator must stop a replica pod to take a consistent snapshot of the database.</li>
 <li><strong>At least one replica required</strong> – Your cluster must have at least one replica pod besides the primary. The Operator takes the snapshot from a replica; clusters without replicas cannot use this feature.</li>

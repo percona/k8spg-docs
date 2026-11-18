@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6888,22 +6888,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="kubernetes-operator-concepts">Kubernetes Operator concepts<a class="headerlink" href="#kubernetes-operator-concepts" title="Permanent link">¶</a></h1>
+<h1 id="kubernetes-operator-concepts">Kubernetes Operator concepts<a data-markdown-ignore class="headerlink" href="#kubernetes-operator-concepts" title="Permanent link">¶</a></h1>
 <p>If you already run workloads on Kubernetes, you are used to declaring <em>desired state</em> in YAML and letting controllers create Pods, Services, and other objects. A <strong>Kubernetes Operator</strong> applies the same idea to a whole application stack—such as a database cluster—so you do not have to assemble every low-level object by hand.</p>
 <p>This page explains what Operators are in general and how <strong>Percona Operator for PostgreSQL</strong> fits in that model. For how reconciliation and Custom Resources work in practice, see <a href="operator-how-it-works.html">How the Operator works</a>. To learn more what the Operator manages, see <a href="architecture.html">Architecture</a>. </p>
-<h2 id="what-is-a-kubernetes-operator">What is a Kubernetes Operator?<a class="headerlink" href="#what-is-a-kubernetes-operator" title="Permanent link">¶</a></h2>
+<h2 id="what-is-a-kubernetes-operator">What is a Kubernetes Operator?<a data-markdown-ignore class="headerlink" href="#what-is-a-kubernetes-operator" title="Permanent link">¶</a></h2>
 <p>An Operator is a way to <strong>package, deploy, and manage</strong> a complex application like databases on Kubernetes. It extends the Kubernetes API with custom resources so you can create and update instances of that application using the same <code>kubectl</code> and GitOps workflows you use elsewhere.</p>
 <p>At its core, an Operator is a <strong>custom controller</strong>. It watches <a href="#custom-resources-explained">custom resources</a>, compares what <em>should</em> exist (desired state) with what <em>does</em> exist (current state), and takes steps to bring them in line. That pattern is often called a <strong>control loop</strong> or <strong>reconciliation loop</strong>.</p>
 <p><strong>Percona Operator for PostgreSQL</strong> was originally built upon patterns and components from <a href="https://access.crunchydata.com/documentation/postgres-operator/v5/">CrunchyData’s PostgreSQL Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>, benefiting from industry best practices for PostgreSQL management on Kubernetes. Since version 3.0.0, Percona Operator for PostgreSQL has evolved into an independent software solution, continuing to develop the Operator as open source software alongside the database and tooling stack. The Operator leverages Percona’s expertise in PostgreSQL management, delivering a solution that addresses the unique challenges of cloud-native database operations and lifecycle management.</p>
 <p>Percona Operator for PostgreSQL PostgreSQL lifecycle management by automating tasks such as initialization, scaling, backups, updates, and disaster recovery.</p>
-<h2 id="custom-resources-explained">Custom Resources explained<a class="headerlink" href="#custom-resources-explained" title="Permanent link">¶</a></h2>
+<h2 id="custom-resources-explained">Custom Resources explained<a data-markdown-ignore class="headerlink" href="#custom-resources-explained" title="Permanent link">¶</a></h2>
 <p>How Percona Operator for PostgreSQL works in Kubernetes is defined by the relationship between these core components:</p>
 <ul>
 <li>Custom Resource Definition</li>
 <li>Custom Resource </li>
 <li>Operator Deployment</li>
 </ul>
-<h3 id="custom-resource-definition-crd">Custom Resource Definition (CRD)<a class="headerlink" href="#custom-resource-definition-crd" title="Permanent link">¶</a></h3>
+<h3 id="custom-resource-definition-crd">Custom Resource Definition (CRD)<a data-markdown-ignore class="headerlink" href="#custom-resource-definition-crd" title="Permanent link">¶</a></h3>
 <p>A <strong>Custom Resource Definition</strong> is a schema that defines a new type of resource in Kubernetes. It tells Kubernetes:</p>
 <ul>
 <li>What fields the custom resource will have</li>
@@ -6911,10 +6911,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>How the resource should be validated</li>
 </ul>
 <p>For example, a Custom Resource Definition for a database cluster called <code>PostgreSQLCluster</code> has fields like <code>replicas</code>, <code>storageSize</code>, <code>postgresVersion</code>, etc.</p>
-<h3 id="custom-resource-cr">Custom Resource (CR)<a class="headerlink" href="#custom-resource-cr" title="Permanent link">¶</a></h3>
+<h3 id="custom-resource-cr">Custom Resource (CR)<a data-markdown-ignore class="headerlink" href="#custom-resource-cr" title="Permanent link">¶</a></h3>
 <p>A <strong>Custom Resource</strong> is an instance of a CRD. It represents a specific deployment of your application. When you create a Custom Resource, you’re essentially declaring your desired state for that application.</p>
 <p>For instance, you might create a Custom Resource named <code>my-postgres-cluster</code> that specifies that you want a PostgreSQL cluster with 3 replicas, 100GB of storage, and PostgreSQL version 18.</p>
-<h3 id="operator-deployment">Operator Deployment<a class="headerlink" href="#operator-deployment" title="Permanent link">¶</a></h3>
+<h3 id="operator-deployment">Operator Deployment<a data-markdown-ignore class="headerlink" href="#operator-deployment" title="Permanent link">¶</a></h3>
 <p>The <strong>Operator</strong> itself is deployed as a standard Kubernetes Deployment. It runs as a Pod (or set of Pods) in your cluster and contains the controller logic that:</p>
 <ol>
 <li>Watches for Custom Resources of the type defined by the CRD</li>
@@ -6942,7 +6942,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><strong>Monitor continuously</strong>: The Operator continuously monitors both the Custom Resource and the actual cluster state, making adjustments whenever they diverge.</p>
 </li>
 </ol>
-<h2 id="why-use-an-operator-for-a-database">Why use an Operator for a database?<a class="headerlink" href="#why-use-an-operator-for-a-database" title="Permanent link">¶</a></h2>
+<h2 id="why-use-an-operator-for-a-database">Why use an Operator for a database?<a data-markdown-ignore class="headerlink" href="#why-use-an-operator-for-a-database" title="Permanent link">¶</a></h2>
 <p>The Operator is a game-changer for database management on Kubernetes: it frees administrators and infrastructure teams from tedious, error-prone operational work, allowing them to focus on more important and interesting tasks rather than manual maintenance.</p>
 <p>Traditionally, deploying PostgreSQL in Kubernetes means you must create, wire together, and continuously maintain many objects like StatefulSets, Services, PVCs, ConfigMaps, Secrets, backup Jobs, monitoring hooks, and more. Every change or upgrade requires manual intervention and careful coordination.</p>
 <p>With an Operator, all you do is describe your desired cluster in a Custom Resource. The Operator reads it and does the works for you:</p>
@@ -6953,7 +6953,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 <p>Day-to-day, the Operator automates the most challenging and repetitive database tasks: seamless failovers, backup management, rolling upgrades, scaling, and self-healing. </p>
 <p>By trusting the Operator to manage your database infrastructure, your team can focus on building features and improving your applications rather than deal with unexpected outages. </p>
-<h2 id="next-steps">Next steps<a class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
+<h2 id="next-steps">Next steps<a data-markdown-ignore class="headerlink" href="#next-steps" title="Permanent link">¶</a></h2>
 <p><a class="md-button" href="features.html">Features and capabilities</a></p>
 <hr>
 <div class="md-source-file">

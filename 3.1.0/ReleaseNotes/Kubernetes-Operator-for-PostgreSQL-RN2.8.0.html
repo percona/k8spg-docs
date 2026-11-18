@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -7076,16 +7076,16 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-280-2025-11-13">Percona Operator for PostgreSQL 2.8.0 (2025-11-13)<a class="headerlink" href="#percona-operator-for-postgresql-280-2025-11-13" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-280-2025-11-13">Percona Operator for PostgreSQL 2.8.0 (2025-11-13)<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-280-2025-11-13" title="Permanent link">¶</a></h1>
 <p><a class="md-button" href="../quickstart.html">Get started with the Operator <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"></path></svg></span></a></p>
-<h2 id="release-highlights">Release Highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights">Release Highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
 <p>This release provides the following features and improvements:</p>
-<h3 id="custom-postgresql-user-credentials-are-now-fully-respected-by-the-operator">Custom PostgreSQL user credentials are now fully respected by the Operator<a class="headerlink" href="#custom-postgresql-user-credentials-are-now-fully-respected-by-the-operator" title="Permanent link">¶</a></h3>
+<h3 id="custom-postgresql-user-credentials-are-now-fully-respected-by-the-operator">Custom PostgreSQL user credentials are now fully respected by the Operator<a data-markdown-ignore class="headerlink" href="#custom-postgresql-user-credentials-are-now-fully-respected-by-the-operator" title="Permanent link">¶</a></h3>
 <p>You no longer have to define full login and connection information within a Secret to have the Operator use it. Now you can set only the password. The Operator generates the missing details that it needs automatically using the values from the Custom Resource. Also, if you name your Secret in the format that the Operator expects such as <code>&lt;clusterName&gt;-pguser-&lt;userName&gt;</code> — the Operator will automatically detect and use it without needing an explicit reference in the Custom Resource.  </p>
 <p>However, if you choose a custom name for the Secret, you must still reference it explicitly in the Custom Resource under the <code>users[].secretName</code> field. This ensures the Operator can locate and apply it correctly.</p>
 <p>Read more about managing user passwords in the <a href="../users.html#managing-user-passwords">documentation</a>.</p>
 <p>This enhancement makes the management of user credentials more straightforward. </p>
-<h3 id="ability-to-use-huge-pages">Ability to use huge pages<a class="headerlink" href="#ability-to-use-huge-pages" title="Permanent link">¶</a></h3>
+<h3 id="ability-to-use-huge-pages">Ability to use huge pages<a data-markdown-ignore class="headerlink" href="#ability-to-use-huge-pages" title="Permanent link">¶</a></h3>
 <p>PostgreSQL can now use huge pages if they are enabled for your Kubernetes cluster. Instruct the Operator to use huge pages when deploying a PostgreSQL cluster with this configuration:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">instances</span><span class="p">:</span>
@@ -7096,7 +7096,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">          </span><span class="nt">memory</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">4Gi</span>
 </code></pre></div>
 <p>This improvement leads to a more efficient memory utilization and improved performance. Learn more about huge pages and their use in the <a href="../huge-pages.html">Huge pages</a> chapter.</p>
-<h3 id="expanded-s3-compatibility-for-custom-extensions">Expanded S3 compatibility for custom extensions<a class="headerlink" href="#expanded-s3-compatibility-for-custom-extensions" title="Permanent link">¶</a></h3>
+<h3 id="expanded-s3-compatibility-for-custom-extensions">Expanded S3 compatibility for custom extensions<a data-markdown-ignore class="headerlink" href="#expanded-s3-compatibility-for-custom-extensions" title="Permanent link">¶</a></h3>
 <p>Some S3-compatible services (like MinIO or Ceph) require path-style access instead of virtual-hosted style. Or they may use self-signed certificates or not support TLS.</p>
 <p>To address these issues, you can now fine-tune the Operator with these new options:</p>
 <ul>
@@ -7115,13 +7115,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">      </span><span class="nt">disableSSL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
 </code></pre></div>
 <p>This improvement enables you to use a wider range of S3-compatible storage services with the Operator for storing custom extensions.</p>
-<h3 id="changed-patroni-version-management">Changed Patroni version management<a class="headerlink" href="#changed-patroni-version-management" title="Permanent link">¶</a></h3>
+<h3 id="changed-patroni-version-management">Changed Patroni version management<a data-markdown-ignore class="headerlink" href="#changed-patroni-version-management" title="Permanent link">¶</a></h3>
 <p>The Operator no longer runs a temporary Pod <code>cluster_name-patroni-version-check</code> to identify the Patroni version during cluster initialization. </p>
 <p>Instead, it uses the <code>patronictl</code> CLI tool to connect to a database Pod and detect the Patroni version. The detected version is recorded in the <code>pgv2.percona.com/patroni-version</code> annotation on the cluster resource and is added to the resource status.</p>
 <p>The Operator standardizes on Patroni 4 as the only supported version and no longer honors Patroni version overrides via the <code>pgv2.percona.com/custom-patroni-version</code> annotation.</p>
 <p>However, if your Custom Resource is still at version 2.7.0, the Operator 2.8.0 will continue to run a temporary Pod to check Patroni version and use Patroni 3 if specified via the annotation for backward compatibility. But after you upgrade the Custom Resource to version 2.8.0, the <code>pgv2.percona.com/custom-patroni-version</code>annotation is ignored, and Patroni 4 is always used.</p>
 <p>This change eliminates ambiguity and ensures your cluster is deployed with a modern high-availability implementation.</p>
-<h3 id="official-docker-image-for-postgresql-images">Official Docker image for PostgreSQL images<a class="headerlink" href="#official-docker-image-for-postgresql-images" title="Permanent link">¶</a></h3>
+<h3 id="official-docker-image-for-postgresql-images">Official Docker image for PostgreSQL images<a data-markdown-ignore class="headerlink" href="#official-docker-image-for-postgresql-images" title="Permanent link">¶</a></h3>
 <p>The Operator now uses the official Percona Docker images for Percona Distribution for PostgreSQL, with the image path <code>percona/percona-distribution-postgresql:&lt;postgresql-version&gt;</code>. </p>
 <p>Because of this transition, the Operator is compatible with and supports only the following specific PostgreSQL versions:</p>
 <ul>
@@ -7132,8 +7132,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Percona Distribution for PostgreSQL 13.22</li>
 </ul>
 <p>Attempting to use the Operator with other PostgreSQL versions or custom images is not supported.</p>
-<h2 id="changelog">Changelog<a class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
-<h3 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
+<h2 id="changelog">Changelog<a data-markdown-ignore class="headerlink" href="#changelog" title="Permanent link">¶</a></h2>
+<h3 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-730">K8SPG-730</a> - Added the  <code>status.observedGeneration</code> field to the Custom Resource Definition to improve observability and ensure the controller successfully reconciled the latest changes to the cluster.</p>
@@ -7151,7 +7151,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-833">K8SPG-833</a> - Added the ability to define custom environment variables across all components. This enables tighter integration with external systems, secrets, or runtime configurations.</p>
 </li>
 </ul>
-<h3 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
+<h3 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="https://perconadev.atlassian.net/browse/K8SPG-460">K8SPG-460</a> - The Operator now correctly enables and used Huge pages functionality if they are enabled on the OS level.</li>
 <li>
@@ -7179,7 +7179,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-882">K8SPG-882</a> - The operator no longer deploys a temporary Patroni version check pod, as it now detects the version directly from running database instances.</p>
 </li>
 </ul>
-<h3 id="fixed-bugs">Fixed bugs<a class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
+<h3 id="fixed-bugs">Fixed bugs<a data-markdown-ignore class="headerlink" href="#fixed-bugs" title="Permanent link">¶</a></h3>
 <ul>
 <li>
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-724">K8SPG-724</a> - Fixed the issue with upgrading custom extension versions. The Operator now correctly uninstalls old versions and installs new ones automatically.</p>
@@ -7208,7 +7208,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="https://perconadev.atlassian.net/browse/K8SPG-884">K8SPG-884</a> - Clusters deployed with PostgreSQL 13 now correctly support the <code>pg_stat_statements</code> extension.</p>
 </li>
 </ul>
-<h3 id="documentation-improvements">Documentation improvements<a class="headerlink" href="#documentation-improvements" title="Permanent link">¶</a></h3>
+<h3 id="documentation-improvements">Documentation improvements<a data-markdown-ignore class="headerlink" href="#documentation-improvements" title="Permanent link">¶</a></h3>
 <ul>
 <li>Refined the Upgrade guide structure, moving instructions for updating built-in extensions under the Database upgrade section for better clarity.</li>
 <li>Improved documentation for generating custom TLS certificates used by your cluster and added steps how to safely renew or replace your certificate authorities and secrets.</li>
@@ -7216,7 +7216,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Improved the Upgrade document with the steps to change collation version is there is a collation mismatch.</li>
 <li>PostGIS image documentation now accurately reflects the available versions.</li>
 </ul>
-<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-change-rename-and-removal">Deprecation, Change, Rename and Removal<a data-markdown-ignore class="headerlink" href="#deprecation-change-rename-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>New repository for <code>postgresql</code> image.</li>
 </ul>
@@ -7255,7 +7255,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </ul>
 </li>
 </ul>
-<h2 id="supported-software">Supported software<a class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
+<h2 id="supported-software">Supported software<a data-markdown-ignore class="headerlink" href="#supported-software" title="Permanent link">¶</a></h2>
 <p>The Operator 2.8.0 is developed, tested and based on:</p>
 <ul>
 <li>PostgreSQL 13.22-1, 14.19-1, 15.14-1, 16.10-1,17.6-1 as the database. Other versions may also work but have not been tested.</li>
@@ -7263,7 +7263,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>Patroni version 4.0.6 for high-availability</li>
 <li>PostGIS version 3.3.8</li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>Percona Operators are designed for compatibility with all <a href="https://www.cncf.io/training/certification/software-conformance/">CNCF-certified <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> Kubernetes distributions. </p>
 <p>Our release process includes targeted testing and validation on major cloud provider platforms and OpenShift, as detailed below for Operator version 2.8.0:</p>
 <ul>
@@ -7274,7 +7274,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://github.com/kubernetes/minikube">Minikube <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> 1.37.0 with Kubernetes v1.34.0</li>
 </ul>
 <p>This list only includes the platforms that the Percona Operators are specifically tested on as part of the release process. Other Kubernetes flavors and versions depend on the backward compatibility offered by Kubernetes itself.</p>
-<h2 id="percona-certified-images">Percona certified images<a class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
+<h2 id="percona-certified-images">Percona certified images<a data-markdown-ignore class="headerlink" href="#percona-certified-images" title="Permanent link">¶</a></h2>
 <p>Find Percona’s certified Docker images that you can use with the Percona Operator for PostgreSQL in the following table.</p>
 <table>
 <thead>

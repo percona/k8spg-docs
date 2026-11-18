@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6744,13 +6744,13 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a class="headerlink" href="#configure-dns-suffix-for-service-discovery" title="Permanent link">¶</a></h1>
+<h1 id="configure-dns-suffix-for-service-discovery">Configure DNS suffix for service discovery<a data-markdown-ignore class="headerlink" href="#configure-dns-suffix-for-service-discovery" title="Permanent link">¶</a></h1>
 <p>In Kubernetes, services are assigned a DNS name to be accessible within the cluster. The domain name follows the pattern <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.&lt;cluster-domain&gt;</code>. The default cluster domain is <code>cluster.local</code>, so a typical FQDN looks like <code>&lt;service-name&gt;.&lt;namespace&gt;.svc.cluster.local</code>.</p>
 <p>When you refer to a service using only its short name, Kubernetes automatically expands it with this domain so the name resolves inside the cluster. This enables workloads to communicate without the need to specify fully-qualified domain names.</p>
 <p>Clusters with custom DNS configurations may use a domain suffix different from the default <code>cluster.local</code>. This includes scenarios such as running inside a vcluster, which may respond to DNS queries with records that do not match the actual cluster domain.</p>
 <p>The Operator tries to auto-detect the cluster’s domain suffix by performing a CNAME lookup on the service <code>kubernetes.default.svc</code> (that is, a service named <code>kubernetes</code> in the <code>default</code> namespace). If the lookup returns a value, the Operator uses that as the domain suffix. If the Operator fails to auto-detect the DNS suffix, it falls back to using the default <code>cluster.local</code> domain. This may lead to services not resolving properly within the cluster.</p>
 <p>To address this, you can set your custom DNS suffix for the Operator to use when it constructs service names. As a result, the Operator produces hostnames that match your cluster’s DNS configuration, ensuring correct service resolution and discovery.</p>
-<h2 id="how-to-configure">How to configure<a class="headerlink" href="#how-to-configure" title="Permanent link">¶</a></h2>
+<h2 id="how-to-configure">How to configure<a data-markdown-ignore class="headerlink" href="#how-to-configure" title="Permanent link">¶</a></h2>
 <p>Add <code>clusterServiceDNSSuffix</code> under <code>spec</code> in your Custom Resource. Set it to your cluster’s DNS suffix—for example, <code>cluster.local</code> for a standard cluster, or the host cluster’s suffix when the Operator runs in a vcluster:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span>

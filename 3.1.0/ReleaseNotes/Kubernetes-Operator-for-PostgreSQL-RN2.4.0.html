@@ -138,7 +138,7 @@
     
     
     
-    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"><div class="agent-hint" aria-hidden="true" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap">For AI agents: an index of this documentation is at <a href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt" tabindex="-1">llms.txt</a>.</div>
   
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
@@ -6920,7 +6920,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="percona-operator-for-postgresql-240">Percona Operator for PostgreSQL 2.4.0<a class="headerlink" href="#percona-operator-for-postgresql-240" title="Permanent link">¶</a></h1>
+<h1 id="percona-operator-for-postgresql-240">Percona Operator for PostgreSQL 2.4.0<a data-markdown-ignore class="headerlink" href="#percona-operator-for-postgresql-240" title="Permanent link">¶</a></h1>
 <ul>
 <li>
 <p><strong>Date</strong></p>
@@ -6931,8 +6931,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p><a href="../System-Requirements.html#installation-guidelines">Installing Percona Operator for PostgreSQL</a> </p>
 </li>
 </ul>
-<h2 id="release-highlights">Release Highlights<a class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
-<h2 id="major-versions-upgrade-tech-preview">Major versions upgrade (tech preview)<a class="headerlink" href="#major-versions-upgrade-tech-preview" title="Permanent link">¶</a></h2>
+<h2 id="release-highlights">Release Highlights<a data-markdown-ignore class="headerlink" href="#release-highlights" title="Permanent link">¶</a></h2>
+<h2 id="major-versions-upgrade-tech-preview">Major versions upgrade (tech preview)<a data-markdown-ignore class="headerlink" href="#major-versions-upgrade-tech-preview" title="Permanent link">¶</a></h2>
 <p>Starting from this release Operator users can automatically upgrade from one PostgreSQL major version to another. Upgrade is triggered by applying the yaml file with the information about the existing and desired major versions, with an example present in <code>deploy/upgrade.yaml</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGUpgrade</span>
@@ -6952,10 +6952,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li>The cluster starts up after the upgrade finishes.</li>
 </ol>
 <p>Check official documentation for <a href="../update-db-major.html">more details</a>, including ones about tracking the upgrade process and side effects for users with custom extensions.</p>
-<h2 id="supporting-postgresql-tablespaces">Supporting PostgreSQL tablespaces<a class="headerlink" href="#supporting-postgresql-tablespaces" title="Permanent link">¶</a></h2>
+<h2 id="supporting-postgresql-tablespaces">Supporting PostgreSQL tablespaces<a data-markdown-ignore class="headerlink" href="#supporting-postgresql-tablespaces" title="Permanent link">¶</a></h2>
 <p>Tablespaces allow DBAs to store a database on multiple file systems within the same server and to control where (on which file systems) specific parts of the database are stored. You can think about it as if you were giving names to your disk mounts and then using those names as additional parameters when creating database objects.</p>
 <p>PostgreSQL supports this feature, allowing you to store data outside of the primary data directory. Tablespaces support was present in Percona Operator for PostgreSQL 1.x, and starting from this version, Percona Operator for PostgreSQL 2.x <a href="../tablespaces.html">can also bring</a> this feature to your Kubernetes environment, when needed.</p>
-<h2 id="using-cloud-roles-to-authenticate-on-the-object-storage-for-backups">Using cloud roles to authenticate on the object storage for backups<a class="headerlink" href="#using-cloud-roles-to-authenticate-on-the-object-storage-for-backups" title="Permanent link">¶</a></h2>
+<h2 id="using-cloud-roles-to-authenticate-on-the-object-storage-for-backups">Using cloud roles to authenticate on the object storage for backups<a data-markdown-ignore class="headerlink" href="#using-cloud-roles-to-authenticate-on-the-object-storage-for-backups" title="Permanent link">¶</a></h2>
 <p>Percona Operator for PostgreSQL has introduced a new feature that allows users to authenticate to AWS S3 buckets via <a href="https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html">IAM roles  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. <a href="../backups-storage-s3.html#__tabbed_1_2">This enhancement</a> significantly improves security by eliminating the need to manage S3 access keys directly, while also streamlining the configuration process for easier backup and restore operations.</p>
 <p>To use this feature, add annotation to the <code>spec</code> part of the Custom Resource and also add pgBackRest custom configuration option to the <code>backups</code> subsection:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
@@ -6971,7 +6971,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">        </span><span class="nt">repo1-s3-key-type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">web-id</span>
 <span class="w">        </span><span class="l l-Scalar l-Scalar-Plain">...</span>
 </code></pre></div>
-<h2 id="new-features">New features<a class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
+<h2 id="new-features">New features<a data-markdown-ignore class="headerlink" href="#new-features" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-138">K8SPG-138</a>: Users are now able to use AWS <a href="https://kubernetes-on-aws.readthedocs.io/en/latest/user-guide/iam-roles.html">IAM role  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to provide access to the S3 bucket used for backups</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-254">K8SPG-254</a>: Now the Operator <a href="../update-db-major.html">automates</a> upgrading PostgreSQL major versions</li>
@@ -6979,7 +6979,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-479">K8SPG-479</a> and <a href="https://jira.percona.com/browse/K8SPG-492">K8SPG-492</a>: It is now possible to specify tolerations for the <a href="../operator.html#backupspgbackrestrestoretolerationseffect">backup restore jobs</a> as well as for the <a href="../operator.html#datasourcepostgresclustertolerationseffect">data move jobs</a> created when the Operator 1.x is upgraded to 2.x; this is useful in environments with dedicated Kubernetes worker nodes protected by taints</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-503">K8SPG-503</a> and <a href="https://jira.percona.com/browse/K8SPG-513">K8SPG-513</a>: It is now possible to specify <a href="../operator.html#instancescontainersreplicacertcopyresourceslimitscpu">resources for the sidecar containers</a> of database instance Pods</li>
 </ul>
-<h2 id="improvements">Improvements<a class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
+<h2 id="improvements">Improvements<a data-markdown-ignore class="headerlink" href="#improvements" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-259">K8SPG-259</a>: Users can now change the default level for log messages for pgBackRest to simplify fixing backup and restore issues</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-542">K8SPG-542</a>: Documentation now includes HowTo on <a href="../standby-streaming.html">creating a disaster recovery cluster using streaming replication</a></li>
@@ -6991,7 +6991,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-550">K8SPG-550</a>: The default size for <code>/tmp</code> mount point in PMM container was increased from 1.5G to 2G</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-585">K8SPG-585</a>: The namespace field was added to the Operator and database Helm chart templates</li>
 </ul>
-<h2 id="bugs-fixed">Bugs Fixed<a class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
+<h2 id="bugs-fixed">Bugs Fixed<a data-markdown-ignore class="headerlink" href="#bugs-fixed" title="Permanent link">¶</a></h2>
 <ul>
 <li><a href="https://jira.percona.com/browse/K8SPG-462">K8SPG-462</a>: Fixed a bug where backups could not start if a previous backup had the same name</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-470">K8SPG-470</a>: Liveness and Readiness probes timeouts <a href="../operator.html#patronisyncperiodseconds">are now configurable</a> through Custom Resource</li>
@@ -7005,11 +7005,11 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <li><a href="https://jira.percona.com/browse/K8SPG-543">K8SPG-543</a>: Fix a bug where applying a cr.yaml file with an empty <code>spec.proxy</code> field caused the Operator to crash</li>
 <li><a href="https://jira.percona.com/browse/K8SPG-547">K8SPG-547</a>: Fix dependency issue that made pgbackrest-repo container incompatible with pgBackRest 2.50, resulting in the older 2.48 version being used instead</li>
 </ul>
-<h2 id="deprecation-and-removal">Deprecation and removal<a class="headerlink" href="#deprecation-and-removal" title="Permanent link">¶</a></h2>
+<h2 id="deprecation-and-removal">Deprecation and removal<a data-markdown-ignore class="headerlink" href="#deprecation-and-removal" title="Permanent link">¶</a></h2>
 <ul>
 <li>The <code>plpythonu</code> extension was removed from the list of built-in PostgreSQL extensions; users who still need it can enable it for their databases via <a href="../custom-extensions.html">custom extensions functionality</a></li>
 </ul>
-<h2 id="supported-platforms">Supported platforms<a class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
+<h2 id="supported-platforms">Supported platforms<a data-markdown-ignore class="headerlink" href="#supported-platforms" title="Permanent link">¶</a></h2>
 <p>The Operator was developed and tested with PostgreSQL versions 12.19, 13.15, 14.12, 15.7, and 16.3. Other options may also work but have not been tested. The Operator 2.4.0 provides connection pooling based on pgBouncer 1.22.1 and high-availability implementation based on Patroni 3.3.0.</p>
 <p>The following platforms were tested and are officially supported by the Operator
 2.4.0:</p>
