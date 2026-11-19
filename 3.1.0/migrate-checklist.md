@@ -244,7 +244,7 @@ pgcrypto            | 1.3
 
 Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image.
 
-You can also [add custom extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#add-custom-extensions) if you need them. Evaluate the risk before you add any extension.
+You can also [add custom extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#add-custom-extensions) if you need them or if they are missing in Percona images. Evaluate the risk before you add any extension.
 
 Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in `PGDATA`. Do not assume an extension is available because it exists in `pg_extension`.
 

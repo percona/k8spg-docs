@@ -6824,18 +6824,18 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <tbody>
 <tr>
 <td><a href="migrate-from-crunchy-standby.html">Migrate using a standby cluster</a> – set up a new standby cluster in Percona Operator and replicate from Crunchy</td>
-<td>- Near-zero downtime <br> - Validate new cluster while old remains online</td>
-<td>- Requires both clusters running in parallel <br> - Higher resource usage</td>
+<td>- Shortest downtime: writes stop only during the cutover, usually for seconds <br> - Validate the new cluster while the old one remains online <br> - Roll back to Crunchy until you move the new cluster to its own backup repository</td>
+<td>- Requires both clusters running in parallel and higher resource usage <br> - Both clusters need access to the same backup storage, and Percona needs network access to Crunchy <br> - More steps after the cutover: switch TLS certificates and move to a new backup repository path</td>
 </tr>
 <tr>
 <td><a href="migrate-from-crunchy-backup-restore.html">Migrate with backup and restore</a> – back up data in Crunchy and restore it in Percona Operator</td>
-<td>- Safer migration path <br> - Allows test runs of migration <br> - Can be rolled back</td>
-<td>- Introduces downtime, which depends on data size</td>
+<td>- Allows test runs of the migration <br> - The Crunchy cluster stays unchanged, so you can roll back by pointing applications back to it <br> - Works across Kubernetes clusters that share backup storage</td>
+<td>- Downtime lasts for the restore, usually minutes, and grows with the data size <br> - Requires a backup repository in object storage. If the Crunchy cluster only has a volume repository, you must add one</td>
 </tr>
 <tr>
 <td><a href="migrate-from-crunchy-data-volumes.html">Migrate reusing data volumes</a> – reuse the Persistent Volume Claims (PVCs) from a Crunchy cluster</td>
-<td>- Simple and straightforward <br> - No need to move large data over the network</td>
-<td>- Requires downtime <br> - Irreversible and requires thorough testing</td>
+<td>- No need to move large data over the network <br> - Downtime doesn’t grow with the data size</td>
+<td>- Requires downtime while the volumes move to the new cluster <br> - Requires permissions to modify PersistentVolumes, usually cluster-admin <br> - Every volume of the primary (data, WAL, tablespaces) must move to the new cluster <br> - Rollback is possible only from a backup taken before the migration</td>
 </tr>
 </tbody>
 </table>
@@ -6844,7 +6844,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 8, 2026 13:29:30 UTC">September 8, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2026 12:01:59 UTC">November 19, 2026</span>
       
         <br>
         Created:

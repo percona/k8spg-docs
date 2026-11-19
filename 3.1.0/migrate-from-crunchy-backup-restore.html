@@ -4592,6 +4592,23 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Configure Crunchy PostgreSQL cluster for remote backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clusters-that-already-have-a-backup-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clusters that already have a backup repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -4621,6 +4638,17 @@
     <span class="md-ellipsis">
       
         Deploy Percona Operator for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the cutover
       
     </span>
   </a>
@@ -4695,10 +4723,21 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#archiveinfo-missing-or-restore-errors" class="md-nav__link">
+  <a href="#restore-fails-with-no-backup-set-found-to-restore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        archive.info missing or restore errors
+        Restore fails with no backup set found to restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-fails-with-read-only-file-system-for-tablespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore fails with Read-only file system for /tablespaces
       
     </span>
   </a>
@@ -6948,6 +6987,23 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Configure Crunchy PostgreSQL cluster for remote backups">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#clusters-that-already-have-a-backup-repository" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Clusters that already have a backup repository
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -6977,6 +7033,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Deploy Percona Operator for PostgreSQL
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prepare-the-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prepare the cutover
       
     </span>
   </a>
@@ -7051,10 +7118,21 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#archiveinfo-missing-or-restore-errors" class="md-nav__link">
+  <a href="#restore-fails-with-no-backup-set-found-to-restore" class="md-nav__link">
     <span class="md-ellipsis">
       
-        archive.info missing or restore errors
+        Restore fails with no backup set found to restore
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#restore-fails-with-read-only-file-system-for-tablespaces" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Restore fails with Read-only file system for /tablespaces
       
     </span>
   </a>
@@ -7143,8 +7221,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </thead>
 <tbody>
 <tr>
-<td>- A clear cutover point (the migration backup) <br> - Room to rehearse restore and validation before switching applications <br> - The option to roll back to Crunchy until you decommission the source cluster and redirect traffic</td>
-<td>- Any data written <strong>after</strong> the migration backup and <strong>before</strong> cutover to Percona is not carried over unless you take another backup and re-bootstrap. <br> - Downtime spans at least that backup window plus restore and validation time.</td>
+<td>- A clear cutover point <br> - Room to rehearse restore and validation before switching applications <br> - The option to roll back to Crunchy until you decommission the source cluster and redirect traffic</td>
+<td>- Writes stop from the cutover until the Percona cluster is ready. <br> - Downtime spans the restore and validation time. The restore replays the WAL archived after the migration backup, so a recent backup shortens it.</td>
 </tr>
 </tbody>
 </table>
@@ -7161,7 +7239,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
-<li>A Kubernetes or OpenShift cluster with permissions to create namespaces, CRDs, Roles, and Deployments.</li>
+<li>A Kubernetes cluster running on one of the <a href="System-Requirements.html#supported-platforms">supported platforms</a> with permissions to create namespaces, CRDs, Roles, and Deployments.</li>
 <li><a href="https://helm.sh/">Helm</a> 3.x (if you install operators or optional in-cluster object storage with Helm).</li>
 <li><code>kubectl</code> or <code>oc</code>.</li>
 <li><a href="https://github.com/mikefarah/yq">yq</a> YAML processor (optional, for manifest tricks used in other migration guides).</li>
@@ -7173,6 +7251,8 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Create or choose namespaces for Crunchy and Percona and export them.</p>
 <div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CRUNCHY_NS</span><span class="o">=</span>postgres-operator
 <span class="nb">export</span><span class="w"> </span><span class="nv">NAMESPACE</span><span class="o">=</span>pgo
+kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>postgres-operator
+kubectl<span class="w"> </span>create<span class="w"> </span>namespace<span class="w"> </span>pgo
 </code></pre></div>
 </li>
 <li>
@@ -7187,11 +7267,31 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>This involves:</p>
 <ul>
 <li>Creating a Secret with the required credentials for your object storage (e.g., S3 access keys or GCS service account).</li>
-<li>Referencing that Secret under the <code>spec.backups.pgbackrest.repos</code> section in your Crunchy <code>PostgresCluster</code> manifest.</li>
-<li>Setting options such as <code>repo1-path</code>, bucket, region, endpoint, and other storage details to match what you plan to use on the Percona side under <code>spec.dataSource.pgbackrest</code>.</li>
+<li>Referencing that Secret under the <code>spec.backups.pgbackrest.configuration</code> section in your Crunchy <code>PostgresCluster</code> manifest.</li>
+<li>Adding an object storage repository under <code>spec.backups.pgbackrest.repos</code> with the bucket, region, endpoint, and other storage details. Note its path: you need it on the Percona side under <code>spec.dataSource.pgbackrest</code>. If you don’t set <code>repo&lt;N&gt;-path</code>, Crunchy uses <code>/pgbackrest/repo&lt;N&gt;</code>, for example, <code>/pgbackrest/repo2</code>.</li>
+<li>Adding the <code>spec.backups.pgbackrest.manual</code> section, so that you can start a backup to this repository on demand.</li>
 <li>Ensuring network access between Crunchy and Percona namespaces to the object storage endpoint.</li>
 </ul>
 <p>See the <a href="migrate-from-crunchy-standby.html#adapt-the-configuration-for-crunchy-postgresql-cluster">standby migration guide</a> for an example manifest that creates the required Secret and configures remote backups and WAL archiving.</p>
+<h3 id="clusters-that-already-have-a-backup-repository">Clusters that already have a backup repository<a data-markdown-ignore class="headerlink" href="#clusters-that-already-have-a-backup-repository" title="Permanent link">¶</a></h3>
+<p>Many existing Crunchy clusters use a volume (PVC) repository as <code>repo1</code>, and keep backups in object storage in <code>repo2</code> or a higher-numbered repository. Check which repositories your cluster has:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{range .spec.backups.pgbackrest.repos[*]}{.name}{"\t"}{.s3.bucket}{.gcs.bucket}{.azure.container}{.volume.volumeClaimSpec.resources.requests.storage}{"\n"}{end}'</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>repo1   2Gi
+repo2   my-backup-bucket
+</code></pre></div>
+</details>
+<p>A bucket or container name means an object storage repository. A storage size means a volume repository. In this example, <code>repo1</code> is a volume repository and <code>repo2</code> is in object storage.</p>
+<ul>
+<li>If the cluster already has an object storage repository, use it for the migration. You don’t need to rename it to <code>repo1</code>.</li>
+<li>If the cluster only has a volume repository, add an object storage repository with the next free name, for example, <code>repo2</code>. Don’t replace or remove <code>repo1</code>. The Percona cluster can’t restore from a volume repository of another cluster: neither <code>dataSource.pgbackrest</code> with a <code>volume</code> repository nor <code>dataSource.postgresCluster</code> can read it.</li>
+</ul>
+<p>Changing <code>spec.backups</code> on an existing Crunchy cluster restarts its PostgreSQL Pods. Plan this change for a maintenance window.</p>
+<p>The rest of this guide uses <code>repo1</code> in object storage. If your repository has a different name, set <code>manual.repoName</code> to it, use it in the <code>stanzaCreated</code> wait command, and see <a href="#create-the-percona-postgresql-cluster-from-the-crunchy-backup">how to reference it on the Percona side</a>.</p>
 <p>Here’s the example configuration of the Crunchy <code>PostgresCluster</code> object:</p>
 <div class="highlight"><span class="filename">postgres.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">postgres-operator.crunchydata.com/v1beta1</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PostgresCluster</span>
@@ -7234,24 +7334,22 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Apply the configuration to create a new or update an existing cluster:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>postgres.yaml<span class="w"> </span>-n<span class="w"> </span><span class="nv">$CRUNCHY_NS</span>
 </code></pre></div>
-<p>Wait for the cluster to report the “Ready” status:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+<p>Wait until all PostgreSQL instances of the cluster are ready. Set the number to the <code>replicas</code> value of the <code>instance1</code> instance set (<code>3</code> in this example):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com/crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Ready<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--timeout<span class="o">=</span>300s
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.instances[?(@.name=="instance1")].readyReplicas}'</span><span class="o">=</span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>pod/crunchy-source-instance1-9rgg-0 condition met
-pod/crunchy-source-instance1-dz45-0 condition met
-pod/crunchy-source-instance1-p6pl-0 condition met
+<div class="no-copy highlight"><pre><span></span><code>postgrescluster.postgres-operator.crunchydata.com/crunchy-source condition met
 </code></pre></div>
 </details>
-<p>Wait for the <code>pgBackRest</code> stanza to be created. The stanza initializes the backup and restore infrastructure for further backups or restore operations. </p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster/crunchy-source<span class="w"> </span><span class="se">\</span>
+<p>This command waits on the cluster status, so you can run it right after <code>kubectl apply</code>. A <code>kubectl wait pod</code> command fails with <code>no matching resources found</code> if the Pods don’t exist yet.</p>
+<p>Wait for the <code>pgBackRest</code> stanza to be created. The stanza initializes the backup and restore infrastructure for further backup or restore operations. Specify the repository that stores backups in the object storage (<code>repo1</code> in this example):</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com/crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.repos[0].stanzaCreated}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.repos[?(@.name=="repo1")].stanzaCreated}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>300s
 </code></pre></div>
 <details class="example">
@@ -7262,10 +7360,10 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <p>The <code>stanzaCreated</code> status confirms that <code>pgBackRest</code> has scanned the configuration and the data directory and is ready to manage backups for your cluster.</p>
 <h2 id="create-the-migration-backup">Create the migration backup<a data-markdown-ignore class="headerlink" href="#create-the-migration-backup" title="Permanent link">¶</a></h2>
 <p>Add a few test records to your database, then trigger a full backup.</p>
-<p>This backup is the restore point for <code>cluster1</code> on Percona. <strong>Stop application writes</strong> before you trigger it if you need a consistent cutover; otherwise treat everything after this backup as disposable until cutover.</p>
+<p>This backup is the starting point for the restore of <code>cluster1</code> on Percona. You don’t need to stop application writes for it: the restore replays the WAL that Crunchy archives after the backup. You stop writes later, at the <a href="#prepare-the-cutover">cutover</a>.</p>
 <ol>
 <li>
-<p>Identify the primary Pod of the the Crunchy PostgreSQL cluster and export it as an environment variable:</p>
+<p>Identify the primary Pod of the Crunchy PostgreSQL cluster and export it as an environment variable:</p>
 <div class="highlight"><pre><span></span><code><span class="nv">CRUNCHY_PRIMARY</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>master<span class="w"> </span><span class="se">\</span>
 <span class="w">    </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
@@ -7282,25 +7380,54 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </code></pre></div>
 </li>
 <li>
-<p>Trigger a full backup:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
+<p>Start a full backup. The annotation value identifies this backup request, so save it in a variable:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">BACKUP_ID</span><span class="o">=</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span>
+kubectl<span class="w"> </span>annotate<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>date<span class="w"> </span>+%s<span class="k">)</span><span class="s2">"</span>
+<span class="w">  </span>--overwrite<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">BACKUP_ID</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+<p>The <code>--overwrite</code> flag lets you re-run the command if the cluster already has this annotation from an earlier backup.</p>
+</li>
+<li>
+<p>Wait until the Crunchy Operator picks up this backup request:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com/crunchy-source<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.manualBackup.id}'</span><span class="o">=</span><span class="s2">"</span><span class="si">${</span><span class="nv">BACKUP_ID</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--timeout<span class="o">=</span>120s
 </code></pre></div>
 </li>
 <li>
-<p>Wait for the backup Job to complete:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>job<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span>manual,postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source<span class="w"> </span><span class="se">\</span>
+<p>Wait for the backup to finish:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com/crunchy-source<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--for<span class="o">=</span><span class="nv">condition</span><span class="o">=</span>Complete<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.manualBackup.finished}'</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
+<p>On a newly created Crunchy cluster, the Crunchy Operator first completes its automatic initial backup and starts your backup only after that. The timeout covers both backups. For a large cluster, increase it.</p>
 <details class="example">
 <summary>Expected output</summary>
-<div class="no-copy highlight"><pre><span></span><code>job.batch/crunchy-source-backup-6pvj condition met
+<div class="no-copy highlight"><pre><span></span><code>postgrescluster.postgres-operator.crunchydata.com/crunchy-source condition met
 </code></pre></div>
 </details>
+</li>
+<li>
+<p>Check that the backup succeeded:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.manualBackup.succeeded}{"\n"}'</span>
+</code></pre></div>
+<p>The output is <code>1</code> for a successful backup.</p>
+<p>If the backup fails, the Crunchy Operator retries it. During the retries, <code>finished</code> stays <code>false</code> and the previous wait times out, while <code>status.pgbackrest.manualBackup.failed</code> counts the failed attempts. Check it with:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.pgbackrest.manualBackup}{"\n"}'</span>
+</code></pre></div>
+<p>To find the backup Job and check its logs, run:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>job<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/pgbackrest-backup<span class="o">=</span>manual
+</code></pre></div>
+<p>After you fix the cause, start the backup again with a new <code>BACKUP_ID</code> value.</p>
 </li>
 </ol>
 <h2 id="prepare-pgbackrest-credentials-in-the-percona-namespace">Prepare pgBackRest credentials in the Percona namespace<a data-markdown-ignore class="headerlink" href="#prepare-pgbackrest-credentials-in-the-percona-namespace" title="Permanent link">¶</a></h2>
@@ -7314,8 +7441,8 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="s">stringData:</span>
 <span class="s">  s3.conf: |</span>
 <span class="s">    [global]</span>
-<span class="s">    repo1-s3-key="&lt;your-access-key&gt;"</span>
-<span class="s">    repo1-s3-key-secret="&lt;your-access-secret&gt;"</span>
+<span class="s">    repo1-s3-key=&lt;your-access-key&gt;</span>
+<span class="s">    repo1-s3-key-secret=&lt;your-access-secret&gt;</span>
 <span class="s">EOF</span>
 </code></pre></div>
 <p>If you use different Secret names, use your name consistently in <code>spec.dataSource.pgbackrest.configuration</code> and <code>spec.backups.pgbackrest.configuration</code> on <code>PerconaPGCluster</code> <code>cluster1</code>.</p>
@@ -7340,14 +7467,70 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </details>
 </li>
 </ol>
+<h2 id="prepare-the-cutover">Prepare the cutover<a data-markdown-ignore class="headerlink" href="#prepare-the-cutover" title="Permanent link">¶</a></h2>
+<p>The Percona cluster restores the migration backup and then replays the WAL that Crunchy archived after it. Writes are carried over up to the last archived WAL file. Crunchy archives the current WAL file when it is full or after <code>archive_timeout</code> (60 seconds by default), so the last writes can still be in a WAL file that isn’t archived yet. To carry over every write, make Crunchy archive the current WAL file after you stop writes:</p>
+<ol>
+<li>
+<p>Stop application writes to the Crunchy cluster. This is the start of the downtime.</p>
+</li>
+<li>
+<p>Switch to a new WAL file, so that Crunchy archives the current one. Save the name of the archived file:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">WAL_FILE</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-tAc<span class="w"> </span><span class="s2">"SELECT pg_walfile_name(pg_switch_wal());"</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">WAL_FILE</span><span class="si">}</span><span class="s2">"</span>
+</code></pre></div>
+</li>
+<li>
+<p>Wait until Crunchy reports this file as archived:</p>
+<div class="highlight"><pre><span></span><code><span class="k">until</span><span class="w"> </span><span class="o">[</span><span class="w"> </span><span class="s2">"</span><span class="k">$(</span>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>psql<span class="w"> </span>-tAc<span class="w"> </span><span class="s2">"SELECT last_archived_wal &gt;= '</span><span class="si">${</span><span class="nv">WAL_FILE</span><span class="si">}</span><span class="s2">' FROM pg_stat_archiver;"</span><span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"t"</span><span class="w"> </span><span class="o">]</span><span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">  </span><span class="nb">echo</span><span class="w"> </span><span class="s2">"Waiting for </span><span class="si">${</span><span class="nv">WAL_FILE</span><span class="si">}</span><span class="s2"> to be archived..."</span>
+<span class="w">  </span>sleep<span class="w"> </span><span class="m">2</span>
+<span class="k">done</span>
+</code></pre></div>
+</li>
+</ol>
+<p>Now the repository contains every write. Create the Percona cluster in the next section. You don’t need a new backup.</p>
+<details class="note">
+<summary>Restore up to a specific point in time instead</summary>
+<p>To restore only up to a specific moment, for example, if you can’t stop writes, add point-in-time recovery options to <code>spec.dataSource.pgbackrest</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">dataSource</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">pgbackrest</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=time</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--target="2026-10-15 10:05:55+00"</span>
+</code></pre></div>
+<p>PostgreSQL compares the target with the <strong>commit</strong> time of each transaction. A transaction that commits after the target isn’t restored, even if your application recorded an earlier timestamp for it. Set the target to the commit time of the last transaction you need, or later. You don’t need to add <code>--target-action=promote</code>: the Operator adds it.</p>
+</details>
 <h2 id="create-the-percona-postgresql-cluster-from-the-crunchy-backup">Create the Percona PostgreSQL cluster from the Crunchy backup<a data-markdown-ignore class="headerlink" href="#create-the-percona-postgresql-cluster-from-the-crunchy-backup" title="Permanent link">¶</a></h2>
 <ol>
 <li>
 <p>Edit the <code>deploy/cr.yaml</code> manifest and specify the following:</p>
 <ol>
 <li>Set <code>spec.postgresVersion</code> to the same major version as <code>crunchy-source</code>.</li>
-<li>The <code>spec.dataSource.pgbackrest</code> configuration to reference the Secret with the credentials to the object store and to point at the <strong>same</strong> repository path and object store settings as the Crunchy cluster’s <code>repo1</code>. (See <a href="backups-clone.html#clone-from-s3-storage">Clone from cloud storage</a> for more information about these options.)</li>
-<li>Under <code>spec.backups.pgbackrest</code>, use a <strong>different</strong> <code>repo1-path</code> than the Crunchy cluster so new backups do not overwrite the migration archive.</li>
+<li>
+<p>The <code>spec.dataSource.pgbackrest</code> configuration to reference the Secret with the credentials to the object store and to point at the <strong>same</strong> repository path and object store settings as the Crunchy repository you back up to. See <a href="backups-clone.html#clone-from-s3-storage">Clone from S3 storage</a> for these options.</p>
+<p>The repository name in <code>repo.name</code> and the <code>repo&lt;N&gt;-</code> prefix of the options in <code>global</code> and in the Secret must match each other. They don’t need to match the repository name on Crunchy. For example, to restore from a Crunchy <code>repo2</code> with the default path, either use <code>repo2</code> everywhere (<code>repo.name: repo2</code>, <code>repo2-path: /pgbackrest/repo2</code>, and <code>repo2-s3-key</code> in the Secret), or use <code>repo1</code> everywhere and set <code>repo1-path: /pgbackrest/repo2</code>. See <a href="backups-clone.html#match-the-repository-number">Match the repository number</a> for details.</p>
+</li>
+<li>
+<p>Under <code>spec.backups.pgbackrest</code>, use a <strong>different</strong> <code>repo&lt;N&gt;-path</code> than the Crunchy cluster so new backups do not overwrite the migration archive.</p>
+</li>
+<li>Set the storage size in <code>spec.instances[].dataVolumeClaimSpec</code> so that it fits the Crunchy data and WAL. The default <code>deploy/cr.yaml</code> requests only 1Gi.</li>
+<li>
+<p>If the Crunchy cluster uses tablespace volumes (<code>spec.instances[].tablespaceVolumes</code>), add a <code>tablespaceVolumes</code> entry with <strong>the same name</strong> for each tablespace to the Percona instance. The restore writes each tablespace to its original location under <code>/tablespaces/&lt;name&gt;</code>, where the Operator mounts the tablespace volume, so the volume must exist. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">instances</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">instance1</span>
+<span class="w">    </span><span class="nt">tablespaceVolumes</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ts1</span>
+<span class="w">        </span><span class="nt">dataVolumeClaimSpec</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">accessModes</span><span class="p">:</span>
+<span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ReadWriteOnce</span>
+<span class="w">          </span><span class="nt">resources</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">requests</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">storage</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5Gi</span>
+</code></pre></div>
+<p>To store the tablespaces on the data volume instead, add <code>--tablespace-map-all=/pgdata/tablespaces</code> to <code>spec.dataSource.pgbackrest.options</code>. The tablespace locations then change to <code>/pgdata/tablespaces/&lt;name&gt;</code>.</p>
+</li>
 </ol>
 <p>The following fragment shows the important pieces; merge them with the rest of <code>deploy/cr.yaml</code> (images, users, resources) for your environment:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">metadata</span><span class="p">:</span>
@@ -7361,7 +7544,7 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">secret</span><span class="p">:</span>
 <span class="w">            </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">percona-pgbackrest-secret</span>
 <span class="w">      </span><span class="nt">global</span><span class="p">:</span>
-<span class="w">        </span><span class="c1"># Must exactly match the pgBackrest settings defined in Crunchy `spec.backups.pgbackrest.global.repo1-path` </span>
+<span class="w">        </span><span class="c1"># The path of the Crunchy repository: its repo&lt;N&gt;-path value, or /pgbackrest/repo&lt;N&gt; if it isn't set</span>
 <span class="w">        </span><span class="nt">repo1-path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/crunchy-to-percona/repo1</span>
 <span class="w">        </span><span class="nt">repo1-s3-uri-style</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">path</span>
 <span class="w">        </span><span class="nt">repo1-s3-verify-tls</span><span class="p">:</span><span class="w"> </span><span class="s">"n"</span><span class="w"> </span><span class="c1"># Omit or set to "y" for AWS S3 with valid TLS</span>
@@ -7401,9 +7584,10 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">wait</span><span class="w"> </span>perconapgcluster/cluster1<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>ready<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>--timeout<span class="o">=</span>300s
+<span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
 <p>The Percona Operator deploys the cluster and bootstraps it from the storage referenced in the <code>dataSource</code> section.</p>
+<p>The cluster can report <code>ready</code> as soon as the primary starts, and then report <code>initializing</code> again for a minute or two while the replicas start. The primary accepts connections during this time.</p>
 </li>
 <li>
 <p>Verify that the data was restored successfully:</p>
@@ -7417,25 +7601,23 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </li>
 <li>
 <p>Verify the data insertion:</p>
-</li>
-</ul>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="se">\</span>
 <span class="w"> </span><span class="s2">"psql -q -t -d migrationtest -c 'SELECT id, value FROM migration_data ORDER BY id;'"</span>
 </code></pre></div>
-<p>??? example “Expected output”</p>
-<div class="highlight"><pre><span></span><code>   ```{.sql .no-copy}
-   1 | initial-data-before-migration
-   ```
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code><span class="mi">1</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">initial</span><span class="o">-</span><span class="k">data</span><span class="o">-</span><span class="k">before</span><span class="o">-</span><span class="n">migration</span>
 </code></pre></div>
-<ul>
+</details>
+</li>
 <li>
 <p>Exec into the Pod and check that it is not in recovery state:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="nb">exec</span><span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">PERCONA_PRIMARY</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>psql<span class="w"> </span>-t<span class="w"> </span>-c<span class="w"> </span><span class="s2">"SELECT pg_is_in_recovery();"</span>
 </code></pre></div>
+<p>You should see <code>f</code>: the instance is read-write.</p>
 </li>
 </ul>
-<p>You should see <code>f</code>: the instance is read-write.</p>
 </li>
 <li>
 <p>Wait until the new cluster’s <code>pgBackRest</code> stanza exists for ongoing backups:</p>
@@ -7455,19 +7637,21 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <p>Create a baseline backup on Percona’s own repository path so future restores do not depend on the Crunchy archive.</p>
 <ol>
 <li>
-<p>Edit the <code>deploy/backup.yaml</code> configuration file:</p>
-<div class="highlight"><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
+<p>Create the <code>post-migration-backup.yaml</code> configuration file. Set <code>--type=full</code> in <code>options</code>: without it, <code>pgBackRest</code> makes an incremental backup on top of the full backup that the Operator takes automatically after the cluster starts.</p>
+<div class="highlight"><span class="filename">post-migration-backup.yaml</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pgv2.percona.com/v2</span>
 <span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">PerconaPGBackup</span>
 <span class="nt">metadata</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">post-migration-backup</span>
 <span class="nt">spec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">pgCluster</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cluster1</span>
 <span class="w">  </span><span class="nt">repoName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">repo1</span>
+<span class="w">  </span><span class="nt">options</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">--type=full</span>
 </code></pre></div>
 </li>
 <li>
 <p>Apply the configuration to start the backup:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>post-migration-backup.yaml<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 </li>
 <li>
@@ -7477,6 +7661,19 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 <span class="w">  </span>--for<span class="o">=</span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.state}'</span><span class="o">=</span>Succeeded<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>--timeout<span class="o">=</span>600s
 </code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>perconapgbackup.pgv2.percona.com/post-migration-backup condition met
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Check that the backup is a full backup:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>perconapgbackup<span class="w"> </span>post-migration-backup<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.status.backupType}{"\n"}'</span>
+</code></pre></div>
+<p>The output is <code>full</code>.</p>
 </li>
 </ol>
 <h2 id="point-applications-to-percona">Point applications to Percona<a data-markdown-ignore class="headerlink" href="#point-applications-to-percona" title="Permanent link">¶</a></h2>
@@ -7489,46 +7686,51 @@ pod/crunchy-source-instance1-p6pl-0 condition met
 </li>
 <li>
 <p>Update your application’s connection string to use the <code>pgBouncer</code> service name (from the previous step) as the PostgreSQL host. For example:</p>
-<div class="highlight"><pre><span></span><code>Host:   cluster1-pgbouncer.$NAMESPACE.svc.cluster.local
+<div class="highlight"><pre><span></span><code>Host:   cluster1-pgbouncer.&lt;NAMESPACE&gt;.svc.cluster.local
 Port:   5432
 </code></pre></div>
+<p>Replace <code>&lt;NAMESPACE&gt;</code> with your cluster’s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
 </li>
 </ol>
-<p>Replace <code>${NAMESPACE}</code> with your cluster’s namespace. Update your application configuration to point to this service, ensuring it now connects to your Percona Operator for PostgreSQL deployment.</p>
 <h2 id="decommission-the-crunchy-cluster">Decommission the Crunchy cluster<a data-markdown-ignore class="headerlink" href="#decommission-the-crunchy-cluster" title="Permanent link">¶</a></h2>
-<p>After traffic runs on Percona and you are satisfied with validation, you can delete the Crunchy PostgreSQL cluster:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span>
+<p>After traffic runs on Percona and you are satisfied with validation, you can delete the Crunchy PostgreSQL cluster. Deleting it also deletes its user Secrets and its data volumes. The backups in object storage stay.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>delete<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span>
 </code></pre></div>
 <p>Uninstall Crunchy Operator from its namespace when no <code>PostgresCluster</code> resources remain.</p>
 <h2 id="rollback">Rollback<a data-markdown-ignore class="headerlink" href="#rollback" title="Permanent link">¶</a></h2>
 <p>Until you move write traffic to <code>cluster1</code>, rollback is to point applications back at the Crunchy <code>pgBouncer</code> Service. After cutover, new writes exist only on Percona; reconciling them back to Crunchy is a manual process.</p>
-<p>After you delete the <code>crunchy-source</code> cluster, rollback means restoring a new Crunchy cluster from the <strong>original</strong> <code>repo1</code> content in object storage, if you still have that repository.</p>
+<p>After you delete the <code>crunchy-source</code> cluster, rollback means restoring a new Crunchy cluster from the Crunchy repository in object storage, if you still have that repository.</p>
 <h2 id="troubleshooting">Troubleshooting<a data-markdown-ignore class="headerlink" href="#troubleshooting" title="Permanent link">¶</a></h2>
-<h3 id="archiveinfo-missing-or-restore-errors"><code>archive.info</code> missing or restore errors<a data-markdown-ignore class="headerlink" href="#archiveinfo-missing-or-restore-errors" title="Permanent link">¶</a></h3>
-<p>The value of <code>spec.dataSource.pgbackrest.global.repo1-path</code> must match the Crunchy cluster’s <code>spec.backups.pgbackrest.global.repo1-path</code> exactly.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global.repo1-path}{"\n"}'</span>
+<h3 id="restore-fails-with-no-backup-set-found-to-restore">Restore fails with <code>no backup set found to restore</code><a data-markdown-ignore class="headerlink" href="#restore-fails-with-no-backup-set-found-to-restore" title="Permanent link">¶</a></h3>
+<p>The restore Job log shows <code>unable to load info file '&lt;path&gt;/backup/db/backup.info' or '&lt;path&gt;/backup/db/backup.info.copy'</code>, followed by <code>ERROR: [075]: no backup set found to restore</code>. The <code>pgBackRest</code> path in <code>spec.dataSource.pgbackrest.global</code> doesn’t point to the Crunchy repository. Compare it with the path of the Crunchy repository. If the Crunchy cluster doesn’t set <code>repo&lt;N&gt;-path</code>, the path is <code>/pgbackrest/repo&lt;N&gt;</code>.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>postgrescluster.postgres-operator.crunchydata.com<span class="w"> </span>crunchy-source<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.backups.pgbackrest.global}{"\n"}'</span>
 
 kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.dataSource.pgbackrest.global.repo1-path}{"\n"}'</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.spec.dataSource.pgbackrest.global}{"\n"}'</span>
 </code></pre></div>
+<p>If the log shows <code>restore command requires option: repo1-s3-key</code>, the <code>repo&lt;N&gt;-</code> prefix of the Secret keys doesn’t match <code>repo.name</code> in <code>spec.dataSource.pgbackrest</code>.</p>
+<h3 id="restore-fails-with-read-only-file-system-for-tablespaces">Restore fails with <code>Read-only file system</code> for <code>/tablespaces</code><a data-markdown-ignore class="headerlink" href="#restore-fails-with-read-only-file-system-for-tablespaces" title="Permanent link">¶</a></h3>
+<p>The restore Job log shows <code>ERROR: [047]: unable to create path '/tablespaces': [30] Read-only file system</code>, or the same error for <code>/tablespaces/&lt;name&gt;</code>. The Crunchy cluster uses tablespace volumes, and the Percona instance has no <code>tablespaceVolumes</code> entry with the same name. Add the entries, or map the tablespaces to the data volume with <code>--tablespace-map-all</code>. See <a href="#create-the-percona-postgresql-cluster-from-the-crunchy-backup">Create the Percona PostgreSQL cluster from the Crunchy backup</a>.</p>
 <h3 id="restore-job-failures-tls-endpoint">Restore job failures (TLS, endpoint)<a data-markdown-ignore class="headerlink" href="#restore-job-failures-tls-endpoint" title="Permanent link">¶</a></h3>
 <p><code>pgBackRest</code> uses HTTPS for S3-compatible endpoints. Fix TLS trust (correct CA or <code>repo1-s3-verify-tls</code>) and confirm network reachability from the restore Pod to the bucket endpoint. See <a href="backups-storage.html">Configure backup storage</a>.</p>
 <h3 id="cluster-stuck-in-restore">Cluster stuck in restore<a data-markdown-ignore class="headerlink" href="#cluster-stuck-in-restore" title="Permanent link">¶</a></h3>
-<p>Inspect restore Pods or Jobs and <code>pgBackRest</code> logs:</p>
+<p>Inspect the logs of the restore Job. The Job and its Pods exist only while the restore runs or fails:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/pgbackrest-restore<span class="o">=</span>cluster1<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/pgbackrest-restore<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>-c<span class="w"> </span>pgbackrest
+<span class="w">  </span>-c<span class="w"> </span>pgbackrest-restore<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--tail<span class="o">=</span>-1
 </code></pre></div>
+<p>Without <code>--tail=-1</code>, <code>kubectl logs</code> with a label selector shows only the last 10 lines of each Pod.</p>
 <h3 id="wrong-or-incomplete-data">Wrong or incomplete data<a data-markdown-ignore class="headerlink" href="#wrong-or-incomplete-data" title="Permanent link">¶</a></h3>
-<p>If you need a fresher cutover point, stop writes, take another full backup on Crunchy, delete <code>cluster1</code> on Percona, and re-apply the restore manifest so it bootstraps again from the newer backup.</p>
+<p>If the latest writes are missing, the WAL file that contains them wasn’t archived when the restore finished. Delete <code>cluster1</code> on Percona, follow <a href="#prepare-the-cutover">Prepare the cutover</a>, and re-apply the restore manifest so it bootstraps again.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 16, 2026 13:26:28 UTC">October 16, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2026 12:01:59 UTC">November 19, 2026</span>
       
         <br>
         Created:
