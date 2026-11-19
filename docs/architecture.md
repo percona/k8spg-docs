@@ -56,7 +56,7 @@ The Operator uses [node affinity and anti-affinity :octicons-link-external-16:](
 
 #### Automatic recovery
 
-If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](ha-deploy.md).
+If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](ha-deploy.md). For exactly what happens during a failure, how long recovery takes, and what you can lose, see [Failover and recovery](debug-failover.md).
 
 #### Services that clients connect to
 

@@ -25,23 +25,47 @@ In the following examples we will access the container `database` of the `cluste
     OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
     ```
 
-* Print log files to a terminal:
+* Print log files to a terminal. The log directory is `/pgdata/pg<major-version>/log`. The examples use PostgreSQL 18:
 
     ```bash
-    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
+    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg18/log/postgresql-*.log
     ```
 
-* Similarly, opening an Interactive terminal, executing a pair of commands in
-    the container, and exiting it may look as follows:
+* Similarly, you can open an interactive shell in the container and execute the commands there:
 
-    ```bash
-    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
-    bash-4.4$ hostname
-    cluster1-pxc-0
-    bash-4.4$ ls /pgdata/pg16/log/
-    postgresql-Wed.log
-    bash-4.4$ exit
-    exit
-    $
-    ```
+    1. Start the shell:
+
+        ```bash
+        kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
+        ```
+
+    2. Print the host name:
+
+        ```bash
+        hostname
+        ```
+
+        ??? example "Expected output"
+
+            ``` {.text .no-copy}
+            cluster1-instance1-b5mr-0
+            ```
+
+    3. List the log files:
+
+        ```bash
+        ls /pgdata/pg18/log/
+        ```
+
+        ??? example "Expected output"
+
+            ``` {.text .no-copy}
+            postgresql-Wed.log
+            ```
+
+    4. Leave the shell:
+
+        ```bash
+        exit
+        ```
 

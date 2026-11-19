@@ -103,9 +103,9 @@ If you are still running into issues, check with your Kubernetes cluster adminis
     kubectl get pg <database-cluster-name>
     ```  
     
-    The cluster should typically be in the `Running` state. It may briefly enter the `initializing` state while reconciling changes. If the cluster remains in the `initializing` state for an extended period, investigate further to identify any underlying issues.
+    The cluster should typically be in the `ready` state. It may briefly enter the `initializing` state while reconciling changes. If the cluster remains in the `initializing` state for an extended period, investigate further to identify any underlying issues.
 
-    Additionally, you can describe the database cluster and search for the information in the `State` and `State Description` fields:
+    Additionally, you can describe the database cluster and check the `State` field and the `Conditions` list in the `Status` section. Each condition has a reason and a message that explain what isn't ready. See [Custom resource statuses](cr-statuses.md) for details:
 
     ```bash
     kubectl describe pg <database-cluster-name>
