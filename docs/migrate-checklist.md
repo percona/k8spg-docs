@@ -20,7 +20,7 @@ flowchart TD
     C -->|Different| D[Prefer logical migration]
     C -->|Same| E[Compare glibc build and ICU]
     E -->|Same| F[Compare extensions]
-    E -->|Different| G[Prefer logical migration, or plan an index rebuild before application traffic]
+    E -->|Different| G[Find and repair the objects that the collation change affects before applications connect]
     G --> F
     F --> K[Trial runs]
     K --> L[Fix issues if any]
@@ -137,24 +137,21 @@ PostgreSQL may also use ICU for collations. Check the locale provider in each da
 
 If the `glibc` output is the same for the source and the target, and the ICU libraries match, continue with the next checks.
 
-If either library differs, the indexes in the migrated data can return wrong results on the target image. Choose one of these ways:
+If either library differs, all three migration methods carry the risk. Each of them reuses the indexes that the Crunchy image built. Before you point any application to the new cluster, find the objects that the collation change affects and repair them. The blog post [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) provides detailed information on how to find and repair the affected objects.
+  
+!!! important
 
-- Migrate logically with `pg_dump` / `pg_restore` or with logical replication. PostgreSQL builds the indexes with the collation rules of the target image, so the limitation doesn't apply.
-- Migrate physically and rebuild the affected objects before any application connects to the new cluster. Plan the downtime for the rebuild. The time depends on the size of your indexes.
+    Rehearse the find and repair steps in every trial run, so that you know what the checks find in your data and how long the repair takes. Repeat them during the production cutover.
 
-For a physical migration, the moment of the rebuild depends on the method:
+Plan downtime for the repair. Duplicate keys and rows that violate a constraint need a decision from you about which data to keep.
 
-| Migration method | When to rebuild |
-| ---------------- | --------------- |
-| Standby cluster | After you promote the standby. A standby is read-only and can't rebuild indexes, so don't run application queries that rely on text indexes against it. The rebuild adds to the cutover downtime. |
+When to run the steps depends on the migration method:
+
+| Migration method | When to repair |
+| ---------------- | -------------- |
+| Standby cluster | After you promote the standby. A standby is read-only and can't repair objects, so don't run application queries that rely on text indexes against it. The repair adds to the cutover downtime. |
 | Backup and restore | After the restore completes and before you point applications to the new cluster |
 | Reusing data volumes | After the Percona cluster starts and before you point applications to it |
-
-### Find and rebuild the affected objects
-
-You can run the index scan on the source cluster beforehand to estimate the work.
-
---8<-- "collation.txt"
 
 
 ## Compare extensions
@@ -341,4 +338,4 @@ pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an
 
 Perform at least **three successful trial runs** in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.
 
-After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that extensions are complete. If the `glibc` builds differ, also confirm that you rebuilt the affected objects before applications connect.
+After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that extensions are complete. If the `glibc` builds differ, also confirm that you repaired the affected objects before applications connect.
