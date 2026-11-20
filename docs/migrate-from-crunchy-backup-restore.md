@@ -18,7 +18,7 @@ For **near-zero downtime**, use [Migrate from Crunchy using a standby cluster](m
 
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
 
-Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Rebuild them](#rebuild-indexes-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Repair the affected objects](#repair-collation-affected-objects-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -492,15 +492,11 @@ Now the repository contains every write. Create the Percona cluster in the next 
         perconapgcluster.pgv2.percona.com/cluster1 condition met
         ```
 
-## Rebuild indexes if the glibc builds differ
+## Repair collation-affected objects if the glibc builds differ
 
 Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
 
-The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Rebuild the affected indexes on the primary, and check the objects that depend on the sort order, before any application connects. 
-
-Follow these steps:
-
---8<-- "collation.txt"
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Decide what to do if the libraries differ](migrate-checklist.md#decide-what-to-do-if-the-libraries-differ) for all the kinds of affected objects. [The Percona blog :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) describes them and the order of the repair. 
 
 ## Take a post-migration backup
 

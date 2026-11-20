@@ -50,14 +50,9 @@ Repeat for every affected index, or rebuild all indexes in a database with `REIN
 
 A `UNIQUE` index or a primary key can fail to rebuild because the old sort order let duplicate keys in. Remove the duplicate rows and rebuild the index again.
 
-Next, check the objects that depend on the sort order. `REINDEX` doesn't fix them:
+The steps in this section cover indexes only. A collation change can also affect partitions with text range bounds, `CHECK` constraints, stored generated columns, and materialized views, and `REINDEX` doesn't fix them. The blog [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) describes how to find and repair each of them.
 
-- Partitions with text range bounds. Move the rows that sit in the wrong partition.
-- `CHECK` constraints on text values. Validate them again.
-- Stored generated columns. Recompute the values.
-- Materialized views. Run `REFRESH MATERIALIZED VIEW <view_name>;`.
-
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL's recorded metadata. It does not rebuild indexes created using the previous collation rules. Run it last, after the rebuilds:
+Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL's recorded metadata. It does not rebuild indexes created using the previous collation rules. Run it last, after you repair all the affected objects:
 
 ```sql
 ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
