@@ -86,6 +86,36 @@ Now you must pass the credentials to the Operator. To do so, create a Secret obj
    kubectl logs <pod_name> -c pmm-client
    ```
 
+## Check the metrics
+
+Let’s see how the collected data is visualized in PMM.
+
+1. Log in to PMM server.
+1. Click **PostgreSQL** from the left-hand navigation menu. You land on the **Instances Overview** page.
+1. Click **PostgreSQL** → **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in.
+
+## Run the PMM Client with a read-only root filesystem
+
+Starting with version 3.1.0, set `readOnlyRootFilesystem` to `true` under [`pmm.containerSecurityContext`](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html#pmmcontainersecuritycontext) to run the PMM Client container with a read-only root filesystem. The Operator writes the PMM agent configuration to `/tmp/pmm-agent.yaml` on the Pod’s `/tmp` volume. That volume stays writable when the root filesystem is read-only. Use this setting on platforms that require a read-only root filesystem, such as the OpenShift `restricted-v2` security context constraint.
+
+If you leave `containerSecurityContext` unset, the container root filesystem stays writable.
+
+```
+pmm:
+  enabled: true
+  image: percona/pmm-client:3.9.1
+  secret: cluster1-pmm-secret
+  serverHost: monitoring-service
+  containerSecurityContext:
+    readOnlyRootFilesystem: true
+```
+
+Apply the manifest:
+
+```
+kubectl apply -f deploy/cr.yaml -n postgres-operator
+```
+
 ## Update the secrets file
 
 The `deploy/secrets.yaml` file contains all values for each key/value pair in a convenient plain text format. But the resulting Secrets Objects contains passwords stored as base64-encoded strings. If you want to *update* the password field, you need to encode the new password into the base64 format and pass it to the Secrets Object.
@@ -109,19 +139,11 @@ For example, to set the new service account token in the `my-cluster-name-secret
 **Linux**
 
 ```
-kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64 --wrap=0)'}}'
+kubectl -n <namespace> patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64 --wrap=0)'}}'
 ```
 
 **macOS**
 
 ```
-kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64)'}}'
+kubectl -n <namespace> patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64)'}}'
 ```
-
-## Check the metrics
-
-Let’s see how the collected data is visualized in PMM.
-
-1. Log in to PMM server.
-1. Click **PostgreSQL** from the left-hand navigation menu. You land on the **Instances Overview** page.
-1. Click **PostgreSQL** → **Other dashboards** to see the list of available dashboards that allow you to drill down to the metrics you are interested in.

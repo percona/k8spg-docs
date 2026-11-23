@@ -8403,6 +8403,17 @@ deploy/cr.yaml  file.">
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pmmcontainersecuritycontext" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pmm.containerSecurityContext
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -13980,6 +13991,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#pmmcontainersecuritycontext" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pmm.containerSecurityContext
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -19468,6 +19490,26 @@ file contains configuration options for Percona Monitoring and Management.</p>
 </tr>
 </tbody>
 </table>
+<h3 id="pmmcontainersecuritycontext"><code>pmm.containerSecurityContext</code><a data-markdown-ignore class="headerlink" href="#pmmcontainersecuritycontext" title="Permanent link">¶</a></h3>
+<p>A custom <a href="https://kubernetes.io/docs/tasks/configure-pod-container/security-context/">Kubernetes Security Context <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the PMM Client container on each PostgreSQL instance Pod.</p>
+<p>Starting with version 3.1.0, set <code>readOnlyRootFilesystem</code> to <code>true</code> to run the PMM Client with a read-only root filesystem. The Operator writes the PMM agent configuration to <code>/tmp/pmm-agent.yaml</code> file on the Pod’s volume. That volume stays writable when the root filesystem is read-only. If you leave this option unset, the container root filesystem stays writable.</p>
+<p>Use this setting when your cluster’s security policy requires a read-only root
+filesystem. See <a href="monitoring.html#run-the-pmm-client-with-a-read-only-root-filesystem">Run the PMM Client with a read-only root
+filesystem</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 5h16v2H4zm0 4h16v2H4zm0 4h16v2H4zm0 4h10v2H4z"></path></svg></span> subdoc</td>
+<td><pre>readOnlyRootFilesystem: true</pre></td>
+</tr>
+</tbody>
+</table>
 <h2 id="log-collector-section"><a name="operator-logcollector-section"></a>Log collector section<a data-markdown-ignore class="headerlink" href="#log-collector-section" title="Permanent link">¶</a></h2>
 <p>The <code>logcollector</code> section in the <a href="https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml">deploy/cr.yaml <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>
 file contains configuration options for <a href="https://fluentbit.io/">Fluent Bit <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> log collector and logrotate. Available starting with Operator version 3.1.0. See <a href="persistent-logging.html">Persistent logging</a> and <a href="log-rotation.html">Log rotation</a>.</p>
@@ -21225,7 +21267,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:45:01 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 23, 2026 10:11:51 UTC">November 23, 2026</span>
       
         <br>
         Created:

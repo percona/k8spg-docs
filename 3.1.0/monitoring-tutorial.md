@@ -86,38 +86,6 @@ Now you must pass the credentials to the Operator. To do so, create a Secret obj
    kubectl logs <pod_name> -c pmm-client
    ```
 
-## Update the secrets file
-
-The `deploy/secrets.yaml` file contains all values for each key/value pair in a convenient plain text format. But the resulting Secrets Objects contains passwords stored as base64-encoded strings. If you want to *update* the password field, you need to encode the new password into the base64 format and pass it to the Secrets Object.
-
-To encode a password or any other parameter, run the following command:
-
-**Linux**
-
-```
-echo -n "password" | base64 --wrap=0
-```
-
-**macOS**
-
-```
-echo -n "password" | base64
-```
-
-For example, to set the new service account token in the `my-cluster-name-secrets` object, do the following:
-
-**Linux**
-
-```
-kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64 --wrap=0)'}}'
-```
-
-**macOS**
-
-```
-kubectl patch secret/cluster1-pmm-secret -p '{"data":{"PMM_SERVER_TOKEN": '$(echo -n <new-token> | base64)'}}'
-```
-
 ## Check the metrics
 
 Let’s see how the collected data is visualized in PMM.

@@ -2183,6 +2183,18 @@ Additional parameters which will be passed to the `pmm-admin add postgresql` com
 | ---------- | ------- |
 | string     |         |
 
+### `pmm.containerSecurityContext`
+
+A custom [Kubernetes Security Context](https://kubernetes.io/docs/tasks/configure-pod-container/security-context/) for the PMM Client container on each PostgreSQL instance Pod.
+
+Starting with version 3.1.0, set `readOnlyRootFilesystem` to `true` to run the PMM Client with a read-only root filesystem. The Operator writes the PMM agent configuration to `/tmp/pmm-agent.yaml` file on the Pod’s volume. That volume stays writable when the root filesystem is read-only. If you leave this option unset, the container root filesystem stays writable.
+
+Use this setting when your cluster’s security policy requires a read-only root filesystem. See [Run the PMM Client with a read-only root filesystem](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/monitoring.html#run-the-pmm-client-with-a-read-only-root-filesystem).
+
+| Value type | Example                        |
+| ---------- | ------------------------------ |
+| subdoc     | `readOnlyRootFilesystem: true` |
+
 ## Log collector section
 
 The `logcollector` section in the [deploy/cr.yaml](https://github.com/percona/percona-postgresql-operator/blob/main/deploy/cr.yaml) file contains configuration options for [Fluent Bit](https://fluentbit.io/) log collector and logrotate. Available starting with Operator version 3.1.0. See [Persistent logging](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/persistent-logging.html) and [Log rotation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/log-rotation.html).
