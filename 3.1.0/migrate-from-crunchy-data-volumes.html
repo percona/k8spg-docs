@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.2">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -4452,6 +4452,34 @@
   
   
     <li class="md-nav__item">
+      <a href="migrate-crunchy-differences.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crunchy and Percona Custom Resource differences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -7217,11 +7245,40 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </table>
 <p>If the backing PV was already deleted with the default <strong>Delete</strong> reclaim policy, use <a href="migrate-from-crunchy-backup-restore.html">Migrate from Crunchy using backup and restore</a> instead.</p>
 <h2 id="versions-used-in-this-guide">Versions used in this guide<a data-markdown-ignore class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
-<p>For this migration tutorial, we use the following versions of the Operators:</p>
-<ul>
-<li>Crunchy PostgreSQL Operator 5.8.x</li>
-<li>Percona Operator for PostgreSQL 3.x.x</li>
-</ul>
+<p>This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:</p>
+<table>
+<thead>
+<tr>
+<th>Crunchy PostgreSQL Operator</th>
+<th>Percona Operator for PostgreSQL</th>
+<th>PostgreSQL</th>
+<th style="text-align: center;">Standby cluster</th>
+<th style="text-align: center;">Backup and restore</th>
+<th style="text-align: center;">Reusing data volumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.x</td>
+<td>3.0.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td>6.0.x</td>
+<td>3.1.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>Other combinations aren’t tested.</p>
+<p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
+<p>For the differences between the Crunchy and Percona Custom Resources, see <a href="migrate-crunchy-differences.html">Crunchy and Percona Custom Resource differences</a>.</p>
 <h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
@@ -7806,7 +7863,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </s
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2026 12:01:59 UTC">November 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 23, 2026 10:11:24 UTC">November 23, 2026</span>
       
         <br>
         Created:

@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-standby.html">
       
       
-        <link rel="prev" href="migrate-checklist.html">
+        <link rel="prev" href="migrate-crunchy-differences.html">
       
       
         <link rel="next" href="migrate-from-crunchy-backup-restore.html">
@@ -23,7 +23,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.2">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -4449,6 +4449,34 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="migrate-crunchy-differences.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crunchy and Percona Custom Resource differences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -7305,12 +7333,41 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>Then we cut over the Crunchy PostgreSQL cluster and promote Percona Operator for PostgreSQL.</p>
 <p>This migration provides minimal downtime that happens only during the cutover.</p>
 <h2 id="versions-used-in-this-guide">Versions used in this guide<a data-markdown-ignore class="headerlink" href="#versions-used-in-this-guide" title="Permanent link">¶</a></h2>
-<p>For this migration tutorial, we use the following versions of the Operators:</p>
-<ul>
-<li>Crunchy PostgreSQL Operator 5.8.x</li>
-<li>Percona Operator for PostgreSQL 3.x.x</li>
-<li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
-</ul>
+<p>This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:</p>
+<table>
+<thead>
+<tr>
+<th>Crunchy PostgreSQL Operator</th>
+<th>Percona Operator for PostgreSQL</th>
+<th>PostgreSQL</th>
+<th style="text-align: center;">Standby cluster</th>
+<th style="text-align: center;">Backup and restore</th>
+<th style="text-align: center;">Reusing data volumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.x</td>
+<td>3.0.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td>6.0.x</td>
+<td>3.1.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>Other combinations aren’t tested.</p>
+<p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
+<p>For the differences between the Crunchy and Percona Custom Resources, see <a href="migrate-crunchy-differences.html">Crunchy and Percona Custom Resource differences</a>.</p>
+<p>The examples use S3-compatible storage for backups. If you use another remote storage, configure access to it for both clusters.</p>
 <h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>

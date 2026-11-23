@@ -25,7 +25,7 @@
       
       
       <link rel="icon" href="assets/operators_fav.svg">
-      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.1">
+      <meta name="generator" content="mkdocs-ProperDocs 1.6.7, mkdocs-material-9.8.2">
     
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -4448,6 +4448,34 @@
   
   
     <li class="md-nav__item">
+      <a href="migrate-crunchy-differences.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Crunchy and Percona Custom Resource differences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
       <a href="migrate-from-crunchy-standby.html" class="md-nav__link">
         
   
@@ -8132,6 +8160,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Pre-migration compatibility checks
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#migrate-crunchy-differences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Crunchy and Percona Custom Resource differences
       
     </span>
   </a>
@@ -22755,7 +22794,7 @@ However, OLM doesn’t modify the <code>PerconaPGCluster</code> Custom Resource.
 </ul>
 <h2 id="migrate-from-crunchy-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-before-you-migrate" title="Permanent link">¶</a></h2>
 <p>This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes). </p>
-<p>Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this <a href="#migrate-checklist">pre-migration compatibility checklist</a> first.</p>
+<p>Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this <a href="#migrate-checklist">pre-migration compatibility checklist</a> first. Also check the <a href="#migrate-crunchy-differences">Crunchy and Percona Custom Resource differences</a>.</p>
 <h2 id="migrate-from-crunchy-choose-a-migration-method">Choose a migration method<a class="headerlink" href="#migrate-from-crunchy-choose-a-migration-method" title="Permanent link">¶</a></h2>
 <p>This guide provides three migration methods. Pick the one that best matches your requirements for:</p>
 <ul>
@@ -22987,7 +23026,188 @@ pgcrypto            | 1.3
 <p>Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in <code>PGDATA</code>. Do not assume an extension is available because it exists in <code>pg_extension</code>.</p>
 <h2 id="migrate-checklist-before-you-cut-over">Before you cut over<a class="headerlink" href="#migrate-checklist-before-you-cut-over" title="Permanent link">¶</a></h2>
 <p>Perform at least <strong>three successful trial runs</strong> in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.</p>
-<p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.</p></body></html></section><section class="print-page" id="migrate-from-crunchy-standby" heading-number="8.6.3"><html><head>
+<p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.</p></body></html></section><section class="print-page" id="migrate-crunchy-differences" heading-number="8.6.3"><html><head>
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head><body><h1 id="crunchy-and-percona-custom-resource-differences">Crunchy and Percona Custom Resource differences<a class="headerlink" href="#migrate-crunchy-differences-crunchy-and-percona-custom-resource-differences" title="Permanent link">¶</a></h1>
+<p>Percona Operator for PostgreSQL is based on the Crunchy PostgreSQL Operator code, so most options of the Crunchy <code>PostgresCluster</code> Custom Resource exist in the Percona <code>PerconaPGCluster</code> Custom Resource with the same name. This page lists the options that differ. Use it when you convert a Crunchy manifest for a <a href="#migrate-from-crunchy">migration</a>.</p>
+<p>The comparison covers Crunchy PostgreSQL Operator 5.8 and 6.0 (<code>v1beta1</code> API) and Percona Operator for PostgreSQL 3.0.0 and 3.1.0. The Crunchy options are the same in 5.8 and 6.0.</p>
+<h2 id="migrate-crunchy-differences-options-with-a-different-name">Options with a different name<a class="headerlink" href="#migrate-crunchy-differences-options-with-a-different-name" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Crunchy <code>PostgresCluster</code></th>
+<th>Percona <code>PerconaPGCluster</code></th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec.service</code></td>
+<td><code>spec.expose</code></td>
+<td>The <code>type</code> and <code>nodePort</code> options are the same. Crunchy sets annotations and labels under <code>metadata</code>, Percona sets them directly in <code>expose.annotations</code> and <code>expose.labels</code>. Percona adds <code>loadBalancerClass</code> and <code>loadBalancerSourceRanges</code>. Percona doesn’t have <code>externalTrafficPolicy</code>, <code>internalTrafficPolicy</code>, <code>ipFamilies</code>, and <code>ipFamilyPolicy</code></td>
+</tr>
+<tr>
+<td><code>spec.replicaService</code></td>
+<td><code>spec.exposeReplicas</code></td>
+<td>Same differences as for <code>spec.service</code></td>
+</tr>
+<tr>
+<td><code>spec.proxy.pgBouncer.service</code></td>
+<td><code>spec.proxy.pgBouncer.expose</code></td>
+<td>Same differences as for <code>spec.service</code></td>
+</tr>
+<tr>
+<td><code>spec.shutdown</code></td>
+<td><code>spec.pause</code></td>
+<td>Both stop the cluster: the Operator scales PostgreSQL, pgBouncer, and the repository host to zero and keeps the Services and volumes. Setting the option back to <code>false</code> starts the cluster again</td>
+</tr>
+<tr>
+<td><code>spec.paused</code></td>
+<td><code>spec.unmanaged</code></td>
+<td>Both stop the Operator from applying changes to the cluster. The running Pods aren’t affected. Changes you make in the meantime are applied when you set the option back to <code>false</code></td>
+</tr>
+<tr>
+<td><code>spec.customTLSSecret</code></td>
+<td><code>spec.secrets.customTLSSecret</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>spec.customReplicationTLSSecret</code></td>
+<td><code>spec.secrets.customReplicationTLSSecret</code></td>
+<td>Percona also has <code>spec.secrets.customRootCATLSSecret</code></td>
+</tr>
+<tr>
+<td><code>spec.instances[].volumes</code></td>
+<td><code>spec.instances[].extraVolumes</code></td>
+<td>Available in Percona starting with version 3.1.0. See <a href="#extra-volumes">Add extra volumes</a></td>
+</tr>
+<tr>
+<td><code>spec.backups.snapshots</code></td>
+<td><code>spec.backups.volumeSnapshots</code></td>
+<td>See <a href="#backups-pvc-snapshots">PVC snapshots</a></td>
+</tr>
+<tr>
+<td><code>spec.supplementalGroups</code></td>
+<td><code>spec.instances[].securityContext.supplementalGroups</code></td>
+<td>Percona sets it per instance set in the Pod security context</td>
+</tr>
+<tr>
+<td>Annotation <code>postgres-operator.crunchydata.com/autoCreateUserSchema</code></td>
+<td><code>spec.autoCreateUserSchema</code></td>
+<td>Percona enables it by default. Set it to <code>false</code> to keep the Crunchy default behavior</td>
+</tr>
+</tbody>
+</table>
+<h2 id="migrate-crunchy-differences-options-without-an-equivalent">Options without an equivalent<a class="headerlink" href="#migrate-crunchy-differences-options-without-an-equivalent" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Crunchy <code>PostgresCluster</code></th>
+<th>What to do in Percona</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>spec.monitoring.pgmonitor</code></td>
+<td>pgMonitor isn’t available. Use <a href="#monitor-kubernetes">Percona Monitoring and Management</a> (<code>spec.pmm</code>) or a <a href="#postgres-exporter"><code>postgres_exporter</code> sidecar</a>. The metrics and dashboards differ</td>
+</tr>
+<tr>
+<td><code>spec.userInterface</code> (pgAdmin)</td>
+<td>Not available</td>
+</tr>
+<tr>
+<td><code>spec.instrumentation</code> (OpenTelemetry)</td>
+<td>Not available. Starting with version 3.1.0, <code>spec.logcollector</code> collects PostgreSQL logs. See <a href="#persistent-logging">persistent logging</a></td>
+</tr>
+<tr>
+<td><code>spec.postGISVersion</code></td>
+<td>Use the PostGIS image in <code>spec.image</code>. See <a href="#postgis">PostGIS</a></td>
+</tr>
+<tr>
+<td><code>spec.disableDefaultPodScheduling</code></td>
+<td>Not available</td>
+</tr>
+<tr>
+<td><code>spec.instances[].dataVolumeClaimSpec.autoGrow</code></td>
+<td>Percona doesn’t have the <code>autoGrow</code> tuning options (<code>trigger</code>, <code>maxGrow</code>). Automatic volume growth uses <code>resources.limits.storage</code> and the <code>AutoGrowVolumes</code> feature gate. See <a href="#scaling-vertical-automated-scaling-with-auto-growable-disks">Automated scaling with auto-growable disks</a></td>
+</tr>
+<tr>
+<td><code>spec.backups.pgbackrest.log</code></td>
+<td>Not available</td>
+</tr>
+<tr>
+<td><code>spec.patroni.logging</code></td>
+<td>Not available</td>
+</tr>
+<tr>
+<td><code>spec.dataSource.pgbackrest.volumes</code></td>
+<td>Not available</td>
+</tr>
+</tbody>
+</table>
+<h2 id="migrate-crunchy-differences-options-with-the-same-name">Options with the same name<a class="headerlink" href="#migrate-crunchy-differences-options-with-the-same-name" title="Permanent link">¶</a></h2>
+<p>These options have the same name and structure in both Custom Resources: <code>authentication</code>, <code>config</code>, <code>databaseInitSQL</code>, <code>image</code>, <code>imagePullPolicy</code>, <code>imagePullSecrets</code>, <code>metadata</code>, <code>openshift</code>, <code>port</code>, <code>postgresVersion</code>, and <code>backups.pgbackrest.repos</code>.</p>
+<p>These options have the same name, but some of their fields differ. Percona adds fields to them, and the fields that exist only in Crunchy are listed in the previous sections:</p>
+<ul>
+<li><code>dataSource</code></li>
+<li><code>instances</code></li>
+<li><code>backups.pgbackrest</code></li>
+<li><code>backups.pgbackrest.manual</code></li>
+<li><code>proxy.pgBouncer</code></li>
+<li><code>patroni</code></li>
+<li><code>standby</code></li>
+<li><code>users</code></li>
+</ul>
+<p>Percona also has options that don’t exist in Crunchy, such as <code>crVersion</code> (required), <code>extensions</code>, <code>pmm</code>, <code>tls</code>, <code>tlsOnly</code>, and <code>secrets</code>. See <a href="#operator">Custom Resource options</a>.</p>
+<h2 id="migrate-crunchy-differences-differences-in-crunchy-postgresql-operator-60">Differences in Crunchy PostgreSQL Operator 6.0<a class="headerlink" href="#migrate-crunchy-differences-differences-in-crunchy-postgresql-operator-60" title="Permanent link">¶</a></h2>
+<ul>
+<li><strong>API version.</strong> Crunchy 6.0 serves <code>postgres-operator.crunchydata.com/v1</code> in addition to <code>v1beta1</code>, and <code>kubectl</code> returns objects in <code>v1</code> by default. Crunchy 5.8 serves only <code>v1beta1</code>. The migration guides use <code>v1beta1</code>, which works with both versions.</li>
+<li><strong>PostgreSQL logs.</strong> Crunchy 6.0 writes the PostgreSQL logs to <code>/pgdata/logs/postgres</code>.</li>
+<li>
+<p><strong>Feature gates.</strong> The Operators enable different feature gates by default:</p>
+<table>
+<thead>
+<tr>
+<th>Feature gate</th>
+<th style="text-align: center;">Crunchy 5.8</th>
+<th style="text-align: center;">Crunchy 6.0</th>
+<th style="text-align: center;">Percona 3.0.0 and 3.1.0</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AutoGrowVolumes</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"></td>
+</tr>
+<tr>
+<td><code>InstanceSidecars</code></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td><code>TablespaceVolumes</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td><code>PGBackrestSidecars</code>, <code>PGBouncerSidecars</code></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>If your Crunchy 6.0 cluster relies on automatic volume growth, enable the <code>AutoGrowVolumes</code> feature gate for the Percona Operator. See <a href="#env-var-operator">Operator environment variables</a>.</p>
+</li>
+</ul></body></html></section><section class="print-page" id="migrate-from-crunchy-standby" heading-number="8.6.4"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -23000,12 +23220,41 @@ pgcrypto            | 1.3
 <p>Then we cut over the Crunchy PostgreSQL cluster and promote Percona Operator for PostgreSQL.</p>
 <p>This migration provides minimal downtime that happens only during the cutover.</p>
 <h2 id="migrate-from-crunchy-standby-versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#migrate-from-crunchy-standby-versions-used-in-this-guide" title="Permanent link">¶</a></h2>
-<p>For this migration tutorial, we use the following versions of the Operators:</p>
-<ul>
-<li>Crunchy PostgreSQL Operator 5.8.x</li>
-<li>Percona Operator for PostgreSQL 3.x.x</li>
-<li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
-</ul>
+<p>This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:</p>
+<table>
+<thead>
+<tr>
+<th>Crunchy PostgreSQL Operator</th>
+<th>Percona Operator for PostgreSQL</th>
+<th>PostgreSQL</th>
+<th style="text-align: center;">Standby cluster</th>
+<th style="text-align: center;">Backup and restore</th>
+<th style="text-align: center;">Reusing data volumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.x</td>
+<td>3.0.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td>6.0.x</td>
+<td>3.1.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>Other combinations aren’t tested.</p>
+<p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
+<p>For the differences between the Crunchy and Percona Custom Resources, see <a href="#migrate-crunchy-differences">Crunchy and Percona Custom Resource differences</a>.</p>
+<p>The examples use S3-compatible storage for backups. If you use another remote storage, configure access to it for both clusters.</p>
 <h2 id="migrate-from-crunchy-standby-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-standby-before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-standby-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-standby-prerequisites" title="Permanent link">¶</a></h2>
@@ -23894,7 +24143,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w">
 <span class="s2">      archive-push \"\${PGDATA}/pg_wal/00000002.history\" || true</span>
 <span class="s2">  "</span>
 </code></pre></div>
-<p>Adjust the filename to match the timeline file reported in your logs.</p></body></html></section><section class="print-page" id="migrate-from-crunchy-backup-restore" heading-number="8.6.4"><html><head>
+<p>Adjust the filename to match the timeline file reported in your logs.</p></body></html></section><section class="print-page" id="migrate-from-crunchy-backup-restore" heading-number="8.6.5"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -23918,12 +24167,41 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w">
 </table>
 <p>For <strong>near-zero downtime</strong>, use <a href="#migrate-from-crunchy-standby">Migrate from Crunchy using a standby cluster</a> instead.</p>
 <h2 id="migrate-from-crunchy-backup-restore-versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#migrate-from-crunchy-backup-restore-versions-used-in-this-guide" title="Permanent link">¶</a></h2>
-<p>For this migration tutorial, we use the following versions of the Operators:</p>
-<ul>
-<li>Crunchy PostgreSQL Operator 5.8.x</li>
-<li>Percona Operator for PostgreSQL 3.x.x</li>
-<li>An AWS S3 storage for backups. If you use another remote storage, configure access to it for both clusters.</li>
-</ul>
+<p>This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:</p>
+<table>
+<thead>
+<tr>
+<th>Crunchy PostgreSQL Operator</th>
+<th>Percona Operator for PostgreSQL</th>
+<th>PostgreSQL</th>
+<th style="text-align: center;">Standby cluster</th>
+<th style="text-align: center;">Backup and restore</th>
+<th style="text-align: center;">Reusing data volumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.x</td>
+<td>3.0.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td>6.0.x</td>
+<td>3.1.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>Other combinations aren’t tested.</p>
+<p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
+<p>For the differences between the Crunchy and Percona Custom Resources, see <a href="#migrate-crunchy-differences">Crunchy and Percona Custom Resource differences</a>.</p>
+<p>The examples use S3-compatible storage for backups. If you use another remote storage, configure access to it for both clusters.</p>
 <h2 id="migrate-from-crunchy-backup-restore-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-backup-restore-before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-backup-restore-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-backup-restore-prerequisites" title="Permanent link">¶</a></h2>
@@ -24414,7 +24692,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 </code></pre></div>
 <p>Without <code>--tail=-1</code>, <code>kubectl logs</code> with a label selector shows only the last 10 lines of each Pod.</p>
 <h3 id="migrate-from-crunchy-backup-restore-wrong-or-incomplete-data">Wrong or incomplete data<a class="headerlink" href="#migrate-from-crunchy-backup-restore-wrong-or-incomplete-data" title="Permanent link">¶</a></h3>
-<p>If the latest writes are missing, the WAL file that contains them wasn’t archived when the restore finished. Delete <code>cluster1</code> on Percona, follow <a href="#migrate-from-crunchy-backup-restore-prepare-the-cutover">Prepare the cutover</a>, and re-apply the restore manifest so it bootstraps again.</p></body></html></section><section class="print-page" id="migrate-from-crunchy-data-volumes" heading-number="8.6.5"><html><head>
+<p>If the latest writes are missing, the WAL file that contains them wasn’t archived when the restore finished. Delete <code>cluster1</code> on Percona, follow <a href="#migrate-from-crunchy-backup-restore-prepare-the-cutover">Prepare the cutover</a>, and re-apply the restore manifest so it bootstraps again.</p></body></html></section><section class="print-page" id="migrate-from-crunchy-data-volumes" heading-number="8.6.6"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -24439,11 +24717,40 @@ kubectl<span class="w"> </span>get<span class="w"> </span>perconapgcluster<span 
 </table>
 <p>If the backing PV was already deleted with the default <strong>Delete</strong> reclaim policy, use <a href="#migrate-from-crunchy-backup-restore">Migrate from Crunchy using backup and restore</a> instead.</p>
 <h2 id="migrate-from-crunchy-data-volumes-versions-used-in-this-guide">Versions used in this guide<a class="headerlink" href="#migrate-from-crunchy-data-volumes-versions-used-in-this-guide" title="Permanent link">¶</a></h2>
-<p>For this migration tutorial, we use the following versions of the Operators:</p>
-<ul>
-<li>Crunchy PostgreSQL Operator 5.8.x</li>
-<li>Percona Operator for PostgreSQL 3.x.x</li>
-</ul>
+<p>This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:</p>
+<table>
+<thead>
+<tr>
+<th>Crunchy PostgreSQL Operator</th>
+<th>Percona Operator for PostgreSQL</th>
+<th>PostgreSQL</th>
+<th style="text-align: center;">Standby cluster</th>
+<th style="text-align: center;">Backup and restore</th>
+<th style="text-align: center;">Reusing data volumes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>5.8.x</td>
+<td>3.0.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+<tr>
+<td>6.0.x</td>
+<td>3.1.0</td>
+<td>18</td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+<td style="text-align: center;"><img alt="✅" class="twemoji" src="https://cdn.jsdelivr.net/gh/jdecked/twemoji@16.0.1/assets/svg/2705.svg" title=":white_check_mark:"></td>
+</tr>
+</tbody>
+</table>
+<p>Other combinations aren’t tested.</p>
+<p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
+<p>For the differences between the Crunchy and Percona Custom Resources, see <a href="#migrate-crunchy-differences">Crunchy and Percona Custom Resource differences</a>.</p>
 <h2 id="migrate-from-crunchy-data-volumes-before-you-migrate">Before you migrate<a class="headerlink" href="#migrate-from-crunchy-data-volumes-before-you-migrate" title="Permanent link">¶</a></h2>
 <p>Complete the <a href="#migrate-checklist">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
 <h2 id="migrate-from-crunchy-data-volumes-prerequisites">Prerequisites<a class="headerlink" href="#migrate-from-crunchy-data-volumes-prerequisites" title="Permanent link">¶</a></h2>
@@ -39503,11 +39810,13 @@ In addition to that:</p>
 
 .print-site-enumerate-headings #migrate-checklist > h1:before { content: '8.6.2 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-standby > h1:before { content: '8.6.3 ' }
+.print-site-enumerate-headings #migrate-crunchy-differences > h1:before { content: '8.6.3 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-backup-restore > h1:before { content: '8.6.4 ' }
+.print-site-enumerate-headings #migrate-from-crunchy-standby > h1:before { content: '8.6.4 ' }
 
-.print-site-enumerate-headings #migrate-from-crunchy-data-volumes > h1:before { content: '8.6.5 ' }
+.print-site-enumerate-headings #migrate-from-crunchy-backup-restore > h1:before { content: '8.6.5 ' }
+
+.print-site-enumerate-headings #migrate-from-crunchy-data-volumes > h1:before { content: '8.6.6 ' }
 
 .print-site-enumerate-headings #section-9 > h1:before { content: '9 ' }
 .print-site-enumerate-headings #custom-install > h1:before { content: '9.1 ' }

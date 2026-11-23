@@ -125,6 +125,7 @@ Each page below is also available as markdown. For the documentation of all Perc
 - [Upgrade on Percona Operator for PostgreSQL on OpenShift](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-openshift.md)
 - [About migration from Crunchy to Percona Operator for PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy.md)
 - [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.md)
+- [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.md)
 - [Migrate using a standby cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-standby.md)
 - [Migrate using backup and restore](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-backup-restore.md)
 - [Migrate using data volumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-data-volumes.md)

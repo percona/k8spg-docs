@@ -14,10 +14,18 @@ If the backing PV was already deleted with the default **Delete** reclaim policy
 
 ## Versions used in this guide
 
-For this migration tutorial, we use the following versions of the Operators:
+This guide is tested with the following combinations of Crunchy PostgreSQL Operator and Percona Operator for PostgreSQL versions:
 
-- Crunchy PostgreSQL Operator 5.8.x
-- Percona Operator for PostgreSQL 3.x.x
+| Crunchy PostgreSQL Operator | Percona Operator for PostgreSQL | PostgreSQL | Standby cluster | Backup and restore | Reusing data volumes |
+| --------------------------- | ------------------------------- | ---------- | --------------- | ------------------ | -------------------- |
+| 5.8.x                       | 3.0.0                           | 18         |                 |                    |                      |
+| 6.0.x                       | 3.1.0                           | 18         |                 |                    |                      |
+
+Other combinations aren’t tested.
+
+The `PostgresCluster` examples in this guide use the `postgres-operator.crunchydata.com/v1beta1` API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the `v1` version, and `kubectl` returns objects in `v1` by default.
+
+For the differences between the Crunchy and Percona Custom Resources, see [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.html).
 
 ## Before you migrate
 
