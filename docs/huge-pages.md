@@ -298,7 +298,12 @@ The value matches the current configuration only. If you plan to change any para
 
 ### What else affects the result
 
-* **Huge page size.** Request `hugepages-2Mi` or `hugepages-1Gi` to match the pages reserved on your nodes. With 1 GiB pages, the example needs 9 pages, so you request `hugepages-1Gi: 9Gi`.
+* **Huge page size.** Request `hugepages-2Mi` or `hugepages-1Gi` to match
+  the pages reserved on your nodes. If the requested size differs from
+  the node's default, also set `huge_page_size` under
+  `patroni.dynamicConfiguration.postgresql.parameters` to match, using
+  `2MB` for 2 MiB pages or `1GB` for 1 GiB pages. With 1 GiB pages, the
+  example needs nine pages, so request `hugepages-1Gi: 9Gi`.
 * **PostgreSQL version.** Each major version adds or resizes internal structures. Estimate again before you upgrade to a new major version.
 * **Extensions.** Extensions in `shared_preload_libraries` can reserve their own shared memory. With its default settings, `pg_stat_monitor` adds about 280 MiB. The Operator enables it when you enable PMM with `pg_stat_monitor` as the query source, or when you enable it in the `extensions` section of the Custom Resource. `pgaudit`, which the Operator enables by default, doesn't add shared memory.
 * **Every Pod.** Every PostgreSQL Pod in the cluster needs the same number of huge pages, so every node that can run one must have them free.
@@ -345,7 +350,11 @@ Set the huge pages limit for each instance set in `spec.instances.resources.limi
               max_connections: 200
     ```
 
-    Size `memory` for everything except shared memory: connection memory such as `work_mem`, maintenance operations and the other processes in the Pod. For 1 GiB pages, use the `hugepages-1Gi` key instead.
+    Size `memory` for everything except shared memory: connection memory
+    such as `work_mem`, maintenance operations and the other processes in
+    the Pod. For 1 GiB pages, replace `hugepages-2Mi: 8530Mi` with
+    `hugepages-1Gi: 9Gi` and configure the matching `huge_page_size` as
+    described in [What else affects the result](#what-else-affects-the-result).
 
     Set a `cpu` or `memory` limit together with the huge pages limit. Kubernetes rejects a huge pages limit without one of them, and the Operator reports the error only in its log.
 
@@ -446,7 +455,10 @@ The value applies to all instance sets in the cluster. Every instance set must r
 
 1. [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages) and compare their `allocatable` value with your request.
 2. Reserve more huge pages on the nodes, or add nodes with huge pages.
-3. If other Pods use the huge pages on the nodes, [dedicate the nodes to PostgreSQL](#dedicate-the-nodes-to-postgresql).
+3. If other Pods use the huge pages on the nodes,
+   [dedicate the nodes to PostgreSQL](#dedicate-the-nodes-to-postgresql)
+   and move those workloads to other nodes. The `NoSchedule` taint does
+   not evict existing Pods or release their huge pages allocations.
 4. After you correct the request or the nodes, delete the `Pending` Pod:
 
     ```bash
@@ -465,7 +477,10 @@ The value applies to all instance sets in the cluster. Every instance set must r
 
 **Fix:**
 
-1. Run `SHOW shared_memory_size;` and [calculate the huge pages](#calculate-how-many-huge-pages-you-need) again with the current parameters.
+1. On PostgreSQL 15 and later, run `SHOW shared_memory_size;` and
+   [calculate the huge pages](#calculate-how-many-huge-pages-you-need) again with
+   the current parameters. On PostgreSQL 14, use the estimate from that section
+   with the current parameter values.
 2. Increase the huge pages limit in the Custom Resource and apply it.
 3. If you changed a parameter such as `max_connections` or `shared_buffers` recently, include the new value in the calculation.
 
@@ -494,7 +509,11 @@ For other issues, see [Initial troubleshooting](debug.md).
 
 ## Stop using huge pages
 
-To stop using huge pages, remove the `hugepages-2Mi` or `hugepages-1Gi` keys from `spec.instances.resources.limits` and apply the Custom Resource. If you set `huge_pages` to `on`, remove that parameter too.
+To stop using huge pages, remove the `hugepages-2Mi` or `hugepages-1Gi` keys from
+`spec.instances.resources.limits` for every instance set. Remove the matching
+keys from `spec.instances.resources.requests` if you set them explicitly, then
+apply the Custom Resource. If you set `huge_pages` to `on`, remove that parameter
+too.
 
 Before you apply the change, increase the `memory` limit so it covers `shared_buffers` and the rest of shared memory. Without huge pages, shared memory counts against the memory limit.
 
