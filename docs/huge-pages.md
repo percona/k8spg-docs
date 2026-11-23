@@ -33,9 +33,15 @@ Kubernetes treats huge pages differently from CPU and memory:
 
 * **No overcommit.** The `request` must equal the `limit`, and the scheduler places a Pod only on a node that has enough free huge pages. If no node has enough, the Pod stays `Pending`.
 * **Counted separately from memory.** A Pod with `memory: 4Gi` and `hugepages-2Mi: 8530Mi` gets 4 GiB of regular memory plus 8530 MiB of huge pages.
-* **Hard to correct.** Changing the request recreates the Pods one by one, replicas first, and then switches the primary role to an updated replica. PostgreSQL restarts on every Pod. A cluster with a single instance is unavailable while its Pod restarts.
 
-The number you request must cover PostgreSQL's whole shared memory segment. PostgreSQL requests the segment in one piece at startup. If the Pod has fewer huge pages than the segment needs, PostgreSQL places the whole segment in regular memory instead. The Pod keeps running, but the shared memory now counts against the Pod's memory limit. If you sized that limit on the assumption that shared memory lives in huge pages, Kubernetes stops the database container with the `OOMKilled` reason as soon as the data cache fills up.
+PostgreSQL requests its whole shared memory segment in one piece at startup. What happens depends on your huge pages request and on the `huge_pages` parameter:
+
+| Situation | Result |
+|---|---|
+| No node has enough free huge pages for the request | The Pod stays `Pending`. See [Pods stay in the Pending state](#pods-stay-in-the-pending-state) |
+| The request covers the shared memory segment | PostgreSQL places the segment in huge pages, and `huge_pages_status` shows `on` |
+| The request is smaller than the segment, and `huge_pages` is `try`, the Operator default | PostgreSQL places the whole segment in regular memory and starts without a warning. The segment counts against the memory limit. If you sized that limit on the assumption that shared memory lives in huge pages, Kubernetes stops the database container with the `OOMKilled` reason when the data cache fills up |
+| The request is smaller than the segment, and `huge_pages` is `"on"` | PostgreSQL doesn't start. The database container runs but never becomes ready. See [PostgreSQL doesn't start with `huge_pages` set to `on`](#postgresql-doesnt-start-with-huge_pages-set-to-on) |
 
 So calculate the huge pages requirement **before** you create or restart the cluster.
 
@@ -43,7 +49,7 @@ So calculate the huge pages requirement **before** you create or restart the clu
 
 Make sure that:
 
-* Huge pages are reserved on every node that can run a PostgreSQL Pod, including nodes that host replicas and failover targets. Reserve them at boot time where possible: 1 GiB pages in particular can fail to allocate at runtime on a node with fragmented memory. See the documentation for your platform:
+* Huge pages are reserved on every node that can run a PostgreSQL Pod, including nodes that host replicas and failover targets. Reserve them at boot time where possible. Each huge page needs physically contiguous memory, and on a node that has run for a while, memory becomes fragmented. A reservation made at runtime can then get fewer pages than you asked for, without an error. 1 GiB pages are the most affected. After a runtime reservation, [check the pool on the node](#check-that-nodes-expose-huge-pages). See the documentation for your platform:
 
     * [Kubernetes: manage huge pages :octicons-link-external-16:](https://kubernetes.io/docs/tasks/manage-hugepages/scheduling-hugepages/)
     * [Amazon EKS :octicons-link-external-16:](https://docs.aws.amazon.com/eks/latest/userguide/ml-hugepages.html)
@@ -51,7 +57,6 @@ Make sure that:
     * [Linux kernel: HugeTLB pages :octicons-link-external-16:](https://docs.kernel.org/admin-guide/mm/hugetlbpage.html)
 
 * Transparent Huge Pages are disabled on those nodes. See [Disable Transparent Huge Pages on the nodes](#disable-transparent-huge-pages-on-the-nodes).
-* The nodes for PostgreSQL are tainted and labeled so that other workloads can't use their huge pages. See [Dedicate the nodes to PostgreSQL](#dedicate-the-nodes-to-postgresql).
 * You know the PostgreSQL parameter values for your cluster. You need them to [calculate how many huge pages you need](#calculate-how-many-huge-pages-you-need).
 
 ### Check that nodes expose huge pages
@@ -72,13 +77,43 @@ Reserving huge pages in the operating system doesn't guarantee that Kubernetes c
         node-2   8600Mi          0
         ```
 
-2. If a node shows `0` although you reserved huge pages, check the pool on the node itself. This command starts a temporary debug Pod on the node:
+2. Check how many huge pages on a node are still free. Pods that already run on the node may have taken some of them:
+
+    ```bash
+    kubectl describe node <node-name> | grep -i -e capacity -e allocatable -e allocated -e hugepages
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        Capacity:
+          hugepages-1Gi:      0
+          hugepages-2Mi:      8800Mi
+        Allocatable:
+          hugepages-1Gi:      0
+          hugepages-2Mi:      8800Mi
+        Allocated resources:
+          hugepages-1Gi      0 (0%)        0 (0%)
+          hugepages-2Mi      8530Mi (96%)  8530Mi (96%)
+        ```
+
+    `Capacity` is the pool the kubelet found on the node. `Allocatable` is the part that Pods can request. Under `Allocated resources`, the first value is what Pods on the node already requested. The free huge pages are `Allocatable` minus that value. In the sample, 270Mi is free, so a second PostgreSQL Pod that requests 8530Mi can't run on this node.
+
+    To read only the capacity and allocatable values of a node, for example in a script, run:
+
+    ```bash
+    kubectl get node <node-name> -o jsonpath='{.status.capacity}{"\n"}{.status.allocatable}{"\n"}'
+    ```
+
+3. If a node shows `0` or less than you reserved, check the pool on the node itself. This command starts a temporary debug Pod on the node:
 
     ```bash
     kubectl debug node/<node-name> -it --profile=general --image=busybox -- grep -i huge /proc/meminfo
     ```
 
     Because the command finishes quickly, `kubectl` can print a warning that it couldn't attach to the Pod and falls back to its logs. The output still follows the warning.
+
+    `kubectl debug node` needs permission to create Pods, and some clusters don't allow Pods that access the node. If the command fails with a permission or policy error, run `grep -i huge /proc/meminfo` directly on the node, for example over SSH, or ask your cluster administrator.
 
     ??? example "Sample output"
 
@@ -94,21 +129,37 @@ Reserving huge pages in the operating system doesn't guarantee that Kubernetes c
         Hugetlb:         9011200 kB
         ```
 
-    `HugePages_Total` is the pool size in pages of the default size, `Hugepagesize`. A value of `0` means the node has no huge pages reserved. If the pool is there but `allocatable` shows `0`, restart the kubelet on that node.
+    `HugePages_Total` is the number of huge pages reserved on the node, in pages of the size shown in `Hugepagesize`. A value of `0` means the node has no huge pages reserved.
 
-3. Delete the debug Pod. Its name starts with `node-debugger-` followed by the node name:
+    If `HugePages_Total` is greater than `0` but the commands in steps 1 and 2 still show `0` or a smaller value for the node, Kubernetes hasn't picked up the pool yet. Restart the kubelet on that node with your platform's procedure, for example `sudo systemctl restart kubelet` on a node you manage over SSH. Then run the commands in steps 1 and 2 again.
+
+4. If you use 1 GiB pages, or the node has huge pages of more than one size, check each size. `/proc/meminfo` shows only the default size:
+
+    ```bash
+    kubectl debug node/<node-name> -it --profile=general --image=busybox -- sh -c 'for d in /sys/kernel/mm/hugepages/hugepages-*; do echo "$(basename $d): total $(cat $d/nr_hugepages), free $(cat $d/free_hugepages)"; done'
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+        hugepages-1048576kB: total 0, free 0
+        hugepages-2048kB: total 4400, free 4400
+        ```
+
+    `total` is the number of pages reserved for each size. `free` counts pages that no process uses yet, so it can stay high even when Pods have requested the pages. To see what Pods requested, use the `kubectl describe node` command in step 2.
+
+5. Delete the debug Pods. Their names start with `node-debugger-` followed by the node name:
 
     ```bash
     kubectl get pods -o name | grep node-debugger
     kubectl delete pod <pod-name>
     ```
 
-
 ### Disable Transparent Huge Pages on the nodes
 
 Transparent Huge Pages (THP) is a Linux kernel feature that merges regular pages into larger ones in the background. It can cause CPU spikes and latency jitter, and the [PostgreSQL documentation :octicons-link-external-16:](https://www.postgresql.org/docs/current/runtime-config-resource.html#GUC-HUGE-PAGES) advises against it. THP is separate from the huge pages you reserve for PostgreSQL, and disabling it doesn't affect them.
 
-THP is a kernel setting of the worker node, so a Pod can't change it. Set it where you prepare the nodes, together with huge pages. The setting applies to every Pod on the node, so change it on dedicated PostgreSQL nodes only.
+THP is a kernel setting of the worker node and applies to every Pod on it, so change it on dedicated PostgreSQL nodes only. Set it where you prepare the nodes, together with huge pages: in the node image, the boot configuration or the node configuration of your platform. A privileged DaemonSet can also change it at runtime, but the setting then applies only after the DaemonSet Pod runs on each node, so prefer the node configuration for production.
 
 1. Check the current value on a node:
 
@@ -123,7 +174,7 @@ THP is a kernel setting of the worker node, so a Pod can't change it. Set it whe
         always defer defer+madvise [madvise] never
         ```
 
-    The value in square brackets is the active one. Delete the debug Pod afterwards, as in [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages).
+    The value in square brackets is the active one. Delete the debug Pod afterwards, as in [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages). If you can't run `kubectl debug node`, read the same files directly on the node.
 
 2. Set `enabled` to `never` in the node configuration of your platform. Where the platform offers it, set `defrag` to `never` as well:
 
@@ -135,39 +186,9 @@ THP is a kernel setting of the worker node, so a Pod can't change it. Set it whe
     | Red Hat OpenShift | A Tuned profile with `transparent_hugepages=never`. See [Disabling Transparent Huge Pages :octicons-link-external-16:](https://docs.redhat.com/en/documentation/openshift_container_platform/4.15/html/scalability_and_performance/what-huge-pages-do-and-how-they-are-consumed#disable-thp_huge-pages) |
     | Other platforms | The kernel boot parameter `transparent_hugepage=never` in the node image or boot configuration. See [Transparent Hugepage Support :octicons-link-external-16:](https://docs.kernel.org/admin-guide/mm/transhuge.html) |
 
-<!-- Platform options checked against provider docs 2026-11-19: GKE LinuxNodeConfig enums include TRANSPARENT_HUGEPAGE_ENABLED_NEVER and _DEFRAG_NEVER; AKS LinuxOSConfig allows never for both; EKS page shows Auto Mode advancedCompute.hugepages.transparent and Karpenter userData, no never example; OpenShift Tuned profile [vm] transparent_hugepages=never. LIVE: GKE row gives [never] for both values; check command and sample output confirmed. EKS, AKS, OpenShift, kernel rows: links checked only.
-     Kernel boot parameter transparent_hugepage= sets enabled only, hence the wording of step 2. -->
-
-### Dedicate the nodes to PostgreSQL
-
-Huge pages reserved on a node are not available as regular memory, and any Pod that requests huge pages can take them. Dedicate the huge pages nodes to PostgreSQL before you create the cluster, so the pages are free when the PostgreSQL Pods start.
-
-1. Add a [taint :octicons-link-external-16:](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to each node. The taint keeps off every Pod that doesn't have a matching toleration:
-
-    ```bash
-    kubectl taint nodes <node-name> dedicated=postgres:NoSchedule
-    ```
-
-2. Add a label to each node. PostgreSQL Pods use it to select these nodes:
-
-    ```bash
-    kubectl label nodes <node-name> dedicated=postgres
-    ```
-
-You add the matching toleration and node affinity to the Custom Resource when you [request huge pages](#request-huge-pages-in-the-custom-resource).
-
-<!-- LIVE: taint keeps off Pods without a toleration; toleration alone lets Pods land on other nodes; toleration + nodeAffinity keeps them on the dedicated nodes. -->
-
 ## Calculate how many huge pages you need
 
 PostgreSQL's main shared memory segment is always larger than `shared_buffers`. It also holds WAL buffers, transaction status caches, lock tables and a record for every process slot. Requesting exactly `shared_buffers` is never enough.
-
-You can estimate the segment size from the PostgreSQL parameters in your Custom Resource, without starting a database. The method in this section gives an upper bound: the result is never lower than what PostgreSQL requests. For `shared_buffers` of several gigabytes, it's about 1% higher. For small `shared_buffers` on PostgreSQL 17 and later, it can be 20% to 30% higher, because the estimate uses the largest possible size of the transaction status caches. If the cluster already runs, [read the size from it](#read-the-size-from-a-running-cluster) to get the exact value. For the exact formula and how it was derived, see [Pre-calculate huge pages for PostgreSQL :octicons-link-external-16:](https://www.percona.com/blog/TODO-huge-pages-post).
-
-<!-- TODO: replace the link when Jobin's post is published.
-     CALC: upper-bound method checked against Jobin's exact formula on 9000 random configurations for PostgreSQL 16, 17 and 18.
-     Never below the exact value, 0.3% above on average, at most 3.6% above for shared_buffers over 2 GB. JOBIN: method sent to him for confirmation.
-     LIVE: never below PostgreSQL in 16 of 16 configuration and version pairs (15 to 18). +1.0% to +1.1% for 8 GB, up to +28% for defaults on 17 and 18. PostgreSQL 15 and 16 give identical sizes. -->
 
 ### Parameters that affect the size
 
@@ -197,6 +218,8 @@ PostgreSQL reserves memory for every slot at startup, whether a process uses it 
      CODE: Patroni CMDLINE_OPTIONS (v3.0.0, v3.3.0, v4.0.0, master) passes max_connections 100, max_wal_senders 10, max_prepared_transactions 0, max_locks_per_transaction 64, max_worker_processes 8, same as PostgreSQL. Minimums 25, 3, 0, 32, 2: a lower value fails validation and Patroni uses its default instead (patroni/config.py _process_postgresql_parameters). LIVE: Patroni 4.1.5 in the 3.1.0 images; max_connections 20 results in 100, with a warning in the Patroni log only. -->
 
 ### Estimate the shared memory size
+
+You can estimate the segment size from the PostgreSQL parameters in your Custom Resource, without starting a database. The method in this section gives an upper bound: the result is never lower than what PostgreSQL requests. For `shared_buffers` of several gigabytes, it's about 1% higher. For small `shared_buffers` on PostgreSQL 17 and later, it can be 20% to 30% higher, because the estimate uses the largest possible size of the transaction status caches. If the cluster already runs, [read the size from it](#read-the-size-from-a-running-cluster) to get the exact value.
 
 1. Count the process slots:
 
@@ -311,6 +334,46 @@ The value matches the current configuration only. If you plan to change any para
 
 <!-- CODE: pg_stat_monitor enabled when PMM querySource = pg_stat_monitor (v3.1.0 perconapgcluster_types.go). pg_stat_monitor reserves pgsm_max 256 MB + pgsm_query_shared_buffer 20 MB (pg_stat_monitor main, hash_query.c). LIVE on 17.11: pg_stat_monitor +278.1 MiB (139 pages), pgaudit 0. JOBIN: pg_tde and pg_cron overhead not measured. -->
 
+## Dedicate the nodes to PostgreSQL
+
+This step is optional. Huge pages reserved on a node are not available as regular memory, and any Pod that requests huge pages can take them. If other workloads run on the huge pages nodes, dedicate the nodes to PostgreSQL so the pages are free when the PostgreSQL Pods start. Do it before you [request huge pages](#request-huge-pages-in-the-custom-resource): changing tolerations or affinity later restarts the PostgreSQL Pods again.
+
+1. Add a [taint :octicons-link-external-16:](https://kubernetes.io/docs/concepts/scheduling-eviction/taint-and-toleration/) to each node. The taint keeps off every new Pod that doesn't have a matching toleration:
+
+    ```bash
+    kubectl taint nodes <node-name> dedicated=postgres:NoSchedule
+    ```
+
+2. Add a label to each node. PostgreSQL Pods use it to select these nodes:
+
+    ```bash
+    kubectl label nodes <node-name> dedicated=postgres
+    ```
+
+3. Add a matching toleration and node affinity to each instance set in the Custom Resource. You apply them together with the huge pages limit in the next section:
+
+    ```yaml
+    spec:
+      instances:
+        - name: instance1
+          tolerations:
+            - key: dedicated
+              operator: Equal
+              value: postgres
+              effect: NoSchedule
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: dedicated
+                        operator: In
+                        values:
+                          - postgres
+    ```
+
+    The toleration lets the Pods run on the dedicated nodes, and the node affinity keeps them there. If your instance set already has an `affinity` section, for example with Pod anti-affinity, add `nodeAffinity` to it. See [Binding Percona Distribution for PostgreSQL components to specific nodes](constraints.md) for more affinity and toleration options.
+
 ## Request huge pages in the Custom Resource
 
 Set the huge pages limit for each instance set in `spec.instances.resources.limits`. Kubernetes sets the request to the same value if you specify only the limit.
@@ -328,20 +391,6 @@ Set the huge pages limit for each instance set in `spec.instances.resources.limi
               cpu: "2"
               memory: 4Gi
               hugepages-2Mi: 8530Mi
-          tolerations:
-            - key: dedicated
-              operator: Equal
-              value: postgres
-              effect: NoSchedule
-          affinity:
-            nodeAffinity:
-              requiredDuringSchedulingIgnoredDuringExecution:
-                nodeSelectorTerms:
-                  - matchExpressions:
-                      - key: dedicated
-                        operator: In
-                        values:
-                          - postgres
       patroni:
         dynamicConfiguration:
           postgresql:
@@ -360,7 +409,7 @@ Set the huge pages limit for each instance set in `spec.instances.resources.limi
 
     If the cluster has several instance sets, request huge pages for every set. As soon as one set requests huge pages, the Operator mounts a huge pages volume into the Pods of all instance sets, and the Pods of a set without a huge pages limit can't start.
 
-    The toleration lets the Pods run on the nodes you [dedicated to PostgreSQL](#dedicate-the-nodes-to-postgresql), and the node affinity keeps them there. If you didn't dedicate nodes, omit both. If your instance set already has an `affinity` section, for example with Pod anti-affinity, add `nodeAffinity` to it. See [Binding Percona Distribution for PostgreSQL components to specific nodes](constraints.md) for more affinity and toleration options.
+    If you [dedicated the nodes to PostgreSQL](#dedicate-the-nodes-to-postgresql), add the toleration and node affinity from that section to the same instance set.
 
 2. Apply the configuration:
 
@@ -381,10 +430,12 @@ If no node has enough free huge pages, the Pods stay `Pending`. See [Troubleshoo
 
 The `huge_pages` parameter controls what PostgreSQL does when it can't get enough huge pages at startup. The Operator sets it to `try` when you request huge pages and to `off` when you don't.
 
-| Value | Behavior | Pros | Cons |
-|---|---|---|---|
-| `try`, the Operator default | PostgreSQL uses huge pages if it can get them all. Otherwise it places shared memory in regular pages and starts anyway | The cluster starts even when a node is short of huge pages, which is safer during rollout and on mixed nodes | The fallback is silent. Shared memory then counts against the memory limit, and the database container can be stopped with the `OOMKilled` reason. You need to check the status after every restart |
-| `on` | PostgreSQL starts only if it gets all the huge pages it needs | A sizing mistake shows up at once as an instance that doesn't start | A replica or failover target on a node without enough free huge pages doesn't start. If you increase a parameter such as `max_connections` without increasing the huge pages limit, the instances don't start after the restart |
+For what each value does when the huge pages request is too small, see [How huge pages work in Kubernetes](#how-huge-pages-work-in-kubernetes).
+
+| Value | Pros | Cons |
+|---|---|---|
+| `try`, the Operator default | The cluster starts even when the huge pages request is too small, which is safer while you validate your sizing | The fallback is silent. Shared memory then counts against the memory limit, and the database container can be stopped with the `OOMKilled` reason. You need to check the status after every restart |
+| `on` | A sizing mistake shows up at once as an instance that doesn't start | If you increase a parameter such as `max_connections` without increasing the huge pages limit, the instances don't start after the restart |
 
 Use `try` while you validate your sizing. Consider `on` for production once you calculate the huge pages limit every time you change a parameter.
 
@@ -453,7 +504,7 @@ The value applies to all instance sets in the cluster. Every instance set must r
 
 **Fix:**
 
-1. [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages) and compare their `allocatable` value with your request.
+1. [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages) and compare the free huge pages on each node with your request.
 2. Reserve more huge pages on the nodes, or add nodes with huge pages.
 3. If other Pods use the huge pages on the nodes,
    [dedicate the nodes to PostgreSQL](#dedicate-the-nodes-to-postgresql)
