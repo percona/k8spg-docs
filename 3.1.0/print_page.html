@@ -5012,14 +5012,14 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshoot-operator.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5040,14 +5040,14 @@
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5216,6 +5216,34 @@
     
   
     Reinitialize replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
   
 
     
@@ -8382,10 +8410,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#troubleshoot-operator" class="md-nav__link">
+  <a href="#debug" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Troubleshoot Operator installation issues
+        Initial troubleshooting
       
     </span>
   </a>
@@ -8393,10 +8421,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#debug" class="md-nav__link">
+  <a href="#debug-failover" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Initial troubleshooting
+        Failover and recovery
       
     </span>
   </a>
@@ -8463,6 +8491,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Reinitialize replicas
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#troubleshoot-operator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshoot Operator installation issues
       
     </span>
   </a>
@@ -9236,7 +9275,7 @@ Check upcoming releases on the <a href="https://github.com/orgs/percona/projects
 <h4 id="architecture-pod-distribution">Pod distribution<a class="headerlink" href="#architecture-pod-distribution" title="Permanent link">¶</a></h4>
 <p>The Operator uses <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">node affinity and anti-affinity <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.</p>
 <h4 id="architecture-automatic-recovery">Automatic recovery<a class="headerlink" href="#architecture-automatic-recovery" title="Permanent link">¶</a></h4>
-<p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="#ha-deploy">High-availability</a>.</p>
+<p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="#ha-deploy">High-availability</a>. For exactly what happens during a failure, how long recovery takes, and what you can lose, see <a href="#debug-failover">Failover and recovery</a>.</p>
 <h4 id="architecture-services-that-clients-connect-to">Services that clients connect to<a class="headerlink" href="#architecture-services-that-clients-connect-to" title="Permanent link">¶</a></h4>
 <p>The Operator creates several Kubernetes Services for each cluster. The following table uses <code>cluster1</code> as the cluster name:</p>
 <table>
@@ -9345,7 +9384,7 @@ node, thereby ensuring data continuity.</p>
 </tr>
 <tr>
 <td>PostgreSQL versions</td>
-<td style="text-align: center;">13 - 18</td>
+<td style="text-align: center;">14 - 18</td>
 <td style="text-align: center;">14 - 18</td>
 <td style="text-align: center;">14 - 18</td>
 <td style="text-align: center;">14 - 18</td>
@@ -18042,7 +18081,7 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 <p>Configure the <code>options</code> section:</p>
 <ul>
 <li><code>--type</code> - set to <code>time</code>.</li>
-<li><code>--target</code> - set the target time that you retrieved at the previous step. The format is <code>&lt;YYYY-MM-DD HH:MM:DD&gt;</code>, optionally followed by a timezone offset: “2021-04-16 15:13:32+00” (<code>+00</code> here means UTC).</li>
+<li><code>--target</code> - set the target time that you retrieved at the previous step. The format is <code>&lt;YYYY-MM-DD HH:MM:SS&gt;</code>, optionally followed by a timezone offset: “2026-04-16 15:13:32+00” (<code>+00</code> here means UTC).</li>
 </ul>
 </li>
 </ul>
@@ -20181,6 +20220,7 @@ To check if your storage supports the expansion capability, run the following co
 <p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
 <p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
 <p><strong>Synchronous replication</strong> is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See <a href="#ha-deploy-configure-synchronous-replication">Configure synchronous replication</a>.</p>
+<p>See <a href="#debug-failover">Failover and recovery</a> for the recovery time and data-loss window of each failure scenario under both replication modes, before you choose.</p>
 <h2 id="ha-deploy-size-your-high-availability-cluster">Size your high availability cluster<a class="headerlink" href="#ha-deploy-size-your-high-availability-cluster" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Minimum:</strong> 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.</li>
@@ -25521,9 +25561,17 @@ cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   clust
 </code></pre></div>
 </details>
 <p>PostgreSQL primary is labeled as <code>master</code>, while other PostgreSQL instances are labeled as <code>replica</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Remove the old annotation before you enable switchover again</p>
+<p>A switchover is requested with the <code>postgres-operator.crunchydata.com/trigger-switchover</code> annotation. If you did a switchover on this cluster before, that annotation is probably still there. When you set <code>patroni.switchover.enabled</code> to <code>true</code>, the Operator treats an annotation it hasn’t acted on as a new request and switches over at once, before you set a new annotation in step 3.</p>
+<p>Remove the old annotation before step 2:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover-
+</code></pre></div>
+<p>The trailing <code>-</code> removes the annotation.</p>
+</div>
 </li>
 <li>
-<p>Now update the following options in the <code>patroni.switchover</code> subsection of the Custom Resource:</p>
+<p>Update the following options in the <code>patroni.switchover</code> subsection of the Custom Resource:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">patroni</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">switchover</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
@@ -25546,7 +25594,7 @@ cluster1-instance1-ttm9-0             4/4     Running   0          2m22s   clust
 <p>Trigger the switchover by adding the annotation to your Custom Resource. The recommended way is to set the annotation with the timestamp, so you know when switchover took place. Replace the <code>&lt;namespace&gt;</code> placeholder with your value:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>--overwrite<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover<span class="o">=</span><span class="s2">"</span><span class="k">$(</span>date<span class="k">)</span><span class="s2">"</span>
 </code></pre></div>
-<p>The <code>--overwrite</code> flag in the above command allows you to overwrite the annotation if it already exists (useful if that’s not the first switchover you do).</p>
+<p>The <code>--overwrite</code> flag replaces the value if the annotation already exists. Use a value that you haven’t used before, such as the timestamp. The Operator switches over only when the annotation differs from the one it acted on last.</p>
 </li>
 <li>
 <p>Verify that the cluster was annotated (replace the <code>&lt;namespace&gt;</code> placeholder with your value, as usual):</p>
@@ -25579,6 +25627,14 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
 </details>
 </li>
 <li>
+<p>If you use pgBouncer, check its Pods. After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. List the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
+
+kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>&lt;pgbouncer-pod-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+<li>
 <p>Set <code>patroni.switchover.enabled</code> Custom Resource option to <code>false</code> once the switchover is done:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>patch<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>--type<span class="o">=</span>merge<span class="w"> </span>--patch<span class="w"> </span><span class="s1">'{</span>
 <span class="s1">  "spec": {</span>
@@ -25590,6 +25646,12 @@ cluster1-instance1-ttm9-0             4/4     Running     0          23m   clust
 <span class="s1">  }</span>
 <span class="s1">}'</span>
 </code></pre></div>
+</li>
+<li>
+<p>Remove the annotation, so that it doesn’t trigger a switchover the next time you enable switchover:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>annotate<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>postgres-operator.crunchydata.com/trigger-switchover-
+</code></pre></div>
+<p>Setting <code>patroni.switchover.enabled</code> to <code>false</code> clears the Operator’s record of the last completed switchover, but it leaves the annotation on the cluster. Without this step, the next time you set <code>enabled</code> to <code>true</code>, the Operator sees an annotation it hasn’t acted on and switches over immediately.</p>
 </li>
 </ol></body></html></section><section class="print-page" id="custom-registry" heading-number="9.4"><html><head>
         <script type="text/javascript">
@@ -27269,182 +27331,7 @@ persistentvolumeclaim "cluster1-repo1" deleted
                     <section class='print-page md-section' id='section-10' heading-number='10'>
                         <h1>Troubleshooting<a class='headerlink' href='#section-10' title='Permanent link'></a>
                         </h1>
-                    <section class="print-page" id="troubleshoot-operator" heading-number="10.1"><html><head>
-        <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
-        })
-        </script>
-        </head><body><h1 id="percona-operator-troubleshooting">Percona Operator troubleshooting<a class="headerlink" href="#troubleshoot-operator-percona-operator-troubleshooting" title="Permanent link">¶</a></h1>
-<p>This section provides information on how to troubleshoot issues when you install Percona Operator for PostgreSQL.</p>
-<p>Make sure you have CLI tool <code>kubectl</code> installed to interact with Kubernetes API.</p>
-<h2 id="troubleshoot-operator-check-connection-to-kubernetes-cluster">Check connection to Kubernetes cluster<a class="headerlink" href="#troubleshoot-operator-check-connection-to-kubernetes-cluster" title="Permanent link">¶</a></h2>
-<p>It may happen that <code>kubectl</code> you installed locally is not connected to your Kubernetes cluster. </p>
-<p>To check connectivity to your Kubernetes API, run the following command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>cluster-info
-</code></pre></div>
-<p>If you see the output similar to the following, it means that <code>kubectl</code> is connected to your Kubernetes cluster:    </p>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>Kubernetes control plane is running at https://&lt;control-plane-ip&gt;:49475
-CoreDNS is running at https://&lt;control-plane-ip&gt;:49475/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy 
-</code></pre></div>
-</details>
-<p>If multiple Kubernetes configurations are present in <code>kubeconfig</code>,check if you have set the correct context. If the context is wrong, switch it. Here’s how:</p>
-<ol>
-<li>
-<p>Check the current context:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>current-context<span class="w"> </span><span class="c1"># Get the current Context</span>
-</code></pre></div>
-</li>
-<li>
-<p>Switch the context :</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>&lt;Context-To-Be-Used&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Run the <code>kubectl cluster-info</code> command again to verify that <code>kubectl</code> is connected to your Kubernetes cluster.</p>
-</li>
-</ol>
-<p>If you are still running into issues, check with your Kubernetes cluster administrator to resolve the connectivity or configuration issues. </p>
-<h2 id="troubleshoot-operator-troubleshoot-operator-installation-issues">Troubleshoot Operator installation issues<a class="headerlink" href="#troubleshoot-operator-troubleshoot-operator-installation-issues" title="Permanent link">¶</a></h2>
-<ol>
-<li>
-<p>Check the Operator logs</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>deploy/&lt;operator-deployment-name&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.</p>
-<p>To verify that you have the necessary privileges, run the following script:</p>
-<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://gist.githubusercontent.com/cshiv/6048bdd0174275b48f633549c69d0844/raw/fd547b783a30b827362ee9f9ec03436f9bc79524/check_priviliges.sh<span class="o">)</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>Checking privileges to install Percona Operators in kubernetes cluster...
-Warning: Unable to check the privileges for resource 'issuers', check if the resource 'issuers' is present in the cluster
-Warning: Unable to check the privileges for resource 'certificates', check if the resource 'certificates' is present in the cluster    
-
-Warning: Some resources are not found in the kubernetes cluster.Check the Warning messages before you proceed
-------------------------------------------------------------------------------------------
-GOOD TO INSTALL: Percona Operator for PostgreSQL
-https://docs.percona.com/percona-operator-for-postgresql/index.html
-------------------------------------------------------------------------------------------
-GOOD TO INSTALL: Percona Operator for MySQL based on Percona XtraDB Cluster
-https://docs.percona.com/percona-operator-for-postgresql/index.html
-------------------------------------------------------------------------------------------
-GOOD TO INSTALL: Percona Operator for MongoDB
-https://docs.percona.com/percona-operator-for-mongodb/index.html
-</code></pre></div>
-</details>
-<p>If you have insufficient permissions, the script will show you which ones are missing for installing a particular Operator. In this case, contact the Kubernetes cluster administrator.</p>
-</li>
-<li>
-<p>If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>--sort-by<span class="o">=</span><span class="s2">".lastTimestamp"</span>
-</code></pre></div>
-<p>Events provide good information about affinity issues, resource issues etc.</p>
-</li>
-</ol>
-<h2 id="troubleshoot-operator-troubleshooting-database-cluster-issues">Troubleshooting database cluster issues<a class="headerlink" href="#troubleshoot-operator-troubleshooting-database-cluster-issues" title="Permanent link">¶</a></h2>
-<ol>
-<li>
-<p>The Operator deployment must be in the <code>Running</code> state for the database cluster to function properly. Check the Operator Pod for restarts to identify potential issues.</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>&lt;operator-pod-name&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Check the status of the database cluster</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
-</code></pre></div>
-<p>The cluster should typically be in the <code>Running</code> state. It may briefly enter the <code>initializing</code> state while reconciling changes. If the cluster remains in the <code>initializing</code> state for an extended period, investigate further to identify any underlying issues.</p>
-<p>Additionally, you can describe the database cluster and search for the information in the <code>State</code> and <code>State Description</code> fields:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Check the Operator logs</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>deploy/&lt;operator-deployment-name&gt;
-</code></pre></div>
-</li>
-<li>
-<p>Check the events</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>--sort-by<span class="o">=</span><span class="s2">".lastTimestamp"</span>
-</code></pre></div>
-<p>Events can provide information like storage class issues, PVC binding issues etc</p>
-</li>
-<li>
-<p>Check for the PVC, PV. Both of them should be in <code>Bound</code> status</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv
-</code></pre></div>
-</li>
-<li>
-<p>Check for logs of database pods / Proxy pods</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;database-pod-name&gt;
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;proxy-pod-name&gt;
-</code></pre></div>
-<p>To check logs of <code>init</code> containers or other sidecar containers, use the option <code>-c</code> with the container name:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;proxy-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>postgres-startup
-</code></pre></div>
-</li>
-<li>
-<p>Check for error details. Run the <code>kubectl describe</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;database-pod-name&gt;
-</code></pre></div>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;proxy-pod-name&gt;
-</code></pre></div>
-<p>Check the information in the <code>Status</code> section. The <code>State</code> and <code>State Description</code> fields explain why the Pod reports errors.</p>
-</li>
-<li>
-<p>To run commands inside a container, use the <code>kubectl exec</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>&lt;command&gt;
-</code></pre></div>
-<p>If you need an interactive shell to run multiple commands, use the <code>-it</code> flag for an interactive terminal:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>sh
-</code></pre></div>
-</li>
-<li>
-<p>If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a <code>sleep-forever</code> script to prevent the containers from restarting repeatedly. </p>
-</li>
-</ol>
-<p>See the <a href="#manage-manually-disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p>
-<h2 id="troubleshoot-operator-profiling-the-operator-with-pprof">Profiling the Operator with pprof<a class="headerlink" href="#troubleshoot-operator-profiling-the-operator-with-pprof" title="Permanent link">¶</a></h2>
-<p>When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go’s pprof tooling.</p>
-<ol>
-<li>
-<p>Enable pprof by setting the <code>PPROF_BIND_ADDRESS</code> environment variable in the Operator Deployment. For example, set it to <code>127.0.0.1:6060</code> to bind pprof to localhost on port 6060. See <a href="#env-var-operator-pprof_bind_address">PPROF_BIND_ADDRESS</a> for configuration details.</p>
-</li>
-<li>
-<p>Restart the Operator so the new configuration takes effect.</p>
-</li>
-<li>
-<p>Set up a port-forward to the Operator Pod:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>deploy/percona-postgresql-operator<span class="w"> </span><span class="m">6060</span>:6060<span class="w"> </span>-n<span class="w"> </span>&lt;operator-namespace&gt;
-</code></pre></div>
-</li>
-<li>
-<p>In another terminal, collect profiles using <code>go tool pprof</code>:</p>
-<p><strong>CPU profile</strong> (30 seconds):</p>
-<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
-</code></pre></div>
-<p><strong>Heap (memory) profile</strong>:</p>
-<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
-</code></pre></div>
-<p><strong>Goroutine profile</strong> (useful for deadlock investigation):</p>
-<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
-</code></pre></div>
-</li>
-<li>
-<p>After collecting a profile, you can analyze it interactively. For example, type <code>top</code> to see the functions consuming the most CPU or memory, or <code>web</code> to generate a flame graph (requires Graphviz).</p>
-</li>
-</ol>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Disable pprof when you finish troubleshooting by setting <code>PPROF_BIND_ADDRESS</code> to <code>"0"</code> or <code>""</code>. Keeping it enabled in production is not recommended for security reasons.</p>
-</div></body></html></section><section class="print-page" id="debug" heading-number="10.2"><html><head>
+                    <section class="print-page" id="debug" heading-number="10.1"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -27552,7 +27439,277 @@ Events:
 </code></pre></div>
 </details>
 <p>This gives a lot of information about containers, resources, container status
-and also events. So, describe output should be checked to see any abnormalities.</p></body></html></section><section class="print-page" id="debug-storage" heading-number="10.3"><html><head>
+and also events. So, describe output should be checked to see any abnormalities.</p></body></html></section><section class="print-page" id="debug-failover" heading-number="10.2"><html><head>
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head><body><h1 id="failover-and-recovery">Failover and recovery<a class="headerlink" href="#debug-failover-failover-and-recovery" title="Permanent link">¶</a></h1>
+<p>This page describes what happens to a Percona Distribution for PostgreSQL cluster managed by the Operator when a component fails, how long writes are unavailable, and which acknowledged writes you can lose. Use it in two ways:</p>
+<ul>
+<li><strong>During an incident:</strong> find your scenario in the <a href="#debug-failover-summary">summary table</a>, check whether recovery is automatic, and follow the scenario’s <strong>Act</strong> steps if it is not.</li>
+<li><strong>For high-availability planning:</strong> read the scenario details to understand the expected downtime and data-loss window before you choose replication mode, client timeouts, and Pod placement.</li>
+</ul>
+<p>Most of the recovery times in this guide come down to one setting: <code>patroni.leaderLeaseDurationSeconds</code> (30 seconds by default). Lower it for faster failover, at the cost of more unnecessary failovers if the Kubernetes API server responds slowly. See <a href="#debug-failover-reduce-failover-time-and-data-loss">Reduce failover time and data loss</a>.</p>
+<h2 id="debug-failover-summary">Summary<a class="headerlink" href="#debug-failover-summary" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Recovery</th>
+<th>Write outage</th>
+<th>Acknowledged writes lost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#debug-failover-primary-pod-deleted">Primary Pod deleted</a>, or <a href="#debug-failover-primary-pod-deleted-with-the-operator-down">with the Operator down</a></td>
+<td>Automatic, Operator not required</td>
+<td>~13 s direct, ~7 s through pgBouncer (~9 s / ~6 s if the Operator is also down)</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-postgresql-crash">PostgreSQL process crashes</a></td>
+<td>Automatic, no failover</td>
+<td>~5–10 s direct, ~15–20 s through pgBouncer</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-planned-switchover">Planned switchover</a></td>
+<td>You trigger it, automatic execution</td>
+<td>~8 s direct, ~16 s through pgBouncer</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-node-hosting-the-primary-is-powered-off">Node hosting the primary powered off</a></td>
+<td>Automatic</td>
+<td>~45 s direct, ~55 s through pgBouncer (a replica promotes after ~30–35 s)</td>
+<td>None expected, possible under asynchronous replication</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-network-partition">Primary Pod network-partitioned</a></td>
+<td>Automatic</td>
+<td>~33 s direct; through pgBouncer, as long as the partition lasts unless the client has its own timeout</td>
+<td>Yes, writes the isolated primary acknowledged just before it demotes itself</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-node-loses-the-kubernetes-api-server">Node’s kubelet loses the Kubernetes API server</a></td>
+<td>No impact while disconnected; failover on reconnection if eviction is pending</td>
+<td>None while disconnected; ~9 s on reconnection if the eviction toleration elapsed</td>
+<td>None</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-node-with-the-primary-and-the-repo-host-lost">Node with the primary and the repo host lost</a></td>
+<td>Automatic, but promotion can stall</td>
+<td>~95 s, about three times an ordinary node loss</td>
+<td>None from the stall itself</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-frozen-primary">Primary PostgreSQL frozen</a></td>
+<td>Automatic</td>
+<td>~35 s direct, ~41 s through pgBouncer</td>
+<td>Possible, writes acknowledged right before the freeze</td>
+</tr>
+<tr>
+<td><a href="#debug-failover-permanent-node-loss">Node permanently lost</a></td>
+<td>Usually automatic; manual in one specific case</td>
+<td>~100 s automatic; ~67 s once you act, if you act in the right order</td>
+<td>Possible, see the scenario for details</td>
+</tr>
+</tbody>
+</table>
+<p>“Write outage” is the time from the failure to the first successful <code>COMMIT</code> on the new primary, for a client that reconnects on error. “Acknowledged writes lost” means a transaction’s <code>COMMIT</code> returned success to the client, but the write is missing after recovery. Writes that fail or time out during the outage were never acknowledged, so they don’t count as lost. Your application has to retry them.</p>
+<h2 id="debug-failover-how-failover-works">How failover works<a class="headerlink" href="#debug-failover-how-failover-works" title="Permanent link">¶</a></h2>
+<p>This workflow explains why every scenario in this guide behaves the way it does.</p>
+<ul>
+<li><strong>Patroni, not the Operator, decides which instance is the primary.</strong> Each database Pod runs Patroni. Patroni stores the leader lock in the annotations of the <code>&lt;cluster-name&gt;-ha</code> Kubernetes Endpoints object, which serves as is its distributed configuration store (DCS).</li>
+<li><strong>The leader lock expires after <code>patroni.leaderLeaseDurationSeconds</code></strong> (Patroni <code>ttl</code>, default <code>30</code>). The primary renews the lock every <code>patroni.syncPeriodSeconds</code> (Patroni <code>loop_wait</code>, default <code>10</code>). When the primary disappears without releasing the lock, replicas wait for the lock to expire before one promotes itself. This is why every <em>unplanned</em> failover on this page takes about one lease duration plus up to 10 s before Kubernetes routes new connections to the new primary. See <a href="#operator-patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code></a>.</li>
+<li><strong>A primary that can’t reach the Kubernetes API demotes itself.</strong> If the primary can’t renew the lock, Patroni demotes it to read-only after its own retry timeout (about 10 seconds by default). This happens well before the lock actually expires and a replica takes over. It prevents two writable primaries at once.</li>
+<li><strong>Clients reach the primary through the <code>&lt;cluster-name&gt;-ha</code> Service.</strong> Patroni updates that Service’s Endpoints directly. A Pod’s Kubernetes readiness state does not route traffic to the primary. <code>&lt;cluster-name&gt;-primary</code> and pgBouncer both resolve to the same <code>&lt;cluster-name&gt;-ha</code> Service underneath.</li>
+<li><strong>Replication is asynchronous by default.</strong> The primary acknowledges a <code>COMMIT</code> before any replica has the data. Whatever it acknowledged but hadn’t yet streamed is lost when a replica takes over. To trade write latency for zero loss of acknowledged writes on failover, turn on <a href="#ha-deploy-configure-synchronous-replication">synchronous replication</a>. Note that this affects performance because of higher write latency and lower write throughput.</li>
+<li><strong>The Operator is not in the failover path.</strong> If the Operator is down, Patroni still fails over on its own, and the StatefulSet controller still recreates deleted Pods.</li>
+</ul>
+<h2 id="debug-failover-check-the-cluster-state-during-an-incident">Check the cluster state during an incident<a class="headerlink" href="#debug-failover-check-the-cluster-state-during-an-incident" title="Permanent link">¶</a></h2>
+<p>Run these first, whatever the scenario. Replace <code>&lt;namespace&gt;</code> and <code>cluster1</code> with your values.</p>
+<ol>
+<li>
+<p>Check the cluster state:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>cluster1<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+<p><code>ready</code> means all PostgreSQL Pods are ready. It does <strong>not</strong> mean no failover happened. The state stays <code>ready</code> through a fast failover. <code>initializing</code> with fewer ready Pods than the cluster size means at least one Pod isn’t ready. See <a href="#cr-statuses">Custom resource statuses</a>.</p>
+</li>
+<li>
+<p>Check which instance holds the leader lock. This is the source of truth for which Pod accepts writes:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>endpoints<span class="w"> </span>cluster1-ha<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.metadata.annotations.leader}{"\n"}{.subsets[*].addresses[*].ip}{"\n"}'</span>
+</code></pre></div>
+</li>
+<li>
+<p>Check the Patroni view of the cluster, from any running database Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>patronictl<span class="w"> </span>list
+</code></pre></div>
+<p>A healthy cluster shows one <code>Leader</code> in <code>running</code> state and the replicas <code>streaming</code>, on the same timeline (<code>TL</code>), with lag at or near <code>0</code>.</p>
+</li>
+</ol>
+<div class="admonition warning">
+<p class="admonition-title">Don’t rely on the <code>role</code> label alone during a network partition</p>
+<p>Each Patroni instance updates its own Pod’s <code>postgres-operator.crunchydata.com/role</code> label. A Pod that can’t reach the Kubernetes API can’t update its own label. So during a partition, both the isolated old primary and the new primary can carry <code>role=primary</code> at the same time, and the selector <code>postgres-operator.crunchydata.com/role=primary</code> can return two Pods. Use the <code>cluster1-ha</code> Endpoints <code>leader</code> annotation instead. It’s always a single Pod.</p>
+</div>
+<h2 id="debug-failover-primary-pod-lost-or-switched-over">Primary Pod lost or switched over<a class="headerlink" href="#debug-failover-primary-pod-lost-or-switched-over" title="Permanent link">¶</a></h2>
+<p><strong>Automatic once triggered. No acknowledged writes lost.</strong></p>
+<p>Patroni demotes the old primary and promotes a replica right away. It never waits for the leader lock to expire, which makes this the fastest recovery on this page. Three things trigger it:</p>
+<h3 id="debug-failover-primary-pod-deleted">Primary Pod deleted<a class="headerlink" href="#debug-failover-primary-pod-deleted" title="Permanent link">¶</a></h3>
+<p>Kubernetes sends <code>SIGTERM</code> to the Pod. The StatefulSet controller, not the Operator, recreates it, and it rejoins as a replica roughly a minute later. A direct client reconnecting on error gets a successful <code>COMMIT</code> again in about 13 seconds; through pgBouncer, about 7 seconds.</p>
+<h3 id="debug-failover-primary-pod-deleted-with-the-operator-down">Primary Pod deleted with the Operator down<a class="headerlink" href="#debug-failover-primary-pod-deleted-with-the-operator-down" title="Permanent link">¶</a></h3>
+<p>Failover works the same way because Patroni and the StatefulSet controller do
+not need the Operator. Recovery is the same as an ordinary Pod deletion: about 12 seconds direct and up to about 17 seconds through pgBouncer. While the Operator is down, the PerconaPGCluster status is
+not refreshed and can report a stale <code>ready</code> state. Restore the Operator to
+resume reconciliation and status updates.</p>
+<h3 id="debug-failover-planned-switchover">Planned switchover<a class="headerlink" href="#debug-failover-planned-switchover" title="Permanent link">¶</a></h3>
+<p>You ask the Operator to move the primary role to a specific replica. See <a href="#change-primary">Change the PostgreSQL primary instance</a> for the procedure. Direct clients recover in about 8 seconds. pgBouncer recovers more slowly, about 16 seconds, because it caches a failed server login for <code>server_login_retry</code> seconds (15 by default) and returns <code>server login has been failing</code> to new connections until that passes.</p>
+<div class="admonition warning">
+<p class="admonition-title">A pgBouncer Pod can stay on the demoted primary</p>
+<p>After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. Find the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/role<span class="o">=</span>pgbouncer
+
+kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w"> </span>&lt;pgbouncer-pod-name&gt;<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</div>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>.
+<code>patronictl list</code> shows the new or target Pod as <code>Leader</code>. Check Pod readiness
+directly while the Operator is down because the custom resource status can be
+stale. After restoring the Operator, confirm that <code>kubectl get pg</code> reports
+<code>ready</code>.</p>
+<p><strong>Act:</strong> nothing needed for an involuntary Pod loss. After a planned switchover, delete any pgBouncer Pod that stays on the demoted primary, and set <code>patroni.switchover.enabled</code> back to <code>false</code>. If the Operator is down, restore its Deployment when you can; it’s needed for configuration changes, backups, and scaling, not for failover.</p>
+<p><strong>What you can lose:</strong> no acknowledged writes. The clean shutdown or demotion always streams all WAL to the replicas first.</p>
+<h2 id="debug-failover-postgresql-crash">PostgreSQL crash<a class="headerlink" href="#debug-failover-postgresql-crash" title="Permanent link">¶</a></h2>
+<p><strong>Automatic. No failover. No acknowledged writes lost.</strong></p>
+<p>If the <code>postgres</code> process dies but the Pod and Patroni stay up, Patroni restarts PostgreSQL in place and runs crash recovery. The same Pod keeps the leader lock the whole time, so there’s no failover at all. Writes resume in about 5 seconds, on the same Pod, whether the client connects directly or through pgBouncer.</p>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>. <code>patronictl list</code> shows the same <code>Leader</code>, on the same timeline, as before.</p>
+<p><strong>Act:</strong> nothing needed. If it keeps crashing, check the PostgreSQL logs. See <a href="#debug-logs">Check the logs</a>.</p>
+<p><strong>What you can lose:</strong> no acknowledged writes. Crash recovery replays the WAL, so every acknowledged commit survives.</p>
+<h2 id="debug-failover-node-hosting-the-primary-is-powered-off">Node hosting the primary is powered off<a class="headerlink" href="#debug-failover-node-hosting-the-primary-is-powered-off" title="Permanent link">¶</a></h2>
+<p><strong>Automatic. No action needed for the database.</strong></p>
+<p>A replica takes over about 28 seconds after the power-off, consistent with the default lease (see <a href="#debug-failover-how-failover-works">How failover works</a>). What happens to the Pod that was on the dead node depends on your platform. If the node comes back, or your platform replaces it under the same name, the Pod restarts and rejoins as a replica, and the cluster reports all Pods ready about two minutes after the power-off. If the node is gone for good, see <a href="#debug-failover-permanent-node-loss">Recover from permanent node loss</a>.</p>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a> once the node is back or replaced.</p>
+<p><strong>Act:</strong> nothing for the database itself. If the node never returns and the Pod stays stuck, follow <a href="#debug-failover-permanent-node-loss">Recover from permanent node loss</a>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Clients without a query timeout can hang for many minutes</p>
+<p>A client with an open connection through pgBouncer gets no error at all when the node loses power. pgBouncer keeps waiting on its dead server connection. Direct clients, and pgBouncer clients with their own query timeout, recover as soon as failover completes. Set a client-side statement or query timeout in your application or connection pool, so a request to a dead primary fails and retries instead of hanging indefinitely.</p>
+</div>
+<p><strong>What you can lose:</strong> under asynchronous replication, any transaction the primary acknowledged but hadn’t yet streamed to a replica when it lost power. Use <a href="#ha-deploy-configure-synchronous-replication">synchronous replication</a> to close this window.</p>
+<h2 id="debug-failover-network-partition">Network partition<a class="headerlink" href="#debug-failover-network-partition" title="Permanent link">¶</a></h2>
+<p><strong>Automatic. Some acknowledged writes can be lost.</strong></p>
+<p>The primary Pod is cut off from the replicas, the Operator, and the Kubernetes API server, but keeps running. Clients that can still reach it, for example on the same node, can keep writing to it for a while:</p>
+<ol>
+<li>The isolated primary can’t renew the leader lock. It keeps accepting and acknowledging writes from clients that can still reach it for about 12-14 seconds, then Patroni demotes it to read-only on its own. This stops two Pods from both accepting writes at once.</li>
+<li>Once the lock fully expires, a replica promotes itself and the <code>cluster1-ha</code> Endpoints switch to it, about 28 seconds after the partition starts.</li>
+<li>The isolated Pod’s liveness probe keeps failing, so the kubelet repeatedly restarts its <code>database</code> container. It shows <code>CrashLoopBackOff</code> until the partition heals.</li>
+<li>When the partition heals, the old primary rewinds its data with <code>pg_rewind</code> and rejoins as a replica, within seconds of the network recovering.</li>
+</ol>
+<p>At no point do both the old and new primary accept writes. The old primary is already read-only well before the new one is promoted. A direct client reconnecting on error gets a successful <code>COMMIT</code> again after about 33 seconds. Through pgBouncer with a client-side timeout, recovery takes about 37-42 seconds. Through pgBouncer with no timeout at all, there’s no bound on recovery time. The client stays stuck on its dead server connection for the entire length of the partition, however long that runs, and recovers only a few seconds after the network heals.</p>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>. The <code>cluster1-ha</code> Endpoints <code>leader</code> annotation names a single Pod, and <code>patronictl list</code> shows the other two <code>streaming</code> on the new timeline. Don’t trust the <code>role</code> label until the partition heals.</p>
+<p><strong>Act:</strong> nothing needed for failover. Fix the network. The old primary rejoins on its own once it heals. A pgBouncer client with no query timeout won’t get an error, and won’t recover, until the partition itself heals, however long that takes.</p>
+<p><strong>What you can lose:</strong> any write the isolated primary acknowledged in the roughly 12-14 second window before it demotes itself. At a steady 5 commits a second, that window is enough to lose 55-65 acknowledged writes. Scale that to your own write rate to estimate your exposure. Writes from clients that couldn’t reach the isolated primary at all aren’t lost. They simply failed instead of being acknowledged. To prevent this loss entirely, use <a href="#ha-deploy-configure-synchronous-replication">synchronous replication</a>.</p>
+<h2 id="debug-failover-node-loses-the-kubernetes-api-server">Node loses the Kubernetes API server<a class="headerlink" href="#debug-failover-node-loses-the-kubernetes-api-server" title="Permanent link">¶</a></h2>
+<p><strong>No impact at first; automatic once it’s resolved.</strong></p>
+<p>If only the kubelet on the primary’s node loses its connection to the Kubernetes API server, Patroni keeps renewing the leader lock normally, since Pod-to-Pod traffic and the Pods’ own API access still work. The primary keeps serving writes without interruption for as long as the outage runs. Kubernetes, meanwhile, loses track of the node. It marks the node <code>NotReady</code> after its usual grace period, and would evict the node’s Pods after the default toleration for an unreachable node (5 minutes). But the kubelet can’t carry out that eviction until it reconnects. When it does, it carries out the pending eviction at once and terminates the primary Pod. That causes a failover at that moment, exactly as if you had <a href="#debug-failover-primary-pod-deleted">deleted the primary Pod</a>: a direct client recovers in about 9 seconds, pgBouncer in about 16.</p>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>. The node shows <code>Ready</code> again, and if the toleration window passed, <code>patronictl list</code> shows a new leader.</p>
+<p><strong>Act:</strong></p>
+<ul>
+<li>If the kubelet reconnects within about 5 minutes of the node going <code>NotReady</code>, nothing happens. There’s no failover at all.</li>
+<li>If the outage runs longer than that, expect a failover the moment the kubelet reconnects, on top of however long the outage itself ran. To choose that moment yourself instead, do a <a href="#debug-failover-planned-switchover">planned switchover</a> to a replica on a healthy node before you restore the node’s connectivity.</li>
+</ul>
+<p><strong>What you can lose:</strong> no acknowledged writes. When the delayed failover happens, it’s a clean shutdown, just like deleting the primary Pod.</p>
+<h2 id="debug-failover-node-with-the-primary-and-the-repo-host-lost">Node with the primary and the repo host lost<a class="headerlink" href="#debug-failover-node-with-the-primary-and-the-repo-host-lost" title="Permanent link">¶</a></h2>
+<p><strong>Automatic, but promotion can stall.</strong></p>
+<p>Losing the lock works the same as any other power-off: a replica takes over the leader lock in about 32-34 seconds, consistent with the default lease. But if that node also hosted your pgBackRest repo host, the new primary’s promotion needs to replay WAL via the <code>restore_command</code>, which tries the now-unreachable repo first and only falls back to another configured repository after the o<code>archive-timeout</code> (60 seconds by default). With a single repository configured, there’s nowhere to fall back to, and promotion stalls until that 60-second timeout passes. This is the one scenario on this page where the lease duration alone doesn’t predict recovery time. Write access actually returns about 95 seconds after the node goes down, roughly three times as long as an ordinary node loss. A pgBouncer client with no query timeout gets no error at all until that resolves.</p>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>, plus <code>pgbackrest info</code> (or the cluster’s backup status) once the repo host Pod is back, to confirm archiving has caught up.</p>
+<p><strong>Act:</strong> configure more than one backup repository, so there’s somewhere for <code>restore_command</code> to fall back to, and keep the repo host off the primary’s node with <a href="#constraints">anti-affinity</a> so a single node loss doesn’t cost you both at once. If the node is gone for good, the repo host rebuilds the same way a lost instance does. See <a href="#debug-failover-permanent-node-loss">Recover from permanent node loss</a>.</p>
+<p><strong>What you can lose:</strong> the stall itself doesn’t lose acknowledged writes. But if the repo host has to be rebuilt from scratch, its own backup history doesn’t survive. Keep at least one repository in object storage (S3, GCS, or Azure), not only local volumes, so a rebuilt repo host isn’t your only copy.</p>
+<h2 id="debug-failover-frozen-primary">Frozen primary<a class="headerlink" href="#debug-failover-frozen-primary" title="Permanent link">¶</a></h2>
+<p><strong>Automatic.</strong></p>
+<p>All PostgreSQL processes on the primary stop responding. A stalled disk or a paused process are typical causes. Patroni itself keeps running but can’t confirm PostgreSQL is healthy, so it stops renewing the leader lock, and a replica promotes about 26 seconds later, consistent with the default lease. A direct client recovers in about 35 seconds; through pgBouncer, about 41 seconds. The kubelet then restarts the frozen <code>database</code> container once its liveness probe fails enough times in a row, a count derived from your <code>patroni.syncPeriodSeconds</code> and <code>patroni.leaderLeaseDurationSeconds</code>. In practice, with the defaults, that’s around 86-89 seconds. The old primary rejoins as a replica afterward.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This describes PostgreSQL freezing while the kubelet keeps running. If the whole node or virtual machine pauses, the kubelet pauses with it and can’t restart the container. In that case the old primary can resume as a writable primary for a short time on already-open connections. It can accept and acknowledge a few more commits before Patroni notices it lost the lock and demotes it. Those commits are lost.</p>
+</div>
+<p><strong>Confirm:</strong> run the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>.
+<code>patronictl list</code> shows the new <code>Leader</code> in <code>running</code> state and the old primary
+rejoining as a replica once the kubelet restarts its container.</p>
+<p><strong>Act:</strong> nothing needed for failover itself. Investigate the underlying cause, such as storage latency.</p>
+<p><strong>What you can lose:</strong> any transaction acknowledged right before the freeze that hadn’t yet streamed to a replica. Typically that’s just one or two writes at moderate write rates, since Patroni stops trusting the primary within a few seconds of it going unresponsive. The exact number depends on how close to the freeze the write landed and your write rate.</p>
+<h2 id="debug-failover-permanent-node-loss">Permanent node loss<a class="headerlink" href="#debug-failover-permanent-node-loss" title="Permanent link">¶</a></h2>
+<p><strong>Usually automatic. Manual only if a Pod gets stuck, and the order you act in matters.</strong></p>
+<p>After the lost Node object is removed, either by your cloud provider’s controller or by an administrator, Kubernetes replaces the affected Pods. The replacement Pods can run on healthy nodes if their volumes can attach there. A local PersistentVolume stays tied to the lost node through its node affinity, so a Pod that uses one stays <code>Pending</code> even after the Node object is removed. For irrecoverably lost local storage, follow the manual recovery steps.</p>
+<p>Recovery time depends on Pod scheduling and volume attachment. If you rebuild an instance manually, it also depends on how much data must be restored from the backup. If the lost node hosted the primary, writes are unavailable until Patroni promotes a replica.</p>
+<p>The Pod can get stuck in <code>Terminating</code> when the node disappears <em>without</em> a clean deregistration, so Kubernetes doesn’t know to clean up after it. If that happens, the manual rebuild is destructive. Confirm two things before you touch it: that the old node has actually stopped, and that you aren’t about to destroy storage you could have reattached instead.</p>
+<div class="admonition warning">
+<p class="admonition-title">This rebuild is destructive</p>
+<p>Confirm before you act:</p>
+<ul>
+<li>
+<p><code>kubectl get nodes</code> only reflects what the control plane can reach. A node can be unreachable without being dead, and its old PostgreSQL instance can still be running. Force-deleting a Pod removes the Kubernetes object without waiting for the kubelet to confirm the container actually stopped. Combine the two, and a replacement primary can start while the old one is still writing. Confirm the node has genuinely stopped through your infrastructure itself, for example a cloud console or a fencing mechanism, before you force-delete anything.</p>
+</li>
+<li>
+<p>Deleting the stuck Pod first also lets Kubernetes immediately reattach a new Pod to the <em>same</em>, about-to-be-deleted PersistentVolumeClaim. That leaves the PVC stuck in <code>Terminating</code> while the cluster still reports <code>ready</code> with all instances. It looks healthy. It isn’t, and it stays that way until you notice and delete the Pod a second time. Delete the PVC first instead, and only once you’ve confirmed it’s unrecoverable: a StorageClass with a <code>Delete</code> reclaim policy destroys the underlying disk when its PVC is deleted, not just the Kubernetes object. Preserve any PVC whose storage can still reattach to a replacement node, and delete one only once you have a usable recovery source for the database, such as a backup or a surviving replica.</p>
+</li>
+</ul>
+</div>
+<p><strong>Act:</strong></p>
+<ol>
+<li>Confirm the node has genuinely stopped, through your infrastructure’s own shutdown confirmation or a fencing mechanism. Don’t rely on <code>kubectl get nodes</code> alone.</li>
+<li>Confirm the Pod is stuck <code>Terminating</code> or <code>Pending</code> with no progress.</li>
+<li>Confirm the PVC’s storage can’t reattach to a replacement node, and that you have a usable recovery source for the database, before you delete it.</li>
+<li>Delete the PVC: <code>kubectl delete pvc &lt;pvc-name&gt; -n &lt;namespace&gt; --wait=false</code></li>
+<li>Force-delete the Pod: <code>kubectl delete pod &lt;pod-name&gt; -n &lt;namespace&gt; --force --grace-period=0</code></li>
+<li>Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the <a href="#debug-failover-check-the-cluster-state-during-an-incident">cluster state checks</a>.</li>
+</ol>
+<p>The same two steps work for the repo host Pod specifically. The Operator recreates its pgBackRest stanza on its own. No manual <code>pgbackrest stanza-create</code> is needed. Expect the stanza back within about a minute and a full backup completing shortly after.</p>
+<p>Then check the backup. Run <code>pgbackrest info</code> from any database Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>pgbackrest<span class="w"> </span>--stanza<span class="o">=</span>db<span class="w"> </span>info
+</code></pre></div>
+<p>The stanza reports <code>status: ok</code>. It lists no backup until the new full backup completes, so run the command again after a few minutes to see it.</p>
+<p><strong>What you can lose:</strong> if the repo host is the Pod that was lost and rebuilt, its existing backup history doesn’t survive. If it was your only repository, you have no backups until the next scheduled one completes. Configure more than one repository, with at least one in object storage, so losing a node never costs you backup continuity.</p>
+<h2 id="debug-failover-reduce-failover-time-and-data-loss">Reduce failover time and data loss<a class="headerlink" href="#debug-failover-reduce-failover-time-and-data-loss" title="Permanent link">¶</a></h2>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>What to change</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No loss of acknowledged writes on automatic failover</td>
+<td>Turn on <a href="#ha-deploy-configure-synchronous-replication">synchronous replication</a></td>
+<td>Higher write latency. Without strict mode, Patroni can accept asynchronous commits when no synchronous standby is available and prevent automatic promotion of an unsafe standby. Set <code>synchronous_mode_strict: true</code> to block writes when no synchronous standby is available.</td>
+</tr>
+<tr>
+<td>Faster unplanned failover</td>
+<td>Lower <a href="#operator-patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code></a> and <a href="#operator-patronisyncperiodseconds"><code>patroni.syncPeriodSeconds</code></a></td>
+<td>More unnecessary failovers when the Kubernetes API server responds slowly</td>
+</tr>
+<tr>
+<td>No hung clients</td>
+<td>Set a statement or query timeout in your application or connection pool</td>
+<td>Long-running queries need a higher timeout</td>
+</tr>
+<tr>
+<td>Survive the loss of a node or zone</td>
+<td>Spread PostgreSQL Pods and the repo host across nodes and zones with <a href="#constraints">anti-affinity and topology spread constraints</a></td>
+<td>Needs enough nodes and zones</td>
+</tr>
+<tr>
+<td>Promotion doesn’t stall on a lost repo host</td>
+<td>Configure more than one backup repository</td>
+<td>Extra storage cost and configuration</td>
+</tr>
+</tbody>
+</table></body></html></section><section class="print-page" id="debug-storage" heading-number="10.3"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -27744,45 +27901,90 @@ standard-rwo         pd.csi.storage.gke.io   Delete          WaitForFirstConsume
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
         })
         </script>
-        </head><body><h1 id="exec-into-the-containers">Exec into the containers<a class="headerlink" href="#debug-shell-exec-into-the-containers" title="Permanent link">¶</a></h1>
-<p>If you want to examine the contents of a container “in place” using remote access to it, you can use the <code>kubectl exec</code> command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.</p>
-<p>In the following examples we will access the container <code>database</code> of the <code>cluster1-instance1-b5mr-0</code> Pod.</p>
-<ul>
-<li>
-<p>Run <code>date</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
+        </head><body><h1 id="exec-into-the-container">Exec into the container<a class="headerlink" href="#debug-shell-exec-into-the-container" title="Permanent link">¶</a></h1>
+<p>Use <code>kubectl exec</code> to run a command in a container or to open an interactive shell. The container must be in the <code>Running</code> state. A shell session works when the container image includes a shell.</p>
+<p>The examples use the <code>database</code> container on a PostgreSQL instance Pod. Replace <code>cluster1</code> with your cluster name.</p>
+<h2 id="debug-shell-set-the-pod-name">Set the Pod name<a class="headerlink" href="#debug-shell-set-the-pod-name" title="Permanent link">¶</a></h2>
+<p>Export the name of an instance Pod. The commands on this page use <code>$POD</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-b5mr-0
+</code></pre></div>
+</details>
+<p>This selects the first instance Pod. Set <code>POD</code> to another instance Pod name when you need a specific Pod.</p>
+<h2 id="debug-shell-run-a-command">Run a command<a class="headerlink" href="#debug-shell-run-a-command" title="Permanent link">¶</a></h2>
+<p>Run <code>date</code> in the <code>database</code> container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>Wed Jun 14 11:18:47 UTC 2023
 </code></pre></div>
 </details>
-<p>You will see an error if the command is not present in a container. For
-example, trying to run the <code>time</code> command, which is not present in the
-container, by executing <code>kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- time</code>
-would show the following result:</p>
+<p>Exec fails when the command is not in the container image. The <code>time</code> command is not in the <code>database</code> container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="nb">time</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
 </code></pre></div>
-</li>
+</details>
+<h2 id="debug-shell-print-logs">Print logs<a class="headerlink" href="#debug-shell-print-logs" title="Permanent link">¶</a></h2>
+<p>How you print logs depends on whether <a href="#persistent-logging">persistent logging</a> is enabled. The log directory is <code>/pgdata/pg&lt;major-version&gt;/log</code>. The examples use PostgreSQL 18. The shell inside the container expands the <code>*</code> in the file name, so the command runs <code>cat</code> through <code>bash -c</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="debug-shell-__tabbed_1_1" name="debug-shell-__tabbed_1" type="radio"><input id="debug-shell-__tabbed_1_2" name="debug-shell-__tabbed_1" type="radio"><div class="tabbed-labels"><label for="debug-shell-__tabbed_1_1">Persistent logging off</label><label for="debug-shell-__tabbed_1_2">Persistent logging on</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Print the PostgreSQL server log files from the <code>database</code> container. File names match <code>postgresql-*.log</code>.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'cat /pgdata/pg18/log/postgresql-*.log'</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>PostgreSQL and pgBackRest keep logs on the instance data volume, and the <code>logs</code> sidecar streams them. The files remain available after a Pod restart.</p>
+<p>Read the stream from the <code>logs</code> container. See <a href="#debug-logs">Check the logs</a> for more <code>kubectl logs</code> options.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>logs
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="debug-shell-open-a-shell">Open a shell<a class="headerlink" href="#debug-shell-open-a-shell" title="Permanent link">¶</a></h2>
+<p>Open a shell in the <code>database</code> container and run commands there:</p>
+<ol>
 <li>
-<p>Print log files to a terminal:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/pgdata/pg16/log/postgresql-*.log
+<p>Start the shell:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
 </code></pre></div>
 </li>
 <li>
-<p>Similarly, opening an Interactive terminal, executing a pair of commands in
-    the container, and exiting it may look as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
-bash-4.4$<span class="w"> </span>hostname
-cluster1-pxc-0
-bash-4.4$<span class="w"> </span>ls<span class="w"> </span>/pgdata/pg16/log/
-postgresql-Wed.log
-bash-4.4$<span class="w"> </span><span class="nb">exit</span>
-<span class="nb">exit</span>
-$
+<p>Print the hostname:</p>
+<div class="highlight"><pre><span></span><code>hostname
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-b5mr-0
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>List the log files:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/pgdata/pg18/log/
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>postgresql-Wed.log
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Leave the shell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">exit</span>
 </code></pre></div>
 </li>
-</ul></body></html></section><section class="print-page" id="debug-logs" heading-number="10.5"><html><head>
+</ol></body></html></section><section class="print-page" id="debug-logs" heading-number="10.5"><html><head>
         <script type="text/javascript">
         document.addEventListener('DOMContentLoaded', function () {
             remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
@@ -28398,6 +28600,181 @@ Success: reinitialize for member cluster1-instance1-24b8-0
 When the Operator resyncs the replica automatically, some transactions may
 be lost. The risk is usually small but not zero. Use this option only if you
 understand and accept this trade-off.</p>
+</div></body></html></section><section class="print-page" id="troubleshoot-operator" heading-number="10.9"><html><head>
+        <script type="text/javascript">
+        document.addEventListener('DOMContentLoaded', function () {
+            remove_material_navigation();remove_mkdocs_theme_navigation();generate_toc();
+        })
+        </script>
+        </head><body><h1 id="percona-operator-troubleshooting">Percona Operator troubleshooting<a class="headerlink" href="#troubleshoot-operator-percona-operator-troubleshooting" title="Permanent link">¶</a></h1>
+<p>This section provides information on how to troubleshoot issues when you install Percona Operator for PostgreSQL.</p>
+<p>Make sure you have CLI tool <code>kubectl</code> installed to interact with Kubernetes API.</p>
+<h2 id="troubleshoot-operator-check-connection-to-kubernetes-cluster">Check connection to Kubernetes cluster<a class="headerlink" href="#troubleshoot-operator-check-connection-to-kubernetes-cluster" title="Permanent link">¶</a></h2>
+<p>It may happen that <code>kubectl</code> you installed locally is not connected to your Kubernetes cluster. </p>
+<p>To check connectivity to your Kubernetes API, run the following command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>cluster-info
+</code></pre></div>
+<p>If you see the output similar to the following, it means that <code>kubectl</code> is connected to your Kubernetes cluster:    </p>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Kubernetes control plane is running at https://&lt;control-plane-ip&gt;:49475
+CoreDNS is running at https://&lt;control-plane-ip&gt;:49475/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy 
+</code></pre></div>
+</details>
+<p>If multiple Kubernetes configurations are present in <code>kubeconfig</code>,check if you have set the correct context. If the context is wrong, switch it. Here’s how:</p>
+<ol>
+<li>
+<p>Check the current context:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>current-context<span class="w"> </span><span class="c1"># Get the current Context</span>
+</code></pre></div>
+</li>
+<li>
+<p>Switch the context :</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>config<span class="w"> </span>use-context<span class="w"> </span>&lt;Context-To-Be-Used&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Run the <code>kubectl cluster-info</code> command again to verify that <code>kubectl</code> is connected to your Kubernetes cluster.</p>
+</li>
+</ol>
+<p>If you are still running into issues, check with your Kubernetes cluster administrator to resolve the connectivity or configuration issues. </p>
+<h2 id="troubleshoot-operator-troubleshoot-operator-installation-issues">Troubleshoot Operator installation issues<a class="headerlink" href="#troubleshoot-operator-troubleshoot-operator-installation-issues" title="Permanent link">¶</a></h2>
+<ol>
+<li>
+<p>Check the Operator logs</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>deploy/&lt;operator-deployment-name&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.</p>
+<p>To verify that you have the necessary privileges, run the following script:</p>
+<div class="highlight"><pre><span></span><code>bash<span class="w"> </span>&lt;<span class="o">(</span>curl<span class="w"> </span>-s<span class="w"> </span>https://gist.githubusercontent.com/cshiv/6048bdd0174275b48f633549c69d0844/raw/fd547b783a30b827362ee9f9ec03436f9bc79524/check_priviliges.sh<span class="o">)</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>Checking privileges to install Percona Operators in kubernetes cluster...
+Warning: Unable to check the privileges for resource 'issuers', check if the resource 'issuers' is present in the cluster
+Warning: Unable to check the privileges for resource 'certificates', check if the resource 'certificates' is present in the cluster    
+
+Warning: Some resources are not found in the kubernetes cluster.Check the Warning messages before you proceed
+------------------------------------------------------------------------------------------
+GOOD TO INSTALL: Percona Operator for PostgreSQL
+https://docs.percona.com/percona-operator-for-postgresql/index.html
+------------------------------------------------------------------------------------------
+GOOD TO INSTALL: Percona Operator for MySQL based on Percona XtraDB Cluster
+https://docs.percona.com/percona-operator-for-postgresql/index.html
+------------------------------------------------------------------------------------------
+GOOD TO INSTALL: Percona Operator for MongoDB
+https://docs.percona.com/percona-operator-for-mongodb/index.html
+</code></pre></div>
+</details>
+<p>If you have insufficient permissions, the script will show you which ones are missing for installing a particular Operator. In this case, contact the Kubernetes cluster administrator.</p>
+</li>
+<li>
+<p>If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>--sort-by<span class="o">=</span><span class="s2">".lastTimestamp"</span>
+</code></pre></div>
+<p>Events provide good information about affinity issues, resource issues etc.</p>
+</li>
+</ol>
+<h2 id="troubleshoot-operator-troubleshooting-database-cluster-issues">Troubleshooting database cluster issues<a class="headerlink" href="#troubleshoot-operator-troubleshooting-database-cluster-issues" title="Permanent link">¶</a></h2>
+<ol>
+<li>
+<p>The Operator deployment must be in the <code>Running</code> state for the database cluster to function properly. Check the Operator Pod for restarts to identify potential issues.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pod<span class="w"> </span>&lt;operator-pod-name&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Check the status of the database cluster</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
+</code></pre></div>
+<p>The cluster should typically be in the <code>ready</code> state. It may briefly enter the <code>initializing</code> state while reconciling changes. If the cluster remains in the <code>initializing</code> state for an extended period, investigate further to identify any underlying issues.</p>
+<p>Additionally, you can describe the database cluster and check the <code>State</code> field and the <code>Conditions</code> list in the <code>Status</code> section. Each condition has a reason and a message that explain what isn’t ready. See <a href="#cr-statuses">Custom resource statuses</a> for details:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Check the Operator logs</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>deploy/&lt;operator-deployment-name&gt;
+</code></pre></div>
+</li>
+<li>
+<p>Check the events</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>events<span class="w"> </span>--sort-by<span class="o">=</span><span class="s2">".lastTimestamp"</span>
+</code></pre></div>
+<p>Events can provide information like storage class issues, PVC binding issues etc</p>
+</li>
+<li>
+<p>Check for the PVC, PV. Both of them should be in <code>Bound</code> status</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pvc
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pv
+</code></pre></div>
+</li>
+<li>
+<p>Check for logs of database pods / Proxy pods</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;database-pod-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;proxy-pod-name&gt;
+</code></pre></div>
+<p>To check logs of <code>init</code> containers or other sidecar containers, use the option <code>-c</code> with the container name:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span>&lt;proxy-pod-name&gt;<span class="w"> </span>-c<span class="w"> </span>postgres-startup
+</code></pre></div>
+</li>
+<li>
+<p>Check for error details. Run the <code>kubectl describe</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;database-pod-name&gt;
+</code></pre></div>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>&lt;proxy-pod-name&gt;
+</code></pre></div>
+<p>Check the information in the <code>Status</code> section. The <code>State</code> and <code>State Description</code> fields explain why the Pod reports errors.</p>
+</li>
+<li>
+<p>To run commands inside a container, use the <code>kubectl exec</code> command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>&lt;command&gt;
+</code></pre></div>
+<p>If you need an interactive shell to run multiple commands, use the <code>-it</code> flag for an interactive terminal:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-it<span class="w"> </span>&lt;pod-name&gt;<span class="w"> </span>--<span class="w"> </span>sh
+</code></pre></div>
+</li>
+<li>
+<p>If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a <code>sleep-forever</code> script to prevent the containers from restarting repeatedly. </p>
+</li>
+</ol>
+<p>See the <a href="#manage-manually-disable-health-check-probes-for-maintenance">Disable health check probes for maintenance</a> section for steps.</p>
+<h2 id="troubleshoot-operator-profiling-the-operator-with-pprof">Profiling the Operator with pprof<a class="headerlink" href="#troubleshoot-operator-profiling-the-operator-with-pprof" title="Permanent link">¶</a></h2>
+<p>When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go’s pprof tooling.</p>
+<ol>
+<li>
+<p>Enable pprof by setting the <code>PPROF_BIND_ADDRESS</code> environment variable in the Operator Deployment. For example, set it to <code>127.0.0.1:6060</code> to bind pprof to localhost on port 6060. See <a href="#env-var-operator-pprof_bind_address">PPROF_BIND_ADDRESS</a> for configuration details.</p>
+</li>
+<li>
+<p>Restart the Operator so the new configuration takes effect.</p>
+</li>
+<li>
+<p>Set up a port-forward to the Operator Pod:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>port-forward<span class="w"> </span>deploy/percona-postgresql-operator<span class="w"> </span><span class="m">6060</span>:6060<span class="w"> </span>-n<span class="w"> </span>&lt;operator-namespace&gt;
+</code></pre></div>
+</li>
+<li>
+<p>In another terminal, collect profiles using <code>go tool pprof</code>:</p>
+<p><strong>CPU profile</strong> (30 seconds):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/profile?seconds<span class="o">=</span><span class="m">30</span>
+</code></pre></div>
+<p><strong>Heap (memory) profile</strong>:</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/heap
+</code></pre></div>
+<p><strong>Goroutine profile</strong> (useful for deadlock investigation):</p>
+<div class="highlight"><pre><span></span><code>go<span class="w"> </span>tool<span class="w"> </span>pprof<span class="w"> </span>http://localhost:6060/debug/pprof/goroutine
+</code></pre></div>
+</li>
+<li>
+<p>After collecting a profile, you can analyze it interactively. For example, type <code>top</code> to see the functions consuming the most CPU or memory, or <code>web</code> to generate a flame graph (requires Graphviz).</p>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Disable pprof when you finish troubleshooting by setting <code>PPROF_BIND_ADDRESS</code> to <code>"0"</code> or <code>""</code>. Keeping it enabled in production is not recommended for security reasons.</p>
 </div></body></html></section></section>
                     <section class='print-page md-section' id='section-11' heading-number='11'>
                         <h1>Reference<a class='headerlink' href='#section-11' title='Permanent link'></a>
@@ -33795,7 +34172,8 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 </tbody>
 </table>
 <h3 id="operator-patronisyncperiodseconds"><code>patroni.syncPeriodSeconds</code><a class="headerlink" href="#operator-patronisyncperiodseconds" title="Permanent link">¶</a></h3>
-<p>How often to perform <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes">liveness/readiness probes  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the patroni container (in seconds).</p>
+<p>How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni’s <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html"><code>loop_wait</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> setting, in seconds. The Operator uses <a href="https://patroni.readthedocs.io/en/latest/kubernetes.html">Kubernetes Endpoints as the DCS  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. The Operator also reuses this value as the <code>periodSeconds</code> for the database container’s liveness and readiness probes.</p>
+<p>The value be less than <a href="#operator-patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code></a>.</p>
 <table>
 <thead>
 <tr>
@@ -33811,7 +34189,26 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 </tbody>
 </table>
 <h3 id="operator-patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code><a class="headerlink" href="#operator-patronileaderleasedurationseconds" title="Permanent link">¶</a></h3>
-<p>Initial delay for <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes">liveness/readiness probes  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the patroni container (in seconds).</p>
+<p>How long, in seconds, the leader’s lock in the distributed configuration store (DCS) stays valid before Patroni treats it as stale and starts automatic failover. The DCS is how Patroni coordinates cluster state and elects a leader. The Operator uses Kubernetes Endpoints as the DCS.</p>
+<p>This setting matches Patroni’s <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html"><code>ttl</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> option.<br>
+It works together with <a href="#operator-patronisyncperiodseconds"><code>patroni.syncPeriodSeconds</code></a> to set failover timing.<br>
+Lower values trigger faster failover but may cause unwanted failovers if the Kubernetes API server is slow to respond.<br>
+Higher values slow down failover.<br>
+A longer setting also increases the risk that an isolated primary continues to accept writes when it should not, which can lead to lost data before Patroni demotes it.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path></svg></span> int</td>
+<td><code>30</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="operator-patronidynamicconfiguration"><code>patroni.dynamicConfiguration</code><a class="headerlink" href="#operator-patronidynamicconfiguration" title="Permanent link">¶</a></h3>
 <p>Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.</p>
 <table>
@@ -34595,7 +34992,7 @@ file contains configuration options to <a href="#custom-extensions">manage Postg
 <tbody>
 <tr>
 <td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm9.5 6h-1A1.5 1.5 0 0 1 10 9.5 1.5 1.5 0 0 1 11.5 8h1A1.5 1.5 0 0 1 14 9.5h2A3.5 3.5 0 0 0 12.5 6h-1A3.5 3.5 0 0 0 8 9.5a3.5 3.5 0 0 0 3.5 3.5h1a1.5 1.5 0 0 1 1.5 1.5 1.5 1.5 0 0 1-1.5 1.5h-1a1.5 1.5 0 0 1-1.5-1.5H8a3.5 3.5 0 0 0 3.5 3.5h1a3.5 3.5 0 0 0 3.5-3.5 3.5 3.5 0 0 0-3.5-3.5"></path></svg></span> string</td>
-<td><code>--type=time</code> <br> <code>--target=YYYY-MM-DD HH:MM:DD +00</code> <br> <code>--set=20240628-074416F</code> (backup name)</td>
+<td><code>--type=time</code> <br> <code>--target=YYYY-MM-DD HH:MM:SS +00</code> <br> <code>--set=20240628-074416F</code> (backup name)</td>
 </tr>
 </tbody>
 </table>
@@ -39850,9 +40247,9 @@ In addition to that:</p>
 .print-site-enumerate-headings #image-query > h1:before { content: '9.12 ' }
 
 .print-site-enumerate-headings #section-10 > h1:before { content: '10 ' }
-.print-site-enumerate-headings #troubleshoot-operator > h1:before { content: '10.1 ' }
+.print-site-enumerate-headings #debug > h1:before { content: '10.1 ' }
 
-.print-site-enumerate-headings #debug > h1:before { content: '10.2 ' }
+.print-site-enumerate-headings #debug-failover > h1:before { content: '10.2 ' }
 
 .print-site-enumerate-headings #debug-storage > h1:before { content: '10.3 ' }
 
@@ -39865,6 +40262,8 @@ In addition to that:</p>
 .print-site-enumerate-headings #manage-manually > h1:before { content: '10.7 ' }
 
 .print-site-enumerate-headings #reinit > h1:before { content: '10.8 ' }
+
+.print-site-enumerate-headings #troubleshoot-operator > h1:before { content: '10.9 ' }
 
 .print-site-enumerate-headings #section-11 > h1:before { content: '11 ' }
 .print-site-enumerate-headings #section-11-1 > h1:before { content: '11.1 ' }

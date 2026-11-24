@@ -14,7 +14,7 @@ deploy/cr.yaml  file.">
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html">
       
       
-        <link rel="prev" href="reinit.html">
+        <link rel="prev" href="troubleshoot-operator.html">
       
       
         <link rel="next" href="backup-resource-options.html">
@@ -5013,14 +5013,14 @@ deploy/cr.yaml  file.">
   
   
     <li class="md-nav__item">
-      <a href="troubleshoot-operator.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5041,14 +5041,14 @@ deploy/cr.yaml  file.">
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5217,6 +5217,34 @@ deploy/cr.yaml  file.">
     
   
     Reinitialize replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
   
 
     
@@ -20674,7 +20702,8 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 </tbody>
 </table>
 <h3 id="patronisyncperiodseconds"><code>patroni.syncPeriodSeconds</code><a data-markdown-ignore class="headerlink" href="#patronisyncperiodseconds" title="Permanent link">¶</a></h3>
-<p>How often to perform <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes">liveness/readiness probes  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the patroni container (in seconds).</p>
+<p>How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni’s <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html"><code>loop_wait</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> setting, in seconds. The Operator uses <a href="https://patroni.readthedocs.io/en/latest/kubernetes.html">Kubernetes Endpoints as the DCS  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. The Operator also reuses this value as the <code>periodSeconds</code> for the database container’s liveness and readiness probes.</p>
+<p>The value be less than <a href="#patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code></a>.</p>
 <table>
 <thead>
 <tr>
@@ -20690,7 +20719,26 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 </tbody>
 </table>
 <h3 id="patronileaderleasedurationseconds"><code>patroni.leaderLeaseDurationSeconds</code><a data-markdown-ignore class="headerlink" href="#patronileaderleasedurationseconds" title="Permanent link">¶</a></h3>
-<p>Initial delay for <a href="https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes">liveness/readiness probes  <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> for the patroni container (in seconds).</p>
+<p>How long, in seconds, the leader’s lock in the distributed configuration store (DCS) stays valid before Patroni treats it as stale and starts automatic failover. The DCS is how Patroni coordinates cluster state and elects a leader. The Operator uses Kubernetes Endpoints as the DCS.</p>
+<p>This setting matches Patroni’s <a href="https://patroni.readthedocs.io/en/latest/dynamic_configuration.html"><code>ttl</code> <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> option.<br>
+It works together with <a href="#patronisyncperiodseconds"><code>patroni.syncPeriodSeconds</code></a> to set failover timing.<br>
+Lower values trigger faster failover but may cause unwanted failovers if the Kubernetes API server is slow to respond.<br>
+Higher values slow down failover.<br>
+A longer setting also increases the risk that an isolated primary continues to accept writes when it should not, which can lead to lost data before Patroni demotes it.</p>
+<table>
+<thead>
+<tr>
+<th>Value type</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M14 17h-2V9h-2V7h4m5-4H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2"></path></svg></span> int</td>
+<td><code>30</code></td>
+</tr>
+</tbody>
+</table>
 <h3 id="patronidynamicconfiguration"><code>patroni.dynamicConfiguration</code><a data-markdown-ignore class="headerlink" href="#patronidynamicconfiguration" title="Permanent link">¶</a></h3>
 <p>Custom PostgreSQL configuration options. Please note that configuration changes are automatically applied to the running instances without validation, so having an invalid config can make the cluster unavailable.</p>
 <table>
@@ -21267,7 +21315,7 @@ file contains configuration options to <a href="custom-extensions.html">manage P
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 23, 2026 10:11:51 UTC">November 23, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 24, 2026 13:45:16 UTC">November 24, 2026</span>
       
         <br>
         Created:

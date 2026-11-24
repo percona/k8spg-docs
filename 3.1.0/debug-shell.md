@@ -1,44 +1,114 @@
 > For the complete documentation index, see [llms.txt](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/llms.txt).
 
-# Exec into the containers
+# Exec into the container
 
-If you want to examine the contents of a container “in place” using remote access to it, you can use the `kubectl exec` command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.
+Use `kubectl exec` to run a command in a container or to open an interactive shell. The container must be in the `Running` state. A shell session works when the container image includes a shell.
 
-In the following examples we will access the container `database` of the `cluster1-instance1-b5mr-0` Pod.
+The examples use the `database` container on a PostgreSQL instance Pod. Replace `cluster1` with your cluster name.
 
-- Run `date` command:
+## Set the Pod name
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- date
-  ```
+Export the name of an instance Pod. The commands on this page use `$POD`.
 
-  Expected output
+```
+export POD=$(kubectl get pods \
+  -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres \
+  -o jsonpath='{.items[0].metadata.name}')
+echo "$POD"
+```
 
-  ```
-  Wed Jun 14 11:18:47 UTC 2023
-  ```
+Sample output
 
-  You will see an error if the command is not present in a container. For example, trying to run the `time` command, which is not present in the container, by executing `kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- time` would show the following result:
+```
+cluster1-instance1-b5mr-0
+```
 
-  ```
-  OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
-  ```
+This selects the first instance Pod. Set `POD` to another instance Pod name when you need a specific Pod.
 
-- Print log files to a terminal:
+## Run a command
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
-  ```
+Run `date` in the `database` container:
 
-- Similarly, opening an Interactive terminal, executing a pair of commands in the container, and exiting it may look as follows:
+```
+kubectl exec -ti "$POD" -c database -- date
+```
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
-  bash-4.4$ hostname
-  cluster1-pxc-0
-  bash-4.4$ ls /pgdata/pg16/log/
-  postgresql-Wed.log
-  bash-4.4$ exit
-  exit
-  $
-  ```
+Expected output
+
+```
+Wed Jun 14 11:18:47 UTC 2023
+```
+
+Exec fails when the command is not in the container image. The `time` command is not in the `database` container:
+
+```
+kubectl exec -ti "$POD" -c database -- time
+```
+
+Expected output
+
+```
+OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
+```
+
+## Print logs
+
+How you print logs depends on whether [persistent logging](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/persistent-logging.html) is enabled. The log directory is `/pgdata/pg<major-version>/log`. The examples use PostgreSQL 18. The shell inside the container expands the `*` in the file name, so the command runs `cat` through `bash -c`.
+
+**Persistent logging off**
+
+Print the PostgreSQL server log files from the `database` container. File names match `postgresql-*.log`.
+
+```
+kubectl exec -ti "$POD" -c database -- bash -c 'cat /pgdata/pg18/log/postgresql-*.log'
+```
+
+**Persistent logging on**
+
+PostgreSQL and pgBackRest keep logs on the instance data volume, and the `logs` sidecar streams them. The files remain available after a Pod restart.
+
+Read the stream from the `logs` container. See [Check the logs](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-logs.html) for more `kubectl logs` options.
+
+```
+kubectl logs "$POD" -c logs
+```
+
+## Open a shell
+
+Open a shell in the `database` container and run commands there:
+
+1. Start the shell:
+
+   ```
+   kubectl exec -ti "$POD" -c database -- bash
+   ```
+
+1. Print the hostname:
+
+   ```
+   hostname
+   ```
+
+   Expected output
+
+   ```
+   cluster1-instance1-b5mr-0
+   ```
+
+1. List the log files:
+
+   ```
+   ls /pgdata/pg18/log/
+   ```
+
+   Expected output
+
+   ```
+   postgresql-Wed.log
+   ```
+
+1. Leave the shell:
+
+   ```
+   exit
+   ```

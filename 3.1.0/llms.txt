@@ -147,14 +147,15 @@ Each page below is also available as markdown. For the documentation of all Perc
 
 ## Troubleshooting
 
-- [Troubleshoot Operator installation issues](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/troubleshoot-operator.md)
 - [Initial troubleshooting](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug.md)
+- [Failover and recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-failover.md)
 - [Check storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-storage.md)
 - [Exec into the container](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-shell.md)
 - [Check the logs](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-logs.md)
 - [Troubleshoot restore failures](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-restore.md)
 - [Manage a database manually](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.md)
 - [Reinitialize replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.md)
+- [Troubleshoot Operator installation issues](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/troubleshoot-operator.md)
 
 ## Reference
 

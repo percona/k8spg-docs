@@ -5155,14 +5155,14 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshoot-operator.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5183,14 +5183,14 @@
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5359,6 +5359,34 @@
     
   
     Reinitialize replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
   
 
     
@@ -6952,6 +6980,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The Operator uses PostgreSQL streaming replication to keep standbys up to date.</p>
 <p>By default, the cluster uses <strong>asynchronous replication</strong>: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.</p>
 <p><strong>Synchronous replication</strong> is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See <a href="#configure-synchronous-replication">Configure synchronous replication</a>.</p>
+<p>See <a href="debug-failover.html">Failover and recovery</a> for the recovery time and data-loss window of each failure scenario under both replication modes, before you choose.</p>
 <h2 id="size-your-high-availability-cluster">Size your high availability cluster<a data-markdown-ignore class="headerlink" href="#size-your-high-availability-cluster" title="Permanent link">¶</a></h2>
 <ul>
 <li><strong>Minimum:</strong> 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.</li>
@@ -7071,7 +7100,7 @@ pgo_lr_slot_analytics_myapp_b751042e    | pgoutput | logical   |  16433 | myapp 
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 29, 2026 08:37:55 UTC">October 29, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 24, 2026 13:45:16 UTC">November 24, 2026</span>
       
         <br>
         Created:

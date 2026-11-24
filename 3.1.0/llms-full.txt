@@ -326,7 +326,7 @@ The Operator uses [node affinity and anti-affinity](https://kubernetes.io/docs/c
 
 #### Automatic recovery
 
-If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html).
+If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see [High-availability](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html). For exactly what happens during a failure, how long recovery takes, and what you can lose, see [Failover and recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-failover.html).
 
 #### Services that clients connect to
 
@@ -368,7 +368,7 @@ There are multiple ways to deploy and manage PostgreSQL in Kubernetes. Here we w
 | Feature/Product        | Percona Operator for PostgreSQL                                | Stackgres                                                           | CrunchyData                                        | CloudNativePG               | Zalando                                                                                              |
 | ---------------------- | -------------------------------------------------------------- | ------------------------------------------------------------------- | -------------------------------------------------- | --------------------------- | ---------------------------------------------------------------------------------------------------- |
 | Open-source license    | Apache 2.0                                                     | AGPL 3                                                              | Apache 2.0, but images are under Developer Program | Apache 2.0                  | MIT                                                                                                  |
-| PostgreSQL versions    | 13 - 18                                                        | 14 - 18                                                             | 14 - 18                                            | 14 - 18                     | 14 - 18                                                                                              |
+| PostgreSQL versions    | 14 - 18                                                        | 14 - 18                                                             | 14 - 18                                            | 14 - 18                     | 14 - 18                                                                                              |
 | Kubernetes conformance | Various versions are tested                                    | Various versions are tested                                         | Various versions are tested                        | Various versions are tested | AWS EKS                                                                                              |
 | Helm                   |                                                                |                                                                     |                                                    |                             |                                                                                                      |
 | Web-based GUI          | [Percona Everest](https://docs.percona.com/everest/index.html) | [Admin UI](https://stackgres.io/doc/latest/administration/adminui/) |                                                    |                             | [Postgres Operator UI](https://github.com/zalando/postgres-operator/blob/master/docs/operator-ui.md) |
@@ -8773,7 +8773,7 @@ Here’s the sequence of steps to follow:
    - Configure the `options` section:
 
      - `--type` - set to `time`.
-     - `--target` - set the target time that you retrieved at the previous step. The format is `<YYYY-MM-DD HH:MM:DD>`, optionally followed by a timezone offset: “2021-04-16 15:13:32+00” (`+00` here means UTC).
+     - `--target` - set the target time that you retrieved at the previous step. The format is `<YYYY-MM-DD HH:MM:SS>`, optionally followed by a timezone offset: “2026-04-16 15:13:32+00” (`+00` here means UTC).
 
    Here’s the example configuration:
 
@@ -11135,6 +11135,8 @@ The Operator uses PostgreSQL streaming replication to keep standbys up to date.
 By default, the cluster uses **asynchronous replication**: the primary sends changes to standbys but does not wait for confirmation before committing. That favors performance, with a small risk that transactions not yet copied to a standby are lost if the primary fails.
 
 **Synchronous replication** is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See [Configure synchronous replication](#configure-synchronous-replication).
+
+See [Failover and recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-failover.html) for the recovery time and data-loss window of each failure scenario under both replication modes, before you choose.
 
 ## Size your high availability cluster
 
@@ -16932,7 +16934,19 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
 
    PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-1. Now update the following options in the `patroni.switchover` subsection of the Custom Resource:
+   Remove the old annotation before you enable switchover again
+
+   A switchover is requested with the `postgres-operator.crunchydata.com/trigger-switchover` annotation. If you did a switchover on this cluster before, that annotation is probably still there. When you set `patroni.switchover.enabled` to `true`, the Operator treats an annotation it hasn’t acted on as a new request and switches over at once, before you set a new annotation in step 3.
+
+   Remove the old annotation before step 2:
+
+   ```
+   kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover-
+   ```
+
+   The trailing `-` removes the annotation.
+
+1. Update the following options in the `patroni.switchover` subsection of the Custom Resource:
 
    ```
    patroni:
@@ -16962,7 +16976,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
    kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
    ```
 
-   The `--overwrite` flag in the above command allows you to overwrite the annotation if it already exists (useful if that’s not the first switchover you do).
+   The `--overwrite` flag replaces the value if the annotation already exists. Use a value that you haven’t used before, such as the timestamp. The Operator switches over only when the annotation differs from the one it acted on last.
 
 1. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
@@ -16998,6 +17012,15 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
    cluster1-instance1-ttm9-0             4/4     Running     0          23m   cluster1-instance1-ttm9   replica
    ```
 
+1. If you use pgBouncer, check its Pods. After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. List the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:
+
+   ```
+   kubectl get pods -n <namespace> \
+     -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
+
+   kubectl delete pod <pgbouncer-pod-name> -n <namespace>
+   ```
+
 1. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
 
    ```
@@ -17011,6 +17034,14 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
      }
    }'
    ```
+
+1. Remove the annotation, so that it doesn’t trigger a switchover the next time you enable switchover:
+
+   ```
+   kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover-
+   ```
+
+   Setting `patroni.switchover.enabled` to `false` clears the Operator’s record of the last completed switchover, but it leaves the annotation on the cluster. Without this step, the next time you set `enabled` to `true`, the Operator sees an annotation it hasn’t acted on and switches over immediately.
 
 # Use Docker images from a private registry
 
@@ -18762,224 +18793,6 @@ Sample output
 ```
 # Troubleshooting
 
-# Percona Operator troubleshooting
-
-This section provides information on how to troubleshoot issues when you install Percona Operator for PostgreSQL.
-
-Make sure you have CLI tool `kubectl` installed to interact with Kubernetes API.
-
-## Check connection to Kubernetes cluster
-
-It may happen that `kubectl` you installed locally is not connected to your Kubernetes cluster.
-
-To check connectivity to your Kubernetes API, run the following command:
-
-```
-kubectl cluster-info
-```
-
-If you see the output similar to the following, it means that `kubectl` is connected to your Kubernetes cluster:
-
-Sample output
-
-```
-Kubernetes control plane is running at https://<control-plane-ip>:49475
-CoreDNS is running at https://<control-plane-ip>:49475/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
-```
-
-If multiple Kubernetes configurations are present in `kubeconfig`,check if you have set the correct context. If the context is wrong, switch it. Here’s how:
-
-1. Check the current context:
-
-   ```
-   kubectl config current-context # Get the current Context
-   ```
-
-1. Switch the context :
-
-   ```
-   kubectl config use-context <Context-To-Be-Used>
-   ```
-
-1. Run the `kubectl cluster-info` command again to verify that `kubectl` is connected to your Kubernetes cluster.
-
-If you are still running into issues, check with your Kubernetes cluster administrator to resolve the connectivity or configuration issues.
-
-## Troubleshoot Operator installation issues
-
-1. Check the Operator logs
-
-   ```
-   kubectl logs deploy/<operator-deployment-name>
-   ```
-
-1. Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.
-
-   To verify that you have the necessary privileges, run the following script:
-
-   ```
-   bash <(curl -s https://gist.githubusercontent.com/cshiv/6048bdd0174275b48f633549c69d0844/raw/fd547b783a30b827362ee9f9ec03436f9bc79524/check_priviliges.sh)
-   ```
-
-   Sample output
-
-   ```
-   Checking privileges to install Percona Operators in kubernetes cluster...
-   Warning: Unable to check the privileges for resource 'issuers', check if the resource 'issuers' is present in the cluster
-   Warning: Unable to check the privileges for resource 'certificates', check if the resource 'certificates' is present in the cluster    
-
-   Warning: Some resources are not found in the kubernetes cluster.Check the Warning messages before you proceed
-   ------------------------------------------------------------------------------------------
-   GOOD TO INSTALL: Percona Operator for PostgreSQL
-   https://docs.percona.com/percona-operator-for-postgresql/index.html
-   ------------------------------------------------------------------------------------------
-   GOOD TO INSTALL: Percona Operator for MySQL based on Percona XtraDB Cluster
-   https://docs.percona.com/percona-operator-for-postgresql/index.html
-   ------------------------------------------------------------------------------------------
-   GOOD TO INSTALL: Percona Operator for MongoDB
-   https://docs.percona.com/percona-operator-for-mongodb/index.html
-   ```
-
-   If you have insufficient permissions, the script will show you which ones are missing for installing a particular Operator. In this case, contact the Kubernetes cluster administrator.
-
-1. If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.
-
-   ```
-   kubectl get events --sort-by=".lastTimestamp"
-   ```
-
-   Events provide good information about affinity issues, resource issues etc.
-
-## Troubleshooting database cluster issues
-
-1. The Operator deployment must be in the `Running` state for the database cluster to function properly. Check the Operator Pod for restarts to identify potential issues.
-
-   ```
-   kubectl get pod <operator-pod-name>
-   ```
-
-1. Check the status of the database cluster
-
-   ```
-   kubectl get pg <database-cluster-name>
-   ```
-
-   The cluster should typically be in the `Running` state. It may briefly enter the `initializing` state while reconciling changes. If the cluster remains in the `initializing` state for an extended period, investigate further to identify any underlying issues.
-
-   Additionally, you can describe the database cluster and search for the information in the `State` and `State Description` fields:
-
-   ```
-   kubectl describe pg <database-cluster-name>
-   ```
-
-1. Check the Operator logs
-
-   ```
-   kubectl logs deploy/<operator-deployment-name>
-   ```
-
-1. Check the events
-
-   ```
-   kubectl get events --sort-by=".lastTimestamp"
-   ```
-
-   Events can provide information like storage class issues, PVC binding issues etc
-
-1. Check for the PVC, PV. Both of them should be in `Bound` status
-
-   ```
-   kubectl get pvc
-   ```
-
-   ```
-   kubectl get pv
-   ```
-
-1. Check for logs of database pods / Proxy pods
-
-   ```
-   kubectl logs <database-pod-name>
-   ```
-
-   ```
-   kubectl logs <proxy-pod-name>
-   ```
-
-   To check logs of `init` containers or other sidecar containers, use the option `-c` with the container name:
-
-   ```
-   kubectl logs <proxy-pod-name> -c postgres-startup
-   ```
-
-1. Check for error details. Run the `kubectl describe` command:
-
-   ```
-   kubectl describe <database-pod-name>
-   ```
-
-   ```
-   kubectl describe <proxy-pod-name>
-   ```
-
-   Check the information in the `Status` section. The `State` and `State Description` fields explain why the Pod reports errors.
-
-1. To run commands inside a container, use the `kubectl exec` command:
-
-   ```
-   kubectl exec <pod-name> -- <command>
-   ```
-
-   If you need an interactive shell to run multiple commands, use the `-it` flag for an interactive terminal:
-
-   ```
-   kubectl exec -it <pod-name> -- sh
-   ```
-
-1. If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a `sleep-forever` script to prevent the containers from restarting repeatedly.
-
-See the [Disable health check probes for maintenance](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.html#disable-health-check-probes-for-maintenance) section for steps.
-
-## Profiling the Operator with pprof
-
-When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go’s pprof tooling.
-
-1. Enable pprof by setting the `PPROF_BIND_ADDRESS` environment variable in the Operator Deployment. For example, set it to `127.0.0.1:6060` to bind pprof to localhost on port 6060. See [PPROF_BIND_ADDRESS](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/env-var-operator.html#pprof_bind_address) for configuration details.
-
-1. Restart the Operator so the new configuration takes effect.
-
-1. Set up a port-forward to the Operator Pod:
-
-   ```
-   kubectl port-forward deploy/percona-postgresql-operator 6060:6060 -n <operator-namespace>
-   ```
-
-1. In another terminal, collect profiles using `go tool pprof`:
-
-   **CPU profile** (30 seconds):
-
-   ```
-   go tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
-   ```
-
-   **Heap (memory) profile**:
-
-   ```
-   go tool pprof http://localhost:6060/debug/pprof/heap
-   ```
-
-   **Goroutine profile** (useful for deadlock investigation):
-
-   ```
-   go tool pprof http://localhost:6060/debug/pprof/goroutine
-   ```
-
-1. After collecting a profile, you can analyze it interactively. For example, type `top` to see the functions consuming the most CPU or memory, or `web` to generate a flame graph (requires Graphviz).
-
-Note
-
-Disable pprof when you finish troubleshooting by setting `PPROF_BIND_ADDRESS` to `"0"` or `""`. Keeping it enabled in production is not recommended for security reasons.
-
 # Initial troubleshooting
 
 Percona Operator for PostgreSQL uses [Custom Resources](https://kubernetes.io/docs/concepts/extend-kubernetes/api-extension/custom-resources/) to manage options for the various components of the cluster.
@@ -19084,6 +18897,246 @@ Events:
 ```
 
 This gives a lot of information about containers, resources, container status and also events. So, describe output should be checked to see any abnormalities.
+
+# Failover and recovery
+
+This page describes what happens to a Percona Distribution for PostgreSQL cluster managed by the Operator when a component fails, how long writes are unavailable, and which acknowledged writes you can lose. Use it in two ways:
+
+- **During an incident:** find your scenario in the [summary table](#summary), check whether recovery is automatic, and follow the scenario’s **Act** steps if it is not.
+- **For high-availability planning:** read the scenario details to understand the expected downtime and data-loss window before you choose replication mode, client timeouts, and Pod placement.
+
+Most of the recovery times in this guide come down to one setting: `patroni.leaderLeaseDurationSeconds` (30 seconds by default). Lower it for faster failover, at the cost of more unnecessary failovers if the Kubernetes API server responds slowly. See [Reduce failover time and data loss](#reduce-failover-time-and-data-loss).
+
+## Summary
+
+| Scenario                                                                                                              | Recovery                                                                      | Write outage                                                                                          | Acknowledged writes lost                                                    |
+| --------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| [Primary Pod deleted](#primary-pod-deleted), or [with the Operator down](#primary-pod-deleted-with-the-operator-down) | Automatic, Operator not required                                              | ~13 s direct, ~7 s through pgBouncer (~9 s / ~6 s if the Operator is also down)                       | None                                                                        |
+| [PostgreSQL process crashes](#postgresql-crash)                                                                       | Automatic, no failover                                                        | ~5–10 s direct, ~15–20 s through pgBouncer                                                            | None                                                                        |
+| [Planned switchover](#planned-switchover)                                                                             | You trigger it, automatic execution                                           | ~8 s direct, ~16 s through pgBouncer                                                                  | None                                                                        |
+| [Node hosting the primary powered off](#node-hosting-the-primary-is-powered-off)                                      | Automatic                                                                     | ~45 s direct, ~55 s through pgBouncer (a replica promotes after ~30–35 s)                             | None expected, possible under asynchronous replication                      |
+| [Primary Pod network-partitioned](#network-partition)                                                                 | Automatic                                                                     | ~33 s direct; through pgBouncer, as long as the partition lasts unless the client has its own timeout | Yes, writes the isolated primary acknowledged just before it demotes itself |
+| [Node’s kubelet loses the Kubernetes API server](#node-loses-the-kubernetes-api-server)                               | No impact while disconnected; failover on reconnection if eviction is pending | None while disconnected; ~9 s on reconnection if the eviction toleration elapsed                      | None                                                                        |
+| [Node with the primary and the repo host lost](#node-with-the-primary-and-the-repo-host-lost)                         | Automatic, but promotion can stall                                            | ~95 s, about three times an ordinary node loss                                                        | None from the stall itself                                                  |
+| [Primary PostgreSQL frozen](#frozen-primary)                                                                          | Automatic                                                                     | ~35 s direct, ~41 s through pgBouncer                                                                 | Possible, writes acknowledged right before the freeze                       |
+| [Node permanently lost](#permanent-node-loss)                                                                         | Usually automatic; manual in one specific case                                | ~100 s automatic; ~67 s once you act, if you act in the right order                                   | Possible, see the scenario for details                                      |
+
+“Write outage” is the time from the failure to the first successful `COMMIT` on the new primary, for a client that reconnects on error. “Acknowledged writes lost” means a transaction’s `COMMIT` returned success to the client, but the write is missing after recovery. Writes that fail or time out during the outage were never acknowledged, so they don’t count as lost. Your application has to retry them.
+
+## How failover works
+
+This workflow explains why every scenario in this guide behaves the way it does.
+
+- **Patroni, not the Operator, decides which instance is the primary.** Each database Pod runs Patroni. Patroni stores the leader lock in the annotations of the `<cluster-name>-ha` Kubernetes Endpoints object, which serves as is its distributed configuration store (DCS).
+- **The leader lock expires after `patroni.leaderLeaseDurationSeconds`** (Patroni `ttl`, default `30`). The primary renews the lock every `patroni.syncPeriodSeconds` (Patroni `loop_wait`, default `10`). When the primary disappears without releasing the lock, replicas wait for the lock to expire before one promotes itself. This is why every *unplanned* failover on this page takes about one lease duration plus up to 10 s before Kubernetes routes new connections to the new primary. See [`patroni.leaderLeaseDurationSeconds`](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html#patronileaderleasedurationseconds).
+- **A primary that can’t reach the Kubernetes API demotes itself.** If the primary can’t renew the lock, Patroni demotes it to read-only after its own retry timeout (about 10 seconds by default). This happens well before the lock actually expires and a replica takes over. It prevents two writable primaries at once.
+- **Clients reach the primary through the `<cluster-name>-ha` Service.** Patroni updates that Service’s Endpoints directly. A Pod’s Kubernetes readiness state does not route traffic to the primary. `<cluster-name>-primary` and pgBouncer both resolve to the same `<cluster-name>-ha` Service underneath.
+- **Replication is asynchronous by default.** The primary acknowledges a `COMMIT` before any replica has the data. Whatever it acknowledged but hadn’t yet streamed is lost when a replica takes over. To trade write latency for zero loss of acknowledged writes on failover, turn on [synchronous replication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#configure-synchronous-replication). Note that this affects performance because of higher write latency and lower write throughput.
+- **The Operator is not in the failover path.** If the Operator is down, Patroni still fails over on its own, and the StatefulSet controller still recreates deleted Pods.
+
+## Check the cluster state during an incident
+
+Run these first, whatever the scenario. Replace `<namespace>` and `cluster1` with your values.
+
+1. Check the cluster state:
+
+   ```
+   kubectl get pg cluster1 -n <namespace>
+   ```
+
+   `ready` means all PostgreSQL Pods are ready. It does **not** mean no failover happened. The state stays `ready` through a fast failover. `initializing` with fewer ready Pods than the cluster size means at least one Pod isn’t ready. See [Custom resource statuses](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/cr-statuses.html).
+
+1. Check which instance holds the leader lock. This is the source of truth for which Pod accepts writes:
+
+   ```
+   kubectl get endpoints cluster1-ha -n <namespace> \
+     -o jsonpath='{.metadata.annotations.leader}{"\n"}{.subsets[*].addresses[*].ip}{"\n"}'
+   ```
+
+1. Check the Patroni view of the cluster, from any running database Pod:
+
+   ```
+   kubectl exec -n <namespace> <pod-name> -c database -- patronictl list
+   ```
+
+   A healthy cluster shows one `Leader` in `running` state and the replicas `streaming`, on the same timeline (`TL`), with lag at or near `0`.
+
+Don’t rely on the `role` label alone during a network partition
+
+Each Patroni instance updates its own Pod’s `postgres-operator.crunchydata.com/role` label. A Pod that can’t reach the Kubernetes API can’t update its own label. So during a partition, both the isolated old primary and the new primary can carry `role=primary` at the same time, and the selector `postgres-operator.crunchydata.com/role=primary` can return two Pods. Use the `cluster1-ha` Endpoints `leader` annotation instead. It’s always a single Pod.
+
+## Primary Pod lost or switched over
+
+**Automatic once triggered. No acknowledged writes lost.**
+
+Patroni demotes the old primary and promotes a replica right away. It never waits for the leader lock to expire, which makes this the fastest recovery on this page. Three things trigger it:
+
+### Primary Pod deleted
+
+Kubernetes sends `SIGTERM` to the Pod. The StatefulSet controller, not the Operator, recreates it, and it rejoins as a replica roughly a minute later. A direct client reconnecting on error gets a successful `COMMIT` again in about 13 seconds; through pgBouncer, about 7 seconds.
+
+### Primary Pod deleted with the Operator down
+
+Failover works the same way because Patroni and the StatefulSet controller do not need the Operator. Recovery is the same as an ordinary Pod deletion: about 12 seconds direct and up to about 17 seconds through pgBouncer. While the Operator is down, the PerconaPGCluster status is not refreshed and can report a stale `ready` state. Restore the Operator to resume reconciliation and status updates.
+
+### Planned switchover
+
+You ask the Operator to move the primary role to a specific replica. See [Change the PostgreSQL primary instance](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/change-primary.html) for the procedure. Direct clients recover in about 8 seconds. pgBouncer recovers more slowly, about 16 seconds, because it caches a failed server login for `server_login_retry` seconds (15 by default) and returns `server login has been failing` to new connections until that passes.
+
+A pgBouncer Pod can stay on the demoted primary
+
+After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. Find the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:
+
+```
+kubectl get pods -n <namespace> \
+  -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
+
+kubectl delete pod <pgbouncer-pod-name> -n <namespace>
+```
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). `patronictl list` shows the new or target Pod as `Leader`. Check Pod readiness directly while the Operator is down because the custom resource status can be stale. After restoring the Operator, confirm that `kubectl get pg` reports `ready`.
+
+**Act:** nothing needed for an involuntary Pod loss. After a planned switchover, delete any pgBouncer Pod that stays on the demoted primary, and set `patroni.switchover.enabled` back to `false`. If the Operator is down, restore its Deployment when you can; it’s needed for configuration changes, backups, and scaling, not for failover.
+
+**What you can lose:** no acknowledged writes. The clean shutdown or demotion always streams all WAL to the replicas first.
+
+## PostgreSQL crash
+
+**Automatic. No failover. No acknowledged writes lost.**
+
+If the `postgres` process dies but the Pod and Patroni stay up, Patroni restarts PostgreSQL in place and runs crash recovery. The same Pod keeps the leader lock the whole time, so there’s no failover at all. Writes resume in about 5 seconds, on the same Pod, whether the client connects directly or through pgBouncer.
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). `patronictl list` shows the same `Leader`, on the same timeline, as before.
+
+**Act:** nothing needed. If it keeps crashing, check the PostgreSQL logs. See [Check the logs](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-logs.html).
+
+**What you can lose:** no acknowledged writes. Crash recovery replays the WAL, so every acknowledged commit survives.
+
+## Node hosting the primary is powered off
+
+**Automatic. No action needed for the database.**
+
+A replica takes over about 28 seconds after the power-off, consistent with the default lease (see [How failover works](#how-failover-works)). What happens to the Pod that was on the dead node depends on your platform. If the node comes back, or your platform replaces it under the same name, the Pod restarts and rejoins as a replica, and the cluster reports all Pods ready about two minutes after the power-off. If the node is gone for good, see [Recover from permanent node loss](#permanent-node-loss).
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident) once the node is back or replaced.
+
+**Act:** nothing for the database itself. If the node never returns and the Pod stays stuck, follow [Recover from permanent node loss](#permanent-node-loss).
+
+Clients without a query timeout can hang for many minutes
+
+A client with an open connection through pgBouncer gets no error at all when the node loses power. pgBouncer keeps waiting on its dead server connection. Direct clients, and pgBouncer clients with their own query timeout, recover as soon as failover completes. Set a client-side statement or query timeout in your application or connection pool, so a request to a dead primary fails and retries instead of hanging indefinitely.
+
+**What you can lose:** under asynchronous replication, any transaction the primary acknowledged but hadn’t yet streamed to a replica when it lost power. Use [synchronous replication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#configure-synchronous-replication) to close this window.
+
+## Network partition
+
+**Automatic. Some acknowledged writes can be lost.**
+
+The primary Pod is cut off from the replicas, the Operator, and the Kubernetes API server, but keeps running. Clients that can still reach it, for example on the same node, can keep writing to it for a while:
+
+1. The isolated primary can’t renew the leader lock. It keeps accepting and acknowledging writes from clients that can still reach it for about 12-14 seconds, then Patroni demotes it to read-only on its own. This stops two Pods from both accepting writes at once.
+1. Once the lock fully expires, a replica promotes itself and the `cluster1-ha` Endpoints switch to it, about 28 seconds after the partition starts.
+1. The isolated Pod’s liveness probe keeps failing, so the kubelet repeatedly restarts its `database` container. It shows `CrashLoopBackOff` until the partition heals.
+1. When the partition heals, the old primary rewinds its data with `pg_rewind` and rejoins as a replica, within seconds of the network recovering.
+
+At no point do both the old and new primary accept writes. The old primary is already read-only well before the new one is promoted. A direct client reconnecting on error gets a successful `COMMIT` again after about 33 seconds. Through pgBouncer with a client-side timeout, recovery takes about 37-42 seconds. Through pgBouncer with no timeout at all, there’s no bound on recovery time. The client stays stuck on its dead server connection for the entire length of the partition, however long that runs, and recovers only a few seconds after the network heals.
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). The `cluster1-ha` Endpoints `leader` annotation names a single Pod, and `patronictl list` shows the other two `streaming` on the new timeline. Don’t trust the `role` label until the partition heals.
+
+**Act:** nothing needed for failover. Fix the network. The old primary rejoins on its own once it heals. A pgBouncer client with no query timeout won’t get an error, and won’t recover, until the partition itself heals, however long that takes.
+
+**What you can lose:** any write the isolated primary acknowledged in the roughly 12-14 second window before it demotes itself. At a steady 5 commits a second, that window is enough to lose 55-65 acknowledged writes. Scale that to your own write rate to estimate your exposure. Writes from clients that couldn’t reach the isolated primary at all aren’t lost. They simply failed instead of being acknowledged. To prevent this loss entirely, use [synchronous replication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#configure-synchronous-replication).
+
+## Node loses the Kubernetes API server
+
+**No impact at first; automatic once it’s resolved.**
+
+If only the kubelet on the primary’s node loses its connection to the Kubernetes API server, Patroni keeps renewing the leader lock normally, since Pod-to-Pod traffic and the Pods’ own API access still work. The primary keeps serving writes without interruption for as long as the outage runs. Kubernetes, meanwhile, loses track of the node. It marks the node `NotReady` after its usual grace period, and would evict the node’s Pods after the default toleration for an unreachable node (5 minutes). But the kubelet can’t carry out that eviction until it reconnects. When it does, it carries out the pending eviction at once and terminates the primary Pod. That causes a failover at that moment, exactly as if you had [deleted the primary Pod](#primary-pod-deleted): a direct client recovers in about 9 seconds, pgBouncer in about 16.
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). The node shows `Ready` again, and if the toleration window passed, `patronictl list` shows a new leader.
+
+**Act:**
+
+- If the kubelet reconnects within about 5 minutes of the node going `NotReady`, nothing happens. There’s no failover at all.
+- If the outage runs longer than that, expect a failover the moment the kubelet reconnects, on top of however long the outage itself ran. To choose that moment yourself instead, do a [planned switchover](#planned-switchover) to a replica on a healthy node before you restore the node’s connectivity.
+
+**What you can lose:** no acknowledged writes. When the delayed failover happens, it’s a clean shutdown, just like deleting the primary Pod.
+
+## Node with the primary and the repo host lost
+
+**Automatic, but promotion can stall.**
+
+Losing the lock works the same as any other power-off: a replica takes over the leader lock in about 32-34 seconds, consistent with the default lease. But if that node also hosted your pgBackRest repo host, the new primary’s promotion needs to replay WAL via the `restore_command`, which tries the now-unreachable repo first and only falls back to another configured repository after the o`archive-timeout` (60 seconds by default). With a single repository configured, there’s nowhere to fall back to, and promotion stalls until that 60-second timeout passes. This is the one scenario on this page where the lease duration alone doesn’t predict recovery time. Write access actually returns about 95 seconds after the node goes down, roughly three times as long as an ordinary node loss. A pgBouncer client with no query timeout gets no error at all until that resolves.
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident), plus `pgbackrest info` (or the cluster’s backup status) once the repo host Pod is back, to confirm archiving has caught up.
+
+**Act:** configure more than one backup repository, so there’s somewhere for `restore_command` to fall back to, and keep the repo host off the primary’s node with [anti-affinity](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/constraints.html) so a single node loss doesn’t cost you both at once. If the node is gone for good, the repo host rebuilds the same way a lost instance does. See [Recover from permanent node loss](#permanent-node-loss).
+
+**What you can lose:** the stall itself doesn’t lose acknowledged writes. But if the repo host has to be rebuilt from scratch, its own backup history doesn’t survive. Keep at least one repository in object storage (S3, GCS, or Azure), not only local volumes, so a rebuilt repo host isn’t your only copy.
+
+## Frozen primary
+
+**Automatic.**
+
+All PostgreSQL processes on the primary stop responding. A stalled disk or a paused process are typical causes. Patroni itself keeps running but can’t confirm PostgreSQL is healthy, so it stops renewing the leader lock, and a replica promotes about 26 seconds later, consistent with the default lease. A direct client recovers in about 35 seconds; through pgBouncer, about 41 seconds. The kubelet then restarts the frozen `database` container once its liveness probe fails enough times in a row, a count derived from your `patroni.syncPeriodSeconds` and `patroni.leaderLeaseDurationSeconds`. In practice, with the defaults, that’s around 86-89 seconds. The old primary rejoins as a replica afterward.
+
+Note
+
+This describes PostgreSQL freezing while the kubelet keeps running. If the whole node or virtual machine pauses, the kubelet pauses with it and can’t restart the container. In that case the old primary can resume as a writable primary for a short time on already-open connections. It can accept and acknowledge a few more commits before Patroni notices it lost the lock and demotes it. Those commits are lost.
+
+**Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident). `patronictl list` shows the new `Leader` in `running` state and the old primary rejoining as a replica once the kubelet restarts its container.
+
+**Act:** nothing needed for failover itself. Investigate the underlying cause, such as storage latency.
+
+**What you can lose:** any transaction acknowledged right before the freeze that hadn’t yet streamed to a replica. Typically that’s just one or two writes at moderate write rates, since Patroni stops trusting the primary within a few seconds of it going unresponsive. The exact number depends on how close to the freeze the write landed and your write rate.
+
+## Permanent node loss
+
+**Usually automatic. Manual only if a Pod gets stuck, and the order you act in matters.**
+
+After the lost Node object is removed, either by your cloud provider’s controller or by an administrator, Kubernetes replaces the affected Pods. The replacement Pods can run on healthy nodes if their volumes can attach there. A local PersistentVolume stays tied to the lost node through its node affinity, so a Pod that uses one stays `Pending` even after the Node object is removed. For irrecoverably lost local storage, follow the manual recovery steps.
+
+Recovery time depends on Pod scheduling and volume attachment. If you rebuild an instance manually, it also depends on how much data must be restored from the backup. If the lost node hosted the primary, writes are unavailable until Patroni promotes a replica.
+
+The Pod can get stuck in `Terminating` when the node disappears *without* a clean deregistration, so Kubernetes doesn’t know to clean up after it. If that happens, the manual rebuild is destructive. Confirm two things before you touch it: that the old node has actually stopped, and that you aren’t about to destroy storage you could have reattached instead.
+
+This rebuild is destructive
+
+Confirm before you act:
+
+- `kubectl get nodes` only reflects what the control plane can reach. A node can be unreachable without being dead, and its old PostgreSQL instance can still be running. Force-deleting a Pod removes the Kubernetes object without waiting for the kubelet to confirm the container actually stopped. Combine the two, and a replacement primary can start while the old one is still writing. Confirm the node has genuinely stopped through your infrastructure itself, for example a cloud console or a fencing mechanism, before you force-delete anything.
+- Deleting the stuck Pod first also lets Kubernetes immediately reattach a new Pod to the *same*, about-to-be-deleted PersistentVolumeClaim. That leaves the PVC stuck in `Terminating` while the cluster still reports `ready` with all instances. It looks healthy. It isn’t, and it stays that way until you notice and delete the Pod a second time. Delete the PVC first instead, and only once you’ve confirmed it’s unrecoverable: a StorageClass with a `Delete` reclaim policy destroys the underlying disk when its PVC is deleted, not just the Kubernetes object. Preserve any PVC whose storage can still reattach to a replacement node, and delete one only once you have a usable recovery source for the database, such as a backup or a surviving replica.
+
+**Act:**
+
+1. Confirm the node has genuinely stopped, through your infrastructure’s own shutdown confirmation or a fencing mechanism. Don’t rely on `kubectl get nodes` alone.
+1. Confirm the Pod is stuck `Terminating` or `Pending` with no progress.
+1. Confirm the PVC’s storage can’t reattach to a replacement node, and that you have a usable recovery source for the database, before you delete it.
+1. Delete the PVC: `kubectl delete pvc <pvc-name> -n <namespace> --wait=false`
+1. Force-delete the Pod: `kubectl delete pod <pod-name> -n <namespace> --force --grace-period=0`
+1. Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the [cluster state checks](#check-the-cluster-state-during-an-incident).
+
+The same two steps work for the repo host Pod specifically. The Operator recreates its pgBackRest stanza on its own. No manual `pgbackrest stanza-create` is needed. Expect the stanza back within about a minute and a full backup completing shortly after.
+
+Then check the backup. Run `pgbackrest info` from any database Pod:
+
+```
+kubectl exec -n <namespace> <pod-name> -c database -- pgbackrest --stanza=db info
+```
+
+The stanza reports `status: ok`. It lists no backup until the new full backup completes, so run the command again after a few minutes to see it.
+
+**What you can lose:** if the repo host is the Pod that was lost and rebuilt, its existing backup history doesn’t survive. If it was your only repository, you have no backups until the next scheduled one completes. Configure more than one repository, with at least one in object storage, so losing a node never costs you backup continuity.
+
+## Reduce failover time and data loss
+
+| Goal                                                 | What to change                                                                                                                                                                                                                                                                                        | Trade-off                                                                                                                                                                                                                                                                       |
+| ---------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| No loss of acknowledged writes on automatic failover | Turn on [synchronous replication](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#configure-synchronous-replication)                                                                                                                                                    | Higher write latency. Without strict mode, Patroni can accept asynchronous commits when no synchronous standby is available and prevent automatic promotion of an unsafe standby. Set `synchronous_mode_strict: true` to block writes when no synchronous standby is available. |
+| Faster unplanned failover                            | Lower [`patroni.leaderLeaseDurationSeconds`](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html#patronileaderleasedurationseconds) and [`patroni.syncPeriodSeconds`](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/operator.html#patronisyncperiodseconds) | More unnecessary failovers when the Kubernetes API server responds slowly                                                                                                                                                                                                       |
+| No hung clients                                      | Set a statement or query timeout in your application or connection pool                                                                                                                                                                                                                               | Long-running queries need a higher timeout                                                                                                                                                                                                                                      |
+| Survive the loss of a node or zone                   | Spread PostgreSQL Pods and the repo host across nodes and zones with [anti-affinity and topology spread constraints](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/constraints.html)                                                                                                 | Needs enough nodes and zones                                                                                                                                                                                                                                                    |
+| Promotion doesn’t stall on a lost repo host          | Configure more than one backup repository                                                                                                                                                                                                                                                             | Extra storage cost and configuration                                                                                                                                                                                                                                            |
 
 # Check Storage-related objects
 
@@ -19299,48 +19352,118 @@ You can set PVC storage class with the following Custom Resource options:
 - `instances.tablespaceVolumes.dataVolumeClaimSpec.storageClassName` allows you to set storage class for PostgreSQL [tablespace](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/tablespaces.html) volumes,
 - `backups.pgbackrest.repos.volume.volumeClaimSpec.storageClassName` allows you to set storage class for the pgBackRest storage.
 
-# Exec into the containers
+# Exec into the container
 
-If you want to examine the contents of a container “in place” using remote access to it, you can use the `kubectl exec` command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.
+Use `kubectl exec` to run a command in a container or to open an interactive shell. The container must be in the `Running` state. A shell session works when the container image includes a shell.
 
-In the following examples we will access the container `database` of the `cluster1-instance1-b5mr-0` Pod.
+The examples use the `database` container on a PostgreSQL instance Pod. Replace `cluster1` with your cluster name.
 
-- Run `date` command:
+## Set the Pod name
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- date
-  ```
+Export the name of an instance Pod. The commands on this page use `$POD`.
 
-  Expected output
+```
+export POD=$(kubectl get pods \
+  -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres \
+  -o jsonpath='{.items[0].metadata.name}')
+echo "$POD"
+```
 
-  ```
-  Wed Jun 14 11:18:47 UTC 2023
-  ```
+Sample output
 
-  You will see an error if the command is not present in a container. For example, trying to run the `time` command, which is not present in the container, by executing `kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- time` would show the following result:
+```
+cluster1-instance1-b5mr-0
+```
 
-  ```
-  OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
-  ```
+This selects the first instance Pod. Set `POD` to another instance Pod name when you need a specific Pod.
 
-- Print log files to a terminal:
+## Run a command
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg16/log/postgresql-*.log
-  ```
+Run `date` in the `database` container:
 
-- Similarly, opening an Interactive terminal, executing a pair of commands in the container, and exiting it may look as follows:
+```
+kubectl exec -ti "$POD" -c database -- date
+```
 
-  ```
-  kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
-  bash-4.4$ hostname
-  cluster1-pxc-0
-  bash-4.4$ ls /pgdata/pg16/log/
-  postgresql-Wed.log
-  bash-4.4$ exit
-  exit
-  $
-  ```
+Expected output
+
+```
+Wed Jun 14 11:18:47 UTC 2023
+```
+
+Exec fails when the command is not in the container image. The `time` command is not in the `database` container:
+
+```
+kubectl exec -ti "$POD" -c database -- time
+```
+
+Expected output
+
+```
+OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
+```
+
+## Print logs
+
+How you print logs depends on whether [persistent logging](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/persistent-logging.html) is enabled. The log directory is `/pgdata/pg<major-version>/log`. The examples use PostgreSQL 18. The shell inside the container expands the `*` in the file name, so the command runs `cat` through `bash -c`.
+
+**Persistent logging off**
+
+Print the PostgreSQL server log files from the `database` container. File names match `postgresql-*.log`.
+
+```
+kubectl exec -ti "$POD" -c database -- bash -c 'cat /pgdata/pg18/log/postgresql-*.log'
+```
+
+**Persistent logging on**
+
+PostgreSQL and pgBackRest keep logs on the instance data volume, and the `logs` sidecar streams them. The files remain available after a Pod restart.
+
+Read the stream from the `logs` container. See [Check the logs](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-logs.html) for more `kubectl logs` options.
+
+```
+kubectl logs "$POD" -c logs
+```
+
+## Open a shell
+
+Open a shell in the `database` container and run commands there:
+
+1. Start the shell:
+
+   ```
+   kubectl exec -ti "$POD" -c database -- bash
+   ```
+
+1. Print the hostname:
+
+   ```
+   hostname
+   ```
+
+   Expected output
+
+   ```
+   cluster1-instance1-b5mr-0
+   ```
+
+1. List the log files:
+
+   ```
+   ls /pgdata/pg18/log/
+   ```
+
+   Expected output
+
+   ```
+   postgresql-Wed.log
+   ```
+
+1. Leave the shell:
+
+   ```
+   exit
+   ```
 
 # Check the logs
 
@@ -20053,6 +20176,224 @@ kubectl apply -f deploy/cr.yaml
 Warning
 
 The `removeDataDirectoryOnDivergedTimelines` option can lead to data loss. When the Operator resyncs the replica automatically, some transactions may be lost. The risk is usually small but not zero. Use this option only if you understand and accept this trade-off.
+
+# Percona Operator troubleshooting
+
+This section provides information on how to troubleshoot issues when you install Percona Operator for PostgreSQL.
+
+Make sure you have CLI tool `kubectl` installed to interact with Kubernetes API.
+
+## Check connection to Kubernetes cluster
+
+It may happen that `kubectl` you installed locally is not connected to your Kubernetes cluster.
+
+To check connectivity to your Kubernetes API, run the following command:
+
+```
+kubectl cluster-info
+```
+
+If you see the output similar to the following, it means that `kubectl` is connected to your Kubernetes cluster:
+
+Sample output
+
+```
+Kubernetes control plane is running at https://<control-plane-ip>:49475
+CoreDNS is running at https://<control-plane-ip>:49475/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
+
+If multiple Kubernetes configurations are present in `kubeconfig`,check if you have set the correct context. If the context is wrong, switch it. Here’s how:
+
+1. Check the current context:
+
+   ```
+   kubectl config current-context # Get the current Context
+   ```
+
+1. Switch the context :
+
+   ```
+   kubectl config use-context <Context-To-Be-Used>
+   ```
+
+1. Run the `kubectl cluster-info` command again to verify that `kubectl` is connected to your Kubernetes cluster.
+
+If you are still running into issues, check with your Kubernetes cluster administrator to resolve the connectivity or configuration issues.
+
+## Troubleshoot Operator installation issues
+
+1. Check the Operator logs
+
+   ```
+   kubectl logs deploy/<operator-deployment-name>
+   ```
+
+1. Installing the Operator requires specific privileges, such as the ability to create custom resource definitions and other Kubernetes objects.
+
+   To verify that you have the necessary privileges, run the following script:
+
+   ```
+   bash <(curl -s https://gist.githubusercontent.com/cshiv/6048bdd0174275b48f633549c69d0844/raw/fd547b783a30b827362ee9f9ec03436f9bc79524/check_priviliges.sh)
+   ```
+
+   Sample output
+
+   ```
+   Checking privileges to install Percona Operators in kubernetes cluster...
+   Warning: Unable to check the privileges for resource 'issuers', check if the resource 'issuers' is present in the cluster
+   Warning: Unable to check the privileges for resource 'certificates', check if the resource 'certificates' is present in the cluster    
+
+   Warning: Some resources are not found in the kubernetes cluster.Check the Warning messages before you proceed
+   ------------------------------------------------------------------------------------------
+   GOOD TO INSTALL: Percona Operator for PostgreSQL
+   https://docs.percona.com/percona-operator-for-postgresql/index.html
+   ------------------------------------------------------------------------------------------
+   GOOD TO INSTALL: Percona Operator for MySQL based on Percona XtraDB Cluster
+   https://docs.percona.com/percona-operator-for-postgresql/index.html
+   ------------------------------------------------------------------------------------------
+   GOOD TO INSTALL: Percona Operator for MongoDB
+   https://docs.percona.com/percona-operator-for-mongodb/index.html
+   ```
+
+   If you have insufficient permissions, the script will show you which ones are missing for installing a particular Operator. In this case, contact the Kubernetes cluster administrator.
+
+1. If you have the necessary privileges but the installation is still failing, review the Kubernetes Events for more details. Keep in mind that Kubernetes Events are retained for only 60 minutes.
+
+   ```
+   kubectl get events --sort-by=".lastTimestamp"
+   ```
+
+   Events provide good information about affinity issues, resource issues etc.
+
+## Troubleshooting database cluster issues
+
+1. The Operator deployment must be in the `Running` state for the database cluster to function properly. Check the Operator Pod for restarts to identify potential issues.
+
+   ```
+   kubectl get pod <operator-pod-name>
+   ```
+
+1. Check the status of the database cluster
+
+   ```
+   kubectl get pg <database-cluster-name>
+   ```
+
+   The cluster should typically be in the `ready` state. It may briefly enter the `initializing` state while reconciling changes. If the cluster remains in the `initializing` state for an extended period, investigate further to identify any underlying issues.
+
+   Additionally, you can describe the database cluster and check the `State` field and the `Conditions` list in the `Status` section. Each condition has a reason and a message that explain what isn’t ready. See [Custom resource statuses](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/cr-statuses.html) for details:
+
+   ```
+   kubectl describe pg <database-cluster-name>
+   ```
+
+1. Check the Operator logs
+
+   ```
+   kubectl logs deploy/<operator-deployment-name>
+   ```
+
+1. Check the events
+
+   ```
+   kubectl get events --sort-by=".lastTimestamp"
+   ```
+
+   Events can provide information like storage class issues, PVC binding issues etc
+
+1. Check for the PVC, PV. Both of them should be in `Bound` status
+
+   ```
+   kubectl get pvc
+   ```
+
+   ```
+   kubectl get pv
+   ```
+
+1. Check for logs of database pods / Proxy pods
+
+   ```
+   kubectl logs <database-pod-name>
+   ```
+
+   ```
+   kubectl logs <proxy-pod-name>
+   ```
+
+   To check logs of `init` containers or other sidecar containers, use the option `-c` with the container name:
+
+   ```
+   kubectl logs <proxy-pod-name> -c postgres-startup
+   ```
+
+1. Check for error details. Run the `kubectl describe` command:
+
+   ```
+   kubectl describe <database-pod-name>
+   ```
+
+   ```
+   kubectl describe <proxy-pod-name>
+   ```
+
+   Check the information in the `Status` section. The `State` and `State Description` fields explain why the Pod reports errors.
+
+1. To run commands inside a container, use the `kubectl exec` command:
+
+   ```
+   kubectl exec <pod-name> -- <command>
+   ```
+
+   If you need an interactive shell to run multiple commands, use the `-it` flag for an interactive terminal:
+
+   ```
+   kubectl exec -it <pod-name> -- sh
+   ```
+
+1. If the pods are not running, it may not be possible to execute commands or open an interactive shell. In such cases, consider using a `sleep-forever` script to prevent the containers from restarting repeatedly.
+
+See the [Disable health check probes for maintenance](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/manage-manually.html#disable-health-check-probes-for-maintenance) section for steps.
+
+## Profiling the Operator with pprof
+
+When you need to investigate Operator performance issues, high CPU usage, or memory leaks, you can collect CPU and memory profiles using Go’s pprof tooling.
+
+1. Enable pprof by setting the `PPROF_BIND_ADDRESS` environment variable in the Operator Deployment. For example, set it to `127.0.0.1:6060` to bind pprof to localhost on port 6060. See [PPROF_BIND_ADDRESS](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/env-var-operator.html#pprof_bind_address) for configuration details.
+
+1. Restart the Operator so the new configuration takes effect.
+
+1. Set up a port-forward to the Operator Pod:
+
+   ```
+   kubectl port-forward deploy/percona-postgresql-operator 6060:6060 -n <operator-namespace>
+   ```
+
+1. In another terminal, collect profiles using `go tool pprof`:
+
+   **CPU profile** (30 seconds):
+
+   ```
+   go tool pprof http://localhost:6060/debug/pprof/profile?seconds=30
+   ```
+
+   **Heap (memory) profile**:
+
+   ```
+   go tool pprof http://localhost:6060/debug/pprof/heap
+   ```
+
+   **Goroutine profile** (useful for deadlock investigation):
+
+   ```
+   go tool pprof http://localhost:6060/debug/pprof/goroutine
+   ```
+
+1. After collecting a profile, you can analyze it interactively. For example, type `top` to see the functions consuming the most CPU or memory, or `web` to generate a flame graph (requires Graphviz).
+
+Note
+
+Disable pprof when you finish troubleshooting by setting `PPROF_BIND_ADDRESS` to `"0"` or `""`. Keeping it enabled in production is not recommended for security reasons.
 # Reference
 
 # Custom Resource options
@@ -22868,7 +23209,9 @@ The `patroni` section in the [deploy/cr.yaml](https://github.com/percona/percona
 
 ### `patroni.syncPeriodSeconds`
 
-How often to perform [liveness/readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni’s [`loop_wait`](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) setting, in seconds. The Operator uses [Kubernetes Endpoints as the DCS](https://patroni.readthedocs.io/en/latest/kubernetes.html) . The Operator also reuses this value as the `periodSeconds` for the database container’s liveness and readiness probes.
+
+The value be less than [`patroni.leaderLeaseDurationSeconds`](#patronileaderleasedurationseconds).
 
 | Value type | Example |
 | ---------- | ------- |
@@ -22876,7 +23219,17 @@ How often to perform [liveness/readiness probes](https://kubernetes.io/docs/task
 
 ### `patroni.leaderLeaseDurationSeconds`
 
-Initial delay for [liveness/readiness probes](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes) for the patroni container (in seconds).
+How long, in seconds, the leader’s lock in the distributed configuration store (DCS) stays valid before Patroni treats it as stale and starts automatic failover. The DCS is how Patroni coordinates cluster state and elects a leader. The Operator uses Kubernetes Endpoints as the DCS.
+
+This setting matches Patroni’s [`ttl`](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) option.\
+It works together with [`patroni.syncPeriodSeconds`](#patronisyncperiodseconds) to set failover timing.\
+Lower values trigger faster failover but may cause unwanted failovers if the Kubernetes API server is slow to respond.\
+Higher values slow down failover.\
+A longer setting also increases the risk that an isolated primary continues to accept writes when it should not, which can lead to lost data before Patroni demotes it.
+
+| Value type | Example |
+| ---------- | ------- |
+| int        | `30`    |
 
 ### `patroni.dynamicConfiguration`
 
@@ -23312,7 +23665,7 @@ Specify the [command line options supported by `pgBackRest` :octicons-external-l
 
 | Value type | Example                                                                                 |
 | ---------- | --------------------------------------------------------------------------------------- |
-| string     | `--type=time` `--target=YYYY-MM-DD HH:MM:DD +00` `--set=20240628-074416F` (backup name) |
+| string     | `--type=time` `--target=YYYY-MM-DD HH:MM:SS +00` `--set=20240628-074416F` (backup name) |
 
 To restore from a specific backup, use the `--set` option with the backup label. You can find the backup label in the `status.backupName` field of the `PerconaPGBackup` resource. For the full restore workflow, see [Restore to the same cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-restore-inplace.html) or [Restore to a new cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-clone.html). For point-in-time recovery, see [Point-in-time recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-pitr.html).
 

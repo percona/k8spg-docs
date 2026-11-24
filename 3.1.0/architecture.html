@@ -5178,14 +5178,14 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshoot-operator.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5206,14 +5206,14 @@
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5382,6 +5382,34 @@
     
   
     Reinitialize replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
   
 
     
@@ -7036,7 +7064,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h4 id="pod-distribution">Pod distribution<a data-markdown-ignore class="headerlink" href="#pod-distribution" title="Permanent link">¶</a></h4>
 <p>The Operator uses <a href="https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity">node affinity and anti-affinity <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> to distribute PostgreSQL instances across separate worker nodes when possible. This prevents a single node failure from taking down multiple database instances.</p>
 <h4 id="automatic-recovery">Automatic recovery<a data-markdown-ignore class="headerlink" href="#automatic-recovery" title="Permanent link">¶</a></h4>
-<p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="ha-deploy.html">High-availability</a>.</p>
+<p>If a node fails, Kubernetes automatically reschedules the affected Pod on another healthy node. Patroni handles which PostgreSQL instance is primary and ensures replication continuity. For more on HA behavior and operations, see <a href="ha-deploy.html">High-availability</a>. For exactly what happens during a failure, how long recovery takes, and what you can lose, see <a href="debug-failover.html">Failover and recovery</a>.</p>
 <h4 id="services-that-clients-connect-to">Services that clients connect to<a data-markdown-ignore class="headerlink" href="#services-that-clients-connect-to" title="Permanent link">¶</a></h4>
 <p>The Operator creates several Kubernetes Services for each cluster. The following table uses <code>cluster1</code> as the cluster name:</p>
 <table>
@@ -7113,7 +7141,7 @@ node, thereby ensuring data continuity.</p>
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 14, 2026 13:18:18 UTC">October 14, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 24, 2026 13:45:16 UTC">November 24, 2026</span>
       
         <br>
         Created:

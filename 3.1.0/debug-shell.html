@@ -4,7 +4,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="If you want to examine the contents of a container “in place” using remote access to it, you can use the kubectl exec command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.">
+        <meta name="description" content="Use kubectl exec to run a command in a container or to open an interactive shell. The container must be in the Running state. A shell session works when the container image includes a shell.">
       
       
         <meta name="author" content="Percona LLC">
@@ -147,7 +147,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#exec-into-the-containers" class="md-skip">
+        <a href="#exec-into-the-container" class="md-skip">
           Skip to content
         </a>
       
@@ -5014,14 +5014,14 @@
   
   
     <li class="md-nav__item">
-      <a href="troubleshoot-operator.html" class="md-nav__link">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5042,14 +5042,14 @@
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5107,6 +5107,24 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Exec into the container
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="debug-shell.html" class="md-nav__link md-nav__link--active">
         
   
@@ -5123,6 +5141,69 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#set-the-pod-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set the Pod name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run a command
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#print-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Print logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open a shell
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -5228,6 +5309,34 @@
     
   
     Reinitialize replicas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="troubleshoot-operator.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
   
 
     
@@ -6674,6 +6783,58 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#set-the-pod-name" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Set the Pod name
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#run-a-command" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Run a command
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#print-logs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Print logs
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#open-a-shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Open a shell
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -6705,51 +6866,96 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 
 
-<h1 id="exec-into-the-containers">Exec into the containers<a data-markdown-ignore class="headerlink" href="#exec-into-the-containers" title="Permanent link">¶</a></h1>
-<p>If you want to examine the contents of a container “in place” using remote access to it, you can use the <code>kubectl exec</code> command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.</p>
-<p>In the following examples we will access the container <code>database</code> of the <code>cluster1-instance1-b5mr-0</code> Pod.</p>
-<ul>
-<li>
-<p>Run <code>date</code> command:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
+<h1 id="exec-into-the-container">Exec into the container<a data-markdown-ignore class="headerlink" href="#exec-into-the-container" title="Permanent link">¶</a></h1>
+<p>Use <code>kubectl exec</code> to run a command in a container or to open an interactive shell. The container must be in the <code>Running</code> state. A shell session works when the container image includes a shell.</p>
+<p>The examples use the <code>database</code> container on a PostgreSQL instance Pod. Replace <code>cluster1</code> with your cluster name.</p>
+<h2 id="set-the-pod-name">Set the Pod name<a data-markdown-ignore class="headerlink" href="#set-the-pod-name" title="Permanent link">¶</a></h2>
+<p>Export the name of an instance Pod. The commands on this page use <code>$POD</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>pods<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>cluster1,postgres-operator.crunchydata.com/data<span class="o">=</span>postgres<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.items[0].metadata.name}'</span><span class="k">)</span>
+<span class="nb">echo</span><span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-b5mr-0
+</code></pre></div>
+</details>
+<p>This selects the first instance Pod. Set <code>POD</code> to another instance Pod name when you need a specific Pod.</p>
+<h2 id="run-a-command">Run a command<a data-markdown-ignore class="headerlink" href="#run-a-command" title="Permanent link">¶</a></h2>
+<p>Run <code>date</code> in the <code>database</code> container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>date
 </code></pre></div>
 <details class="example">
 <summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>Wed Jun 14 11:18:47 UTC 2023
 </code></pre></div>
 </details>
-<p>You will see an error if the command is not present in a container. For
-example, trying to run the <code>time</code> command, which is not present in the
-container, by executing <code>kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- time</code>
-would show the following result:</p>
+<p>Exec fails when the command is not in the container image. The <code>time</code> command is not in the <code>database</code> container:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="nb">time</span>
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
 <div class="no-copy highlight"><pre><span></span><code>OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
 </code></pre></div>
-</li>
+</details>
+<h2 id="print-logs">Print logs<a data-markdown-ignore class="headerlink" href="#print-logs" title="Permanent link">¶</a></h2>
+<p>How you print logs depends on whether <a href="persistent-logging.html">persistent logging</a> is enabled. The log directory is <code>/pgdata/pg&lt;major-version&gt;/log</code>. The examples use PostgreSQL 18. The shell inside the container expands the <code>*</code> in the file name, so the command runs <code>cat</code> through <code>bash -c</code>.</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">Persistent logging off</label><label for="__tabbed_1_2">Persistent logging on</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<p>Print the PostgreSQL server log files from the <code>database</code> container. File names match <code>postgresql-*.log</code>.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash<span class="w"> </span>-c<span class="w"> </span><span class="s1">'cat /pgdata/pg18/log/postgresql-*.log'</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<p>PostgreSQL and pgBackRest keep logs on the instance data volume, and the <code>logs</code> sidecar streams them. The files remain available after a Pod restart.</p>
+<p>Read the stream from the <code>logs</code> container. See <a href="debug-logs.html">Check the logs</a> for more <code>kubectl logs</code> options.</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>logs<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>logs
+</code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="open-a-shell">Open a shell<a data-markdown-ignore class="headerlink" href="#open-a-shell" title="Permanent link">¶</a></h2>
+<p>Open a shell in the <code>database</code> container and run commands there:</p>
+<ol>
 <li>
-<p>Print log files to a terminal:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>cat<span class="w"> </span>/pgdata/pg16/log/postgresql-*.log
+<p>Start the shell:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span><span class="s2">"</span><span class="nv">$POD</span><span class="s2">"</span><span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
 </code></pre></div>
 </li>
 <li>
-<p>Similarly, opening an Interactive terminal, executing a pair of commands in
-    the container, and exiting it may look as follows:</p>
-<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-ti<span class="w"> </span>cluster1-instance1-b5mr-0<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span>bash
-bash-4.4$<span class="w"> </span>hostname
-cluster1-pxc-0
-bash-4.4$<span class="w"> </span>ls<span class="w"> </span>/pgdata/pg16/log/
-postgresql-Wed.log
-bash-4.4$<span class="w"> </span><span class="nb">exit</span>
-<span class="nb">exit</span>
-$
+<p>Print the hostname:</p>
+<div class="highlight"><pre><span></span><code>hostname
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>cluster1-instance1-b5mr-0
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>List the log files:</p>
+<div class="highlight"><pre><span></span><code>ls<span class="w"> </span>/pgdata/pg18/log/
+</code></pre></div>
+<details class="example">
+<summary>Expected output</summary>
+<div class="no-copy highlight"><pre><span></span><code>postgresql-Wed.log
+</code></pre></div>
+</details>
+</li>
+<li>
+<p>Leave the shell:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">exit</span>
 </code></pre></div>
 </li>
-</ul>
+</ol>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 18, 2025 13:47:34 UTC">November 18, 2025</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 24, 2026 13:45:16 UTC">November 24, 2026</span>
       
         <br>
         Created:

@@ -23,6 +23,8 @@ By default, the cluster uses **asynchronous replication**: the primary sends cha
 
 **Synchronous replication** is also supported: the primary waits for at least one standby to acknowledge the data before committing. That reduces the risk of data loss and can add latency on writes. See [Configure synchronous replication](#configure-synchronous-replication).
 
+See [Failover and recovery](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/debug-failover.html) for the recovery time and data-loss window of each failure scenario under both replication modes, before you choose.
+
 ## Size your high availability cluster
 
 - **Minimum:** 2 PostgreSQL members can provide basic failover, but either loss hurts availability and data safety. This size does not give strong protection against split-brain style failure modes.

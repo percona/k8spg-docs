@@ -13,10 +13,10 @@
         <link rel="canonical" href="https://docs.percona.com/percona-operator-for-postgresql/3.1.0/troubleshoot-operator.html">
       
       
-        <link rel="prev" href="image-query.html">
+        <link rel="prev" href="reinit.html">
       
       
-        <link rel="next" href="debug.html">
+        <link rel="next" href="operator.html">
       
       
         
@@ -5011,44 +5011,17 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Troubleshoot Operator installation issues
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="troubleshoot-operator.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="debug.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Troubleshoot Operator installation issues
+    Initial troubleshooting
   
 
     
@@ -5057,70 +5030,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
-      
-        <li class="md-nav__item">
-  <a href="#check-connection-to-kubernetes-cluster" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Check connection to Kubernetes cluster
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshoot-operator-installation-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshoot Operator installation issues
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#troubleshooting-database-cluster-issues" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Troubleshooting database cluster issues
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#profiling-the-operator-with-pprof" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Profiling the Operator with pprof
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -5133,14 +5042,14 @@
   
   
     <li class="md-nav__item">
-      <a href="debug.html" class="md-nav__link">
+      <a href="debug-failover.html" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Initial troubleshooting
+    Failover and recovery
   
 
     
@@ -5317,6 +5226,125 @@
   
 
       </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="troubleshoot-operator.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshoot Operator installation issues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+      
+        <li class="md-nav__item">
+  <a href="#check-connection-to-kubernetes-cluster" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check connection to Kubernetes cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshoot-operator-installation-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshoot Operator installation issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#troubleshooting-database-cluster-issues" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Troubleshooting database cluster issues
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#profiling-the-operator-with-pprof" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Profiling the Operator with pprof
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -6920,8 +6948,8 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
 <p>Check the status of the database cluster</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
 </code></pre></div>
-<p>The cluster should typically be in the <code>Running</code> state. It may briefly enter the <code>initializing</code> state while reconciling changes. If the cluster remains in the <code>initializing</code> state for an extended period, investigate further to identify any underlying issues.</p>
-<p>Additionally, you can describe the database cluster and search for the information in the <code>State</code> and <code>State Description</code> fields:</p>
+<p>The cluster should typically be in the <code>ready</code> state. It may briefly enter the <code>initializing</code> state while reconciling changes. If the cluster remains in the <code>initializing</code> state for an extended period, investigate further to identify any underlying issues.</p>
+<p>Additionally, you can describe the database cluster and check the <code>State</code> field and the <code>Conditions</code> list in the <code>Status</code> section. Each condition has a reason and a message that explain what isn’t ready. See <a href="cr-statuses.html">Custom resource statuses</a> for details:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>describe<span class="w"> </span>pg<span class="w"> </span>&lt;database-cluster-name&gt;
 </code></pre></div>
 </li>
@@ -7013,7 +7041,7 @@ https://docs.percona.com/percona-operator-for-mongodb/index.html
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="March 24, 2026 08:39:48 UTC">March 24, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 24, 2026 13:45:16 UTC">November 24, 2026</span>
       
         <br>
         Created:
