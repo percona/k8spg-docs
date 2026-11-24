@@ -1,6 +1,6 @@
 # Failover and recovery
 
-This page describes what happens to a Percona Distribution for PostgreSQL cluster managed by the Operator when a component fails, how long writes are unavailable, and what data you can lose. Use it in two ways:
+This page describes what happens to a Percona Distribution for PostgreSQL cluster managed by the Operator when a component fails, how long writes are unavailable, and which acknowledged writes you can lose. Use it in two ways:
 
 * **During an incident:** find your scenario in the [summary table](#summary), check whether recovery is automatic, and follow the scenario's **Act** steps if it is not.
 * **For high-availability planning:** read the scenario details to understand the expected downtime and data-loss window before you choose replication mode, client timeouts, and Pod placement.
@@ -12,26 +12,26 @@ Most of the recovery times in this guide come down to one setting: `patroni.lead
 | Scenario | Recovery | Write outage | Acknowledged writes lost |
 | --- | --- | --- | --- |
 | [Primary Pod deleted](#primary-pod-deleted), or [with the Operator down](#primary-pod-deleted-with-the-operator-down) | Automatic, Operator not required | ~13 s direct, ~7 s through pgBouncer (~9 s / ~6 s if the Operator is also down) | None |
-| [PostgreSQL process crashes](#postgresql-crash) | Automatic, no failover | ~5 s | None |
+| [PostgreSQL process crashes](#postgresql-crash) | Automatic, no failover | ~5–10 s direct, ~15–20 s through pgBouncer | None |
 | [Planned switchover](#planned-switchover) | You trigger it, automatic execution | ~8 s direct, ~16 s through pgBouncer | None |
-| [Node hosting the primary powered off](#node-hosting-the-primary-is-powered-off) | Automatic | ~28 s, about one leader-lease duration | None expected, possible under asynchronous replication |
+| [Node hosting the primary powered off](#node-hosting-the-primary-is-powered-off) | Automatic | ~45 s direct, ~55 s through pgBouncer (a replica promotes after ~30–35 s) | None expected, possible under asynchronous replication |
 | [Primary Pod network-partitioned](#network-partition) | Automatic | ~33 s direct; through pgBouncer, as long as the partition lasts unless the client has its own timeout | Yes, writes the isolated primary acknowledged just before it demotes itself |
 | [Node's kubelet loses the Kubernetes API server](#node-loses-the-kubernetes-api-server) | No impact while disconnected; failover on reconnection if eviction is pending | None while disconnected; ~9 s on reconnection if the eviction toleration elapsed | None |
 | [Node with the primary and the repo host lost](#node-with-the-primary-and-the-repo-host-lost) | Automatic, but promotion can stall | ~95 s, about three times an ordinary node loss | None from the stall itself |
 | [Primary PostgreSQL frozen](#frozen-primary) | Automatic | ~35 s direct, ~41 s through pgBouncer | Possible, writes acknowledged right before the freeze |
 | [Node permanently lost](#permanent-node-loss) | Usually automatic; manual in one specific case | ~100 s automatic; ~67 s once you act, if you act in the right order | Possible, see the scenario for details |
 
-"Write outage" is the time from the failure to the first successful `COMMIT` on the new primary, for a client that reconnects on error. "Acknowledged writes lost" means a transaction's `COMMIT` returned success to the client, but the write is missing after recovery.
+"Write outage" is the time from the failure to the first successful `COMMIT` on the new primary, for a client that reconnects on error. "Acknowledged writes lost" means a transaction's `COMMIT` returned success to the client, but the write is missing after recovery. Writes that fail or time out during the outage were never acknowledged, so they don't count as lost. Your application has to retry them.
 
 ## How failover works
 
 This workflow explains why every scenario in this guide behaves the way it does.
 
-* **Patroni, not the Operator, decides which instance is the primary.** Each database Pod runs Patroni. Patroni stores the leader lock in the annotations of the `<cluster-name>-ha` Kubernetes Endpoints object, so the Kubernetes API server is its distributed configuration store (DCS).
-* **The leader lock expires after `patroni.leaderLeaseDurationSeconds`** (Patroni `ttl`, default `30`). The primary renews the lock every `patroni.syncPeriodSeconds` (Patroni `loop_wait`, default `10`). When the primary disappears without releasing the lock, replicas wait for the lock to expire before one promotes itself. This is why every *unplanned* failover on this page takes about one lease duration. See [`patroni.leaderLeaseDurationSeconds`](operator.md#patronileaderleasedurationseconds).
+* **Patroni, not the Operator, decides which instance is the primary.** Each database Pod runs Patroni. Patroni stores the leader lock in the annotations of the `<cluster-name>-ha` Kubernetes Endpoints object, which serves as is its distributed configuration store (DCS).
+* **The leader lock expires after `patroni.leaderLeaseDurationSeconds`** (Patroni `ttl`, default `30`). The primary renews the lock every `patroni.syncPeriodSeconds` (Patroni `loop_wait`, default `10`). When the primary disappears without releasing the lock, replicas wait for the lock to expire before one promotes itself. This is why every *unplanned* failover on this page takes about one lease duration plus up to 10 s before Kubernetes routes new connections to the new primary. See [`patroni.leaderLeaseDurationSeconds`](operator.md#patronileaderleasedurationseconds).
 * **A primary that can't reach the Kubernetes API demotes itself.** If the primary can't renew the lock, Patroni demotes it to read-only after its own retry timeout (about 10 seconds by default). This happens well before the lock actually expires and a replica takes over. It prevents two writable primaries at once.
 * **Clients reach the primary through the `<cluster-name>-ha` Service.** Patroni updates that Service's Endpoints directly. A Pod's Kubernetes readiness state does not route traffic to the primary. `<cluster-name>-primary` and pgBouncer both resolve to the same `<cluster-name>-ha` Service underneath.
-* **Replication is asynchronous by default.** The primary acknowledges a `COMMIT` before any replica has the data. Whatever it acknowledged but hadn't yet streamed is lost when a replica takes over. To trade write latency for zero loss of acknowledged writes on failover, turn on [synchronous replication](ha-deploy.md#configure-synchronous-replication).
+* **Replication is asynchronous by default.** The primary acknowledges a `COMMIT` before any replica has the data. Whatever it acknowledged but hadn't yet streamed is lost when a replica takes over. To trade write latency for zero loss of acknowledged writes on failover, turn on [synchronous replication](ha-deploy.md#configure-synchronous-replication). Note that this affects performance because of higher write latency and lower write throughput.
 * **The Operator is not in the failover path.** If the Operator is down, Patroni still fails over on its own, and the StatefulSet controller still recreates deleted Pods.
 
 ## Check the cluster state during an incident
@@ -67,7 +67,7 @@ Run these first, whatever the scenario. Replace `<namespace>` and `cluster1` wit
 
 ## Primary Pod lost or switched over
 
-**Automatic once triggered. No data lost.**
+**Automatic once triggered. No acknowledged writes lost.**
 
 Patroni demotes the old primary and promotes a replica right away. It never waits for the leader lock to expire, which makes this the fastest recovery on this page. Three things trigger it:
 
@@ -78,8 +78,7 @@ Kubernetes sends `SIGTERM` to the Pod. The StatefulSet controller, not the Opera
 ### Primary Pod deleted with the Operator down
 
 Failover works the same way because Patroni and the StatefulSet controller do
-not need the Operator. Recovery is about 9 seconds direct and about 6 seconds
-through pgBouncer. While the Operator is down, the PerconaPGCluster status is
+not need the Operator. Recovery is the same as an ordinary Pod deletion: about 12 seconds direct and up to about 17 seconds through pgBouncer. While the Operator is down, the PerconaPGCluster status is
 not refreshed and can report a stale `ready` state. Restore the Operator to
 resume reconciliation and status updates.
 
@@ -87,19 +86,30 @@ resume reconciliation and status updates.
 
 You ask the Operator to move the primary role to a specific replica. See [Change the PostgreSQL primary instance](change-primary.md) for the procedure. Direct clients recover in about 8 seconds. pgBouncer recovers more slowly, about 16 seconds, because it caches a failed server login for `server_login_retry` seconds (15 by default) and returns `server login has been failing` to new connections until that passes.
 
+!!! warning "A pgBouncer Pod can stay on the demoted primary"
+
+    After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. Find the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:
+
+    ```bash
+    kubectl get pods -n <namespace> \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
+
+    kubectl delete pod <pgbouncer-pod-name> -n <namespace>
+    ```
+
 **Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident).
 `patronictl list` shows the new or target Pod as `Leader`. Check Pod readiness
 directly while the Operator is down because the custom resource status can be
 stale. After restoring the Operator, confirm that `kubectl get pg` reports
 `ready`.
 
-**Act:** nothing needed for an involuntary Pod loss. After a planned switchover, set `patroni.switchover.enabled` back to `false`. If the Operator is down, restore its Deployment when you can; it's needed for configuration changes, backups, and scaling, not for failover.
+**Act:** nothing needed for an involuntary Pod loss. After a planned switchover, delete any pgBouncer Pod that stays on the demoted primary, and set `patroni.switchover.enabled` back to `false`. If the Operator is down, restore its Deployment when you can; it's needed for configuration changes, backups, and scaling, not for failover.
 
-**What you can lose:** nothing. The clean shutdown or demotion always streams all WAL to the replicas first.
+**What you can lose:** no acknowledged writes. The clean shutdown or demotion always streams all WAL to the replicas first.
 
 ## PostgreSQL crash
 
-**Automatic. No failover, no data lost.**
+**Automatic. No failover. No acknowledged writes lost.**
 
 If the `postgres` process dies but the Pod and Patroni stay up, Patroni restarts PostgreSQL in place and runs crash recovery. The same Pod keeps the leader lock the whole time, so there's no failover at all. Writes resume in about 5 seconds, on the same Pod, whether the client connects directly or through pgBouncer.
 
@@ -107,7 +117,7 @@ If the `postgres` process dies but the Pod and Patroni stay up, Patroni restarts
 
 **Act:** nothing needed. If it keeps crashing, check the PostgreSQL logs. See [Check the logs](debug-logs.md).
 
-**What you can lose:** nothing. Crash recovery replays the WAL, so every acknowledged commit survives.
+**What you can lose:** no acknowledged writes. Crash recovery replays the WAL, so every acknowledged commit survives.
 
 ## Node hosting the primary is powered off
 
@@ -157,13 +167,13 @@ If only the kubelet on the primary's node loses its connection to the Kubernetes
 * If the kubelet reconnects within about 5 minutes of the node going `NotReady`, nothing happens. There's no failover at all.
 * If the outage runs longer than that, expect a failover the moment the kubelet reconnects, on top of however long the outage itself ran. To choose that moment yourself instead, do a [planned switchover](#planned-switchover) to a replica on a healthy node before you restore the node's connectivity.
 
-**What you can lose:** nothing. When the delayed failover happens, it's a clean shutdown, just like deleting the primary Pod.
+**What you can lose:** no acknowledged writes. When the delayed failover happens, it's a clean shutdown, just like deleting the primary Pod.
 
 ## Node with the primary and the repo host lost
 
 **Automatic, but promotion can stall.**
 
-Losing the lock works the same as any other power-off: a replica takes over the leader lock in about 32-34 seconds, consistent with the default lease. But if that node also hosted your pgBackRest repo host, the new primary's promotion needs to replay WAL via `restore_command`, which tries the now-unreachable repo first and only falls back to another configured repository after its own connection-timeout default (60 seconds). With a single repository configured, there's nowhere to fall back to, and promotion stalls until that 60-second timeout passes. This is the one scenario on this page where the lease duration alone doesn't predict recovery time. Write access actually returns about 95 seconds after the node goes down, roughly three times as long as an ordinary node loss. A pgBouncer client with no query timeout gets no error at all until that resolves.
+Losing the lock works the same as any other power-off: a replica takes over the leader lock in about 32-34 seconds, consistent with the default lease. But if that node also hosted your pgBackRest repo host, the new primary's promotion needs to replay WAL via the `restore_command`, which tries the now-unreachable repo first and only falls back to another configured repository after the o`archive-timeout` (60 seconds by default). With a single repository configured, there's nowhere to fall back to, and promotion stalls until that 60-second timeout passes. This is the one scenario on this page where the lease duration alone doesn't predict recovery time. Write access actually returns about 95 seconds after the node goes down, roughly three times as long as an ordinary node loss. A pgBouncer client with no query timeout gets no error at all until that resolves.
 
 **Confirm:** run the [cluster state checks](#check-the-cluster-state-during-an-incident), plus `pgbackrest info` (or the cluster's backup status) once the repo host Pod is back, to confirm archiving has caught up.
 
@@ -217,6 +227,14 @@ The Pod can get stuck in `Terminating` when the node disappears *without* a clea
 6. Wait for the Operator to rebuild the instance from backup, about a minute for a replica. Confirm with the [cluster state checks](#check-the-cluster-state-during-an-incident).
 
 The same two steps work for the repo host Pod specifically. The Operator recreates its pgBackRest stanza on its own. No manual `pgbackrest stanza-create` is needed. Expect the stanza back within about a minute and a full backup completing shortly after.
+
+Then check the backup. Run `pgbackrest info` from any database Pod:
+
+```bash
+kubectl exec -n <namespace> <pod-name> -c database -- pgbackrest --stanza=db info
+```
+
+The stanza reports `status: ok`. It lists no backup until the new full backup completes, so run the command again after a few minutes to see it.
 
 **What you can lose:** if the repo host is the Pod that was lost and rebuilt, its existing backup history doesn't survive. If it was your only repository, you have no backups until the next scheduled one completes. Configure more than one repository, with at least one in object storage, so losing a node never costs you backup continuity.
 

@@ -1,71 +1,112 @@
-# Exec into the containers
+# Exec into the container
 
-If you want to examine the contents of a container "in place" using remote access to it, you can use the `kubectl exec` command. It allows you to run any command or just open an interactive shell session in the container. Of course, you can have shell access to the container only if container supports it and has a “Running” state.
+Use `kubectl exec` to run a command in a container or to open an interactive shell. The container must be in the `Running` state. A shell session works when the container image includes a shell.
 
-In the following examples we will access the container `database` of the `cluster1-instance1-b5mr-0` Pod.
+The examples use the `database` container on a PostgreSQL instance Pod. Replace `cluster1` with your cluster name.
 
-* Run `date` command:
+## Set the Pod name
+
+Export the name of an instance Pod. The commands on this page use `$POD`.
+
+```bash
+export POD=$(kubectl get pods \
+  -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/data=postgres \
+  -o jsonpath='{.items[0].metadata.name}')
+echo "$POD"
+```
+
+??? example "Sample output"
+
+    ``` {.text .no-copy}
+    cluster1-instance1-b5mr-0
+    ```
+
+This selects the first instance Pod. Set `POD` to another instance Pod name when you need a specific Pod.
+
+## Run a command
+
+Run `date` in the `database` container:
+
+```bash
+kubectl exec -ti "$POD" -c database -- date
+```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    Wed Jun 14 11:18:47 UTC 2023
+    ```
+
+Exec fails when the command is not in the container image. The `time` command is not in the `database` container:
+
+```bash
+kubectl exec -ti "$POD" -c database -- time
+```
+
+??? example "Expected output"
+
+    ``` {.text .no-copy}
+    OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
+    ```
+
+## Print logs
+
+How you print logs depends on whether [persistent logging](persistent-logging.md) is enabled. The log directory is `/pgdata/pg<major-version>/log`. The examples use PostgreSQL 18. The shell inside the container expands the `*` in the file name, so the command runs `cat` through `bash -c`.
+
+=== "Persistent logging off"
+
+    Print the PostgreSQL server log files from the `database` container. File names match `postgresql-*.log`.
 
     ```bash
-    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- date
+    kubectl exec -ti "$POD" -c database -- bash -c 'cat /pgdata/pg18/log/postgresql-*.log'
+    ```
+
+=== "Persistent logging on"
+
+    PostgreSQL and pgBackRest keep logs on the instance data volume, and the `logs` sidecar streams them. The files remain available after a Pod restart.
+
+    Read the stream from the `logs` container. See [Check the logs](debug-logs.md) for more `kubectl logs` options.
+
+    ```bash
+    kubectl logs "$POD" -c logs
+    ```
+
+## Open a shell
+
+Open a shell in the `database` container and run commands there:
+
+1. Start the shell:
+
+    ```bash
+    kubectl exec -ti "$POD" -c database -- bash
+    ```
+
+2. Print the hostname:
+
+    ```bash
+    hostname
     ```
 
     ??? example "Expected output"
 
         ``` {.text .no-copy}
-        Wed Jun 14 11:18:47 UTC 2023
+        cluster1-instance1-b5mr-0
         ```
 
-    You will see an error if the command is not present in a container. For
-    example, trying to run the `time` command, which is not present in the
-    container, by executing `kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- time`
-    would show the following result:
-    
-    ``` {.text .no-copy}
-    OCI runtime exec failed: exec failed: unable to start container process: exec: "time": executable file not found in $PATH: unknown command terminated with exit code 126
-    ```
-
-* Print log files to a terminal. The log directory is `/pgdata/pg<major-version>/log`. The examples use PostgreSQL 18:
+3. List the log files:
 
     ```bash
-    kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- cat /pgdata/pg18/log/postgresql-*.log
+    ls /pgdata/pg18/log/
     ```
 
-* Similarly, you can open an interactive shell in the container and execute the commands there:
+    ??? example "Expected output"
 
-    1. Start the shell:
-
-        ```bash
-        kubectl exec -ti cluster1-instance1-b5mr-0 -c database -- bash
+        ``` {.text .no-copy}
+        postgresql-Wed.log
         ```
 
-    2. Print the host name:
+4. Leave the shell:
 
-        ```bash
-        hostname
-        ```
-
-        ??? example "Expected output"
-
-            ``` {.text .no-copy}
-            cluster1-instance1-b5mr-0
-            ```
-
-    3. List the log files:
-
-        ```bash
-        ls /pgdata/pg18/log/
-        ```
-
-        ??? example "Expected output"
-
-            ``` {.text .no-copy}
-            postgresql-Wed.log
-            ```
-
-    4. Leave the shell:
-
-        ```bash
-        exit
-        ```
-
+    ```bash
+    exit
+    ```

@@ -2828,7 +2828,7 @@ file contains configuration options to customize the PostgreSQL high-availabilit
 
 ### `patroni.syncPeriodSeconds`
 
-How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni's [`loop_wait`  :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) setting, in seconds. The Operator uses [Kubernetes Endpoints as the DCS  :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/kubernetes.html). The Operator also reuses this value as the `periodSeconds` for the patroni container's liveness and readiness probes.
+How often Patroni runs its main loop to synchronize cluster state with the distributed configuration store (DCS). This matches Patroni's [`loop_wait` :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/dynamic_configuration.html) setting, in seconds. The Operator uses [Kubernetes Endpoints as the DCS  :octicons-link-external-16:](https://patroni.readthedocs.io/en/latest/kubernetes.html). The Operator also reuses this value as the `periodSeconds` for the database container's liveness and readiness probes.
 
 The value be less than [`patroni.leaderLeaseDurationSeconds`](#patronileaderleasedurationseconds).
 
