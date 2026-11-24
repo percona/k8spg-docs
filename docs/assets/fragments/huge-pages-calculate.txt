@@ -1,0 +1,7 @@
+1. Add a margin of 1% to `shared_memory_size`, at least 4 MiB. The margin covers small differences between PostgreSQL minor versions.
+2. Divide the result by your huge page size in MiB, 2 for 2 MiB pages or 1024 for 1 GiB pages, and round up to a whole page.
+3. Multiply the number of pages by the page size.
+
+For example, 787 MiB plus 1% is 794.9 MiB. Divided by 2 and rounded up, that's 398 pages of 2 MiB, so the request is `hugepages-2Mi: 796Mi`.
+
+Compare the request with the free huge pages you noted in [Check that nodes expose huge pages](#check-that-nodes-expose-huge-pages). Every node that can run a PostgreSQL Pod needs at least that many free huge pages. If a node has less, reserve more huge pages on it before you continue.
