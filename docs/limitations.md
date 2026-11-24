@@ -118,12 +118,12 @@ This limitation applies whenever you reuse PostgreSQL data files on an image tha
 
 --8<-- "glibc-collation-limitation.txt"
 
-To find out if your images differ, follow [Compare OS, glibc, and ICU](migrate-checklist.md#compare-os-glibc-and-icu). To find and repair the affected objects, see [Decide what to do if the libraries differ](migrate-checklist.md#decide-what-to-do-if-the-libraries-differ).
+To find out whether the change affects the locales your databases use, follow [Assess the collation risk](migrate-checklist.md#assess-the-collation-risk) for a migration, or the same step on the [minor](update-db-minor.md#assess-the-collation-risk) and [major](update-db-major.md#assess-the-collation-risk) upgrade pages. If a locale you use changed, [repair the affected objects](migrate-checklist.md#repair-the-affected-objects) before applications connect.
 
 ## Upgrades
 
 * A major database upgrade introduces a downtime because the whole cluster is shut down.
-* If the new image ships a different `glibc` build, the collation rules can change and the existing indexes can return wrong results. Find and repair the affected objects after the upgrade. See [glibc collation changes between images](#glibc-collation-changes-between-images).
+* If the new image ships a different `glibc` build, the sorting rules of some locales can change and the existing indexes can return wrong results. Before the upgrade, check whether the change affects the locales your databases use. See [glibc collation changes between images](#glibc-collation-changes-between-images).
 * In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](reinit.md) to ensure it starts properly and starts streaming data from the primary.
 * PostGIS extension is not updated automatically after the database update. You must [manually update](update-extensions.md#upgrade-postgis-extension) it for each database where it is enabled.
 * `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](update-db-major.md#post-upgrade-steps) it manually for each database where it is installed. 

@@ -597,9 +597,9 @@ Once the LSN value stops changing and stays the same across two consecutive chec
 
 ## Repair collation-affected objects if the glibc builds differ
 
-Skip this section if the `glibc` output was the same for the Crunchy and the Percona images.
+Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
 
-The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Decide what to do if the libraries differ](migrate-checklist.md#decide-what-to-do-if-the-libraries-differ) for all the kinds of affected objects. [The Percona blog :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) describes them and the order of the repair.
+The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair the affected objects](migrate-checklist.md#repair-the-affected-objects).
 
 ## Take a post-migration backup 
 

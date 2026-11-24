@@ -111,33 +111,17 @@ Run these commands against the source Crunchy Pod. Repeat them against the targe
 
 --8<-- "check-os-glibc.txt"
 
-### Check ICU library version
+### Assess the collation risk
 
-PostgreSQL may also use ICU for collations. Check the locale provider in each database:
+Run the queries against the source Crunchy cluster.
 
-```sql
-  SELECT datname, datlocprovider, datcollversion FROM pg_database;
-```
-
-??? example "Sample output"
-    
-    ```text
-      datname  | datlocprovider | datcollversion
-    -----------+----------------+----------------
-    postgres  | c              | 2.34
-    template1 | c              | 2.34
-    template0 | c              |
-    cluster1  | c              | 2.34
-    (4 rows)
-    ```
-
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
+--8<-- "collation-assess.txt"
 
 ### Decide what to do if the libraries differ
 
-If the `glibc` output is the same for the source and the target, and the ICU libraries match, continue with the next checks.
+If the assessment shows that no locale you use changed, continue with the next checks.
 
-If either library differs, all three migration methods carry the risk. Each of them reuses the indexes that the Crunchy image built. Before you point any application to the new cluster, find the objects that the collation change affects and repair them. The blog post [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) provides detailed information on how to find and repair the affected objects.
+If a locale you use changed, or you can't confirm that it didn't, all three migration methods carry the risk. Each of them reuses the indexes that the Crunchy image built. Before you point any application to the new cluster, [repair the affected objects](#repair-the-affected-objects).
   
 !!! important
 
@@ -153,6 +137,11 @@ When to run the steps depends on the migration method:
 | Backup and restore | After the restore completes and before you point applications to the new cluster |
 | Reusing data volumes | After the Percona cluster starts and before you point applications to it |
 
+### Repair the affected objects
+
+Run these steps on the primary of the Percona cluster. For when to run them, see the table in [Decide what to do if the libraries differ](#decide-what-to-do-if-the-libraries-differ).
+
+--8<-- "collation.txt"
 
 ## Compare extensions
 

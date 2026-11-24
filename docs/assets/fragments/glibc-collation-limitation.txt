@@ -2,7 +2,9 @@ PostgreSQL sorts and compares text using the locale data of the operating system
 
 Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a `glibc` build with such a change.
 
-PostgreSQL has no way to detect an incompatible `glibc` update. The collation version that PostgreSQL records is the upstream `glibc` version, so it doesn't show a change in the package build. Plan any move of data files between images with care.
+Most `glibc` updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the `C` or `POSIX` locale, or the PostgreSQL built-in locale provider, aren't affected.
+
+PostgreSQL records the upstream `glibc` version of each collation and warns when it changes. It can't see a change in the package build, and it can't tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.
 
 If the collation changes affect an index, you can see:
 
@@ -14,4 +16,4 @@ If the collation changes affect an index, you can see:
 
 The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.
 
-For more details, see the Percona blog [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) and the PostgreSQL wiki page [Locale data changes :octicons-link-external-16:](https://wiki.postgresql.org/wiki/Locale_data_changes).
+For more details, see the PostgreSQL wiki page [Locale data changes :octicons-link-external-16:](https://wiki.postgresql.org/wiki/Locale_data_changes). For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/), published in November 2026.

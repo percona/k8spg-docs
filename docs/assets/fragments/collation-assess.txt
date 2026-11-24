@@ -1,0 +1,64 @@
+A `glibc` change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.
+
+1. If the `glibc` build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don't change.
+
+2. [Connect to PostgreSQL](connect.md) and list the default locale and locale provider of each database:
+
+    ```sql
+    SELECT datname, datlocprovider, datcollate, datcollversion
+    FROM pg_database
+    WHERE datallowconn;
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+          datname  | datlocprovider | datcollate  | datcollversion
+        -----------+----------------+-------------+----------------
+         postgres  | c              | en_US.UTF-8 | 2.34
+         template1 | c              | en_US.UTF-8 | 2.34
+         cluster1  | c              | en_US.UTF-8 | 2.34
+        ```
+
+    The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn't depend on `glibc` or ICU.
+
+3. In every database, list the locales that columns and indexes use. A column or an index can set its own collation that differs from the database default:
+
+    ```sql
+    SELECT DISTINCT
+        CASE WHEN c.collprovider = 'd' THEN 'default' ELSE c.collname END AS collation,
+        c.collprovider,
+        CASE WHEN c.collprovider = 'd'
+             THEN (SELECT datcollate FROM pg_database WHERE datname = current_database())
+             ELSE c.collcollate END AS locale
+    FROM (
+        SELECT a.attcollation AS coll
+        FROM pg_attribute a
+        JOIN pg_class r ON r.oid = a.attrelid
+        WHERE a.attnum > 0
+          AND NOT a.attisdropped
+          AND r.relnamespace NOT IN ('pg_catalog'::regnamespace, 'information_schema'::regnamespace)
+        UNION
+        SELECT unnest(indcollation::oid[]) FROM pg_index
+    ) u
+    JOIN pg_collation c ON c.oid = u.coll
+    WHERE c.collname NOT IN ('C', 'POSIX');
+    ```
+
+    ??? example "Sample output"
+
+        ```{.text .no-copy}
+         collation | collprovider |   locale
+        -----------+--------------+-------------
+         default   | d            | en_US.UTF-8
+         sv        | c            | sv_SE.UTF-8
+        ```
+
+    If the query returns no rows and the database default is `C` or `POSIX`, or uses the built-in provider, this database isn't affected.
+
+4. For each `glibc` locale on your list, find out whether its sorting rules changed between the two `glibc` versions. There is no official tool that answers this. Check the `glibc` release notes and the PostgreSQL wiki page [Locale data changes :octicons-link-external-16:](https://wiki.postgresql.org/wiki/Locale_data_changes). For ICU collations, compare the ICU versions of both images.
+
+5. Decide:
+
+    * No locale on your list changed: you don't need to repair anything.
+    * A locale on your list changed, or you can't confirm that it didn't: plan downtime and repair the affected objects before applications use the cluster. Rehearse the repair on a copy of your data to learn how long it takes.

@@ -8,35 +8,19 @@ This feature is generally available starting with the Operator version 2.9.0.
 
 1. A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.
 2. During the upgrade, the Operator duplicates the data on each PVC and doesn't remove the old version data automatically. Make sure your PVC has enough free space to store data.
-3. If the new image ships a different `glibc` build, for example because it uses a different UBI major, the collation rules can change. After the upgrade, [identify and rebuild the objects](#check-collation) affected by the change. See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
+3. If the target image ships a different `glibc` build, the sorting rules of some locales can change. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
 
 ## Before you start
 
-### Check operating system and collation libraries version
+### Check operating system and glibc
 
 --8<-- "check-os-glibc.txt"
 
-### Check the locale provider in each database
+### Assess the collation risk
 
-```sql
-SELECT datname, datlocprovider, datcollversion FROM pg_database;
-```
+--8<-- "collation-assess.txt"
 
-??? example "Sample output"
-
-    ```text
-      datname  | datlocprovider | datcollversion
-    -----------+----------------+----------------
-    postgres  | c              | 2.34
-    template1 | c              | 2.34
-    template0 | c              |
-    cluster1  | c              | 2.34
-    (4 rows)
-    ```
-
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
-
-If the `glibc` build or ICU differs, rebuild the affected objects as soon as the cluster is ready and before applications use it. You can run the index scan on the current cluster beforehand to estimate the work. See [Check collation](#check-collation).
+If you need a repair, stop application traffic before you start the upgrade. The Operator starts the cluster as soon as the upgrade finishes, so applications can connect before you [repair the affected objects](#check-collation).
 
 ### Update PMM
 
@@ -90,9 +74,11 @@ During the upgrade flow, the Operator:
 
 2. A successful major upgrade invalidates existing [logical replicas](logical-replication.md). After the cluster is `ready`, [reseed](logical-replication.md#reseed-a-logical-replica) each logical replica.
 
-## Check collation
+3. If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't, [repair the affected objects](#check-collation) before applications connect.
 
-If the new image ships a different `glibc` build, for example because it uses a different UBI major, the collation rules can change. See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
+## Repair collation-affected objects { #check-collation }
+
+Do this only if the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't.
 
 --8<-- "collation.txt"
 

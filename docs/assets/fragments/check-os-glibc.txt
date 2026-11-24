@@ -26,4 +26,4 @@ kubectl run glibc-check --rm -it --restart=Never \
   rpm -q glibc
 ```
 
-Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, treat it as a collation change.
+Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.

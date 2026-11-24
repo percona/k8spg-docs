@@ -1,68 +1,71 @@
-Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner and run the following query:
+Repair only the objects that use a locale whose sorting rules changed. Keep applications disconnected until you finish. Repair in this order, because each step relies on the previous one.
 
-```sql
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
-```
+1. [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner. In every database, find the indexes that use `glibc` collations:
 
-If you see affected indexes, find the databases whose collation 
-version changed:
-
-```sql
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
-```
-
-??? example "Sample output"
-
-    ```{.text .no-copy}
-    datname   | datlocprovider | datcollate  | datcollversion
-    ----------+----------------+-------------+----------------
-    postgres  | c              | en_US.utf-8 | 2.28
-    template1 | c              | en_US.utf-8 | 2.28
-    template0 | c              | en_US.utf-8 |
-    cluster1  | c              | en_US.utf-8 | 2.28
+    ```sql
+    SELECT DISTINCT
+        s.indrelid::regclass::text AS table_name,
+        s.indexrelid::regclass::text AS index_name,
+        CASE WHEN c.collprovider = 'd'
+             THEN (SELECT datcollate FROM pg_database WHERE datname = current_database())
+             ELSE c.collcollate END AS locale,
+        pg_get_indexdef(s.indexrelid) AS index_definition
+    FROM (
+        SELECT indexrelid, indrelid, indcollation[i] AS coll
+        FROM pg_index, generate_subscripts(indcollation, 1) g(i)
+    ) s
+    JOIN pg_collation c ON c.oid = s.coll
+    WHERE c.collprovider IN ('d', 'c')
+      AND c.collname NOT IN ('C', 'POSIX')
+    ORDER BY locale, table_name, index_name;
     ```
 
-Rebuild affected indexes first. [REINDEX](https://www.postgresql.org/docs/current/sql-reindex.html) updates the index using the current collation rules:
+    ??? example "Sample output"
 
-```sql
-REINDEX INDEX CONCURRENTLY <index_name>;
-```
+        ```{.text .no-copy}
+         table_name | index_name |   locale    |                 index_definition
+        ------------+------------+-------------+--------------------------------------------------
+         t          | t_a_idx    | en_US.UTF-8 | CREATE INDEX t_a_idx ON public.t USING btree (a)
+         t          | t_b_idx    | sv_SE.UTF-8 | CREATE INDEX t_b_idx ON public.t USING btree (b)
+        ```
 
-Repeat for every affected index, or rebuild all indexes in a database with `REINDEX DATABASE <database_name>;`.
+    Repair the indexes whose locale changed. Skip the rest.
 
-A `UNIQUE` index or a primary key can fail to rebuild because the old sort order let duplicate keys in. Remove the duplicate rows and rebuild the index again.
+2. Rebuild each affected index. [REINDEX :octicons-link-external-16:](https://www.postgresql.org/docs/current/sql-reindex.html) builds the index again with the current collation rules:
 
-The steps in this section cover indexes only. A collation change can also affect partitions with text range bounds, `CHECK` constraints, stored generated columns, and materialized views, and `REINDEX` doesn't fix them. The blog [Ten ways a glibc change can break your PostgreSQL cluster :octicons-link-external-16:](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) describes how to find and repair each of them.
+    ```sql
+    REINDEX INDEX CONCURRENTLY <index_name>;
+    ```
 
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL's recorded metadata. It does not rebuild indexes created using the previous collation rules. Run it last, after you repair all the affected objects:
+    A `UNIQUE` index or a primary key fails to rebuild if the old sort order let duplicate keys in. Decide which rows to keep, remove the duplicates, and rebuild the index again.
 
-```sql
-ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
-```
+3. Repair the other objects that depend on the sort order of the changed locales. `REINDEX` doesn't fix them:
 
-This command requires the privileges of a superuser or a database owner.
-**Repeat for every affected database.**
+    | Object | What to do |
+    | ------ | ---------- |
+    | Foreign keys and `CHECK` constraints that compare text | Drop the constraint, add it again with `NOT VALID`, then run `ALTER TABLE ... VALIDATE CONSTRAINT` |
+    | Range partitions with text bounds | Find rows stored in the wrong partition, delete them from that partition, and insert them again through the parent table |
+    | Stored generated columns that compare or sort text | Recompute the values. Starting with PostgreSQL 17, use `ALTER TABLE ... ALTER COLUMN ... SET EXPRESSION` |
+    | Materialized views | Run `REFRESH MATERIALIZED VIEW` after you rebuild the indexes they depend on |
 
-Finally, update the planner statistics:
+    A constraint that fails validation points at rows that violate it under the new rules. Decide how to fix those rows.
 
-```sql
-ANALYZE;
-```
+4. Record the new collation version. `REFRESH COLLATION VERSION` only updates the metadata and doesn't repair anything, so run it last:
+
+    ```sql
+    ALTER DATABASE <database_name> REFRESH COLLATION VERSION;
+    ```
+
+    If a column or an index uses a collation other than the database default, refresh that collation too:
+
+    ```sql
+    ALTER COLLATION <collation_name> REFRESH VERSION;
+    ```
+
+    Repeat for every affected database.
+
+5. Update the planner statistics:
+
+    ```sql
+    ANALYZE;
+    ```
