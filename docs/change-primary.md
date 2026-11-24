@@ -29,7 +29,19 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         ```
     PostgreSQL primary is labeled as `master`, while other PostgreSQL instances are labeled as `replica`.
 
-2. Now update the following options in the `patroni.switchover` subsection of the Custom Resource:
+    !!! warning "Remove the old annotation before you enable switchover again"
+
+        A switchover is requested with the `postgres-operator.crunchydata.com/trigger-switchover` annotation. If you did a switchover on this cluster before, that annotation is probably still there. When you set `patroni.switchover.enabled` to `true`, the Operator treats an annotation it hasn't acted on as a new request and switches over at once, before you set a new annotation in step 3.
+
+        Remove the old annotation before step 2:
+
+        ```bash
+        kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover-
+        ```
+
+        The trailing `-` removes the annotation.
+
+2. Update the following options in the `patroni.switchover` subsection of the Custom Resource:
 
     ```yaml
     patroni:
@@ -59,7 +71,7 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
     kubectl annotate --overwrite -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover="$(date)"
     ```
 
-    The `--overwrite` flag in the above command allows you to overwrite the annotation if it already exists (useful if that's not the first switchover you do).
+    The `--overwrite` flag replaces the value if the annotation already exists. Use a value that you haven't used before, such as the timestamp. The Operator switches over only when the annotation differs from the one it acted on last.
 
 4. Verify that the cluster was annotated (replace the `<namespace>` placeholder with your value, as usual):
 
@@ -95,7 +107,16 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
         cluster1-instance1-ttm9-0             4/4     Running     0          23m   cluster1-instance1-ttm9   replica
         ```
 
-6. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
+6. If you use pgBouncer, check its Pods. After a switchover under client traffic, a pgBouncer Pod can stay on the demoted primary. List the pgBouncer Pods and delete the one that stays on the old primary. The Deployment creates a replacement:
+
+    ```bash
+    kubectl get pods -n <namespace> \
+      -l postgres-operator.crunchydata.com/cluster=cluster1,postgres-operator.crunchydata.com/role=pgbouncer
+
+    kubectl delete pod <pgbouncer-pod-name> -n <namespace>
+    ```
+
+7. Set `patroni.switchover.enabled` Custom Resource option to `false` once the switchover is done:
 
     ```bash
     kubectl -n <namespace> patch pg cluster1 --type=merge --patch '{
@@ -109,3 +130,10 @@ For the following steps, we assume that you have the PostgreSQL cluster up and r
     }'
     ```
 
+8. Remove the annotation, so that it doesn't trigger a switchover the next time you enable switchover:
+
+    ```bash
+    kubectl annotate -n <namespace> pg cluster1 postgres-operator.crunchydata.com/trigger-switchover-
+    ```
+
+    Setting `patroni.switchover.enabled` to `false` clears the Operator's record of the last completed switchover, but it leaves the annotation on the cluster. Without this step, the next time you set `enabled` to `true`, the Operator sees an annotation it hasn't acted on and switches over immediately.
