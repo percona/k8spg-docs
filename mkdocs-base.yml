@@ -1,7 +1,7 @@
 # MkDocs configuration
 # Used as base - look for .yml files with INHERIT
 site_name: Percona Operator for PostgreSQL
-site_description: Documentation
+site_description: "Percona Operator for PostgreSQL 3.0, a Kubernetes operator that deploys and manages Percona Distribution for PostgreSQL clusters, with guides for installation, configuration, backups, upgrades and monitoring"
 site_author: Percona LLC
 site_url: https://docs.percona.com/percona-operator-for-postgresql/
 copyright: 
