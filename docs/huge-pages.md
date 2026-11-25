@@ -288,13 +288,17 @@ On PostgreSQL 14, which doesn't report the size, [estimate the size](#estimate-w
 
 5. Work out the new `memory` limit. In the setup without huge pages, the shared memory counts against the `memory` limit. With huge pages, it moves to the huge pages request, so lower the `memory` limit by the huge pages request. For example, if the instance set has `memory: 25Gi` and you request `hugepages-2Mi: 5Gi`, set `memory: 20Gi`. If the units differ, convert both values to `Mi` first: `1Gi` is `1024Mi`. For example, `memory: 10Gi` and `hugepages-2Mi: 4294Mi` give `memory: 5946Mi`. Keep enough regular memory for connections, `work_mem` and maintenance operations.
 
-6. Edit the `deploy/cr.yaml` Custom Resource of your cluster. In each instance set, set the new `memory` limit and add the huge pages limit:
+6. Edit the `deploy/cr.yaml` Custom Resource of your cluster. In each instance set, set the new `memory` request and limit and add the huge pages limit:
 
     ```yaml
     spec:
       instances:
         - name: instance1
           resources:
+            requests:
+              cpu: "2"
+              memory: 20Gi
+              hugepages-2Mi: 5Gi
             limits:
               cpu: "2"
               memory: 20Gi
@@ -448,6 +452,10 @@ If you can't run a temporary cluster, [estimate the size](#estimate-without-a-ru
         - name: instance1
           replicas: 3
           resources:
+            requests:
+              cpu: "2"
+              memory: 4Gi
+              hugepages-2Mi: 796Mi
             limits:
               cpu: "2"
               memory: 4Gi
