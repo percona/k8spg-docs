@@ -99,7 +99,7 @@ Use `pg_dump` / `pg_restore` when you migrate across incompatible architectures.
 
 ## Compare OS, glibc, and ICU
 
-Crunchy and Percona images can ship different operating system releases and different `glibc` builds. A difference changes how PostgreSQL sorts text, while the indexes that you migrate keep the old order. Read the limitation, compare the images, then decide how to migrate.
+Crunchy and Percona images can ship different operating system releases and different `glibc` builds. A difference changes how PostgreSQL sorts text, while the indexes that you migrate keep the old order. Read the limitation, compare the images and check that the target image includes every locale your databases use, then decide how to migrate.
 
 ### Understand the glibc collation limitation
 

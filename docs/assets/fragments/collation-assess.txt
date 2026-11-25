@@ -22,43 +22,66 @@ A `glibc` change usually updates the sorting rules of only a few locales. Your d
 
     The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn't depend on `glibc` or ICU.
 
-3. In every database, list the locales that columns and indexes use. A column or an index can set its own collation that differs from the database default:
+    PostgreSQL 14 has only the libc provider and no `datlocprovider` column. On PostgreSQL 14, run `SELECT datname, datcollate FROM pg_database WHERE datallowconn;` instead.
+
+3. In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:
 
     ```sql
-    SELECT DISTINCT
-        CASE WHEN c.collprovider = 'd' THEN 'default' ELSE c.collname END AS collation,
-        c.collprovider,
-        CASE WHEN c.collprovider = 'd'
-             THEN (SELECT datcollate FROM pg_database WHERE datname = current_database())
-             ELSE c.collcollate END AS locale
-    FROM (
-        SELECT a.attcollation AS coll
-        FROM pg_attribute a
-        JOIN pg_class r ON r.oid = a.attrelid
-        WHERE a.attnum > 0
-          AND NOT a.attisdropped
-          AND r.relnamespace NOT IN ('pg_catalog'::regnamespace, 'information_schema'::regnamespace)
-        UNION
-        SELECT unnest(indcollation::oid[]) FROM pg_index
-    ) u
-    JOIN pg_collation c ON c.oid = u.coll
-    WHERE c.collname NOT IN ('C', 'POSIX');
+    SELECT c.collname AS collation, c.collprovider, c.collcollate AS locale,
+           count(*) AS objects
+    FROM pg_depend d
+    JOIN pg_collation c
+      ON d.refclassid = 'pg_collation'::regclass AND d.refobjid = c.oid
+    WHERE c.collname NOT IN ('C', 'POSIX', 'default')
+    GROUP BY 1, 2, 3
+    UNION ALL
+    SELECT 'default', 'd', datcollate, NULL
+    FROM pg_database WHERE datname = current_database()
+    ORDER BY 1;
     ```
 
     ??? example "Sample output"
 
         ```{.text .no-copy}
-         collation | collprovider |   locale
-        -----------+--------------+-------------
-         default   | d            | en_US.UTF-8
-         sv        | c            | sv_SE.UTF-8
+         collation  | collprovider |   locale    | objects
+        ------------+--------------+-------------+---------
+         C.utf8     | c            | C.utf8      |       1
+         default    | d            | en_US.UTF-8 |
+         sv_SE.utf8 | c            | sv_SE.utf8  |       2
         ```
 
-    If the query returns no rows and the database default is `C` or `POSIX`, or uses the built-in provider, this database isn't affected.
+    If every locale on the list is `C` or `POSIX`, or the database uses the built-in provider, this database isn't affected.
 
-4. For each `glibc` locale on your list, find out whether its sorting rules changed between the two `glibc` versions. There is no official tool that answers this. Check the `glibc` release notes and the PostgreSQL wiki page [Locale data changes :octicons-link-external-16:](https://wiki.postgresql.org/wiki/Locale_data_changes). For ICU collations, compare the ICU versions of both images.
+4. For each `glibc` locale on your list, find out whether its sorting rules changed between the two images.
+
+    The Operator creates clusters with the `en_US.UTF-8` locale. `en_US.UTF-8` sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only `en_US.UTF-8` doesn't need a repair when it moves between these images. `C.UTF-8` is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn't warn about it.
+
+    For other locales, compare the sort order yourself. 
+
+    1. Export the distinct values of the text columns that use the locale to one file on your workstation. In `psql`, run:
+
+        ```sql
+        \copy (SELECT <column> FROM <table> UNION SELECT <column> FROM <other_table>) TO 'values.txt'
+        ```
+
+        List every text column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.
+
+    2. Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn't have the locale:
+
+        ```bash
+        kubectl run sort-check -n <namespace> --rm -i --restart=Never \
+          --image=<postgres-image> --command -- \
+          sh -c 'if LC_ALL=<locale> locale 2>&1 >/dev/null | grep -q .; then echo "Locale <locale> is missing in this image"; else LC_ALL=<locale> sort | md5sum; fi' \
+          < values.txt
+        ```
+
+    3. Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. `kubectl` also prints a `pod "sort-check" deleted` line, which you can ignore.
+
+    Use one file for both images. Don't export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn't have the locale, `sort` silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.
+
+    Matching checksums prove only that the rules didn't change for the values in your file. For ICU collations, compare the ICU versions of both images.
 
 5. Decide:
 
     * No locale on your list changed: you don't need to repair anything.
-    * A locale on your list changed, or you can't confirm that it didn't: plan downtime and repair the affected objects before applications use the cluster. Rehearse the repair on a copy of your data to learn how long it takes.
+    * A locale on your list changed, or you can't confirm that it didn't: stop writes before you change the image, and repair the affected objects before you let writes back in. From the moment a Pod starts on the new image, the old indexes let duplicate keys in. Rehearse the repair on a copy of your data to learn how long it takes.

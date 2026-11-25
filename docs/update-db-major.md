@@ -8,7 +8,7 @@ This feature is generally available starting with the Operator version 2.9.0.
 
 1. A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.
 2. During the upgrade, the Operator duplicates the data on each PVC and doesn't remove the old version data automatically. Make sure your PVC has enough free space to store data.
-3. If the target image ships a different `glibc` build, the sorting rules of some locales can change. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
+3. If the target image ships a different `glibc` build, the sorting rules of some locales can change. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images). The upgrade runs `pg_upgrade --link`, which keeps every index as it is. The example `PerconaPGUpgrade` uses UBI 9 images. If your cluster runs on `-ubi8` or `-ubi10` images, use the upgrade and PostgreSQL images with the same suffix. Otherwise, the upgrade also changes the operating system.
 
 ## Before you start
 

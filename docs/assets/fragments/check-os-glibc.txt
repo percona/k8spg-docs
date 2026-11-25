@@ -15,15 +15,25 @@ kubectl exec -n <namespace> <postgres-pod> -c database -- \
 ??? example "Sample output"
 
     ```text
-    glibc-2.34-60.el9.x86_64
+    glibc-2.34-275.el9_8.x86_64
     ```
 
 If the cluster with the target image doesn't exist yet, start a temporary Pod from the image and run the same command:
 
 ```bash
-kubectl run glibc-check --rm -it --restart=Never \
+kubectl run glibc-check -n <namespace> --rm -i --restart=Never \
   --image=<postgres-image> --command -- \
   rpm -q glibc
 ```
 
 Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.
+
+Also check that every locale your databases use exists in the target image:
+
+```bash
+kubectl run locale-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  locale -a
+```
+
+A locale that is missing from the list can't be used on that image.
