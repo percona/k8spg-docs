@@ -78,9 +78,7 @@ During the upgrade flow, the Operator:
 
 ## Repair collation-affected objects { #check-collation }
 
-Do this only if the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't.
-
---8<-- "collation.txt"
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't, follow [Repair data after a collation change](collation-repair.md) as soon as the cluster is ready. Keep the applications stopped until the repair is done.
 
 ## Cleanup
 

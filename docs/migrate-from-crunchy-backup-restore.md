@@ -379,6 +379,7 @@ Now the repository contains every write. Create the Percona cluster in the next 
         ```
 
         To store the tablespaces on the data volume instead, add `--tablespace-map-all=/pgdata/tablespaces` to `spec.dataSource.pgbackrest.options`. The tablespace locations then change to `/pgdata/tablespaces/<name>`.
+        
     6. Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
     7. List every user to be migrated in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
@@ -496,7 +497,7 @@ Now the repository contains every write. Create the Percona cluster in the next 
 
 Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
 
-The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair the affected objects](migrate-checklist.md#repair-the-affected-objects).
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Take a post-migration backup
 

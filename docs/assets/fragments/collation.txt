@@ -1,6 +1,6 @@
-Repair only the objects that use a locale whose sorting rules changed. Keep writes stopped until you finish. Until then, the old indexes accept duplicate keys, and `INSERT ... ON CONFLICT` can insert rows it should skip. Repair in this order, because each step relies on the previous one.
+Repair in this order, because each step relies on the previous one. In the full procedure, each step covers every object in the database. In the targeted repair, it covers only the objects that use a changed collation.
 
-1. [Connect to PostgreSQL](connect.md) with the privileges of the superuser or the database owner. In every database, find the indexes that depend on a `glibc` collation:
+1. Find the indexes that depend on a `glibc` collation. In the full procedure, the list shows which unique indexes can fail in step 2:
 
     ```sql
     WITH db AS (
@@ -57,15 +57,23 @@ Repair only the objects that use a locale whose sorting rules changed. Keep writ
 
     The `collation` column names the collation of the index key. `database default` means the default locale of the database. Repair the indexes whose collation uses a locale that changed, and skip the rest. For an index marked `predicate only`, check the `partial_predicate` column: repair the index if its condition compares text with `<`, `>` or `BETWEEN`.
 
-2. Rebuild each affected index. [REINDEX :octicons-link-external-16:](https://www.postgresql.org/docs/current/sql-reindex.html) builds the index again with the current collation rules:
+2. Rebuild the indexes. Writes are stopped, so use the plain form of [`REINDEX` :octicons-link-external-16:](https://www.postgresql.org/docs/current/sql-reindex.html), which is faster than the concurrent one.
 
-    ```sql
-    REINDEX INDEX CONCURRENTLY <index_name>;
-    ```
+    * Full procedure: rebuild all indexes of the database. `VERBOSE` prints each table as it's done:
 
-    The index of an exclusion constraint can't be rebuilt concurrently. Use `REINDEX INDEX <index_name>;` for it. This form blocks writes to the table.
+        ```sql
+        REINDEX (VERBOSE) DATABASE <database_name>;
+        ```
 
-    A `UNIQUE` index, a primary key or an exclusion constraint fails to rebuild if the old sort order let duplicate keys in. A failed concurrent rebuild leaves an invalid index named `<index_name>_ccnew`. Drop it with `DROP INDEX CONCURRENTLY <index_name>_ccnew;`.
+    * Targeted repair: rebuild each index from the step 1 list whose collation changed:
+
+        ```sql
+        REINDEX INDEX <index_name>;
+        ```
+
+    `REINDEX` blocks writes to the table and the queries that use the index while it runs. If the applications must keep reading during the repair, use `REINDEX INDEX CONCURRENTLY <index_name>;` instead. It takes longer, and it can't rebuild the index of an exclusion constraint, so use the plain form for those.
+
+    A `UNIQUE` index, a primary key or an exclusion constraint fails to rebuild if the old sort order let duplicate keys in. The error names the index and the duplicated key. A failed concurrent rebuild also leaves an invalid index named `<index_name>_ccnew`. Drop it with `DROP INDEX CONCURRENTLY <index_name>_ccnew;`.
 
     To find the duplicates, turn off index scans in your session, so that PostgreSQL doesn't read the broken index:
 
@@ -79,19 +87,113 @@ Repair only the objects that use a locale whose sorting rules changed. Keep writ
     HAVING count(*) > 1;
     ```
 
-    For a partitioned table, run the query on the parent table. Decide which rows to keep, remove the duplicates in the same session, and rebuild the index again.
+    For a partitioned table, run the query on the parent table. Decide which rows to keep, remove the duplicates in the same session, and run the `REINDEX` command again. In the full procedure, `REINDEX DATABASE` stops at the first error, and the tables it already printed are done. Rebuild the failed table and the remaining ones with `REINDEX TABLE <table_name>;`, or run `REINDEX DATABASE` again. Duplicates in different partitions don't stop the rebuild, because each partition has its own index. They show up in step 3, when you move the rows.
 
-3. Repair the other objects that depend on the sort order of the changed locales. `REINDEX` doesn't fix them:
+3. Move rows that are in the wrong partition. A range-partitioned table routes each row to a partition by comparing the key with the partition bounds. Rows that were routed with the old rules can be in the wrong partition, and queries through the parent table don't find them. A new row with the same key can then be inserted into the right partition, even if the key is unique. Do this step after step 2: the queries in this step don't find misplaced rows through an index that isn't rebuilt yet.
+
+    1. Find the partitioned tables whose key uses a `glibc` collation:
+
+        ```sql
+        WITH db AS (
+          SELECT datlocprovider = 'c' AND datcollate NOT IN ('C', 'POSIX') AS default_is_libc
+          FROM pg_database WHERE datname = current_database()
+        )
+        SELECT p.partrelid::regclass AS partitioned_table,
+               CASE p.partstrat WHEN 'r' THEN 'range' WHEN 'l' THEN 'list' ELSE 'hash' END AS strategy,
+               coalesce(a.attname, '(expression)') AS key_column,
+               CASE WHEN c.collprovider = 'd' THEN 'database default' ELSE c.collname END AS collation
+        FROM pg_partitioned_table p
+        CROSS JOIN LATERAL unnest(p.partattrs::int2[], p.partcollation::oid[]) AS k(attnum, coll)
+        JOIN pg_collation c ON c.oid = k.coll
+        LEFT JOIN pg_attribute a ON a.attrelid = p.partrelid AND a.attnum = k.attnum
+        CROSS JOIN db
+        WHERE ((c.collprovider = 'c' AND c.collcollate NOT IN ('C', 'POSIX'))
+               OR (c.collprovider = 'd' AND db.default_is_libc))
+          AND NOT (p.partstrat = 'h' AND k.attnum <> 0)   -- plain hash key: bytes
+        ORDER BY 1;
+        ```
+
+        On PostgreSQL 14, remove `datlocprovider = 'c' AND` from the `db` part at the beginning of the query.
+
+        The query lists range and list partitioned tables, and hash partitioned tables whose key is an expression, such as `lower(sku)`. Only range partitions depend on the sort order. For list and hash tables, check only keys with expressions. A table with sub-partitions is listed once for each level. Run the next steps only for the top-level table. They cover all levels below it.
+
+    2. For each table from the list, count the rows that are outside the bounds of their partition. Run this in `psql`. `\gexec` runs the query that the first query builds:
+
+        ```sql
+        SET enable_indexscan = off;
+        SET enable_indexonlyscan = off;
+        SET enable_bitmapscan = off;
+        SELECT string_agg(
+                 format('SELECT %L AS partition, count(*) AS misplaced FROM ONLY %s WHERE NOT (%s)',
+                        relid, relid, pg_get_partition_constraintdef(relid)),
+                 ' UNION ALL ') || ' ORDER BY 1'
+        FROM pg_partition_tree('<partitioned_table>')
+        WHERE isleaf AND pg_get_partition_constraintdef(relid) IS NOT NULL
+        \gexec
+        ```
+
+        The `SET` commands make the query read every row of the table instead of an index, so run it when the load is low. The count covers the default partition and sub-partitions. A row is counted in the partition that holds it. A non-zero count in the default partition means rows that now belong to a named partition.
+
+    3. For each table with misplaced rows, move the rows through the top-level table, which routes them again with the new rules.
+
+        If another table has a foreign key that references this table, drop that foreign key first. Otherwise the move fails with `violates foreign key constraint`, or, if the foreign key has `ON DELETE CASCADE`, deletes the referencing rows without an error. To find these foreign keys, run:
+
+        ```sql
+        SELECT conrelid::regclass AS table_name, conname AS constraint_name,
+               pg_get_constraintdef(oid) AS definition
+        FROM pg_constraint
+        WHERE contype = 'f' AND confrelid = '<partitioned_table>'::regclass;
+        ```
+
+        Save the definitions, and drop each foreign key with `ALTER TABLE <table_name> DROP CONSTRAINT <constraint_name>;`.
+
+        Then run the move in `psql`, in the same session as the previous step, so that index scans stay off. The query builds a statement for each partition, and `\gexec` runs them. Each statement deletes the misplaced rows from one partition and inserts them through the top-level table:
+
+        ```sql
+        SELECT format(
+                 'WITH moved AS (DELETE FROM ONLY %s WHERE NOT (%s) RETURNING %s) INSERT INTO %s (%s) %s SELECT %s FROM moved',
+                 t.relid, pg_get_partition_constraintdef(t.relid), cols.list,
+                 pg_partition_root(t.relid), cols.list,
+                 CASE WHEN cols.has_identity THEN 'OVERRIDING SYSTEM VALUE' ELSE '' END, cols.list)
+        FROM pg_partition_tree('<partitioned_table>') t
+        CROSS JOIN LATERAL (
+          SELECT string_agg(quote_ident(attname), ', ' ORDER BY attnum) AS list,
+                 bool_or(attidentity = 'a') AS has_identity
+          FROM pg_attribute
+          WHERE attrelid = pg_partition_root(t.relid) AND attnum > 0
+            AND NOT attisdropped AND attgenerated = ''
+        ) cols
+        WHERE t.isleaf AND pg_get_partition_constraintdef(t.relid) IS NOT NULL
+        \gexec
+        ```
+
+        The statements list the columns by name and leave out generated columns, which PostgreSQL computes again. For an identity column defined as `GENERATED ALWAYS`, they add `OVERRIDING SYSTEM VALUE`, so each row keeps its value. A statement for a partition without misplaced rows reports `INSERT 0 0`. For example, for the partition `sales_low` of the table `sales`, the query builds:
+
+        ```sql
+        WITH moved AS (DELETE FROM ONLY sales_low WHERE NOT (((sku IS NOT NULL) AND (sku < 'm'::text COLLATE "C.utf8"))) RETURNING id, sku, qty) INSERT INTO sales (id, sku, qty) OVERRIDING SYSTEM VALUE SELECT id, sku, qty FROM moved
+        ```
+
+        Each statement moves all misplaced rows of a partition in one transaction. To move many rows in smaller batches, replace `WHERE NOT (<bounds>)` with `WHERE ctid IN (SELECT ctid FROM ONLY <partition> WHERE NOT (<bounds>) LIMIT 10000)`, and run the statement until it reports `INSERT 0 0`.
+
+        If a statement fails with a duplicate key error, a row with the same key was inserted into the right partition after the `glibc` change. A query through the parent table finds only that new row. To see both rows, query the two partitions with `FROM ONLY`: the partition you're moving from, and the partition of the index named in the error. Delete the row you don't want to keep with `DELETE FROM ONLY <partition> WHERE <key_column> = <value>;`, and run the move again.
+
+        When all rows are moved, add the foreign keys back with `NOT VALID`, then validate them:
+
+        ```sql
+        ALTER TABLE <table_name> ADD CONSTRAINT <constraint_name> <definition> NOT VALID;
+        ALTER TABLE <table_name> VALIDATE CONSTRAINT <constraint_name>;
+        ```
+
+4. Repair the other objects that depend on the sort order of the changed locales. `REINDEX` doesn't fix them:
 
     | Object | What to do |
     | ------ | ---------- |
     | Foreign keys that compare text | Drop the constraint, add it again with `NOT VALID`, then run `ALTER TABLE ... VALIDATE CONSTRAINT` |
     | `CHECK` constraints and domain constraints that compare text | Find the rows that violate the constraint with `SELECT * FROM <table_name> WHERE NOT (<constraint_expression>);` and fix them. `VALIDATE CONSTRAINT` only reports that some row violates the constraint, not which one |
-    | Range partitions with text bounds | Get the bounds of each partition with `SELECT pg_get_partition_constraintdef('<partition>'::regclass);`. Count the rows outside them with `SELECT count(*) FROM ONLY <partition> WHERE NOT (<bounds>);`. Move those rows through the parent table with `WITH moved AS (DELETE FROM ONLY <partition> WHERE NOT (<bounds>) RETURNING *) INSERT INTO <parent> SELECT * FROM moved;` |
     | Stored generated columns that compare or sort text | Recompute the values with an update that sets a column used in the expression to itself, for example `UPDATE <table_name> SET <column> = <column>;`. Setting the generated column to `DEFAULT` doesn't recompute it. Starting with PostgreSQL 17, you can also use `ALTER TABLE ... ALTER COLUMN ... SET EXPRESSION` |
     | Materialized views | Run `REFRESH MATERIALIZED VIEW` without `CONCURRENTLY`. It rebuilds the rows and the view's indexes. With `CONCURRENTLY`, the view's broken unique index stays broken |
 
-4. Record the new collation version. `REFRESH COLLATION VERSION` only updates the metadata and doesn't repair anything, so run it last:
+5. Record the new collation version. `REFRESH COLLATION VERSION` only updates the metadata and doesn't repair anything, so run it last:
 
     ```sql
     ALTER DATABASE <database_name> REFRESH COLLATION VERSION;
@@ -107,21 +209,8 @@ Repair only the objects that use a locale whose sorting rules changed. Keep writ
 
     PostgreSQL 14 doesn't have `ALTER DATABASE ... REFRESH COLLATION VERSION`. On PostgreSQL 14, run only `ALTER COLLATION ... REFRESH VERSION`.
 
-5. Update the planner statistics:
+6. Update the planner statistics:
 
     ```sql
     ANALYZE;
     ```
-
-6. Check the indexes. Run `pg_amcheck` in the `database` container of the primary Pod:
-
-    ```bash
-    kubectl exec -n <namespace> <primary-pod> -c database -- \
-      pg_amcheck --all --install-missing --heapallindexed
-    ```
-
-    To find the primary Pod, run `kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/role=primary`.
-
-    No output and exit code 0 mean no errors. If you run the check again, `pg_amcheck` prints `NOTICE:  extension "amcheck" already exists, skipping` for each database. These notices aren't errors.
-
-    Without `--install-missing`, `pg_amcheck` skips every database that doesn't have the `amcheck` extension and prints only a warning. With it, `pg_amcheck` installs the extension in every database, including `template1`. `pg_amcheck` checks only B-tree indexes and doesn't find extra entries in partial indexes, so a clean result doesn't replace steps 1 to 3.

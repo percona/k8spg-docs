@@ -133,15 +133,13 @@ When to run the steps depends on the migration method:
 
 | Migration method | When to repair |
 | ---------------- | -------------- |
-| Standby cluster | After you promote the standby. A standby is read-only and can't repair objects, so don't run application queries that rely on text indexes against it. The repair adds to the cutover downtime. |
+| Standby cluster | After you promote the standby. A standby is read-only and can't repair objects, so don't run application queries that rely on text indexes against it. The repair adds to the cutover downtime, so the standby method no longer gives near-zero downtime. |
 | Backup and restore | After the restore completes and before you point applications to the new cluster |
 | Reusing data volumes | After the Percona cluster starts and before you point applications to it |
 
 ### Repair the affected objects
 
-Run these steps on the primary of the Percona cluster. For when to run them, see the table in [Decide what to do if the libraries differ](#decide-what-to-do-if-the-libraries-differ).
-
---8<-- "collation.txt"
+Follow [Repair data after a collation change](collation-repair.md) on the primary of the Percona cluster, at the time the table in [Decide what to do if the libraries differ](#decide-what-to-do-if-the-libraries-differ) gives for your migration method.
 
 ## Compare extensions
 

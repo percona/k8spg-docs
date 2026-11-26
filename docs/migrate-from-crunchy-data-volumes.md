@@ -520,7 +520,7 @@ After you delete the Crunchy cluster and clear the PV's claim reference, the PV 
 
 Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
 
-The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair the affected objects](migrate-checklist.md#repair-the-affected-objects).
+The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Scale out the cluster
 

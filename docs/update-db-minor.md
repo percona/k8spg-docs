@@ -18,7 +18,7 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 
 --8<-- "collation-assess.txt"
 
-If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new `glibc` with indexes that the old one built, while applications stay connected. [Repair the affected objects](#after-the-pods-restart) before you let applications back in.
+If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new `glibc` with indexes that the old one built, while applications stay connected. [Repair the data](#after-the-pods-restart) before you let applications back in.
 
 ### Update PMM
 
@@ -115,6 +115,4 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
 
 ## After the Pods restart
 
-Do this only if the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't.
-
---8<-- "collation.txt"
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't, follow [Repair data after a collation change](collation-repair.md) when all Pods run on the new image. Keep the applications stopped until the repair is done.

@@ -599,7 +599,7 @@ Once the LSN value stops changing and stays the same across two consecutive chec
 
 Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
 
-The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair the affected objects](migrate-checklist.md#repair-the-affected-objects).
+The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Take a post-migration backup 
 

@@ -118,7 +118,7 @@ This limitation applies whenever you reuse PostgreSQL data files on an image tha
 
 --8<-- "glibc-collation-limitation.txt"
 
-To find out whether the change affects the locales your databases use, follow [Assess the collation risk](migrate-checklist.md#assess-the-collation-risk) for a migration, or the same step on the [minor](update-db-minor.md#assess-the-collation-risk) and [major](update-db-major.md#assess-the-collation-risk) upgrade pages. If a locale you use changed, [repair the affected objects](migrate-checklist.md#repair-the-affected-objects) before applications connect.
+To find out whether the change affects the locales your databases use, follow [Assess the collation risk](migrate-checklist.md#assess-the-collation-risk) for a migration, or the same step on the [minor](update-db-minor.md#assess-the-collation-risk) and [major](update-db-major.md#assess-the-collation-risk) upgrade pages. If a locale you use changed, follow [Repair data after a collation change](collation-repair.md) before applications connect.
 
 ## Upgrades
 
