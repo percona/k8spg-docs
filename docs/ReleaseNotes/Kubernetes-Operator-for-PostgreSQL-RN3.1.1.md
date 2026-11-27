@@ -38,6 +38,10 @@ The Operator now recognizes both the old and the new wording. Pause and resume w
 
 ## Changelog
 
+### New Features
+
+* [K8SPG-1283](https://perconadev.atlassian.net/browse/K8SPG-1283) - Added Percona Distribution for PostgreSQL 19 so you can run PostgreSQL 19 on Kubernetes. The Operator uses PostgreSQL 19 by default, and this release includes the PostgreSQL 19, PostGIS, pgBouncer, pgBackRest, and major-upgrade images.
+
 ### Improvements
 
 * [K8SPG-1188](https://perconadev.atlassian.net/browse/K8SPG-1188) -  Fixed the issue where the Operator failed to pause and resume PgBouncer 1.26 because PgBouncer changed the text of its "already paused" and "not paused" replies. The Operator now recognizes both the old and the new text
