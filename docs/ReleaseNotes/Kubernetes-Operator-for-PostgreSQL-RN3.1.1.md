@@ -3,9 +3,27 @@
 [Get started with the Operator :material-arrow-right:](../quickstart.md){.md-button}
 
 
-This release includes the fixes for security vulnerabilities, among which are CVE-2026-111943, CVE-2026-114406. It also improves Operator behavior with PgBouncer 1.26 and provides updated images for Percona Distribution for PostgreSQL.
+This release includes the fixes for security vulnerabilities, among which are CVE-2026-111943, CVE-2026-114406. It also adds support for PostgreSQL 19, improves Operator behavior with PgBouncer 1.26 and provides updated images for Percona Distribution for PostgreSQL.
 
 ## Release highlights
+
+### Support for PostgreSQL 19
+
+You can deploy PostgreSQL 19 on Kubernetes with the Operator. This release includes Percona Distribution for PostgreSQL 19.0.1, built from PostgreSQL 19.0.
+
+PostgreSQL 19 adds these abilities:
+
+* Reclaim table bloat while reads and writes continue, with `REPACK (CONCURRENTLY)`.
+* Pin or adjust a query plan without changing the application, using the `pg_plan_advice` and `pg_stash_advice` extensions.
+* Vacuum indexes in parallel, and vacuum the tables that need it first.
+* Turn on logical replication without a server restart, and copy sequence values to a subscriber when you refresh the subscription.
+* Return the existing row when an insert conflicts, with `INSERT ... ON CONFLICT DO SELECT`.
+
+Read more about PostgreSQL 19 in:
+
+* [Percona Distribution for PostgreSQL 19.0.1 release notes :octicons-link-external-16:](https://docs.percona.com/postgresql/19/release-notes/release-notes-v19.0.1.html)
+* [What's left in Postgres 19 :octicons-link-external-16:](https://percona.community/blog/2026/11/20/whats-left-in-postgres-19/)
+* [PostgreSQL 19.0 release notes :octicons-link-external-16:](https://www.postgresql.org/docs/release/19.0/)
 
 ### Pausing and resuming PgBouncer now works with PgBouncer 1.26
 
@@ -42,12 +60,12 @@ This Operator version is developed and tested with Percona Distribution for Post
 
 ### Percona Distribution for PostgreSQL
 
-* **PostgreSQL** 14.25-1, 15.20-1, 16.16-1, 17.12.1-1, 18.7.1-1 as the database. Other versions may also work but have not been tested.
-* **pgBackRest** 2.60.0-1 for backup and recovery
-* **pgBouncer** 1.26.1-1 for connection pooling
+* **PostgreSQL** 14.25-2, 15.20-2, 16.16-2, 17.12.1-2, 18.7.1-2, 19.0.1-2 as the database. Other versions may also work but have not been tested.
+* **pgBackRest** 2.60.1-2 for backup and recovery
+* **pgBouncer** 1.26.1-2 for connection pooling
 * **Patroni** version 4.1.5 for high-availability
 * **PostGIS** version 3.5.7
-* **PMM Client** version 3.10.0
+* **PMM Client** version 3.11.0
 * **cert-manager** 1.21.1
 
 ### PostgreSQL Community
@@ -69,9 +87,9 @@ Our release process includes targeted testing and validation on major cloud prov
 
 * [Google Kubernetes Engine (GKE) :octicons-link-external-16:](https://cloud.google.com/kubernetes-engine) 1.34 - 1.36
 * [Amazon Elastic Kubernetes Service (EKS) :octicons-link-external-16:](https://aws.amazon.com) 1.34 - 1.37
-* [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.34 - 1.37
-* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.19.43 - 4.22.10
-* [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.38.1 with Kubernetes v1.35.1
+* [Azure Kubernetes Service (AKS) :octicons-link-external-16:](https://azure.microsoft.com/en-us/services/kubernetes-service/) 1.34 - 1.36
+* [OpenShift :octicons-link-external-16:](https://www.redhat.com/en/technologies/cloud-computing/openshift) 4.19 - 4.22
+* [Minikube :octicons-link-external-16:](https://github.com/kubernetes/minikube) 1.39.0 with Kubernetes v1.37.0
 * [Rancher :octicons-link-external-16:](https://rancher.com/docs/rke2/latest/en/) with Rancher Kubernetes Engine (RKE2) - 1.34 - 1.36
 
 --8<-- [end:platforms]
