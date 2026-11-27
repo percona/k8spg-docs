@@ -12,7 +12,13 @@ For **near-zero downtime**, use [Migrate from Crunchy using a standby cluster](m
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Repair the affected objects](#repair-collation-affected-objects-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -275,6 +281,8 @@ stringData:
 EOF
 ``` 
 
+Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials. The same applies to the Secret you created for the Crunchy cluster.
+
 If you use different Secret names, use your name consistently in `spec.dataSource.pgbackrest.configuration` and `spec.backups.pgbackrest.configuration` on `PerconaPGCluster` `cluster1`.
 
 ## Deploy Percona Operator for PostgreSQL
@@ -299,6 +307,10 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
         ```text
         deployment.apps/percona-postgresql-operator condition met
         ```
+
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
 
 ## Prepare the cutover
 
@@ -367,6 +379,9 @@ Now the repository contains every write. Create the Percona cluster in the next 
         ```
 
         To store the tablespaces on the data volume instead, add `--tablespace-map-all=/pgdata/tablespaces` to `spec.dataSource.pgbackrest.options`. The tablespace locations then change to `/pgdata/tablespaces/<name>`.
+        
+    6. Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+    7. List every user to be migrated in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
     The following fragment shows the important pieces; merge them with the rest of `deploy/cr.yaml` (images, users, resources) for your environment:
 
@@ -477,6 +492,12 @@ Now the repository contains every write. Create the Percona cluster in the next 
         ```{.text .no-copy}
         perconapgcluster.pgv2.percona.com/cluster1 condition met
         ```
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
+
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Take a post-migration backup
 

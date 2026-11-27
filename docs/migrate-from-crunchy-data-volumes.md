@@ -14,7 +14,13 @@ If the backing PV was already deleted with the default **Delete** reclaim policy
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes on the reused volume can return wrong results. [Repair the affected objects](#repair-collation-affected-objects-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -210,7 +216,6 @@ Identify the primary Pod and every persistent volume it uses. The data volume (`
 
     If your Crunchy Pod uses a volume name other than `postgres-data`, adjust the JSONPath filter.
 
-
 ## Back up the Crunchy cluster
 
 Take a full `pgBackRest` backup of the Crunchy cluster to object storage before you change anything. This backup is your only way back to Crunchy: after the Percona cluster starts on the data volume, you can't return to the previous state of that volume.
@@ -237,6 +242,10 @@ Shut down the Crunchy cluster. This stops PostgreSQL cleanly and marks the **sta
       -n "${CRUNCHY_NS}" \
       --timeout=300s
     ```
+
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
 
 ## Retain the PV and remove the Crunchy cluster
 
@@ -392,9 +401,11 @@ After you delete the Crunchy cluster and clear the PV's claim reference, the PV 
     * In `dataVolumeClaimSpec`, set `storageClassName` to the StorageClass name you gave the PV, and add a `selector` matching the PV label. This ensures the PVC binds only to the migrated PV.
     * If you have a WAL volume, add `walVolumeClaimSpec` with the same StorageClass name and a selector matching the WAL PV label. Without it, PostgreSQL doesn't start: the `postgres-startup` init container fails with `mv: cannot stat '/pgwal/pg18_wal': No such file or directory`.
     * If you have tablespace volumes, add one `tablespaceVolumes` entry per tablespace. Use **the same name** as in the Crunchy cluster, the migration StorageClass name, and a selector matching the tablespace PV label. Without it, the cluster starts and reports `ready`, but queries on tables in the tablespace fail, and so do backups.
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
     You don't need node affinity rules, even for node-local storage such as local-path: with the migration StorageClass name, Kubernetes binds the PVC to the PV first, and then schedules the Pod to the node or zone where the PV is.
-    
+
     Here is the example configuration:
 
     ```yaml
@@ -504,6 +515,12 @@ After you delete the Crunchy cluster and clear the PV's claim reference, the PV 
        Expect `f` for a writable primary.
 
     About 10-20 seconds after the first start, Patroni restarts PostgreSQL once. Clients that connect at this moment can get one or two connection errors.
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
+
+The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Scale out the cluster
 

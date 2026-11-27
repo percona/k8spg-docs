@@ -5,36 +5,20 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 ## Considerations
 
 1. Upgrading a PostgreSQL cluster may result in downtime, as well as in [failover](change-primary.md) caused by updating the primary instance.
-2. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of  `glibc` and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+2. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of `glibc` and ICU collation libraries, and a new image build within one UBI major can update `glibc` as well. A different `glibc` build can change the sorting rules of some locales and corrupt the objects that depend on them, such as text-based indexes. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](limitations.md#glibc-collation-changes-between-images).
 3. [Logical replicas](logical-replication.md) can keep replicating after a minor upgrade if you [configured replication slots](ha-deploy.md#persist-replication-slots-across-failover). Without slots, a failover during the upgrade can break replication. [Reseed](logical-replication.md#reseed-a-logical-replica) the replica if the status becomes `broken`.
 
 ## Before you start
 
-### Check operating system and collation libraries version
+### Check operating system and glibc
 
 --8<-- "check-os-glibc.txt"
 
-### Check the locale provider in each database
+### Assess the collation risk
 
-```sql
-SELECT datname, datlocprovider, datcollversion FROM pg_database;
-```
+--8<-- "collation-assess.txt"
 
-??? example "Sample output"
-
-   ```text
-      datname  | datlocprovider | datcollversion
-   -----------+----------------+----------------
-   postgres  | c              | 2.34
-   template1 | c              | 2.34
-   template0 | c              |
-   cluster1  | c              | 2.34
-   (4 rows)
-   ```
-
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
-
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [After the Pods restart](#after-the-pods-restart)
+If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new `glibc` with indexes that the old one built, while applications stay connected. [Repair the data](#after-the-pods-restart) before you let applications back in.
 
 ### Update PMM
 
@@ -131,6 +115,4 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
 
 ## After the Pods restart
 
-If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), `glibc` collation rules change. 
-
---8<-- "collation.txt"
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn't confirm that it didn't, follow [Repair data after a collation change](collation-repair.md) when all Pods run on the new image. Keep the applications stopped until the repair is done.

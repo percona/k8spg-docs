@@ -14,7 +14,13 @@ This migration provides minimal downtime that happens only during the cutover.
 
 ## Before you migrate
 
+!!! important
+
+    Complete all checks and understand your steps before you run this procedure. 
+
 Complete the [Pre-migration compatibility checks](migrate-checklist.md). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that the standby receives can return wrong results. A standby is read-only, so you repair the affected objects after you [promote the standby](#promote-percona-postgresql-cluster), and the repair adds to the cutover downtime. See the [glibc collation limitation](migrate-checklist.md#understand-the-glibc-collation-limitation).
 
 
 ## Prerequisites
@@ -79,6 +85,8 @@ To meet these requirements, do the following:
         repo1-s3-key=<your-access-key>
         repo1-s3-key-secret=<your-access-secret>
     ```
+
+    Don't put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials.
 
     For more configuration examples for other storages, see [Configure backup storage](backups-storage.md) 
 
@@ -284,6 +292,10 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
     ' > ~/crunchy-source-replication-cert.yaml
     ```
 
+## Copy user passwords from Crunchy
+
+--8<-- "crunchy-copy-user-secrets.txt"
+
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
 
 1. Deploy Percona Operator for PostgreSQL:
@@ -378,6 +390,9 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
        ```
 
     * If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can't create the tablespace directories and doesn't start.
+    * Configure extensions in this manifest before you create the cluster. See [Compare extensions](migrate-checklist.md#compare-extensions).
+
+    * List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster's behavior. See [Check what else changes after migration](migrate-checklist.md#check-what-else-changes-after-migration).
 
 5. Create the Percona PostgreSQL cluster
     
@@ -579,6 +594,12 @@ Once the LSN value stops changing and stays the same across two consecutive chec
         ```{.text .no-copy}
         perconapgcluster.pgv2.percona.com/cluster1 condition met
         ```
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](migrate-checklist.md#assess-the-collation-risk) showed that no locale you use changed.
+
+The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair data after a collation change](collation-repair.md).
 
 ## Take a post-migration backup 
 
