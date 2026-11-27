@@ -4628,6 +4628,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#copy-user-passwords-from-crunchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy user passwords from Crunchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4676,6 +4687,17 @@
     <span class="md-ellipsis">
       
         Promote Percona PostgreSQL cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repair-collation-affected-objects-if-the-glibc-builds-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair collation-affected objects if the glibc builds differ
       
     </span>
   </a>
@@ -4894,6 +4916,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -7123,6 +7173,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#copy-user-passwords-from-crunchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy user passwords from Crunchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7171,6 +7232,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Promote Percona PostgreSQL cluster
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repair-collation-affected-objects-if-the-glibc-builds-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair collation-affected objects if the glibc builds differ
       
     </span>
   </a>
@@ -7397,7 +7469,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>For the differences between the Crunchy and Percona Custom Resources, see <a href="migrate-crunchy-differences.html">Crunchy and Percona Custom Resource differences</a>.</p>
 <p>The examples use S3-compatible storage for backups. If you use another remote storage, configure access to it for both clusters.</p>
 <h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Complete all checks and understand your steps before you run this procedure. </p>
+</div>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
+<p>Compare the <code>glibc</code> build of the Crunchy and the Percona images. If they differ, the indexes that the standby receives can return wrong results. A standby is read-only, so you repair the affected objects after you <a href="#promote-percona-postgresql-cluster">promote the standby</a>, and the repair adds to the cutover downtime. See the <a href="migrate-checklist.html#understand-the-glibc-collation-limitation">glibc collation limitation</a>.</p>
 <h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -7452,6 +7529,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <span class="w">    </span><span class="no">repo1-s3-key=&lt;your-access-key&gt;</span>
 <span class="w">    </span><span class="no">repo1-s3-key-secret=&lt;your-access-secret&gt;</span>
 </code></pre></div>
+<p>Don’t put the values in quotes. <code>pgBackRest</code> reads quotes as part of the value, and the storage then rejects the credentials.</p>
 <p>For more configuration examples for other storages, see <a href="backups-storage.html">Configure backup storage</a> </p>
 </li>
 <li>
@@ -7631,6 +7709,36 @@ kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w">
 </code></pre></div>
 </li>
 </ol>
+<h2 id="copy-user-passwords-from-crunchy">Copy user passwords from Crunchy<a data-markdown-ignore class="headerlink" href="#copy-user-passwords-from-crunchy" title="Permanent link">¶</a></h2>
+<p>The Operator manages the users you list in <code>spec.users</code>. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.</p>
+<p>To keep the Crunchy passwords, copy them to the Percona namespace <strong>before</strong> you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the <code>PostgresCluster</code> also deletes its user Secrets.</p>
+<ol>
+<li>
+<p>List the user Secrets of the Crunchy cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>pguser
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                                   TYPE     DATA   AGE
+crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+</code></pre></div>
+</details>
+<p>The Secret names follow the <code>&lt;clusterName&gt;-pguser-&lt;userName&gt;</code> pattern.</p>
+</li>
+<li>
+<p>For every user, create a Secret named <code>&lt;perconaClusterName&gt;-pguser-&lt;userName&gt;</code> in the Percona namespace with the <code>password</code> and <code>verifier</code> keys from the Crunchy Secret. The following example copies the credentials of the <code>crunchy-source</code> user to the Secret for the <code>cluster1</code> Percona cluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">USER_NAME</span><span class="o">=</span>crunchy-source
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">password</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.password}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">verifier</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.verifier}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span><span class="s2">"</span>
+</code></pre></div>
+<p>Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy <code>PostgresCluster</code>, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as <code>host</code> and <code>uri</code>, and points them to the Percona cluster Services.</p>
+</li>
+<li>
+<p>List the same users in <code>spec.users</code> when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.</p>
+</li>
+</ol>
 <h2 id="deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode">Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode<a data-markdown-ignore class="headerlink" href="#deploy-percona-operator-for-postgresql-and-postgresql-cluster-in-standby-mode" title="Permanent link">¶</a></h2>
 <ol>
 <li>
@@ -7721,6 +7829,12 @@ kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w">
 </code></pre></div>
 <ul>
 <li>If the Crunchy cluster uses tablespace volumes (<code>spec.instances[].tablespaceVolumes</code>), add a <code>tablespaceVolumes</code> entry with <strong>the same name</strong> for each tablespace to the Percona instance, for example <code>tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]</code>. Without it, the standby can’t create the tablespace directories and doesn’t start.</li>
+<li>
+<p>Configure extensions in this manifest before you create the cluster. See <a href="migrate-checklist.html#compare-extensions">Compare extensions</a>.</p>
+</li>
+<li>
+<p>List every migrated user in <code>spec.users</code> and set <code>autoCreateUserSchema</code> to match the source cluster’s behavior. See <a href="migrate-checklist.html#check-what-else-changes-after-migration">Check what else changes after migration</a>.</p>
+</li>
 </ul>
 </li>
 <li>
@@ -7895,6 +8009,9 @@ The Percona standby will keep replaying existing WAL files from S3 object storag
 </details>
 </li>
 </ol>
+<h2 id="repair-collation-affected-objects-if-the-glibc-builds-differ">Repair collation-affected objects if the glibc builds differ<a data-markdown-ignore class="headerlink" href="#repair-collation-affected-objects-if-the-glibc-builds-differ" title="Permanent link">¶</a></h2>
+<p>Skip this section if the <a href="migrate-checklist.html#assess-the-collation-risk">collation risk assessment</a> showed that no locale you use changed.</p>
+<p>The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow <a href="collation-repair.html">Repair data after a collation change</a>.</p>
 <h2 id="take-a-post-migration-backup">Take a post-migration backup<a data-markdown-ignore class="headerlink" href="#take-a-post-migration-backup" title="Permanent link">¶</a></h2>
 <p>After the promotion, <code>cluster1</code> still archives WAL to the repository path it shares with Crunchy, and the Operator has already taken an incremental backup there on top of Crunchy’s full backup. Move <code>cluster1</code> to its own repository path and take a full backup there. This gives the Percona cluster backups that don’t depend on the Crunchy archive.</p>
 <div class="admonition warning">
@@ -8290,7 +8407,7 @@ kubectl<span class="w"> </span>delete<span class="w"> </span>pod<span class="w">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2026 12:01:59 UTC">November 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

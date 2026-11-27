@@ -31,7 +31,13 @@ The examples use S3-compatible storage for backups. If you use another remote st
 
 ## Before you migrate
 
+Important
+
+Complete all checks and understand your steps before you run this procedure.
+
 Complete the [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that the standby receives can return wrong results. A standby is read-only, so you repair the affected objects after you [promote the standby](#promote-percona-postgresql-cluster), and the repair adds to the cutover downtime. See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -96,6 +102,8 @@ To meet these requirements, do the following:
        repo1-s3-key=<your-access-key>
        repo1-s3-key-secret=<your-access-secret>
    ```
+
+   Don’t put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials.
 
    For more configuration examples for other storages, see [Configure backup storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage.html)
 
@@ -303,6 +311,41 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
    ' > ~/crunchy-source-replication-cert.yaml
    ```
 
+## Copy user passwords from Crunchy
+
+The Operator manages the users you list in `spec.users`. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.
+
+To keep the Crunchy passwords, copy them to the Percona namespace **before** you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the `PostgresCluster` also deletes its user Secrets.
+
+1. List the user Secrets of the Crunchy cluster:
+
+   ```
+   kubectl get secret -n "${CRUNCHY_NS}" \
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=pguser
+   ```
+
+   Sample output
+
+   ```
+   NAME                                   TYPE     DATA   AGE
+   crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+   ```
+
+   The Secret names follow the `<clusterName>-pguser-<userName>` pattern.
+
+1. For every user, create a Secret named `<perconaClusterName>-pguser-<userName>` in the Percona namespace with the `password` and `verifier` keys from the Crunchy Secret. The following example copies the credentials of the `crunchy-source` user to the Secret for the `cluster1` Percona cluster:
+
+   ```
+   export USER_NAME=crunchy-source
+   kubectl create secret generic cluster1-pguser-${USER_NAME} -n "${NAMESPACE}" \
+     --from-literal=password="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.password}' | base64 --decode)" \
+     --from-literal=verifier="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.verifier}' | base64 --decode)"
+   ```
+
+   Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy `PostgresCluster`, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as `host` and `uri`, and points them to the Percona cluster Services.
+
+1. List the same users in `spec.users` when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.
+
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
 
 1. Deploy Percona Operator for PostgreSQL:
@@ -393,6 +436,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
    ```
 
    - If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can’t create the tablespace directories and doesn’t start.
+   - Configure extensions in this manifest before you create the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+   - List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster’s behavior. See [Check what else changes after migration](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#check-what-else-changes-after-migration).
 
 1. Create the Percona PostgreSQL cluster
 
@@ -592,6 +637,12 @@ Once the LSN value stops changing and stays the same across two consecutive chec
    ```
    perconapgcluster.pgv2.percona.com/cluster1 condition met
    ```
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) showed that no locale you use changed.
+
+The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html).
 
 ## Take a post-migration backup
 

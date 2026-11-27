@@ -114,9 +114,36 @@ To restore the cluster from the inconsistent state, reconfigure it to use only t
 
 In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.
 
+## glibc collation changes between images
+
+This limitation applies whenever you reuse PostgreSQL data files on an image that ships a different `glibc` build. For example, if you [upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html) to an image with a different build or during [migration from Crunchy Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy.html) using a standby cluster, a backup and restore, or the existing volumes.
+
+PostgreSQL sorts and compares text using the locale data of the operating system’s C library (`glibc`). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.
+
+Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a `glibc` build with such a change. Switching the image tag suffix, for example from `-ubi8` to the default UBI 9 tag, changes the operating system and always changes the `glibc` version.
+
+Most `glibc` updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the `C` or `POSIX` locale, or the PostgreSQL built-in locale provider, aren’t affected. The libc `C.UTF-8` locale is different: its sort order changed between UBI 8 and UBI 9, and PostgreSQL records no version for it, so it never warns about the change.
+
+PostgreSQL records the upstream `glibc` version of each collation and warns when it changes. It warns for every libc collation, including the ones whose rules didn’t change. PostgreSQL 14 doesn’t record a version for the default collation of a database, so on PostgreSQL 14 you get no warning for it. PostgreSQL can’t see a change in the package build, and it can’t tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.
+
+If the collation changes affect an index, you can see:
+
+- Missed or extra rows in query results
+- Wrong results of `ORDER BY` / `LIMIT` and of `min()` / `max()`
+- Duplicate keys in `UNIQUE` indexes and primary keys, and `ON CONFLICT` clauses that misfire
+- Wrong merge joins
+- Runtime errors that report index corruption
+
+The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.
+
+For more details, see the PostgreSQL wiki page [Locale data changes](https://wiki.postgresql.org/wiki/Locale_data_changes) . For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post [Ten ways a glibc change can break your PostgreSQL cluster](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) .
+
+To find out whether the change affects the locales your databases use, follow [Assess the collation risk](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) for a migration, or the same step on the [minor](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html#assess-the-collation-risk) and [major](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#assess-the-collation-risk) upgrade pages. If a locale you use changed, follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) before applications connect.
+
 ## Upgrades
 
 - A major database upgrade introduces a downtime because the whole cluster is shut down.
+- If the new image ships a different `glibc` build, the sorting rules of some locales can change and the existing indexes can return wrong results. Before the upgrade, check whether the change affects the locales your databases use. See [glibc collation changes between images](#glibc-collation-changes-between-images).
 - In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.html) to ensure it starts properly and starts streaming data from the primary.
 - PostGIS extension is not updated automatically after the database update. You must [manually update](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-extensions.html#upgrade-postgis-extension) it for each database where it is enabled.
 - `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#post-upgrade-steps) it manually for each database where it is installed.

@@ -7,12 +7,12 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 ## Considerations
 
 1. Upgrading a PostgreSQL cluster may result in downtime, as well as in [failover](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/change-primary.html) caused by updating the primary instance.
-1. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of `glibc` and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+1. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of `glibc` and ICU collation libraries, and a new image build within one UBI major can update `glibc` as well. A different `glibc` build can change the sorting rules of some locales and corrupt the objects that depend on them, such as text-based indexes. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.html#glibc-collation-changes-between-images).
 1. [Logical replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html) can keep replicating after a minor upgrade if you [configured replication slots](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#persist-replication-slots-across-failover). Without slots, a failover during the upgrade can break replication. [Reseed](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html#reseed-a-logical-replica) the replica if the status becomes `broken`.
 
 ## Before you start
 
-### Check operating system and collation libraries version
+### Check operating system and glibc
 
 Check the operating system used by the PostgreSQL container:
 
@@ -21,40 +21,130 @@ kubectl exec -n <namespace> <postgres-pod> -c database -- \
   cat /etc/os-release
 ```
 
-Check the `glibc` version:
+Check the `glibc` package build. The output includes the release number after the version, so it shows a change that the version alone hides:
 
 ```
 kubectl exec -n <namespace> <postgres-pod> -c database -- \
-  getconf GNU_LIBC_VERSION
-```
-
-Example:
-
-```
-glibc 2.34
-```
-
-### Check the locale provider in each database
-
-```
-SELECT datname, datlocprovider, datcollversion FROM pg_database;
+  rpm -q glibc
 ```
 
 Sample output
 
 ```
-   datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
+glibc-2.34-275.el9_8.x86_64
 ```
 
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
+If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:
 
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [After the Pods restart](#after-the-pods-restart)
+```
+kubectl run glibc-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  rpm -q glibc
+```
+
+Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.
+
+Also check that every locale your databases use exists in the target image:
+
+```
+kubectl run locale-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  locale -a
+```
+
+A locale that is missing from the list can’t be used on that image.
+
+### Assess the collation risk
+
+A `glibc` change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.
+
+1. If the `glibc` build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.
+
+1. [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) and list the default locale and locale provider of each database:
+
+   ```
+   SELECT datname, datlocprovider, datcollate, datcollversion
+   FROM pg_database
+   WHERE datallowconn;
+   ```
+
+   Sample output
+
+   ```
+     datname  | datlocprovider | datcollate  | datcollversion
+   -----------+----------------+-------------+----------------
+    postgres  | c              | en_US.UTF-8 | 2.34
+    template1 | c              | en_US.UTF-8 | 2.34
+    cluster1  | c              | en_US.UTF-8 | 2.34
+   ```
+
+   The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on `glibc` or ICU.
+
+   PostgreSQL 14 has only the libc provider and no `datlocprovider` column. On PostgreSQL 14, run `SELECT datname, datcollate FROM pg_database WHERE datallowconn;` instead.
+
+1. In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:
+
+   ```
+   SELECT c.collname AS collation, c.collprovider, c.collcollate AS locale,
+          count(*) AS objects
+   FROM pg_depend d
+   JOIN pg_collation c
+     ON d.refclassid = 'pg_collation'::regclass AND d.refobjid = c.oid
+   WHERE c.collname NOT IN ('C', 'POSIX', 'default')
+   GROUP BY 1, 2, 3
+   UNION ALL
+   SELECT 'default', 'd', datcollate, NULL
+   FROM pg_database WHERE datname = current_database()
+   ORDER BY 1;
+   ```
+
+   Sample output
+
+   ```
+    collation  | collprovider |   locale    | objects
+   ------------+--------------+-------------+---------
+    C.utf8     | c            | C.utf8      |       1
+    default    | d            | en_US.UTF-8 |
+    sv_SE.utf8 | c            | sv_SE.utf8  |       2
+   ```
+
+   If every locale on the list is `C` or `POSIX`, or the database uses the built-in provider, this database isn’t affected.
+
+1. For each `glibc` locale on your list, find out whether its sorting rules changed between the two images.
+
+   The Operator creates clusters with the `en_US.UTF-8` locale. In the PostgreSQL images of Operator 3.1.0, `en_US.UTF-8` sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only `en_US.UTF-8` doesn’t need a repair when it moves between these images. `C.UTF-8` is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.
+
+   For other locales, and for images of later Operator releases, compare the sort order yourself.
+
+   1. Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In `psql`, run:
+
+      ```
+      \copy (SELECT <column> FROM <table> UNION SELECT <column> FROM <other_table>) TO 'values.txt'
+      ```
+
+      List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.
+
+   1. Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:
+
+      ```
+      kubectl run sort-check -n <namespace> --rm -i --restart=Never \
+        --image=<postgres-image> --command -- \
+        sh -c 'if LC_ALL=<locale> locale 2>&1 >/dev/null | grep -q .; then echo "Locale <locale> is missing in this image"; else LC_ALL=<locale> sort | md5sum; fi' \
+        < values.txt
+      ```
+
+   1. Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. `kubectl` also prints a `pod "sort-check" deleted` line, which you can ignore.
+
+   Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, `sort` silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.
+
+   Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.
+
+1. Decide:
+
+   - No locale on your list changed: you don’t need to repair anything.
+   - A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.
+
+If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new `glibc` with indexes that the old one built, while applications stay connected. [Repair the data](#after-the-pods-restart) before you let applications back in.
 
 ### Update PMM
 
@@ -160,61 +250,4 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
 
 ## After the Pods restart
 
-If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), `glibc` collation rules change.
-
-Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) with the privileges of the superuser or the database owner and run the following query:
-
-```
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
-```
-
-If you see affected indexes, find the databases whose collation version changed:
-
-```
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
-```
-
-Sample output
-
-```
-datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-```
-
-Rebuild affected indexes first. [REINDEX](https://www.postgresql.org/docs/current/sql-reindex.html) updates the index using the current collation rules:
-
-```
-REINDEX INDEX CONCURRENTLY <index_name>;
-```
-
-Repeat for every affected index, or rebuild all indexes in a database with `REINDEX DATABASE <database_name>;`.
-
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL’s recorded metadata. It does not rebuild indexes created using the previous collation rules:
-
-```
-ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
-```
-
-This command requires the privileges of a superuser or a database owner. **Repeat for every affected database.**
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn’t confirm that it didn’t, follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) when all Pods run on the new image. Keep the applications stopped until the repair is done.

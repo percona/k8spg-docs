@@ -129,6 +129,7 @@ Each page below is also available as markdown. For the documentation of all Perc
 - [Migrate using a standby cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-standby.md)
 - [Migrate using backup and restore](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-backup-restore.md)
 - [Migrate using data volumes](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-data-volumes.md)
+- [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.md)
 
 ## How-to
 

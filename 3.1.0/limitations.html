@@ -792,6 +792,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#glibc-collation-changes-between-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        glibc collation changes between images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4759,6 +4770,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7033,6 +7072,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#glibc-collation-changes-between-images" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        glibc collation changes between images
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#upgrades" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7166,9 +7216,27 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
 </li>
 </ol>
 <p>In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.</p>
+<h2 id="glibc-collation-changes-between-images">glibc collation changes between images<a data-markdown-ignore class="headerlink" href="#glibc-collation-changes-between-images" title="Permanent link">¶</a></h2>
+<p>This limitation applies whenever you reuse PostgreSQL data files on an image that ships a different <code>glibc</code> build. For example, if you <a href="update-db-major.html">upgrade</a> to an image with a different build or during <a href="migrate-from-crunchy.html">migration from Crunchy Operator</a> using a standby cluster, a backup and restore, or the existing volumes.</p>
+<p>PostgreSQL sorts and compares text using the locale data of the operating system’s C library (<code>glibc</code>). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.</p>
+<p>Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a <code>glibc</code> build with such a change. Switching the image tag suffix, for example from <code>-ubi8</code> to the default UBI 9 tag, changes the operating system and always changes the <code>glibc</code> version.</p>
+<p>Most <code>glibc</code> updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the <code>C</code> or <code>POSIX</code> locale, or the PostgreSQL built-in locale provider, aren’t affected. The libc <code>C.UTF-8</code> locale is different: its sort order changed between UBI 8 and UBI 9, and PostgreSQL records no version for it, so it never warns about the change.</p>
+<p>PostgreSQL records the upstream <code>glibc</code> version of each collation and warns when it changes. It warns for every libc collation, including the ones whose rules didn’t change. PostgreSQL 14 doesn’t record a version for the default collation of a database, so on PostgreSQL 14 you get no warning for it. PostgreSQL can’t see a change in the package build, and it can’t tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.</p>
+<p>If the collation changes affect an index, you can see:</p>
+<ul>
+<li>Missed or extra rows in query results</li>
+<li>Wrong results of <code>ORDER BY</code> / <code>LIMIT</code> and of <code>min()</code> / <code>max()</code></li>
+<li>Duplicate keys in <code>UNIQUE</code> indexes and primary keys, and <code>ON CONFLICT</code> clauses that misfire</li>
+<li>Wrong merge joins</li>
+<li>Runtime errors that report index corruption</li>
+</ul>
+<p>The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.</p>
+<p>For more details, see the PostgreSQL wiki page <a href="https://wiki.postgresql.org/wiki/Locale_data_changes">Locale data changes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post <a href="https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/">Ten ways a glibc change can break your PostgreSQL cluster <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
+<p>To find out whether the change affects the locales your databases use, follow <a href="migrate-checklist.html#assess-the-collation-risk">Assess the collation risk</a> for a migration, or the same step on the <a href="update-db-minor.html#assess-the-collation-risk">minor</a> and <a href="update-db-major.html#assess-the-collation-risk">major</a> upgrade pages. If a locale you use changed, follow <a href="collation-repair.html">Repair data after a collation change</a> before applications connect.</p>
 <h2 id="upgrades">Upgrades<a data-markdown-ignore class="headerlink" href="#upgrades" title="Permanent link">¶</a></h2>
 <ul>
 <li>A major database upgrade introduces a downtime because the whole cluster is shut down.</li>
+<li>If the new image ships a different <code>glibc</code> build, the sorting rules of some locales can change and the existing indexes can return wrong results. Before the upgrade, check whether the change affects the locales your databases use. See <a href="#glibc-collation-changes-between-images">glibc collation changes between images</a>.</li>
 <li>In clusters with very low write traffic, the first restore after a major upgrade can fail with the <code>could not find common ancestor of the source and target cluster's timelines</code> error in <code>pg_rewind</code>. In this case you must <a href="reinit.html">reinitialize the replica</a> to ensure it starts properly and starts streaming data from the primary.</li>
 <li>PostGIS extension is not updated automatically after the database update. You must <a href="update-extensions.html#upgrade-postgis-extension">manually update</a> it for each database where it is enabled.</li>
 <li><code>pgAudit</code> extension is not updated automatically during the major upgrade. You must <a href="update-db-major.html#post-upgrade-steps">drop and recreate</a> it manually for each database where it is installed. </li>
@@ -7179,7 +7247,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>certificates<span clas
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="October 29, 2026 08:37:55 UTC">October 29, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

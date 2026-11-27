@@ -4561,6 +4561,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -4981,6 +5009,34 @@
       
     </span>
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#switch-a-custom-extension-to-a-built-in-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch a custom extension to a built-in extension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Switch a custom extension to a built-in extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#move-pg_cron-jobs-into-the-postgres-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move pg_cron jobs into the postgres database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -7067,6 +7123,34 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#switch-a-custom-extension-to-a-built-in-extension" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Switch a custom extension to a built-in extension
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Switch a custom extension to a built-in extension">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#move-pg_cron-jobs-into-the-postgres-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Move pg_cron jobs into the postgres database
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -7531,12 +7615,50 @@ kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </sp
 </code></pre></div>
 </li>
 </ol>
+<h2 id="switch-a-custom-extension-to-a-built-in-extension">Switch a custom extension to a built-in extension<a data-markdown-ignore class="headerlink" href="#switch-a-custom-extension-to-a-built-in-extension" title="Permanent link">¶</a></h2>
+<p>Starting with version 3.1.0, <code>pg_cron</code> and <code>set_user</code> are built-in extensions. Your existing setup via <code>extensions.custom</code> remains unchanged and works as expected after the upgrade.</p>
+<p>To switch to the built-in flag, do the upgrade and the Custom Resource change in that order. The cluster then finishes each change in one pass.</p>
+<ol>
+<li><a href="update-operator.html">Upgrade the Operator</a> to version 3.1.0 or later. </li>
+<li><a href="update-db-minor.html">Upgrade the database images</a> first and wait until Pods rejoin the cluster. </li>
+<li>
+<p>Reconfigure the extensions. Edit <code>deploy/cr.yaml</code> and make both of these changes for each extension you switch:</p>
+<ul>
+<li>Remove the extension from the <code>extensions.custom</code> list</li>
+<li>Set <code>extensions.pg_cron.enabled</code> or <code>extensions.set_user.enabled</code> to <code>true</code>.</li>
+</ul>
+<p>You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from <code>extensions.custom</code> alone instructs the Operator to delete it. Wait until the database Pods rejoin the cluster.</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pg_cron</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">set_user</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</li>
+<li>
+<p>Apply the file:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>apply<span class="w"> </span>-f<span class="w"> </span>deploy/cr.yaml<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;
+</code></pre></div>
+</li>
+</ol>
+<p>When the built-in flag is <code>true</code>, the Operator appends <code>pg_cron</code> or <code>set_user</code> to <code>shared_preload_libraries</code>. For <code>pg_cron</code>, the Operator also sets <code>cron.database_name</code> to <code>postgres</code>. See <a href="immutable-options.html#extension-parameters">Extension parameters</a>.</p>
+<h3 id="move-pg_cron-jobs-into-the-postgres-database">Move pg_cron jobs into the postgres database<a data-markdown-ignore class="headerlink" href="#move-pg_cron-jobs-into-the-postgres-database" title="Permanent link">¶</a></h3>
+<p>Check <code>cron.database_name</code> before you switch <code>pg_cron</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">database_name</span><span class="p">;</span>
+</code></pre></div>
+<p>When the result is <code>postgres</code>, the existing jobs keep running. When it is another database, <code>pg_cron</code> stops reading the job list stored there after the switch. In that database, list the jobs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">jobname</span><span class="p">,</span><span class="w"> </span><span class="n">schedule</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">job</span><span class="p">;</span>
+</code></pre></div>
+<p>After the cluster is running with <code>extensions.pg_cron.enabled</code> set to <code>true</code>, connect to the <code>postgres</code> database and create each job again with <code>cron.schedule_in_database</code>. The last argument is the database where the command runs (<code>appdb</code> in this example):</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">schedule_in_database</span><span class="p">(</span><span class="s1">'weekly-vacuum'</span><span class="p">,</span><span class="w"> </span><span class="s1">'0 4 * * 0'</span><span class="p">,</span><span class="w"> </span><span class="s1">'VACUUM'</span><span class="p">,</span><span class="w"> </span><span class="s1">'appdb'</span><span class="p">);</span>
+</code></pre></div>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 10:58:16 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

@@ -20,7 +20,9 @@ Key benefits include:
 
 This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes).
 
-Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html) first. Also check the [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.html).
+Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html) first. Also check the [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.html). Extension settings come from the `PerconaPGCluster` spec. Set them in the manifest that creates the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+
+Compare also the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that you migrate can return wrong results, and every method needs a check and a repair of the affected objects before applications connect. The repair adds to the downtime. See [Compare OS, glibc, and ICU](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-os-glibc-and-icu).
 
 ## Choose a migration method
 

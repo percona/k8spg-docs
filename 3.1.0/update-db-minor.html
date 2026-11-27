@@ -4312,10 +4312,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-operating-system-and-collation-libraries-version" class="md-nav__link">
+  <a href="#check-operating-system-and-glibc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check operating system and collation libraries version
+        Check operating system and glibc
       
     </span>
   </a>
@@ -4323,10 +4323,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#check-the-locale-provider-in-each-database" class="md-nav__link">
+  <a href="#assess-the-collation-risk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check the locale provider in each database
+        Assess the collation risk
       
     </span>
   </a>
@@ -4690,6 +4690,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -6854,10 +6882,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-operating-system-and-collation-libraries-version" class="md-nav__link">
+  <a href="#check-operating-system-and-glibc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check operating system and collation libraries version
+        Check operating system and glibc
       
     </span>
   </a>
@@ -6865,10 +6893,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#check-the-locale-provider-in-each-database" class="md-nav__link">
+  <a href="#assess-the-collation-risk" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check the locale provider in each database
+        Assess the collation risk
       
     </span>
   </a>
@@ -6951,38 +6979,120 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <h2 id="considerations">Considerations<a data-markdown-ignore class="headerlink" href="#considerations" title="Permanent link">¶</a></h2>
 <ol>
 <li>Upgrading a PostgreSQL cluster may result in downtime, as well as in <a href="change-primary.html">failover</a> caused by updating the primary instance.</li>
-<li>Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of  <code>glibc</code> and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.</li>
+<li>Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of <code>glibc</code> and ICU collation libraries, and a new image build within one UBI major can update <code>glibc</code> as well. A different <code>glibc</code> build can change the sorting rules of some locales and corrupt the objects that depend on them, such as text-based indexes. Before the upgrade, <a href="#assess-the-collation-risk">check whether the change affects the locales your databases use</a>. See the <a href="limitations.html#glibc-collation-changes-between-images">glibc collation limitation</a>.</li>
 <li><a href="logical-replication.html">Logical replicas</a> can keep replicating after a minor upgrade if you <a href="ha-deploy.html#persist-replication-slots-across-failover">configured replication slots</a>. Without slots, a failover during the upgrade can break replication. <a href="logical-replication.html#reseed-a-logical-replica">Reseed</a> the replica if the status becomes <code>broken</code>.</li>
 </ol>
 <h2 id="before-you-start">Before you start<a data-markdown-ignore class="headerlink" href="#before-you-start" title="Permanent link">¶</a></h2>
-<h3 id="check-operating-system-and-collation-libraries-version">Check operating system and collation libraries version<a data-markdown-ignore class="headerlink" href="#check-operating-system-and-collation-libraries-version" title="Permanent link">¶</a></h3>
+<h3 id="check-operating-system-and-glibc">Check operating system and glibc<a data-markdown-ignore class="headerlink" href="#check-operating-system-and-glibc" title="Permanent link">¶</a></h3>
 <p>Check the operating system used by the PostgreSQL container:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>cat<span class="w"> </span>/etc/os-release
 </code></pre></div>
-<p>Check the <code>glibc</code> version:</p>
+<p>Check the <code>glibc</code> package build. The output includes the release number after the version, so it shows a change that the version alone hides:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>getconf<span class="w"> </span>GNU_LIBC_VERSION
-</code></pre></div>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>glibc 2.34
-</code></pre></div>
-<h3 id="check-the-locale-provider-in-each-database">Check the locale provider in each database<a data-markdown-ignore class="headerlink" href="#check-the-locale-provider-in-each-database" title="Permanent link">¶</a></h3>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
+<span class="w">  </span>rpm<span class="w"> </span>-q<span class="w"> </span>glibc
 </code></pre></div>
 <details class="example">
 <summary>Sample output</summary>
-</details>
-<div class="highlight"><pre><span></span><code>   datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
+<div class="highlight"><pre><span></span><code>glibc-2.34-275.el9_8.x86_64
 </code></pre></div>
-<p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
-<p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. See <a href="#after-the-pods-restart">After the Pods restart</a></p>
+</details>
+<p>If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>glibc-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rpm<span class="w"> </span>-q<span class="w"> </span>glibc
+</code></pre></div>
+<p>Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.</p>
+<p>Also check that every locale your databases use exists in the target image:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>locale-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>locale<span class="w"> </span>-a
+</code></pre></div>
+<p>A locale that is missing from the list can’t be used on that image.</p>
+<h3 id="assess-the-collation-risk">Assess the collation risk<a data-markdown-ignore class="headerlink" href="#assess-the-collation-risk" title="Permanent link">¶</a></h3>
+<p>A <code>glibc</code> change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.</p>
+<ol>
+<li>
+<p>If the <code>glibc</code> build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.</p>
+</li>
+<li>
+<p><a href="connect.html">Connect to PostgreSQL</a> and list the default locale and locale provider of each database:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">datallowconn</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>  datname  | datlocprovider | datcollate  | datcollversion
+-----------+----------------+-------------+----------------
+ postgres  | c              | en_US.UTF-8 | 2.34
+ template1 | c              | en_US.UTF-8 | 2.34
+ cluster1  | c              | en_US.UTF-8 | 2.34
+</code></pre></div>
+</details>
+<p>The <code>datlocprovider</code> column shows the locale provider: <code>c</code> is libc (<code>glibc</code>), <code>i</code> is ICU, and <code>b</code> is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on <code>glibc</code> or ICU.</p>
+<p>PostgreSQL 14 has only the libc provider and no <code>datlocprovider</code> column. On PostgreSQL 14, run <code>SELECT datname, datcollate FROM pg_database WHERE datallowconn;</code> instead.</p>
+</li>
+<li>
+<p>In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collname</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">collation</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collprovider</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collcollate</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">locale</span><span class="p">,</span>
+<span class="w">       </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">objects</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_depend</span><span class="w"> </span><span class="n">d</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span>
+<span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">refclassid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'pg_collation'</span><span class="p">::</span><span class="n">regclass</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">refobjid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">,</span><span class="w"> </span><span class="s1">'default'</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'default'</span><span class="p">,</span><span class="w"> </span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="k">NULL</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_database</span><span class="p">()</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code> collation  | collprovider |   locale    | objects
+------------+--------------+-------------+---------
+ C.utf8     | c            | C.utf8      |       1
+ default    | d            | en_US.UTF-8 |
+ sv_SE.utf8 | c            | sv_SE.utf8  |       2
+</code></pre></div>
+</details>
+<p>If every locale on the list is <code>C</code> or <code>POSIX</code>, or the database uses the built-in provider, this database isn’t affected.</p>
+</li>
+<li>
+<p>For each <code>glibc</code> locale on your list, find out whether its sorting rules changed between the two images.</p>
+<p>The Operator creates clusters with the <code>en_US.UTF-8</code> locale. In the PostgreSQL images of Operator 3.1.0, <code>en_US.UTF-8</code> sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only <code>en_US.UTF-8</code> doesn’t need a repair when it moves between these images. <code>C.UTF-8</code> is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.</p>
+<p>For other locales, and for images of later Operator releases, compare the sort order yourself.</p>
+<ol>
+<li>
+<p>Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In <code>psql</code>, run:</p>
+<div class="highlight"><pre><span></span><code><span class="err">\</span><span class="k">copy</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">&lt;</span><span class="k">column</span><span class="o">&gt;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table</span><span class="o">&gt;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">&lt;</span><span class="k">column</span><span class="o">&gt;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="n">other_table</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'values.txt'</span>
+</code></pre></div>
+<p>List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.</p>
+</li>
+<li>
+<p>Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>sort-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'if LC_ALL=&lt;locale&gt; locale 2&gt;&amp;1 &gt;/dev/null | grep -q .; then echo "Locale &lt;locale&gt; is missing in this image"; else LC_ALL=&lt;locale&gt; sort | md5sum; fi'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&lt;<span class="w"> </span>values.txt
+</code></pre></div>
+</li>
+<li>
+<p>Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. <code>kubectl</code> also prints a <code>pod "sort-check" deleted</code> line, which you can ignore.</p>
+</li>
+</ol>
+<p>Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, <code>sort</code> silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.</p>
+<p>Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.</p>
+</li>
+<li>
+<p>Decide:</p>
+<ul>
+<li>No locale on your list changed: you don’t need to repair anything.</li>
+<li>A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. <a href="collation-repair.html">Repair data after a collation change</a> tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.</li>
+</ul>
+</li>
+</ol>
+<p>If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new <code>glibc</code> with indexes that the old one built, while applications stay connected. <a href="#after-the-pods-restart">Repair the data</a> before you let applications back in.</p>
 <h3 id="update-pmm">Update PMM<a data-markdown-ignore class="headerlink" href="#update-pmm" title="Permanent link">¶</a></h3>
 <ol>
 <li><a href="https://docs.percona.com/percona-monitoring-and-management/3/pmm-upgrade/index.html">Update PMM Server <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a> <strong>before</strong> upgrading PMM Client.</li>
@@ -7079,57 +7189,13 @@ percona-postgresql-operator-79cd8586f5-2qzcs   1/1     Running     0          12
 </li>
 </ol>
 <h2 id="after-the-pods-restart">After the Pods restart<a data-markdown-ignore class="headerlink" href="#after-the-pods-restart" title="Permanent link">¶</a></h2>
-<p>If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), <code>glibc</code> collation rules change. </p>
-<p>Scan for indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). <a href="connect.html">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
-<span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
-<span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
-<span class="w">    </span><span class="n">collname</span><span class="p">,</span>
-<span class="w">    </span><span class="n">pg_get_indexdef</span><span class="p">(</span><span class="n">indexrelid</span><span class="p">)</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="n">indexrelid</span><span class="p">,</span>
-<span class="w">        </span><span class="n">indrelid</span><span class="p">,</span>
-<span class="w">        </span><span class="n">indcollation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">coll</span>
-<span class="w">    </span><span class="k">FROM</span>
-<span class="w">        </span><span class="n">pg_index</span><span class="p">,</span>
-<span class="w">        </span><span class="n">generate_subscripts</span><span class="p">(</span><span class="n">indcollation</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">g</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="n">s</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">coll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
-<span class="k">WHERE</span>
-<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
-<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
-</code></pre></div>
-<p>If you see affected indexes, find the databases whose collation 
-version changed:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-</code></pre></div>
-</details>
-<p>Rebuild affected indexes first. <a href="https://www.postgresql.org/docs/current/sql-reindex.html">REINDEX</a> updates the index using the current collation rules:</p>
-<div class="highlight"><pre><span></span><code><span class="k">REINDEX</span><span class="w"> </span><span class="k">INDEX</span><span class="w"> </span><span class="n">CONCURRENTLY</span><span class="w"> </span><span class="o">&lt;</span><span class="n">index_name</span><span class="o">&gt;</span><span class="p">;</span>
-</code></pre></div>
-<p>Repeat for every affected index, or rebuild all indexes in a database with <code>REINDEX DATABASE &lt;database_name&gt;;</code>.</p>
-<p>Then refresh collation metadata. <code>ALTER DATABASE ... REFRESH COLLATION VERSION</code> only updates PostgreSQL’s recorded metadata. It does not rebuild indexes created using the previous collation rules:</p>
-<div class="highlight"><pre><span></span><code><span class="k">ALTER</span><span class="w"> </span><span class="k">DATABASE</span><span class="w"> </span><span class="n">cluster1</span><span class="w"> </span><span class="n">REFRESH</span><span class="w"> </span><span class="k">COLLATION</span><span class="w"> </span><span class="k">VERSION</span><span class="p">;</span>
-</code></pre></div>
-<p>This command requires the privileges of a superuser or a database owner. 
-<strong>Repeat for every affected database.</strong></p>
+<p>If the <a href="#assess-the-collation-risk">collation risk assessment</a> showed that a locale you use changed, or you couldn’t confirm that it didn’t, follow <a href="collation-repair.html">Repair data after a collation change</a> when all Pods run on the new image. Keep the applications stopped until the repair is done.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

@@ -4561,6 +4561,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -7379,6 +7407,41 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </tr>
 </tbody>
 </table>
+<p>Starting with version 3.1.0, <code>pg_cron</code> and <code>set_user</code> are built-in extensions.</p>
+<p><strong>When <code>spec.extensions.pg_cron.enabled</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>pg_cron</code></td>
+</tr>
+<tr>
+<td><code>cron.database_name</code></td>
+<td><code>postgres</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>When <code>spec.extensions.set_user.enabled</code> is <code>true</code>:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>shared_preload_libraries</code></td>
+<td>Appended with <code>set_user</code></td>
+</tr>
+</tbody>
+</table>
 <p><strong>When <code>spec.extensions.pg_tde.enabled</code> is <code>true</code>:</strong></p>
 <table>
 <thead>
@@ -7467,7 +7530,7 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="September 9, 2026 12:43:05 UTC">September 9, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

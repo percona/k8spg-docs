@@ -16,7 +16,7 @@
         <link rel="prev" href="migrate-from-crunchy-backup-restore.html">
       
       
-        <link rel="next" href="custom-install.html">
+        <link rel="next" href="collation-repair.html">
       
       
         
@@ -4695,6 +4695,17 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#copy-user-passwords-from-crunchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy user passwords from Crunchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#retain-the-pv-and-remove-the-crunchy-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -4710,6 +4721,17 @@
     <span class="md-ellipsis">
       
         Create the Percona cluster bound to the retained volume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repair-collation-affected-objects-if-the-glibc-builds-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair collation-affected objects if the glibc builds differ
       
     </span>
   </a>
@@ -4844,6 +4866,34 @@
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -7084,6 +7134,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
       
         <li class="md-nav__item">
+  <a href="#copy-user-passwords-from-crunchy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Copy user passwords from Crunchy
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#retain-the-pv-and-remove-the-crunchy-cluster" class="md-nav__link">
     <span class="md-ellipsis">
       
@@ -7099,6 +7160,17 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
     <span class="md-ellipsis">
       
         Create the Percona cluster bound to the retained volume
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#repair-collation-affected-objects-if-the-glibc-builds-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair collation-affected objects if the glibc builds differ
       
     </span>
   </a>
@@ -7308,7 +7380,12 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 <p>The <code>PostgresCluster</code> examples in this guide use the <code>postgres-operator.crunchydata.com/v1beta1</code> API version. Crunchy PostgreSQL Operator 6.0 also serves this version, so the examples work for both Crunchy versions. Crunchy 6.0 adds the <code>v1</code> version, and <code>kubectl</code> returns objects in <code>v1</code> by default.</p>
 <p>For the differences between the Crunchy and Percona Custom Resources, see <a href="migrate-crunchy-differences.html">Crunchy and Percona Custom Resource differences</a>.</p>
 <h2 id="before-you-migrate">Before you migrate<a data-markdown-ignore class="headerlink" href="#before-you-migrate" title="Permanent link">¶</a></h2>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Complete all checks and understand your steps before you run this procedure. </p>
+</div>
 <p>Complete the <a href="migrate-checklist.html">Pre-migration compatibility checks</a>. Physical methods require a matching PostgreSQL major version and CPU architecture.</p>
+<p>Compare the <code>glibc</code> build of the Crunchy and the Percona images. If they differ, the indexes on the reused volume can return wrong results. <a href="#repair-collation-affected-objects-if-the-glibc-builds-differ">Repair the affected objects</a> before you point applications to Percona. See the <a href="migrate-checklist.html#understand-the-glibc-collation-limitation">glibc collation limitation</a>.</p>
 <h2 id="prerequisites">Prerequisites<a data-markdown-ignore class="headerlink" href="#prerequisites" title="Permanent link">¶</a></h2>
 <p>Ensure you have the following:</p>
 <ul>
@@ -7502,6 +7579,36 @@ WAL PV:      pvc-6513ae01-fda9-412f-92c6-2fac02eb4c0b
 </code></pre></div>
 </li>
 </ol>
+<h2 id="copy-user-passwords-from-crunchy">Copy user passwords from Crunchy<a data-markdown-ignore class="headerlink" href="#copy-user-passwords-from-crunchy" title="Permanent link">¶</a></h2>
+<p>The Operator manages the users you list in <code>spec.users</code>. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.</p>
+<p>To keep the Crunchy passwords, copy them to the Percona namespace <strong>before</strong> you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the <code>PostgresCluster</code> also deletes its user Secrets.</p>
+<ol>
+<li>
+<p>List the user Secrets of the Crunchy cluster:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>-l<span class="w"> </span>postgres-operator.crunchydata.com/cluster<span class="o">=</span>crunchy-source,postgres-operator.crunchydata.com/role<span class="o">=</span>pguser
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>NAME                                   TYPE     DATA   AGE
+crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+</code></pre></div>
+</details>
+<p>The Secret names follow the <code>&lt;clusterName&gt;-pguser-&lt;userName&gt;</code> pattern.</p>
+</li>
+<li>
+<p>For every user, create a Secret named <code>&lt;perconaClusterName&gt;-pguser-&lt;userName&gt;</code> in the Percona namespace with the <code>password</code> and <code>verifier</code> keys from the Crunchy Secret. The following example copies the credentials of the <code>crunchy-source</code> user to the Secret for the <code>cluster1</code> Percona cluster:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">USER_NAME</span><span class="o">=</span>crunchy-source
+kubectl<span class="w"> </span>create<span class="w"> </span>secret<span class="w"> </span>generic<span class="w"> </span>cluster1-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">NAMESPACE</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">password</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.password}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span><span class="s2">"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--from-literal<span class="o">=</span><span class="nv">verifier</span><span class="o">=</span><span class="s2">"</span><span class="k">$(</span>kubectl<span class="w"> </span>get<span class="w"> </span>secret<span class="w"> </span>crunchy-source-pguser-<span class="si">${</span><span class="nv">USER_NAME</span><span class="si">}</span><span class="w"> </span>-n<span class="w"> </span><span class="s2">"</span><span class="si">${</span><span class="nv">CRUNCHY_NS</span><span class="si">}</span><span class="s2">"</span><span class="w"> </span>-o<span class="w"> </span><span class="nv">jsonpath</span><span class="o">=</span><span class="s1">'{.data.verifier}'</span><span class="w"> </span><span class="p">|</span><span class="w"> </span>base64<span class="w"> </span>--decode<span class="k">)</span><span class="s2">"</span>
+</code></pre></div>
+<p>Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy <code>PostgresCluster</code>, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as <code>host</code> and <code>uri</code>, and points them to the Percona cluster Services.</p>
+</li>
+<li>
+<p>List the same users in <code>spec.users</code> when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.</p>
+</li>
+</ol>
 <h2 id="retain-the-pv-and-remove-the-crunchy-cluster">Retain the PV and remove the Crunchy cluster<a data-markdown-ignore class="headerlink" href="#retain-the-pv-and-remove-the-crunchy-cluster" title="Permanent link">¶</a></h2>
 <p>The default reclaim policy for a dynamically PersistentVolume is <code>Delete</code>. This means that as soon as there are no Persistent Volume Claims (PVC) bound to this PV, Kubernetes deletes it and all data is lost. To prevent this, change the PV reclaim policy to <code>Retain</code>.</p>
 <p>After you delete the Crunchy cluster and clear the PV’s claim reference, the PV becomes <code>Available</code>. An <code>Available</code> PV can be bound by <strong>any</strong> PVC in the Kubernetes cluster that has no selector, uses the same StorageClass, and requests no more than the PV size. This includes the <code>repo1</code> PVC of the new Percona cluster and PVCs of unrelated applications in other namespaces. A label and a selector on the Percona PVC don’t prevent this. To keep the PV for the Percona cluster, move it to a StorageClass name that no other PVC uses before you free it.</p>
@@ -7623,6 +7730,8 @@ kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> <
 <li>In <code>dataVolumeClaimSpec</code>, set <code>storageClassName</code> to the StorageClass name you gave the PV, and add a <code>selector</code> matching the PV label. This ensures the PVC binds only to the migrated PV.</li>
 <li>If you have a WAL volume, add <code>walVolumeClaimSpec</code> with the same StorageClass name and a selector matching the WAL PV label. Without it, PostgreSQL doesn’t start: the <code>postgres-startup</code> init container fails with <code>mv: cannot stat '/pgwal/pg18_wal': No such file or directory</code>.</li>
 <li>If you have tablespace volumes, add one <code>tablespaceVolumes</code> entry per tablespace. Use <strong>the same name</strong> as in the Crunchy cluster, the migration StorageClass name, and a selector matching the tablespace PV label. Without it, the cluster starts and reports <code>ready</code>, but queries on tables in the tablespace fail, and so do backups.</li>
+<li>Configure extensions in this manifest before you create the cluster. See <a href="migrate-checklist.html#compare-extensions">Compare extensions</a>.</li>
+<li>List every migrated user in <code>spec.users</code> and set <code>autoCreateUserSchema</code> to match the source cluster’s behavior. See <a href="migrate-checklist.html#check-what-else-changes-after-migration">Check what else changes after migration</a>.</li>
 </ul>
 <p>You don’t need node affinity rules, even for node-local storage such as local-path: with the migration StorageClass name, Kubernetes binds the PVC to the PV first, and then schedules the Pod to the node or zone where the PV is.</p>
 <p>Here is the example configuration:</p>
@@ -7724,6 +7833,9 @@ kubectl<span class="w"> </span>label<span class="w"> </span>pv<span class="w"> <
 <p>About 10-20 seconds after the first start, Patroni restarts PostgreSQL once. Clients that connect at this moment can get one or two connection errors.</p>
 </li>
 </ol>
+<h2 id="repair-collation-affected-objects-if-the-glibc-builds-differ">Repair collation-affected objects if the glibc builds differ<a data-markdown-ignore class="headerlink" href="#repair-collation-affected-objects-if-the-glibc-builds-differ" title="Permanent link">¶</a></h2>
+<p>Skip this section if the <a href="migrate-checklist.html#assess-the-collation-risk">collation risk assessment</a> showed that no locale you use changed.</p>
+<p>The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow <a href="collation-repair.html">Repair data after a collation change</a>.</p>
 <h2 id="scale-out-the-cluster">Scale out the cluster<a data-markdown-ignore class="headerlink" href="#scale-out-the-cluster" title="Permanent link">¶</a></h2>
 <p>You started the cluster with a single replica, so the Operator created a PersistentVolumeClaim (PVC) that bound to your labelled PersistentVolume (PV) containing the migrated data. Once you have confirmed that the primary instance is healthy, scale out your cluster for high availability. </p>
 <p>While the selector and the migration StorageClass name are present in the cluster configuration, the Operator can’t create volumes for new replicas: no other PV carries the label, and no StorageClass object with this name exists. Therefore, you need to remove both. Without <code>storageClassName</code>, the Operator creates new PVCs for each replica using your default StorageClass. The existing PVC of the primary keeps its binding.</p>
@@ -7891,7 +8003,7 @@ kubectl<span class="w"> </span>get<span class="w"> </span>pv<span class="w"> </s
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 23, 2026 10:11:24 UTC">November 23, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

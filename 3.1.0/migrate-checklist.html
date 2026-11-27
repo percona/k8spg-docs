@@ -4530,10 +4530,10 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-operating-system" class="md-nav__link">
+  <a href="#understand-the-glibc-collation-limitation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check operating system
+        Understand the glibc collation limitation
       
     </span>
   </a>
@@ -4541,10 +4541,43 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
 </li>
         
           <li class="md-nav__item">
-  <a href="#check-icu-library-version" class="md-nav__link">
+  <a href="#check-operating-system-and-glibc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check ICU library version
+        Check operating system and glibc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assess-the-collation-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assess the collation risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decide-what-to-do-if-the-libraries-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decide what to do if the libraries differ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repair-the-affected-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair the affected objects
       
     </span>
   </a>
@@ -4564,6 +4597,150 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Compare extensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#record-extensions-on-the-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record extensions on the source
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-built-in-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable built-in extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostGIS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-extensions-that-are-not-in-the-percona-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install extensions that are not in the Percona image
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#match-set_user-and-pg_cron-to-the-operator-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match set_user and pg_cron to the Operator version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-what-else-changes-after-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check what else changes after migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Check what else changes after migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#match-passwords-for-operator-managed-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match passwords for Operator-managed users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-the-user-schema-behavior-crunchy-had" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep the user schema behavior Crunchy had
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recreate-non-extension-postgres-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recreate non-extension Postgres settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-labels-services-and-anything-that-reads-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update labels, Services and anything that reads them
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replace-monitoring-and-admin-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replace monitoring and admin tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotate-tls-certificates-after-a-standby-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotate TLS certificates after a standby cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -4702,6 +4879,34 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
           </ul>
         </nav>
       
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="collation-repair.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Repair data after a collation change
+  
+
+    
+  </span>
+  
+  
+
+      </a>
     </li>
   
 
@@ -6888,10 +7093,10 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#check-operating-system" class="md-nav__link">
+  <a href="#understand-the-glibc-collation-limitation" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check operating system
+        Understand the glibc collation limitation
       
     </span>
   </a>
@@ -6899,10 +7104,43 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 </li>
         
           <li class="md-nav__item">
-  <a href="#check-icu-library-version" class="md-nav__link">
+  <a href="#check-operating-system-and-glibc" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Check ICU library version
+        Check operating system and glibc
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#assess-the-collation-risk" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Assess the collation risk
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#decide-what-to-do-if-the-libraries-differ" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decide what to do if the libraries differ
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#repair-the-affected-objects" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Repair the affected objects
       
     </span>
   </a>
@@ -6922,6 +7160,150 @@ box-shadow: 0 1px 3px rgba(0,0,0,0.2);
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Compare extensions">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#record-extensions-on-the-source" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Record extensions on the source
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-built-in-extensions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Enable built-in extensions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#postgis" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PostGIS
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#install-extensions-that-are-not-in-the-percona-image" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Install extensions that are not in the Percona image
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#match-set_user-and-pg_cron-to-the-operator-version" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match set_user and pg_cron to the Operator version
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#check-what-else-changes-after-migration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Check what else changes after migration
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Check what else changes after migration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#match-passwords-for-operator-managed-users" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Match passwords for Operator-managed users
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#keep-the-user-schema-behavior-crunchy-had" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep the user schema behavior Crunchy had
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#recreate-non-extension-postgres-settings" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Recreate non-extension Postgres settings
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#update-labels-services-and-anything-that-reads-them" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Update labels, Services and anything that reads them
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#replace-monitoring-and-admin-tools" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Replace monitoring and admin tools
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#rotate-tls-certificates-after-a-standby-cutover" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rotate TLS certificates after a standby cutover
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -6983,14 +7365,10 @@ PostgreSQL data volume all reuse the source PGDATA files. For all these methods,
     A[Compare PostgreSQL major versions] --&gt;|Different| B[Do not use standby, backup/restore, or volume reuse]
     A --&gt;|Same| C[Compare CPU architecture]
     C --&gt;|Different| D[Prefer logical migration]
-    C --&gt;|Same| E[Compare OS / glibc / ICU]
+    C --&gt;|Same| E[Compare glibc build and ICU]
     E --&gt;|Same| F[Compare extensions]
-    E --&gt;|Different| G[Check collation versions]
-    G --&gt;|Match| F
-    G --&gt;|Mismatch| H[Identify affected indexes]
-    H --&gt; I[REINDEX]
-    I --&gt; J[REFRESH COLLATION VERSION]
-    J --&gt; F
+    E --&gt;|Different| G[Find and repair the objects that the collation change affects before applications connect]
+    G --&gt; F
     F --&gt; K[Trial runs]
     K --&gt; L[Fix issues if any]
     L --&gt; M[Migrate]
@@ -7038,107 +7416,172 @@ x86_64 -&gt; ARM64     Not OK
 </code></pre></div>
 <p>Use <code>pg_dump</code> / <code>pg_restore</code> when you migrate across incompatible architectures.</p>
 <h2 id="compare-os-glibc-and-icu">Compare OS, glibc, and ICU<a data-markdown-ignore class="headerlink" href="#compare-os-glibc-and-icu" title="Permanent link">¶</a></h2>
-<p>Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).</p>
-<h3 id="check-operating-system">Check operating system<a data-markdown-ignore class="headerlink" href="#check-operating-system" title="Permanent link">¶</a></h3>
+<p>Crunchy and Percona images can ship different operating system releases and different <code>glibc</code> builds. A difference changes how PostgreSQL sorts text, while the indexes that you migrate keep the old order. Read the limitation, compare the images and check that the target image includes every locale your databases use, then decide how to migrate.</p>
+<h3 id="understand-the-glibc-collation-limitation">Understand the glibc collation limitation<a data-markdown-ignore class="headerlink" href="#understand-the-glibc-collation-limitation" title="Permanent link">¶</a></h3>
+<p>PostgreSQL sorts and compares text using the locale data of the operating system’s C library (<code>glibc</code>). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.</p>
+<p>Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a <code>glibc</code> build with such a change. Switching the image tag suffix, for example from <code>-ubi8</code> to the default UBI 9 tag, changes the operating system and always changes the <code>glibc</code> version.</p>
+<p>Most <code>glibc</code> updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the <code>C</code> or <code>POSIX</code> locale, or the PostgreSQL built-in locale provider, aren’t affected. The libc <code>C.UTF-8</code> locale is different: its sort order changed between UBI 8 and UBI 9, and PostgreSQL records no version for it, so it never warns about the change.</p>
+<p>PostgreSQL records the upstream <code>glibc</code> version of each collation and warns when it changes. It warns for every libc collation, including the ones whose rules didn’t change. PostgreSQL 14 doesn’t record a version for the default collation of a database, so on PostgreSQL 14 you get no warning for it. PostgreSQL can’t see a change in the package build, and it can’t tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.</p>
+<p>If the collation changes affect an index, you can see:</p>
+<ul>
+<li>Missed or extra rows in query results</li>
+<li>Wrong results of <code>ORDER BY</code> / <code>LIMIT</code> and of <code>min()</code> / <code>max()</code></li>
+<li>Duplicate keys in <code>UNIQUE</code> indexes and primary keys, and <code>ON CONFLICT</code> clauses that misfire</li>
+<li>Wrong merge joins</li>
+<li>Runtime errors that report index corruption</li>
+</ul>
+<p>The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.</p>
+<p>For more details, see the PostgreSQL wiki page <a href="https://wiki.postgresql.org/wiki/Locale_data_changes">Locale data changes <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post <a href="https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/">Ten ways a glibc change can break your PostgreSQL cluster <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>.</p>
+<h3 id="check-operating-system-and-glibc">Check operating system and glibc<a data-markdown-ignore class="headerlink" href="#check-operating-system-and-glibc" title="Permanent link">¶</a></h3>
+<p>Run these commands against the source Crunchy Pod. Repeat them against the target Percona image.</p>
 <p>Check the operating system used by the PostgreSQL container:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
 <span class="w">  </span>cat<span class="w"> </span>/etc/os-release
 </code></pre></div>
-<p>Check the <code>glibc</code> version:</p>
+<p>Check the <code>glibc</code> package build. The output includes the release number after the version, so it shows a change that the version alone hides:</p>
 <div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span><span class="nb">exec</span><span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>&lt;postgres-pod&gt;<span class="w"> </span>-c<span class="w"> </span>database<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
-<span class="w">  </span>getconf<span class="w"> </span>GNU_LIBC_VERSION
+<span class="w">  </span>rpm<span class="w"> </span>-q<span class="w"> </span>glibc
 </code></pre></div>
-<p>Example:</p>
-<div class="highlight"><pre><span></span><code>glibc 2.34
+<details class="example">
+<summary>Sample output</summary>
+<div class="highlight"><pre><span></span><code>glibc-2.34-275.el9_8.x86_64
 </code></pre></div>
-<p>Percona PostgreSQL images are based on <a href="https://catalog.redhat.com/en/software/base-images">Red Hat Universal Base Image (UBI) <span class="twemoji"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M3.75 2h3.5a.75.75 0 0 1 0 1.5h-3.5a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h8.5a.25.25 0 0 0 .25-.25v-3.5a.75.75 0 0 1 1.5 0v3.5A1.75 1.75 0 0 1 12.25 14h-8.5A1.75 1.75 0 0 1 2 12.25v-8.5C2 2.784 2.784 2 3.75 2m6.854-1h4.146a.25.25 0 0 1 .25.25v4.146a.25.25 0 0 1-.427.177L13.03 4.03 9.28 7.78a.75.75 0 0 1-1.042-.018.75.75 0 0 1-.018-1.042l3.75-3.75-1.543-1.543A.25.25 0 0 1 10.604 1"></path></svg></span></a>. Each UBI major ships a different <code>glibc</code> version:</p>
+</details>
+<p>If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>glibc-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>rpm<span class="w"> </span>-q<span class="w"> </span>glibc
+</code></pre></div>
+<p>Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.</p>
+<p>Also check that every locale your databases use exists in the target image:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>locale-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>locale<span class="w"> </span>-a
+</code></pre></div>
+<p>A locale that is missing from the list can’t be used on that image.</p>
+<h3 id="assess-the-collation-risk">Assess the collation risk<a data-markdown-ignore class="headerlink" href="#assess-the-collation-risk" title="Permanent link">¶</a></h3>
+<p>Run the queries against the source Crunchy cluster.</p>
+<p>A <code>glibc</code> change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.</p>
+<ol>
+<li>
+<p>If the <code>glibc</code> build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.</p>
+</li>
+<li>
+<p><a href="connect.html">Connect to PostgreSQL</a> and list the default locale and locale provider of each database:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="n">datallowconn</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code>  datname  | datlocprovider | datcollate  | datcollversion
+-----------+----------------+-------------+----------------
+ postgres  | c              | en_US.UTF-8 | 2.34
+ template1 | c              | en_US.UTF-8 | 2.34
+ cluster1  | c              | en_US.UTF-8 | 2.34
+</code></pre></div>
+</details>
+<p>The <code>datlocprovider</code> column shows the locale provider: <code>c</code> is libc (<code>glibc</code>), <code>i</code> is ICU, and <code>b</code> is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on <code>glibc</code> or ICU.</p>
+<p>PostgreSQL 14 has only the libc provider and no <code>datlocprovider</code> column. On PostgreSQL 14, run <code>SELECT datname, datcollate FROM pg_database WHERE datallowconn;</code> instead.</p>
+</li>
+<li>
+<p>In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collname</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="k">collation</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collprovider</span><span class="p">,</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collcollate</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">locale</span><span class="p">,</span>
+<span class="w">       </span><span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span><span class="w"> </span><span class="k">AS</span><span class="w"> </span><span class="n">objects</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_depend</span><span class="w"> </span><span class="n">d</span>
+<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span>
+<span class="w">  </span><span class="k">ON</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">refclassid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">'pg_collation'</span><span class="p">::</span><span class="n">regclass</span><span class="w"> </span><span class="k">AND</span><span class="w"> </span><span class="n">d</span><span class="p">.</span><span class="n">refobjid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
+<span class="k">WHERE</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">,</span><span class="w"> </span><span class="s1">'default'</span><span class="p">)</span>
+<span class="k">GROUP</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span>
+<span class="k">UNION</span><span class="w"> </span><span class="k">ALL</span>
+<span class="k">SELECT</span><span class="w"> </span><span class="s1">'default'</span><span class="p">,</span><span class="w"> </span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="k">NULL</span>
+<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="w"> </span><span class="k">WHERE</span><span class="w"> </span><span class="n">datname</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">current_database</span><span class="p">()</span>
+<span class="k">ORDER</span><span class="w"> </span><span class="k">BY</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span>
+</code></pre></div>
+<details class="example">
+<summary>Sample output</summary>
+<div class="no-copy highlight"><pre><span></span><code> collation  | collprovider |   locale    | objects
+------------+--------------+-------------+---------
+ C.utf8     | c            | C.utf8      |       1
+ default    | d            | en_US.UTF-8 |
+ sv_SE.utf8 | c            | sv_SE.utf8  |       2
+</code></pre></div>
+</details>
+<p>If every locale on the list is <code>C</code> or <code>POSIX</code>, or the database uses the built-in provider, this database isn’t affected.</p>
+</li>
+<li>
+<p>For each <code>glibc</code> locale on your list, find out whether its sorting rules changed between the two images.</p>
+<p>The Operator creates clusters with the <code>en_US.UTF-8</code> locale. In the PostgreSQL images of Operator 3.1.0, <code>en_US.UTF-8</code> sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only <code>en_US.UTF-8</code> doesn’t need a repair when it moves between these images. <code>C.UTF-8</code> is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.</p>
+<p>For other locales, and for images of later Operator releases, compare the sort order yourself.</p>
+<ol>
+<li>
+<p>Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In <code>psql</code>, run:</p>
+<div class="highlight"><pre><span></span><code><span class="err">\</span><span class="k">copy</span><span class="w"> </span><span class="p">(</span><span class="k">SELECT</span><span class="w"> </span><span class="o">&lt;</span><span class="k">column</span><span class="o">&gt;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="k">table</span><span class="o">&gt;</span><span class="w"> </span><span class="k">UNION</span><span class="w"> </span><span class="k">SELECT</span><span class="w"> </span><span class="o">&lt;</span><span class="k">column</span><span class="o">&gt;</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="o">&lt;</span><span class="n">other_table</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="k">TO</span><span class="w"> </span><span class="s1">'values.txt'</span>
+</code></pre></div>
+<p>List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.</p>
+</li>
+<li>
+<p>Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:</p>
+<div class="highlight"><pre><span></span><code>kubectl<span class="w"> </span>run<span class="w"> </span>sort-check<span class="w"> </span>-n<span class="w"> </span>&lt;namespace&gt;<span class="w"> </span>--rm<span class="w"> </span>-i<span class="w"> </span>--restart<span class="o">=</span>Never<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--image<span class="o">=</span>&lt;postgres-image&gt;<span class="w"> </span>--command<span class="w"> </span>--<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>sh<span class="w"> </span>-c<span class="w"> </span><span class="s1">'if LC_ALL=&lt;locale&gt; locale 2&gt;&amp;1 &gt;/dev/null | grep -q .; then echo "Locale &lt;locale&gt; is missing in this image"; else LC_ALL=&lt;locale&gt; sort | md5sum; fi'</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>&lt;<span class="w"> </span>values.txt
+</code></pre></div>
+</li>
+<li>
+<p>Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. <code>kubectl</code> also prints a <code>pod "sort-check" deleted</code> line, which you can ignore.</p>
+</li>
+</ol>
+<p>Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, <code>sort</code> silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.</p>
+<p>Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.</p>
+</li>
+<li>
+<p>Decide:</p>
+<ul>
+<li>No locale on your list changed: you don’t need to repair anything.</li>
+<li>A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. <a href="collation-repair.html">Repair data after a collation change</a> tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.</li>
+</ul>
+</li>
+</ol>
+<h3 id="decide-what-to-do-if-the-libraries-differ">Decide what to do if the libraries differ<a data-markdown-ignore class="headerlink" href="#decide-what-to-do-if-the-libraries-differ" title="Permanent link">¶</a></h3>
+<p>If the assessment shows that no locale you use changed, continue with the next checks.</p>
+<p>If a locale you use changed, or you can’t confirm that it didn’t, all three migration methods carry the risk. Each of them reuses the indexes that the Crunchy image built. Before you point any application to the new cluster, <a href="#repair-the-affected-objects">repair the affected objects</a>.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Rehearse the find and repair steps in every trial run, so that you know what the checks find in your data and how long the repair takes. Repeat them during the production cutover.</p>
+</div>
+<p>Plan downtime for the repair. Duplicate keys and rows that violate a constraint need a decision from you about which data to keep.</p>
+<p>When to run the steps depends on the migration method:</p>
 <table>
 <thead>
 <tr>
-<th>UBI version</th>
-<th>glibc version</th>
+<th>Migration method</th>
+<th>When to repair</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>UBI 8</td>
-<td>glibc 2.28</td>
+<td>Standby cluster</td>
+<td>After you promote the standby. A standby is read-only and can’t repair objects, so don’t run application queries that rely on text indexes against it. The repair adds to the cutover downtime, so the standby method no longer gives near-zero downtime.</td>
 </tr>
 <tr>
-<td>UBI 9</td>
-<td>glibc 2.34</td>
+<td>Backup and restore</td>
+<td>After the restore completes and before you point applications to the new cluster</td>
 </tr>
 <tr>
-<td>UBI 10</td>
-<td>glibc 2.39</td>
+<td>Reusing data volumes</td>
+<td>After the Percona cluster starts and before you point applications to it</td>
 </tr>
 </tbody>
 </table>
-<p>Use the same UBI major for every instance in a cluster. Find image tags in <a href="images.html">Percona certified images</a>.</p>
-<p>If the Crunchy image is UBI 8 and you use the default Percona image (UBI 9), you will see a <code>glibc</code> change:</p>
-<div class="highlight"><pre><span></span><code>Source:
-  UBI 8
-  glibc 2.28
-
-Target:
-  UBI 9
-  glibc 2.34
-</code></pre></div>
-<p>A different <code>glibc</code> version does not by itself make the PostgreSQL data directory incompatible. <code>glibc</code> provides locale and collation rules that PostgreSQL uses. A change in these rules can make existing collation-dependent indexes inconsistent with the target operating system. See <a href="https://wiki.postgresql.org/wiki/Locale_data_changes">Locale data changes</a> in the PostgreSQL wiki.</p>
-<h3 id="check-icu-library-version">Check ICU library version<a data-markdown-ignore class="headerlink" href="#check-icu-library-version" title="Permanent link">¶</a></h3>
-<p>PostgreSQL may also use ICU for collations. Check the locale provider in each database:</p>
-<div class="highlight"><pre><span></span><code><span class="w">  </span><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="highlight"><pre><span></span><code>  datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
-</code></pre></div>
-</details>
-<p><code>c</code> is libc (<code>glibc</code>). <code>i</code> is ICU. If the provider is <code>i</code> and the source and target images ship different ICU libraries, treat that the same as a <code>glibc</code> change.</p>
-<p>If <code>glibc</code> or ICU differs, run the collation checks <strong>after</strong> PostgreSQL starts on the target image. You can run the index scan on the source cluster beforehand to estimate the work.</p>
-<p><a href="connect.html">Connect to PostgreSQL</a> with the privileges of the superuser or the database owner and run the following query:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="k">DISTINCT</span>
-<span class="w">    </span><span class="n">indrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
-<span class="w">    </span><span class="n">indexrelid</span><span class="p">::</span><span class="n">regclass</span><span class="p">::</span><span class="nb">text</span><span class="p">,</span>
-<span class="w">    </span><span class="n">collname</span><span class="p">,</span>
-<span class="w">    </span><span class="n">pg_get_indexdef</span><span class="p">(</span><span class="n">indexrelid</span><span class="p">)</span>
-<span class="k">FROM</span><span class="w"> </span><span class="p">(</span>
-<span class="w">    </span><span class="k">SELECT</span>
-<span class="w">        </span><span class="n">indexrelid</span><span class="p">,</span>
-<span class="w">        </span><span class="n">indrelid</span><span class="p">,</span>
-<span class="w">        </span><span class="n">indcollation</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="w"> </span><span class="n">coll</span>
-<span class="w">    </span><span class="k">FROM</span>
-<span class="w">        </span><span class="n">pg_index</span><span class="p">,</span>
-<span class="w">        </span><span class="n">generate_subscripts</span><span class="p">(</span><span class="n">indcollation</span><span class="p">,</span><span class="w"> </span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="k">g</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
-<span class="p">)</span><span class="w"> </span><span class="n">s</span>
-<span class="k">JOIN</span><span class="w"> </span><span class="n">pg_collation</span><span class="w"> </span><span class="k">c</span><span class="w"> </span><span class="k">ON</span><span class="w"> </span><span class="n">coll</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="k">c</span><span class="p">.</span><span class="n">oid</span>
-<span class="k">WHERE</span>
-<span class="w">    </span><span class="n">collprovider</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'d'</span><span class="p">,</span><span class="w"> </span><span class="s1">'c'</span><span class="p">)</span>
-<span class="w">    </span><span class="k">AND</span><span class="w"> </span><span class="n">collname</span><span class="w"> </span><span class="k">NOT</span><span class="w"> </span><span class="k">IN</span><span class="w"> </span><span class="p">(</span><span class="s1">'C'</span><span class="p">,</span><span class="w"> </span><span class="s1">'POSIX'</span><span class="p">);</span>
-</code></pre></div>
-<p>Check indexes that rely on collations other than <code>C</code> or <code>POSIX</code> and whose collations were provided by the operating system (<code>c</code>) or dynamic libraries (<code>d</code>). If you see affected indexes, find the databases whose collation
-version changed:</p>
-<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">datname</span><span class="p">,</span><span class="w"> </span><span class="n">datlocprovider</span><span class="p">,</span><span class="w"> </span><span class="n">datcollate</span><span class="p">,</span><span class="w"> </span><span class="n">datcollversion</span>
-<span class="k">FROM</span><span class="w"> </span><span class="n">pg_database</span><span class="p">;</span>
-</code></pre></div>
-<details class="example">
-<summary>Sample output</summary>
-<div class="no-copy highlight"><pre><span></span><code>datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-</code></pre></div>
-</details>
+<h3 id="repair-the-affected-objects">Repair the affected objects<a data-markdown-ignore class="headerlink" href="#repair-the-affected-objects" title="Permanent link">¶</a></h3>
+<p>Follow <a href="collation-repair.html">Repair data after a collation change</a> on the primary of the Percona cluster, at the time the table in <a href="#decide-what-to-do-if-the-libraries-differ">Decide what to do if the libraries differ</a> gives for your migration method.</p>
 <h2 id="compare-extensions">Compare extensions<a data-markdown-ignore class="headerlink" href="#compare-extensions" title="Permanent link">¶</a></h2>
-<p>Record the extension list and versions on the source cluster before you migrate.</p>
+<p>pgBackRest restores initialize the new cluster from a physical copy of the Crunchy cluster’s data, while volume reuse starts it on the original data directory. In all three cases, the migrated data includes the <code>pg_extension</code> catalog, so PostgreSQL retains a record of installed extensions and the objects those extensions created.</p>
+<p>The Operator does not read that catalog and copy the Crunchy settings. It applies the extension settings from the <code>PerconaPGCluster</code> manifest. </p>
+<p>Before you apply the manifest that creates the Percona cluster, set the extension fields there to match what the source database actually uses. </p>
+<h3 id="record-extensions-on-the-source">Record extensions on the source<a data-markdown-ignore class="headerlink" href="#record-extensions-on-the-source" title="Permanent link">¶</a></h3>
+<p>Record the extension name and version in every application database before you migrate.</p>
 <p>Extensions are installed per database. Check every application database, not only <code>postgres</code>:</p>
 <div class="highlight"><pre><span></span><code><span class="k">SELECT</span>
 <span class="w">    </span><span class="n">extname</span><span class="p">,</span>
@@ -7156,18 +7599,178 @@ postgis             | 3.4.2
 pgcrypto            | 1.3
 </code></pre></div>
 </details>
-<p>Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image. </p>
+<p>Record the libraries PostgreSQL loads at startup:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">shared_preload_libraries</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="enable-built-in-extensions">Enable built-in extensions<a data-markdown-ignore class="headerlink" href="#enable-built-in-extensions" title="Permanent link">¶</a></h3>
+<p>Percona Distribution for PostgreSQL ships a defined set of extensions. Their versions can differ from the Crunchy image. Compare your list with the <a href="https://docs.percona.com/postgresql/latest/extensions.html">extensions shipped with Percona Distribution for PostgreSQL</a>.</p>
+<p>These built-in extensions use the following defaults:</p>
+<table>
+<thead>
+<tr>
+<th>PostgreSQL extension</th>
+<th><code>spec.extensions</code> field</th>
+<th>Enabled</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vector</code></td>
+<td><code>pgvector</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>pg_stat_statements</code></td>
+<td><code>pg_stat_statements</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>pg_stat_monitor</code></td>
+<td><code>pg_stat_monitor</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>pg_repack</code></td>
+<td><code>pg_repack</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>pgaudit</code></td>
+<td><code>pg_audit</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td><code>pg_cron</code></td>
+<td><code>pg_cron</code></td>
+<td><code>false</code></td>
+</tr>
+</tbody>
+</table>
+<p>Match the spec to the extensions the source database uses. See <a href="custom-extensions.html#built-in-extensions">Built-in extensions</a> for the full list.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>Enable every built-in extension you are migrating in the manifest that creates the cluster.</strong> The Operator drops a built-in extension that stays disabled. If anything still depends on such disabled extension, the drop fails silently: the cluster still reports <code>ready</code>, nothing in its status flags the failure, and the Operator retries the same drop on every reconcile, logging an “Unable to disable …” event each time. You won’t get a clear error telling you to go fix it — the manifest has to be right going in.</p>
+</div>
+<p>On Operator 3.0.0, set the flag under <code>extensions.builtin</code>. Starting with version 3.1.0, set <code>extensions.&lt;name&gt;.enabled</code>. During the transition, <code>extensions.builtin</code> still works. If both forms are set, <code>extensions.builtin</code> takes precedence.</p>
+<p>The following examples show <code>pgvector</code> configuration:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio"><input id="__tabbed_1_2" name="__tabbed_1" type="radio"><div data-markdown-ignore class="tabbed-labels"><label for="__tabbed_1_1">Operator version 3.0.0</label><label for="__tabbed_1_2">Operator version 3.1.0</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">builtin</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">pgvector</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">pgvector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</div>
+</div>
+</div>
+<p>When you enable a built-in extension that is already installed, the Operator runs <code>ALTER EXTENSION ... UPDATE</code>. Compare the extension’s version on the source cluster with the version available in the target cluster’s image. Test that update in a trial run and check the application before you migrate production.</p>
+<h3 id="postgis">PostGIS<a data-markdown-ignore class="headerlink" href="#postgis" title="Permanent link">¶</a></h3>
+<p>PostGIS is a separate case. If the source cluster uses PostGIS, deploy the target with the <a href="postgis.html">PostGIS image</a>.</p>
+<p>A database upgrade does not update PostGIS. Run <code>SELECT PostGIS_Extensions_Upgrade();</code> in each database that uses PostGIS. See <a href="update-extensions.html#upgrade-postgis-extension">Upgrade the PostGIS extension</a>. </p>
+<h3 id="install-extensions-that-are-not-in-the-percona-image">Install extensions that are not in the Percona image<a data-markdown-ignore class="headerlink" href="#install-extensions-that-are-not-in-the-percona-image" title="Permanent link">¶</a></h3>
+<p>Compare your <code>pg_extension</code> output with the Percona image you deploy. If you use extensions that are not in the Percona image, add them as <a href="custom-extensions.html#add-custom-extensions">custom extensions</a>.</p>
+<p>An extension that ships a native library needs that library to be present in the target PostgreSQL installation. If the extension requires startup preloading, also list its preload library in <code>shared_preload_libraries</code>; a <code>pg_extension</code> catalog row does not provide either requirement.</p>
+<p>For a preload library the Operator does not append, set <code>patroni.dynamicConfiguration.postgresql.parameters.shared_preload_libraries</code>. Include only those libraries. The Operator appends the libraries for built-in extensions you enable. See <a href="immutable-options.html#extension-parameters">Extension parameters</a>.</p>
+<h3 id="match-set_user-and-pg_cron-to-the-operator-version">Match set_user and pg_cron to the Operator version<a data-markdown-ignore class="headerlink" href="#match-set_user-and-pg_cron-to-the-operator-version" title="Permanent link">¶</a></h3>
+<p><code>set_user</code> and <code>pg_cron</code> are custom extensions on Operator 3.0.0. Starting with version 3.1.0, they are built-in extensions and default to <code>disabled</code>. The Operator drops each one that stays disabled.</p>
+<table>
+<thead>
+<tr>
+<th>Extension</th>
+<th>Operator 3.0.0</th>
+<th>Operator 3.1.0 and later</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>set_user</code></td>
+<td>Add it under <code>extensions.custom</code>. Include <code>set_user</code> in <code>shared_preload_libraries</code>.</td>
+<td>Set <code>extensions.set_user.enabled</code> to <code>true</code>. The Operator appends <code>set_user</code> to <code>shared_preload_libraries</code>.</td>
+</tr>
+<tr>
+<td><code>pg_cron</code></td>
+<td>Add it under <code>extensions.custom</code>. Include <code>pg_cron</code> in <code>shared_preload_libraries</code>.</td>
+<td>Set <code>extensions.pg_cron.enabled</code> to <code>true</code>. The Operator appends <code>pg_cron</code> to <code>shared_preload_libraries</code> and sets <code>cron.database_name</code> to <code>postgres</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>On Operator 3.0.0, first package and configure both as custom extensions by following <a href="custom-extensions.html#add-custom-extensions">Add custom extensions</a>. After you configure <code>extensions.image</code> and <code>extensions.storage</code>, add these entries:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">custom</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">set_user</span>
+<span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"&lt;set_user-version&gt;"</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pg_cron</span>
+<span class="w">        </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"&lt;pg_cron-version&gt;"</span>
+<span class="w">  </span><span class="nt">patroni</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">dynamicConfiguration</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">postgresql</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">parameters</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">shared_preload_libraries</span><span class="p">:</span><span class="w"> </span><span class="s">"set_user,pg_cron"</span>
+</code></pre></div>
+<p>Starting with version 3.1.0, enable the built-in flags. The Operator appends <code>set_user</code> and <code>pg_cron</code> to <code>shared_preload_libraries</code>. Set that parameter for any other preload libraries:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">extensions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">set_user</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">pg_cron</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Starting with version 3.1.0, use the built-in flags for a new cluster. Removing <code>set_user</code> or <code>pg_cron</code> from <code>extensions.custom</code> without setting its <code>enabled</code> flag to <code>true</code> in the same apply deletes the extension.</p>
+</div>
+<p>If the source cluster schedules <code>pg_cron</code> jobs in a database other
+than <code>postgres</code>, those jobs stop running after migration. The
+Operator sets <code>cron.database_name</code> to <code>postgres</code>.</p>
+<p>On the source cluster, check the current value:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SHOW</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">database_name</span><span class="p">;</span>
+</code></pre></div>
+<p>When the result is <code>postgres</code>, the existing jobs keep running. When it is another database, <code>pg_cron</code> stops reading the job list stored there. In that database, list the jobs:</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">jobname</span><span class="p">,</span><span class="w"> </span><span class="n">schedule</span><span class="p">,</span><span class="w"> </span><span class="n">command</span><span class="p">,</span><span class="w"> </span><span class="k">database</span><span class="w"> </span><span class="k">FROM</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">job</span><span class="p">;</span>
+</code></pre></div>
+<p>After the Percona cluster is running, connect to the <code>postgres</code> database and create each job again with <code>cron.schedule_in_database</code>. The last argument is the database where the command runs (<code>appdb</code> in this example):</p>
+<div class="highlight"><pre><span></span><code><span class="k">SELECT</span><span class="w"> </span><span class="n">cron</span><span class="p">.</span><span class="n">schedule_in_database</span><span class="p">(</span><span class="s1">'weekly-vacuum'</span><span class="p">,</span><span class="w"> </span><span class="s1">'0 4 * * 0'</span><span class="p">,</span><span class="w"> </span><span class="s1">'VACUUM'</span><span class="p">,</span><span class="w"> </span><span class="s1">'appdb'</span><span class="p">);</span>
+</code></pre></div>
 <p>You can also <a href="custom-extensions.html#add-custom-extensions">add custom extensions</a> if you need them or if they are missing in Percona images. Evaluate the risk before you add any extension.</p>
-<p>Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in <code>PGDATA</code>. Do not assume an extension is available because it exists in <code>pg_extension</code>.</p>
+<p>After the Percona cluster reports <code>Ready</code>, check the database logs. In every database that you recorded earlier, run <code>\dx</code> and confirm that each extension is installed at the version you tested.</p>
+<h2 id="check-what-else-changes-after-migration">Check what else changes after migration<a data-markdown-ignore class="headerlink" href="#check-what-else-changes-after-migration" title="Permanent link">¶</a></h2>
+<p>The migration methods in this guide copy the data directory, so the migrated cluster keeps the data itself. The Operator still applies its own naming, defaults, and labels on top of that data. None of this blocks the migration, but missing it causes problems ranging from broken logins to blind monitoring.</p>
+<h3 id="match-passwords-for-operator-managed-users">Match passwords for Operator-managed users<a data-markdown-ignore class="headerlink" href="#match-passwords-for-operator-managed-users" title="Permanent link">¶</a></h3>
+<p>The Operator doesn’t copy user credentials from Crunchy during migration. It generates a new password for any user it manages and applies it to the database, overwriting the password that migrated with the data. Existing application logins break the moment the Operator reconciles that user.</p>
+<p>To keep the Crunchy passwords, do this <strong>before</strong> you create the cluster:</p>
+<ul>
+<li>Copy the <code>password</code> and <code>verifier</code> keys into the <code>&lt;clusterName&gt;-pguser-&lt;userName&gt;</code> Secret </li>
+<li>List every migrated user in <code>spec.users</code>. See <a href="users.html#understanding-default-user-management">Understanding default user management</a> for the naming convention.</li>
+</ul>
+<h3 id="keep-the-user-schema-behavior-crunchy-had">Keep the user schema behavior Crunchy had<a data-markdown-ignore class="headerlink" href="#keep-the-user-schema-behavior-crunchy-had" title="Permanent link">¶</a></h3>
+<p>Crunchy puts a user’s tables in the <code>public</code> schema by default. The Operator’s <code>autoCreateUserSchema</code> defaults to <code>true</code> and creates a schema named after the user instead. Set it to <code>false</code> in the manifest that creates the cluster if your application expects unqualified table names to resolve to <code>public</code>.</p>
+<h3 id="recreate-non-extension-postgres-settings">Recreate non-extension Postgres settings<a data-markdown-ignore class="headerlink" href="#recreate-non-extension-postgres-settings" title="Permanent link">¶</a></h3>
+<p>The Operator does not carry over Crunchy’s <code>dynamicConfiguration</code>. Only <code>pgaudit</code> is preloaded by default. If the source cluster set other <code>postgresql.conf</code> parameters or preloaded other libraries, add them under <code>patroni.dynamicConfiguration.postgresql.parameters</code> and <code>shared_preload_libraries</code> the same way you already did for extensions. See <a href="immutable-options.html#extension-parameters">Extension parameters</a>.</p>
+<h3 id="update-labels-services-and-anything-that-reads-them">Update labels, Services and anything that reads them<a data-markdown-ignore class="headerlink" href="#update-labels-services-and-anything-that-reads-them" title="Permanent link">¶</a></h3>
+<p>The primary Pod’s <code>postgres-operator.crunchydata.com/role</code> label changes value from <code>master</code> to <code>primary</code>, and every Service name follows the new cluster name instead of Crunchy’s. Update NetworkPolicies, alert rules, and any script or dashboard that selects on the old label value or Service name.</p>
+<h3 id="replace-monitoring-and-admin-tools">Replace monitoring and admin tools<a data-markdown-ignore class="headerlink" href="#replace-monitoring-and-admin-tools" title="Permanent link">¶</a></h3>
+<p>pgMonitor, its <code>ccp_*</code> metrics, and its Grafana dashboards don’t carry over. Replace them with <a href="monitor-kubernetes.html">Percona Monitoring and Management</a> or a <a href="postgres-exporter.html"><code>postgres_exporter</code> sidecar</a>. </p>
+<p>pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an alternative before cutover if you depend on either.</p>
+<h3 id="rotate-tls-certificates-after-a-standby-cutover">Rotate TLS certificates after a standby cutover<a data-markdown-ignore class="headerlink" href="#rotate-tls-certificates-after-a-standby-cutover" title="Permanent link">¶</a></h3>
+<p><a href="migrate-from-crunchy-standby.html">Migrating using a standby cluster</a> keeps Crunchy-issued certificates for mutual TLS during replication. Replace them with the Operator-issued or your own certificates after cutover, so the new primary doesn’t keep trusting Crunchy’s CA indefinitely.</p>
 <h2 id="before-you-cut-over">Before you cut over<a data-markdown-ignore class="headerlink" href="#before-you-cut-over" title="Permanent link">¶</a></h2>
 <p>Perform at least <strong>three successful trial runs</strong> in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.</p>
-<p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.</p>
+<p>After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that extensions are complete. If the <code>glibc</code> builds differ, also confirm that you repaired the affected objects before applications connect.</p>
 <hr>
 <div class="md-source-file">
   <small>
     
       Last update:
-      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 19, 2026 12:01:59 UTC">November 19, 2026</span>
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-date" title="November 27, 2026 12:33:17 UTC">November 27, 2026</span>
       
         <br>
         Created:

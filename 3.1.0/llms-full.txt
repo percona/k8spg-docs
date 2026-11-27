@@ -546,9 +546,36 @@ To restore the cluster from the inconsistent state, reconfigure it to use only t
 
 In version 3.0.0, the Operator respects the existing TLS configuration, which resolves this limitation.
 
+## glibc collation changes between images
+
+This limitation applies whenever you reuse PostgreSQL data files on an image that ships a different `glibc` build. For example, if you [upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html) to an image with a different build or during [migration from Crunchy Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy.html) using a standby cluster, a backup and restore, or the existing volumes.
+
+PostgreSQL sorts and compares text using the locale data of the operating system’s C library (`glibc`). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.
+
+Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a `glibc` build with such a change. Switching the image tag suffix, for example from `-ubi8` to the default UBI 9 tag, changes the operating system and always changes the `glibc` version.
+
+Most `glibc` updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the `C` or `POSIX` locale, or the PostgreSQL built-in locale provider, aren’t affected. The libc `C.UTF-8` locale is different: its sort order changed between UBI 8 and UBI 9, and PostgreSQL records no version for it, so it never warns about the change.
+
+PostgreSQL records the upstream `glibc` version of each collation and warns when it changes. It warns for every libc collation, including the ones whose rules didn’t change. PostgreSQL 14 doesn’t record a version for the default collation of a database, so on PostgreSQL 14 you get no warning for it. PostgreSQL can’t see a change in the package build, and it can’t tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.
+
+If the collation changes affect an index, you can see:
+
+- Missed or extra rows in query results
+- Wrong results of `ORDER BY` / `LIMIT` and of `min()` / `max()`
+- Duplicate keys in `UNIQUE` indexes and primary keys, and `ON CONFLICT` clauses that misfire
+- Wrong merge joins
+- Runtime errors that report index corruption
+
+The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.
+
+For more details, see the PostgreSQL wiki page [Locale data changes](https://wiki.postgresql.org/wiki/Locale_data_changes) . For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post [Ten ways a glibc change can break your PostgreSQL cluster](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) .
+
+To find out whether the change affects the locales your databases use, follow [Assess the collation risk](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) for a migration, or the same step on the [minor](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html#assess-the-collation-risk) and [major](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#assess-the-collation-risk) upgrade pages. If a locale you use changed, follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) before applications connect.
+
 ## Upgrades
 
 - A major database upgrade introduces a downtime because the whole cluster is shut down.
+- If the new image ships a different `glibc` build, the sorting rules of some locales can change and the existing indexes can return wrong results. Before the upgrade, check whether the change affects the locales your databases use. See [glibc collation changes between images](#glibc-collation-changes-between-images).
 - In clusters with very low write traffic, the first restore after a major upgrade can fail with the `could not find common ancestor of the source and target cluster's timelines` error in `pg_rewind`. In this case you must [reinitialize the replica](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/reinit.html) to ensure it starts properly and starts streaming data from the primary.
 - PostGIS extension is not updated automatically after the database update. You must [manually update](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-extensions.html#upgrade-postgis-extension) it for each database where it is enabled.
 - `pgAudit` extension is not updated automatically during the major upgrade. You must [drop and recreate](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#post-upgrade-steps) it manually for each database where it is installed.
@@ -13234,12 +13261,12 @@ A minor version upgrade is the upgrade within the same major version. For exampl
 ## Considerations
 
 1. Upgrading a PostgreSQL cluster may result in downtime, as well as in [failover](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/change-primary.html) caused by updating the primary instance.
-1. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of `glibc` and ICU collation libraries. Collation defines how text is sorted and compared based on language-specific rules such as case sensitivity, character order and the like. PostgreSQL stores the collation version used at database creation. When the collation version changes, PostgreSQL reports a collation version mismatch and this may result in corruption of database objects that use it like text-based indexes. Therefore, you need to identify and reindex objects affected by the collation mismatch.
+1. Starting with the Operator 2.6.0, Percona Distribution for PostgreSQL images are based on Red Hat Universal Base Image (UBI) 9. Each UBI major version ships a different version of `glibc` and ICU collation libraries, and a new image build within one UBI major can update `glibc` as well. A different `glibc` build can change the sorting rules of some locales and corrupt the objects that depend on them, such as text-based indexes. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.html#glibc-collation-changes-between-images).
 1. [Logical replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html) can keep replicating after a minor upgrade if you [configured replication slots](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/ha-deploy.html#persist-replication-slots-across-failover). Without slots, a failover during the upgrade can break replication. [Reseed](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html#reseed-a-logical-replica) the replica if the status becomes `broken`.
 
 ## Before you start
 
-### Check operating system and collation libraries version
+### Check operating system and glibc
 
 Check the operating system used by the PostgreSQL container:
 
@@ -13248,40 +13275,130 @@ kubectl exec -n <namespace> <postgres-pod> -c database -- \
   cat /etc/os-release
 ```
 
-Check the `glibc` version:
+Check the `glibc` package build. The output includes the release number after the version, so it shows a change that the version alone hides:
 
 ```
 kubectl exec -n <namespace> <postgres-pod> -c database -- \
-  getconf GNU_LIBC_VERSION
-```
-
-Example:
-
-```
-glibc 2.34
-```
-
-### Check the locale provider in each database
-
-```
-SELECT datname, datlocprovider, datcollversion FROM pg_database;
+  rpm -q glibc
 ```
 
 Sample output
 
 ```
-   datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
+glibc-2.34-275.el9_8.x86_64
 ```
 
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
+If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:
 
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [After the Pods restart](#after-the-pods-restart)
+```
+kubectl run glibc-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  rpm -q glibc
+```
+
+Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.
+
+Also check that every locale your databases use exists in the target image:
+
+```
+kubectl run locale-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  locale -a
+```
+
+A locale that is missing from the list can’t be used on that image.
+
+### Assess the collation risk
+
+A `glibc` change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.
+
+1. If the `glibc` build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.
+
+1. [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) and list the default locale and locale provider of each database:
+
+   ```
+   SELECT datname, datlocprovider, datcollate, datcollversion
+   FROM pg_database
+   WHERE datallowconn;
+   ```
+
+   Sample output
+
+   ```
+     datname  | datlocprovider | datcollate  | datcollversion
+   -----------+----------------+-------------+----------------
+    postgres  | c              | en_US.UTF-8 | 2.34
+    template1 | c              | en_US.UTF-8 | 2.34
+    cluster1  | c              | en_US.UTF-8 | 2.34
+   ```
+
+   The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on `glibc` or ICU.
+
+   PostgreSQL 14 has only the libc provider and no `datlocprovider` column. On PostgreSQL 14, run `SELECT datname, datcollate FROM pg_database WHERE datallowconn;` instead.
+
+1. In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:
+
+   ```
+   SELECT c.collname AS collation, c.collprovider, c.collcollate AS locale,
+          count(*) AS objects
+   FROM pg_depend d
+   JOIN pg_collation c
+     ON d.refclassid = 'pg_collation'::regclass AND d.refobjid = c.oid
+   WHERE c.collname NOT IN ('C', 'POSIX', 'default')
+   GROUP BY 1, 2, 3
+   UNION ALL
+   SELECT 'default', 'd', datcollate, NULL
+   FROM pg_database WHERE datname = current_database()
+   ORDER BY 1;
+   ```
+
+   Sample output
+
+   ```
+    collation  | collprovider |   locale    | objects
+   ------------+--------------+-------------+---------
+    C.utf8     | c            | C.utf8      |       1
+    default    | d            | en_US.UTF-8 |
+    sv_SE.utf8 | c            | sv_SE.utf8  |       2
+   ```
+
+   If every locale on the list is `C` or `POSIX`, or the database uses the built-in provider, this database isn’t affected.
+
+1. For each `glibc` locale on your list, find out whether its sorting rules changed between the two images.
+
+   The Operator creates clusters with the `en_US.UTF-8` locale. In the PostgreSQL images of Operator 3.1.0, `en_US.UTF-8` sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only `en_US.UTF-8` doesn’t need a repair when it moves between these images. `C.UTF-8` is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.
+
+   For other locales, and for images of later Operator releases, compare the sort order yourself.
+
+   1. Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In `psql`, run:
+
+      ```
+      \copy (SELECT <column> FROM <table> UNION SELECT <column> FROM <other_table>) TO 'values.txt'
+      ```
+
+      List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.
+
+   1. Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:
+
+      ```
+      kubectl run sort-check -n <namespace> --rm -i --restart=Never \
+        --image=<postgres-image> --command -- \
+        sh -c 'if LC_ALL=<locale> locale 2>&1 >/dev/null | grep -q .; then echo "Locale <locale> is missing in this image"; else LC_ALL=<locale> sort | md5sum; fi' \
+        < values.txt
+      ```
+
+   1. Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. `kubectl` also prints a `pod "sort-check" deleted` line, which you can ignore.
+
+   Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, `sort` silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.
+
+   Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.
+
+1. Decide:
+
+   - No locale on your list changed: you don’t need to repair anything.
+   - A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.
+
+If you need a repair, plan a maintenance window and stop application traffic before the upgrade. The Operator restarts the Pods on the new image one by one, replicas first and the primary last. Replicas then run on the new `glibc` with indexes that the old one built, while applications stay connected. [Repair the data](#after-the-pods-restart) before you let applications back in.
 
 ### Update PMM
 
@@ -13387,64 +13504,7 @@ To make a minor upgrade of Percona Distribution for PostgreSQL, do the following
 
 ## After the Pods restart
 
-If the new image uses a different UBI major version (for example, UBI 8 to UBI 9), `glibc` collation rules change.
-
-Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) with the privileges of the superuser or the database owner and run the following query:
-
-```
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
-```
-
-If you see affected indexes, find the databases whose collation version changed:
-
-```
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
-```
-
-Sample output
-
-```
-datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-```
-
-Rebuild affected indexes first. [REINDEX](https://www.postgresql.org/docs/current/sql-reindex.html) updates the index using the current collation rules:
-
-```
-REINDEX INDEX CONCURRENTLY <index_name>;
-```
-
-Repeat for every affected index, or rebuild all indexes in a database with `REINDEX DATABASE <database_name>;`.
-
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL’s recorded metadata. It does not rebuild indexes created using the previous collation rules:
-
-```
-ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
-```
-
-This command requires the privileges of a superuser or a database owner. **Repeat for every affected database.**
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn’t confirm that it didn’t, follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) when all Pods run on the new image. Keep the applications stopped until the repair is done.
 
 # Major version upgrade
 
@@ -13456,11 +13516,11 @@ This feature is generally available starting with the Operator version 2.9.0.
 
 1. A major upgrade introduces a downtime because the whole cluster is shut down during the upgrade. This flow is planned to be improved in future releases.
 1. During the upgrade, the Operator duplicates the data on each PVC and doesn’t remove the old version data automatically. Make sure your PVC has enough free space to store data.
-1. If the new image uses a different UBI major, it ships a different `glibc` collation library. After the upgrade, [identify and rebuild indexes](#check-collation) affected by the collation change.
+1. If the target image ships a different `glibc` build, the sorting rules of some locales can change. Before the upgrade, [check whether the change affects the locales your databases use](#assess-the-collation-risk). See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.html#glibc-collation-changes-between-images). The upgrade runs `pg_upgrade --link`, which keeps every index as it is. The example `PerconaPGUpgrade` uses UBI 9 images. If your cluster runs on `-ubi8` or `-ubi10` images, use the upgrade and PostgreSQL images with the same suffix. Otherwise, the upgrade also changes the operating system.
 
 ## Before you start
 
-### Check operating system and collation libraries version
+### Check operating system and glibc
 
 Check the operating system used by the PostgreSQL container:
 
@@ -13469,40 +13529,130 @@ kubectl exec -n <namespace> <postgres-pod> -c database -- \
   cat /etc/os-release
 ```
 
-Check the `glibc` version:
+Check the `glibc` package build. The output includes the release number after the version, so it shows a change that the version alone hides:
 
 ```
 kubectl exec -n <namespace> <postgres-pod> -c database -- \
-  getconf GNU_LIBC_VERSION
-```
-
-Example:
-
-```
-glibc 2.34
-```
-
-### Check the locale provider in each database
-
-```
-SELECT datname, datlocprovider, datcollversion FROM pg_database;
+  rpm -q glibc
 ```
 
 Sample output
 
 ```
-   datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
+glibc-2.34-275.el9_8.x86_64
 ```
 
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
+If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:
 
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. See [Check collation](#check-collation)
+```
+kubectl run glibc-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  rpm -q glibc
+```
+
+Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.
+
+Also check that every locale your databases use exists in the target image:
+
+```
+kubectl run locale-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  locale -a
+```
+
+A locale that is missing from the list can’t be used on that image.
+
+### Assess the collation risk
+
+A `glibc` change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.
+
+1. If the `glibc` build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.
+
+1. [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) and list the default locale and locale provider of each database:
+
+   ```
+   SELECT datname, datlocprovider, datcollate, datcollversion
+   FROM pg_database
+   WHERE datallowconn;
+   ```
+
+   Sample output
+
+   ```
+     datname  | datlocprovider | datcollate  | datcollversion
+   -----------+----------------+-------------+----------------
+    postgres  | c              | en_US.UTF-8 | 2.34
+    template1 | c              | en_US.UTF-8 | 2.34
+    cluster1  | c              | en_US.UTF-8 | 2.34
+   ```
+
+   The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on `glibc` or ICU.
+
+   PostgreSQL 14 has only the libc provider and no `datlocprovider` column. On PostgreSQL 14, run `SELECT datname, datcollate FROM pg_database WHERE datallowconn;` instead.
+
+1. In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:
+
+   ```
+   SELECT c.collname AS collation, c.collprovider, c.collcollate AS locale,
+          count(*) AS objects
+   FROM pg_depend d
+   JOIN pg_collation c
+     ON d.refclassid = 'pg_collation'::regclass AND d.refobjid = c.oid
+   WHERE c.collname NOT IN ('C', 'POSIX', 'default')
+   GROUP BY 1, 2, 3
+   UNION ALL
+   SELECT 'default', 'd', datcollate, NULL
+   FROM pg_database WHERE datname = current_database()
+   ORDER BY 1;
+   ```
+
+   Sample output
+
+   ```
+    collation  | collprovider |   locale    | objects
+   ------------+--------------+-------------+---------
+    C.utf8     | c            | C.utf8      |       1
+    default    | d            | en_US.UTF-8 |
+    sv_SE.utf8 | c            | sv_SE.utf8  |       2
+   ```
+
+   If every locale on the list is `C` or `POSIX`, or the database uses the built-in provider, this database isn’t affected.
+
+1. For each `glibc` locale on your list, find out whether its sorting rules changed between the two images.
+
+   The Operator creates clusters with the `en_US.UTF-8` locale. In the PostgreSQL images of Operator 3.1.0, `en_US.UTF-8` sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only `en_US.UTF-8` doesn’t need a repair when it moves between these images. `C.UTF-8` is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.
+
+   For other locales, and for images of later Operator releases, compare the sort order yourself.
+
+   1. Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In `psql`, run:
+
+      ```
+      \copy (SELECT <column> FROM <table> UNION SELECT <column> FROM <other_table>) TO 'values.txt'
+      ```
+
+      List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.
+
+   1. Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:
+
+      ```
+      kubectl run sort-check -n <namespace> --rm -i --restart=Never \
+        --image=<postgres-image> --command -- \
+        sh -c 'if LC_ALL=<locale> locale 2>&1 >/dev/null | grep -q .; then echo "Locale <locale> is missing in this image"; else LC_ALL=<locale> sort | md5sum; fi' \
+        < values.txt
+      ```
+
+   1. Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. `kubectl` also prints a `pod "sort-check" deleted` line, which you can ignore.
+
+   Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, `sort` silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.
+
+   Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.
+
+1. Decide:
+
+   - No locale on your list changed: you don’t need to repair anything.
+   - A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.
+
+If you need a repair, stop application traffic before you start the upgrade. The Operator starts the cluster as soon as the upgrade finishes, so applications can connect before you [repair the affected objects](#check-collation).
 
 ### Update PMM
 
@@ -13556,66 +13706,11 @@ During the upgrade flow, the Operator:
 
 1. A successful major upgrade invalidates existing [logical replicas](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html). After the cluster is `ready`, [reseed](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/logical-replication.html#reseed-a-logical-replica) each logical replica.
 
-## Check collation
+1. If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn’t confirm that it didn’t, [repair the affected objects](#check-collation) before applications connect.
 
-If the new image uses a different UBI major (for example, UBI 8 to UBI 9), `glibc` collation rules change.
+## Repair collation-affected objects
 
-Scan for indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) with the privileges of the superuser or the database owner and run the following query:
-
-```
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
-```
-
-If you see affected indexes, find the databases whose collation version changed:
-
-```
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
-```
-
-Sample output
-
-```
-datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-```
-
-Rebuild affected indexes first. [REINDEX](https://www.postgresql.org/docs/current/sql-reindex.html) updates the index using the current collation rules:
-
-```
-REINDEX INDEX CONCURRENTLY <index_name>;
-```
-
-Repeat for every affected index, or rebuild all indexes in a database with `REINDEX DATABASE <database_name>;`.
-
-Then refresh collation metadata. `ALTER DATABASE ... REFRESH COLLATION VERSION` only updates PostgreSQL’s recorded metadata. It does not rebuild indexes created using the previous collation rules:
-
-```
-ALTER DATABASE cluster1 REFRESH COLLATION VERSION;
-```
-
-This command requires the privileges of a superuser or a database owner. **Repeat for every affected database.**
+If the [collation risk assessment](#assess-the-collation-risk) showed that a locale you use changed, or you couldn’t confirm that it didn’t, follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) as soon as the cluster is ready. Keep the applications stopped until the repair is done.
 
 ## Cleanup
 
@@ -13969,7 +14064,9 @@ Key benefits include:
 
 This guide provides three migration methods. They all move PostgreSQL data physically (restore, replicate, or reuse volumes).
 
-Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html) first. Also check the [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.html).
+Before you choose the migration method, ensure your source and target environments are compatible for migration. Complete this [pre-migration compatibility checklist](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html) first. Also check the [Crunchy and Percona Custom Resource differences](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-crunchy-differences.html). Extension settings come from the `PerconaPGCluster` spec. Set them in the manifest that creates the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+
+Compare also the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that you migrate can return wrong results, and every method needs a check and a repair of the affected objects before applications connect. The repair adds to the downtime. See [Compare OS, glibc, and ICU](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-os-glibc-and-icu).
 
 ## Choose a migration method
 
@@ -14006,14 +14103,10 @@ flowchart TD
     A[Compare PostgreSQL major versions] -->|Different| B[Do not use standby, backup/restore, or volume reuse]
     A -->|Same| C[Compare CPU architecture]
     C -->|Different| D[Prefer logical migration]
-    C -->|Same| E[Compare OS / glibc / ICU]
+    C -->|Same| E[Compare glibc build and ICU]
     E -->|Same| F[Compare extensions]
-    E -->|Different| G[Check collation versions]
-    G -->|Match| F
-    G -->|Mismatch| H[Identify affected indexes]
-    H --> I[REINDEX]
-    I --> J[REFRESH COLLATION VERSION]
-    J --> F
+    E -->|Different| G[Find and repair the objects that the collation change affects before applications connect]
+    G --> F
     F --> K[Trial runs]
     K --> L[Fix issues if any]
     L --> M[Migrate]
@@ -14091,9 +14184,33 @@ Use `pg_dump` / `pg_restore` when you migrate across incompatible architectures.
 
 ## Compare OS, glibc, and ICU
 
-Run these commands against the source Crunchy pod. Repeat them against the target Percona image (use a temporary Pod if the cluster is not running yet).
+Crunchy and Percona images can ship different operating system releases and different `glibc` builds. A difference changes how PostgreSQL sorts text, while the indexes that you migrate keep the old order. Read the limitation, compare the images and check that the target image includes every locale your databases use, then decide how to migrate.
 
-### Check operating system
+### Understand the glibc collation limitation
+
+PostgreSQL sorts and compares text using the locale data of the operating system’s C library (`glibc`). If that locale data changes during the lifetime of a database, PostgreSQL treats new data differently than the data it already stored. Existing indexes no longer match the order that PostgreSQL expects. This can lead to incorrect query results and data corruption.
+
+Operating system vendors, including the authors of the GNU C library, update locale data from time to time. They add rules for new languages, correct mistakes, and adjust sorting rules. A new image can ship a `glibc` build with such a change. Switching the image tag suffix, for example from `-ubi8` to the default UBI 9 tag, changes the operating system and always changes the `glibc` version.
+
+Most `glibc` updates change the rules of only a few locales, or none. The risk applies only to databases that use a changed locale. Databases that use the `C` or `POSIX` locale, or the PostgreSQL built-in locale provider, aren’t affected. The libc `C.UTF-8` locale is different: its sort order changed between UBI 8 and UBI 9, and PostgreSQL records no version for it, so it never warns about the change.
+
+PostgreSQL records the upstream `glibc` version of each collation and warns when it changes. It warns for every libc collation, including the ones whose rules didn’t change. PostgreSQL 14 doesn’t record a version for the default collation of a database, so on PostgreSQL 14 you get no warning for it. PostgreSQL can’t see a change in the package build, and it can’t tell whether the locales you use changed. There is no official tool that tells you this either, so assess the locales you use before you move data files to another image.
+
+If the collation changes affect an index, you can see:
+
+- Missed or extra rows in query results
+- Wrong results of `ORDER BY` / `LIMIT` and of `min()` / `max()`
+- Duplicate keys in `UNIQUE` indexes and primary keys, and `ON CONFLICT` clauses that misfire
+- Wrong merge joins
+- Runtime errors that report index corruption
+
+The change also affects other objects that depend on the sort order: partition boundaries, constraints and derived values, materialized views, and replication. It can also affect PostgreSQL upgrades.
+
+For more details, see the PostgreSQL wiki page [Locale data changes](https://wiki.postgresql.org/wiki/Locale_data_changes) . For worked examples of each affected object type, tested with PostgreSQL 14 to 18, see the Percona blog post [Ten ways a glibc change can break your PostgreSQL cluster](https://www.percona.com/blog/ten-ways-a-glibc-change-can-break-your-postgresql-cluster/) .
+
+### Check operating system and glibc
+
+Run these commands against the source Crunchy Pod. Repeat them against the target Percona image.
 
 Check the operating system used by the PostgreSQL container:
 
@@ -14102,111 +14219,166 @@ kubectl exec -n <namespace> <postgres-pod> -c database -- \
   cat /etc/os-release
 ```
 
-Check the `glibc` version:
+Check the `glibc` package build. The output includes the release number after the version, so it shows a change that the version alone hides:
 
 ```
 kubectl exec -n <namespace> <postgres-pod> -c database -- \
-  getconf GNU_LIBC_VERSION
-```
-
-Example:
-
-```
-glibc 2.34
-```
-
-Percona PostgreSQL images are based on [Red Hat Universal Base Image (UBI)](https://catalog.redhat.com/en/software/base-images) . Each UBI major ships a different `glibc` version:
-
-| UBI version | glibc version |
-| ----------- | ------------- |
-| UBI 8       | glibc 2.28    |
-| UBI 9       | glibc 2.34    |
-| UBI 10      | glibc 2.39    |
-
-Use the same UBI major for every instance in a cluster. Find image tags in [Percona certified images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/images.html).
-
-If the Crunchy image is UBI 8 and you use the default Percona image (UBI 9), you will see a `glibc` change:
-
-```
-Source:
-  UBI 8
-  glibc 2.28
-
-Target:
-  UBI 9
-  glibc 2.34
-```
-
-A different `glibc` version does not by itself make the PostgreSQL data directory incompatible. `glibc` provides locale and collation rules that PostgreSQL uses. A change in these rules can make existing collation-dependent indexes inconsistent with the target operating system. See [Locale data changes](https://wiki.postgresql.org/wiki/Locale_data_changes) in the PostgreSQL wiki.
-
-### Check ICU library version
-
-PostgreSQL may also use ICU for collations. Check the locale provider in each database:
-
-```
-  SELECT datname, datlocprovider, datcollversion FROM pg_database;
+  rpm -q glibc
 ```
 
 Sample output
 
 ```
-  datname  | datlocprovider | datcollversion
------------+----------------+----------------
-postgres  | c              | 2.34
-template1 | c              | 2.34
-template0 | c              |
-cluster1  | c              | 2.34
-(4 rows)
+glibc-2.34-275.el9_8.x86_64
 ```
 
-`c` is libc (`glibc`). `i` is ICU. If the provider is `i` and the source and target images ship different ICU libraries, treat that the same as a `glibc` change.
-
-If `glibc` or ICU differs, run the collation checks **after** PostgreSQL starts on the target image. You can run the index scan on the source cluster beforehand to estimate the work.
-
-[Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) with the privileges of the superuser or the database owner and run the following query:
+If the cluster with the target image doesn’t exist yet, start a temporary Pod from the image and run the same command:
 
 ```
-SELECT DISTINCT
-    indrelid::regclass::text,
-    indexrelid::regclass::text,
-    collname,
-    pg_get_indexdef(indexrelid)
-FROM (
-    SELECT
-        indexrelid,
-        indrelid,
-        indcollation[i] coll
-    FROM
-        pg_index,
-        generate_subscripts(indcollation, 1) g(i)
-) s
-JOIN pg_collation c ON coll = c.oid
-WHERE
-    collprovider IN ('d', 'c')
-    AND collname NOT IN ('C', 'POSIX');
+kubectl run glibc-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  rpm -q glibc
 ```
 
-Check indexes that rely on collations other than `C` or `POSIX` and whose collations were provided by the operating system (`c`) or dynamic libraries (`d`). If you see affected indexes, find the databases whose collation version changed:
+Run the commands for the current image and for the target image, then compare the full output. If the output is the same, the collation rules are the same. If any part differs, including the release number, assess whether the change affects the locales your databases use.
+
+Also check that every locale your databases use exists in the target image:
 
 ```
-SELECT datname, datlocprovider, datcollate, datcollversion
-FROM pg_database;
+kubectl run locale-check -n <namespace> --rm -i --restart=Never \
+  --image=<postgres-image> --command -- \
+  locale -a
 ```
 
-Sample output
+A locale that is missing from the list can’t be used on that image.
 
-```
-datname   | datlocprovider | datcollate  | datcollversion
-----------+----------------+-------------+----------------
-postgres  | c              | en_US.utf-8 | 2.28
-template1 | c              | en_US.utf-8 | 2.28
-template0 | c              | en_US.utf-8 |
-cluster1  | c              | en_US.utf-8 | 2.28
-```
+### Assess the collation risk
+
+Run the queries against the source Crunchy cluster.
+
+A `glibc` change usually updates the sorting rules of only a few locales. Your data is at risk only if your databases use one of those locales. Run this assessment before you change the image, so you know whether you need to plan downtime for a repair.
+
+1. If the `glibc` build is the same in the current and the target image, and the ICU libraries match, stop here. The collation rules don’t change.
+
+1. [Connect to PostgreSQL](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/connect.html) and list the default locale and locale provider of each database:
+
+   ```
+   SELECT datname, datlocprovider, datcollate, datcollversion
+   FROM pg_database
+   WHERE datallowconn;
+   ```
+
+   Sample output
+
+   ```
+     datname  | datlocprovider | datcollate  | datcollversion
+   -----------+----------------+-------------+----------------
+    postgres  | c              | en_US.UTF-8 | 2.34
+    template1 | c              | en_US.UTF-8 | 2.34
+    cluster1  | c              | en_US.UTF-8 | 2.34
+   ```
+
+   The `datlocprovider` column shows the locale provider: `c` is libc (`glibc`), `i` is ICU, and `b` is the PostgreSQL built-in provider, available starting with PostgreSQL 17. The built-in provider doesn’t depend on `glibc` or ICU.
+
+   PostgreSQL 14 has only the libc provider and no `datlocprovider` column. On PostgreSQL 14, run `SELECT datname, datcollate FROM pg_database WHERE datallowconn;` instead.
+
+1. In every database, list the collations that columns, indexes, constraints, generated columns, views and partition keys use. Any of them can set a collation that differs from the database default:
+
+   ```
+   SELECT c.collname AS collation, c.collprovider, c.collcollate AS locale,
+          count(*) AS objects
+   FROM pg_depend d
+   JOIN pg_collation c
+     ON d.refclassid = 'pg_collation'::regclass AND d.refobjid = c.oid
+   WHERE c.collname NOT IN ('C', 'POSIX', 'default')
+   GROUP BY 1, 2, 3
+   UNION ALL
+   SELECT 'default', 'd', datcollate, NULL
+   FROM pg_database WHERE datname = current_database()
+   ORDER BY 1;
+   ```
+
+   Sample output
+
+   ```
+    collation  | collprovider |   locale    | objects
+   ------------+--------------+-------------+---------
+    C.utf8     | c            | C.utf8      |       1
+    default    | d            | en_US.UTF-8 |
+    sv_SE.utf8 | c            | sv_SE.utf8  |       2
+   ```
+
+   If every locale on the list is `C` or `POSIX`, or the database uses the built-in provider, this database isn’t affected.
+
+1. For each `glibc` locale on your list, find out whether its sorting rules changed between the two images.
+
+   The Operator creates clusters with the `en_US.UTF-8` locale. In the PostgreSQL images of Operator 3.1.0, `en_US.UTF-8` sorts the same on the UBI 8, UBI 9 and UBI 10 tags. A cluster that uses only `en_US.UTF-8` doesn’t need a repair when it moves between these images. `C.UTF-8` is different: it sorts differently on UBI 8 than on UBI 9 and UBI 10. The difference affects only strings with unassigned Unicode code points, but PostgreSQL doesn’t warn about it.
+
+   For other locales, and for images of later Operator releases, compare the sort order yourself.
+
+   1. Export the distinct values of the text columns that use the locale to one file on your workstation. Only values in indexes, partition keys and constraints can break, so export only those columns. In `psql`, run:
+
+      ```
+      \copy (SELECT <column> FROM <table> UNION SELECT <column> FROM <other_table>) TO 'values.txt'
+      ```
+
+      List every such column with that locale in the query. Include values with accented letters, punctuation and non-Latin characters if your data has them.
+
+   1. Sort the same file in a temporary Pod of the current image and of the target image. The command prints a checksum of the sorted output, or a message if the image doesn’t have the locale:
+
+      ```
+      kubectl run sort-check -n <namespace> --rm -i --restart=Never \
+        --image=<postgres-image> --command -- \
+        sh -c 'if LC_ALL=<locale> locale 2>&1 >/dev/null | grep -q .; then echo "Locale <locale> is missing in this image"; else LC_ALL=<locale> sort | md5sum; fi' \
+        < values.txt
+      ```
+
+   1. Compare the checksum lines of the two runs. Different checksums mean the rules changed for your data. `kubectl` also prints a `pod "sort-check" deleted` line, which you can ignore.
+
+   Use one file for both images. Don’t export the data again from each server: a server can return rows in the order of its existing index, which is the old order. If the image doesn’t have the locale, `sort` silently uses byte order, so both checksums would match even if the rules changed. The command checks this for you.
+
+   Matching checksums prove only that the rules didn’t change for the values in your file. For ICU collations, compare the ICU versions of both images.
+
+1. Decide:
+
+   - No locale on your list changed: you don’t need to repair anything.
+   - A locale on your list changed, or you can’t confirm that it didn’t: plan a repair. [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) tells you whether you need the full procedure or a targeted repair, and how to rehearse it. Stop writes before you change the image: from the moment a Pod starts on the new image, the old indexes let duplicate keys in.
+
+### Decide what to do if the libraries differ
+
+If the assessment shows that no locale you use changed, continue with the next checks.
+
+If a locale you use changed, or you can’t confirm that it didn’t, all three migration methods carry the risk. Each of them reuses the indexes that the Crunchy image built. Before you point any application to the new cluster, [repair the affected objects](#repair-the-affected-objects).
+
+Important
+
+Rehearse the find and repair steps in every trial run, so that you know what the checks find in your data and how long the repair takes. Repeat them during the production cutover.
+
+Plan downtime for the repair. Duplicate keys and rows that violate a constraint need a decision from you about which data to keep.
+
+When to run the steps depends on the migration method:
+
+| Migration method     | When to repair                                                                                                                                                                                                                                            |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Standby cluster      | After you promote the standby. A standby is read-only and can’t repair objects, so don’t run application queries that rely on text indexes against it. The repair adds to the cutover downtime, so the standby method no longer gives near-zero downtime. |
+| Backup and restore   | After the restore completes and before you point applications to the new cluster                                                                                                                                                                          |
+| Reusing data volumes | After the Percona cluster starts and before you point applications to it                                                                                                                                                                                  |
+
+### Repair the affected objects
+
+Follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html) on the primary of the Percona cluster, at the time the table in [Decide what to do if the libraries differ](#decide-what-to-do-if-the-libraries-differ) gives for your migration method.
 
 ## Compare extensions
 
-Record the extension list and versions on the source cluster before you migrate.
+pgBackRest restores initialize the new cluster from a physical copy of the Crunchy cluster’s data, while volume reuse starts it on the original data directory. In all three cases, the migrated data includes the `pg_extension` catalog, so PostgreSQL retains a record of installed extensions and the objects those extensions created.
+
+The Operator does not read that catalog and copy the Crunchy settings. It applies the extension settings from the `PerconaPGCluster` manifest.
+
+Before you apply the manifest that creates the Percona cluster, set the extension fields there to match what the source database actually uses.
+
+### Record extensions on the source
+
+Record the extension name and version in every application database before you migrate.
 
 Extensions are installed per database. Check every application database, not only `postgres`:
 
@@ -14229,17 +14401,176 @@ postgis             | 3.4.2
 pgcrypto            | 1.3
 ```
 
-Verify that each extension is available in the target Percona image. Percona Distribution for PostgreSQL ships a defined set of tested extensions. Their versions may differ from the Crunchy image.
+Record the libraries PostgreSQL loads at startup:
+
+```
+SHOW shared_preload_libraries;
+```
+
+### Enable built-in extensions
+
+Percona Distribution for PostgreSQL ships a defined set of extensions. Their versions can differ from the Crunchy image. Compare your list with the [extensions shipped with Percona Distribution for PostgreSQL](https://docs.percona.com/postgresql/latest/extensions.html).
+
+These built-in extensions use the following defaults:
+
+| PostgreSQL extension | `spec.extensions` field | Enabled |
+| -------------------- | ----------------------- | ------- |
+| `vector`             | `pgvector`              | `false` |
+| `pg_stat_statements` | `pg_stat_statements`    | `false` |
+| `pg_stat_monitor`    | `pg_stat_monitor`       | `false` |
+| `pg_repack`          | `pg_repack`             | `false` |
+| `pgaudit`            | `pg_audit`              | `true`  |
+| `pg_cron`            | `pg_cron`               | `false` |
+
+Match the spec to the extensions the source database uses. See [Built-in extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#built-in-extensions) for the full list.
+
+Warning
+
+**Enable every built-in extension you are migrating in the manifest that creates the cluster.** The Operator drops a built-in extension that stays disabled. If anything still depends on such disabled extension, the drop fails silently: the cluster still reports `ready`, nothing in its status flags the failure, and the Operator retries the same drop on every reconcile, logging an “Unable to disable …” event each time. You won’t get a clear error telling you to go fix it — the manifest has to be right going in.
+
+On Operator 3.0.0, set the flag under `extensions.builtin`. Starting with version 3.1.0, set `extensions.<name>.enabled`. During the transition, `extensions.builtin` still works. If both forms are set, `extensions.builtin` takes precedence.
+
+The following examples show `pgvector` configuration:
+
+**Operator version 3.0.0**
+
+```
+spec:
+  extensions:
+    builtin:
+      pgvector: true
+```
+
+**Operator version 3.1.0**
+
+```
+spec:
+  extensions:
+    pgvector:
+      enabled: true
+```
+
+When you enable a built-in extension that is already installed, the Operator runs `ALTER EXTENSION ... UPDATE`. Compare the extension’s version on the source cluster with the version available in the target cluster’s image. Test that update in a trial run and check the application before you migrate production.
+
+### PostGIS
+
+PostGIS is a separate case. If the source cluster uses PostGIS, deploy the target with the [PostGIS image](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/postgis.html).
+
+A database upgrade does not update PostGIS. Run `SELECT PostGIS_Extensions_Upgrade();` in each database that uses PostGIS. See [Upgrade the PostGIS extension](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-extensions.html#upgrade-postgis-extension).
+
+### Install extensions that are not in the Percona image
+
+Compare your `pg_extension` output with the Percona image you deploy. If you use extensions that are not in the Percona image, add them as [custom extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#add-custom-extensions).
+
+An extension that ships a native library needs that library to be present in the target PostgreSQL installation. If the extension requires startup preloading, also list its preload library in `shared_preload_libraries`; a `pg_extension` catalog row does not provide either requirement.
+
+For a preload library the Operator does not append, set `patroni.dynamicConfiguration.postgresql.parameters.shared_preload_libraries`. Include only those libraries. The Operator appends the libraries for built-in extensions you enable. See [Extension parameters](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/immutable-options.html#extension-parameters).
+
+### Match set_user and pg_cron to the Operator version
+
+`set_user` and `pg_cron` are custom extensions on Operator 3.0.0. Starting with version 3.1.0, they are built-in extensions and default to `disabled`. The Operator drops each one that stays disabled.
+
+| Extension  | Operator 3.0.0                                                                      | Operator 3.1.0 and later                                                                                                                              |
+| ---------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `set_user` | Add it under `extensions.custom`. Include `set_user` in `shared_preload_libraries`. | Set `extensions.set_user.enabled` to `true`. The Operator appends `set_user` to `shared_preload_libraries`.                                           |
+| `pg_cron`  | Add it under `extensions.custom`. Include `pg_cron` in `shared_preload_libraries`.  | Set `extensions.pg_cron.enabled` to `true`. The Operator appends `pg_cron` to `shared_preload_libraries` and sets `cron.database_name` to `postgres`. |
+
+On Operator 3.0.0, first package and configure both as custom extensions by following [Add custom extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#add-custom-extensions). After you configure `extensions.image` and `extensions.storage`, add these entries:
+
+```
+spec:
+  extensions:
+    custom:
+      - name: set_user
+        version: "<set_user-version>"
+      - name: pg_cron
+        version: "<pg_cron-version>"
+  patroni:
+    dynamicConfiguration:
+      postgresql:
+        parameters:
+          shared_preload_libraries: "set_user,pg_cron"
+```
+
+Starting with version 3.1.0, enable the built-in flags. The Operator appends `set_user` and `pg_cron` to `shared_preload_libraries`. Set that parameter for any other preload libraries:
+
+```
+spec:
+  extensions:
+    set_user:
+      enabled: true
+    pg_cron:
+      enabled: true
+```
+
+Warning
+
+Starting with version 3.1.0, use the built-in flags for a new cluster. Removing `set_user` or `pg_cron` from `extensions.custom` without setting its `enabled` flag to `true` in the same apply deletes the extension.
+
+If the source cluster schedules `pg_cron` jobs in a database other than `postgres`, those jobs stop running after migration. The Operator sets `cron.database_name` to `postgres`.
+
+On the source cluster, check the current value:
+
+```
+SHOW cron.database_name;
+```
+
+When the result is `postgres`, the existing jobs keep running. When it is another database, `pg_cron` stops reading the job list stored there. In that database, list the jobs:
+
+```
+SELECT jobname, schedule, command, database FROM cron.job;
+```
+
+After the Percona cluster is running, connect to the `postgres` database and create each job again with `cron.schedule_in_database`. The last argument is the database where the command runs (`appdb` in this example):
+
+```
+SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'appdb');
+```
 
 You can also [add custom extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/custom-extensions.html#add-custom-extensions) if you need them or if they are missing in Percona images. Evaluate the risk before you add any extension.
 
-Pay particular attention to extensions that contain native C/C++ libraries. Those extensions need a shared library in the PostgreSQL installation, not only a catalog entry in `PGDATA`. Do not assume an extension is available because it exists in `pg_extension`.
+After the Percona cluster reports `Ready`, check the database logs. In every database that you recorded earlier, run `\dx` and confirm that each extension is installed at the version you tested.
+
+## Check what else changes after migration
+
+The migration methods in this guide copy the data directory, so the migrated cluster keeps the data itself. The Operator still applies its own naming, defaults, and labels on top of that data. None of this blocks the migration, but missing it causes problems ranging from broken logins to blind monitoring.
+
+### Match passwords for Operator-managed users
+
+The Operator doesn’t copy user credentials from Crunchy during migration. It generates a new password for any user it manages and applies it to the database, overwriting the password that migrated with the data. Existing application logins break the moment the Operator reconciles that user.
+
+To keep the Crunchy passwords, do this **before** you create the cluster:
+
+- Copy the `password` and `verifier` keys into the `<clusterName>-pguser-<userName>` Secret
+- List every migrated user in `spec.users`. See [Understanding default user management](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/users.html#understanding-default-user-management) for the naming convention.
+
+### Keep the user schema behavior Crunchy had
+
+Crunchy puts a user’s tables in the `public` schema by default. The Operator’s `autoCreateUserSchema` defaults to `true` and creates a schema named after the user instead. Set it to `false` in the manifest that creates the cluster if your application expects unqualified table names to resolve to `public`.
+
+### Recreate non-extension Postgres settings
+
+The Operator does not carry over Crunchy’s `dynamicConfiguration`. Only `pgaudit` is preloaded by default. If the source cluster set other `postgresql.conf` parameters or preloaded other libraries, add them under `patroni.dynamicConfiguration.postgresql.parameters` and `shared_preload_libraries` the same way you already did for extensions. See [Extension parameters](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/immutable-options.html#extension-parameters).
+
+### Update labels, Services and anything that reads them
+
+The primary Pod’s `postgres-operator.crunchydata.com/role` label changes value from `master` to `primary`, and every Service name follows the new cluster name instead of Crunchy’s. Update NetworkPolicies, alert rules, and any script or dashboard that selects on the old label value or Service name.
+
+### Replace monitoring and admin tools
+
+pgMonitor, its `ccp_*` metrics, and its Grafana dashboards don’t carry over. Replace them with [Percona Monitoring and Management](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/monitor-kubernetes.html) or a [`postgres_exporter` sidecar](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/postgres-exporter.html).
+
+pgAdmin and OpenTelemetry collection have no equivalent in the Operator. Plan an alternative before cutover if you depend on either.
+
+### Rotate TLS certificates after a standby cutover
+
+[Migrating using a standby cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-standby.html) keeps Crunchy-issued certificates for mutual TLS during replication. Replace them with the Operator-issued or your own certificates after cutover, so the new primary doesn’t keep trusting Crunchy’s CA indefinitely.
 
 ## Before you cut over
 
 Perform at least **three successful trial runs** in a comparable test environment and validate the application after each one. The first run usually exposes missing steps, the second confirms the fixes, and the third shows that the procedure is repeatable and the cutover time is predictable. Capture that as a detailed, environment-specific runbook before you migrate production workloads.
 
-After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that collation rebuilds and extensions are complete.
+After PostgreSQL starts under Percona Operator for PostgreSQL, check the PostgreSQL logs for errors, then confirm that extensions are complete. If the `glibc` builds differ, also confirm that you repaired the affected objects before applications connect.
 
 # Crunchy and Percona Custom Resource differences
 
@@ -14342,7 +14673,13 @@ The examples use S3-compatible storage for backups. If you use another remote st
 
 ## Before you migrate
 
+Important
+
+Complete all checks and understand your steps before you run this procedure.
+
 Complete the [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes that the standby receives can return wrong results. A standby is read-only, so you repair the affected objects after you [promote the standby](#promote-percona-postgresql-cluster), and the repair adds to the cutover downtime. See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -14407,6 +14744,8 @@ To meet these requirements, do the following:
        repo1-s3-key=<your-access-key>
        repo1-s3-key-secret=<your-access-secret>
    ```
+
+   Don’t put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials.
 
    For more configuration examples for other storages, see [Configure backup storage](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-storage.html)
 
@@ -14614,6 +14953,41 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
    ' > ~/crunchy-source-replication-cert.yaml
    ```
 
+## Copy user passwords from Crunchy
+
+The Operator manages the users you list in `spec.users`. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.
+
+To keep the Crunchy passwords, copy them to the Percona namespace **before** you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the `PostgresCluster` also deletes its user Secrets.
+
+1. List the user Secrets of the Crunchy cluster:
+
+   ```
+   kubectl get secret -n "${CRUNCHY_NS}" \
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=pguser
+   ```
+
+   Sample output
+
+   ```
+   NAME                                   TYPE     DATA   AGE
+   crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+   ```
+
+   The Secret names follow the `<clusterName>-pguser-<userName>` pattern.
+
+1. For every user, create a Secret named `<perconaClusterName>-pguser-<userName>` in the Percona namespace with the `password` and `verifier` keys from the Crunchy Secret. The following example copies the credentials of the `crunchy-source` user to the Secret for the `cluster1` Percona cluster:
+
+   ```
+   export USER_NAME=crunchy-source
+   kubectl create secret generic cluster1-pguser-${USER_NAME} -n "${NAMESPACE}" \
+     --from-literal=password="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.password}' | base64 --decode)" \
+     --from-literal=verifier="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.verifier}' | base64 --decode)"
+   ```
+
+   Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy `PostgresCluster`, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as `host` and `uri`, and points them to the Percona cluster Services.
+
+1. List the same users in `spec.users` when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.
+
 ## Deploy Percona Operator for PostgreSQL and PostgreSQL cluster in standby mode
 
 1. Deploy Percona Operator for PostgreSQL:
@@ -14704,6 +15078,8 @@ If the Percona cluster runs in a **different** namespace than Crunchy, copy the 
    ```
 
    - If the Crunchy cluster uses tablespace volumes (`spec.instances[].tablespaceVolumes`), add a `tablespaceVolumes` entry with **the same name** for each tablespace to the Percona instance, for example `tablespaceVolumes: [{name: ts1, dataVolumeClaimSpec: {accessModes: [ReadWriteOnce], resources: {requests: {storage: 5Gi}}}}]`. Without it, the standby can’t create the tablespace directories and doesn’t start.
+   - Configure extensions in this manifest before you create the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+   - List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster’s behavior. See [Check what else changes after migration](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#check-what-else-changes-after-migration).
 
 1. Create the Percona PostgreSQL cluster
 
@@ -14903,6 +15279,12 @@ Once the LSN value stops changing and stays the same across two consecutive chec
    ```
    perconapgcluster.pgv2.percona.com/cluster1 condition met
    ```
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) showed that no locale you use changed.
+
+The standby received the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Keep the applications stopped, and find and repair the affected objects on the new primary. Follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html).
 
 ## Take a post-migration backup
 
@@ -15402,7 +15784,13 @@ The examples use S3-compatible storage for backups. If you use another remote st
 
 ## Before you migrate
 
+Important
+
+Complete all checks and understand your steps before you run this procedure.
+
 Complete the [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the restored indexes can return wrong results. [Repair the affected objects](#repair-collation-affected-objects-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -15667,6 +16055,8 @@ stringData:
 EOF
 ```
 
+Don’t put the values in quotes. `pgBackRest` reads quotes as part of the value, and the storage then rejects the credentials. The same applies to the Secret you created for the Crunchy cluster.
+
 If you use different Secret names, use your name consistently in `spec.dataSource.pgbackrest.configuration` and `spec.backups.pgbackrest.configuration` on `PerconaPGCluster` `cluster1`.
 
 ## Deploy Percona Operator for PostgreSQL
@@ -15691,6 +16081,41 @@ If you use different Secret names, use your name consistently in `spec.dataSourc
    ```
    deployment.apps/percona-postgresql-operator condition met
    ```
+
+## Copy user passwords from Crunchy
+
+The Operator manages the users you list in `spec.users`. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.
+
+To keep the Crunchy passwords, copy them to the Percona namespace **before** you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the `PostgresCluster` also deletes its user Secrets.
+
+1. List the user Secrets of the Crunchy cluster:
+
+   ```
+   kubectl get secret -n "${CRUNCHY_NS}" \
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=pguser
+   ```
+
+   Sample output
+
+   ```
+   NAME                                   TYPE     DATA   AGE
+   crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+   ```
+
+   The Secret names follow the `<clusterName>-pguser-<userName>` pattern.
+
+1. For every user, create a Secret named `<perconaClusterName>-pguser-<userName>` in the Percona namespace with the `password` and `verifier` keys from the Crunchy Secret. The following example copies the credentials of the `crunchy-source` user to the Secret for the `cluster1` Percona cluster:
+
+   ```
+   export USER_NAME=crunchy-source
+   kubectl create secret generic cluster1-pguser-${USER_NAME} -n "${NAMESPACE}" \
+     --from-literal=password="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.password}' | base64 --decode)" \
+     --from-literal=verifier="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.verifier}' | base64 --decode)"
+   ```
+
+   Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy `PostgresCluster`, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as `host` and `uri`, and points them to the Percona cluster Services.
+
+1. List the same users in `spec.users` when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.
 
 ## Prepare the cutover
 
@@ -15762,6 +16187,10 @@ PostgreSQL compares the target with the **commit** time of each transaction. A t
       ```
 
       To store the tablespaces on the data volume instead, add `--tablespace-map-all=/pgdata/tablespaces` to `spec.dataSource.pgbackrest.options`. The tablespace locations then change to `/pgdata/tablespaces/<name>`.
+
+   1. Configure extensions in this manifest before you create the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+
+   1. List every user to be migrated in `spec.users` and set `autoCreateUserSchema` to match the source cluster’s behavior. See [Check what else changes after migration](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#check-what-else-changes-after-migration).
 
    The following fragment shows the important pieces; merge them with the rest of `deploy/cr.yaml` (images, users, resources) for your environment:
 
@@ -15872,6 +16301,12 @@ PostgreSQL compares the target with the **commit** time of each transaction. A t
    ```
    perconapgcluster.pgv2.percona.com/cluster1 condition met
    ```
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) showed that no locale you use changed.
+
+The restore copied the indexes of the Crunchy cluster. They were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html).
 
 ## Take a post-migration backup
 
@@ -16029,7 +16464,13 @@ For the differences between the Crunchy and Percona Custom Resources, see [Crunc
 
 ## Before you migrate
 
+Important
+
+Complete all checks and understand your steps before you run this procedure.
+
 Complete the [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html). Physical methods require a matching PostgreSQL major version and CPU architecture.
+
+Compare the `glibc` build of the Crunchy and the Percona images. If they differ, the indexes on the reused volume can return wrong results. [Repair the affected objects](#repair-collation-affected-objects-if-the-glibc-builds-differ) before you point applications to Percona. See the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#understand-the-glibc-collation-limitation).
 
 ## Prerequisites
 
@@ -16252,6 +16693,41 @@ Shut down the Crunchy cluster. This stops PostgreSQL cleanly and marks the **sta
      --timeout=300s
    ```
 
+## Copy user passwords from Crunchy
+
+The Operator manages the users you list in `spec.users`. If such a user has no Secret when the cluster starts, the Operator generates a new password and overwrites the one that migrated with the data. Existing application logins then break.
+
+To keep the Crunchy passwords, copy them to the Percona namespace **before** you create the Percona cluster. Do this while the Crunchy cluster still exists: deleting the `PostgresCluster` also deletes its user Secrets.
+
+1. List the user Secrets of the Crunchy cluster:
+
+   ```
+   kubectl get secret -n "${CRUNCHY_NS}" \
+     -l postgres-operator.crunchydata.com/cluster=crunchy-source,postgres-operator.crunchydata.com/role=pguser
+   ```
+
+   Sample output
+
+   ```
+   NAME                                   TYPE     DATA   AGE
+   crunchy-source-pguser-crunchy-source   Opaque   12     7h29m
+   ```
+
+   The Secret names follow the `<clusterName>-pguser-<userName>` pattern.
+
+1. For every user, create a Secret named `<perconaClusterName>-pguser-<userName>` in the Percona namespace with the `password` and `verifier` keys from the Crunchy Secret. The following example copies the credentials of the `crunchy-source` user to the Secret for the `cluster1` Percona cluster:
+
+   ```
+   export USER_NAME=crunchy-source
+   kubectl create secret generic cluster1-pguser-${USER_NAME} -n "${NAMESPACE}" \
+     --from-literal=password="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.password}' | base64 --decode)" \
+     --from-literal=verifier="$(kubectl get secret crunchy-source-pguser-${USER_NAME} -n "${CRUNCHY_NS}" -o jsonpath='{.data.verifier}' | base64 --decode)"
+   ```
+
+   Copy only these two keys. Don’t copy the whole Crunchy Secret: it has an owner reference to the Crunchy `PostgresCluster`, so Kubernetes deletes the copy right after you create it. The Operator adds the remaining keys, such as `host` and `uri`, and points them to the Percona cluster Services.
+
+1. List the same users in `spec.users` when you edit the Percona cluster manifest. Users that you don’t list keep their migrated password, but the Operator doesn’t create a Secret for them.
+
 ## Retain the PV and remove the Crunchy cluster
 
 The default reclaim policy for a dynamically PersistentVolume is `Delete`. This means that as soon as there are no Persistent Volume Claims (PVC) bound to this PV, Kubernetes deletes it and all data is lost. To prevent this, change the PV reclaim policy to `Retain`.
@@ -16406,6 +16882,8 @@ After you delete the Crunchy cluster and clear the PV’s claim reference, the P
    - In `dataVolumeClaimSpec`, set `storageClassName` to the StorageClass name you gave the PV, and add a `selector` matching the PV label. This ensures the PVC binds only to the migrated PV.
    - If you have a WAL volume, add `walVolumeClaimSpec` with the same StorageClass name and a selector matching the WAL PV label. Without it, PostgreSQL doesn’t start: the `postgres-startup` init container fails with `mv: cannot stat '/pgwal/pg18_wal': No such file or directory`.
    - If you have tablespace volumes, add one `tablespaceVolumes` entry per tablespace. Use **the same name** as in the Crunchy cluster, the migration StorageClass name, and a selector matching the tablespace PV label. Without it, the cluster starts and reports `ready`, but queries on tables in the tablespace fail, and so do backups.
+   - Configure extensions in this manifest before you create the cluster. See [Compare extensions](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#compare-extensions).
+   - List every migrated user in `spec.users` and set `autoCreateUserSchema` to match the source cluster’s behavior. See [Check what else changes after migration](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#check-what-else-changes-after-migration).
 
    You don’t need node affinity rules, even for node-local storage such as local-path: with the migration StorageClass name, Kubernetes binds the PVC to the PV first, and then schedules the Pod to the node or zone where the PV is.
 
@@ -16518,6 +16996,12 @@ After you delete the Crunchy cluster and clear the PV’s claim reference, the P
    Expect `f` for a writable primary.
 
    About 10-20 seconds after the first start, Patroni restarts PostgreSQL once. Clients that connect at this moment can get one or two connection errors.
+
+## Repair collation-affected objects if the glibc builds differ
+
+Skip this section if the [collation risk assessment](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) showed that no locale you use changed.
+
+The Percona cluster runs on the data directory of the Crunchy cluster. The indexes in it were built with the collation rules of the Crunchy image. Before any application connects, find and repair the affected objects on the primary. Follow [Repair data after a collation change](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/collation-repair.html).
 
 ## Scale out the cluster
 
@@ -16729,6 +17213,291 @@ To fix it, delete the `PerconaPGCluster` and the PVCs it left behind, clear the 
 ### PV was deleted
 
 If the dynamic provisioner deleted the volume when the PVC disappeared, data is gone from that path. Use [Migrate from Crunchy using backup and restore](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-from-crunchy-backup-restore.html) from your latest remote backup instead.
+
+# Repair data after a collation change
+
+PostgreSQL sorts text with the locale rules of the `glibc` or ICU library in the database image. When an upgrade, a change of the image tag suffix or a migration from Crunchy moves your data to an image with different rules, the existing indexes, partitions and constraints keep the old order. Queries can then miss rows, and unique indexes can let duplicate keys in.
+
+This page shows how to find and repair those objects. You need it only if the collation risk assessment showed that a locale you use changed. For the background, see the [glibc collation limitation](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.html#glibc-collation-changes-between-images).
+
+## When you need this procedure
+
+Run the collation risk assessment before you change the image: on the [minor upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html#assess-the-collation-risk) or [major upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html#assess-the-collation-risk) page, or in the [pre-migration checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#assess-the-collation-risk) for a migration. Its result decides what you do here, for each database separately:
+
+| Assessment result for a database                                                | What to do                                                                                          |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| No locale that the database uses changed                                        | Nothing. You don’t need this page                                                                   |
+| The default locale of the database changed, or you can’t confirm that it didn’t | Follow the **full procedure**: every step, for every object in the database                         |
+| Only a collation that some columns or indexes set for themselves changed        | Follow the **targeted repair**: every step, but only for the objects that use the changed collation |
+
+Most clusters don’t need a repair. The Operator creates clusters with the `en_US.UTF-8` locale, which sorts the same on the UBI 8, UBI 9 and UBI 10 images of Operator 3.1.0.
+
+The full procedure reads every table several times and rebuilds every index. Its duration depends on the size of the database, not on how many rows changed. If a rehearsal shows that it doesn’t fit your maintenance window, move the data into a cluster on the target image with `pg_dump` and `pg_restore` instead. `pg_restore` builds every index with the new rules, so the indexes need no repair. Rows that violate a `CHECK` constraint or a partition bound under the new rules make the restore of that table fail.
+
+## Before you start
+
+1. **Rehearse the repair.** [Restore a recent backup to a new cluster](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/backups-clone.html) that uses the target image, follow this page there, and measure how long it takes. Plan the maintenance window from that time.
+
+1. **Stop writes before you change the image.** From the moment a Pod starts on the new image, the old indexes let duplicate keys in, and `INSERT ... ON CONFLICT` can insert rows it should skip. Scale the applications that write to the database to zero replicas, for example:
+
+   ```
+   kubectl scale deployment <application> -n <application-namespace> --replicas=0
+   ```
+
+   Also stop the applications that read from replicas. Replicas return wrong results until the repair is done. Keep the applications stopped until you finish the [verification](#verify-the-repair).
+
+1. **Check the free space.** Rebuilding indexes and moving rows write a lot of WAL. Make sure the volumes of the PostgreSQL Pods have room for it.
+
+1. **Open one `psql` session on the primary.** Several steps use session settings and the `psql` command `\gexec`, so run all steps of one database in the same session. Find the primary Pod and connect to the database:
+
+   ```
+   kubectl get pods -n <namespace> -l postgres-operator.crunchydata.com/role=primary
+   kubectl exec -it -n <namespace> <primary-pod> -c database -- psql -d <database_name>
+   ```
+
+   You need the privileges of the superuser or the database owner.
+
+## Repair the data
+
+Repeat these steps for every database that needs a repair.
+
+Repair in this order, because each step relies on the previous one. In the full procedure, each step covers every object in the database. In the targeted repair, it covers only the objects that use a changed collation.
+
+1. Find the indexes that depend on a `glibc` collation. In the full procedure, the list shows which unique indexes can fail in step 2:
+
+   ```
+   WITH db AS (
+     SELECT datlocprovider = 'c'
+            AND datcollate NOT IN ('C', 'POSIX') AS default_is_libc
+     FROM pg_database WHERE datname = current_database()
+   ),
+   keys AS (
+     SELECT i.indexrelid, i.indrelid, i.indisunique, i.indpred,
+            k.coll, opc.opcname, opc.opcintype
+     FROM pg_index i
+     CROSS JOIN LATERAL unnest(i.indcollation::oid[], i.indclass::oid[])
+                        AS k(coll, opclass)
+     JOIN pg_opclass opc ON opc.oid = k.opclass
+   )
+   SELECT DISTINCT n.nspname AS schema, t.relname AS table_name,
+          ic.relname AS index_name, am.amname AS index_type,
+          CASE WHEN k.opcintype = 'jsonb'::regtype THEN 'database default (jsonb)'
+               WHEN c.collprovider = 'd' THEN 'database default'
+               WHEN c.oid IS NOT NULL THEN c.collname
+               ELSE 'predicate only' END AS collation,
+          k.indisunique AS is_unique,
+          pg_get_expr(k.indpred, k.indrelid) AS partial_predicate
+   FROM keys k
+   JOIN pg_class ic ON ic.oid = k.indexrelid
+   JOIN pg_class t  ON t.oid = k.indrelid
+   JOIN pg_namespace n ON n.oid = t.relnamespace
+   JOIN pg_am am ON am.oid = ic.relam
+   LEFT JOIN pg_collation c ON c.oid = k.coll
+   CROSS JOIN db
+   WHERE n.nspname NOT IN ('pg_catalog', 'information_schema')
+     AND k.opcname NOT IN ('text_pattern_ops', 'varchar_pattern_ops', 'bpchar_pattern_ops')
+     AND (   (c.collprovider = 'c' AND c.collcollate NOT IN ('C', 'POSIX'))
+          OR (c.collprovider = 'd' AND db.default_is_libc)
+          OR (k.opcintype = 'jsonb'::regtype AND am.amname = 'btree'
+              AND db.default_is_libc)
+          OR k.indpred IS NOT NULL)
+   ORDER BY 1, 2, 3;
+   ```
+
+   Sample output
+
+   ```
+    schema | table_name |     index_name      | index_type |        collation         | is_unique |  partial_predicate
+   --------+------------+---------------------+------------+--------------------------+-----------+----------------------
+    public | customers  | customers_doc_idx   | btree      | database default (jsonb) | f         |
+    public | customers  | customers_email_key | btree      | database default         | t         |
+    public | customers  | customers_name_idx  | btree      | sv_SE.utf8               | f         |
+    public | customers  | customers_open_idx  | btree      | predicate only           | f         | (status > 'm'::text)
+    public | notes      | notes_lower_idx     | btree      | C.utf8                   | f         |
+   ```
+
+   On PostgreSQL 14, remove `datlocprovider = 'c' AND` from the `db` part at the beginning of the query.
+
+   The `collation` column names the collation of the index key. `database default` means the default locale of the database. Repair the indexes whose collation uses a locale that changed, and skip the rest. For an index marked `predicate only`, check the `partial_predicate` column: repair the index if its condition compares text with `<`, `>` or `BETWEEN`.
+
+1. Rebuild the indexes. Writes are stopped, so use the plain form of [`REINDEX`](https://www.postgresql.org/docs/current/sql-reindex.html) , which is faster than the concurrent one.
+
+   - Full procedure: rebuild all indexes of the database. `VERBOSE` prints each table as it’s done:
+
+     ```
+     REINDEX (VERBOSE) DATABASE <database_name>;
+     ```
+
+   - Targeted repair: rebuild each index from the step 1 list whose collation changed:
+
+     ```
+     REINDEX INDEX <index_name>;
+     ```
+
+   `REINDEX` blocks writes to the table and the queries that use the index while it runs. If the applications must keep reading during the repair, use `REINDEX INDEX CONCURRENTLY <index_name>;` instead. It takes longer, and it can’t rebuild the index of an exclusion constraint, so use the plain form for those.
+
+   A `UNIQUE` index, a primary key or an exclusion constraint fails to rebuild if the old sort order let duplicate keys in. The error names the index and the duplicated key. A failed concurrent rebuild also leaves an invalid index named `<index_name>_ccnew`. Drop it with `DROP INDEX CONCURRENTLY <index_name>_ccnew;`.
+
+   To find the duplicates, turn off index scans in your session, so that PostgreSQL doesn’t read the broken index:
+
+   ```
+   SET enable_indexscan = off;
+   SET enable_indexonlyscan = off;
+   SET enable_bitmapscan = off;
+   SELECT <key_columns>, count(*)
+   FROM <table_name>
+   GROUP BY <key_columns>
+   HAVING count(*) > 1;
+   ```
+
+   For a partitioned table, run the query on the parent table. Decide which rows to keep, remove the duplicates in the same session, and run the `REINDEX` command again. In the full procedure, `REINDEX DATABASE` stops at the first error, and the tables it already printed are done. Rebuild the failed table and the remaining ones with `REINDEX TABLE <table_name>;`, or run `REINDEX DATABASE` again. Duplicates in different partitions don’t stop the rebuild, because each partition has its own index. They show up in step 3, when you move the rows.
+
+1. Move rows that are in the wrong partition. A range-partitioned table routes each row to a partition by comparing the key with the partition bounds. Rows that were routed with the old rules can be in the wrong partition, and queries through the parent table don’t find them. A new row with the same key can then be inserted into the right partition, even if the key is unique. Do this step after step 2: the queries in this step don’t find misplaced rows through an index that isn’t rebuilt yet.
+
+   1. Find the partitioned tables whose key uses a `glibc` collation:
+
+      ```
+      WITH db AS (
+        SELECT datlocprovider = 'c' AND datcollate NOT IN ('C', 'POSIX') AS default_is_libc
+        FROM pg_database WHERE datname = current_database()
+      )
+      SELECT p.partrelid::regclass AS partitioned_table,
+             CASE p.partstrat WHEN 'r' THEN 'range' WHEN 'l' THEN 'list' ELSE 'hash' END AS strategy,
+             coalesce(a.attname, '(expression)') AS key_column,
+             CASE WHEN c.collprovider = 'd' THEN 'database default' ELSE c.collname END AS collation
+      FROM pg_partitioned_table p
+      CROSS JOIN LATERAL unnest(p.partattrs::int2[], p.partcollation::oid[]) AS k(attnum, coll)
+      JOIN pg_collation c ON c.oid = k.coll
+      LEFT JOIN pg_attribute a ON a.attrelid = p.partrelid AND a.attnum = k.attnum
+      CROSS JOIN db
+      WHERE ((c.collprovider = 'c' AND c.collcollate NOT IN ('C', 'POSIX'))
+             OR (c.collprovider = 'd' AND db.default_is_libc))
+        AND NOT (p.partstrat = 'h' AND k.attnum <> 0)   -- plain hash key: bytes
+      ORDER BY 1;
+      ```
+
+      On PostgreSQL 14, remove `datlocprovider = 'c' AND` from the `db` part at the beginning of the query.
+
+      The query lists range and list partitioned tables, and hash partitioned tables whose key is an expression, such as `lower(sku)`. Only range partitions depend on the sort order. For list and hash tables, check only keys with expressions. A table with sub-partitions is listed once for each level. Run the next steps only for the top-level table. They cover all levels below it.
+
+   1. For each table from the list, count the rows that are outside the bounds of their partition. Run this in `psql`. `\gexec` runs the query that the first query builds:
+
+      ```
+      SET enable_indexscan = off;
+      SET enable_indexonlyscan = off;
+      SET enable_bitmapscan = off;
+      SELECT string_agg(
+               format('SELECT %L AS partition, count(*) AS misplaced FROM ONLY %s WHERE NOT (%s)',
+                      relid, relid, pg_get_partition_constraintdef(relid)),
+               ' UNION ALL ') || ' ORDER BY 1'
+      FROM pg_partition_tree('<partitioned_table>')
+      WHERE isleaf AND pg_get_partition_constraintdef(relid) IS NOT NULL
+      \gexec
+      ```
+
+      The `SET` commands make the query read every row of the table instead of an index, so run it when the load is low. The count covers the default partition and sub-partitions. A row is counted in the partition that holds it. A non-zero count in the default partition means rows that now belong to a named partition.
+
+   1. For each table with misplaced rows, move the rows through the top-level table, which routes them again with the new rules.
+
+      If another table has a foreign key that references this table, drop that foreign key first. Otherwise the move fails with `violates foreign key constraint`, or, if the foreign key has `ON DELETE CASCADE`, deletes the referencing rows without an error. To find these foreign keys, run:
+
+      ```
+      SELECT conrelid::regclass AS table_name, conname AS constraint_name,
+             pg_get_constraintdef(oid) AS definition
+      FROM pg_constraint
+      WHERE contype = 'f' AND confrelid = '<partitioned_table>'::regclass;
+      ```
+
+      Save the definitions, and drop each foreign key with `ALTER TABLE <table_name> DROP CONSTRAINT <constraint_name>;`.
+
+      Then run the move in `psql`, in the same session as the previous step, so that index scans stay off. The query builds a statement for each partition, and `\gexec` runs them. Each statement deletes the misplaced rows from one partition and inserts them through the top-level table:
+
+      ```
+      SELECT format(
+               'WITH moved AS (DELETE FROM ONLY %s WHERE NOT (%s) RETURNING %s) INSERT INTO %s (%s) %s SELECT %s FROM moved',
+               t.relid, pg_get_partition_constraintdef(t.relid), cols.list,
+               pg_partition_root(t.relid), cols.list,
+               CASE WHEN cols.has_identity THEN 'OVERRIDING SYSTEM VALUE' ELSE '' END, cols.list)
+      FROM pg_partition_tree('<partitioned_table>') t
+      CROSS JOIN LATERAL (
+        SELECT string_agg(quote_ident(attname), ', ' ORDER BY attnum) AS list,
+               bool_or(attidentity = 'a') AS has_identity
+        FROM pg_attribute
+        WHERE attrelid = pg_partition_root(t.relid) AND attnum > 0
+          AND NOT attisdropped AND attgenerated = ''
+      ) cols
+      WHERE t.isleaf AND pg_get_partition_constraintdef(t.relid) IS NOT NULL
+      \gexec
+      ```
+
+      The statements list the columns by name and leave out generated columns, which PostgreSQL computes again. For an identity column defined as `GENERATED ALWAYS`, they add `OVERRIDING SYSTEM VALUE`, so each row keeps its value. A statement for a partition without misplaced rows reports `INSERT 0 0`. For example, for the partition `sales_low` of the table `sales`, the query builds:
+
+      ```
+      WITH moved AS (DELETE FROM ONLY sales_low WHERE NOT (((sku IS NOT NULL) AND (sku < 'm'::text COLLATE "C.utf8"))) RETURNING id, sku, qty) INSERT INTO sales (id, sku, qty) OVERRIDING SYSTEM VALUE SELECT id, sku, qty FROM moved
+      ```
+
+      Each statement moves all misplaced rows of a partition in one transaction. To move many rows in smaller batches, replace `WHERE NOT (<bounds>)` with `WHERE ctid IN (SELECT ctid FROM ONLY <partition> WHERE NOT (<bounds>) LIMIT 10000)`, and run the statement until it reports `INSERT 0 0`.
+
+      If a statement fails with a duplicate key error, a row with the same key was inserted into the right partition after the `glibc` change. A query through the parent table finds only that new row. To see both rows, query the two partitions with `FROM ONLY`: the partition you’re moving from, and the partition of the index named in the error. Delete the row you don’t want to keep with `DELETE FROM ONLY <partition> WHERE <key_column> = <value>;`, and run the move again.
+
+      When all rows are moved, add the foreign keys back with `NOT VALID`, then validate them:
+
+      ```
+      ALTER TABLE <table_name> ADD CONSTRAINT <constraint_name> <definition> NOT VALID;
+      ALTER TABLE <table_name> VALIDATE CONSTRAINT <constraint_name>;
+      ```
+
+1. Repair the other objects that depend on the sort order of the changed locales. `REINDEX` doesn’t fix them:
+
+   | Object                                                       | What to do                                                                                                                                                                                                                                                                                                           |
+   | ------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+   | Foreign keys that compare text                               | Drop the constraint, add it again with `NOT VALID`, then run `ALTER TABLE ... VALIDATE CONSTRAINT`                                                                                                                                                                                                                   |
+   | `CHECK` constraints and domain constraints that compare text | Find the rows that violate the constraint with `SELECT * FROM <table_name> WHERE NOT (<constraint_expression>);` and fix them. `VALIDATE CONSTRAINT` only reports that some row violates the constraint, not which one                                                                                               |
+   | Stored generated columns that compare or sort text           | Recompute the values with an update that sets a column used in the expression to itself, for example `UPDATE <table_name> SET <column> = <column>;`. Setting the generated column to `DEFAULT` doesn’t recompute it. Starting with PostgreSQL 17, you can also use `ALTER TABLE ... ALTER COLUMN ... SET EXPRESSION` |
+   | Materialized views                                           | Run `REFRESH MATERIALIZED VIEW` without `CONCURRENTLY`. It rebuilds the rows and the view’s indexes. With `CONCURRENTLY`, the view’s broken unique index stays broken                                                                                                                                                |
+
+1. Record the new collation version. `REFRESH COLLATION VERSION` only updates the metadata and doesn’t repair anything, so run it last:
+
+   ```
+   ALTER DATABASE <database_name> REFRESH COLLATION VERSION;
+   ```
+
+   If a column or an index uses a collation other than the database default, refresh that collation too:
+
+   ```
+   ALTER COLLATION <collation_name> REFRESH VERSION;
+   ```
+
+   Repeat for every database, including `postgres` and `template1`. If `template1` keeps the old version, `CREATE DATABASE` fails with `template database "template1" has a collation version mismatch`.
+
+   PostgreSQL 14 doesn’t have `ALTER DATABASE ... REFRESH COLLATION VERSION`. On PostgreSQL 14, run only `ALTER COLLATION ... REFRESH VERSION`.
+
+1. Update the planner statistics:
+
+   ```
+   ANALYZE;
+   ```
+
+## Verify the repair
+
+1. Check the indexes of all databases with `pg_amcheck` in the `database` container of the primary Pod:
+
+   ```
+   kubectl exec -n <namespace> <primary-pod> -c database -- \
+     pg_amcheck --all --install-missing --heapallindexed
+   ```
+
+   No output and exit code 0 mean no errors. If you run the check again, `pg_amcheck` prints `NOTICE: extension "amcheck" already exists, skipping` for each database. These notices aren’t errors.
+
+   Without `--install-missing`, `pg_amcheck` skips every database that doesn’t have the `amcheck` extension and prints only a warning. With it, `pg_amcheck` installs the extension in every database, including `template1`. `pg_amcheck` checks only B-tree indexes and doesn’t find extra entries in partial indexes, so a clean result doesn’t replace the repair steps.
+
+1. Start the applications again.
+
+## See also
+
+- [glibc collation changes between images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/limitations.html#glibc-collation-changes-between-images) explains why the sort order changes and what breaks.
+- [Minor version upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html) and [Major version upgrade](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-major.html) show when to run this procedure during an upgrade.
+- [Pre-migration compatibility checks](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/migrate-checklist.html#decide-what-to-do-if-the-libraries-differ) show when to run it for each migration method from Crunchy.
 # How-to
 
 # Install Percona Operator for PostgreSQL with customized parameters
@@ -17806,6 +18575,60 @@ To update your custom extension inside the Operator, do the following:
    ```
    kubectl apply -f deploy/cr.yaml -n <namespace>
    ```
+
+## Switch a custom extension to a built-in extension
+
+Starting with version 3.1.0, `pg_cron` and `set_user` are built-in extensions. Your existing setup via `extensions.custom` remains unchanged and works as expected after the upgrade.
+
+To switch to the built-in flag, do the upgrade and the Custom Resource change in that order. The cluster then finishes each change in one pass.
+
+1. [Upgrade the Operator](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-operator.html) to version 3.1.0 or later.
+
+1. [Upgrade the database images](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/update-db-minor.html) first and wait until Pods rejoin the cluster.
+
+1. Reconfigure the extensions. Edit `deploy/cr.yaml` and make both of these changes for each extension you switch:
+
+   - Remove the extension from the `extensions.custom` list
+   - Set `extensions.pg_cron.enabled` or `extensions.set_user.enabled` to `true`.
+
+   You must do these two Custom Resource changes in the same apply so they land in one reconciliation loop. Removing the extension from `extensions.custom` alone instructs the Operator to delete it. Wait until the database Pods rejoin the cluster.
+
+   ```
+   spec:
+     extensions:
+       pg_cron:
+         enabled: true
+       set_user:
+         enabled: true
+   ```
+
+1. Apply the file:
+
+   ```
+   kubectl apply -f deploy/cr.yaml -n <namespace>
+   ```
+
+When the built-in flag is `true`, the Operator appends `pg_cron` or `set_user` to `shared_preload_libraries`. For `pg_cron`, the Operator also sets `cron.database_name` to `postgres`. See [Extension parameters](https://docs.percona.com/percona-operator-for-postgresql/3.1.0/immutable-options.html#extension-parameters).
+
+### Move pg_cron jobs into the postgres database
+
+Check `cron.database_name` before you switch `pg_cron`:
+
+```
+SHOW cron.database_name;
+```
+
+When the result is `postgres`, the existing jobs keep running. When it is another database, `pg_cron` stops reading the job list stored there after the switch. In that database, list the jobs:
+
+```
+SELECT jobname, schedule, command, database FROM cron.job;
+```
+
+After the cluster is running with `extensions.pg_cron.enabled` set to `true`, connect to the `postgres` database and create each job again with `cron.schedule_in_database`. The last argument is the database where the command runs (`appdb` in this example):
+
+```
+SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'appdb');
+```
 
 # Percona Operator for PostgreSQL single-namespace and multi-namespace deployment
 
@@ -24180,6 +25003,21 @@ When you enable built-in extensions, the Operator appends or sets the following 
 | Parameter                  | Value                   |
 | -------------------------- | ----------------------- |
 | `shared_preload_libraries` | Appended with `pgaudit` |
+
+Starting with version 3.1.0, `pg_cron` and `set_user` are built-in extensions.
+
+**When `spec.extensions.pg_cron.enabled` is `true`:**
+
+| Parameter                  | Value                   |
+| -------------------------- | ----------------------- |
+| `shared_preload_libraries` | Appended with `pg_cron` |
+| `cron.database_name`       | `postgres`              |
+
+**When `spec.extensions.set_user.enabled` is `true`:**
+
+| Parameter                  | Value                    |
+| -------------------------- | ------------------------ |
+| `shared_preload_libraries` | Appended with `set_user` |
 
 **When `spec.extensions.pg_tde.enabled` is `true`:**
 
